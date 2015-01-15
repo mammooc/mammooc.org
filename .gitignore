@@ -15,6 +15,5 @@
 /MAMMOOC/log/*
 !/MAMMOOC/log/.keep
 /MAMMOOC/tmp
-
-webapp.iml
-MAMMOOC/MAMMOOC.iml
+*.iml
+/MAMMOOC/.idea
