@@ -1,0 +1,17 @@
+# See https://help.github.com/articles/ignoring-files for more about ignoring files.
+
+/Vagrantfile
+/.vagrant
+
+# __ WEBAPP __
+# Ignore bundler config.
+/MAMMOOC/.bundle
+
+# Ignore the default SQLite database.
+/MAMMOOC/db/*.sqlite3
+/MAMMOOC/db/*.sqlite3-journal
+
+# Ignore all logfiles and tempfiles.
+/MAMMOOC/log/*
+!/MAMMOOC/log/.keep
+/MAMMOOC/tmp
