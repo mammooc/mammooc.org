@@ -1,0 +1,42 @@
+.page-header
+  = link_to users_path, :class => 'btn btn-default' do 
+    span.glyphicon.glyphicon-list-alt
+    |  Back 
+  = link_to edit_user_path(@user), :class => 'btn btn-primary' do 
+    span.glyphicon.glyphicon-pencil
+    |  Edit 
+  h1
+    | Show user
+dl.dl-horizontal
+  dt
+    | Id:
+  dd
+    = @user.id
+  dt
+    | Firstname:
+  dd
+    = @user.firstName
+  dt
+    | Lastname:
+  dd
+    = @user.lastName
+  dt
+    | Title:
+  dd
+    = @user.title
+  dt
+    | Password:
+  dd
+    = @user.password
+  dt
+    | Profileimageid:
+  dd
+    = @user.profileImageId
+  dt
+    | Emailsettings:
+  dd
+    = @user.emailSettings
+  dt
+    | Aboutme:
+  dd
+    = @user.aboutMe

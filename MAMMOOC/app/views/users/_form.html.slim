@@ -1,0 +1,47 @@
+= form_for(@user, :html => { :class => "form-horizontal", :role => "form" }) do |f|
+  - if @user.errors.any?
+    .alert.alert-danger.alert-dismissable role="alert"
+      button.close type="button" data-dismiss="alert"
+        span aria-hidden="true"
+          | &times;
+        span.sr-only
+          | Close
+      h4= "#{pluralize(@user.errors.count,"error")} prohibited this user from being saved:"
+      ul
+        - @user.errors.full_messages.each do |msg|
+          li= msg
+  .form-group
+    = f.label :id, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :id, :class => "form-control"
+  .form-group
+    = f.label :firstName, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :firstName, :class => "form-control"
+  .form-group
+    = f.label :lastName, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :lastName, :class => "form-control"
+  .form-group
+    = f.label :title, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :title, :class => "form-control"
+  .form-group
+    = f.label :password, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :password, :class => "form-control"
+  .form-group
+    = f.label :profileImageId, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :profileImageId, :class => "form-control"
+  .form-group
+    = f.label :emailSettings, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :emailSettings, :class => "form-control"
+  .form-group
+    = f.label :aboutMe, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_area :aboutMe, :class => "form-control"
+  .form-group
+    .col-sm-offset-2.col-sm-10
+      = f.submit :class => "btn btn-primary"
