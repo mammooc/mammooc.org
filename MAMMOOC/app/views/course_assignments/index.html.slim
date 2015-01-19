@@ -1,0 +1,43 @@
+.page-header
+  = link_to new_course_assignment_path, :class => 'btn btn-primary' do 
+    span.glyphicon.glyphicon-plus
+    |  New Course assignment
+  h1
+    | Listing course_assignments
+
+.table-responsive
+  table.table.table-striped.table-bordered.table-hover
+    thead
+      tr
+        th
+          | Name
+        th
+          | Deadline
+        th
+          | Maximum score
+        th
+          | Average score
+        th
+          | Course
+        th
+        th
+        th
+    tbody
+      - @course_assignments.each do | course_assignment |
+        tr
+          td
+            = course_assignment.name
+          td
+            = course_assignment.deadline
+          td
+            = course_assignment.maximum_score
+          td
+            = course_assignment.average_score
+          td
+            = course_assignment.course
+          td
+            = link_to 'Show', course_assignment
+          td
+            = link_to 'Edit', edit_course_assignment_path(course_assignment) 
+          td
+            = link_to 'Destroy', course_assignment, method: :delete, data: { confirm: 'Are you sure?' } 

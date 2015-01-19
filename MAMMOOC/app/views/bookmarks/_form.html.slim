@@ -1,0 +1,23 @@
+= form_for(@bookmark, :html => { :class => "form-horizontal", :role => "form" }) do |f|
+  - if @bookmark.errors.any?
+    .alert.alert-danger.alert-dismissable role="alert"
+      button.close type="button" data-dismiss="alert"
+        span aria-hidden="true"
+          | &times;
+        span.sr-only
+          | Close
+      h4= "#{pluralize(@bookmark.errors.count,"error")} prohibited this bookmark from being saved:"
+      ul
+        - @bookmark.errors.full_messages.each do |msg|
+          li= msg
+  .form-group
+    = f.label :user, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :user, :class => "form-control"
+  .form-group
+    = f.label :course, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :course, :class => "form-control"
+  .form-group
+    .col-sm-offset-2.col-sm-10
+      = f.submit :class => "btn btn-primary"

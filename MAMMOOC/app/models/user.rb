@@ -11,4 +11,7 @@ class User < ActiveRecord::Base
   has_many :course_requests
   has_many :approvals
   has_many :progresses
+  has_many :bookmarks
+  has_many :evaluations
+  has_many :user_assignments
 end

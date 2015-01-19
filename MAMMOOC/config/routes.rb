@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  resources :user_assignments
+
+  resources :course_assignments
+
+  resources :evaluations
+
+  resources :bookmarks
+
   resources :progresses
 
   resources :approvals

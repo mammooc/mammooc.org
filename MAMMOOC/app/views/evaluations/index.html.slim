@@ -1,0 +1,51 @@
+.page-header
+  = link_to new_evaluation_path, :class => 'btn btn-primary' do 
+    span.glyphicon.glyphicon-plus
+    |  New Evaluation
+  h1
+    | Listing evaluations
+
+.table-responsive
+  table.table.table-striped.table-bordered.table-hover
+    thead
+      tr
+        th
+          | Title
+        th
+          | Rating
+        th
+          | Is verified
+        th
+          | Description
+        th
+          | Date
+        th
+          | User
+        th
+          | Course
+        th
+        th
+        th
+    tbody
+      - @evaluations.each do | evaluation |
+        tr
+          td
+            = evaluation.title
+          td
+            = evaluation.rating
+          td
+            = evaluation.is_verified
+          td
+            = evaluation.description
+          td
+            = evaluation.date
+          td
+            = evaluation.user
+          td
+            = evaluation.course
+          td
+            = link_to 'Show', evaluation
+          td
+            = link_to 'Edit', edit_evaluation_path(evaluation) 
+          td
+            = link_to 'Destroy', evaluation, method: :delete, data: { confirm: 'Are you sure?' } 

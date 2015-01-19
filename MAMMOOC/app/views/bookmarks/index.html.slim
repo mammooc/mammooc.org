@@ -1,0 +1,31 @@
+.page-header
+  = link_to new_bookmark_path, :class => 'btn btn-primary' do 
+    span.glyphicon.glyphicon-plus
+    |  New Bookmark
+  h1
+    | Listing bookmarks
+
+.table-responsive
+  table.table.table-striped.table-bordered.table-hover
+    thead
+      tr
+        th
+          | User
+        th
+          | Course
+        th
+        th
+        th
+    tbody
+      - @bookmarks.each do | bookmark |
+        tr
+          td
+            = bookmark.user
+          td
+            = bookmark.course
+          td
+            = link_to 'Show', bookmark
+          td
+            = link_to 'Edit', edit_bookmark_path(bookmark) 
+          td
+            = link_to 'Destroy', bookmark, method: :delete, data: { confirm: 'Are you sure?' } 
