@@ -3,8 +3,8 @@ class CreateEmails < ActiveRecord::Migration
     create_table :emails do |t|
       t.string :address
       t.boolean :is_primary
-      t.references :user, index: true
-
+      #t.references :user, index: true
+      t.uuid :user_id
       t.timestamps null: false
     end
     add_foreign_key :emails, :users
