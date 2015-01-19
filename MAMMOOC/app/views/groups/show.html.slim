@@ -1,0 +1,26 @@
+.page-header
+  = link_to groups_path, :class => 'btn btn-default' do 
+    span.glyphicon.glyphicon-list-alt
+    |  Back 
+  = link_to edit_group_path(@group), :class => 'btn btn-primary' do 
+    span.glyphicon.glyphicon-pencil
+    |  Edit 
+  h1
+    | Show group
+dl.dl-horizontal
+  dt
+    | Name:
+  dd
+    = @group.name
+  dt
+    | Imageid:
+  dd
+    = @group.imageId
+  dt
+    | Description:
+  dd
+    = @group.description
+  dt
+    | Primary statistics:
+  dd
+    = @group.primary_statistics

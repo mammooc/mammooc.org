@@ -1,0 +1,39 @@
+.page-header
+  = link_to new_approval_path, :class => 'btn btn-primary' do 
+    span.glyphicon.glyphicon-plus
+    |  New Approval
+  h1
+    | Listing approvals
+
+.table-responsive
+  table.table.table-striped.table-bordered.table-hover
+    thead
+      tr
+        th
+          | Date
+        th
+          | Is approved
+        th
+          | Description
+        th
+          | User
+        th
+        th
+        th
+    tbody
+      - @approvals.each do | approval |
+        tr
+          td
+            = approval.date
+          td
+            = approval.is_approved
+          td
+            = approval.description
+          td
+            = approval.user
+          td
+            = link_to 'Show', approval
+          td
+            = link_to 'Edit', edit_approval_path(approval) 
+          td
+            = link_to 'Destroy', approval, method: :delete, data: { confirm: 'Are you sure?' } 

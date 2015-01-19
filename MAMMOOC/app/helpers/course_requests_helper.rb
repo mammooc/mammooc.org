@@ -1,0 +1,2 @@
+module CourseRequestsHelper
+end

@@ -1,0 +1,35 @@
+.page-header
+  = link_to new_user_group_path, :class => 'btn btn-primary' do 
+    span.glyphicon.glyphicon-plus
+    |  New User group
+  h1
+    | Listing user_groups
+
+.table-responsive
+  table.table.table-striped.table-bordered.table-hover
+    thead
+      tr
+        th
+          | Is admin
+        th
+          | User
+        th
+          | Group
+        th
+        th
+        th
+    tbody
+      - @user_groups.each do | user_group |
+        tr
+          td
+            = user_group.is_admin
+          td
+            = user_group.user
+          td
+            = user_group.group
+          td
+            = link_to 'Show', user_group
+          td
+            = link_to 'Edit', edit_user_group_path(user_group) 
+          td
+            = link_to 'Destroy', user_group, method: :delete, data: { confirm: 'Are you sure?' } 

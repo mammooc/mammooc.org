@@ -1,0 +1,91 @@
+= form_for(@course, :html => { :class => "form-horizontal", :role => "form" }) do |f|
+  - if @course.errors.any?
+    .alert.alert-danger.alert-dismissable role="alert"
+      button.close type="button" data-dismiss="alert"
+        span aria-hidden="true"
+          | &times;
+        span.sr-only
+          | Close
+      h4= "#{pluralize(@course.errors.count,"error")} prohibited this course from being saved:"
+      ul
+        - @course.errors.full_messages.each do |msg|
+          li= msg
+  .form-group
+    = f.label :name, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :name, :class => "form-control"
+  .form-group
+    = f.label :url, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :url, :class => "form-control"
+  .form-group
+    = f.label :course_instructor, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :course_instructor, :class => "form-control"
+  .form-group
+    = f.label :abstract, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_area :abstract, :class => "form-control"
+  .form-group
+    = f.label :language, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :language, :class => "form-control"
+  .form-group
+    = f.label :imageId, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :imageId, :class => "form-control"
+  .form-group
+    = f.label :videoId, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :videoId, :class => "form-control"
+  .form-group
+    = f.label :start_date, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.datetime_select :start_date, :class => "form-control"
+  .form-group
+    = f.label :end_date, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.datetime_select :end_date, :class => "form-control"
+  .form-group
+    = f.label :duration, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :duration, :class => "form-control"
+  .form-group
+    = f.label :costs, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :costs, :class => "form-control"
+  .form-group
+    = f.label :type_of_achievement, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :type_of_achievement, :class => "form-control"
+  .form-group
+    = f.label :categories, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :categories, :class => "form-control"
+  .form-group
+    = f.label :difficulty, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :difficulty, :class => "form-control"
+  .form-group
+    = f.label :requirements, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :requirements, :class => "form-control"
+  .form-group
+    = f.label :workload, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :workload, :class => "form-control"
+  .form-group
+    = f.label :provider_course_id, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.number_field :provider_course_id, :class => "form-control"
+  .form-group
+    = f.label :mooc_provider, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :mooc_provider, :class => "form-control"
+  .form-group
+    = f.label :course_result, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :course_result, :class => "form-control"
+  .form-group
+    .col-sm-offset-2.col-sm-10
+      = f.submit :class => "btn btn-primary"

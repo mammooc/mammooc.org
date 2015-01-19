@@ -1,0 +1,99 @@
+.page-header
+  = link_to new_course_path, :class => 'btn btn-primary' do 
+    span.glyphicon.glyphicon-plus
+    |  New Course
+  h1
+    | Listing courses
+
+.table-responsive
+  table.table.table-striped.table-bordered.table-hover
+    thead
+      tr
+        th
+          | Name
+        th
+          | Url
+        th
+          | Course instructor
+        th
+          | Abstract
+        th
+          | Language
+        th
+          | Imageid
+        th
+          | Videoid
+        th
+          | Start date
+        th
+          | End date
+        th
+          | Duration
+        th
+          | Costs
+        th
+          | Type of achievement
+        th
+          | Categories
+        th
+          | Difficulty
+        th
+          | Requirements
+        th
+          | Workload
+        th
+          | Provider course
+        th
+          | Mooc provider
+        th
+          | Course result
+        th
+        th
+        th
+    tbody
+      - @courses.each do | course |
+        tr
+          td
+            = course.name
+          td
+            = course.url
+          td
+            = course.course_instructor
+          td
+            = course.abstract
+          td
+            = course.language
+          td
+            = course.imageId
+          td
+            = course.videoId
+          td
+            = course.start_date
+          td
+            = course.end_date
+          td
+            = course.duration
+          td
+            = course.costs
+          td
+            = course.type_of_achievement
+          td
+            = course.categories
+          td
+            = course.difficulty
+          td
+            = course.requirements
+          td
+            = course.workload
+          td
+            = course.provider_course_id
+          td
+            = course.mooc_provider
+          td
+            = course.course_result
+          td
+            = link_to 'Show', course
+          td
+            = link_to 'Edit', edit_course_path(course) 
+          td
+            = link_to 'Destroy', course, method: :delete, data: { confirm: 'Are you sure?' } 

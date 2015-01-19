@@ -1,0 +1,86 @@
+.page-header
+  = link_to courses_path, :class => 'btn btn-default' do 
+    span.glyphicon.glyphicon-list-alt
+    |  Back 
+  = link_to edit_course_path(@course), :class => 'btn btn-primary' do 
+    span.glyphicon.glyphicon-pencil
+    |  Edit 
+  h1
+    | Show course
+dl.dl-horizontal
+  dt
+    | Name:
+  dd
+    = @course.name
+  dt
+    | Url:
+  dd
+    = @course.url
+  dt
+    | Course instructor:
+  dd
+    = @course.course_instructor
+  dt
+    | Abstract:
+  dd
+    = @course.abstract
+  dt
+    | Language:
+  dd
+    = @course.language
+  dt
+    | Imageid:
+  dd
+    = @course.imageId
+  dt
+    | Videoid:
+  dd
+    = @course.videoId
+  dt
+    | Start date:
+  dd
+    = @course.start_date
+  dt
+    | End date:
+  dd
+    = @course.end_date
+  dt
+    | Duration:
+  dd
+    = @course.duration
+  dt
+    | Costs:
+  dd
+    = @course.costs
+  dt
+    | Type of achievement:
+  dd
+    = @course.type_of_achievement
+  dt
+    | Categories:
+  dd
+    = @course.categories
+  dt
+    | Difficulty:
+  dd
+    = @course.difficulty
+  dt
+    | Requirements:
+  dd
+    = @course.requirements
+  dt
+    | Workload:
+  dd
+    = @course.workload
+  dt
+    | Provider course:
+  dd
+    = @course.provider_course_id
+  dt
+    | Mooc provider:
+  dd
+    = @course.mooc_provider
+  dt
+    | Course result:
+  dd
+    = @course.course_result

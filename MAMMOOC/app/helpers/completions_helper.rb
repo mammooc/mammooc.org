@@ -1,0 +1,2 @@
+module CompletionsHelper
+end

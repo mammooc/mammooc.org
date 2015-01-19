@@ -1,0 +1,30 @@
+.page-header
+  = link_to course_requests_path, :class => 'btn btn-default' do 
+    span.glyphicon.glyphicon-list-alt
+    |  Back 
+  = link_to edit_course_request_path(@course_request), :class => 'btn btn-primary' do 
+    span.glyphicon.glyphicon-pencil
+    |  Edit 
+  h1
+    | Show course_request
+dl.dl-horizontal
+  dt
+    | Date:
+  dd
+    = @course_request.date
+  dt
+    | Description:
+  dd
+    = @course_request.description
+  dt
+    | Course:
+  dd
+    = @course_request.course
+  dt
+    | User:
+  dd
+    = @course_request.user
+  dt
+    | Group:
+  dd
+    = @course_request.group

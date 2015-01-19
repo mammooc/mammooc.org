@@ -1,0 +1,22 @@
+.page-header
+  = link_to course_results_path, :class => 'btn btn-default' do 
+    span.glyphicon.glyphicon-list-alt
+    |  Back 
+  = link_to edit_course_result_path(@course_result), :class => 'btn btn-primary' do 
+    span.glyphicon.glyphicon-pencil
+    |  Edit 
+  h1
+    | Show course_result
+dl.dl-horizontal
+  dt
+    | Maximum score:
+  dd
+    = @course_result.maximum_score
+  dt
+    | Average score:
+  dd
+    = @course_result.average_score
+  dt
+    | Best score:
+  dd
+    = @course_result.best_score

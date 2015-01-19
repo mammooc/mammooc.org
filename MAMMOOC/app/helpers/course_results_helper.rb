@@ -1,0 +1,2 @@
+module CourseResultsHelper
+end

@@ -1,0 +1,26 @@
+.page-header
+  = link_to recommendations_path, :class => 'btn btn-default' do 
+    span.glyphicon.glyphicon-list-alt
+    |  Back 
+  = link_to edit_recommendation_path(@recommendation), :class => 'btn btn-primary' do 
+    span.glyphicon.glyphicon-pencil
+    |  Edit 
+  h1
+    | Show recommendation
+dl.dl-horizontal
+  dt
+    | Is obligatory:
+  dd
+    = @recommendation.is_obligatory
+  dt
+    | User:
+  dd
+    = @recommendation.user
+  dt
+    | Group:
+  dd
+    = @recommendation.group
+  dt
+    | Course:
+  dd
+    = @recommendation.course

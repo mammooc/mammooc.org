@@ -1,0 +1,43 @@
+.page-header
+  = link_to new_course_request_path, :class => 'btn btn-primary' do 
+    span.glyphicon.glyphicon-plus
+    |  New Course request
+  h1
+    | Listing course_requests
+
+.table-responsive
+  table.table.table-striped.table-bordered.table-hover
+    thead
+      tr
+        th
+          | Date
+        th
+          | Description
+        th
+          | Course
+        th
+          | User
+        th
+          | Group
+        th
+        th
+        th
+    tbody
+      - @course_requests.each do | course_request |
+        tr
+          td
+            = course_request.date
+          td
+            = course_request.description
+          td
+            = course_request.course
+          td
+            = course_request.user
+          td
+            = course_request.group
+          td
+            = link_to 'Show', course_request
+          td
+            = link_to 'Edit', edit_course_request_path(course_request) 
+          td
+            = link_to 'Destroy', course_request, method: :delete, data: { confirm: 'Are you sure?' } 

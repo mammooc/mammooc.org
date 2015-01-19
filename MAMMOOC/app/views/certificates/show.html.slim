@@ -1,0 +1,22 @@
+.page-header
+  = link_to certificates_path, :class => 'btn btn-default' do 
+    span.glyphicon.glyphicon-list-alt
+    |  Back 
+  = link_to edit_certificate_path(@certificate), :class => 'btn btn-primary' do 
+    span.glyphicon.glyphicon-pencil
+    |  Edit 
+  h1
+    | Show certificate
+dl.dl-horizontal
+  dt
+    | Title:
+  dd
+    = @certificate.title
+  dt
+    | File:
+  dd
+    = @certificate.file_id
+  dt
+    | Completion:
+  dd
+    = @certificate.completion

@@ -1,0 +1,35 @@
+= form_for(@course_request, :html => { :class => "form-horizontal", :role => "form" }) do |f|
+  - if @course_request.errors.any?
+    .alert.alert-danger.alert-dismissable role="alert"
+      button.close type="button" data-dismiss="alert"
+        span aria-hidden="true"
+          | &times;
+        span.sr-only
+          | Close
+      h4= "#{pluralize(@course_request.errors.count,"error")} prohibited this course_request from being saved:"
+      ul
+        - @course_request.errors.full_messages.each do |msg|
+          li= msg
+  .form-group
+    = f.label :date, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.datetime_select :date, :class => "form-control"
+  .form-group
+    = f.label :description, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_area :description, :class => "form-control"
+  .form-group
+    = f.label :course, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :course, :class => "form-control"
+  .form-group
+    = f.label :user, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :user, :class => "form-control"
+  .form-group
+    = f.label :group, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :group, :class => "form-control"
+  .form-group
+    .col-sm-offset-2.col-sm-10
+      = f.submit :class => "btn btn-primary"

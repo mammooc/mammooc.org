@@ -1,0 +1,47 @@
+.page-header
+  = link_to new_completion_path, :class => 'btn btn-primary' do 
+    span.glyphicon.glyphicon-plus
+    |  New Completion
+  h1
+    | Listing completions
+
+.table-responsive
+  table.table.table-striped.table-bordered.table-hover
+    thead
+      tr
+        th
+          | Position in course
+        th
+          | Points
+        th
+          | Permissions
+        th
+          | Date
+        th
+          | User
+        th
+          | Course
+        th
+        th
+        th
+    tbody
+      - @completions.each do | completion |
+        tr
+          td
+            = completion.position_in_course
+          td
+            = completion.points
+          td
+            = completion.permissions
+          td
+            = completion.date
+          td
+            = completion.user
+          td
+            = completion.course
+          td
+            = link_to 'Show', completion
+          td
+            = link_to 'Edit', edit_completion_path(completion) 
+          td
+            = link_to 'Destroy', completion, method: :delete, data: { confirm: 'Are you sure?' } 

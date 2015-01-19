@@ -11,11 +11,181 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150115145836) do
+ActiveRecord::Schema.define(version: 20150119143440) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
+
+  create_table "approvals", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.datetime "date"
+    t.boolean  "is_approved"
+    t.string   "description"
+    t.uuid     "user_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "approvals", ["user_id"], name: "index_approvals_on_user_id", using: :btree
+
+  create_table "certificates", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.string   "title"
+    t.string   "file_id"
+    t.uuid     "completion_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "certificates", ["completion_id"], name: "index_certificates_on_completion_id", using: :btree
+
+  create_table "comments", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.datetime "date"
+    t.text     "content"
+    t.uuid     "user_id"
+    t.uuid     "recommendation_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "comments", ["recommendation_id"], name: "index_comments_on_recommendation_id", using: :btree
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
+
+  create_table "completions", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.integer  "position_in_course"
+    t.float    "points"
+    t.string   "permissions",                     array: true
+    t.datetime "date"
+    t.uuid     "user_id"
+    t.uuid     "course_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "completions", ["course_id"], name: "index_completions_on_course_id", using: :btree
+  add_index "completions", ["user_id"], name: "index_completions_on_user_id", using: :btree
+
+  create_table "course_requests", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.datetime "date"
+    t.text     "description"
+    t.uuid     "course_id"
+    t.uuid     "user_id"
+    t.uuid     "group_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "course_requests", ["course_id"], name: "index_course_requests_on_course_id", using: :btree
+  add_index "course_requests", ["group_id"], name: "index_course_requests_on_group_id", using: :btree
+  add_index "course_requests", ["user_id"], name: "index_course_requests_on_user_id", using: :btree
+
+  create_table "course_results", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.float    "maximum_score"
+    t.float    "average_score"
+    t.float    "best_score"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  create_table "courses", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.string   "name"
+    t.string   "url"
+    t.string   "course_instructor"
+    t.text     "abstract"
+    t.string   "language"
+    t.string   "imageId"
+    t.string   "videoId"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.string   "duration"
+    t.string   "costs"
+    t.string   "type_of_achievement"
+    t.string   "categories"
+    t.string   "difficulty"
+    t.string   "requirements"
+    t.string   "workload"
+    t.integer  "provider_course_id"
+    t.uuid     "mooc_provider_id"
+    t.uuid     "course_result_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  add_index "courses", ["course_result_id"], name: "index_courses_on_course_result_id", using: :btree
+  add_index "courses", ["mooc_provider_id"], name: "index_courses_on_mooc_provider_id", using: :btree
+
+  create_table "emails", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.string   "address"
+    t.boolean  "is_primary"
+    t.uuid     "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "emails", ["user_id"], name: "index_emails_on_user_id", using: :btree
+
+  create_table "groups", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.string   "name"
+    t.string   "imageId"
+    t.text     "description"
+    t.string   "primary_statistics",              array: true
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  create_table "mooc_providers", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.string   "logo_id"
+    t.string   "name"
+    t.string   "url"
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "progresses", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.float    "percentage"
+    t.string   "permissions",              array: true
+    t.uuid     "course_id"
+    t.uuid     "user_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "progresses", ["course_id"], name: "index_progresses_on_course_id", using: :btree
+  add_index "progresses", ["user_id"], name: "index_progresses_on_user_id", using: :btree
+
+  create_table "recommendations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.boolean  "is_obligatory"
+    t.uuid     "user_id"
+    t.uuid     "group_id"
+    t.uuid     "course_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "recommendations", ["course_id"], name: "index_recommendations_on_course_id", using: :btree
+  add_index "recommendations", ["group_id"], name: "index_recommendations_on_group_id", using: :btree
+  add_index "recommendations", ["user_id"], name: "index_recommendations_on_user_id", using: :btree
+
+  create_table "statistics", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.string   "name"
+    t.text     "result"
+    t.uuid     "group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "statistics", ["group_id"], name: "index_statistics_on_group_id", using: :btree
+
+  create_table "user_groups", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.boolean  "is_admin"
+    t.uuid     "user_id"
+    t.uuid     "group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "user_groups", ["group_id"], name: "index_user_groups_on_group_id", using: :btree
+  add_index "user_groups", ["user_id"], name: "index_user_groups_on_user_id", using: :btree
 
   create_table "users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "first_name"
@@ -29,4 +199,24 @@ ActiveRecord::Schema.define(version: 20150115145836) do
     t.datetime "updated_at",       null: false
   end
 
+  add_foreign_key "approvals", "users"
+  add_foreign_key "certificates", "completions"
+  add_foreign_key "comments", "recommendations"
+  add_foreign_key "comments", "users"
+  add_foreign_key "completions", "courses"
+  add_foreign_key "completions", "users"
+  add_foreign_key "course_requests", "courses"
+  add_foreign_key "course_requests", "groups"
+  add_foreign_key "course_requests", "users"
+  add_foreign_key "courses", "course_results"
+  add_foreign_key "courses", "mooc_providers"
+  add_foreign_key "emails", "users"
+  add_foreign_key "progresses", "courses"
+  add_foreign_key "progresses", "users"
+  add_foreign_key "recommendations", "courses"
+  add_foreign_key "recommendations", "groups"
+  add_foreign_key "recommendations", "users"
+  add_foreign_key "statistics", "groups"
+  add_foreign_key "user_groups", "groups"
+  add_foreign_key "user_groups", "users"
 end
