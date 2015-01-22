@@ -10,6 +10,7 @@ RSpec.describe "comments/edit", :type => :view do
   end
 
   it "renders the edit comment form" do
+    pending
     render
 
     assert_select "form[action=?][method=?]", comment_path(@comment), "post" do

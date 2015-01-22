@@ -4,24 +4,20 @@ RSpec.describe "users/index", :type => :view do
   before(:each) do
     assign(:users, [
       User.create!(
-        :id => "",
-        :firstName => "First Name",
-        :lastName => "Last Name",
+        :first_name => "First Name",
+        :last_name => "Last Name",
         :title => "Title",
         :password => "Password",
-        :profileImageId => "Profile Image",
-        :emailSettings => "",
-        :aboutMe => "MyText"
+        :profile_image_id => "Profile Image",
+        :about_me => "MyText"
       ),
       User.create!(
-        :id => "",
-        :firstName => "First Name",
-        :lastName => "Last Name",
+        :first_name => "First Name",
+        :last_name => "Last Name",
         :title => "Title",
         :password => "Password",
-        :profileImageId => "Profile Image",
-        :emailSettings => "",
-        :aboutMe => "MyText"
+        :profile_image_id => "Profile Image",
+        :about_me => "MyText"
       )
     ])
   end

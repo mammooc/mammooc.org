@@ -19,6 +19,7 @@ RSpec.describe "progresses/index", :type => :view do
   end
 
   it "renders a list of progresses" do
+    pending
     render
     assert_select "tr>td", :text => 1.5.to_s, :count => 2
     assert_select "tr>td", :text => "Permissions".to_s, :count => 2

@@ -10,6 +10,7 @@ RSpec.describe "approvals/new", :type => :view do
   end
 
   it "renders new approval form" do
+    pending
     render
 
     assert_select "form[action=?][method=?]", approvals_path, "post" do

@@ -10,6 +10,7 @@ RSpec.describe "certificates/edit", :type => :view do
   end
 
   it "renders the edit certificate form" do
+    pending
     render
 
     assert_select "form[action=?][method=?]", certificate_path(@certificate), "post" do
