@@ -38,6 +38,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 #authentication
 gem 'devise'
 
+gem 'bootstrap-sass'
+
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -51,8 +54,8 @@ group :development, :test do
   gem 'rspec-rails'
 
   gem 'bootstrap-generators'
+end
 
 gem 'rails-i18n'
 
-end
 
