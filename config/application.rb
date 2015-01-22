@@ -26,5 +26,7 @@ module MAMMOOC
     config.generators do |g|
       g.test_framework :rspec
     end
+
+    config.serve_static_files = true
   end
 end
