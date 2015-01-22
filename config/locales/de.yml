@@ -19,13 +19,13 @@
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
 
-en:
+de:
   MAMMOOC: "MAMMOOC"
   Home: "Home"
-  About: "About"
-  Contact: "Contact"
-  hello: "Hello world"
-  welcomeheading: "Welcome to MAMMOOC!"
-  emailaddress: "email address"
-  password: "password"
-  Signin: "Sign in"
+  About: "Über uns"
+  Contact: "Kontakt"
+  hello: "Hallo Welt"
+  welcomeheading: "Willkommen bei MAMMOOC!"
+  emailaddress: "E-Mail-Adresse"
+  password: "Passwort"
+  Signin: "Einloggen"

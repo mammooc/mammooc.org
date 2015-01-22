@@ -37,6 +37,13 @@ Rails.application.routes.draw do
 
   resources :users
 
+  get 'dashboard/dashboard'
+
+  get 'home/index'
+  get 'contact' => 'static_pages#contact'
+  get 'about' => 'static_pages#about'
+  root :to => 'home#index'
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
