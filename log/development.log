@@ -1,5 +1,6 @@
 
 
+<<<<<<< HEAD
 Started GET "/" for 127.0.0.1 at 2015-01-15 15:23:58 +0100
 Processing by Rails::WelcomeController#index as HTML
   Rendered /Users/gberecz/.rvm/gems/ruby-2.1.2/gems/railties-4.2.0/lib/rails/templates/rails/welcome/index.html.erb (2.5ms)
@@ -679,3 +680,153 @@ Started GET "/assets/bootstrap-variables-069e88c06b889877799890854d7f4c40.css?bo
 
 
 Started GET "/assets/bootstrap/glyphicons-halflings-regular.woff" for ::1 at 2015-01-22 14:44:03 +0100
+=======
+Started GET "/" for ::1 at 2015-01-22 14:48:10 +0100
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendered /Users/gberecz/.rvm/gems/ruby-2.1.2/gems/railties-4.2.0/lib/rails/templates/rails/welcome/index.html.erb (2.8ms)
+Completed 200 OK in 32ms (Views: 17.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users" for ::1 at 2015-01-22 14:48:15 +0100
+Processing by UsersController#index as HTML
+  [1m[35mUser Load (8.0ms)[0m  SELECT "users".* FROM "users"
+  Rendered users/index.html.slim within layouts/application (36.1ms)
+Completed 200 OK in 8056ms (Views: 8001.4ms | ActiveRecord: 9.7ms)
+
+
+Started GET "/assets/bootstrap-generators-47b769c511a52b2e716af6caed8ab54c.css?body=1" for ::1 at 2015-01-22 14:48:24 +0100
+
+
+Started GET "/assets/application-dee2cf4763181d76f95e270df7faf509.css?body=1" for ::1 at 2015-01-22 14:48:24 +0100
+
+
+Started GET "/assets/bootstrap-variables-069e88c06b889877799890854d7f4c40.css?body=1" for ::1 at 2015-01-22 14:48:24 +0100
+
+
+Started GET "/assets/bootstrap/glyphicons-halflings-regular.woff" for ::1 at 2015-01-22 14:48:24 +0100
+
+
+Started GET "/users" for ::1 at 2015-01-22 14:48:34 +0100
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.6ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  Rendered users/index.html.slim within layouts/application (2.0ms)
+Completed 200 OK in 283ms (Views: 281.8ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/assets/bootstrap-variables-069e88c06b889877799890854d7f4c40.css?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/bootstrap-generators-47b769c511a52b2e716af6caed8ab54c.css?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/application-dee2cf4763181d76f95e270df7faf509.css?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/bootstrap/collapse-4e4d6ff4fc17afac1d72bdb87dcf9e03.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/jquery_ujs-0b8f09cf5aec4ba1be1abd9f915c77e2.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/jquery-eb3e278249152b5b5d5170b73d9dbf52.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/turbolinks-924184401b7d116eadaaefc96895fa84.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/bootstrap/button-7404970dda5275bf4aa732d8ef1db223.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/bootstrap/tab-7d45589786306b417d1664184ca8fbf8.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/bootstrap/modal-98b3faca355a223ded5349bc93bdd4a7.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/bootstrap/popover-1fad9cb69620161b2a0c5c6ea67ae644.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/bootstrap/dropdown-58cd9071a88158a9a95dda2320da8a92.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/bootstrap-8913381f951405e9ebc0e9e7da434ed7.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/bootstrap/affix-d40f971ee2f767faaf6d6af09b6891b5.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/bootstrap/alert-f76ec816bdcc68a2282059928ef1e52d.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/bootstrap/transition-79362283457bd064d3b7ff06acb0f011.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/bootstrap/scrollspy-f9ba5cb4717a71f39303d90f29813c97.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/bootstrap/carousel-c2724c63c7e679aa20278f2f022560cb.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/approvals-8f6eecd1178ef85964369ec66d33c4f1.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/bookmarks-8f6eecd1178ef85964369ec66d33c4f1.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/comments-8f6eecd1178ef85964369ec66d33c4f1.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/bootstrap/tooltip-ad8aa40c8d62097d02080d81c3d49762.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/course_results-8f6eecd1178ef85964369ec66d33c4f1.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/emails-8f6eecd1178ef85964369ec66d33c4f1.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/groups-8f6eecd1178ef85964369ec66d33c4f1.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/certificates-8f6eecd1178ef85964369ec66d33c4f1.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/completions-8f6eecd1178ef85964369ec66d33c4f1.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/course_assignments-8f6eecd1178ef85964369ec66d33c4f1.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/courses-8f6eecd1178ef85964369ec66d33c4f1.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/evaluations-8f6eecd1178ef85964369ec66d33c4f1.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/mooc_providers-8f6eecd1178ef85964369ec66d33c4f1.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/progresses-8f6eecd1178ef85964369ec66d33c4f1.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/statistics-8f6eecd1178ef85964369ec66d33c4f1.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/course_requests-8f6eecd1178ef85964369ec66d33c4f1.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/application-a40a59eaedb71f4ca9ba3e9d508c549c.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/recommendations-8f6eecd1178ef85964369ec66d33c4f1.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/user_assignments-8f6eecd1178ef85964369ec66d33c4f1.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/user_groups-8f6eecd1178ef85964369ec66d33c4f1.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+
+
+Started GET "/assets/users-8f6eecd1178ef85964369ec66d33c4f1.js?body=1" for ::1 at 2015-01-22 14:48:34 +0100
+>>>>>>> master
