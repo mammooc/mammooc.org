@@ -5,16 +5,16 @@
 
 # __ WEBAPP __
 # Ignore bundler config.
-/MAMMOOC/.bundle
+/.bundle
 
 # Ignore the default SQLite database.
-/MAMMOOC/db/*.sqlite3
-/MAMMOOC/db/*.sqlite3-journal
+/db/*.sqlite3
+/db/*.sqlite3-journal
 
 # Ignore all logfiles and tempfiles.
-/MAMMOOC/log/*
-!/MAMMOOC/log/.keep
-/MAMMOOC/tmp
+/log/*
+!/log/.keep
+/tmp
 *.iml
-/MAMMOOC/.idea
+/.idea
 *.idea
