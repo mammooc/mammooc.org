@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+
+  #root to: "home#index"
+
+
   resources :user_assignments
 
   resources :course_assignments
