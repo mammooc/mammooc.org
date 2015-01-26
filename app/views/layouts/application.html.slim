@@ -40,6 +40,8 @@ html
               input.form-control type="password" placeholder=t('password')
             button.btn.btn-default
               =t('Signin')
+            button.btn.btn-default
+              = link_to t('Signout'), destroy_user_session_path, :method => :delete
     p class="alert"
       = alert
     p class="notice"

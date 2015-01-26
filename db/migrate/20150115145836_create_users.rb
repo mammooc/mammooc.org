@@ -8,7 +8,6 @@ class CreateUsers < ActiveRecord::Migration
       t.string :profile_image_id
       t.json :email_settings
       t.text :about_me
-
       t.timestamps null: false
     end
   end
