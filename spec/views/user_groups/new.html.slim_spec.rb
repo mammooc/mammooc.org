@@ -10,6 +10,7 @@ RSpec.describe "user_groups/new", :type => :view do
   end
 
   it "renders new user_group form" do
+    pending
     render
 
     assert_select "form[action=?][method=?]", user_groups_path, "post" do

@@ -12,6 +12,7 @@ RSpec.describe "completions/edit", :type => :view do
   end
 
   it "renders the edit completion form" do
+    pending
     render
 
     assert_select "form[action=?][method=?]", completion_path(@completion), "post" do

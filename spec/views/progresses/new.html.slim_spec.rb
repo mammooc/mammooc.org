@@ -11,6 +11,7 @@ RSpec.describe "progresses/new", :type => :view do
   end
 
   it "renders new progress form" do
+    pending
     render
 
     assert_select "form[action=?][method=?]", progresses_path, "post" do

@@ -11,6 +11,7 @@ RSpec.describe "course_assignments/new", :type => :view do
   end
 
   it "renders new course_assignment form" do
+    pending
     render
 
     assert_select "form[action=?][method=?]", course_assignments_path, "post" do

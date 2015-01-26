@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+
 RSpec.describe "approvals/edit", :type => :view do
   before(:each) do
     @approval = assign(:approval, Approval.create!(
@@ -10,6 +11,7 @@ RSpec.describe "approvals/edit", :type => :view do
   end
 
   it "renders the edit approval form" do
+    pending
     render
 
     assert_select "form[action=?][method=?]", approval_path(@approval), "post" do

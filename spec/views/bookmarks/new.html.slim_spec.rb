@@ -9,6 +9,7 @@ RSpec.describe "bookmarks/new", :type => :view do
   end
 
   it "renders new bookmark form" do
+    pending
     render
 
     assert_select "form[action=?][method=?]", bookmarks_path, "post" do

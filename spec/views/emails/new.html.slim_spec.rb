@@ -10,6 +10,7 @@ RSpec.describe "emails/new", :type => :view do
   end
 
   it "renders new email form" do
+    pending
     render
 
     assert_select "form[action=?][method=?]", emails_path, "post" do

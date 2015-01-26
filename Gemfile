@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby '2.2.0'
+
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
@@ -33,9 +35,11 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-
 # authentication
 gem 'devise'
+
+gem 'bootstrap-sass'
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -50,6 +54,8 @@ group :development, :test do
   gem 'rspec-rails'
 
   gem 'bootstrap-generators'
-
 end
+
+gem 'rails-i18n'
+
 

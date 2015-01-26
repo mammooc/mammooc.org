@@ -19,6 +19,7 @@ RSpec.describe "user_assignments/index", :type => :view do
   end
 
   it "renders a list of user_assignments" do
+    pending
     render
     assert_select "tr>td", :text => 1.5.to_s, :count => 2
     assert_select "tr>td", :text => nil.to_s, :count => 2

@@ -11,6 +11,7 @@ RSpec.describe "recommendations/new", :type => :view do
   end
 
   it "renders new recommendation form" do
+    pending
     render
 
     assert_select "form[action=?][method=?]", recommendations_path, "post" do

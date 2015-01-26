@@ -20,4 +20,12 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  MAMMOOC: "MAMMOOC"
+  Home: "Home"
+  About: "About"
+  Contact: "Contact"
   hello: "Hello world"
+  welcomeheading: "Welcome to MAMMOOC!"
+  emailaddress: "email address"
+  password: "password"
+  Signin: "Sign in"
