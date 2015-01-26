@@ -10,8 +10,6 @@
     thead
       tr
         th
-          | Id
-        th
           | Firstname
         th
           | Lastname
@@ -31,8 +29,6 @@
     tbody
       - @users.each do | user |
         tr
-          td
-            = user.id
           td
             = user.first_name
           td

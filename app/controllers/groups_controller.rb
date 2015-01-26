@@ -28,6 +28,9 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       if @group.save
+        #User.find ... should be replaced by current_user.id
+        #user_group_params = {'is_admin' => true, 'user_id' => User.find("c2bea9ac-1930-4e62-a28b-47af7bad0e4f").id,'group_id' => @group.id}
+        #UserGroup.create(user_group_params)
         format.html { redirect_to @group, notice: 'Group was successfully created.' }
         format.json { render :show, status: :created, location: @group }
       else
