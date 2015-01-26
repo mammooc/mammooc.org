@@ -40,6 +40,10 @@ html
               input.form-control type="password" placeholder=t('password')
             button.btn.btn-default
               =t('Signin')
+    p class="alert"
+      = alert
+    p class="notice"
+      = notice
     .container
       - flash.each do |name, msg|
         = content_tag :div, :class => "alert alert-#{ name == :error ? "danger" : "success" } alert-dismissable", :role => "alert" do
