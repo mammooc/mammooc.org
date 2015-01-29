@@ -6,9 +6,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def create
-    @user = User.new(user_params)
-    puts user_params
     super
+    @user = User.new(user_params)
     @user.save()
   end
 
