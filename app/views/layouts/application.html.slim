@@ -33,19 +33,25 @@ html
               = link_to t('About'), about_path
             li class=('active' if current_page?(contact_path))
               = link_to t('Contact'), contact_path
-          form.navbar-form.navbar-left
-            div.form-group
-              input.form-control type="text" placeholder=t('emailaddress')
-            div.form-group
-              input.form-control type="password" placeholder=t('password')
-            button.btn.btn-default
-              =t('Signin')
-            button.btn.btn-default
-              = link_to t('Signout'), destroy_user_session_path, :method => :delete
-    p class="alert"
-      = alert
-    p class="notice"
-      = notice
+
+          .navbar-form.pull-right
+            - if not user_signed_in?
+              div.form-group
+                button.btn.btn-default
+                  = link_to t('Signin'), new_user_session_path
+              div.form-group
+                button.btn.btn-default
+                  = link_to t('Signup'), new_user_registration_path
+            - else
+              div.form-group
+                li class=('active' if current_page?(current_user))
+                  = link_to current_user.email, current_user
+              div.form-group
+                button.btn.btn-default
+                  = link_to t('Signout'), destroy_user_session_path, :method => :delete
+
+
+
     .container
       - flash.each do |name, msg|
         = content_tag :div, :class => "alert alert-#{ name == :error ? "danger" : "success" } alert-dismissable", :role => "alert" do
