@@ -33,3 +33,15 @@ en:
   my_groups: "My Groups"
   my_current_courses: "My Current Courses"
   no_groups: "You don't have any groups."
+  new_group: "Creating Group"
+  edit_group: "Editing Group"
+
+  activerecord:
+    models:
+      group:
+        one: "Group"
+        other: "Groups"
+    attributes:
+      group:
+        name: "Name"
+        description: "Description"

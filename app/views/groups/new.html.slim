@@ -1,9 +1,10 @@
 .page-header
   = link_to groups_path, :class => 'btn btn-default' do 
     span.glyphicon.glyphicon-list-alt
-    |  Back 
-  h1
-    | New 
-    | group
-
-= render 'form'
+    |  Back
+.row
+  .col-md-9
+    h1
+      = t('new_group')
+    = render 'form'
+  .col-md-3

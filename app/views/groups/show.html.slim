@@ -6,21 +6,16 @@
     span.glyphicon.glyphicon-pencil
     |  Edit 
   h1
-    | Show group
-dl.dl-horizontal
-  dt
-    | Name:
-  dd
     = @group.name
-  dt
-    | Imageid:
-  dd
-    = @group.imageId
-  dt
-    | Description:
-  dd
-    = @group.description
-  dt
-    | Primary statistics:
-  dd
-    = @group.primary_statistics
+dl.dl-horizontal
+  .row
+    .col-md-9
+      dt
+        = t('activerecord.attributes.group.name') + ":"
+      dd
+        = @group.name
+      dt
+        = t('activerecord.attributes.group.description') + ":"
+      dd
+        = @group.description
+    .col-md-3
