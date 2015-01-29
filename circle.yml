@@ -3,7 +3,7 @@ deployment:
     branch: master
     commands:
       - heroku maintenance:on --app mammooc
-      - git push git@heroku.com:mammoc.git
+      - git push git@heroku.com:mammooc.git
       - heroku run rake db:setup --app mammooc
       - heroku restart --app mammooc
       - heroku maintenance:off --app mammooc
