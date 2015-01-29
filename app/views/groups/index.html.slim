@@ -2,38 +2,41 @@
   = link_to new_group_path, :class => 'btn btn-primary' do 
     span.glyphicon.glyphicon-plus
     |  New Group
-  h1
-    | Listing groups
+  - if @groups.empty?
+    | You don't have any groups
+  - else
+    h1
+      | Listing groups
 
-.table-responsive
-  table.table.table-striped.table-bordered.table-hover
-    thead
-      tr
-        th
-          | Name
-        th
-          | Imageid
-        th
-          | Description
-        th
-          | Primary statistics
-        th
-        th
-        th
-    tbody
-      - @groups.each do | group |
-        tr
-          td
-            = group.name
-          td
-            = group.imageId
-          td
-            = group.description
-          td
-            = group.primary_statistics
-          td
-            = link_to 'Show', group
-          td
-            = link_to 'Edit', edit_group_path(group) 
-          td
-            = link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' } 
+    .table-responsive
+      table.table.table-striped.table-bordered.table-hover
+        thead
+          tr
+            th
+              | Name
+            th
+              | Imageid
+            th
+              | Description
+            th
+              | Primary statistics
+            th
+            th
+            th
+        tbody
+          - @groups.each do | group |
+            tr
+              td
+                = group.name
+              td
+                = group.imageId
+              td
+                = group.description
+              td
+                = group.primary_statistics
+              td
+                = link_to 'Show', group
+              td
+                = link_to 'Edit', edit_group_path(group)
+              td
+                = link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' }
