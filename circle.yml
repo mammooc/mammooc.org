@@ -4,6 +4,7 @@ deployment:
     commands:
       - heroku maintenance:on --app mammooc
       - git push git@heroku.com:mammooc.git
+      - heroku pg:reset DATABASE --app mammooc --confirm mammooc
       - heroku run rake db:setup --app mammooc
       - heroku restart --app mammooc
       - heroku maintenance:off --app mammooc
