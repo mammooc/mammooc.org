@@ -10,15 +10,11 @@
     thead
       tr
         th
-          | Id
-        th
           | Firstname
         th
           | Lastname
         th
-          | Title
-        th
-          | Password
+          | Gender
         th
           | Profileimageid
         th
@@ -32,15 +28,11 @@
       - @users.each do | user |
         tr
           td
-            = user.id
-          td
             = user.first_name
           td
             = user.last_name
           td
-            = user.title
-          td
-            = user.password
+            = user.gender
           td
             = user.profile_image_id
           td

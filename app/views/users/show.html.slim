@@ -9,10 +9,6 @@
     | Show user
 dl.dl-horizontal
   dt
-    | Id:
-  dd
-    = @user.id
-  dt
     | Firstname:
   dd
     = @user.first_name
@@ -21,13 +17,9 @@ dl.dl-horizontal
   dd
     = @user.last_name
   dt
-    | Title:
+    | Gender:
   dd
-    = @user.title
-  dt
-    | Password:
-  dd
-    = @user.password
+    = @user.gender
   dt
     | Profileimageid:
   dd

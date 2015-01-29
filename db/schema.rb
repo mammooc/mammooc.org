@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150126132047) do
+ActiveRecord::Schema.define(version: 20150126152627) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -135,6 +135,11 @@ ActiveRecord::Schema.define(version: 20150126132047) do
   add_index "courses", ["course_result_id"], name: "index_courses_on_course_result_id", using: :btree
   add_index "courses", ["mooc_provider_id"], name: "index_courses_on_mooc_provider_id", using: :btree
 
+  create_table "courses_users", id: false, force: :cascade do |t|
+    t.uuid "course_id"
+    t.uuid "user_id"
+  end
+
   create_table "emails", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "address"
     t.boolean  "is_primary"
@@ -178,6 +183,11 @@ ActiveRecord::Schema.define(version: 20150126132047) do
     t.datetime "updated_at",  null: false
   end
 
+  create_table "mooc_providers_users", id: false, force: :cascade do |t|
+    t.uuid "mooc_provider_id"
+    t.uuid "user_id"
+  end
+
   create_table "progresses", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.float    "percentage"
     t.string   "permissions",              array: true
@@ -202,6 +212,11 @@ ActiveRecord::Schema.define(version: 20150126132047) do
   add_index "recommendations", ["course_id"], name: "index_recommendations_on_course_id", using: :btree
   add_index "recommendations", ["group_id"], name: "index_recommendations_on_group_id", using: :btree
   add_index "recommendations", ["user_id"], name: "index_recommendations_on_user_id", using: :btree
+
+  create_table "recommendations_users", id: false, force: :cascade do |t|
+    t.uuid "recommendation_id"
+    t.uuid "user_id"
+  end
 
   create_table "statistics", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name"
@@ -241,8 +256,7 @@ ActiveRecord::Schema.define(version: 20150126132047) do
   create_table "users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "first_name"
     t.string   "last_name"
-    t.string   "title"
-    t.string   "password"
+    t.string   "gender"
     t.string   "profile_image_id"
     t.json     "email_settings"
     t.text     "about_me"
