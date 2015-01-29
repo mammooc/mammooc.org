@@ -1,5 +1,7 @@
 deployment:
-  staging:
+  production:
     branch: master
     heroku:
       appname: mammooc
+    commands:
+      - heroku run rake db:setup --app mammooc
