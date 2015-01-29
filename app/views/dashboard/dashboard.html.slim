@@ -1,5 +1,20 @@
 .page-header
   h1
-    | Dashboard#dashboard
-p
-  | Find me in app/views/dashboard/dashboard.html.slim
+    = t('hi') + " "
+    = current_user.first_name
+
+.row
+  .col-md-9
+    | Your Recommendations will be listed here!
+  .col-md-3
+    h3
+      = t('my_current_courses')
+    h3
+      = link_to t('my_groups'), groups_path
+
+    - if current_user.groups.empty?
+        = t('no_groups')
+    - else
+      - current_user.groups.each do |group|
+        p
+          = link_to group.name, group_path(group)

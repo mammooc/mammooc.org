@@ -4,9 +4,7 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
-    user_group_ids = UserGroup.where(:user_id => current_user.id)
-    group_ids = user_group_ids.collect { |user_group| user_group.group_id }
-    @groups = Group.find(group_ids)
+    @groups = current_user.groups
   end
 
   # GET /groups/1

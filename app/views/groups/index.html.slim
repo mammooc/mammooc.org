@@ -3,7 +3,7 @@
     span.glyphicon.glyphicon-plus
     |  New Group
   - if @groups.empty?
-    | You don't have any groups
+    = t('no_groups')
   - else
     h1
       | Listing groups

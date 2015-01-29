@@ -28,18 +28,18 @@ html
         #navbar.collapse.navbar-collapse
           ul.nav.navbar-nav
             li class=('active' if current_page?(home_index_path))
-              = link_to t('Home'), home_index_path
+              = link_to t('home'), home_index_path
             li class=('active' if current_page?(about_path))
-              = link_to t('About'), about_path
+              = link_to t('about'), about_path
             li class=('active' if current_page?(contact_path))
-              = link_to t('Contact'), contact_path
+              = link_to t('contact'), contact_path
           form.navbar-form.navbar-left
             div.form-group
               input.form-control type="text" placeholder=t('emailaddress')
             div.form-group
               input.form-control type="password" placeholder=t('password')
             button.btn.btn-default
-              =t('Signin')
+              =t('sign_in')
             button.btn.btn-default
               = link_to t('Signout'), destroy_user_session_path, :method => :delete
     .container
