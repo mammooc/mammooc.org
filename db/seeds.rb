@@ -5,3 +5,23 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+#create users
+user1 =User.create(first_name: 'Max', last_name: 'Mustermann', email: 'max@test.com', password: '12345678')
+
+user2 = User.create(first_name: 'Maxi', last_name: 'Musterfrau', email: 'maxi@test.com', password: '12345678')
+
+#create groups
+group1 = Group.create(name: 'Testgruppe1', description: 'blablub')
+
+group1.users.push(user1)
+
+group2 = Group.create(name: 'Testgruppe2', description: 'blablub')
+
+group2.users.push(user2)
+
+group3 = Group.create(name: 'Testgruppe3', description: 'blablub')
+
+group3.users.push(user1, user2)
+
+UserGroup.where(group_id: group3.id, user_id: user1.id).first.is_admin = true
