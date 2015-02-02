@@ -28,27 +28,24 @@ html
         #navbar.collapse.navbar-collapse
           ul.nav.navbar-nav
             li class=('active' if current_page?(home_index_path))
-              = link_to t('Home'), home_index_path
+              = link_to t('home'), home_index_path
             li class=('active' if current_page?(about_path))
-              = link_to t('About'), about_path
+              = link_to t('about'), about_path
             li class=('active' if current_page?(contact_path))
-              = link_to t('Contact'), contact_path
+              = link_to t('contact'), contact_path
 
           .navbar-form.pull-right
             - if not user_signed_in?
-              div.form-group
-                button.btn.btn-default
-                  = link_to t('Signin'), new_user_session_path
-              div.form-group
-                button.btn.btn-default
-                  = link_to t('Signup'), new_user_registration_path
+              .form-group
+                = button_to t('sign_in'), new_user_session_path, {:method => 'get', :class => 'button btn btn-default'}
+              .form-group
+                = button_to t('sign_up'), new_user_registration_path, {:method => 'get', :class => 'button btn btn-default'}
             - else
-              div.form-group
+              .form-group
                 li class=('active' if current_page?(current_user))
                   = link_to current_user.email, current_user
-              div.form-group
-                button.btn.btn-default
-                  = link_to t('Signout'), destroy_user_session_path, :method => :delete
+              .form-group
+                = button_to t('sign_out'), destroy_user_session_path, {:method => 'delete', :class => 'button btn btn-default'}
 
 
 
