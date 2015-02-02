@@ -5,8 +5,10 @@
   = link_to @group, :class => 'btn btn-primary' do
     span.glyphicon.glyphicon-info-sign
     |  Show 
-  h1
-    | Editing 
-    | group
+  .row
+    .col-md-9
+      h1
+        = t('edit_group')
 
-= render 'form'
+      = render 'form'
+    .col-md-3

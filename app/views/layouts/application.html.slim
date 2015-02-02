@@ -24,7 +24,7 @@ html
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          = link_to t('MAMMOOC'), home_index_path, :class => "navbar-brand"
+          = link_to t('MAMMOOC'), dashboard_path, :class => "navbar-brand"
         #navbar.collapse.navbar-collapse
           ul.nav.navbar-nav
             li class=('active' if current_page?(home_index_path))
@@ -33,7 +33,6 @@ html
               = link_to t('about'), about_path
             li class=('active' if current_page?(contact_path))
               = link_to t('contact'), contact_path
-
           .navbar-form.pull-right
             - if not user_signed_in?
               .form-group
@@ -46,9 +45,6 @@ html
                   = link_to current_user.email, current_user
               .form-group
                 = button_to t('sign_out'), destroy_user_session_path, {:method => 'delete', :class => 'button btn btn-default'}
-
-
-
     .container
       - flash.each do |name, msg|
         = content_tag :div, :class => "alert alert-#{ name == :error ? "danger" : "success" } alert-dismissable", :role => "alert" do

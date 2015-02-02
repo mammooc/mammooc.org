@@ -25,7 +25,6 @@ en:
   home: "Home"
   about: "About us"
   contact: "Contact"
-  hello: "Hello World"
   welcome_heading: "Welcome to MAMMOOC!"
   sign_out: "Sign Out"
 
@@ -48,3 +47,20 @@ en:
   sign_in_link: "Already signed up? Click here to log in."
   sign_up_link: "Not signed up yet? Click here to sign up."
   forgot_password: "Forgot your password?"
+
+  hi: "Hi"
+  my_groups: "My Groups"
+  my_current_courses: "My Current Courses"
+  no_groups: "You don't have any groups."
+  new_group: "Creating Group"
+  edit_group: "Editing Group"
+
+  activerecord:
+    models:
+      group:
+        one: "Group"
+        other: "Groups"
+    attributes:
+      group:
+        name: "Name"
+        description: "Description"

@@ -36,6 +36,12 @@ RSpec.describe CourseRequestsController, :type => :controller do
   # CourseRequestsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
+  let(:user) {FactoryGirl.create(:user)}
+
+  before(:each) do
+    sign_in user
+  end
+
   describe "GET index" do
     it "assigns all course_requests as @course_requests" do
       course_request = CourseRequest.create! valid_attributes

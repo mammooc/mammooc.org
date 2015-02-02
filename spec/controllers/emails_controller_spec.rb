@@ -36,6 +36,12 @@ RSpec.describe EmailsController, :type => :controller do
   # EmailsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
+  let(:user) {FactoryGirl.create(:user)}
+
+  before(:each) do
+    sign_in user
+  end
+
   describe "GET index" do
     it "assigns all emails as @emails" do
       email = Email.create! valid_attributes

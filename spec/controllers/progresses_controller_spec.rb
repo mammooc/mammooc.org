@@ -36,6 +36,12 @@ RSpec.describe ProgressesController, :type => :controller do
   # ProgressesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
+  let(:user) {FactoryGirl.create(:user)}
+
+  before(:each) do
+    sign_in user
+  end
+
   describe "GET index" do
     it "assigns all progresses as @progresses" do
       progress = Progress.create! valid_attributes

@@ -23,6 +23,14 @@ module MAMMOOC
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
+    config.to_prepare do
+      Devise::SessionsController.skip_before_action :require_login
+      Devise::PasswordsController.skip_before_action :require_login
+      Devise::UnlocksController.skip_before_action :require_login
+      Devise::ConfirmationsController.skip_before_action :require_login
+      Devise::RegistrationsController.skip_before_action :require_login
+    end
+
     config.generators do |g|
       g.test_framework :rspec
     end

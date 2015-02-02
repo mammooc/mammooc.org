@@ -36,6 +36,12 @@ RSpec.describe UsersController, :type => :controller do
   # UsersController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
+  let(:user) {FactoryGirl.create(:user)}
+
+  before(:each) do
+    sign_in user
+  end
+
   describe "GET index" do
     it "assigns all users as @users" do
       user = User.create! valid_attributes
