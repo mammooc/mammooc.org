@@ -36,6 +36,12 @@ RSpec.describe CertificatesController, :type => :controller do
   # CertificatesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
+  let(:user) {FactoryGirl.create(:user)}
+
+  before(:each) do
+    sign_in user
+  end
+  
   describe "GET index" do
     it "assigns all certificates as @certificates" do
       certificate = Certificate.create! valid_attributes

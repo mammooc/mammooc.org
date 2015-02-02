@@ -36,6 +36,12 @@ RSpec.describe UserAssignmentsController, :type => :controller do
   # UserAssignmentsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
+  let(:user) {FactoryGirl.create(:user)}
+
+  before(:each) do
+    sign_in user
+  end
+
   describe "GET index" do
     it "assigns all user_assignments as @user_assignments" do
       user_assignment = UserAssignment.create! valid_attributes

@@ -36,6 +36,12 @@ RSpec.describe StatisticsController, :type => :controller do
   # StatisticsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
+  let(:user) {FactoryGirl.create(:user)}
+
+  before(:each) do
+    sign_in user
+  end
+
   describe "GET index" do
     it "assigns all statistics as @statistics" do
       statistic = Statistic.create! valid_attributes

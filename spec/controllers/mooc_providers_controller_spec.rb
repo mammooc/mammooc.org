@@ -36,6 +36,12 @@ RSpec.describe MoocProvidersController, :type => :controller do
   # MoocProvidersController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
+  let(:user) {FactoryGirl.create(:user)}
+
+  before(:each) do
+    sign_in user
+  end
+
   describe "GET index" do
     it "assigns all mooc_providers as @mooc_providers" do
       mooc_provider = MoocProvider.create! valid_attributes

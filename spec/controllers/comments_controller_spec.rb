@@ -36,6 +36,12 @@ RSpec.describe CommentsController, :type => :controller do
   # CommentsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
+  let(:user) {FactoryGirl.create(:user)}
+
+  before(:each) do
+    sign_in user
+  end
+
   describe "GET index" do
     it "assigns all comments as @comments" do
       comment = Comment.create! valid_attributes
