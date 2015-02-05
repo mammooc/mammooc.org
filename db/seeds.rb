@@ -24,4 +24,4 @@ group3 = Group.create(name: 'Testgruppe3', description: 'blablub')
 
 group3.users.push(user1, user2)
 
-UserGroup.where(group_id: group3.id, user_id: user1.id).first.is_admin = true
+UserGroup.set_is_admin(group3.id, user1.id, true)
