@@ -20,12 +20,30 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 de:
+  #navbar
   MAMMOOC: "MAMMOOC"
-  Home: "Home"
-  About: "Über uns"
-  Contact: "Kontakt"
-  hello: "Hallo Welt"
-  welcomeheading: "Willkommen bei MAMMOOC!"
-  emailaddress: "E-Mail-Adresse"
+  home: "Home"
+  about: "Über uns"
+  contact: "Kontakt"
+  welcome_heading: "Willkommen bei MAMMOOC!"
+  sign_out: "Ausloggen"
+
+  #users/sign_up
+  sign_up: "Registrieren"
+  first_name: "Vorname"
+  last_name: "Nachname"
+  email: "E-Mail-Adresse"
+  characters_minimum: "Zeichen minimum"
+  password_confirmation: "Passwort bestätigen"
+  agb_confirmation: "Ich bestätige die AGBs."
+
+  #users/sign_in
+  sign_in_process: "Anmeldung"
+  sign_in: "Einloggen"
   password: "Passwort"
-  Signin: "Einloggen"
+  remember_me: "Angemeldet bleiben"
+
+  #devise/shared/_links
+  sign_in_link: "Bereits registriert? Hier geht's zum Login."
+  sign_up_link: "Noch nicht registriert? Hier geht's zur Registrierung."
+  forgot_password: "Passwort vergessen?"
