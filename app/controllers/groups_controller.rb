@@ -28,8 +28,8 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       if @group.save
-        user_group_params = {'is_admin' => true, 'user_id' => current_user.id,'group_id' => @group.id}
-        UserGroup.create(user_group_params)
+        @group.users.push(current_user)
+        UserGroup.set_is_admin(@group.id, current_user.id, true)
         format.html { redirect_to @group, notice: 'Group was successfully created.' }
         format.json { render :show, status: :created, location: @group }
       else
