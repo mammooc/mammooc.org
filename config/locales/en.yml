@@ -48,6 +48,7 @@ en:
   sign_up_link: "Not signed up yet? Click here to sign up."
   forgot_password: "Forgot your password?"
 
+  #dashboard
   hi: "Hi"
   my_groups: "My Groups"
   my_current_courses: "My Current Courses"
@@ -55,6 +56,10 @@ en:
   new_group: "Creating Group"
   edit_group: "Editing Group"
 
+  #groups/show
+  admins: "Admins"
+
+  #model group
   activerecord:
     models:
       group:

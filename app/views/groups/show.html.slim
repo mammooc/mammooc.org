@@ -11,11 +11,17 @@ dl.dl-horizontal
   .row
     .col-md-9
       dt
-        = t('activerecord.attributes.group.name') + ":"
+        = t('activerecord.attributes.group.name') + ':'
       dd
         = @group.name
       dt
-        = t('activerecord.attributes.group.description') + ":"
+        = t('activerecord.attributes.group.description') + ':'
       dd
         = @group.description
+      dt
+        = t('admins') + ':'
+      dd
+        - @admins.each do |admin|
+          = admin.first_name + ' ' + admin.last_name
+          br
     .col-md-3
