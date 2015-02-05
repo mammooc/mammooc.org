@@ -35,7 +35,8 @@ de:
   email: "E-Mail-Adresse"
   characters_minimum: "Zeichen minimum"
   password_confirmation: "Passwort bestätigen"
-  agb_confirmation: "Ich bestätige die AGBs."
+  terms_and_conditions_confirmation: "Ich bestätige die AGBs."
+  terms_and_conditions_failure: "Bitte bestätigen Sie die AGBs von MAMMOOC!"
 
   #users/sign_in
   sign_in_process: "Anmeldung"

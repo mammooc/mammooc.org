@@ -5,15 +5,15 @@ h2
   .field
     = f.label :first_name, t('first_name')
     br
-    = f.text_field :first_name , :class => 'form-control'
+    = f.text_field :first_name , autofocus: true, :class => 'form-control', :value => session.has_key?(:resource) ? session[:resource]['first_name'] : ''
   .field
     = f.label :last_name, t('last_name')
     br
-    = f.text_field :last_name, :class => 'form-control'
+    = f.text_field :last_name, :class => 'form-control', :value => session.has_key?(:resource) ? session[:resource]['last_name'] : ''
   .field
     = f.label :email, t('email')
     br
-    = f.email_field :email, autofocus: true, :class => 'form-control'
+    = f.email_field :email,  :class => 'form-control', :value => session.has_key?(:resource) ? session[:resource]['email'] : ''
   .field
     = f.label :password, t('password')
     - if @validatable
@@ -27,11 +27,11 @@ h2
     = f.label :password_confirmation, t('password_confirmation')
     br
     = f.password_field  :password_confirmation, :class => 'form-control', autocomplete: "off"
-  .checkbox
-    = label_tag :agb_confirmation
-      = check_box_tag :agb_confirmation
-      = t('agb_confirmation')
 
+  .checkbox
+    = label_tag :terms_and_conditions_confirmation
+      = check_box_tag :terms_and_conditions_confirmation
+      = t('terms_and_conditions_confirmation')
   .actions
     = f.submit t('sign_up'), :class => 'btn btn-primary'
 = render "devise/shared/links"

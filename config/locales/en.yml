@@ -35,11 +35,12 @@ en:
   email: "Email"
   characters_minimum: "characters minimum"
   password_confirmation: "Re-enter password"
-  agb_confirmation: "I confirm to MAMMOOCs terms and conditions."
+  terms_and_conditions_confirmation: "I confirm to MAMMOOCs terms and conditions."
+  terms_and_conditions_failure: "Please confirm to MAMMOOCs terms and conditions!"
 
   #users/sign_in
-  sign_in_process: "Log in"
-  sign_in: "Sign in"
+  sign_in_process: "Log In"
+  sign_in: "Sign In"
   password: "Password"
   remember_me: "Keep me logged in"
 

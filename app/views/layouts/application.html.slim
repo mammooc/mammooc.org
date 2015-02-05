@@ -47,7 +47,7 @@ html
                 = button_to t('sign_out'), destroy_user_session_path, {:method => 'delete', :class => 'button btn btn-default'}
     .container
       - flash.each do |name, msg|
-        = content_tag :div, :class => "alert alert-#{ name == :error ? "danger" : "success" } alert-dismissable", :role => "alert" do
+        = content_tag :div, :class => "alert alert-#{ name.to_s == :error.to_s ? "danger" : "success" } alert-dismissable", :role => "alert" do
           button.close type="button" data-dismiss="alert"
             span aria-hidden="true"
               | &times;
