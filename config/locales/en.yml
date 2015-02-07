@@ -27,6 +27,8 @@ en:
   contact: "Contact"
   welcome_heading: "Welcome to MAMMOOC!"
   sign_out: "Sign Out"
+  dashboard: "Dashboard"
+  profile: "Profile"
 
   #users/sign_up
   sign_up: "Sign Up"
