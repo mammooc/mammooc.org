@@ -56,7 +56,8 @@ RSpec.describe GroupsController, :type => :controller do
 
       it "redirects to the created group" do
         post :create, {:group => valid_attributes}
-        expect(response).to redirect_to(Group.last)
+        group = assigns(:group)
+        expect(response).to redirect_to(group_path(group))
       end
 
       it "assigns the current user to group" do
@@ -67,8 +68,7 @@ RSpec.describe GroupsController, :type => :controller do
       it "assigns the current user to group as admin" do
         post :create, {:group => valid_attributes}
         group = assigns(:group)
-        admin_ids = UserGroup.where(group_id: group.id, is_admin: true).collect{|user_groups| user_groups.user_id}
-        expect(admin_ids).to include(group.users.first.id)
+        expect(@controller.admins).to include(group.users.first)
       end
     end
   end
@@ -124,6 +124,18 @@ RSpec.describe GroupsController, :type => :controller do
       expect(user.groups).to include(group_2)
       expect(user_1.groups).to include(group_2)
       expect(user_2.groups).to include(group_2)
+    end
+  end
+
+  describe "admins for a group" do
+    it "should returns all administrators for the given group" do
+      post :create, {:group => valid_attributes}
+      group = assigns(:group)
+      user_1 = FactoryGirl.create(:user, email: 'max@test.de')
+      user_2 = FactoryGirl.create(:user, email: 'max@test.com')
+      group.users.push(user_1, user_2)
+      UserGroup.set_is_admin(group.id, user_1.id, true)
+      expect(@controller.admins).to match_array([user, user_1])
     end
   end
 

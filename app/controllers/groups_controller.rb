@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_action :set_group, only: [:show, :edit, :update, :destroy]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :admins]
 
   # GET /groups
   # GET /groups.json
@@ -71,6 +71,7 @@ class GroupsController < ApplicationController
     admin_ids.each do |admin_id|
       @admins.push(User.find(admin_id))
     end
+    return @admins
   end
 
   private
