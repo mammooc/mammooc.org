@@ -20,6 +20,9 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  #application
+  require_login: "You must be logged in to access this section"
+
   #navbar
   MAMMOOC: "MAMMOOC"
   home: "Home"

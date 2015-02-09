@@ -53,5 +53,12 @@ html
               | &times;
             span.sr-only
               | Close
-          = msg
+          - if msg.class == Array
+            - msg.each do |message|
+              = message
+              br
+            end
+          - else
+            = msg
+          end
       = yield
