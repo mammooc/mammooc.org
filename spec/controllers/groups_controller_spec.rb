@@ -58,8 +58,19 @@ RSpec.describe GroupsController, :type => :controller do
         post :create, {:group => valid_attributes}
         expect(response).to redirect_to(Group.last)
       end
-    end
 
+      it "assigns the current user to group" do
+        post :create, {:group => valid_attributes}
+        expect(assigns(:group).users).to include(user)
+      end
+
+      it "assigns the current user to group as admin" do
+        post :create, {:group => valid_attributes}
+        group = assigns(:group)
+        admin_ids = UserGroup.where(group_id: group.id, is_admin: true).collect{|user_groups| user_groups.user_id}
+        expect(admin_ids).to include(group.users.first.id)
+      end
+    end
   end
 
   describe "PUT update" do
@@ -95,6 +106,24 @@ RSpec.describe GroupsController, :type => :controller do
     it "redirects to the groups list" do
       delete :destroy, {:id => group.to_param}
       expect(response).to redirect_to(groups_url)
+    end
+
+    it "destroys the membership of all users of the deleted group and only of the deleted group" do
+      user_1 = FactoryGirl.create(:user, email: 'max@test.de')
+      user_2 = FactoryGirl.create(:user, email: 'max@test.com')
+      group.update(users: [user, user_1, user_2])
+      group_2 = FactoryGirl.create(:group, users: [user, user_1, user_2])
+      expect {
+        delete :destroy, {:id => group.to_param}
+      }.to change(UserGroup, :count).by(-3)
+      # users are no longer members of group
+      expect(user.groups).not_to include(group)
+      expect(user_1.groups).not_to include(group)
+      expect(user_2.groups).not_to include(group)
+      # users are still members of group_2
+      expect(user.groups).to include(group_2)
+      expect(user_1.groups).to include(group_2)
+      expect(user_2.groups).to include(group_2)
     end
   end
 
