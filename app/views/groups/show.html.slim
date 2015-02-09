@@ -20,8 +20,7 @@ dl.dl-horizontal
         = @group.description
       dt
         = t('admins') + ':'
-      dd
-        - @admins.each do |admin|
+      - @admins.each do |admin|
+        dd
           = admin.first_name + ' ' + admin.last_name
-          br
     .col-md-3
