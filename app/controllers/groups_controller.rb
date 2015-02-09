@@ -57,9 +57,7 @@ class GroupsController < ApplicationController
   # DELETE /groups/1
   # DELETE /groups/1.json
   def destroy
-    unless UserGroup.find_by_group_id(@group.id).blank?
-      UserGroup.find_by_group_id(@group.id).destroy
-    end
+    UserGroup.destroy_all(group_id: @group.id)
     @group.destroy
     respond_to do |format|
       format.html { redirect_to groups_url, notice: 'Group was successfully destroyed.' }
