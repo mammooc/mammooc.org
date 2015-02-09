@@ -18,7 +18,5 @@ RSpec.describe UserGroup, :type => :model do
       admin_ids = UserGroup.where(group_id: group.id, is_admin: true).collect{|user_groups| user_groups.user_id}
       expect(admin_ids).not_to include(user.id)
     end
-
   end
-
 end
