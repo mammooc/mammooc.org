@@ -49,16 +49,30 @@ html
             - else
               .navbar-form
                 - if not user_signed_in?
-                  .form-group
-                    = button_to t('sign_in'), new_user_session_path, {:method => 'get', :class => 'button btn btn-default'}
-                  .form-group
-                    = button_to t('sign_up'), new_user_registration_path, {:method => 'get', :class => 'button btn btn-default'}
-                - else
-                  .form-group
-                    li class=('active' if current_page?(current_user))
-                      = link_to current_user.first_name, current_user
-                  .form-group
-                    = button_to t('sign_out'), destroy_user_session_path, {:method => 'delete', :class => 'button btn btn-default'}
+                  li class="dropdown"
+                    a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
+                      = t('sign_in')
+                      span class="caret"
+                    .dropdown-menu
+                      = t('sign_in_process')
+                      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+                        .field
+                          = f.label :email, t('email')
+                          br
+                          = f.email_field :email, autofocus: true, :class => 'form-control'
+                        .field
+                          = f.label :password, t('password')
+                          br
+                          = f.password_field :password, autocomplete: "off", :class => 'form-control'
+                        - if devise_mapping.rememberable?
+                          .field
+                            = f.check_box :remember_me
+                            = f.label :remember_me, t('remember_me')
+                        .actions
+                          = f.submit t('sign_in'), :class => 'btn btn-primary'
+                      = link_to t('forgot_password'), new_password_path(resource_name)
+                      br
+                      = link_to t('sign_up_link'), new_registration_path(resource_name)
     .container
       - flash.each do |name, msg|
         = content_tag :div, :class => "alert alert-#{ name == :error ? "danger" : "success" } alert-dismissable", :role => "alert" do
