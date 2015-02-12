@@ -47,6 +47,10 @@ de:
   password: "Passwort"
   remember_me: "Angemeldet bleiben"
 
+  #users/password/new
+  forgot_password: 'Passwort vergessen?'
+  reset_my_password: "Neues Passwort anfordern"
+
   #devise/shared/_links
   sign_in_link: "Bereits registriert? Hier geht's zum Login."
   sign_up_link: "Noch nicht registriert? Hier geht's zur Registrierung."

@@ -10,11 +10,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def create
-
       flash['error'] ||= []
       build_resource(sign_up_params)
-
       resource.save
+
       yield resource if block_given?
       if resource.persisted?  && user_params.has_key?(:terms_and_conditions_confirmation)
         if resource.active_for_authentication?
@@ -29,17 +28,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
       else
         clean_up_passwords resource
         session[:resource] = resource
-
+        resource.destroy
         resource.errors.each do |key, value|
           flash['error'] << "#{t(key)} #{value}"
         end
         redirect_to new_user_registration_path
       end
 
-      if (not user_params.has_key?(:terms_and_conditions_confirmation))
+      if not user_params.has_key?(:terms_and_conditions_confirmation)
         flash['error'] << t('terms_and_conditions_failure')
       end
-
   end
 
 
