@@ -26,11 +26,11 @@ class GroupsController < ApplicationController
   # POST /groups.json
   def create
     @group = Group.new(group_params)
-
     respond_to do |format|
       if @group.save
         @group.users.push(current_user)
         UserGroup.set_is_admin(@group.id, current_user.id, true)
+        invite_members
         format.html { redirect_to @group, notice: 'Group was successfully created.' }
         format.json { render :show, status: :created, location: @group }
       else
@@ -84,4 +84,24 @@ class GroupsController < ApplicationController
     def group_params
       params.require(:group).permit(:name, :imageId, :description, :primary_statistics)
     end
+
+    def invited_members
+      params[:members]
+    end
+
+    def invite_members
+      emails = invited_members.split(/[^[:alpha:]]\s+|\s+|;\s*|,\s*/)
+      expiry_date = Time.now + (7*24*60*60)
+      emails.each do |email_address|
+        token = SecureRandom.urlsafe_base64(16)
+        until GroupInvitation.find_by_token(token).nil? do
+          token = SecureRandom.urlsafe_base64(16)
+        end
+        link = root_url + token
+        GroupInvitation.create(token: token, group_id: @group.id, expiry_date: expiry_date)
+        UserMailer.group_invitation_mail(email_address, link, @group, current_user).deliver
+      end
+
+    end
+
 end
