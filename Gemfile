@@ -55,6 +55,8 @@ group :development, :test do
   gem 'rspec-rails'
 
   gem 'bootstrap-generators'
+
+  gem 'capybara'
 end
 
 gem 'rails-i18n'

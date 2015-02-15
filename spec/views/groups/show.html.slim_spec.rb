@@ -1,16 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe "groups/show", :type => :view do
+
   before(:each) do
-    @group = assign(:group, Group.create!(
-      :name => "Name",
-      :description => "MyText"
-    ))
+    @group = FactoryGirl.create(:group)
+    UserGroup.set_is_admin(@group.id, @group.users.first.id, true)
+    @admins = @group.users
   end
 
   it "renders attributes in <p>" do
     render
-    expect(rendered).to match(/Name/)
-    expect(rendered).to match(/MyText/)
+    admin_name = @group.users.first.first_name + ' ' + @group.users.first.last_name
+    expect(rendered).to match(@group.name)
+    expect(rendered).to match(@group.description)
+    expect(rendered).to match(admin_name)
   end
 end
