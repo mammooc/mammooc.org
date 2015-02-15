@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_action :set_group, only: [:show, :edit, :update, :destroy]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :admins]
 
   # GET /groups
   # GET /groups.json
@@ -10,6 +10,7 @@ class GroupsController < ApplicationController
   # GET /groups/1
   # GET /groups/1.json
   def show
+    admins
   end
 
   # GET /groups/new
@@ -28,8 +29,8 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       if @group.save
-        user_group_params = {'is_admin' => true, 'user_id' => current_user.id,'group_id' => @group.id}
-        UserGroup.create(user_group_params)
+        @group.users.push(current_user)
+        UserGroup.set_is_admin(@group.id, current_user.id, true)
         format.html { redirect_to @group, notice: 'Group was successfully created.' }
         format.json { render :show, status: :created, location: @group }
       else
@@ -56,14 +57,21 @@ class GroupsController < ApplicationController
   # DELETE /groups/1
   # DELETE /groups/1.json
   def destroy
-    unless UserGroup.find_by_group_id(@group.id).blank?
-      UserGroup.find_by_group_id(@group.id).destroy
-    end
+    UserGroup.destroy_all(group_id: @group.id)
     @group.destroy
     respond_to do |format|
       format.html { redirect_to groups_url, notice: 'Group was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def admins
+    admin_ids = UserGroup.where(group_id: @group.id, is_admin: true).collect{|user_groups| user_groups.user_id}
+    @admins = Array.new
+    admin_ids.each do |admin_id|
+      @admins.push(User.find(admin_id))
+    end
+    return @admins
   end
 
   private
