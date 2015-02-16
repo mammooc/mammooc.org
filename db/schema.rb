@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150212144533) do
+ActiveRecord::Schema.define(version: 20150216101034) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -166,11 +166,12 @@ ActiveRecord::Schema.define(version: 20150212144533) do
   add_index "evaluations", ["user_id"], name: "index_evaluations_on_user_id", using: :btree
 
   create_table "group_invitations", force: :cascade do |t|
-    t.uuid     "group_id",    null: false
-    t.string   "token",       null: false
-    t.datetime "expiry_date", null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.uuid     "group_id",                    null: false
+    t.string   "token",                       null: false
+    t.datetime "expiry_date",                 null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.boolean  "used",        default: false
   end
 
   add_index "group_invitations", ["group_id"], name: "index_group_invitations_on_group_id", using: :btree
