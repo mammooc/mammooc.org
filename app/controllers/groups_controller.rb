@@ -59,6 +59,7 @@ class GroupsController < ApplicationController
   # DELETE /groups/1.json
   def destroy
     UserGroup.destroy_all(group_id: @group.id)
+    GroupInvitation.where(group_id: @group.id).update_all(group_id: nil)
     @group.destroy
     respond_to do |format|
       format.html { redirect_to groups_url, notice: 'Group was successfully destroyed.' }
@@ -78,7 +79,7 @@ class GroupsController < ApplicationController
   def join
     group_invitation = GroupInvitation.find_by_token!(params[:token])
 
-    if group_invitation.expiry_date <= Time.now
+    if group_invitation.expiry_date <= Time.now.in_time_zone
       flash[:error] = t('link_expired')
       redirect_to root_path
       return
@@ -90,9 +91,10 @@ class GroupsController < ApplicationController
       return
     end
 
-    unless Group.exists?(group_invitation.group_id)
+    if group_invitation.group_id.nil?
       flash[:error] = t('group_deleted')
       redirect_to root_path
+      return
     end
 
     group = Group.find(group_invitation.group_id)
@@ -133,8 +135,7 @@ class GroupsController < ApplicationController
     def invite_members
       return if invited_members.blank?
       emails = invited_members.split(/[^[:alpha:]]\s+|\s+|;\s*|,\s*/)
-      one_week_in_seconds = 7*24*60*60
-      expiry_date = Time.now + (one_week_in_seconds)
+      expiry_date = 1.week.from_now.in_time_zone
       emails.each do |email_address|
         token = SecureRandom.urlsafe_base64(16)
         until GroupInvitation.find_by_token(token).nil? do
@@ -142,7 +143,7 @@ class GroupsController < ApplicationController
         end
         link = root_url + 'groups/join/' + token
         GroupInvitation.create(token: token, group_id: @group.id, expiry_date: expiry_date)
-        UserMailer.group_invitation_mail(email_address, link, @group, current_user, root_url).deliver
+        UserMailer.group_invitation_mail(email_address, link, @group, current_user, root_url).deliver_now
       end
 
     end
