@@ -32,5 +32,5 @@ h2
       = check_box_tag :terms_and_conditions_confirmation
       = t('terms_and_conditions_confirmation')
   .actions
-    = f.submit t('sign_up'), :class => 'btn btn-primary'
+    = f.submit t('sign_up'), :class => 'btn btn-primary', :id => 'submit_sign_up'
 = render "devise/shared/links"

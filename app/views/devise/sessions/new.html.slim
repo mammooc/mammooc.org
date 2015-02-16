@@ -1,7 +1,6 @@
 h2
   = t('sign_in_process')
 = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-  form
     .form-group
       = f.label :email, t('email')
       br
@@ -15,5 +14,5 @@ h2
         = label_tag
           = check_box_tag :remember_me
           = t('remember_me')
-    = f.submit t('sign_in'), :class => 'btn btn-primary'
+    = f.submit t('sign_in'), :class => 'btn btn-primary', :id => 'submit_sign_in'
 = render "devise/shared/links"

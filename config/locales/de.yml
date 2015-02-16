@@ -30,6 +30,8 @@ de:
   contact: "Kontakt"
   welcome_heading: "Willkommen bei MAMMOOC!"
   sign_out: "Ausloggen"
+  dashboard: "Dashboard"
+  profile: "Profil"
 
   #users/sign_up
   sign_up: "Registrieren"
@@ -55,3 +57,25 @@ de:
   sign_in_link: "Bereits registriert? Hier geht's zum Login."
   sign_up_link: "Noch nicht registriert? Hier geht's zur Registrierung."
   forgot_password: "Passwort vergessen?"
+
+  #dashboard
+  hi: "Hi"
+  my_groups: "Meine Gruppen"
+  my_current_courses: "Meine aktuellen Kurse"
+  no_groups: "Du hast noch keine Gruppen."
+  new_group: "Gruppe erstellen"
+  edit_group: "Gruppe bearbeiten"
+
+  #groups/show
+  admins: "Admins"
+
+  #model group
+  activerecord:
+    models:
+      group:
+        one: "Gruppe"
+        other: "Gruppen"
+    attributes:
+      group:
+        name: "Name"
+        description: "Beschreibung"
