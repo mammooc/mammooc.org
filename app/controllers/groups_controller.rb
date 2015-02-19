@@ -58,8 +58,6 @@ class GroupsController < ApplicationController
   # DELETE /groups/1
   # DELETE /groups/1.json
   def destroy
-    UserGroup.destroy_all(group_id: @group.id)
-    GroupInvitation.where(group_id: @group.id).update_all(group_id: nil)
     @group.destroy
     respond_to do |format|
       format.html { redirect_to groups_url, notice: 'Group was successfully destroyed.' }
