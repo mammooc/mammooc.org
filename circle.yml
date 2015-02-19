@@ -13,7 +13,7 @@ deployment:
     branch: dev
     commands:
        - heroku maintenance:on --app mammooc-dev
-       - git push git@heroku.com:mammooc.git
+       - git push git@heroku.com:mammooc-dev.git dev:master
        - heroku pg:reset DATABASE --app mammooc-dev --confirm mammooc-dev
        - heroku run rake db:setup --app mammooc-dev
        - heroku restart --app mammooc-dev
