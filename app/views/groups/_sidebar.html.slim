@@ -1,6 +1,6 @@
 h3
   = t('groups.administrators')
-  - if @admins.include?(current_user)
+  - if @current_user_is_admin
     = link_to '#'
       span.glyphicon.glyphicon-plus-sign
 - @admins.each do |admin|

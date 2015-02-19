@@ -10,7 +10,8 @@ class GroupsController < ApplicationController
   # GET /groups/1
   # GET /groups/1.json
   def show
-    admins
+    @admins = admins
+    @current_user_is_admin = @admins.include?(current_user)
   end
 
   # GET /groups/new
