@@ -1,0 +1,15 @@
+doctype html
+html
+  head
+    meta charset="utf-8"
+    meta http-equiv="X-UA-Compatible" content="IE=edge"
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    meta name="description" content=""
+    meta name="author" content="MAMMOOC"
+  body
+    p
+      | Hi there,
+    p
+      | #{@user.first_name} #{@user.last_name} invited you to join the group #{@group.name} on #{link_to 'MAMMOOC', @root_url}. To join, please follow the link: #{link_to @link, @link}
+    p
+      | Lot of fun.
