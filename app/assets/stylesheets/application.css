@@ -14,6 +14,8 @@
  *= require_tree .
  */
 
+@import "partials/buttons";
+
 .login-dropdown {
     width: 400px;
 }

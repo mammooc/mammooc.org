@@ -59,8 +59,9 @@ en:
   new_group: "Creating Group"
   edit_group: "Editing Group"
 
-  #groups/show
-  admins: "Admins"
+  groups:
+    administrators: "Administrator(s)"
+    members: "Member(s)"
 
   #group/_form
   invite_members: Invite members
