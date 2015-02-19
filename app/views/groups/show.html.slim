@@ -9,17 +9,4 @@
         = t('activerecord.attributes.group.description')
         = @group.description
     .col-md-3
-      h3
-        = t('groups.administrators')
-        - if @admins.include?(current_user)
-          = link_to '#'
-            span.glyphicon.glyphicon-plus-sign
-      - @admins.each do |admin|
-        = admin.first_name + ' ' + admin.last_name
-
-      h3
-        = t('groups.members')
-        = link_to '#'
-          span.glyphicon.glyphicon-plus-sign
-      - @group.users.each do |user|
-        = user.first_name + ' ' + user.last_name unless @admins.include?(user)
+      = render 'sidebar'
