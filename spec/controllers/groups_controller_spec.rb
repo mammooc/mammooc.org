@@ -48,6 +48,7 @@ RSpec.describe GroupsController, :type => :controller do
         expect {
           post :create, {:group => valid_attributes}
         }.to change(Group, :count).by(1)
+        expect(flash[:notice]).to eq I18n.t('group_success_create')
       end
 
       it "assigns a newly created group as @group" do
@@ -84,6 +85,7 @@ RSpec.describe GroupsController, :type => :controller do
         group.reload
         expect(group.name).to eq('Test_different')
         expect(group.description).to eq('edited text')
+        expect(flash[:notice]).to eq I18n.t('group_success_update')
       end
 
       it "assigns the requested group as @group" do
@@ -103,6 +105,7 @@ RSpec.describe GroupsController, :type => :controller do
       expect {
         delete :destroy, {:id => group.to_param}
       }.to change(Group, :count).by(-1)
+      expect(flash[:notice]).to eq I18n.t('group_success_destroy')
     end
 
     it "redirects to the groups list" do
