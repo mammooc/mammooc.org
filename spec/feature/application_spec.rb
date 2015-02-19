@@ -13,8 +13,8 @@ RSpec.describe "Application", :type => :feature do
 
     it 'should redirect to original URL after sign in' do
       visit groups_path
-      fill_in 'Email', with: user.email
-      fill_in 'Password', with: user.password
+      fill_in 'login_email', with: user.email
+      fill_in 'login_password', with: user.password
       click_button 'submit_sign_in'
       expect(current_path).to eq(groups_path)
     end
@@ -24,8 +24,8 @@ RSpec.describe "Application", :type => :feature do
       click_on 'Not signed up yet? Click here to sign up.'
       fill_in 'user_first_name', with: 'Maxi'
       fill_in 'user_last_name', with: 'Musterfrau'
-      fill_in 'user_email', with: 'maxi@test.com'
-      fill_in 'user_password', with: '12345678'
+      fill_in 'registration_email', with: 'maxi@test.com'
+      fill_in 'registration_password', with: '12345678'
       fill_in 'user_password_confirmation', with: '12345678'
       check 'agb_confirmation'
       click_button 'submit_sign_up'
@@ -34,8 +34,8 @@ RSpec.describe "Application", :type => :feature do
 
     it 'should redirect to root after visiting sign in page' do
       visit new_user_session_path
-      fill_in 'Email', with: user.email
-      fill_in 'Password', with: user.password
+      fill_in 'login_email', with: user.email
+      fill_in 'login_password', with: user.password
       click_button 'submit_sign_in'
       expect(current_path).to eq(root_path)
     end
@@ -44,8 +44,8 @@ RSpec.describe "Application", :type => :feature do
       visit new_user_registration_path
       fill_in 'user_first_name', with: 'Maxi'
       fill_in 'user_last_name', with: 'Musterfrau'
-      fill_in 'user_email', with: 'maxi@test.com'
-      fill_in 'user_password', with: '12345678'
+      fill_in 'registration_email', with: 'maxi@test.com'
+      fill_in 'registration_password', with: '12345678'
       fill_in 'user_password_confirmation', with: '12345678'
       check 'agb_confirmation'
       click_button 'submit_sign_up'

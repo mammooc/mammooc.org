@@ -13,7 +13,7 @@ h2
   .field
     = f.label :email, t('email')
     br
-    = f.email_field :email, autofocus: true, :class => 'form-control'
+    = f.email_field :email, autofocus: true, :class => 'form-control', :id => 'registration_email'
   .field
     = f.label :password, t('password')
     - if @validatable
@@ -22,7 +22,7 @@ h2
         = @minimum_password_length
         = ' ' + t('characters_minimum') +')'
     br
-    = f.password_field :password, :class => 'form-control', autocomplete: "off"
+    = f.password_field :password, :class => 'form-control', autocomplete: "off", :id => 'registration_password'
   .field
     = f.label :password_confirmation, t('password_confirmation')
     br
