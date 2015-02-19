@@ -2,9 +2,6 @@ require 'devise_helper'
 
 class Users::RegistrationsController < Devise::RegistrationsController
 
-  #before_action :add_resource
-  #after_action :invalidate_resource
-
   def new
      super
   end
@@ -50,11 +47,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
 
-  # protected
-  #   def configure_permitted_parameters
-  #     devise_parameter_sanitizer.for(:sign_up).push(:first_name)
-  #   end
-
   private
     def sign_up_params
       params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
@@ -67,10 +59,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     def add_resource
       @resource = session[:resource]
-    end
-
-    def invalidate_resource
-      session.delete(:resource)
     end
 
 end

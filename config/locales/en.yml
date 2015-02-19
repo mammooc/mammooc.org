@@ -79,3 +79,14 @@ en:
       group:
         name: "Name"
         description: "Description"
+    errors:
+      messages:
+        taken: 'has already been taken.'
+        blank: 'has to be filled in.'
+      models:
+        user:
+          attributes:
+            password:
+              too_short: 'is too short (minimum is %{count} characters).'
+            password_confirmation:
+              confirmation: "doesn't match with password."

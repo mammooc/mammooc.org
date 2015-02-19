@@ -39,7 +39,7 @@ de:
   last_name: "Nachname"
   email: "E-Mail-Adresse"
   characters_minimum: "Zeichen minimum"
-  password_confirmation: "Passwort bestätigen"
+  password_confirmation: "Passwort-Bestätigung"
   terms_and_conditions_confirmation: "Ich bestätige die AGBs."
   terms_and_conditions_failure: "Bitte bestätigen Sie die AGBs von MAMMOOC!"
 
@@ -79,3 +79,14 @@ de:
       group:
         name: "Name"
         description: "Beschreibung"
+    errors:
+      messages:
+        taken: 'ist bereits belegt.'
+        blank: 'muss ausgefüllt werden.'
+      models:
+        user:
+          attributes:
+            password:
+              too_short: 'ist zu kurz (Minimum sind %{count} Zeichen).'
+            password_confirmation:
+              confirmation: 'stimmt nicht mit Passwort überein.'

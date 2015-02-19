@@ -45,7 +45,7 @@ html
                   li
                     = link_to t('profile'), current_user
                   li
-                    = link_to t('sign_out'), destroy_user_session_path, {:method => 'delete'}
+                    = link_to t('sign_out'), destroy_user_session_path, {:method => 'delete', :id =>'nav_sign_out_button'}
             - else
               .navbar-form
                 - if not user_signed_in?
@@ -58,7 +58,7 @@ html
                     li class=('active' if current_page?(current_user))
                       = link_to current_user.first_name, current_user
                   .form-group
-                    = button_to t('sign_out'), destroy_user_session_path, {:method => 'delete', :class => 'button btn btn-default'}
+                    = button_to t('sign_out'), destroy_user_session_path, {:method => 'delete', :id =>'nav_sign_out_button', :class => 'button btn btn-default'}
     .container
       - flash.each do |name, msg|
         - if not msg.empty?
