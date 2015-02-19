@@ -48,6 +48,7 @@ de:
   #devise/shared/_links
   sign_in_link: "Bereits registriert? Hier geht's zum Login."
   sign_up_link: "Noch nicht registriert? Hier geht's zur Registrierung."
+  sign_up_dropdown: "Noch nicht registriert? Hier geht's zur Registrierung."
   forgot_password: "Passwort vergessen?"
 
   #dashboard
