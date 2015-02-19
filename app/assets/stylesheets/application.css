@@ -13,3 +13,15 @@
  *= require_self
  *= require_tree .
  */
+
+.login-dropdown {
+    width: 400px;
+}
+
+.login-dropdown .login-form {
+    padding: 0px 30px;
+}
+
+.login-form input[type=checkbox]{
+    margin-right: 5px;
+}
