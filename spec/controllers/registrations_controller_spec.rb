@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+
 RSpec.describe Users::RegistrationsController, :type => :controller do
 
   include Devise::TestHelpers
@@ -15,5 +16,6 @@ RSpec.describe Users::RegistrationsController, :type => :controller do
   it "should not work without valid terms and conditions" do
     post :create, { user: { first_name: 'John', last_name: 'Doe', email: "user@example.org", password: "password", password_confirmation: "password" } }
     expect(subject.signed_in?).to be_falsey
+
   end
 end
