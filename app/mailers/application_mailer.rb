@@ -1,3 +1,3 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "notifications@mammooc.com"
+  default from: "MAMMOOC <notifications@mammooc.com>"
 end

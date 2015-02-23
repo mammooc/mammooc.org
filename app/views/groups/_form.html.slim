@@ -19,5 +19,9 @@
     .col-sm-10
       = f.text_area :description, :class => "form-control"
   .form-group
+    = label_tag :members, t('invite_members'), :class => "col-sm-2 control-label"
+    .col-sm-10
+      = text_area_tag :members, nil, :class => "form-control"
+  .form-group
     .col-sm-offset-2.col-sm-10
       = f.submit :class => "btn btn-primary"

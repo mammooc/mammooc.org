@@ -69,6 +69,9 @@ en:
   #groups/show
   admins: "Admins"
 
+  #group/_form
+  invite_members: Invite members
+
   #model group
   activerecord:
     models:
@@ -79,6 +82,7 @@ en:
       group:
         name: "Name"
         description: "Description"
+   #error messages
     errors:
       messages:
         taken: 'has already been taken.'
@@ -90,3 +94,12 @@ en:
               too_short: 'is too short (minimum is %{count} characters).'
             password_confirmation:
               confirmation: "doesn't match with password."
+
+  #join group
+  link_expired: Link is expired.
+  link_used: Link is already used.
+  group_deleted: The group was deleted.
+  already_member: You are already member of the group.
+  joined_group: You were successfully added to the group.
+  link_invalid: Link is invalid.
+
