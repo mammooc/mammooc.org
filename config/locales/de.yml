@@ -87,7 +87,6 @@ de:
   #group/_form
   invite_members: Mitglieder einladen
 
-
   #model group
   activerecord:
     models:
@@ -111,6 +110,12 @@ de:
             password_confirmation:
               confirmation: 'stimmt nicht mit Passwort überein.'
 
+  #create group
+  group_success_create: Gruppe wurde erfolgreich erstellt.
+  group_success_update: Gruppe wurde erfolgreich aktualisiert.
+  group_success_destroy: Gruppe wurde erfolgreich gelöscht.
+
+
   #join group
   link_expired: Link ist abgelaufen.
   link_used: Link wurde bereits verwendet.
@@ -118,4 +123,3 @@ de:
   already_member: Sie sind schon Mitglied in der Gruppe.
   joined_group: Sie wurden der Gruppe hinzugefügt.
   link_invalid: Link ist ungültig.
-

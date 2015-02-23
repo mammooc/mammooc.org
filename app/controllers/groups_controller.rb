@@ -31,7 +31,7 @@ class GroupsController < ApplicationController
         @group.users.push(current_user)
         UserGroup.set_is_admin(@group.id, current_user.id, true)
         invite_members
-        format.html { redirect_to @group, notice: 'Group was successfully created.' }
+        format.html { redirect_to @group, notice: t('group_success_create') }
         format.json { render :show, status: :created, location: @group }
       else
         format.html { render :new }
@@ -46,7 +46,7 @@ class GroupsController < ApplicationController
     respond_to do |format|
       if @group.update(group_params)
         invite_members
-        format.html { redirect_to @group, notice: 'Group was successfully updated.' }
+        format.html { redirect_to @group, notice: t('group_success_update') }
         format.json { render :show, status: :ok, location: @group }
       else
         format.html { render :edit }
@@ -58,11 +58,9 @@ class GroupsController < ApplicationController
   # DELETE /groups/1
   # DELETE /groups/1.json
   def destroy
-    UserGroup.destroy_all(group_id: @group.id)
-    GroupInvitation.where(group_id: @group.id).update_all(group_id: nil)
     @group.destroy
     respond_to do |format|
-      format.html { redirect_to groups_url, notice: 'Group was successfully destroyed.' }
+      format.html { redirect_to groups_url, notice: t('group_success_destroy') }
       format.json { head :no_content }
     end
   end
@@ -135,15 +133,15 @@ class GroupsController < ApplicationController
     def invite_members
       return if invited_members.blank?
       emails = invited_members.split(/[^[:alpha:]]\s+|\s+|;\s*|,\s*/)
-      expiry_date = 1.week.from_now.in_time_zone
+      expiry_date = Settings.token_expiry_date
       emails.each do |email_address|
-        token = SecureRandom.urlsafe_base64(16)
+        token = SecureRandom.urlsafe_base64(Settings.token_length)
         until GroupInvitation.find_by_token(token).nil? do
-          token = SecureRandom.urlsafe_base64(16)
+          token = SecureRandom.urlsafe_base64(Settings.token_length)
         end
         link = root_url + 'groups/join/' + token
         GroupInvitation.create(token: token, group_id: @group.id, expiry_date: expiry_date)
-        UserMailer.group_invitation_mail(email_address, link, @group, current_user, root_url).deliver_now
+        UserMailer.group_invitation_mail(email_address, link, @group, current_user, root_url).deliver_later
       end
 
     end
