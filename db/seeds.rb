@@ -6,15 +6,22 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-#create users
-user1 =User.create(first_name: 'Max', last_name: 'Mustermann', email: 'max@test.com', password: '12345678')
 
+user1 =User.create(first_name: 'Max', last_name: 'Mustermann', email: 'max@test.com', password: '12345678')
 user2 = User.create(first_name: 'Maxi', last_name: 'Musterfrau', email: 'maxi@test.com', password: '12345678')
 
-#create groups
 group1 = Group.create(name: 'Testgruppe1', description: 'blablub')
 
-group1.users.push(user1)
+20.times do |i|
+  user = User.create first_name: "Maximus_#{i}",
+                      last_name: "Mustermann",
+                      email: "maximus_#{i}@test.com",
+                      password: "12345678"
+  group1.users.push user
+end
+
+
+group1.users.push(user1,user2)
 UserGroup.set_is_admin(group1.id, user1.id, true)
 
 group2 = Group.create(name: 'Testgruppe2', description: 'blablub')

@@ -10,8 +10,10 @@ class GroupsController < ApplicationController
   # GET /groups/1
   # GET /groups/1.json
   def show
-    @admins = admins
-    @current_user_is_admin = @admins.include?(current_user)
+    @ordered_group_members = sort_by_name(admins) + sort_by_name(@group.users - admins)
+    @group_users = (@group.users - admins).size > 10 ? (@group.users - admins).shuffle : sort_by_name(@group.users - admins)
+    @group_admins = admins.size > 10 ? sort_by_name(admins) : admins.shuffle
+    @current_user_is_admin = admins.include?(current_user)
   end
 
   # GET /groups/new
@@ -147,6 +149,10 @@ class GroupsController < ApplicationController
         UserMailer.group_invitation_mail(email_address, link, @group, current_user, root_url).deliver_now
       end
 
+    end
+
+    def sort_by_name members
+      members.sort_by{ |m| [m.last_name, m.first_name] }
     end
 
 end

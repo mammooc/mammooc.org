@@ -1,12 +1,9 @@
-.container
-  .row
-    .col-md-9
-      h3
-        = @group.name
-        = link_to edit_group_path(@group)
-          span.glyphicon.glyphicon-cog
-      p
-        = t('activerecord.attributes.group.description')
-        = @group.description
-    .col-md-3
-      = render 'sidebar'
+h3
+  = @group.name
+  = link_to edit_group_path(@group)
+    span.glyphicon.glyphicon-cog
+p
+  = t('activerecord.attributes.group.description')
+  = @group.description
+
+= render 'sidebar'
