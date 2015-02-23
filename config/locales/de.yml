@@ -31,15 +31,21 @@ de:
   sign_out: "Ausloggen"
   dashboard: "Dashboard"
   profile: "Profil"
+  
+  #flash message
+  close: "Schließen"
 
   #home/index
   welcome_heading: "Willkommen bei MAMMOOC!"
+  welcome_title: "MAMMOOC: Registriere DIch noch heute!"
 
   #static_pages/contact
   contact_heading: "Schreib uns!"
+  contact_title: "Kontakt - MAMMOOC"
 
   #static_pages/about
   about_heading: "Über uns"
+  about_title: "Über uns - MAMMOOC"
 
   #users/sign_up
   sign_up: "Registrieren"

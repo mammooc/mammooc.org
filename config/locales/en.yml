@@ -32,14 +32,20 @@ en:
   dashboard: "Dashboard"
   profile: "Profile"
 
+  #flash message
+  close: "Close"
+
   #home/index
   welcome_heading: "Welcome to MAMMOOC!"
+  welcome_title: "MAMMOOC: Sign up today!"
 
   #static_pages/contact
   contact_heading: "Contact us!"
+  contact_title: "Contact - MAMMOOC"
 
   #static_pages/about
   about_heading: "About us"
+  about_title: "About us - MAMMOOC"
 
   #users/sign_up
   sign_up: "Sign Up"
