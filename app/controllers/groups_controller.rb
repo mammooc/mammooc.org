@@ -135,11 +135,11 @@ class GroupsController < ApplicationController
     def invite_members
       return if invited_members.blank?
       emails = invited_members.split(/[^[:alpha:]]\s+|\s+|;\s*|,\s*/)
-      expiry_date = 1.week.from_now.in_time_zone
+      expiry_date = Settings.token_expiry_date
       emails.each do |email_address|
-        token = SecureRandom.urlsafe_base64(16)
+        token = SecureRandom.urlsafe_base64(Settings.token_length)
         until GroupInvitation.find_by_token(token).nil? do
-          token = SecureRandom.urlsafe_base64(16)
+          token = SecureRandom.urlsafe_base64(Settings.token_length)
         end
         link = root_url + 'groups/join/' + token
         GroupInvitation.create(token: token, group_id: @group.id, expiry_date: expiry_date)

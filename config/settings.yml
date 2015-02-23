@@ -1,0 +1,15 @@
+# MAMMOOC configuration file
+
+# Create a new variable
+# name: value
+# computed_value: <%= puts "Your RubyCode!" %>
+
+# Use the variable
+# Settings.name     # => value
+
+# See https://github.com/railsconfig/rails_config for more details
+
+
+# GroupInvitation
+token_length: 16
+token_expiry_date: <%= 1.week.from_now.in_time_zone %>
