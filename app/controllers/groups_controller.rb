@@ -72,11 +72,11 @@ class GroupsController < ApplicationController
 
   def admins
     admin_ids = UserGroup.where(group_id: @group.id, is_admin: true).collect{|user_groups| user_groups.user_id}
-    @admins = Array.new
+    admins = Array.new
     admin_ids.each do |admin_id|
-      @admins.push(User.find(admin_id))
+      admins.push(User.find(admin_id))
     end
-    return @admins
+    return admins
   end
 
   def join

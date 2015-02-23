@@ -10,8 +10,8 @@
           - unless i > 9
             = link_to image_tag('/data/default.png'), user_path(admin)
             = link_to admin.first_name + ' ' + admin.last_name, user_path(admin)
-      - if @group_admins.size > 10
-        = link_to t('groups.show_all'), '#'
+  - if @group_admins.size > 10
+    = link_to t('groups.show_all'), '#'
 
   h3
     = t('groups.members')
