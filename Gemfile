@@ -63,4 +63,5 @@ end
 
 gem 'rails-i18n'
 
+gem "rails_config"
 
