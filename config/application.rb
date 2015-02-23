@@ -40,6 +40,6 @@ module MAMMOOC
 
     config.serve_static_files = true
 
-    config.action_mailer.default_url_options = {:host => "mammooc-dev.herokuapp.com"}
+    config.action_mailer.default_url_options = {:host => Settings.default_hostname}
   end
 end
