@@ -28,10 +28,18 @@ en:
   home: "Home"
   about: "About us"
   contact: "Contact"
-  welcome_heading: "Welcome to MAMMOOC!"
   sign_out: "Sign Out"
   dashboard: "Dashboard"
   profile: "Profile"
+
+  #home/index
+  welcome_heading: "Welcome to MAMMOOC!"
+
+  #static_pages/contact
+  contact_heading: "Contact us!"
+
+  #static_pages/about
+  about_heading: "About us"
 
   #users/sign_up
   sign_up: "Sign Up"
