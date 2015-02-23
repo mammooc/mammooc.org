@@ -30,7 +30,6 @@ RSpec.describe Users::SessionsController, :type => :feature do
   end
 
   it 'should logout if logout button clicked' do
-    pending
     fill_in 'user_email', with: user.email
     fill_in 'user_password', with: user.password
     click_button 'submit_sign_in'
