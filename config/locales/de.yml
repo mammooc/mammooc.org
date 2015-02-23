@@ -77,6 +77,11 @@ de:
         name: "Name"
         description: "Beschreibung"
 
+  #create group
+  group_success_create: Gruppe wurde erfolgreich erstellt.
+  group_success_update: Gruppe wurde erfolgreich aktualisiert.
+  group_success_destroy: Gruppe wurde erfolgreich gelöscht.
+
 
   #join group
   link_expired: Link ist abgelaufen.

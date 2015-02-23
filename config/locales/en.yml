@@ -76,6 +76,12 @@ en:
         name: "Name"
         description: "Description"
 
+  #create group
+  group_success_create: 'Group was successfully created.'
+  group_success_update: 'Group was successfully updated.'
+  group_success_destroy: 'Group was successfully destroyed.'
+
+
   #join group
   link_expired: Link is expired.
   link_used: Link is already used.
