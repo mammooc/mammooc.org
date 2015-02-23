@@ -21,7 +21,7 @@ RSpec.describe Users::RegistrationsController, :type => :feature do
     end
 
     it 'should not work if email already taken' do
-      FactoryGirl.create(:user)
+      FactoryGirl.create(:user, email: user.email)
       fill_in 'user_first_name', with: user.first_name
       fill_in 'user_last_name', with: user.last_name
       fill_in 'registration_email', with: user.email
