@@ -2,7 +2,7 @@
 
 # Create a new variable
 # name: value
-# computed_value: <%= puts "Your RubyCode!" %>
+# computed_value: 'simply embed a Ruby block'
 
 # Use the variable
 # Settings.name     # => value
