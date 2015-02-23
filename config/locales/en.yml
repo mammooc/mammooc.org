@@ -56,6 +56,7 @@ en:
   #devise/shared/_links
   sign_in_link: "Already signed up? Click here to log in."
   sign_up_link: "Not signed up yet? Click here to sign up."
+  sign_up_dropdown: "Not signed up yet? Sign up here."
   forgot_password: "Forgot your password?"
 
   #dashboard
@@ -102,4 +103,3 @@ en:
   already_member: You are already member of the group.
   joined_group: You were successfully added to the group.
   link_invalid: Link is invalid.
-

@@ -4,11 +4,11 @@ h2
     .form-group
       = f.label :email, t('email')
       br
-      = f.email_field :email, autofocus: true, :class => 'form-control'
+      = f.email_field :email, autofocus: true, :class => 'form-control', :id => 'login_email'
     .form-group
       = f.label :password, t('password')
       br
-      = f.password_field :password, autocomplete: "off", :class => 'form-control'
+      = f.password_field :password, autocomplete: "off", :class => 'form-control', :id => 'login_password'
     - if devise_mapping.rememberable?
       .checkbox
         = label_tag

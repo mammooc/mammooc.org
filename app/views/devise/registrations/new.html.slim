@@ -12,7 +12,7 @@ h2
   .form-group
     = f.label :email, t('email')
     br
-    = f.email_field :email,  :class => 'form-control', :value => session.has_key?(:resource) ? session[:resource]['email'] : ''
+    = f.email_field :email,  :class => 'form-control', :value => session.has_key?(:resource) ? session[:resource]['email'] : '', :id => 'registration_email'
   .form-group
     = f.label :password, t('password')
     - if @validatable
@@ -21,11 +21,11 @@ h2
         = @minimum_password_length
         = ' ' + t('characters_minimum') +')'
     br
-    = f.password_field :password, :class => 'form-control', autocomplete: "off"
+    = f.password_field :password, :class => 'form-control', autocomplete: "off", :id => 'registration_password'
   .form-group
     = f.label :password_confirmation, t('password_confirmation')
     br
-    = f.password_field  :password_confirmation, :class => 'form-control', autocomplete: "off"
+    = f.password_field  :password_confirmation, :class => 'form-control', autocomplete: "off", :id => 'registration_password_confirmation'
 
   .checkbox
     = label_tag :terms_and_conditions_confirmation

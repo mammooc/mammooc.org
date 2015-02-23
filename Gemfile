@@ -57,6 +57,8 @@ group :development, :test do
   gem 'bootstrap-generators'
 
   gem 'capybara'
+
+  gem 'simplecov', :require => false
 end
 
 gem 'rails-i18n'
