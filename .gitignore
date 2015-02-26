@@ -3,6 +3,8 @@
 /Vagrantfile
 /.vagrant
 
+/.DS_Store
+/coverage
 # __ WEBAPP __
 # Ignore bundler config.
 /.bundle
