@@ -5,30 +5,34 @@
     li data-slide-to="2" data-target="#myCarousel" 
   .carousel-inner role="listbox" 
     .item.active
-      img alt=("First slide") src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+      = image_tag '/data/Empfehlung_web.jpg'
       .container
         .carousel-caption
-          h1 Example headline.
+          .background-transparent
+          h1
+            = t('startpage.carousel.recommend.headline')
           p
-            | Note: If you're viewing this page via a
-            code file://
-            | URL, the "next" and "previous" Glyphicon buttons on the left and right might not load/display properly due to web browser security rules.
+            =t ('startpage.carousel.recommend.text')
           p
             a.btn.btn-lg.btn-primary href="#" role="button"  Sign up today
     .item
-      img alt=("Second slide") src="data:image/gif;base64,R0lGODlhAQABAIAAAGZmZgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+      = image_tag '/data/Fortschritt_web.jpg'
       .container
         .carousel-caption
-          h1 Another example headline.
-          p Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+          h1
+            = t('startpage.carousel.progress.headline')
+          p
+            = t('startpage.carousel.progress.text')
           p
             a.btn.btn-lg.btn-primary href="#" role="button"  Learn more
     .item
-      img alt=("Third slide") src="data:image/gif;base64,R0lGODlhAQABAIAAAFVVVQAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+      = image_tag '/data/Gruppenaktivitaet_web.jpg'
       .container
         .carousel-caption
-          h1 One more for good measure.
-          p Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+          h1
+            = t('startpage.carousel.evaluate.headline')
+          p
+            = t('startpage.carousel.evaluate.text')
           p
             a.btn.btn-lg.btn-primary href="#" role="button"  Browse gallery
   a.left.carousel-control data-slide="prev" href="#myCarousel" role="button" 
@@ -47,22 +51,28 @@
   .row
     .col-lg-4
       img.img-circle alt=("Generic placeholder image") src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" style=("width: 140px; height: 140px;")
-      h2 Heading
-      p Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.
+      h2
+        = t('startpage.bulletpoints.enterprise.headline')
+      p
+        = t('startpage.bulletpoints.enterprise.text')
       p
         a.btn.btn-default href="#" role="button"  View details &raquo;
     /! /.col-lg-4
     .col-lg-4
       img.img-circle alt=("Generic placeholder image") src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" style=("width: 140px; height: 140px;")
-      h2 Heading
-      p Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.
+      h2
+        = t('startpage.bulletpoints.classroom.headline')
+      p
+        = t('startpage.bulletpoints.classroom.text')
       p
         a.btn.btn-default href="#" role="button"  View details &raquo;
     /! /.col-lg-4
     .col-lg-4
       img.img-circle alt=("Generic placeholder image") src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" style=("width: 140px; height: 140px;")
-      h2 Heading
-      p Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+      h2
+        = t('startpage.bulletpoints.home.headline')
+      p
+        = t('startpage.bulletpoints.home.text')
       p
         a.btn.btn-default href="#" role="button"  View details &raquo;
   /! /.col-lg-4
@@ -72,9 +82,11 @@
   .row.featurette
     .col-md-7
       h2.featurette-heading
-        | First featurette heading.
-        span.text-muted It'll blow your mind.
-      p.lead Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
+        = t('startpage.featurettes.aggregator.headline')
+        span.text-muted
+          =< t('startpage.featurettes.aggregator.subtitle')
+      p.lead
+        = t('startpage.featurettes.aggregator.text')
     .col-md-5
       img.featurette-image.img-responsive alt=("Generic placeholder image") data-src="holder.js/500x500/auto"
   hr.featurette-divider
@@ -83,16 +95,20 @@
       img.featurette-image.img-responsive alt=("Generic placeholder image") data-src="holder.js/500x500/auto"
     .col-md-7
       h2.featurette-heading
-        | Oh yeah, it's that good.
-        span.text-muted See for yourself.
-      p.lead Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
+        = t('startpage.featurettes.community.headline')
+        span.text-muted
+          =< t('startpage.featurettes.community.subtitle')
+      p.lead
+        = t('startpage.featurettes.community.text')
   hr.featurette-divider
   .row.featurette
     .col-md-7
       h2.featurette-heading
-        | And lastly, this one.
-        span.text-muted Checkmate.
-      p.lead Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
+        = t('startpage.featurettes.mammooc.headline')
+        span.text-muted
+          =< t('startpage.featurettes.mammooc.subtitle')
+      p.lead
+        = t('startpage.featurettes.mammooc.text')
     .col-md-5
       img.featurette-image.img-responsive alt=("Generic placeholder image") data-src="holder.js/500x500/auto"
   hr.featurette-divider

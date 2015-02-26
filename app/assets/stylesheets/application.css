@@ -125,6 +125,14 @@ body {
     letter-spacing: -1px;
 }
 
+.navbar
+{
+    margin-bottom: 0px !important;
+}
+body
+{
+    padding-top: 50px !important;
+}
 
 /* RESPONSIVE CSS
 -------------------------------------------------- */
@@ -153,6 +161,13 @@ body {
         margin-bottom: 20px;
         font-size: 21px;
         line-height: 1.4;
+
+    }
+    .carousel-caption p:nth-child(2), .carousel-caption h1
+    {
+        display: inline-block;
+        padding: 5px;
+        background-color: rgba(128, 128, 128, 0.5);
     }
 
     .featurette-heading {
