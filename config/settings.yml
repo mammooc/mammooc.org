@@ -2,13 +2,16 @@
 
 # Create a new variable
 # name: value
-# computed_value: <%= puts "Your RubyCode!" %>
+# computed_value: 'simply embed a Ruby block'
 
 # Use the variable
 # Settings.name     # => value
 
 # See https://github.com/railsconfig/rails_config for more details
 
+# Mailers
+sender_notification_address: MAMMOOC <notifications@mammooc.com>
+default_hostname: mammooc-dev.herokuapp.com
 
 # GroupInvitation
 token_length: 16

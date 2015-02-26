@@ -20,6 +20,9 @@ module MAMMOOC
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :en
 
+    # Load the files in lib
+    config.autoload_paths  = %W(#{config.root}/lib)
+
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
@@ -36,5 +39,7 @@ module MAMMOOC
     end
 
     config.serve_static_files = true
+
+    config.action_mailer.default_url_options = {:host => Settings.default_hostname}
   end
 end

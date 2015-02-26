@@ -3,8 +3,10 @@
 /Vagrantfile
 /.vagrant
 
-/.DS_Store
 /coverage
+# Ignore stupid Mac folders
+/.DS_Store
+
 # __ WEBAPP __
 # Ignore bundler config.
 /.bundle
