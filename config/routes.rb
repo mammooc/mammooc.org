@@ -1,54 +1,8 @@
 Rails.application.routes.draw do
 
-
-  devise_for :users, :controllers => { :registrations => "users/registrations",
-                                       :sessions => "users/sessions",
-                                       :passwords => "users/passwords"}
-  resources :user_assignments
-
-  resources :course_assignments
-
-  resources :evaluations
-
-  resources :bookmarks
-
-  resources :progresses
-
-  resources :approvals
-
-  resources :course_requests
-
-  resources :certificates
-
-  resources :completions
-
-  resources :user_groups
-
-  resources :comments
-
-  resources :recommendations
-
-  resources :statistics
-
-  resources :groups
-
-  resources :courses
-
-  resources :course_results
-
-  resources :mooc_providers
-
-  resources :emails
-
-  resources :users
-
-  get 'dashboard/dashboard'
-
   get 'home/index'
   get 'contact' => 'static_pages#contact'
   get 'about' => 'static_pages#about'
-  get 'dashboard' => 'dashboard#dashboard'
-  get 'groups/join/:token' => 'groups#join'
   root :to => 'home#index'
 
   

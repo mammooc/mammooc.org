@@ -18,7 +18,7 @@ deployment:
        - heroku run rake db:setup --app mammooc-dev
        - heroku restart --app mammooc-dev
        - heroku maintenance:off --app mammooc-dev
-       
+
   teaser:
     branch: teaser
     commands:

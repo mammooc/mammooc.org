@@ -24,67 +24,32 @@ html
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          = link_to t('MAMMOOC'), dashboard_path, :class => "navbar-brand"
+          = link_to t('MAMMOOC'), root_path, :class => "navbar-brand"
         .collapse.navbar-collapse
           ul.nav.navbar-nav.navbar-right
-            li class=('active' if current_page?(home_index_path))
-              = link_to t('home'), home_index_path
+            li class=('active' if current_page?(root_path))
+              = link_to t('home'), root_path
             li class=('active' if current_page?(about_path))
               = link_to t('about'), about_path
             li class=('active' if current_page?(contact_path))
               = link_to t('contact'), contact_path
-            - if user_signed_in?
-              li class="dropdown"
-                a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
-                  = current_user.first_name + ' '
-                  = current_user.last_name
-                  span class="caret"
-                ul class="dropdown-menu" role="menu"
-                  li
-                    = link_to t('dashboard'), dashboard_path
-                  li
-                    = link_to t('profile'), current_user
-                  li
-                    = link_to t('sign_out'), destroy_user_session_path, {:method => 'delete', :id =>'nav_sign_out_button'}
-            - else
-              li class="dropdown"
-                a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
-                  = t('sign_in')
-                  span class="caret"
-                ul class="dropdown-menu login-dropdown" role="menu"
-                  .row
-                    .col-md-12.login-form
-                      = form_for(:user, url: session_path(:user)) do |f|
-                        .field
-                          = f.label :email, t('email')
-                          = f.email_field :email, autofocus: true, :class => 'form-control'
-                        .field
-                          = f.label :password, t('password')
-                          = f.password_field :password, autocomplete: "off", :class => 'form-control'
-                        .field
-                          = f.check_box :remember_me
-                          = f.label :remember_me, t('remember_me')
-                        .actions
-                          = f.submit t('sign_in'), :class => 'btn btn-primary'
-                      = link_to t('forgot_password'), new_password_path(:user)
-                      br
-                      = link_to t('sign_up_dropdown'), new_registration_path(:user)
-    .container
-      - flash.each do |name, msg|
-        - if not msg.empty?
-          = content_tag :div, :class => "alert alert-#{ name.to_s == :error.to_s ? "danger" : "success" } alert-dismissable", :role => "alert" do
-            button.close type="button" data-dismiss="alert"
-              span aria-hidden="true"
-                | &times;
-              span.sr-only
-                = t('close')
-            - if msg.class == Array
-              - msg.each do |message|
-                = message
-                br
-              end
-            - else
-              = msg
+
+    - flash.each do |name, msg|
+      - if not msg.empty?
+        = content_tag :div, :class => "alert alert-#{ name.to_s == :error.to_s ? "danger" : "success" } alert-dismissable", :role => "alert" do
+          button.close type="button" data-dismiss="alert"
+            span aria-hidden="true"
+              | &times;
+            span.sr-only
+              = t('close')
+          - if msg.class == Array
+            - msg.each do |message|
+              = message
+              br
             end
-        end
-      = yield
+          - else
+            = msg
+          end
+      end
+
+    = yield
