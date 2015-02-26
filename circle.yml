@@ -3,7 +3,7 @@ deployment:
     branch: teaser
     commands:
       - heroku maintenance:on --app mammooc-teaser
-      - git push git@heroku.com:mammooc.git
+      - git push git@heroku.com:mammooc-teaser.git teaser:master
       - heroku run rake db:migrate --app mammooc-teaser
       - heroku restart --app mammooc-teaser
       - heroku maintenance:off --app mammooc-teaser
