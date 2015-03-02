@@ -66,6 +66,10 @@ body {
     width: auto;
 }
 
+.navbar-fixed-top {
+    -webkit-font-smoothing: subpixel-antialiased;
+}
+
 
 /* CUSTOMIZE THE CAROUSEL
 -------------------------------------------------- */
