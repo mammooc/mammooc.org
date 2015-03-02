@@ -5,42 +5,29 @@
     li data-slide-to="2" data-target="#myCarousel" 
   .carousel-inner role="listbox" 
     .item.active
-      = image_tag '/data/Empfehlung_web.jpg'
-      .container
-        .carousel-caption
-          .background-transparent
+      = image_tag '/data/Empfehlung_web.jpg', id: 'carousel-empfehlung'
+      .carousel-caption
+        .background-transparent
           h1
             = t('startpage.carousel.recommend.headline')
           p
-            = t('startpage.carousel.recommend.text')
-          p
-            a.btn.btn-lg.btn-primary href="#" role="button"  Sign up today
+            =t ('startpage.carousel.recommend.text')
     .item
-      = image_tag '/data/Fortschritt_web.jpg'
-      .container
-        .carousel-caption
+      = image_tag '/data/Fortschritt_web.jpg', id: 'carousel-fortschritt'
+      .carousel-caption
+        .background-transparent
           h1
             = t('startpage.carousel.progress.headline')
           p
             = t('startpage.carousel.progress.text')
-          p
-            a.btn.btn-lg.btn-primary href="#" role="button"  Learn more
     .item
-      = image_tag '/data/Gruppenaktivitaet_web.jpg'
-      .container
-        .carousel-caption
+      = image_tag '/data/Gruppenaktivitaet_web.jpg', id: 'carousel-gruppenaktivitaet'
+      .carousel-caption
+        .background-transparent
           h1
             = t('startpage.carousel.evaluate.headline')
           p
             = t('startpage.carousel.evaluate.text')
-          p
-            a.btn.btn-lg.btn-primary href="#" role="button"  Browse gallery
-  a.left.carousel-control data-slide="prev" href="#myCarousel" role="button" 
-    span.glyphicon.glyphicon-chevron-left aria-hidden="true" 
-    span.sr-only Previous
-  a.right.carousel-control data-slide="next" href="#myCarousel" role="button" 
-    span.glyphicon.glyphicon-chevron-right aria-hidden="true" 
-    span.sr-only Next
 /! /.carousel
 /!
   | Marketing messaging and featurettes
@@ -60,31 +47,28 @@
   /! Three columns of text below the carousel
   .row
     .col-lg-4
-      img.img-circle alt=("Generic placeholder image") src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" style=("width: 140px; height: 140px;")
+      img.img-circle alt=("Enterprise") src="data/enterprise.png" style=("width: 140px; height: 140px;")
       h2
         = t('startpage.bulletpoints.enterprise.headline')
       p
         = t('startpage.bulletpoints.enterprise.text')
-      p
-        a.btn.btn-default href="#" role="button"  View details &raquo;
+
     /! /.col-lg-4
     .col-lg-4
-      img.img-circle alt=("Generic placeholder image") src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" style=("width: 140px; height: 140px;")
+      img.img-circle alt=("Classroom") src="data/education.png" style=("width: 140px; height: 140px;")
       h2
         = t('startpage.bulletpoints.classroom.headline')
       p
         = t('startpage.bulletpoints.classroom.text')
-      p
-        a.btn.btn-default href="#" role="button"  View details &raquo;
+
     /! /.col-lg-4
     .col-lg-4
-      img.img-circle alt=("Generic placeholder image") src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" style=("width: 140px; height: 140px;")
+      img.img-circle alt=("Home") src="data/home.png" style=("width: 140px; height: 140px;")
       h2
         = t('startpage.bulletpoints.home.headline')
       p
         = t('startpage.bulletpoints.home.text')
-      p
-        a.btn.btn-default href="#" role="button"  View details &raquo;
+
   /! /.col-lg-4
   /! /.row
   /! START THE FEATURETTES
