@@ -123,3 +123,48 @@ en:
   already_member: You are already member of the group.
   joined_group: You were successfully added to the group.
   link_invalid: Link is invalid.
+
+
+  startpage:
+    carousel:
+      recommend:
+        headline: Empfehle MOOCs, die dir gefallen haben
+        text: Bilde Gruppen mit deinen Arbeitskollegen oder Freunden und findet gemeinsam die besten MOOCs.
+      progress:
+        headline: Behalte deinen Kursfortschritt im Auge
+        text: Rufe den Fortschritt deiner unterschiedlichen Kurse ab und betrachte alles an einem zentralen Ort.
+      evaluate:
+        headline: Evaluiere die Aktivitäten deiner Gruppe
+        text: Vergleiche Aktivitäten und Bewertungen innerhalb deiner Gruppe. Wähle aus einem vielfältigen Angebot welche Statistiken für deine Gruppe berechnet werden.
+    bulletpoints:
+      enterprise:
+        headline: MAMMOOC im Unternehmen
+        text: MOOCs bieten eine moderne und effiziente Möglichkeit zur Fortbildung Ihrer Mitarbeiter. Verschaffen Sie sich einen Überblick über die Kurse verschiedener MOOC-Anbieter. Nutzen Sie die Business-Version von MAMMOOC um den Fortschritt ihrer Mitarbeiter zu verfolgen und Erfolge anerkennen zu können. Bestimmen Sie Pflichtkurse und regen Sie die Bildung von Lerngruppen an.
+      classroom:
+        headline: MAMMOOC im Klassenraum
+        text: Erweitern Sie ihr Lehrangebot durch aktuelle MOOCs und beobachten Sie den Fortschritt der Schüler mit Hilfe von MAMMOOC. Innerhalb einer Gruppe sind Sie in der Lage Ihren Schülern Kurse zu empfehlen oder Pflichtkurse zu bestimmen. Verfolgen Sie während der Kurslaufzeit den Status zu abgegebenen Hausaufgaben und Tests und erhalten Sie am Ende die gesammelten Kursabschlüsse.
+      home:
+        headline: MAMMOOC zu Hause
+        text: Du belegst unzählige MOOCs auf verschiedenen Plattformen und verlierst langsam den Überblick? Dann herzlich willkommen bei MAMMOOC!
+              Nutze eine Plattform um MOOCs von verschiedenen Anbietern zu finden, dir vorzumerken und in deine belegten Kurse aufzunehmen. Verbinde deine bestehenden Konten von großen Anbietern mit MAMMOOC und verschaffe dir wieder mehr Übersicht über deine aktuellen und vergangenen Kurse.
+    featurettes:
+      aggregator:
+        headline: Finde Kurse verschiedener Anbieter.
+        subtitle:  MAMMOOC als MOOC-Aggregator.
+        text: MAMMOOC sammelt die Kurse verschiedener Anbieter und die Bewertungen der MAMMOOC-Nutzer. Du kannst diese Kurse finden und vormerken, so dass du zum Kursstart eine Email-Erinnerung erhältst. Für die Belegung und Durchführung deiner Kurse wirst du direkt zum entsprechenden MOOC-Anbieter weitergeleitet. Um deine Fortschritte aktuell zu halten und deine Abschlüsse zu sammeln kannst du deine bestehenden Konten bei verschiedenen MOOC-Anbietern mit deinem MAMMOOC-Account verknüpfen.
+      community:
+        headline: Gründe deine privaten Gruppen!
+        subtitle: MAMMOOC für Gemeinschaften.
+        text: Erstelle Gruppen für deine Abteilung, Schulklasse oder private Lerngemeinschaft. Innerhalb deiner Gruppe könnt ihr eure aktuellen Kurse, deren Fortschritte und eure Kursabschlüsse sehen. MAMMOOC erstellt für euch ausgewählte Statistiken über eure Aktivitäten. Kurse, die euch besonders gut gefallen haben, könnt ihr euch gegenseitig empfehlen. Privilegierte Nutzer können zudem auch Kurse vorschreiben.
+      mammooc:
+        headline: MAMMOOC!
+        subtitle: Managing All My MOOCs.
+        text: MAMMOOC ist ein innovativer Ansatz um deine persönliche Fortbildung mittels MOOCs zu erleichtern. Wir haben bereits openSAP und openHPI als feste Partner gewonnen und bemühen uns weitere Partnerschaften zu schließen um die Erfahrungen für unsere Kunden so exzellent wie möglich zu gestalten.
+              Registriere dich jetzt und erhalte von uns eine Benachrichtigung, wenn es Neuigkeiten zu unserem Angebot gibt.
+    registration_news_email:
+      headline: Register now for news
+      submit: Submit
+      success: Email address successfully registered.
+      already_registered: already registered.
+      placeholder: Email adress
+

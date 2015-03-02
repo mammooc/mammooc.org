@@ -12,7 +12,7 @@
           h1
             = t('startpage.carousel.recommend.headline')
           p
-            =t ('startpage.carousel.recommend.text')
+            = t('startpage.carousel.recommend.text')
           p
             a.btn.btn-lg.btn-primary href="#" role="button"  Sign up today
     .item
@@ -46,6 +46,16 @@
   | Marketing messaging and featurettes
   | \==================================================
 /! Wrap the rest of the page in another container to center all the content.
+.registration-form
+    = form_for @news_email, url: {action: "create"}, html: { class: 'navbar-form'} do |f|
+      span.registration-headline
+        = t('startpage.registration_news_email.headline')
+      .form-group
+        span.testclass
+          = f.email_field :email, placeholder: t('startpage.registration_news_email.placeholder'), class: 'form-control'
+        span.testclass
+          = f.submit t('startpage.registration_news_email.submit'), :class => 'btn btn-primary'
+
 .container.marketing
   /! Three columns of text below the carousel
   .row

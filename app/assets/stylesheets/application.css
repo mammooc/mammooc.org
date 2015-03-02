@@ -14,6 +14,35 @@
  *= require_tree .
  */
 
+.testclass {
+    margin-right: 10px;
+}
+.registration-form
+{
+    margin-bottom: 60px;
+    padding: 8px 0px !important;
+    background-color: #222;
+    border-bottom: 1px solid #090909;
+    color: #FFFFFF;
+    height: 50px;
+    text-align: center;
+
+}
+.registration-form .navbar-form
+{
+    margin-top: 0px !important;
+}
+.registration-form input[type='email']
+{
+    color: #000000;
+}
+
+.registration-headline
+{
+    font-size: 21px;
+    vertical-align: middle;
+    margin-right: 20px;
+}
 
 .field_with_errors {
     display: inline;
@@ -73,7 +102,6 @@ body {
 /* Carousel base class */
 .carousel {
     height: 500px;
-    margin-bottom: 60px;
 }
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {

@@ -161,3 +161,10 @@ de:
         subtitle: Managing All My MOOCs.
         text: MAMMOOC ist ein innovativer Ansatz um deine persönliche Fortbildung mittels MOOCs zu erleichtern. Wir haben bereits openSAP und openHPI als feste Partner gewonnen und bemühen uns weitere Partnerschaften zu schließen um die Erfahrungen für unsere Kunden so exzellent wie möglich zu gestalten.
               Registriere dich jetzt und erhalte von uns eine Benachrichtigung, wenn es Neuigkeiten zu unserem Angebot gibt.
+    registration_news_email:
+      headline: Registriere dich jetzt für Neuigkeiten
+      submit: Absenden
+      success: E-Mail-Adresse erfolgreich registriert.
+      already_registered: wurde bereits registriert.
+      placeholder: E-Mail-Adresse
+

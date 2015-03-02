@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'home/index'
   get 'contact' => 'static_pages#contact'
   get 'about' => 'static_pages#about'
+  match '/home/create' => 'home#create', via: [:get, :post]
   root :to => 'home#index'
 
   
