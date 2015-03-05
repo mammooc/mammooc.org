@@ -156,6 +156,15 @@ body {
     letter-spacing: -1px;
 }
 
+h2.featurette-heading {
+    font-size: 22.5px;
+}
+
+span.text-muted {
+    font-size: 30px;
+    display: block;
+}
+
 .navbar
 {
     margin-bottom: 0px !important;
@@ -268,7 +277,11 @@ body
 
     }
 
-    .featurette-heading {
+    h2.featurette-heading {
+        font-size: 30px;
+    }
+
+    span.text-muted {
         font-size: 50px;
     }
 
