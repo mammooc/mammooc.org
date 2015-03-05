@@ -18,7 +18,15 @@ class ApplicationController < ActionController::Base
   private
 
   def set_language
-    I18n.locale = http_accept_language.compatible_language_from(I18n.available_locales)
+    locale = http_accept_language.compatible_language_from(I18n.available_locales)
+    if session[:language] and I18n.available_locales.include? session[:language].to_sym
+      locale = session[:language]
+    end
+    if params[:language] and I18n.available_locales.include? params[:language].to_sym
+      locale = params[:language]
+      session[:language] = locale
+    end
+    I18n.locale = locale
   end
 
   def require_login
@@ -28,5 +36,10 @@ class ApplicationController < ActionController::Base
       redirect_to new_user_session_path # halts request cycle
     end
   end
+
+  def language_names
+    {de: 'Deutsch', en: 'English'}
+  end
+  helper_method 'language_names'
 
 end

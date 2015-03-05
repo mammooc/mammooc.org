@@ -33,6 +33,16 @@ html
               = link_to t('about'), about_path
             li class=('active' if current_page?(impressum_path))
               = link_to t('static_pages.impressum.headline'), impressum_path
+            li.dropdown
+              a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-expanded="false"
+                = I18n.locale.upcase
+                span.caret
+              ul.dropdown-menu role="menu"
+                - (I18n.available_locales - [I18n.locale]).each do |l|
+                  li
+                    a href="#{request.fullpath.split('?')[0]}?language=#{l}"
+                      = language_names[l]
+
 
     - flash.each do |name, msg|
       - if not msg.empty?
