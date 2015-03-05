@@ -290,7 +290,7 @@ body
     }
     .registration-form input[type='email']
     {
-        width: 65% !important;
+        width: 270px !important;
         margin-right: 15px !important;
     }
     .registration-form input[type='submit']
