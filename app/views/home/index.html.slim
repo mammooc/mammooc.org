@@ -1,6 +1,6 @@
 =content_for :title, t('MAMMOOC')
 #myCarousel.carousel.slide data-ride="carousel"
-  ol.carousel-indicators
+  ol.carousel-indicators  id="registration"
     li.active data-slide-to="0" data-target="#myCarousel" 
     li data-slide-to="1" data-target="#myCarousel" 
     li data-slide-to="2" data-target="#myCarousel" 
@@ -87,11 +87,11 @@
       p.lead
         = t('startpage.featurettes.aggregator.text')
     .col-md-5
-      img.featurette-image.img-responsive alt=(" ") data-src="holder.js/500x500/auto"
+      / img.featurette-image.img-responsive alt=(" ") data-src="holder.js/500x500/auto"
   hr.featurette-divider
   .row.featurette
     .col-md-5
-      img.featurette-image.img-responsive alt=(" ") data-src="holder.js/500x500/auto"
+      / img.featurette-image.img-responsive alt=(" ") data-src="holder.js/500x500/auto"
     .col-md-7
       h2.featurette-heading
         = t('startpage.featurettes.community.headline')
@@ -107,7 +107,9 @@
         span.text-muted
           =< t('startpage.featurettes.mammooc.subtitle')
       p.lead
-        = t('startpage.featurettes.mammooc.text')
+        => t('startpage.featurettes.mammooc.text')
+      p.lead
+        = link_to t('startpage.featurettes.mammooc.register_now'), '#registration'
     .col-md-5
-      img.featurette-image.img-responsive alt=(" ") data-src="holder.js/500x500/auto"
+      / img.featurette-image.img-responsive alt=(" ") data-src="holder.js/500x500/auto"
   hr.featurette-divider
