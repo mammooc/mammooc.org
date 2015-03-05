@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :require_login
+  before_filter :set_language
 
   def after_sign_in_path_for(resource)
     sign_in_url = new_user_session_url
@@ -15,6 +16,10 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def set_language
+    I18n.locale = http_accept_language.compatible_language_from(I18n.available_locales)
+  end
 
   def require_login
     unless user_signed_in?

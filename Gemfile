@@ -63,5 +63,7 @@ end
 
 gem 'rails-i18n'
 
-gem "rails_config"
+gem 'http_accept_language'
+
+gem 'rails_config'
 
