@@ -1,0 +1,11 @@
+=content_for :title, t('static_pages.impressum.headline')
+.container
+  .row
+    .col-md-6
+      h1
+        = t('static_pages.impressum.headline')
+      p
+        br
+        = t('static_pages.impressum.text')
+        br
+        = link_to t('static_pages.impressum.link'), 'https://open.hpi.de/pages/imprint'

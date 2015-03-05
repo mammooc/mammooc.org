@@ -6,14 +6,6 @@
     li data-slide-to="2" data-target="#myCarousel" 
   .carousel-inner role="listbox" 
     .item.active
-      = image_tag '/data/Empfehlung_web.jpg', id: 'carousel-empfehlung'
-      .carousel-caption
-        .background-transparent
-          h1
-            = t('startpage.carousel.recommend.headline')
-          p
-            =t ('startpage.carousel.recommend.text')
-    .item
       = image_tag '/data/Fortschritt_web.jpg', id: 'carousel-fortschritt'
       .carousel-caption
         .background-transparent
@@ -21,6 +13,14 @@
             = t('startpage.carousel.progress.headline')
           p
             = t('startpage.carousel.progress.text')
+    .item
+      = image_tag '/data/Empfehlung_web.jpg', id: 'carousel-empfehlung'
+      .carousel-caption
+        .background-transparent
+          h1
+            = t('startpage.carousel.recommend.headline')
+          p
+            =t ('startpage.carousel.recommend.text')
     .item
       = image_tag '/data/Gruppenaktivitaet_web.jpg', id: 'carousel-gruppenaktivitaet'
       .carousel-caption
@@ -48,7 +48,9 @@
     .col-lg-4
       img.img-circle alt=("Enterprise") src="data/enterprise.png" style=("width: 140px; height: 140px;")
       h2
-        = t('startpage.bulletpoints.enterprise.headline')
+        = t('startpage.bulletpoints.enterprise.headline_1')
+        br
+        = t('startpage.bulletpoints.enterprise.headline_2')
       p
         = t('startpage.bulletpoints.enterprise.text')
 
@@ -56,7 +58,9 @@
     .col-lg-4
       img.img-circle alt=("Classroom") src="data/education.png" style=("width: 140px; height: 140px;")
       h2
-        = t('startpage.bulletpoints.classroom.headline')
+        = t('startpage.bulletpoints.classroom.headline_1')
+        br
+        = t('startpage.bulletpoints.classroom.headline_2')
       p
         = t('startpage.bulletpoints.classroom.text')
 
@@ -64,7 +68,9 @@
     .col-lg-4
       img.img-circle alt=("Home") src="data/home.png" style=("width: 140px; height: 140px;")
       h2
-        = t('startpage.bulletpoints.home.headline')
+        = t('startpage.bulletpoints.home.headline_1')
+        br
+        = t('startpage.bulletpoints.home.headline_2')
       p
         = t('startpage.bulletpoints.home.text')
 
@@ -81,11 +87,11 @@
       p.lead
         = t('startpage.featurettes.aggregator.text')
     .col-md-5
-      img.featurette-image.img-responsive alt=("Generic placeholder image") data-src="holder.js/500x500/auto"
+      img.featurette-image.img-responsive alt=(" ") data-src="holder.js/500x500/auto"
   hr.featurette-divider
   .row.featurette
     .col-md-5
-      img.featurette-image.img-responsive alt=("Generic placeholder image") data-src="holder.js/500x500/auto"
+      img.featurette-image.img-responsive alt=(" ") data-src="holder.js/500x500/auto"
     .col-md-7
       h2.featurette-heading
         = t('startpage.featurettes.community.headline')
@@ -103,5 +109,5 @@
       p.lead
         = t('startpage.featurettes.mammooc.text')
     .col-md-5
-      img.featurette-image.img-responsive alt=("Generic placeholder image") data-src="holder.js/500x500/auto"
+      img.featurette-image.img-responsive alt=(" ") data-src="holder.js/500x500/auto"
   hr.featurette-divider

@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
 
   get 'home/index'
-  get 'contact' => 'static_pages#contact'
   get 'about' => 'static_pages#about'
+  get 'impressum' => 'static_pages#impressum'
   match '/home/create' => 'home#create', via: [:get, :post]
   root :to => 'home#index'
 

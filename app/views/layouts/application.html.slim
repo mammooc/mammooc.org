@@ -31,8 +31,8 @@ html
               = link_to t('home'), root_path
             li class=('active' if current_page?(about_path))
               = link_to t('about'), about_path
-            li class=('active' if current_page?(contact_path))
-              = link_to t('contact'), contact_path
+            li class=('active' if current_page?(impressum_path))
+              = link_to t('static_pages.impressum.headline'), impressum_path
 
     - flash.each do |name, msg|
       - if not msg.empty?
