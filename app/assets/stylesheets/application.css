@@ -14,6 +14,11 @@
  *= require_tree .
  */
 
+html, body {
+    width: auto !important;
+    overflow-x: hidden !important;
+}
+
 .testclass {
     margin-right: 10px;
 }
