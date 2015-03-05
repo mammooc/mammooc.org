@@ -326,6 +326,10 @@ body
     .featurette-heading {
         margin-top: 120px;
     }
+    #carousel-empfehlung
+    {
+        top: -160px !important;
+    }
 }
 
 @media (min-width: 1200px)
@@ -347,25 +351,9 @@ body
     {
         top: -150px !important;
     }
-}
 
-@media (min-width: 1350px)
-{
-    #carousel-fortschritt
+    #carousel-empfehlung
     {
-        top: -360px !important;
-    }
-
-    #carousel-gruppenaktivitaet
-    {
-        top: -200px !important;
-    }
-}
-
-@media (min-width: 1350px)
-{
-    #carousel-fortschritt
-    {
-        top: -400px !important;
+        top: -220px !important;
     }
 }
