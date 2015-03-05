@@ -14,9 +14,6 @@
  *= require_tree .
  */
 
-.testclass {
-    margin-right: 10px;
-}
 .registration-form
 {
     margin-bottom: 60px;
@@ -24,7 +21,6 @@
     background-color: #222;
     border-bottom: 1px solid #090909;
     color: #FFFFFF;
-    height: 50px;
     text-align: center;
 
 }
@@ -39,9 +35,7 @@
 
 .registration-headline
 {
-    font-size: 21px;
     vertical-align: middle;
-    margin-right: 20px;
 }
 
 .field_with_errors {
@@ -183,6 +177,45 @@ body
         padding: 5px;
         margin-bottom: 10px;
     }
+
+    .registration-form
+    {
+        height: 150px;
+    }
+
+    .registration-headline
+    {
+        font-size: 18px;
+    }
+
+    .registration-form input
+    {
+        margin-top: 10px;
+        display: inline-block !important;
+        width: 95% !important;
+    }
+}
+
+@media (min-width: 480px)
+{
+    .registration-form
+    {
+        height: 100px;
+    }
+
+    .registration-form input
+    {
+        width: auto !important;
+    }
+    .registration-form input[type='email']
+    {
+        width: 70% !important;
+        margin-right: 15px !important;
+    }
+    .registration-form input[type='submit']
+    {
+        margin-top: -2px !important  ;
+    }
 }
 
 @media (min-width: 640px)
@@ -232,6 +265,32 @@ body
 
     .featurette-heading {
         font-size: 50px;
+    }
+
+    .registration-form
+    {
+        height: 50px;
+        padding: 0px;
+    }
+
+    .registration-headline
+    {
+        font-size: 21px;
+        margin-right: 20px;
+    }
+
+    .registration-form input
+    {
+        margin-top: 0px !important;
+    }
+    .registration-form input[type='email']
+    {
+        width: 65% !important;
+        margin-right: 15px !important;
+    }
+    .registration-form input[type='submit']
+    {
+        margin-top: auto !important  ;
     }
 
 

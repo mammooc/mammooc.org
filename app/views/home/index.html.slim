@@ -39,10 +39,8 @@
       span.registration-headline
         = t('startpage.registration_news_email.headline')
       .form-group
-        span.testclass
-          = f.email_field :email, placeholder: t('startpage.registration_news_email.placeholder'), class: 'form-control', required: true
-        span.testclass
-          = f.submit t('startpage.registration_news_email.submit'), :class => 'btn btn-primary'
+        = f.email_field :email, placeholder: t('startpage.registration_news_email.placeholder'), class: 'form-control', required: true
+        = f.submit t('startpage.registration_news_email.submit'), :class => 'btn btn-primary'
 
 .container.marketing
   /! Three columns of text below the carousel
