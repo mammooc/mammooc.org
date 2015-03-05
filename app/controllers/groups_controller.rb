@@ -1,6 +1,12 @@
 class GroupsController < ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :destroy, :admins]
 
+  LCHARS = /\w+\p{L}\p{N}\-\!\/#\$%&'*+=?^`{|}~/
+  LOCAL  = /[#{LCHARS.source}]+(\.[#{LCHARS.source}]+)*/
+  DCHARS = /A-z\d/
+  DOMAIN = /[#{DCHARS.source}][#{DCHARS.source}\-]*(\.[#{DCHARS.source}\-]{2,})*/
+  EMAIL  = /\A#{LOCAL.source}@#{DOMAIN.source}\z/i
+  
   # GET /groups
   # GET /groups.json
   def index
@@ -45,9 +51,13 @@ class GroupsController < ApplicationController
   def update
     respond_to do |format|
       if @group.update(group_params)
-        invite_members
-        format.html { redirect_to @group, notice: t('group_success_update') }
-        format.json { render :show, status: :ok, location: @group }
+        if invite_members.nil?
+          format.html { redirect_to @group, notice: t('group_success_update') }
+          format.json { render :show, status: :ok, location: @group }
+        else
+          format.html { render :edit }
+          format.json { render :edit, status: :ok, location: @group }
+        end
       else
         format.html { render :edit }
         format.json { render json: @group.errors, status: :unprocessable_entity }
@@ -131,19 +141,22 @@ class GroupsController < ApplicationController
     end
 
     def invite_members
-      return if invited_members.blank?
+      return nil if invited_members.blank?
       emails = invited_members.split(/[^[:alpha:]]\s+|\s+|;\s*|,\s*/)
       expiry_date = Settings.token_expiry_date
       emails.each do |email_address|
-        token = SecureRandom.urlsafe_base64(Settings.token_length)
-        until GroupInvitation.find_by_token(token).nil? do
+        if email_address == EMAIL.match(email_address).to_s
           token = SecureRandom.urlsafe_base64(Settings.token_length)
+          until GroupInvitation.find_by_token(token).nil? do
+            token = SecureRandom.urlsafe_base64(Settings.token_length)
+          end
+          link = root_url + 'groups/join/' + token
+          GroupInvitation.create(token: token, group_id: @group.id, expiry_date: expiry_date)
+          UserMailer.group_invitation_mail(email_address, link, @group, current_user, root_url).deliver_later
+        else
+          flash[:error] = "email address #{email_address} is not valid."
         end
-        link = root_url + 'groups/join/' + token
-        GroupInvitation.create(token: token, group_id: @group.id, expiry_date: expiry_date)
-        UserMailer.group_invitation_mail(email_address, link, @group, current_user, root_url).deliver_later
       end
-
     end
 
 end
