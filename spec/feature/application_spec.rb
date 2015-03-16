@@ -26,8 +26,8 @@ RSpec.describe "Application", :type => :feature do
       fill_in 'user_last_name', with: 'Musterfrau'
       fill_in 'registration_email', with: 'maxi@test.com'
       fill_in 'registration_password', with: '12345678'
-      fill_in 'user_password_confirmation', with: '12345678'
-      check 'agb_confirmation'
+      fill_in 'registration_password_confirmation', with: '12345678'
+      check 'terms_and_conditions_confirmation'
       click_button 'submit_sign_up'
       expect(current_path).to eq(groups_path)
     end
@@ -46,8 +46,8 @@ RSpec.describe "Application", :type => :feature do
       fill_in 'user_last_name', with: 'Musterfrau'
       fill_in 'registration_email', with: 'maxi@test.com'
       fill_in 'registration_password', with: '12345678'
-      fill_in 'user_password_confirmation', with: '12345678'
-      check 'agb_confirmation'
+      fill_in 'registration_password_confirmation', with: '12345678'
+      check 'terms_and_conditions_confirmation'
       click_button 'submit_sign_up'
       expect(current_path).to eq(root_path)
     end
