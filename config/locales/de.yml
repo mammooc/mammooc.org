@@ -20,6 +20,10 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 de:
+  global:
+    require_login: "Sie müssen eingeloggt sein um auf diese Seite zugreifen zu können."
+    close: "Schließen"
+
   navbar:
     MAMMOOC: MAMMOOC
     home: Home
@@ -29,6 +33,18 @@ de:
     dashboard: Dashboard
     profile: Profil
     welcome_heading: Willkommen bei MAMMOOC!
+
+  dashboard:
+    hi: Hi
+    my_groups: Meine Gruppen
+    my_current_courses: Meine aktuellen Kurse
+    no_groups: Du hast noch keine Gruppen.
+    new_group: Gruppe erstellen
+    edit_group: Gruppe bearbeiten
+
+  home:
+    welcome_heading: "Willkommen bei MAMMOOC!"
+    welcome_title: "MAMMOOC: Registriere DIch noch heute!"
 
   users:
     sign_in_up:
@@ -40,32 +56,56 @@ de:
       email: E-Mail-Adresse
       characters_minimum: Zeichen minimum
       password: Passwort
-      password_confirmation: Passwort bestätigen
-      agb_confirmation: Ich bestätige die AGBs.
+      password_confirmation: Passwort-Bestätigung
+      terms_and_conditions_confirmation: "Ich bestätige die AGBs."
+      terms_and_conditions_failure: "Bitte bestätigen Sie die AGBs von MAMMOOC!"
       remember_me: Angemeldet bleiben
       sign_in_link: Bereits registriert? Hier geht's zum Login.
       sign_up_link: Noch nicht registriert? Hier geht's zur Registrierung.
       sign_up_dropdown: Noch nicht registriert? Hier geht's zur Registrierung.
       forgot_password: Passwort vergessen?
-
-  dashboard:
-    hi: Hi
-    my_groups: Meine Gruppen
-    my_current_courses: Meine aktuellen Kurse
-    no_groups: Du hast noch keine Gruppen.
-    new_group: Gruppe erstellen
-    edit_group: Gruppe bearbeiten
+    password:
+      forgot: 'Passwort vergessen?'
+      reset: "Neues Passwort anfordern"
 
   groups:
     admins: Admins
-    invite_members: Mitglieder einladen
-    link_expired: Link ist abgelaufen.
-    link_used: Link wurde bereits verwendet.
-    link_invalid: Link ist ungültig.
-    group_deleted: Gruppe gelöscht.
-    already_member: Sie sind schon Mitglied in der Gruppe.
+    administrators: "Administrator(en)"
     joined_group: Sie wurden der Gruppe hinzugefügt.
     name: Name
     description: Beschreibung
     one: Gruppe
     other: Gruppen
+    members: "Mitglied(er)"
+    show_all: Alle anzeigen
+    invitation:
+      already_member: Sie sind schon Mitglied in der Gruppe.
+      group_deleted: Gruppe gelöscht.
+      invite_members: Mitglieder einladen
+      link_expired: Link ist abgelaufen.
+      link_used: Link wurde bereits verwendet.
+      link_invalid: Link ist ungültig.
+    modal:
+      title: Alle Mitglieder
+
+  static:
+    contact:
+      heading: "Schreib uns!"
+      title: "Kontakt - MAMMOOC"
+    about:
+      heading: "Über uns"
+      title: "Über uns - MAMMOOC"
+
+  flash:
+    success:
+      groups:
+        successfully_created: Gruppe wurde erfolgreich erstellt.
+        successfully_updated: Gruppe wurde erfolgreich aktualisiert.
+        successfully_destoryed: Gruppe wurde erfolgreich gelöscht.
+    notice:
+    error:
+      taken: 'ist bereits belegt.'
+      blank: 'muss ausgefüllt werden.'
+      user:
+        password_too_short: 'ist zu kurz (Minimum sind %{count} Zeichen).'
+        password_confirmation: 'stimmt nicht mit Passwort überein.'

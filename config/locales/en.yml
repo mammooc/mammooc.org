@@ -20,6 +20,10 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  global:
+    require_login: "You must be logged in to access this section"
+    close: Close
+
   navbar:
     MAMMOOC: MAMMOOC
     home: Home
@@ -29,6 +33,18 @@ en:
     dashboard: Dashboard
     profile: Profile
     welcome_heading: Welcome to MAMMOOC!
+
+  dashboard:
+    hi: Hi
+    my_groups: My Groups
+    my_current_courses: My Current Courses
+    no_groups: You don't have any groups.
+    new_group: Creating Group
+    edit_group: Editing Group
+
+  home:
+    welcome_heading: "Welcome to MAMMOOC!"
+    welcome_title: "MAMMOOC: Sign up today!"
 
   users:
     sign_in_up:
@@ -41,31 +57,55 @@ en:
       characters_minimum: characters minimum
       password: Password
       password_confirmation: Re-enter password
-      agb_confirmation: I confirm to MAMMOOCs terms and conditions.
+      terms_and_conditions_confirmation: "I confirm to MAMMOOCs terms and conditions."
+      terms_and_conditions_failure: "Please confirm to MAMMOOCs terms and conditions!"
       remember_me: Keep me logged in
       sign_in_link: Already signed up? Click here to log in.
       sign_up_link: Not signed up yet? Click here to sign up.
       sign_up_dropdown: Not signed up yet? Sign up here.
       forgot_password: Forgot your password?
-
-  dashboard:
-    hi: Hi
-    my_groups: My Groups
-    my_current_courses: My Current Courses
-    no_groups: You don't have any groups.
-    new_group: Creating Group
-    edit_group: Editing Group
+    password:
+      forgot: 'Forgot your password?'
+      reset: "Reset my password"
 
   groups:
     admins: Admins
-    invite_members: Invite members
-    link_expired: Link is expired.
-    link_used: Link is already used.
-    group_deleted: The group was deleted.
-    already_member: You are already member of the group.
+    administrators: "Administrator(s)"
     joined_group: You were successfully added to the group.
-    link_invalid: Link is invalid.
-    name: Name
+    name: "Name"
     description: Description
-    one: Group
-    other: Groups
+    one: "Group"
+    other: "Groups"
+    members: "Member(s)"
+    show_all: Show all
+    invitation:
+      already_member: You are already member of the group.
+      group_deleted: The group was deleted.
+      invite_members: Invite members
+      link_expired: Link is expired.
+      link_used: Link is already used.
+      link_invalid: Link is invalid.
+    modal:
+      title: All Members
+
+  static:
+    contact:
+      heading: "Contact us!"
+      title: "Contact - MAMMOOC"
+    about:
+      heading: "About us"
+      title: "About us - MAMMOOC"
+
+  flash:
+    success:
+      groups:
+        successfully_created: 'Group was successfully created.'
+        successfully_updated: 'Group was successfully updated.'
+        successfully_destroyed: 'Group was successfully destroyed.'
+    notice:
+    errors:
+      taken: 'has already been taken.'
+      blank: 'has to be filled in.'
+      user:
+        password_too_short: 'is too short (minimum is %{count} characters).'
+        password_confirmation: "doesn't match with password."

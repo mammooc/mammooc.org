@@ -1,21 +1,20 @@
 h2
   = t('users.sign_in_up.sign_up')
 = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-  = devise_error_messages!
-  .field
-    = f.label :first_name, t('users.sign_in_up.first_name')
+  .form-group
+    = f.label :first_name, t('first_name')
     br
-    = f.text_field :first_name , :class => 'form-control'
-  .field
-    = f.label :last_name, t('users.sign_in_up.last_name')
+    = f.text_field :first_name , autofocus: true, :class => 'form-control', :value => session.has_key?(:resource) ? session[:resource]['first_name'] : ''
+  .form-group
+    = f.label :last_name, t('last_name')
     br
-    = f.text_field :last_name, :class => 'form-control'
-  .field
-    = f.label :email, t('users.sign_in_up.email')
+    = f.text_field :last_name, :class => 'form-control', :value => session.has_key?(:resource) ? session[:resource]['last_name'] : ''
+  .form-group
+    = f.label :email, t('email')
     br
-    = f.email_field :email, autofocus: true, :class => 'form-control', :id => 'registration_email'
-  .field
-    = f.label :password, t('users.sign_in_up.password')
+    = f.email_field :email,  :class => 'form-control', :value => session.has_key?(:resource) ? session[:resource]['email'] : '', :id => 'registration_email'
+  .form-group
+    = f.label :password, t('password')
     - if @validatable
       em
         |  (
@@ -23,15 +22,15 @@ h2
         = ' ' + t('users.sign_in_up.characters_minimum') +')'
     br
     = f.password_field :password, :class => 'form-control', autocomplete: "off", :id => 'registration_password'
-  .field
-    = f.label :password_confirmation, t('users.sign_in_up.password_confirmation')
+  .form-group
+    = f.label :password_confirmation, t('password_confirmation')
     br
-    = f.password_field  :password_confirmation, :class => 'form-control', autocomplete: "off"
-  .checkbox
-    = label_tag :agb_confirmation
-      = check_box_tag :agb_confirmation
-      = t('users.sign_in_up.agb_confirmation')
+    = f.password_field  :password_confirmation, :class => 'form-control', autocomplete: "off", :id => 'registration_password_confirmation'
 
+  .checkbox
+    = label_tag :terms_and_conditions_confirmation
+      = check_box_tag :terms_and_conditions_confirmation
+      = t('terms_and_conditions_confirmation')
   .actions
     = f.submit t('users.sign_in_up.sign_up'), :class => 'btn btn-primary', :id => 'submit_sign_up'
 = render "devise/shared/links"

@@ -1,26 +1,10 @@
 .page-header
-  = link_to groups_path, :class => 'btn btn-default' do 
-    span.glyphicon.glyphicon-list-alt
-    |  Back 
-  = link_to edit_group_path(@group), :class => 'btn btn-primary' do 
-    span.glyphicon.glyphicon-pencil
-    |  Edit 
   h1
     = @group.name
-dl.dl-horizontal
-  .row
-    .col-md-9
-      dt
-        = t('groups.name') + ':'
-      dd
-        = @group.name
-      dt
-        = t('groups.description') + ':'
-      dd
-        = @group.description
-      dt
-        = t('groups.admins') + ':'
-      - @admins.each do |admin|
-        dd
-          = admin.first_name + ' ' + admin.last_name
-    .col-md-3
+    = link_to edit_group_path(@group)
+      span.glyphicon.glyphicon-cog
+p
+  = t('activerecord.attributes.group.description')
+  = @group.description
+
+= render 'sidebar'
