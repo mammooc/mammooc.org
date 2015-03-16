@@ -1,0 +1,22 @@
+.modal.fade id="add_group_members"
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close type="button" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true"
+            | &times;
+        h4.modal-title
+          | Add Members to Group
+      .modal-body
+          .row
+            .col-md-12
+              = form_for(@group, url: {action: 'invite_group_members'}, :html => {:class => "form-horizontal", :role => "form"}) do |f|
+                .form-group
+                  = label_tag :members, t('invite_members'), :class => "col-sm-2 control-label"
+                  .col-sm-10
+                    = text_area_tag :members, nil, :class => "form-control"
+                .form-group
+                  .col-sm-offset-2.col-sm-10
+                    = f.submit :class => "btn btn-primary"
+                    button.btn.btn-primary style="margin-left:10px" type="button" data-dismiss="modal"
+                      = t('close')
