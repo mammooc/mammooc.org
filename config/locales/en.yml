@@ -21,7 +21,7 @@
 
 en:
   global:
-    require_login: "You must be logged in to access this section"
+    require_login: You must be logged in to access this section
     close: Close
 
   navbar:
@@ -43,8 +43,8 @@ en:
     edit_group: Editing Group
 
   home:
-    welcome_heading: "Welcome to MAMMOOC!"
-    welcome_title: "MAMMOOC: Sign up today!"
+    welcome_heading: Welcome to MAMMOOC!
+    welcome_title: MAMMOOC: Sign up today!
     hello: Hello
 
   users:
@@ -58,7 +58,7 @@ en:
       characters_minimum: characters minimum
       password: Password
       password_confirmation: Re-enter password
-      terms_and_conditions_confirmation: "I confirm to MAMMOOCs terms and conditions."
+      terms_and_conditions_confirmation: I confirm to MAMMOOCs terms and conditions.
       remember_me: Keep me logged in
       sign_in_link: Already signed up? Click here to log in.
       sign_up_link: Not signed up yet? Click here to sign up.
@@ -66,16 +66,16 @@ en:
       forgot_password: Forgot your password?
     password:
       forgot: 'Forgot your password?'
-      reset: "Reset my password"
+      reset: Reset my password
 
   groups:
     admins: Admins
-    administrators: "Administrator(s)"
-    name: "Name"
+    administrators: Administrator(s)
+    name: Name
     description: Description
-    one: "Group"
-    other: "Groups"
-    members: "Member(s)"
+    one: Group
+    other: Groups
+    members: Member(s)
     show_all: Show all
     no_groups: You don't have any groups.
     new: New group
@@ -94,11 +94,11 @@ en:
 
   static:
     contact:
-      heading: "Contact us!"
-      title: "Contact - MAMMOOC"
+      heading: Contact us!
+      title: Contact - MAMMOOC
     about:
-      heading: "About us"
-      title: "About us - MAMMOOC"
+      heading: About us
+      title: About us - MAMMOOC
 
   flash:
     #success:
@@ -111,9 +111,9 @@ en:
       taken: 'has already been taken.'
       blank: 'has to be filled in.'
       sign_up:
-        terms_and_conditions_failure: "Please confirm to MAMMOOCs terms and conditions!"
+        terms_and_conditions_failure: Please confirm to MAMMOOCs terms and conditions!
       login:
         reqired: You must be logged in.
       user:
         password_too_short: 'is too short (minimum is %{count} characters).'
-        password_confirmation: "doesn't match with password."
+        password_confirmation: doesn't match with password.

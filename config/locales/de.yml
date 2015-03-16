@@ -21,8 +21,8 @@
 
 de:
   global:
-    require_login: "Sie müssen eingeloggt sein um auf diese Seite zugreifen zu können."
-    close: "Schließen"
+    require_login: Sie müssen eingeloggt sein um auf diese Seite zugreifen zu können.
+    close: Schließen
 
   navbar:
     MAMMOOC: MAMMOOC
@@ -43,8 +43,8 @@ de:
     edit_group: Gruppe bearbeiten
 
   home:
-    welcome_heading: "Willkommen bei MAMMOOC!"
-    welcome_title: "MAMMOOC: Registriere DIch noch heute!"
+    welcome_heading: Willkommen bei MAMMOOC!
+    welcome_title: MAMMOOC: Registriere DIch noch heute!
     hello: Hallo
 
   users:
@@ -58,7 +58,7 @@ de:
       characters_minimum: Zeichen minimum
       password: Passwort
       password_confirmation: Passwort-Bestätigung
-      terms_and_conditions_confirmation: "Ich bestätige die AGBs."
+      terms_and_conditions_confirmation: Ich bestätige die AGBs.
       remember_me: Angemeldet bleiben
       sign_in_link: Bereits registriert? Hier geht's zum Login.
       sign_up_link: Noch nicht registriert? Hier geht's zur Registrierung.
@@ -66,21 +66,21 @@ de:
       forgot_password: Passwort vergessen?
     password:
       forgot: 'Passwort vergessen?'
-      reset: "Neues Passwort anfordern"
+      reset: Neues Passwort anfordern
 
   groups:
     admins: Admins
-    administrators: "Administrator(en)"
+    administrators: Administrator(en)
     name: Name
     description: Beschreibung
     one: Gruppe
     other: Gruppen
-    members: "Mitglied(er)"
+    members: Mitglied(er)
     show_all: Alle anzeigen
     no_groups: Du hast noch keine Gruppen.
     new: Neue Gruppe
     edit: Gruppe bearbeiten
-    my_groups. Meine Gruppen
+    my_groups: Meine Gruppen
     invitation:
       joined _group: Sie wurden der Gruppe hinzugefügt.
       already_member: Sie sind schon Mitglied in der Gruppe.
@@ -94,11 +94,11 @@ de:
 
   static:
     contact:
-      heading: "Schreib uns!"
-      title: "Kontakt - MAMMOOC"
+      heading: Schreib uns!
+      title: Kontakt - MAMMOOC
     about:
-      heading: "Über uns"
-      title: "Über uns - MAMMOOC"
+      heading: Über uns
+      title: Über uns - MAMMOOC
 
   flash:
     #success:
@@ -113,7 +113,7 @@ de:
       login:
         reqired: Sie müssen eingeloggt sein.
       sign_up:
-        terms_and_conditions_failure: "Bitte bestätigen Sie die AGBs von MAMMOOC!"
+        terms_and_conditions_failure: Bitte bestätigen Sie die AGBs von MAMMOOC!
       user:
         password_too_short: 'ist zu kurz (Minimum sind %{count} Zeichen).'
         password_confirmation: 'stimmt nicht mit Passwort überein.'
