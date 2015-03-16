@@ -35,7 +35,7 @@ class GroupsController < ApplicationController
         @group.users.push(current_user)
         UserGroup.set_is_admin(@group.id, current_user.id, true)
         invite_members
-        format.html { redirect_to @group, notice: t('group_success_create') }
+        format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_created') }
         format.json { render :show, status: :created, location: @group }
       else
         format.html { render :new }
@@ -50,7 +50,7 @@ class GroupsController < ApplicationController
     respond_to do |format|
       if @group.update(group_params)
         invite_members
-        format.html { redirect_to @group, notice: t('group_success_update') }
+        format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
         format.json { render :show, status: :ok, location: @group }
       else
         format.html { render :edit }
@@ -64,7 +64,7 @@ class GroupsController < ApplicationController
   def destroy
     @group.destroy
     respond_to do |format|
-      format.html { redirect_to groups_url, notice: t('group_success_destroy') }
+      format.html { redirect_to groups_url, notice: t('flash.notice.groups.successfully_destoryed') }
       format.json { head :no_content }
     end
   end
@@ -82,29 +82,29 @@ class GroupsController < ApplicationController
     group_invitation = GroupInvitation.find_by_token!(params[:token])
 
     if group_invitation.expiry_date <= Time.now.in_time_zone
-      flash[:error] = t('groups.link_expired')
+      flash[:error] = t('groups.invitation.link_expired')
       redirect_to root_path
       return
     end
 
     if group_invitation.used == true
-      flash[:error] = t('groups.link_used')
+      flash[:error] = t('groups.invitation.link_used')
       redirect_to root_path
       return
     end
 
     if group_invitation.group_id.nil?
-      flash[:error] = t('groups.group_deleted')
+      flash[:error] = t('groups.invitation.group_deleted')
       redirect_to root_path
       return
     end
 
     group = Group.find(group_invitation.group_id)
     if group.users.include? current_user
-      flash[:notice] = t('groups.already_member')
+      flash[:notice] = t('groups.invitation.already_member')
     else
       group.users.push(current_user)
-      flash[:success] = t('groups.joined_group')
+      flash[:success] = t('groups.invitation.joined_group')
     end
 
     group_invitation.used = true

@@ -1,7 +1,6 @@
 .page-header
   h1
-    = t('dashboard.hi') + " "
-    = current_user.first_name
+    = t('dashboard.hi', name: current_user.first_name)
 
 .row
   .col-md-9

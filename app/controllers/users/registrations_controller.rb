@@ -33,7 +33,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       end
 
       if not user_params.has_key?(:terms_and_conditions_confirmation)
-        flash['error'] << t('terms_and_conditions_failure')
+        flash['error'] << t('flash.errors.sign_up.terms_and_conditions_failure')
       end
   end
 

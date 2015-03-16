@@ -45,7 +45,7 @@ html
                   li
                     = link_to t('navbar.profile'), current_user
                   li
-                    = link_to t('sign_out'), destroy_user_session_path, {:method => 'delete', :id =>'nav_sign_out_button'}
+                    = link_to t('navbar.sign_out'), destroy_user_session_path, {:method => 'delete', :id =>'nav_sign_out_button'}
             - else
               li class="dropdown"
                 a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
@@ -63,12 +63,12 @@ html
                           = f.password_field :password, autocomplete: "off", :class => 'form-control'
                         .field
                           = f.check_box :remember_me
-                          = f.label :remember_me, t('remember_me')
+                          = f.label :remember_me, t('users.sign_in_up.remember_me')
                         .actions
-                          = f.submit t('sign_in'), :class => 'btn btn-primary'
-                      = link_to t('forgot_password'), new_password_path(:user)
+                          = f.submit t('users.sign_in_up.sign_in'), :class => 'btn btn-primary'
+                      = link_to t('users.sign_in_up.forgot_password'), new_password_path(:user)
                       br
-                      = link_to t('sign_up_dropdown'), new_registration_path(resource_name)
+                      = link_to t('users.sign_in_up.sign_up_dropdown'), new_registration_path(resource_name)
     .container
       - flash.each do |name, msg|
         - if not msg.empty?
@@ -77,7 +77,7 @@ html
               span aria-hidden="true"
                 | &times;
               span.sr-only
-                = t('close')
+                = t('global.close')
             - if msg.class == Array
               - msg.each do |message|
                 = message
