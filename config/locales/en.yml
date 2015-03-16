@@ -20,32 +20,15 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  #application
-  require_login: "You must be logged in to access this section"
-
   #navbar
   MAMMOOC: "MAMMOOC"
   home: "Home"
   about: "About us"
   contact: "Contact"
+  welcome_heading: "Welcome to MAMMOOC!"
   sign_out: "Sign Out"
   dashboard: "Dashboard"
   profile: "Profile"
-
-  #flash message
-  close: "Close"
-
-  #home/index
-  welcome_heading: "Welcome to MAMMOOC!"
-  welcome_title: "MAMMOOC: Sign up today!"
-
-  #static_pages/contact
-  contact_heading: "Contact us!"
-  contact_title: "Contact - MAMMOOC"
-
-  #static_pages/about
-  about_heading: "About us"
-  about_title: "About us - MAMMOOC"
 
   #users/sign_up
   sign_up: "Sign Up"
@@ -54,18 +37,13 @@ en:
   email: "Email"
   characters_minimum: "characters minimum"
   password_confirmation: "Re-enter password"
-  terms_and_conditions_confirmation: "I confirm to MAMMOOCs terms and conditions."
-  terms_and_conditions_failure: "Please confirm to MAMMOOCs terms and conditions!"
+  agb_confirmation: "I confirm to MAMMOOCs terms and conditions."
 
   #users/sign_in
-  sign_in_process: "Log In"
-  sign_in: "Sign In"
+  sign_in_process: "Log in"
+  sign_in: "Sign in"
   password: "Password"
   remember_me: "Keep me logged in"
-
-  #users/password/new
-  forgot_password: 'Forgot your password?'
-  reset_my_password: "Reset my password"
 
   #devise/shared/_links
   sign_in_link: "Already signed up? Click here to log in."
@@ -101,24 +79,6 @@ en:
       group:
         name: "Name"
         description: "Description"
-   #error messages
-    errors:
-      messages:
-        taken: 'has already been taken.'
-        blank: 'has to be filled in.'
-      models:
-        user:
-          attributes:
-            password:
-              too_short: 'is too short (minimum is %{count} characters).'
-            password_confirmation:
-              confirmation: "doesn't match with password."
-
-  #create group
-  group_success_create: 'Group was successfully created.'
-  group_success_update: 'Group was successfully updated.'
-  group_success_destroy: 'Group was successfully destroyed.'
-
 
   #join group
   link_expired: Link is expired.

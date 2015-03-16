@@ -45,7 +45,7 @@ html
                   li
                     = link_to t('profile'), current_user
                   li
-                    = link_to t('sign_out'), destroy_user_session_path, {:method => 'delete', :id =>'nav_sign_out_button'}
+                    = link_to t('sign_out'), destroy_user_session_path, {:method => 'delete'}
             - else
               li class="dropdown"
                 a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
@@ -54,24 +54,24 @@ html
                 ul class="dropdown-menu login-dropdown" role="menu"
                   .row
                     .col-md-12.login-form
-                      = form_for(:user, url: session_path(:user)) do |f|
+                      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
                         .field
                           = f.label :email, t('email')
                           = f.email_field :email, autofocus: true, :class => 'form-control'
                         .field
                           = f.label :password, t('password')
                           = f.password_field :password, autocomplete: "off", :class => 'form-control'
-                        .field
-                          = f.check_box :remember_me
-                          = f.label :remember_me, t('remember_me')
+                        - if devise_mapping.rememberable?
+                          .field
+                            = f.check_box :remember_me
+                            = f.label :remember_me, t('remember_me')
                         .actions
                           = f.submit t('sign_in'), :class => 'btn btn-primary'
-                      = link_to t('forgot_password'), new_password_path(:user)
+                      = link_to t('forgot_password'), new_password_path(resource_name)
                       br
-                      = link_to t('sign_up_dropdown'), new_registration_path(:user)
+                      = link_to t('sign_up_dropdown'), new_registration_path(resource_name)
     .container
       - flash.each do |name, msg|
-<<<<<<< HEAD
         = content_tag :div, :class => "alert alert-#{ name == :error ? "danger" : "success" } alert-dismissable", :role => "alert" do
           button.close type="button" data-dismiss="alert"
             span aria-hidden="true"
@@ -89,22 +89,3 @@ html
           .col-md-3
             - if content_for? :sidebar
               = yield :sidebar
-=======
-        - if not msg.empty?
-          = content_tag :div, :class => "alert alert-#{ name.to_s == :error.to_s ? "danger" : "success" } alert-dismissable", :role => "alert" do
-            button.close type="button" data-dismiss="alert"
-              span aria-hidden="true"
-                | &times;
-              span.sr-only
-                = t('close')
-            - if msg.class == Array
-              - msg.each do |message|
-                = message
-                br
-              end
-            - else
-              = msg
-            end
-        end
-      = yield
->>>>>>> 3b04c68135e7ec1d60a0f6aeea32fa77d3604ad4
