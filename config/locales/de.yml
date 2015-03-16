@@ -44,7 +44,7 @@ de:
 
   home:
     welcome_heading: Willkommen bei MAMMOOC!
-    welcome_title: MAMMOOC: Registriere DIch noch heute!
+    welcome_title: "MAMMOOC: Registriere Dich noch heute!"
     hello: Hallo
 
   users:
@@ -65,7 +65,7 @@ de:
       sign_up_dropdown: Noch nicht registriert? Hier geht's zur Registrierung.
       forgot_password: Passwort vergessen?
     password:
-      forgot: 'Passwort vergessen?'
+      forgot: Passwort vergessen?
       reset: Neues Passwort anfordern
 
   groups:
@@ -108,12 +108,12 @@ de:
         successfully_updated: Gruppe wurde erfolgreich aktualisiert.
         successfully_destroyed: Gruppe wurde erfolgreich gelöscht.
     error:
-      taken: 'ist bereits belegt.'
-      blank: 'muss ausgefüllt werden.'
+      taken: ist bereits belegt.
+      blank: muss ausgefüllt werden.
       login:
         reqired: Sie müssen eingeloggt sein.
       sign_up:
         terms_and_conditions_failure: Bitte bestätigen Sie die AGBs von MAMMOOC!
       user:
-        password_too_short: 'ist zu kurz (Minimum sind %{count} Zeichen).'
-        password_confirmation: 'stimmt nicht mit Passwort überein.'
+        password_too_short: ist zu kurz (Minimum sind %{count} Zeichen).
+        password_confirmation: stimmt nicht mit Passwort überein.

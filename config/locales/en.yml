@@ -44,7 +44,7 @@ en:
 
   home:
     welcome_heading: Welcome to MAMMOOC!
-    welcome_title: MAMMOOC: Sign up today!
+    welcome_title: "MAMMOOC: Sign up today!"
     hello: Hello
 
   users:
@@ -65,7 +65,7 @@ en:
       sign_up_dropdown: Not signed up yet? Sign up here.
       forgot_password: Forgot your password?
     password:
-      forgot: 'Forgot your password?'
+      forgot: Forgot your password?
       reset: Reset my password
 
   groups:
@@ -104,16 +104,16 @@ en:
     #success:
     notice:
       groups:
-        successfully_created: 'Group was successfully created.'
-        successfully_updated: 'Group was successfully updated.'
-        successfully_destroyed: 'Group was successfully destroyed.'
+        successfully_created: Group was successfully created.
+        successfully_updated: Group was successfully updated.
+        successfully_destroyed: Group was successfully destroyed.
     error:
-      taken: 'has already been taken.'
-      blank: 'has to be filled in.'
+      taken: has already been taken.
+      blank: has to be filled in.
       sign_up:
         terms_and_conditions_failure: Please confirm to MAMMOOCs terms and conditions!
       login:
         reqired: You must be logged in.
       user:
-        password_too_short: 'is too short (minimum is %{count} characters).'
+        password_too_short: is too short (minimum is %{count} characters).
         password_confirmation: doesn't match with password.
