@@ -11,4 +11,13 @@ class Course < ActiveRecord::Base
   has_many :evaluations
   has_many :course_assignments
   has_many :user_assignments
+
+  after_initialize :updateDuration
+
+  private
+  def updateDuration
+    self.duration = (end_date.to_date - start_date.to_date).to_i
+    self.save
+  end
+
 end
