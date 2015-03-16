@@ -12,7 +12,7 @@ class Course < ActiveRecord::Base
   has_many :course_assignments
   has_many :user_assignments
 
-  after_initialize :updateDuration
+  after_create :updateDuration
 
   private
   def updateDuration
