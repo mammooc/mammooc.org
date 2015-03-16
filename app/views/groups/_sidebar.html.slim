@@ -1,3 +1,5 @@
+- number_of_showed_users = 9
+
 - content_for :sidebar
   h3
     = t('groups.administrators')
@@ -7,10 +9,10 @@
   - @group_admins.each_with_index do |admin, i|
       .row
         .col-md-12.list-members
-          - unless i > 9
+          - unless i > number_of_showed_users
             = link_to image_tag('/data/default.png'), user_path(admin)
             = link_to admin.first_name + ' ' + admin.last_name, user_path(admin)
-  - if @group_admins.size > 10
+  - if @group_admins.size > (number_of_showed_users+1)
     = link_to t('groups.show_all'), '#'
 
   h3
@@ -20,10 +22,10 @@
   - @group_users.each_with_index do |user, i|
     .row
       .col-md-12.list-members
-        - unless i > 9
+        - unless i > number_of_showed_users
           = link_to image_tag('/data/default.png'), user_path(user)
           = link_to user.first_name + ' ' + user.last_name, user_path(user)
-  - if @group_users .size > 10
+  - if @group_users.size > (number_of_showed_users+1)
     = link_to t('groups.show_all'), '#', data: {toggle: 'modal', target: '#show_group_members'}
 
   = render 'show_members'
