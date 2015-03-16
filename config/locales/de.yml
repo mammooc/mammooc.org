@@ -81,8 +81,12 @@ de:
   new_group: "Gruppe erstellen"
   edit_group: "Gruppe bearbeiten"
 
-  #groups/show
-  admins: "Admins"
+  groups:
+    administrators: "Administrator(en)"
+    members: "Mitglied(er)"
+    modal:
+      title: Alle Mitglieder
+    show_all: Alle anzeigen
 
   #group/_form
   invite_members: Mitglieder einladen
@@ -123,3 +127,5 @@ de:
   already_member: Sie sind schon Mitglied in der Gruppe.
   joined_group: Sie wurden der Gruppe hinzugefügt.
   link_invalid: Link ist ungültig.
+
+  close: Schließen

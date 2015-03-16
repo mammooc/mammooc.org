@@ -5,7 +5,9 @@ RSpec.describe "groups/show", :type => :view do
   before(:each) do
     @group = FactoryGirl.create(:group)
     UserGroup.set_is_admin(@group.id, @group.users.first.id, true)
-    @admins = @group.users
+    @group_admins = @group.users
+    @group_users = @group.users
+    @ordered_group_members = @group.users
   end
 
   it "renders attributes in <p>" do
@@ -13,6 +15,5 @@ RSpec.describe "groups/show", :type => :view do
     admin_name = @group.users.first.first_name + ' ' + @group.users.first.last_name
     expect(rendered).to match(@group.name)
     expect(rendered).to match(@group.description)
-    expect(rendered).to match(admin_name)
   end
 end
