@@ -101,7 +101,7 @@ de:
       title: "Über uns - MAMMOOC"
 
   flash:
-    success:
+    #success:
     notice:
       groups:
         successfully_created: Gruppe wurde erfolgreich erstellt.
