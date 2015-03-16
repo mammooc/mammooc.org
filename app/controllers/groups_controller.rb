@@ -80,29 +80,29 @@ class GroupsController < ApplicationController
     group_invitation = GroupInvitation.find_by_token!(params[:token])
 
     if group_invitation.expiry_date <= Time.now.in_time_zone
-      flash[:error] = t('link_expired')
+      flash[:error] = t('groups.link_expired')
       redirect_to root_path
       return
     end
 
     if group_invitation.used == true
-      flash[:error] = t('link_used')
+      flash[:error] = t('groups.link_used')
       redirect_to root_path
       return
     end
 
     if group_invitation.group_id.nil?
-      flash[:error] = t('group_deleted')
+      flash[:error] = t('groups.group_deleted')
       redirect_to root_path
       return
     end
 
     group = Group.find(group_invitation.group_id)
     if group.users.include? current_user
-      flash[:notice] = t('already_member')
+      flash[:notice] = t('groups.already_member')
     else
       group.users.push(current_user)
-      flash[:success] = t('joined_group')
+      flash[:success] = t('groups.joined_group')
     end
 
     group_invitation.used = true
@@ -112,7 +112,7 @@ class GroupsController < ApplicationController
 
 
   rescue ActiveRecord::RecordNotFound => error
-    flash[:error] = t('link_invalid')
+    flash[:error] = t('groups.link_invalid')
     redirect_to root_path
 
   end

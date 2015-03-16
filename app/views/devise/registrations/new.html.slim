@@ -1,37 +1,37 @@
 h2
-  = t('sign_up')
+  = t('users.sign_in_up.sign_up')
 = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
   = devise_error_messages!
   .field
-    = f.label :first_name, t('first_name')
+    = f.label :first_name, t('users.sign_in_up.first_name')
     br
     = f.text_field :first_name , :class => 'form-control'
   .field
-    = f.label :last_name, t('last_name')
+    = f.label :last_name, t('users.sign_in_up.last_name')
     br
     = f.text_field :last_name, :class => 'form-control'
   .field
-    = f.label :email, t('email')
+    = f.label :email, t('users.sign_in_up.email')
     br
     = f.email_field :email, autofocus: true, :class => 'form-control', :id => 'registration_email'
   .field
-    = f.label :password, t('password')
+    = f.label :password, t('users.sign_in_up.password')
     - if @validatable
       em
         |  (
         = @minimum_password_length
-        = ' ' + t('characters_minimum') +')'
+        = ' ' + t('users.sign_in_up.characters_minimum') +')'
     br
     = f.password_field :password, :class => 'form-control', autocomplete: "off", :id => 'registration_password'
   .field
-    = f.label :password_confirmation, t('password_confirmation')
+    = f.label :password_confirmation, t('users.sign_in_up.password_confirmation')
     br
     = f.password_field  :password_confirmation, :class => 'form-control', autocomplete: "off"
   .checkbox
     = label_tag :agb_confirmation
       = check_box_tag :agb_confirmation
-      = t('agb_confirmation')
+      = t('users.sign_in_up.agb_confirmation')
 
   .actions
-    = f.submit t('sign_up'), :class => 'btn btn-primary', :id => 'submit_sign_up'
+    = f.submit t('users.sign_in_up.sign_up'), :class => 'btn btn-primary', :id => 'submit_sign_up'
 = render "devise/shared/links"

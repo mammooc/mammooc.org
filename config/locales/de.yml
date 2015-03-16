@@ -20,68 +20,52 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 de:
-  #navbar
-  MAMMOOC: "MAMMOOC"
-  home: "Home"
-  about: "Über uns"
-  contact: "Kontakt"
-  welcome_heading: "Willkommen bei MAMMOOC!"
-  sign_out: "Ausloggen"
-  dashboard: "Dashboard"
-  profile: "Profil"
+  navbar:
+    MAMMOOC: MAMMOOC
+    home: Home
+    about: Über uns
+    contact: Kontakt
+    sign_out: Ausloggen
+    dashboard: Dashboard
+    profile: Profil
+    welcome_heading: Willkommen bei MAMMOOC!
 
-  #users/sign_up
-  sign_up: "Registrieren"
-  first_name: "Vorname"
-  last_name: "Nachname"
-  email: "E-Mail-Adresse"
-  characters_minimum: "Zeichen minimum"
-  password_confirmation: "Passwort bestätigen"
-  agb_confirmation: "Ich bestätige die AGBs."
+  users:
+    sign_in_up:
+      sign_in: Einloggen
+      sign_up: Registrieren
+      sign_in_process: Anmeldung
+      first_name: Vorname
+      last_name: Nachname
+      email: E-Mail-Adresse
+      characters_minimum: Zeichen minimum
+      password: Passwort
+      password_confirmation: Passwort bestätigen
+      agb_confirmation: Ich bestätige die AGBs.
+      remember_me: Angemeldet bleiben
+      sign_in_link: Bereits registriert? Hier geht's zum Login.
+      sign_up_link: Noch nicht registriert? Hier geht's zur Registrierung.
+      sign_up_dropdown: Noch nicht registriert? Hier geht's zur Registrierung.
+      forgot_password: Passwort vergessen?
 
-  #users/sign_in
-  sign_in_process: "Anmeldung"
-  sign_in: "Einloggen"
-  password: "Passwort"
-  remember_me: "Angemeldet bleiben"
+  dashboard:
+    hi: Hi
+    my_groups: Meine Gruppen
+    my_current_courses: Meine aktuellen Kurse
+    no_groups: Du hast noch keine Gruppen.
+    new_group: Gruppe erstellen
+    edit_group: Gruppe bearbeiten
 
-  #devise/shared/_links
-  sign_in_link: "Bereits registriert? Hier geht's zum Login."
-  sign_up_link: "Noch nicht registriert? Hier geht's zur Registrierung."
-  sign_up_dropdown: "Noch nicht registriert? Hier geht's zur Registrierung."
-  forgot_password: "Passwort vergessen?"
-
-  #dashboard
-  hi: "Hi"
-  my_groups: "Meine Gruppen"
-  my_current_courses: "Meine aktuellen Kurse"
-  no_groups: "Du hast noch keine Gruppen."
-  new_group: "Gruppe erstellen"
-  edit_group: "Gruppe bearbeiten"
-
-  #groups/show
-  admins: "Admins"
-
-  #group/_form
-  invite_members: Mitglieder einladen
-
-
-  #model group
-  activerecord:
-    models:
-      group:
-        one: "Gruppe"
-        other: "Gruppen"
-    attributes:
-      group:
-        name: "Name"
-        description: "Beschreibung"
-
-
-  #join group
-  link_expired: Link ist abgelaufen.
-  link_used: Link wurde bereits verwendet.
-  group_deleted: Gruppe gelöscht.
-  already_member: Sie sind schon Mitglied in der Gruppe.
-  joined_group: Sie wurden der Gruppe hinzugefügt.
-  link_invalid: Link ist ungültig.
+  groups:
+    admins: Admins
+    invite_members: Mitglieder einladen
+    link_expired: Link ist abgelaufen.
+    link_used: Link wurde bereits verwendet.
+    link_invalid: Link ist ungültig.
+    group_deleted: Gruppe gelöscht.
+    already_member: Sie sind schon Mitglied in der Gruppe.
+    joined_group: Sie wurden der Gruppe hinzugefügt.
+    name: Name
+    description: Beschreibung
+    one: Gruppe
+    other: Gruppen

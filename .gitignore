@@ -2,6 +2,7 @@
 
 /Vagrantfile
 /.vagrant
+/vagrant_provision.sh
 
 # __ WEBAPP __
 # Ignore bundler config.

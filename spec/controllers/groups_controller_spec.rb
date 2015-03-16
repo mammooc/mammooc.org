@@ -189,7 +189,7 @@ RSpec.describe GroupsController, :type => :controller do
       expect(response).to redirect_to(group_path(another_group))
       expect(Group.find(another_group.id).users).to include(user)
       expect(GroupInvitation.find(invitation.id).used).to be true
-      expect(flash[:success]).to eq I18n.t('joined_group')
+      expect(flash[:success]).to eq I18n.t('groups.joined_group')
     end
 
     it "should not allow to use link twice" do
@@ -197,14 +197,14 @@ RSpec.describe GroupsController, :type => :controller do
       group_users_before = Group.find(another_group.id).users.count
       get :join, token: invitation.token
       expect(response).to redirect_to(root_path)
-      expect(flash[:error]).to eq I18n.t('link_used')
+      expect(flash[:error]).to eq I18n.t('groups.link_used')
       expect(Group.find(another_group.id).users.count).to eq group_users_before
     end
 
     it "should not add user with expired invitation" do
       get :join, token: expired_invitation.token
       expect(response).to redirect_to(root_path)
-      expect(flash[:error]).to eql I18n.t('link_expired')
+      expect(flash[:error]).to eql I18n.t('groups.link_expired')
       expect(Group.find(another_group.id).users.count).to eq another_group.users.count
     end
 
@@ -212,14 +212,14 @@ RSpec.describe GroupsController, :type => :controller do
       delete :destroy, {id: another_group.to_param}
       get :join, token: invitation.token
       expect(response).to redirect_to(root_path)
-      expect(flash[:error]).to eql I18n.t('group_deleted')
+      expect(flash[:error]).to eql I18n.t('groups.group_deleted')
     end
 
     it "should not add member twice" do
       another_group.users.push(user)
       get :join, token: invitation.token
       expect(response).to redirect_to(group_path(another_group))
-      expect(flash[:notice]).to eq I18n.t('already_member')
+      expect(flash[:notice]).to eq I18n.t('groups.already_member')
       expect(GroupInvitation.find(invitation.id).used).to be true
       expect(Group.find(another_group.id).users.where(id: user.id).count).to eq 1
     end
@@ -227,7 +227,7 @@ RSpec.describe GroupsController, :type => :controller do
     it "should display error message if token is invalid" do
       get :join, token: "132465798"
       expect(response).to redirect_to(root_path)
-      expect(flash[:error]).to eq I18n.t('link_invalid')
+      expect(flash[:error]).to eq I18n.t('groups.link_invalid')
     end
   end
 
