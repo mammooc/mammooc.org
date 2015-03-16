@@ -18,8 +18,8 @@ class ApplicationController < ActionController::Base
 
   def require_login
     unless user_signed_in?
-      flash[:error] = t('require_login')
-      session[:user_original_url] = request.fullpath
+        session[:user_original_url] = request.fullpath
+      flash[:error] = "You must be logged in to access this section"
       redirect_to new_user_session_path # halts request cycle
     end
   end

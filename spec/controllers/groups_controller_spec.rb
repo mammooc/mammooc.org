@@ -48,7 +48,6 @@ RSpec.describe GroupsController, :type => :controller do
         expect {
           post :create, {:group => valid_attributes}
         }.to change(Group, :count).by(1)
-        expect(flash[:notice]).to eq I18n.t('group_success_create')
       end
 
       it "assigns a newly created group as @group" do
@@ -85,7 +84,6 @@ RSpec.describe GroupsController, :type => :controller do
         group.reload
         expect(group.name).to eq('Test_different')
         expect(group.description).to eq('edited text')
-        expect(flash[:notice]).to eq I18n.t('group_success_update')
       end
 
       it "assigns the requested group as @group" do
@@ -105,7 +103,6 @@ RSpec.describe GroupsController, :type => :controller do
       expect {
         delete :destroy, {:id => group.to_param}
       }.to change(Group, :count).by(-1)
-      expect(flash[:notice]).to eq I18n.t('group_success_destroy')
     end
 
     it "redirects to the groups list" do
@@ -114,8 +111,8 @@ RSpec.describe GroupsController, :type => :controller do
     end
 
     it "destroys the membership of all users of the deleted group and only of the deleted group" do
-      user_1 = FactoryGirl.create(:user)
-      user_2 = FactoryGirl.create(:user)
+      user_1 = FactoryGirl.create(:user, email: 'max@test.de')
+      user_2 = FactoryGirl.create(:user, email: 'max@test.com')
       group.update(users: [user, user_1, user_2])
       group_2 = FactoryGirl.create(:group, users: [user, user_1, user_2])
       expect {
@@ -136,8 +133,8 @@ RSpec.describe GroupsController, :type => :controller do
     it "should returns all administrators for the given group" do
       post :create, {:group => valid_attributes}
       group = assigns(:group)
-      user_1 = FactoryGirl.create(:user)
-      user_2 = FactoryGirl.create(:user)
+      user_1 = FactoryGirl.create(:user, email: 'max@test.de')
+      user_2 = FactoryGirl.create(:user, email: 'max@test.com')
       group.users.push(user_1, user_2)
       UserGroup.set_is_admin(group.id, user_1.id, true)
       expect(@controller.admins).to match_array([user, user_1])

@@ -10,7 +10,10 @@ class GroupsController < ApplicationController
   # GET /groups/1
   # GET /groups/1.json
   def show
-    admins
+    @ordered_group_members = sort_by_name(admins) + sort_by_name(@group.users - admins)
+    @group_users = (@group.users - admins).size > 10 ? (@group.users - admins).shuffle : sort_by_name(@group.users - admins)
+    @group_admins = admins.size > 10 ? sort_by_name(admins) : admins.shuffle
+    @current_user_is_admin = admins.include?(current_user)
   end
 
   # GET /groups/new
@@ -31,7 +34,7 @@ class GroupsController < ApplicationController
         @group.users.push(current_user)
         UserGroup.set_is_admin(@group.id, current_user.id, true)
         invite_members
-        format.html { redirect_to @group, notice: t('group_success_create') }
+        format.html { redirect_to @group, notice: 'Group was successfully created.' }
         format.json { render :show, status: :created, location: @group }
       else
         format.html { render :new }
@@ -46,7 +49,7 @@ class GroupsController < ApplicationController
     respond_to do |format|
       if @group.update(group_params)
         invite_members
-        format.html { redirect_to @group, notice: t('group_success_update') }
+        format.html { redirect_to @group, notice: 'Group was successfully updated.' }
         format.json { render :show, status: :ok, location: @group }
       else
         format.html { render :edit }
@@ -58,20 +61,22 @@ class GroupsController < ApplicationController
   # DELETE /groups/1
   # DELETE /groups/1.json
   def destroy
+    UserGroup.destroy_all(group_id: @group.id)
+    GroupInvitation.where(group_id: @group.id).update_all(group_id: nil)
     @group.destroy
     respond_to do |format|
-      format.html { redirect_to groups_url, notice: t('group_success_destroy') }
+      format.html { redirect_to groups_url, notice: 'Group was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   def admins
     admin_ids = UserGroup.where(group_id: @group.id, is_admin: true).collect{|user_groups| user_groups.user_id}
-    @admins = Array.new
+    admins = Array.new
     admin_ids.each do |admin_id|
-      @admins.push(User.find(admin_id))
+      admins.push(User.find(admin_id))
     end
-    return @admins
+    return admins
   end
 
   def join
@@ -133,17 +138,21 @@ class GroupsController < ApplicationController
     def invite_members
       return if invited_members.blank?
       emails = invited_members.split(/[^[:alpha:]]\s+|\s+|;\s*|,\s*/)
-      expiry_date = Settings.token_expiry_date
+      expiry_date = 1.week.from_now.in_time_zone
       emails.each do |email_address|
-        token = SecureRandom.urlsafe_base64(Settings.token_length)
+        token = SecureRandom.urlsafe_base64(16)
         until GroupInvitation.find_by_token(token).nil? do
-          token = SecureRandom.urlsafe_base64(Settings.token_length)
+          token = SecureRandom.urlsafe_base64(16)
         end
         link = root_url + 'groups/join/' + token
         GroupInvitation.create(token: token, group_id: @group.id, expiry_date: expiry_date)
-        UserMailer.group_invitation_mail(email_address, link, @group, current_user, root_url).deliver_later
+        UserMailer.group_invitation_mail(email_address, link, @group, current_user, root_url).deliver_now
       end
 
+    end
+
+    def sort_by_name members
+      members.sort_by{ |m| [m.last_name, m.first_name] }
     end
 
 end

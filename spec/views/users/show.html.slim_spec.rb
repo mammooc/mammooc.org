@@ -1,21 +1,26 @@
 require 'rails_helper'
 
 RSpec.describe "users/show", :type => :view do
-
-  let(:user) { FactoryGirl.create(:fullUser) }
-
   before(:each) do
-    @user = user
+    pending
+    @user = assign(:user, User.create!(
+      :first_name => "First Name",
+      :last_name => "Last Name",
+      :gender => "Gender",
+      :profile_image_id => "Profile Image",
+      :about_me => "MyText"
+    ))
   end
 
   it "renders attributes in <p>" do
+    pending
     render
     expect(rendered).to match(//)
-    expect(rendered).to match(user.first_name)
-    expect(rendered).to match(user.last_name)
-    expect(rendered).to match(user.gender)
-    expect(rendered).to match(user.profile_image_id)
+    expect(rendered).to match(/First Name/)
+    expect(rendered).to match(/Last Name/)
+    expect(rendered).to match(/Gender/)
+    expect(rendered).to match(/Profile Image/)
     expect(rendered).to match(//)
-    expect(rendered).to match(user.about_me)
+    expect(rendered).to match(/MyText/)
   end
 end
