@@ -64,7 +64,7 @@ class GroupsController < ApplicationController
   def destroy
     @group.destroy
     respond_to do |format|
-      format.html { redirect_to groups_url, notice: t('flash.notice.groups.successfully_destoryed') }
+      format.html { redirect_to groups_url, notice: t('flash.notice.groups.successfully_destroyed') }
       format.json { head :no_content }
     end
   end

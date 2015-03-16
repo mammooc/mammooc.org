@@ -102,11 +102,11 @@ en:
 
   flash:
     success:
+    notice:
       groups:
         successfully_created: 'Group was successfully created.'
         successfully_updated: 'Group was successfully updated.'
         successfully_destroyed: 'Group was successfully destroyed.'
-    notice:
     error:
       taken: 'has already been taken.'
       blank: 'has to be filled in.'
