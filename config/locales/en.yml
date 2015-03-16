@@ -107,7 +107,7 @@ en:
         successfully_updated: 'Group was successfully updated.'
         successfully_destroyed: 'Group was successfully destroyed.'
     notice:
-    errors:
+    error:
       taken: 'has already been taken.'
       blank: 'has to be filled in.'
       sign_up:
