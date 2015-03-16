@@ -10,7 +10,11 @@ class GroupsController < ApplicationController
   # GET /groups/1
   # GET /groups/1.json
   def show
-    admins
+    number_of_showed_users = 10
+    @ordered_group_members = sort_by_name(admins) + sort_by_name(@group.users - admins)
+    @group_users = (@group.users - admins).size > number_of_showed_users ? (@group.users - admins).shuffle : sort_by_name(@group.users - admins)
+    @group_admins = admins.size > number_of_showed_users ? sort_by_name(admins) : admins.shuffle
+    @current_user_is_admin = admins.include?(current_user)
   end
 
   # GET /groups/new
@@ -72,11 +76,11 @@ class GroupsController < ApplicationController
 
   def admins
     admin_ids = UserGroup.where(group_id: @group.id, is_admin: true).collect{|user_groups| user_groups.user_id}
-    @admins = Array.new
+    admins = Array.new
     admin_ids.each do |admin_id|
-      @admins.push(User.find(admin_id))
+      admins.push(User.find(admin_id))
     end
-    return @admins
+    return admins
   end
 
   def join
@@ -149,6 +153,10 @@ class GroupsController < ApplicationController
         UserMailer.group_invitation_mail(email_address, link, @group, current_user, root_url).deliver_later
       end
 
+    end
+
+    def sort_by_name members
+      members.sort_by{ |m| [m.last_name, m.first_name] }
     end
 
 end

@@ -81,8 +81,12 @@ en:
   new_group: "Creating Group"
   edit_group: "Editing Group"
 
-  #groups/show
-  admins: "Admins"
+  groups:
+    administrators: "Administrator(s)"
+    members: "Member(s)"
+    modal:
+      title: All Members
+    show_all: Show all
 
   #group/_form
   invite_members: Invite members
@@ -123,3 +127,5 @@ en:
   already_member: You are already member of the group.
   joined_group: You were successfully added to the group.
   link_invalid: Link is invalid.
+
+  close: Close
