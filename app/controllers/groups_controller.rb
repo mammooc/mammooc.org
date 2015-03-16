@@ -60,8 +60,10 @@ class GroupsController < ApplicationController
   end
 
   def invite_group_members
-    invite_members
-    format.html { redirect_to @group, notice: t('group_success_update') }
+    respond_to do |format|
+      invite_members
+      format.html { redirect_to @group, notice: t('group_success_update') }
+    end
   end
 
   # DELETE /groups/1

@@ -17,7 +17,7 @@
 
   h3
     = t('groups.members')
-    = link_to '#', data: {toggle: 'modal', target: '#add_group_members'}
+    = link_to '#', data: {toggle: 'modal', target: '#add_group_members'}, id: "add_members_symbol"
       span.glyphicon.glyphicon-plus-sign
   - @group_users.each_with_index do |user, i|
     .row
