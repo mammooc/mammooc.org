@@ -74,8 +74,6 @@ en:
     administrators: Administrator(s)
     name: Name
     description: Description
-    one: Group
-    other: Groups
     members: Member(s)
     show_all: Show all
     no_groups: You don't have any groups.
