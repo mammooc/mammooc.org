@@ -27,13 +27,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
         session[:resource] = resource
         resource.destroy
         resource.errors.each do |key, value|
-          flash['error'] << "#{t(key)} #{value}"
+          flash['error'] << "#{t('users.sign_in_up.' + key.to_s)} #{value}"
         end
         redirect_to new_user_registration_path
       end
 
       if not user_params.has_key?(:terms_and_conditions_confirmation)
-        flash['error'] << t('terms_and_conditions_failure')
+        flash['error'] << t('flash.error.sign_up.terms_and_conditions_failure')
       end
   end
 

@@ -1,8 +1,9 @@
 .page-header
   h1
-    = t('hi') + " "
-    = current_user.first_name
+    = t('dashboard.hi', name: current_user.first_name)
 
-| Your Recommendations will be listed here!
-
-= render 'sidebar'
+.row
+  .col-md-9
+    | Your Recommendations will be listed here!
+  .col-md-3
+   = render 'sidebar'

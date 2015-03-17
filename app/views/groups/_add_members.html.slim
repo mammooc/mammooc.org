@@ -8,19 +8,19 @@
         h4.modal-title
           | Add Members to Group
       .modal-body
-          .row
-            .col-md-12
-              .invitation-form.form-horizontal
-                .form-group
-                  label.control-label.col-md-2
-                    = t('invite_members')
-                  .col-md-10
-                    textarea.form-control id="text_area_invite_members"
-                .form-group
-                  .col-md-offset-2.col-md-10
-                    input type='hidden' value='#{@group.id}' id='group_id'
-                    button.btn.btn-primary id='invitation_submit_button'
-                      = t('submit')
-                    button.btn.btn-primary style="margin-left:10px" type="button" data-dismiss="modal"
-                      = t('close')
-              .invitation-error
+        .row
+          .col-md-12
+            .invitation-form.form-horizontal
+              .form-group
+                label.control-label.col-md-2
+                  = t('groups.invitation.invite_members')
+                .col-md-10
+                  textarea.form-control id="text_area_invite_members"
+              .form-group
+                .col-md-offset-2.col-md-10
+                  input type='hidden' value='#{@group.id}' id='group_id'
+                  button.btn.btn-primary id='invitation_submit_button'
+                    = t('global.submit')
+                  button.btn.btn-primary style="margin-left:10px" type="button" data-dismiss="modal"
+                    = t('global.close')
+            .invitation-error

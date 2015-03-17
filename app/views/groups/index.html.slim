@@ -5,10 +5,10 @@
   .row
     .col-md-9
       - if @groups.empty?
-        = t('no_groups')
+        = t('groups.no_groups')
       - else
         h1
-          = t('my_groups')
+          = t('groups.my_groups')
 
         .table-responsive
           table.table.table-striped.table-bordered.table-hover

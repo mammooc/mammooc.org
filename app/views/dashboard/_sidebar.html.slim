@@ -1,11 +1,11 @@
 - content_for :sidebar
   h3
-    = t('my_current_courses')
+    = t('dashboard.my_current_courses')
   h3
-    = link_to t('my_groups'), groups_path
+    = link_to t('dashboard.my_groups'), groups_path
 
   - if current_user.groups.empty?
-    = t('no_groups')
+    = t('dashboard.no_groups')
   - else
     - current_user.groups.each do |group|
       p
