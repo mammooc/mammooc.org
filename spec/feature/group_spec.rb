@@ -1,12 +1,11 @@
 require 'rails_helper'
+require 'database_cleaner'
 
-RSpec.describe "Group", :type => :feature do
+RSpec.describe GroupsController, :type => :feature do
 
   describe 'invite users to an existing group' do
-
-
-    let(:user) { FactoryGirl.create(:user) }
-    let!(:group) { FactoryGirl.create(:group, users: [user]) }
+    user = FactoryGirl.create(:user)
+    group = FactoryGirl.create(:group, users: [user])
 
     before(:each) do
       visit new_user_session_path
@@ -16,14 +15,19 @@ RSpec.describe "Group", :type => :feature do
       ActionMailer::Base.deliveries.clear
     end
 
+    after(:all) do
+      DatabaseCleaner.strategy = :truncation
+      DatabaseCleaner.clean
+    end
 
-
-    it 'should invite a user to a group' do
+    it 'should invite a user to a group', js: true do
       visit group_path(group.id)
       expect(page).to have_content('Member(s)')
       click_on 'add_members_symbol'
       fill_in 'text_area_invite_members', with: 'max@test.com'
-      click_button 'Update Group'
+      click_button 'Submit'
+      # Wait until modal has disappeared
+      wait_for_ajax
       expect(current_path).to eq(group_path(group.id))
       expect(ActionMailer::Base.deliveries.count).to eq 1
       expect(GroupInvitation.count).to eq 1
