@@ -9,7 +9,7 @@
 provider1 = MoocProvider.create(name: 'openHPI')
 Course.create(name: 'Web Technologies',
               url: 'https://open.hpi.de/courses/webtech2015',
-              course_instructors: ['Prof. Dr. Christoph Meinel'],
+              course_instructors: ['Prof. Dr. Christoph Meinel', 'Jan Renz', 'Thomas Staubitz'],
               abstract: 'WWW, the world wide web or shortly the web - really nothing more than an information  service on the Internet – has changed our world by creating a whole new digital world that is closely intertwined with our real world, making reality what was previously unimaginable: communication across the world in seconds, watching movies on a smartphone, playing games or looking at photos with remote partners in distant continents, shopping or banking from your couch … In our online course on web technologies you will learn how it all works.',
               description: 'WWW, the world wide web or shortly the web - really nothing more than an information service on the Internet – has changed our world by creating a whole new digital world that is closely intertwined with our real world, making reality what was previously unimaginable: communication across the world in seconds, watching movies on a smartphone, playing games or looking at photos with remote partners in distant continents, shopping or banking from your couch … In our online course on web technologies you will learn how it all works.
 

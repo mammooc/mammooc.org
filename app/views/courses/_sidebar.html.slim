@@ -1,0 +1,45 @@
+- content_for :sidebar
+  h4
+    | Mooc Provider
+  = @course.mooc_provider.name
+  - if @course.course_instructors
+    h4
+      | Instructor(s)
+    - @course.course_instructors.each do |instructor|
+      = instructor
+      br
+    h4
+      | Time
+    = @course.start_date.strftime("%d.%m.%Y") + ' - ' + @course.end_date.strftime("%d.%m.%Y")
+  - if @course.language
+    h4
+      | Language
+    = @course.language
+  - if @course.requirements
+    h4
+      | Requirement(s)
+    - @course.requirements.each do |requirement|
+      span.label.label-success
+        = requirement
+  - if @course.type_of_achievement
+    h4
+      | Achievement
+    = @course.type_of_achievement
+  - if @course.categories
+    h4
+      | Categories
+    - @course.categories.each do |category|
+      span.label.label-success
+        = category
+  - if @course.costs
+    h4
+      | Costs:
+    = @course.costs.to_s + @course.price_currency
+  - if @course.difficulty
+    h4
+      | Difficulty:
+    = @course.difficulty
+  - if @course.minimum_weekly_workload && @course.maximum_weekly_workload
+    h4
+      | Workload:
+    = @course.minimum_weekly_workload.to_s + ' hours - ' + @course.maximum_weekly_workload.to_s + ' hours per week'

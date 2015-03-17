@@ -1,86 +1,37 @@
 .page-header
   = link_to courses_path, :class => 'btn btn-default' do 
     span.glyphicon.glyphicon-list-alt
-    |  Back 
-  = link_to edit_course_path(@course), :class => 'btn btn-primary' do 
-    span.glyphicon.glyphicon-pencil
-    |  Edit 
+    |  Back
   h1
-    | Show course
-dl.dl-horizontal
-  dt
-    | Name:
-  dd
     = @course.name
+dl.dl-horizontal
+  = image_tag(@course.imageId)
+  - if @course.abstract
+    h3
+      | Abstract
+    = @course.abstract
+  = button_to "Zum Kurs", @course.url, {:method => 'get', :class => 'button btn btn-success'}
+  = button_to "Kurs merken", new_bookmark_path, {:method => 'get', :class => 'button btn btn-success'}
+  = button_to "Kurs belegen", @course.url, {:method => 'get', :class => 'button btn btn-success'}
+  = button_to "Kurs empfehlen", new_recommendation_path, {:method => 'get', :class => 'button btn btn-success'}
+  - if @course.description
+    h3
+      | Description
+    = @course.description
   dt
     | Url:
   dd
     = @course.url
   dt
-    | Course instructors:
-  dd
-    = @course.course_instructors
-  dt
-    | Abstract:
-  dd
-    = @course.abstract
-  dt
-    | Language:
-  dd
-    = @course.language
-  dt
-    | Imageid:
-  dd
-    = @course.imageId
-  dt
     | Videoid:
   dd
     = @course.videoId
-  dt
-    | Start date:
-  dd
-    = @course.start_date
-  dt
-    | End date:
-  dd
-    = @course.end_date
-  dt
-    | Duration:
-  dd
-    = @course.duration
-  dt
-    | Costs:
-  dd
-    = @course.costs
-  dt
-    | Type of achievement:
-  dd
-    = @course.type_of_achievement
-  dt
-    | Categories:
-  dd
-    = @course.categories
-  dt
-    | Difficulty:
-  dd
-    = @course.difficulty
-  dt
-    | Requirements:
-  dd
-    = @course.requirements
-  dt
-    | Workload:
-  dd
-    = @course.minimum_weekly_workload
-  dt
-    | Provider course:
-  dd
-    = @course.provider_course_id
-  dt
-    | Mooc provider:
-  dd
-    = @course.mooc_provider
-  dt
-    | Course result:
-  dd
-    = @course.course_result
+  h3
+    | Recommendations
+    = button_to "Kurs bewerten", new_evaluation_path, {:method => 'get', :class => 'button btn btn-success'}
+  | blablabla
+  h3
+    | Rating
+  | blablabla
+
+= render 'sidebar'
