@@ -4,7 +4,7 @@
   h3
     = t('groups.administrators')
     - if @current_user_is_admin
-      = link_to '#'
+      = link_to '#', data: {toggle: 'modal', target: '#add_group_administrators'}
         span.glyphicon.glyphicon-plus-sign
   - @group_admins.each_with_index do |admin, i|
       .row
@@ -28,5 +28,6 @@
   - if @group_users.size > (number_of_showed_users+1)
     = link_to t('groups.show_all'), '#', data: {toggle: 'modal', target: '#show_group_members'}
 
+  = render 'add_administrators'
   = render 'add_members'
   = render 'show_members'

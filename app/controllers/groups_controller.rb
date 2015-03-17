@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :admins, :invite_group_members]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrators]
 
   # GET /groups
   # GET /groups.json
@@ -69,8 +69,19 @@ class GroupsController < ApplicationController
         format.html { redirect_to @group, notice: t('group_success_failed') }
         format.json { render json: e.to_json, status: :unprocessable_entity }
       end
+    end
+  end
 
-      
+  def add_administrators
+    respond_to do |format|
+      begin
+        add_admins
+        format.html { redirect_to @group, notice: t('group_success_update') }
+        format.json { render :show, status: :created, location: @group }
+      rescue StandardError => e
+        format.html { redirect_to @group, notice: t('group_success_failed') }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -149,6 +160,10 @@ class GroupsController < ApplicationController
       params[:members]
     end
 
+    def additional_admins
+      params[:administrators]
+    end
+
     def invite_members
       return if invited_members.blank?
       emails = invited_members.split(/[^[:alpha:]]\s+|\s+|;\s*|,\s*/)
@@ -162,7 +177,12 @@ class GroupsController < ApplicationController
         GroupInvitation.create(token: token, group_id: @group.id, expiry_date: expiry_date)
         UserMailer.group_invitation_mail(email_address, link, @group, current_user, root_url).deliver_later
       end
+    end
 
+    def add_admins
+      additional_admins.each do |user_id|
+        UserGroup.set_is_admin(@group.id, user_id, true)
+      end
     end
 
     def sort_by_name members
