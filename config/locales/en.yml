@@ -129,3 +129,26 @@ en:
   link_invalid: Link is invalid.
 
   close: Close
+
+  #show course
+  description: Description
+  reviews: Reviews
+  mooc_provider: Mooc Provider
+  instructor: Instructor
+  instructors: Instructors
+  time: Time
+  language: Language
+  requirements: Requirements
+  achievement: Type of Achievement
+  category: Category
+  categories: Categories
+  costs: Costs
+  difficulty: Difficulty
+  workload: Workload
+  enter_course: Enter Course
+  remember_course: Remember Course
+  enroll_course: Enroll into Course
+  recommend_course: Recommend Course
+  rate_course: Rate Course
+  hours: hours
+  per_week: per week

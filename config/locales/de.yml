@@ -129,3 +129,26 @@ de:
   link_invalid: Link ist ungültig.
 
   close: Schließen
+
+  #show course
+  description: Kursinformationen
+  reviews: Rezensionen
+  mooc_provider: Kursanbieter
+  instructor: Lehrperson
+  instructors: Lehrpersonen
+  time: Zeitraum
+  language: Sprache
+  requirements: Voraussetzungen
+  achievement: Abschluss
+  category: Kategorie
+  categories: Kategorien
+  costs: Kosten
+  difficulty: Schwierigkeit
+  workload: Arbeitsaufwand
+  enter_course: Zum Kurs
+  remember_course: Kurs merken
+  enroll_course: Kurs belegen
+  recommend_course: Kurs empfehlen
+  rate_course: Kurs bewerten
+  hours: Stunden
+  per_week: pro Woche

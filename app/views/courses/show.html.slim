@@ -7,9 +7,11 @@
 dl.dl-horizontal
   = image_tag(@course.imageId)
   - if @course.abstract
-    h3
-      | Abstract
-    = @course.abstract
+    /h3
+    /  | Abstract
+    .panel.panel-default
+      .panel-body
+        = @course.abstract
   = button_to "Zum Kurs", @course.url, {:method => 'get', :class => 'button btn btn-success'}
   = button_to "Kurs merken", new_bookmark_path, {:method => 'get', :class => 'button btn btn-success'}
   = button_to "Kurs belegen", @course.url, {:method => 'get', :class => 'button btn btn-success'}
@@ -18,10 +20,6 @@ dl.dl-horizontal
     h3
       | Description
     = @course.description
-  dt
-    | Url:
-  dd
-    = @course.url
   dt
     | Videoid:
   dd
