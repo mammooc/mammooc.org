@@ -57,6 +57,8 @@ group :development, :test do
   gem 'bootstrap-generators'
 
   gem 'capybara'
+  gem 'capybara-selenium'
+  gem 'database_cleaner'
 
   gem 'simplecov', :require => false
 end
