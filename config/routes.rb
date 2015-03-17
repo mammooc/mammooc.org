@@ -48,7 +48,7 @@ Rails.application.routes.draw do
   get 'contact' => 'static_pages#contact'
   get 'about' => 'static_pages#about'
   get 'dashboard' => 'dashboard#dashboard'
-  patch 'group/:id/invite_members' => 'groups#invite_group_members'
+  post 'groups/:id/invite_members' => 'groups#invite_group_members'
   get 'groups/join/:token' => 'groups#join'
   root :to => 'home#index'
 

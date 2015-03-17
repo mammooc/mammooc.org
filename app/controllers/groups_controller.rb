@@ -61,8 +61,16 @@ class GroupsController < ApplicationController
 
   def invite_group_members
     respond_to do |format|
-      invite_members
-      format.html { redirect_to @group, notice: t('group_success_update') }
+      begin
+        invite_members
+        format.html { redirect_to @group, notice: t('group_success_update') }
+        format.json { render :show, status: :created, location: @group }
+      rescue StandardError => e
+        format.html { redirect_to @group, notice: t('group_success_failed') }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+
+      
     end
   end
 
