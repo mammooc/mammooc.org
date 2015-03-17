@@ -23,6 +23,7 @@ en:
   global:
     require_login: You must be logged in to access this section
     close: Close
+    submit: Submit
 
   navbar:
     MAMMOOC: MAMMOOC

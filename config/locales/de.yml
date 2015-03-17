@@ -23,6 +23,7 @@ de:
   global:
     require_login: Sie müssen eingeloggt sein um auf diese Seite zugreifen zu können.
     close: Schließen
+    submit: Absenden
 
   navbar:
     MAMMOOC: MAMMOOC
@@ -99,7 +100,7 @@ de:
     about:
       heading: Über uns
       title: Über uns - MAMMOOC
-  
+
   activerecord:
     models:
       group:
@@ -121,7 +122,7 @@ de:
               too_short: ist zu kurz (Minimum sind %{count} Zeichen).
             password_confirmation:
               confirmation: stimmt nicht mit Passwort überein.
-  
+
   flash:
     #success:
     notice:

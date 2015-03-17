@@ -180,6 +180,19 @@ RSpec.describe GroupsController, :type => :controller do
         expect(ActionMailer::Base.deliveries.count).to eq 2
       end
     end
+
+    context "on show page" do
+      it "should do nothing if there are no members to invite" do
+        put :invite_group_members, {id: group.id, group: valid_attributes}
+        expect(GroupInvitation.count).to eq 0
+        expect(ActionMailer::Base.deliveries.count).to eq 0
+      end
+
+      it "should invite members" do
+        expect{ put :invite_group_members, {id: group.id, group: valid_attributes, members: members} }.to change{ GroupInvitation.count }.by(2)
+        expect(ActionMailer::Base.deliveries.count).to eq 2
+      end
+    end
   end
 
   describe "GET join" do
