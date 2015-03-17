@@ -105,7 +105,7 @@ RSpec.describe GroupsController, :type => :controller do
       expect {
         delete :destroy, {:id => group.to_param}
       }.to change(Group, :count).by(-1)
-      expect(flash[:notice]).to eq I18n.t('flash.notice.groups.successfully_destoryed')
+      expect(flash[:notice]).to eq I18n.t('flash.notice.groups.successfully_destroyed')
     end
 
     it "redirects to the groups list" do

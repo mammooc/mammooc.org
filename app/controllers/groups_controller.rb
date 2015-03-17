@@ -114,7 +114,7 @@ class GroupsController < ApplicationController
 
 
   rescue ActiveRecord::RecordNotFound => error
-    flash[:error] = t('groups.link_invalid')
+    flash[:error] = t('groups.invitation.link_invalid')
     redirect_to root_path
 
   end
