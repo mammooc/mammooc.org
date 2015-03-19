@@ -32,7 +32,7 @@ add_administrators = () ->
       unless $("#checkbox_add_as_admin_#{i}").prop('disabled')
         user_id = $("#user_id_#{i}").val()
         user_ids.push user_id
-        add_new_admin(user_id,i)
+        add_new_admin(user_id, i)
         $("#checkbox_add_as_admin_#{i}").attr('disabled', true)
   data =
     administrators : user_ids
@@ -47,15 +47,18 @@ add_administrators = () ->
     success: (data, textStatus, jqXHR) ->
       $('#add_group_administrators').modal('hide')
 
-add_new_admin = (user_id,i) ->
-  $.ajax 'http://localhost:3000/users/' + user_id + '.json',
+add_new_admin = (user_id, i) ->
+  $.ajax '/users/' + user_id + '.json',
     success  : (data, status, xhr) ->
-      user_link = 'http://localhost:3000/users/' + user_id
+      user_link = '/users/' + user_id
       name = data.first_name + ' ' + data.last_name
-      $('.add_new_admin').append("<div class='row'><div class='col-md-12 list-members'><a href='' class='js_user_link_add_admin'><img src='/data/default.png' /><span class='js_user_name_add_admin'></span></a></div></div>")
-      $('.js_user_link_add_admin').attr('class', "js_user_link_add_admin_#{i}")
-      $(".js_user_link_add_admin_#{i}").attr('href', user_link)
-      $('.js_user_name_add_admin').attr('class', "js_user_name_add_admin_#{i}")
-      $(".js_user_name_add_admin_#{i}").append(name)
+      new_entry = $("<div class='row'><div class='col-md-12 list-members'><a href=''><img src='/data/default.png' /><span></span></a></div></div>")
+      new_entry.find('a').addClass("js_user_link_add_admin_#{i}")
+                         .attr('href', user_link)
+      new_entry.find('span').addClass("js_user_name_add_admin_#{i}")
+                            .append(name)
+      
+      $('.add_new_admin').append(new_entry)
+      
     error    : (xhr, status, err) ->
       console.log("Error "+err)

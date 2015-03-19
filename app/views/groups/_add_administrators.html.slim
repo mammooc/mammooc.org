@@ -16,7 +16,7 @@
                 .input-group.add_as_admin_list_member
                   .checkbox
                     label
-                      input type='checkbox'  id='checkbox_add_as_admin_#{i}'
+                      input type='checkbox' id='checkbox_add_as_admin_#{i}'
                         = link_to user.first_name + ' ' + user.last_name, user_path(user)
                       input type='hidden' value='#{user.id}' id='user_id_#{i}'
               .form-group
