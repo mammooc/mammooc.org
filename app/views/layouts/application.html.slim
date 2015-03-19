@@ -24,7 +24,10 @@ html
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          = link_to t('navbar.MAMMOOC'), dashboard_path, :class => "navbar-brand"
+          - if user_signed_in?
+            = link_to t('navbar.MAMMOOC'), dashboard_path, :class => "navbar-brand"
+          - else
+            = link_to t('navbar.MAMMOOC'), home_index_path, :class => "navbar-brand"
         .collapse.navbar-collapse
           ul.nav.navbar-nav.navbar-right
             li class=('active' if current_page?(home_index_path))
