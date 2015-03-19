@@ -3,10 +3,8 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
-  console.log('init_before')
   $('#invitation_submit_button').click(send_invite)
   $('#add_administrators_submit_button').click(add_administrators)
-  console.log('init_after')
   return
 
 send_invite = () ->
@@ -26,11 +24,11 @@ send_invite = () ->
 			$('#add_group_members').modal('hide')
 
 add_administrators = () ->
-  console.log('admins_before')
   group_id = $('#group_id').val()
   url = '/groups/' + group_id + '/add_administrators.json'
-  user_ids = [$('#user_id').val()] if $('#checkbox_add_as_admin').val()
-  console.log(user_ids)
+  user_ids = []
+  $.each $('.add_as_admin_list_member'), (i, user) ->
+    user_ids.push $("#user_id_#{i}").val() if $("#checkbox_add_as_admin_#{i}").prop('checked')
   data =
     administrators : user_ids
 
@@ -43,4 +41,3 @@ add_administrators = () ->
       $('.administrator-error').text(errorThrown)
     success: (data, textStatus, jqXHR) ->
       $('#add_group_administrators').modal('hide')
-  console.log('admins_after')

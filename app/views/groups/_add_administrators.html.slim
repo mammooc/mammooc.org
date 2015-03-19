@@ -11,15 +11,13 @@
         .row
           .col-md-12
             .administrator-form.form-horizontal
-              /- @ordered_group_members.each do |user|
-                .input-group
-                  input type='checkbox' id='checkbox_add_as_admin'
-                    = link_to user.first_name + ' ' + user.last_name, user_path(user)
-                  input type='hidden' value='#{user.id}' id='user_id'
-              .input-group
-                input type='checkbox' id='checkbox_add_as_admin'
-                  = link_to @ordered_group_members.second.first_name + ' ' + @ordered_group_members.second.last_name, user_path(@ordered_group_members.first)
-                input type='hidden' value='#{@ordered_group_members.second.id}' id='user_id'
+              - @group_users.each_with_index do |user, i|
+                .input-group.add_as_admin_list_member
+                  .checkbox
+                    label
+                      input type='checkbox'  id='checkbox_add_as_admin_#{i}'
+                        = link_to user.first_name + ' ' + user.last_name, user_path(user)
+                      input type='hidden' value='#{user.id}' id='user_id_#{i}'
               .form-group
                 .col-md-offset-2.col-md-10
                   input type='hidden' value='#{@group.id}' id='group_id'
