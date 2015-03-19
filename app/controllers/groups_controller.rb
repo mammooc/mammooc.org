@@ -180,6 +180,7 @@ class GroupsController < ApplicationController
     end
 
     def add_admins
+      return if additional_admins.blank?
       additional_admins.each do |user_id|
         UserGroup.set_is_admin(@group.id, user_id, true)
       end

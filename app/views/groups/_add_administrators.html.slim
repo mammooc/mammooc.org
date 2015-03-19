@@ -6,10 +6,11 @@
           span aria-hidden="true"
             | &times;
         h4.modal-title
-          | Add Administrator to Group
+          = t('groups.add_admin.title')
       .modal-body
         .row
           .col-md-12
+            = t('groups.add_admin.subtitle')
             .administrator-form.form-horizontal
               - @group_users.each_with_index do |user, i|
                 .input-group.add_as_admin_list_member
@@ -19,10 +20,10 @@
                         = link_to user.first_name + ' ' + user.last_name, user_path(user)
                       input type='hidden' value='#{user.id}' id='user_id_#{i}'
               .form-group
-                .col-md-offset-2.col-md-10
+                .col-md-12.mt10
                   input type='hidden' value='#{@group.id}' id='group_id'
                   button.btn.btn-primary id='add_administrators_submit_button'
-                    = t('submit')
+                    = t('global.submit')
                   button.btn.btn-primary style="margin-left:10px" type="button" data-dismiss="modal"
-                    = t('close')
+                    = t('global.close')
             .invitation-error

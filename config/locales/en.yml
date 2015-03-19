@@ -90,6 +90,9 @@ en:
       link_invalid: Link is invalid.
     modal:
       title: All Members
+    add_admin:
+          title: Add Administrators
+          subtitle: "Select one or more members:"
 
   static:
     contact:

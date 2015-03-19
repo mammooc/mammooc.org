@@ -90,6 +90,9 @@ de:
       link_invalid: Link ist ungültig.
     modal:
       title: Alle Mitglieder
+    add_admin:
+      title: Administratoren hinzufügen
+      subtitle: "Aus Mitgliederliste auswählen:"
 
   static:
     contact:

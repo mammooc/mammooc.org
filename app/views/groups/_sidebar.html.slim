@@ -6,12 +6,13 @@
     - if @current_user_is_admin
       = link_to '#', data: {toggle: 'modal', target: '#add_group_administrators'}
         span.glyphicon.glyphicon-plus-sign
-  - @group_admins.each_with_index do |admin, i|
-      .row
-        .col-md-12.list-members
-          - unless i > number_of_showed_users
-            = link_to image_tag('/data/default.png'), user_path(admin)
-            = link_to admin.first_name + ' ' + admin.last_name, user_path(admin)
+  .add_new_admin
+    - @group_admins.each_with_index do |admin, i|
+        .row
+          .col-md-12.list-members
+            - unless i > number_of_showed_users
+              = link_to image_tag('/data/default.png'), user_path(admin)
+              = link_to admin.first_name + ' ' + admin.last_name, user_path(admin)
   - if @group_admins.size > (number_of_showed_users+1)
     = link_to t('groups.show_all'), '#'
 
