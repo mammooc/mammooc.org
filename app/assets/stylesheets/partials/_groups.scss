@@ -1,0 +1,12 @@
+.list-members {
+  img {
+    width: 40px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+  }
+  a {
+  }
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

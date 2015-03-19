@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :admins]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :admins, :invite_group_members]
 
   # GET /groups
   # GET /groups.json
@@ -10,7 +10,11 @@ class GroupsController < ApplicationController
   # GET /groups/1
   # GET /groups/1.json
   def show
-    admins
+    number_of_showed_users = 10
+    @ordered_group_members = sort_by_name(admins) + sort_by_name(@group.users - admins)
+    @group_users = (@group.users - admins).size > number_of_showed_users ? (@group.users - admins).shuffle : sort_by_name(@group.users - admins)
+    @group_admins = admins.size > number_of_showed_users ? sort_by_name(admins) : admins.shuffle
+    @current_user_is_admin = admins.include?(current_user)
   end
 
   # GET /groups/new
@@ -31,7 +35,7 @@ class GroupsController < ApplicationController
         @group.users.push(current_user)
         UserGroup.set_is_admin(@group.id, current_user.id, true)
         invite_members
-        format.html { redirect_to @group, notice: 'Group was successfully created.' }
+        format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_created') }
         format.json { render :show, status: :created, location: @group }
       else
         format.html { render :new }
@@ -46,7 +50,7 @@ class GroupsController < ApplicationController
     respond_to do |format|
       if @group.update(group_params)
         invite_members
-        format.html { redirect_to @group, notice: 'Group was successfully updated.' }
+        format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
         format.json { render :show, status: :ok, location: @group }
       else
         format.html { render :edit }
@@ -55,54 +59,67 @@ class GroupsController < ApplicationController
     end
   end
 
+  def invite_group_members
+    respond_to do |format|
+      begin
+        invite_members
+        format.html { redirect_to @group, notice: t('group_success_update') }
+        format.json { render :show, status: :created, location: @group }
+      rescue StandardError => e
+        format.html { redirect_to @group, notice: t('group_success_failed') }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+
+      
+    end
+  end
+
   # DELETE /groups/1
   # DELETE /groups/1.json
   def destroy
-    UserGroup.destroy_all(group_id: @group.id)
-    GroupInvitation.where(group_id: @group.id).update_all(group_id: nil)
     @group.destroy
     respond_to do |format|
-      format.html { redirect_to groups_url, notice: 'Group was successfully destroyed.' }
+      format.html { redirect_to groups_url, notice: t('flash.notice.groups.successfully_destroyed') }
       format.json { head :no_content }
     end
   end
 
   def admins
     admin_ids = UserGroup.where(group_id: @group.id, is_admin: true).collect{|user_groups| user_groups.user_id}
-    @admins = Array.new
+    admins = Array.new
     admin_ids.each do |admin_id|
-      @admins.push(User.find(admin_id))
+      admins.push(User.find(admin_id))
     end
-    return @admins
+    return admins
   end
 
   def join
     group_invitation = GroupInvitation.find_by_token!(params[:token])
 
     if group_invitation.expiry_date <= Time.now.in_time_zone
-      flash[:error] = t('link_expired')
+      flash[:error] = t('groups.invitation.link_expired')
       redirect_to root_path
       return
     end
 
     if group_invitation.used == true
-      flash[:error] = t('link_used')
+      flash[:error] = t('groups.invitation.link_used')
       redirect_to root_path
       return
     end
 
     if group_invitation.group_id.nil?
-      flash[:error] = t('group_deleted')
+      flash[:error] = t('groups.invitation.group_deleted')
       redirect_to root_path
       return
     end
 
     group = Group.find(group_invitation.group_id)
     if group.users.include? current_user
-      flash[:notice] = t('already_member')
+      flash[:notice] = t('groups.invitation.already_member')
     else
       group.users.push(current_user)
-      flash[:success] = t('joined_group')
+      flash[:success] = t('groups.invitation.joined_group')
     end
 
     group_invitation.used = true
@@ -112,7 +129,7 @@ class GroupsController < ApplicationController
 
 
   rescue ActiveRecord::RecordNotFound => error
-    flash[:error] = t('link_invalid')
+    flash[:error] = t('groups.invitation.link_invalid')
     redirect_to root_path
 
   end
@@ -135,17 +152,21 @@ class GroupsController < ApplicationController
     def invite_members
       return if invited_members.blank?
       emails = invited_members.split(/[^[:alpha:]]\s+|\s+|;\s*|,\s*/)
-      expiry_date = 1.week.from_now.in_time_zone
+      expiry_date = Settings.token_expiry_date
       emails.each do |email_address|
-        token = SecureRandom.urlsafe_base64(16)
+        token = SecureRandom.urlsafe_base64(Settings.token_length)
         until GroupInvitation.find_by_token(token).nil? do
-          token = SecureRandom.urlsafe_base64(16)
+          token = SecureRandom.urlsafe_base64(Settings.token_length)
         end
         link = root_url + 'groups/join/' + token
         GroupInvitation.create(token: token, group_id: @group.id, expiry_date: expiry_date)
-        UserMailer.group_invitation_mail(email_address, link, @group, current_user, root_url).deliver_now
+        UserMailer.group_invitation_mail(email_address, link, @group, current_user, root_url).deliver_later
       end
 
+    end
+
+    def sort_by_name members
+      members.sort_by{ |m| [m.last_name, m.first_name] }
     end
 
 end
