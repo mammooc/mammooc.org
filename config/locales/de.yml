@@ -20,113 +20,121 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 de:
-  #application
-  require_login: "Sie müssen eingeloggt sein um auf diese Seite zugreifen zu können."
+  global:
+    require_login: Sie müssen eingeloggt sein um auf diese Seite zugreifen zu können.
+    close: Schließen
+    submit: Absenden
 
-  #navbar
-  MAMMOOC: "MAMMOOC"
-  home: "Home"
-  about: "Über uns"
-  contact: "Kontakt"
-  sign_out: "Ausloggen"
-  dashboard: "Dashboard"
-  profile: "Profil"
-  
-  #flash message
-  close: "Schließen"
+  navbar:
+    MAMMOOC: MAMMOOC
+    home: Home
+    about: Über uns
+    contact: Kontakt
+    sign_out: Ausloggen
+    dashboard: Dashboard
+    profile: Profil
+    welcome_heading: Willkommen bei MAMMOOC!
 
-  #home/index
-  welcome_heading: "Willkommen bei MAMMOOC!"
-  welcome_title: "MAMMOOC: Registriere DIch noch heute!"
+  dashboard:
+    hi: Hi
+    my_groups: :groups.my_groups
+    my_current_courses: Meine aktuellen Kurse
+    no_groups: :groups.no_groups
+    new_group: Gruppe erstellen
+    edit_group: Gruppe bearbeiten
 
-  #static_pages/contact
-  contact_heading: "Schreib uns!"
-  contact_title: "Kontakt - MAMMOOC"
+  home:
+    welcome_heading: Willkommen bei MAMMOOC!
+    welcome_title: "MAMMOOC: Registriere Dich noch heute!"
+    hello: Hallo
 
-  #static_pages/about
-  about_heading: "Über uns"
-  about_title: "Über uns - MAMMOOC"
-
-  #users/sign_up
-  sign_up: "Registrieren"
-  first_name: "Vorname"
-  last_name: "Nachname"
-  email: "E-Mail-Adresse"
-  characters_minimum: "Zeichen minimum"
-  password_confirmation: "Passwort-Bestätigung"
-  terms_and_conditions_confirmation: "Ich bestätige die AGBs."
-  terms_and_conditions_failure: "Bitte bestätigen Sie die AGBs von MAMMOOC!"
-
-  #users/sign_in
-  sign_in_process: "Anmeldung"
-  sign_in: "Einloggen"
-  password: "Passwort"
-  remember_me: "Angemeldet bleiben"
-
-  #users/password/new
-  forgot_password: 'Passwort vergessen?'
-  reset_my_password: "Neues Passwort anfordern"
-
-  #devise/shared/_links
-  sign_in_link: "Bereits registriert? Hier geht's zum Login."
-  sign_up_link: "Noch nicht registriert? Hier geht's zur Registrierung."
-  sign_up_dropdown: "Noch nicht registriert? Hier geht's zur Registrierung."
-  forgot_password: "Passwort vergessen?"
-
-  #dashboard
-  hi: "Hi"
-  my_groups: "Meine Gruppen"
-  my_current_courses: "Meine aktuellen Kurse"
-  no_groups: "Du hast noch keine Gruppen."
-  new_group: "Gruppe erstellen"
-  edit_group: "Gruppe bearbeiten"
+  users:
+    sign_in_up:
+      sign_in: Einloggen
+      sign_up: Registrieren
+      sign_in_process: Anmeldung
+      first_name: Vorname
+      last_name: Nachname
+      email: E-Mail-Adresse
+      characters_minimum: Zeichen minimum
+      password: Passwort
+      password_confirmation: Passwort-Bestätigung
+      terms_and_conditions_confirmation: Ich bestätige die AGBs.
+      remember_me: Angemeldet bleiben
+      sign_in_link: Bereits registriert? Hier geht's zum Login.
+      sign_up_link: Noch nicht registriert? Hier geht's zur Registrierung.
+      sign_up_dropdown: Noch nicht registriert? Hier geht's zur Registrierung.
+      forgot_password: Passwort vergessen?
+    password:
+      forgot: Passwort vergessen?
+      reset: Neues Passwort anfordern
 
   groups:
-    administrators: "Administrator(en)"
-    members: "Mitglied(er)"
+    admins: Admins
+    administrators: Administrator(en)
+    name: Name
+    description: Beschreibung
+    members: Mitglied(er)
+    show_all: Alle anzeigen
+    no_groups: Du hast noch keine Gruppen.
+    new: Neue Gruppe
+    edit: Gruppe bearbeiten
+    my_groups: Meine Gruppen
+    invitation:
+      joined _group: Sie wurden der Gruppe hinzugefügt.
+      already_member: Sie sind schon Mitglied in der Gruppe.
+      group_deleted: Gruppe gelöscht.
+      invite_members: Mitglieder einladen
+      link_expired: Link ist abgelaufen.
+      link_used: Link wurde bereits verwendet.
+      link_invalid: Link ist ungültig.
     modal:
       title: Alle Mitglieder
-    show_all: Alle anzeigen
 
-  #group/_form
-  invite_members: Mitglieder einladen
+  static:
+    contact:
+      heading: Schreib uns!
+      title: Kontakt - MAMMOOC
+    about:
+      heading: Über uns
+      title: Über uns - MAMMOOC
 
-  #model group
   activerecord:
     models:
       group:
-        one: "Gruppe"
-        other: "Gruppen"
+        one: Gruppe
+        other: Gruppen
     attributes:
       group:
-        name: "Name"
-        description: "Beschreibung"
+        name: Name
+        description: Beschreibung
    #error messages
     errors:
       messages:
-        taken: 'ist bereits belegt.'
-        blank: 'muss ausgefüllt werden.'
+        taken: ist bereits belegt.
+        blank: muss ausgefüllt werden.
       models:
         user:
           attributes:
             password:
-              too_short: 'ist zu kurz (Minimum sind %{count} Zeichen).'
+              too_short: ist zu kurz (Minimum sind %{count} Zeichen).
             password_confirmation:
-              confirmation: 'stimmt nicht mit Passwort überein.'
+              confirmation: stimmt nicht mit Passwort überein.
 
-  #create group
-  group_success_create: Gruppe wurde erfolgreich erstellt.
-  group_success_update: Gruppe wurde erfolgreich aktualisiert.
-  group_success_destroy: Gruppe wurde erfolgreich gelöscht.
-
-
-  #join group
-  link_expired: Link ist abgelaufen.
-  link_used: Link wurde bereits verwendet.
-  group_deleted: Gruppe gelöscht.
-  already_member: Sie sind schon Mitglied in der Gruppe.
-  joined_group: Sie wurden der Gruppe hinzugefügt.
-  link_invalid: Link ist ungültig.
-
-  close: Schließen
-  submit: Absenden
+  flash:
+    #success:
+    notice:
+      groups:
+        successfully_created: Gruppe wurde erfolgreich erstellt.
+        successfully_updated: Gruppe wurde erfolgreich aktualisiert.
+        successfully_destroyed: Gruppe wurde erfolgreich gelöscht.
+    error:
+      taken: ist bereits belegt.
+      blank: muss ausgefüllt werden.
+      login:
+        reqired: Sie müssen eingeloggt sein.
+      sign_up:
+        terms_and_conditions_failure: Bitte bestätigen Sie die AGBs von MAMMOOC!
+      user:
+        password_too_short: ist zu kurz (Minimum sind %{count} Zeichen).
+        password_confirmation: stimmt nicht mit Passwort überein.

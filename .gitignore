@@ -2,6 +2,7 @@
 
 /Vagrantfile
 /.vagrant
+/vagrant_provision.sh
 
 /coverage
 # Ignore stupid Mac folders
