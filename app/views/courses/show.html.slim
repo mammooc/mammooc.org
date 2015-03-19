@@ -7,29 +7,23 @@
 dl.dl-horizontal
   = image_tag(@course.imageId)
   - if @course.abstract
-    /h3
-    /  | Abstract
     .panel.panel-default
       .panel-body
         = @course.abstract
-  = button_to "Zum Kurs", @course.url, {:method => 'get', :class => 'button btn btn-success'}
-  = button_to "Kurs merken", new_bookmark_path, {:method => 'get', :class => 'button btn btn-success'}
-  = button_to "Kurs belegen", @course.url, {:method => 'get', :class => 'button btn btn-success'}
-  = button_to "Kurs empfehlen", new_recommendation_path, {:method => 'get', :class => 'button btn btn-success'}
+  = button_to t('courses.enter_course'), @course.url, {:method => 'get', :class => 'button btn btn-success'}
+  = button_to t('courses.remember_course'), new_bookmark_path, {:method => 'get', :class => 'button btn btn-success'}
+  = button_to t('courses.enroll_course'), @course.url, {:method => 'get', :class => 'button btn btn-success'}
+  = button_to t('courses.recommend_course'), new_recommendation_path, {:method => 'get', :class => 'button btn btn-success'}
   - if @course.description
     h3
-      | Description
+      = t('courses.description')
     = @course.description
-  dt
-    | Videoid:
-  dd
-    = @course.videoId
   h3
-    | Recommendations
-    = button_to "Kurs bewerten", new_evaluation_path, {:method => 'get', :class => 'button btn btn-success'}
+    = t('courses.recommendations')
+    = button_to t('courses.rate_course'), new_evaluation_path, {:method => 'get', :class => 'button btn btn-success'}
   | blablabla
   h3
-    | Rating
+    = t('courses.rating')
   | blablabla
 
 = render 'sidebar'
