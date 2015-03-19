@@ -28,6 +28,10 @@
     h4
       = t('courses.achievement')
     = @course.type_of_achievement
+  - if @course.credit_points
+    h4
+      = t('courses.credit_points')
+    = @course.credit_points
   - if @course.categories
     h4
       = t('courses.categories')

@@ -144,6 +144,7 @@ en:
     per_week: per week
     recommendations: Recommendations
     rating: Rating
+    credit_points: Credit Points
 
   flash:
     #success:

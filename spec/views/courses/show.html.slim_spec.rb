@@ -19,6 +19,7 @@ RSpec.describe "courses/show", :type => :view do
       :categories => "Categories",
       :difficulty => "Difficulty",
       :requirements => "Requirements",
+      :credit_points => 4.0,
       :minimum_weekly_workload => 1,
       :maximum_weekly_workload => 2,
       :provider_course_id => 1,
@@ -47,5 +48,6 @@ RSpec.describe "courses/show", :type => :view do
     expect(view.content_for(:sidebar)).to match(/Categories/)
     expect(view.content_for(:sidebar)).to match(/Requirements/)
     expect(view.content_for(:sidebar)).to match(/Workload/)
+    expect(view.content_for(:sidebar)).to match(/4.0/)
   end
 end
