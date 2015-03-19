@@ -117,8 +117,8 @@ ActiveRecord::Schema.define(version: 20150316141835) do
     t.string   "videoId"
     t.datetime "start_date",              null: false
     t.datetime "end_date",                null: false
-    t.string   "duration"
-    t.string   "costs"
+    t.integer  "duration"
+    t.float    "costs"
     t.string   "type_of_achievement"
     t.string   "difficulty"
     t.string   "provider_course_id",      null: false

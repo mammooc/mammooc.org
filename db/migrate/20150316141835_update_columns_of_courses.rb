@@ -21,18 +21,7 @@ class UpdateColumnsOfCourses < ActiveRecord::Migration
 
     add_column(:courses, :description, :text)
     change_column(:courses, :credit_points, :float)
-  end
-
-  def up
-    connection.execute(%q{
-    alter table courses
-    alter column duration
-    type integer using cast(duration as integer)
-  })
-    connection.execute(%q{
-    alter table courses
-    alter column costs
-    type float using cast(costs as float)
-  })
+    change_column(:courses, :duration, "integer USING CAST(duration AS integer)")
+    change_column(:courses, :costs, "float USING CAST(costs AS float)")
   end
 end
