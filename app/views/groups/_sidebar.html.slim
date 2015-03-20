@@ -4,7 +4,7 @@
   h3
     = t('groups.administrators')
     - if @current_user_is_admin
-      = link_to '#', data: {toggle: 'modal', target: '#add_group_administrators'}
+      = link_to '#', data: {toggle: 'modal', target: '#add_group_administrators'}, id: "add_administrators_symbol"
         span.glyphicon.glyphicon-plus-sign
   .add_new_admin
     - @group_admins.each_with_index do |admin, i|
