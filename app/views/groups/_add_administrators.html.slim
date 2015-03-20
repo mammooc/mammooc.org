@@ -1,0 +1,29 @@
+.modal.fade id="add_group_administrators"
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close type="button" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true"
+            | &times;
+        h4.modal-title
+          = t('groups.add_admin.title')
+      .modal-body
+        .row
+          .col-md-12
+            = t('groups.add_admin.subtitle')
+            .administrator-form.form-horizontal
+              - @group_users.each_with_index do |user, i|
+                .input-group.add_as_admin_list_member
+                  .checkbox
+                    label
+                      input type='checkbox' id='checkbox_add_as_admin_#{i}'
+                        = link_to user.first_name + ' ' + user.last_name, user_path(user)
+                      input type='hidden' value='#{user.id}' id='user_id_#{i}'
+              .form-group
+                .col-md-12.mt10
+                  input type='hidden' value='#{@group.id}' id='group_id'
+                  button.btn.btn-primary.mr10 id='add_administrators_submit_button'
+                    = t('global.submit')
+                  button.btn.btn-primary type="button" data-dismiss="modal"
+                    = t('global.close')
+            .invitation-error

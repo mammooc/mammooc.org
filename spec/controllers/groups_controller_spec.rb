@@ -247,4 +247,32 @@ RSpec.describe GroupsController, :type => :controller do
     end
   end
 
+  describe "POST add_administrators" do
+    let(:user) {FactoryGirl.create(:user)}
+    let(:second_user) {FactoryGirl.create(:user)}
+    let(:group) {FactoryGirl.create(:group, users:[user, second_user])}
+
+    it "should add one administrator to an existing group" do
+      put :add_administrators, {id: group.id, group: valid_attributes, administrators: [user]}
+      expect(response).to redirect_to group_path(group)
+      current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
+      expect(current_admins_of_group.count).to eq 1
+    end
+
+    it "should add one administrator to an existing group" do
+      put :add_administrators, {id: group.id, group: valid_attributes, administrators: [user, second_user]}
+      expect(response).to redirect_to group_path(group)
+      current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
+      expect(current_admins_of_group.count).to eq 2
+    end
+
+    it "should do nothing if there is no one member in administrator argument" do
+      put :add_administrators, {id: group.id, group: valid_attributes, administrators: []}
+      expect(response).to redirect_to group_path(group)
+      current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
+      expect(current_admins_of_group.count).to eq 0
+    end
+
+  end
+
 end
