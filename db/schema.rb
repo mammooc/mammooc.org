@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150216151851) do
+ActiveRecord::Schema.define(version: 20150316141835) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -109,27 +109,31 @@ ActiveRecord::Schema.define(version: 20150216151851) do
   end
 
   create_table "courses", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.string   "name"
-    t.string   "url"
-    t.string   "course_instructor"
+    t.string   "name",                    null: false
+    t.string   "url",                     null: false
     t.text     "abstract"
     t.string   "language"
     t.string   "imageId"
     t.string   "videoId"
-    t.datetime "start_date"
-    t.datetime "end_date"
-    t.string   "duration"
-    t.string   "costs"
+    t.datetime "start_date",              null: false
+    t.datetime "end_date",                null: false
+    t.integer  "duration"
+    t.float    "costs"
     t.string   "type_of_achievement"
-    t.string   "categories"
     t.string   "difficulty"
-    t.string   "requirements"
-    t.string   "workload"
-    t.integer  "provider_course_id"
-    t.uuid     "mooc_provider_id"
+    t.string   "provider_course_id",      null: false
+    t.uuid     "mooc_provider_id",        null: false
     t.uuid     "course_result_id"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.float    "credit_points"
+    t.float    "minimum_weekly_workload"
+    t.float    "maximum_weekly_workload"
+    t.string   "price_currency"
+    t.string   "categories",                           array: true
+    t.string   "requirements",                         array: true
+    t.string   "course_instructors",                   array: true
+    t.text     "description"
   end
 
   add_index "courses", ["course_result_id"], name: "index_courses_on_course_result_id", using: :btree

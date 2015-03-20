@@ -123,6 +123,33 @@ en:
             password_confirmation:
               confirmation: doesn't match with password.
 
+  #show course
+  courses:
+    description: Description
+    reviews: Reviews
+    mooc_provider: MOOC Provider
+    instructor: Instructor
+    instructors: Instructors
+    time: Time
+    language: Language
+    requirements: Requirements
+    achievement: Type of Achievement
+    categories: Categories
+    costs: Costs
+    difficulty: Difficulty
+    workload: Workload
+    enter_course: Enter Course
+    remember_course: Remember Course
+    enroll_course: Enroll into Course
+    recommend_course: Recommend Course
+    rate_course: Rate Course
+    hours: hours
+    per_week: per week
+    recommendations: Recommendations
+    rating: Rating
+    credit_points: Credit Points
+    no_dates_available: There are no dates available.
+
   flash:
     #success:
     notice:
