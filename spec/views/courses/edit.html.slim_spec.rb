@@ -1,11 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe "courses/edit", :type => :view do
+
   before(:each) do
+    moocProvider = MoocProvider.create()
     @course = assign(:course, Course.create!(
       :name => "MyString",
       :url => "MyString",
-      :course_instructor => "MyString",
+      :course_instructors => "MyString",
       :abstract => "MyText",
       :language => "MyString",
       :imageId => "MyString",
@@ -16,10 +18,13 @@ RSpec.describe "courses/edit", :type => :view do
       :categories => "MyString",
       :difficulty => "MyString",
       :requirements => "MyString",
-      :workload => "MyString",
+      :minimum_weekly_workload => 1,
+      :maximum_weekly_workload => 2,
       :provider_course_id => 1,
-      :mooc_provider => nil,
-      :course_result => nil
+      :course_result => nil,
+      :start_date => DateTime.new(2015,9,3,9),
+      :end_date => DateTime.new(2015,10,3,9),
+      :mooc_provider_id => moocProvider.id
     ))
   end
 

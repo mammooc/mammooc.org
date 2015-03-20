@@ -1,0 +1,56 @@
+- content_for :sidebar
+  h4
+    = t('courses.mooc_provider')
+  = @course.mooc_provider.name
+  - if @course.course_instructors
+    h4
+      - if @course.course_instructors.length < 2
+        = t('courses.instructor')
+      - else
+        = t('courses.instructors')
+    - @course.course_instructors.each do |instructor|
+      = instructor
+      br
+    h4
+      = t('courses.time')
+    - if @course.start_date && @course.end_date
+      = @course.start_date.strftime("%d.%m.%Y") + ' - ' + @course.end_date.strftime("%d.%m.%Y")
+    - else
+      = t('courses.no_dates_available')
+  - if @course.language
+    h4
+      = t('courses.language')
+    = @course.language
+  - if @course.requirements
+    h4
+      = t('courses.requirements')
+    - @course.requirements.each do |requirement|
+      span.label.label-default
+        = requirement
+  - if @course.type_of_achievement
+    h4
+      = t('courses.achievement')
+    = @course.type_of_achievement
+  - if @course.credit_points
+    h4
+      = t('courses.credit_points')
+    = @course.credit_points
+  - if @course.categories
+    h4
+      = t('courses.categories')
+    - @course.categories.each do |category|
+      span.label.label-default
+        = category
+  - if @course.costs
+    h4
+      = t('courses.costs') + ':'
+    = @course.costs.to_s + @course.price_currency
+  - if @course.difficulty
+    h4
+      = t('courses.difficulty')
+    = @course.difficulty
+  - if @course.minimum_weekly_workload && @course.maximum_weekly_workload
+    h4
+      = t('courses.workload')
+    = @course.minimum_weekly_workload.to_s + ' ' + t('courses.hours') + ' - ' + @course.maximum_weekly_workload.to_s
+    = ' ' + t('courses.hours') + ' ' + t('courses.per_week')

@@ -11,4 +11,15 @@ class Course < ActiveRecord::Base
   has_many :evaluations
   has_many :course_assignments
   has_many :user_assignments
+
+  before_save :checkAndUpdateDuration
+
+  private
+  def checkAndUpdateDuration
+    if self.duration != (self.end_date.to_date - self.start_date.to_date).to_i
+      self.duration = (self.end_date.to_date - self.start_date.to_date).to_i
+      self.save
+    end
+  end
+
 end
