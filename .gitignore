@@ -2,9 +2,12 @@
 
 /Vagrantfile
 /.vagrant
+/vagrant_provision.sh
 
-/.DS_Store
 /coverage
+# Ignore stupid Mac folders
+/.DS_Store
+
 # __ WEBAPP __
 # Ignore bundler config.
 /.bundle
@@ -20,3 +23,9 @@
 *.iml
 /.idea
 *.idea
+
+/coverage
+
+config/settings.local.yml
+config/settings/*.local.yml
+config/environments/*.local.yml

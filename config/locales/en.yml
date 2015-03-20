@@ -20,65 +20,120 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  #navbar
-  MAMMOOC: "MAMMOOC"
-  home: "Home"
-  about: "About us"
-  contact: "Contact"
-  welcome_heading: "Welcome to MAMMOOC!"
-  sign_out: "Sign Out"
-  dashboard: "Dashboard"
-  profile: "Profile"
+  global:
+    require_login: You must be logged in to access this section
+    close: Close
+    submit: Submit
 
-  #users/sign_up
-  sign_up: "Sign Up"
-  first_name: "First name"
-  last_name: "Last name"
-  email: "Email"
-  characters_minimum: "characters minimum"
-  password_confirmation: "Re-enter password"
-  agb_confirmation: "I confirm to MAMMOOCs terms and conditions."
+  navbar:
+    MAMMOOC: MAMMOOC
+    home: Home
+    about: About us
+    contact: Contact
+    sign_out: Sign Out
+    dashboard: Dashboard
+    profile: Profile
+    welcome_heading: Welcome to MAMMOOC!
 
-  #users/sign_in
-  sign_in_process: "Log in"
-  sign_in: "Sign in"
-  password: "Password"
-  remember_me: "Keep me logged in"
+  dashboard:
+    hi: Hi %{name}
+    my_groups: :groups.my_groups
+    my_current_courses: My Current Courses
+    no_groups: :groups.no_groups
+    new_group: Creating Group
+    edit_group: Editing Group
 
-  #devise/shared/_links
-  sign_in_link: "Already signed up? Click here to log in."
-  sign_up_link: "Not signed up yet? Click here to sign up."
-  forgot_password: "Forgot your password?"
+  home:
+    welcome_heading: Welcome to MAMMOOC!
+    welcome_title: "MAMMOOC: Sign up today!"
+    hello: Hello
 
-  #dashboard
-  hi: "Hi"
-  my_groups: "My Groups"
-  my_current_courses: "My Current Courses"
-  no_groups: "You don't have any groups."
-  new_group: "Creating Group"
-  edit_group: "Editing Group"
+  users:
+    sign_in_up:
+      sign_in: Sign in
+      sign_up: Sign Up
+      sign_in_process: Log in
+      first_name: First name
+      last_name: Last name
+      email: Email
+      characters_minimum: characters minimum
+      password: Password
+      password_confirmation: Re-enter password
+      terms_and_conditions_confirmation: I confirm to MAMMOOCs terms and conditions.
+      remember_me: Keep me logged in
+      sign_in_link: Already signed up? Click here to log in.
+      sign_up_link: Not signed up yet? Click here to sign up.
+      sign_up_dropdown: Not signed up yet? Sign up here.
+      forgot_password: Forgot your password?
+    password:
+      forgot: Forgot your password?
+      reset: Reset my password
 
-  #groups/show
-  admins: "Admins"
+  groups:
+    admins: Admins
+    administrators: Administrator(s)
+    name: Name
+    description: Description
+    members: Member(s)
+    show_all: Show all
+    no_groups: You don't have any groups.
+    new: New group
+    edit: Edit group
+    my_groups: My Groups
+    invitation:
+      joined_group: You were successfully added to the group.
+      already_member: You are already member of the group.
+      group_deleted: The group was deleted.
+      invite_members: Invite members
+      link_expired: Link is expired.
+      link_used: Link is already used.
+      link_invalid: Link is invalid.
+    modal:
+      title: All Members
 
-  #group/_form
-  invite_members: Invite members
+  static:
+    contact:
+      heading: Contact us!
+      title: Contact - MAMMOOC
+    about:
+      heading: About us
+      title: About us - MAMMOOC
 
-  #model group
   activerecord:
     models:
       group:
-        one: "Group"
-        other: "Groups"
+        one: Group
+        other: Groups
     attributes:
       group:
-        name: "Name"
-        description: "Description"
+        name: Name
+        description: Description
+    errors:
+      messages:
+        taken: 'has already been taken.'
+        blank: 'has to be filled in.'
+      models:
+        user:
+          attributes:
+            password:
+              too_short: 'is too short (minimum is %{count} characters).'
+            password_confirmation:
+              confirmation: doesn't match with password.
 
-  #join group
-  link_expired: Link is expired.
-  link_used: Link is already used.
-  group_deleted: The group was deleted.
-  already_member: You are already member of the group.
-  joined_group: You were successfully added to the group.
-  link_invalid: Link is invalid.
+  flash:
+    #success:
+    notice:
+      groups:
+        successfully_created: Group was successfully created.
+        successfully_updated: Group was successfully updated.
+        successfully_destroyed: Group was successfully destroyed.
+    error:
+      taken: has already been taken.
+      blank: has to be filled in.
+      sign_up:
+        terms_and_conditions_failure: Please confirm to MAMMOOCs terms and conditions!
+      login:
+        reqired: You must be logged in.
+      user:
+        password_too_short: is too short (minimum is %{count} characters).
+        password_confirmation: doesn't match with password.

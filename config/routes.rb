@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
 
 
-  devise_for :users, :controllers => { :registrations => "users/registrations", :sessions => "users/sessions"}
+  devise_for :users, :controllers => { :registrations => "users/registrations",
+                                       :sessions => "users/sessions",
+                                       :passwords => "users/passwords"}
   resources :user_assignments
 
   resources :course_assignments
@@ -46,6 +48,7 @@ Rails.application.routes.draw do
   get 'contact' => 'static_pages#contact'
   get 'about' => 'static_pages#about'
   get 'dashboard' => 'dashboard#dashboard'
+  post 'groups/:id/invite_members' => 'groups#invite_group_members'
   get 'groups/join/:token' => 'groups#join'
   root :to => 'home#index'
 

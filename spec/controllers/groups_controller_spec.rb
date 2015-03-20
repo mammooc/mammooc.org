@@ -48,6 +48,7 @@ RSpec.describe GroupsController, :type => :controller do
         expect {
           post :create, {:group => valid_attributes}
         }.to change(Group, :count).by(1)
+        expect(flash[:notice]).to eq I18n.t('flash.notice.groups.successfully_created')
       end
 
       it "assigns a newly created group as @group" do
@@ -84,6 +85,7 @@ RSpec.describe GroupsController, :type => :controller do
         group.reload
         expect(group.name).to eq('Test_different')
         expect(group.description).to eq('edited text')
+        expect(flash[:notice]).to eq I18n.t('flash.notice.groups.successfully_updated')
       end
 
       it "assigns the requested group as @group" do
@@ -103,6 +105,7 @@ RSpec.describe GroupsController, :type => :controller do
       expect {
         delete :destroy, {:id => group.to_param}
       }.to change(Group, :count).by(-1)
+      expect(flash[:notice]).to eq I18n.t('flash.notice.groups.successfully_destroyed')
     end
 
     it "redirects to the groups list" do
@@ -111,8 +114,8 @@ RSpec.describe GroupsController, :type => :controller do
     end
 
     it "destroys the membership of all users of the deleted group and only of the deleted group" do
-      user_1 = FactoryGirl.create(:user, email: 'max@test.de')
-      user_2 = FactoryGirl.create(:user, email: 'max@test.com')
+      user_1 = FactoryGirl.create(:user)
+      user_2 = FactoryGirl.create(:user)
       group.update(users: [user, user_1, user_2])
       group_2 = FactoryGirl.create(:group, users: [user, user_1, user_2])
       expect {
@@ -133,8 +136,8 @@ RSpec.describe GroupsController, :type => :controller do
     it "should returns all administrators for the given group" do
       post :create, {:group => valid_attributes}
       group = assigns(:group)
-      user_1 = FactoryGirl.create(:user, email: 'max@test.de')
-      user_2 = FactoryGirl.create(:user, email: 'max@test.com')
+      user_1 = FactoryGirl.create(:user)
+      user_2 = FactoryGirl.create(:user)
       group.users.push(user_1, user_2)
       UserGroup.set_is_admin(group.id, user_1.id, true)
       expect(@controller.admins).to match_array([user, user_1])
@@ -177,6 +180,19 @@ RSpec.describe GroupsController, :type => :controller do
         expect(ActionMailer::Base.deliveries.count).to eq 2
       end
     end
+
+    context "on show page" do
+      it "should do nothing if there are no members to invite" do
+        put :invite_group_members, {id: group.id, group: valid_attributes}
+        expect(GroupInvitation.count).to eq 0
+        expect(ActionMailer::Base.deliveries.count).to eq 0
+      end
+
+      it "should invite members" do
+        expect{ put :invite_group_members, {id: group.id, group: valid_attributes, members: members} }.to change{ GroupInvitation.count }.by(2)
+        expect(ActionMailer::Base.deliveries.count).to eq 2
+      end
+    end
   end
 
   describe "GET join" do
@@ -189,7 +205,7 @@ RSpec.describe GroupsController, :type => :controller do
       expect(response).to redirect_to(group_path(another_group))
       expect(Group.find(another_group.id).users).to include(user)
       expect(GroupInvitation.find(invitation.id).used).to be true
-      expect(flash[:success]).to eq I18n.t('joined_group')
+      expect(flash[:success]).to eq I18n.t('groups.invitation.joined_group')
     end
 
     it "should not allow to use link twice" do
@@ -197,14 +213,14 @@ RSpec.describe GroupsController, :type => :controller do
       group_users_before = Group.find(another_group.id).users.count
       get :join, token: invitation.token
       expect(response).to redirect_to(root_path)
-      expect(flash[:error]).to eq I18n.t('link_used')
+      expect(flash[:error]).to eq I18n.t('groups.invitation.link_used')
       expect(Group.find(another_group.id).users.count).to eq group_users_before
     end
 
     it "should not add user with expired invitation" do
       get :join, token: expired_invitation.token
       expect(response).to redirect_to(root_path)
-      expect(flash[:error]).to eql I18n.t('link_expired')
+      expect(flash[:error]).to eql I18n.t('groups.invitation.link_expired')
       expect(Group.find(another_group.id).users.count).to eq another_group.users.count
     end
 
@@ -212,14 +228,14 @@ RSpec.describe GroupsController, :type => :controller do
       delete :destroy, {id: another_group.to_param}
       get :join, token: invitation.token
       expect(response).to redirect_to(root_path)
-      expect(flash[:error]).to eql I18n.t('group_deleted')
+      expect(flash[:error]).to eql I18n.t('groups.invitation.group_deleted')
     end
 
     it "should not add member twice" do
       another_group.users.push(user)
       get :join, token: invitation.token
       expect(response).to redirect_to(group_path(another_group))
-      expect(flash[:notice]).to eq I18n.t('already_member')
+      expect(flash[:notice]).to eq I18n.t('groups.invitation.already_member')
       expect(GroupInvitation.find(invitation.id).used).to be true
       expect(Group.find(another_group.id).users.where(id: user.id).count).to eq 1
     end
@@ -227,7 +243,7 @@ RSpec.describe GroupsController, :type => :controller do
     it "should display error message if token is invalid" do
       get :join, token: "132465798"
       expect(response).to redirect_to(root_path)
-      expect(flash[:error]).to eq I18n.t('link_invalid')
+      expect(flash[:error]).to eq I18n.t('groups.invitation.link_invalid')
     end
   end
 
