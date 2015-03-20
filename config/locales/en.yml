@@ -145,6 +145,7 @@ en:
     recommendations: Recommendations
     rating: Rating
     credit_points: Credit Points
+    no_dates_available: There are no dates available.
 
   flash:
     #success:

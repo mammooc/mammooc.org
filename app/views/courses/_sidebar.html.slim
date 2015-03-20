@@ -13,7 +13,10 @@
       br
     h4
       = t('courses.time')
-    = @course.start_date.strftime("%d.%m.%Y") + ' - ' + @course.end_date.strftime("%d.%m.%Y")
+    - if @course.start_date && @course.end_date
+      = @course.start_date.strftime("%d.%m.%Y") + ' - ' + @course.end_date.strftime("%d.%m.%Y")
+    - else
+      = t('courses.no_dates_available')
   - if @course.language
     h4
       = t('courses.language')

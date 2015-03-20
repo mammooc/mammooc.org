@@ -146,6 +146,7 @@ de:
     recommendations: Empfehlungen
     rating: Bewertung
     credit_points: Leistungspunkte
+    no_dates_available: Es sind keine Daten vorhanden.
 
   flash:
     #success:
