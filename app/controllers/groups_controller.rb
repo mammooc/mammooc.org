@@ -10,10 +10,10 @@ class GroupsController < ApplicationController
   # GET /groups/1
   # GET /groups/1.json
   def show
-    number_of_showed_users = 10
+    number_of_shown_users = 10
     @ordered_group_members = sort_by_name(admins) + sort_by_name(@group.users - admins)
-    @group_users = (@group.users - admins).size > number_of_showed_users ? (@group.users - admins).shuffle : sort_by_name(@group.users - admins)
-    @group_admins = admins.size > number_of_showed_users ? sort_by_name(admins) : admins.shuffle
+    @group_users = (@group.users - admins).size > number_of_shown_users ? (@group.users - admins).shuffle : sort_by_name(@group.users - admins)
+    @group_admins = admins.size > number_of_shown_users ? sort_by_name(admins) : admins.shuffle
     @current_user_is_admin = admins.include?(current_user)
   end
 

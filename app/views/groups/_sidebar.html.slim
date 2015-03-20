@@ -14,7 +14,7 @@
               = link_to image_tag('/data/default.png'), user_path(admin)
               = link_to admin.first_name + ' ' + admin.last_name, user_path(admin)
   - if @group_admins.size > (number_of_shown_users+1)
-    = link_to t('groups.show_all'), '#'
+    = link_to t('groups.show_all'), '#', data: {toggle: 'modal', target: '#show_group_admins'}
 
   h3
     = t('groups.members')
@@ -32,3 +32,4 @@
   = render 'add_administrators'
   = render 'add_members'
   = render 'show_members'
+  = render 'show_admins'

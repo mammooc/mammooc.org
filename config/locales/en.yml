@@ -93,6 +93,7 @@ en:
     add_admin:
           title: Add Administrators
           subtitle: "Select one or more members:"
+    all_admins: All Administrators
 
   static:
     contact:
