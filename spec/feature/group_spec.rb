@@ -3,6 +3,8 @@ require 'database_cleaner'
 
 RSpec.describe GroupsController, :type => :feature do
 
+  self.use_transactional_fixtures = false
+
   before(:each) do
     @user = FactoryGirl.create(:user)
     @second_user = FactoryGirl.create(:user)
