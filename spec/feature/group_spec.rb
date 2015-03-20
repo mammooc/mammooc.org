@@ -69,4 +69,33 @@ RSpec.describe GroupsController, :type => :feature do
 
   end
 
+  describe 'show all group members' do
+    it 'should show all members of the group (including admins)' do
+      create_users = FactoryGirl.create_list(:user, 10)
+      @group.users.push(create_users)
+      visit group_path(@group)
+      click_on I18n.t('groups.show_all')
+      expect(page).to have_content I18n.t('groups.modal.title')
+      @group.users.each do |user|
+        expect(page).to have_content user.first_name
+      end
+    end
+  end
+
+  describe 'show all group administrators' do
+    it 'should show all members of the group (including admins)' do
+      create_users = FactoryGirl.create_list(:user, 10)
+      @group.users.push(create_users)
+      create_users.each do |user|
+        UserGroup.set_is_admin(@group.id, user.id, true)
+      end
+      visit group_path(@group)
+      click_on I18n.t('groups.show_all')
+      expect(page).to have_content I18n.t('groups.all_admins')
+     create_users.each do |user|
+        expect(page).to have_content user.first_name
+      end
+    end
+  end
+
 end
