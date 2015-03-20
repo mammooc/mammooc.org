@@ -124,7 +124,7 @@ en:
   courses:
     description: Description
     reviews: Reviews
-    mooc_provider: Mooc Provider
+    mooc_provider: MOOC Provider
     instructor: Instructor
     instructors: Instructors
     time: Time

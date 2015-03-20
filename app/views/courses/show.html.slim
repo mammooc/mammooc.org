@@ -1,26 +1,36 @@
 .page-header
   h1
     = @course.name
-dl.dl-horizontal
-  = image_tag(@course.imageId)
-  - if @course.abstract
-    .panel.panel-default
-      .panel-body
-        = @course.abstract
-  = button_to t('courses.enter_course'), @course.url, {:method => 'get', :class => 'button btn btn-default'}
-  = button_to t('courses.remember_course'), new_bookmark_path, {:method => 'get', :class => 'button btn btn-default'}
-  = button_to t('courses.enroll_course'), @course.url, {:method => 'get', :class => 'button btn btn-default'}
-  = button_to t('courses.recommend_course'), new_recommendation_path, {:method => 'get', :class => 'button btn btn-default'}
-  - if @course.description
-    h3
-      = t('courses.description')
-    = @course.description
+= image_tag(@course.imageId)
+- if @course.abstract
+  / panel ist nur Zwischenlösung - Abstract ist ansonsten nicht lesbar
+  .panel.panel-default
+    .panel-body
+      = @course.abstract
+= link_to @course.url
+  button.btn.btn-default
+    = t('courses.enter_course')
+= link_to new_bookmark_path
+  button.btn.btn-default
+    = t('courses.remember_course')
+= link_to @course.url
+  button.btn.btn-default
+    = t('courses.enroll_course')
+= link_to new_recommendation_path
+  button.btn.btn-default
+    = t('courses.recommend_course')
+- if @course.description
   h3
-    = t('courses.recommendations')
-    = button_to t('courses.rate_course'), new_evaluation_path, {:method => 'get', :class => 'button btn btn-default'}
-  | blablabla
-  h3
-    = t('courses.rating')
-  | blablabla
+    = t('courses.description')
+  = @course.description
+h3
+  = t('courses.recommendations')
+| blablabla
+h3
+  = t('courses.rating')
+  = link_to new_evaluation_path
+    button.btn.btn-default
+      = t('courses.rate_course')
+| blablabla
 
 = render 'sidebar'
