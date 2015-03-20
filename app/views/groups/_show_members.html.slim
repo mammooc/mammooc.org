@@ -11,11 +11,11 @@
         - @ordered_group_members.each do |user|
         // Remember: The following HTML code is also used in groups.coffee.
         // If you change it, change it in groups.coffee, too.
-          .row
-            .col-md-12.list-members
-              = link_to user_path(user)
-                = image_tag('/data/default.png')
-                | #{user.first_name} #{user.last_name}
+        .row
+          .col-md-12.list-members
+            = link_to user_path(user)
+              = image_tag('/data/default.png')
+              | #{user.first_name} #{user.last_name}
       .modal-footer
         button.btn.btn-default type="button" data-dismiss="modal"
           = t('close')
