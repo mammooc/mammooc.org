@@ -38,6 +38,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # authentication
 gem 'devise'
 
+# HTTP requests
+gem 'rest-client'
+
 gem 'bootstrap-sass'
 
 gem 'factory_girl_rails'
