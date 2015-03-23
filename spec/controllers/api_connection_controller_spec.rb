@@ -1,6 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe RequestsController, type: :controller do
+RSpec.describe ApiConnectionController, type: :controller do
+
+  let(:user) {FactoryGirl.create(:user)}
+
+  before(:each) do
+    sign_in user
+  end
 
   describe "GET #index" do
     it "returns http success" do

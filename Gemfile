@@ -38,7 +38,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # authentication
 gem 'devise'
 
-# HTTP requests
+# HTTP api_connection
 gem 'rest-client'
 
 gem 'bootstrap-sass'
