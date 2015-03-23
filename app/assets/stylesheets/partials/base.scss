@@ -1,3 +1,11 @@
 body {
   background-color: #f2f2f2;
 }
+
+.panel {
+  border-radius: 0px;
+
+  .panel-body {
+    padding: 10px;
+  }
+}

@@ -5,17 +5,19 @@ $group-logo-height: 80px;
 .header-wrapper {
   min-height: $group-logo-height;
   background-color: white;
-  border: 1px solid #d3d3d3;
+  border: 1px solid lightgray;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.0470588) 0px 1px 1px 0px;
 
   .logo {
     background-color: white;
-    border: 1px solid #d3d3d3;
+    border: 1px solid lightgray;
     margin-top: -20px;
     margin-right: 10px;
     padding: 5px;
     height: $group-logo-height;
     max-width: 250px;
     overflow: hidden;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.0470588) 0px 1px 1px 0px;
     
     img {
       height: 100%;

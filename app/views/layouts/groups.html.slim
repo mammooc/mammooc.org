@@ -1,7 +1,8 @@
 - content_for :main
   .container
     .row
-      .col-md-12.mt50.mb20
+      / Header
+      .col-md-12.mt50.mb30
         = render 'groups/header'
 
     .row
@@ -10,7 +11,7 @@
         = yield
 
       / Sidebar
-      .col-md-3
+      .col-md-3.mb30
         = render 'groups/sidebar'
 
 = render file: 'layouts/application'
