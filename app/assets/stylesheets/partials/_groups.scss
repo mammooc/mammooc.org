@@ -1,3 +1,38 @@
+// Header
+
+$group-logo-height: 80px;
+
+.header-wrapper {
+  min-height: $group-logo-height;
+  background-color: white;
+  border: 1px solid #d3d3d3;
+
+  .logo {
+    background-color: white;
+    border: 1px solid #d3d3d3;
+    margin-top: -20px;
+    margin-right: 10px;
+    padding: 5px;
+    height: $group-logo-height;
+    max-width: 250px;
+    overflow: hidden;
+    
+    img {
+      height: 100%;
+      width: auto;
+    }
+    
+  }
+
+  .title {
+    padding-top: 10px;
+    font-size: 20px;
+    font-weight: bold;
+  }
+}
+
+// Sidebar
+
 .list-members {
   img {
     width: 40px;
