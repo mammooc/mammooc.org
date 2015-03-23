@@ -1,0 +1,58 @@
+.page-header
+  h1
+    = t('groups.all_members.title')
+    = @group.name
+- @sorted_group_admins.each do |user|
+  .row
+    .col-md-4.list-members
+      = link_to user_path(user)
+        = image_tag('/data/default.png')
+        b
+          | #{user.first_name} #{user.last_name}
+    .col-md-3
+      ul class="nav nav-pills" role="tablist"
+        li role="presentation" class="dropdown"
+          a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false"
+            = t('groups.all_members.options')
+            span class="caret"
+          ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4"
+            li
+              a href='#' onClick="add_administrator(#{@group.id}, #{user.id})"
+                | Add as Admin
+            li role="presentation"
+              a role="menuitem" tabindex="-1" href="https://twitter.com/fat"
+                | Another action
+            li role="presentation"
+              a role="menuitem" tabindex="-1" href="https://twitter.com/fat"
+                | Something else here
+            li role="presentation" class="divider"
+            li role="presentation"
+              a role="menuitem" tabindex="-1" href="https://twitter.com/fat"
+                | Separated link
+p
+- @sorted_group_users.each do |user|
+  .row
+    .col-md-4.list-members
+      = link_to user_path(user)
+        = image_tag('/data/default.png')
+        | #{user.first_name} #{user.last_name}
+    .col-md-3
+          ul class="nav nav-pills" role="tablist"
+            li role="presentation" class="dropdown"
+              a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false"
+                = t('groups.all_members.options')
+                span class="caret"
+              ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4"
+                li
+                  a id='dropdown_add_admin' href='#' data-group_id='#{@group.id}' data-user_id='#{user.id}'
+                    | Add as Admin
+                li role="presentation"
+                  a role="menuitem" tabindex="-1" href="https://twitter.com/fat"
+                    | Another action
+                li role="presentation"
+                  a role="menuitem" tabindex="-1" href="https://twitter.com/fat"
+                    | Something else here
+                li role="presentation" class="divider"
+                li role="presentation"
+                  a role="menuitem" tabindex="-1" href="https://twitter.com/fat"
+                    | Separated link

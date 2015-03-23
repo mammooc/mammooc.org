@@ -98,7 +98,11 @@ de:
       title: Mitglied Administratorrechte entziehen
       question_1: Bist du dir sicher, dass du
       question_2: die Administratorrechte entziehen möchtest?
-    
+    all_members:
+      title: 'Mitglieder von '
+      options: Optionen
+
+
   static:
     contact:
       heading: Schreib uns!

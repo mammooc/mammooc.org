@@ -98,6 +98,9 @@ en:
       title: Demote Administartor to Member
       question_1: Are you sure to demote
       question_2: to a normal member?
+    all_members:
+      title: 'Members of '
+      options: Options
 
   static:
     contact:
