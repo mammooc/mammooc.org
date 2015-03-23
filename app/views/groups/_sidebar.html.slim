@@ -9,10 +9,13 @@
   .add_new_admin
     - @group_admins.each_with_index do |admin, i|
         .row
-          .col-md-12.list-members
-            - unless i > number_of_shown_users
+          - unless i > number_of_shown_users
+            .col-md-10.list-members
               = link_to image_tag('/data/default.png'), user_path(admin)
               = link_to admin.first_name + ' ' + admin.last_name, user_path(admin)
+            .col-md-2
+              = link_to '#', data: {toggle: 'modal', target: '#demote_group_administrator', user: admin}
+                span.glyphicon.glyphicon-remove
   - if @group_admins.size > (number_of_shown_users+1)
     = link_to t('groups.show_all'), '#', data: {toggle: 'modal', target: '#show_group_admins'}
 
@@ -31,5 +34,6 @@
 
   = render 'add_administrators'
   = render 'add_members'
+  = render 'demote_administrator'
   = render 'show_members'
   = render 'show_admins'
