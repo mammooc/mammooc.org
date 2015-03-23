@@ -93,7 +93,8 @@ de:
     add_admin:
       title: Administratoren hinzufügen
       subtitle: "Aus Mitgliederliste auswählen:"
-
+    all_admins: Alle Administratoren
+    
   static:
     contact:
       heading: Schreib uns!
