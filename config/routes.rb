@@ -50,6 +50,7 @@ Rails.application.routes.draw do
   get 'dashboard' => 'dashboard#dashboard'
   post 'groups/:id/invite_members' => 'groups#invite_group_members'
   post 'groups/:id/add_administrators' => 'groups#add_administrators'
+  post 'groups/:id/demote_administrator' => 'groups#demote_administrator'
   get 'groups/join/:token' => 'groups#join'
   root :to => 'home#index'
 

@@ -5,6 +5,8 @@
 $ ->
   $('#invitation_submit_button').click(send_invite)
   $('#add_administrators_submit_button').click(add_administrators)
+  $('#demote_group_administrator').on 'show.bs.modal', (event) -> set_var_demote_admin(event)
+  $('#demote_administrator_submit_button').click(demote_admin)
   return
 
 send_invite = () ->
@@ -62,3 +64,28 @@ add_new_admin = (user_id, i) ->
       
     error    : (xhr, status, err) ->
       console.log("Error "+err)
+
+set_var_demote_admin = (event) ->
+  button = $(event.relatedTarget)
+  user = button.data('user')
+  $('#user_id').val(user.id)
+  user_name = ' ' + user.first_name + ' ' + user.last_name + ' '
+  $('#demote_user_name').text(user_name)
+
+demote_admin = () ->
+  group_id = $('#group_id').val()
+  url = '/groups/' + group_id + '/demote_administrator.json'
+  data =
+    demoted_admin : $('#user_id').val()
+
+  $.ajax
+    url: url
+    data: data
+    method: 'POST'
+    error: (jqXHR, textStatus, errorThrown) ->
+      $('.demote_admin-form').hide()
+      $('.demote_admin-error').text(errorThrown)
+    success: (data, textStatus, jqXHR) ->
+      $('#demote_group_administrator').modal('hide')
+
+

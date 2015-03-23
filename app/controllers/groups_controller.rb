@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrators]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrators, :demote_administrator]
 
   # GET /groups
   # GET /groups.json
@@ -76,6 +76,19 @@ class GroupsController < ApplicationController
     respond_to do |format|
       begin
         add_admins
+        format.html { redirect_to @group, notice: t('group_success_update') }
+        format.json { render :show, status: :created, location: @group }
+      rescue StandardError => e
+        format.html { redirect_to @group, notice: t('group_success_failed') }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def demote_administrator
+    respond_to do |format|
+      begin
+        demote_admin
         format.html { redirect_to @group, notice: t('group_success_update') }
         format.json { render :show, status: :created, location: @group }
       rescue StandardError => e
@@ -164,6 +177,10 @@ class GroupsController < ApplicationController
       params[:administrators]
     end
 
+    def demoted_admin
+      params[:demoted_admin]
+    end
+
     def invite_members
       return if invited_members.blank?
       emails = invited_members.split(/[^[:alpha:]]\s+|\s+|;\s*|,\s*/)
@@ -184,6 +201,10 @@ class GroupsController < ApplicationController
       additional_admins.each do |user_id|
         UserGroup.set_is_admin(@group.id, user_id, true)
       end
+    end
+
+    def demote_admin
+      UserGroup.set_is_admin(@group.id, demoted_admin, false)
     end
 
     def sort_by_name members

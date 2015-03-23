@@ -94,6 +94,10 @@ de:
       title: Administratoren hinzufügen
       subtitle: "Aus Mitgliederliste auswählen:"
     all_admins: Alle Administratoren
+    demote_admin:
+      title: Mitglied Administratorrechte entziehen
+      question_1: Bist du dir sicher, dass du
+      question_2: die Administratorrechte entziehen möchtest?
     
   static:
     contact:

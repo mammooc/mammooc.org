@@ -91,9 +91,13 @@ en:
     modal:
       title: All Members
     add_admin:
-          title: Add Administrators
-          subtitle: "Select one or more members:"
+      title: Add Administrators
+      subtitle: "Select one or more members:"
     all_admins: All Administrators
+    demote_admin:
+      title: Demote Administartor to Member
+      question_1: Are you sure to demote
+      question_2: to a normal member?
 
   static:
     contact:
