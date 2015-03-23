@@ -1,35 +1,34 @@
 - number_of_shown_users = 9
 
-- content_for :sidebar
-  h3
-    = t('groups.administrators')
-    - if @current_user_is_admin
-      = link_to '#', data: {toggle: 'modal', target: '#add_group_administrators'}, id: "add_administrators_symbol"
-        span.glyphicon.glyphicon-plus-sign
-  .add_new_admin
-    - @group_admins.each_with_index do |admin, i|
-        .row
-          .col-md-12.list-members
-            - unless i > number_of_shown_users
-              = link_to image_tag('/data/default.png'), user_path(admin)
-              = link_to admin.first_name + ' ' + admin.last_name, user_path(admin)
-  - if @group_admins.size > (number_of_shown_users+1)
-    = link_to t('groups.show_all'), '#', data: {toggle: 'modal', target: '#show_group_admins'}
-
-  h3
-    = t('groups.members')
-    = link_to '#', data: {toggle: 'modal', target: '#add_group_members'}, id: "add_members_symbol"
+h3
+  = t('groups.administrators')
+  - if @current_user_is_admin
+    = link_to '#', data: {toggle: 'modal', target: '#add_group_administrators'}, id: "add_administrators_symbol"
       span.glyphicon.glyphicon-plus-sign
-  - @group_users.each_with_index do |user, i|
-    .row
-      .col-md-12.list-members
-        - unless i > number_of_shown_users
-          = link_to image_tag('/data/default.png'), user_path(user)
-          = link_to user.first_name + ' ' + user.last_name, user_path(user)
-  - if @group_users.size > (number_of_shown_users+1)
-    = link_to t('groups.show_all'), '#', data: {toggle: 'modal', target: '#show_group_members'}
+.add_new_admin
+  - @group_admins.each_with_index do |admin, i|
+      .row
+        .col-md-12.list-members
+          - unless i > number_of_shown_users
+            = link_to image_tag('/data/default.png'), user_path(admin)
+            = link_to admin.first_name + ' ' + admin.last_name, user_path(admin)
+- if @group_admins.size > (number_of_shown_users+1)
+  = link_to t('groups.show_all'), '#', data: {toggle: 'modal', target: '#show_group_admins'}
 
-  = render 'add_administrators'
-  = render 'add_members'
-  = render 'show_members'
-  = render 'show_admins'
+h3
+  = t('groups.members')
+  = link_to '#', data: {toggle: 'modal', target: '#add_group_members'}, id: "add_members_symbol"
+    span.glyphicon.glyphicon-plus-sign
+- @group_users.each_with_index do |user, i|
+  .row
+    .col-md-12.list-members
+      - unless i > number_of_shown_users
+        = link_to image_tag('/data/default.png'), user_path(user)
+        = link_to user.first_name + ' ' + user.last_name, user_path(user)
+- if @group_users.size > (number_of_shown_users+1)
+  = link_to t('groups.show_all'), '#', data: {toggle: 'modal', target: '#show_group_members'}
+
+= render 'add_administrators'
+= render 'add_members'
+= render 'show_members'
+= render 'show_admins'

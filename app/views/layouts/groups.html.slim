@@ -1,0 +1,16 @@
+- content_for :main
+  .container
+    .row
+      .col-md-12.mt50
+        = render 'groups/header'
+
+    .row
+      / Content
+      .col-md-9
+        = yield
+
+      / Sidebar
+      .col-md-3
+        = render 'groups/sidebar'
+
+= render file: 'layouts/application'
