@@ -92,7 +92,7 @@ RSpec.describe GroupsController, :type => :feature do
       visit group_path(@group)
       click_on I18n.t('groups.show_all')
       expect(page).to have_content I18n.t('groups.all_admins')
-     create_users.each do |user|
+      create_users.each do |user|
         expect(page).to have_content user.first_name
       end
     end
