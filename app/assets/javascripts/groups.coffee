@@ -41,6 +41,7 @@ add_administrator = (event) ->
     success: (data, textStatus, jqXHR) ->
      console.log('success_add')
     change_style_to_admin(user_id)
+  event.preventDefault()
 
 demote_administrator = (event) ->
   button = $(event.target)
@@ -59,6 +60,7 @@ demote_administrator = (event) ->
     success: (data, textStatus, jqXHR) ->
       console.log('success_demote')
       change_style_to_member(user_id)
+  event.preventDefault()
 
 change_style_to_admin = (user_id) ->
   id = "#list_member_element_user_#{user_id}"

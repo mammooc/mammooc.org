@@ -6,16 +6,16 @@
           span aria-hidden="true"
             | &times;
         h4.modal-title
-          | Add Members to Group
+          = t('groups.add_members.title')
       .modal-body
         .row
           .col-md-12
             .invitation-form.form-horizontal
               .form-group
                 label.control-label.col-md-2
-                  = t('groups.invitation.invite_members')
+                  = t('groups.add_members.invite_members')
                 .col-md-10
-                  textarea.form-control id="text_area_invite_members"
+                  textarea.form-control id="text_area_invite_members" placeholder=I18n.t('groups.add_members.text')
               .form-group
                 .col-md-offset-2.col-md-10
                   input type='hidden' value='#{@group.id}' id='group_id'
