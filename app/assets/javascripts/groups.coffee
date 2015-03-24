@@ -39,7 +39,7 @@ add_administrator = (event) ->
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error')
     success: (data, textStatus, jqXHR) ->
-     console.log('success')
+     console.log('success_add')
     change_style_to_admin(user_id)
 
 demote_administrator = (event) ->
@@ -57,13 +57,22 @@ demote_administrator = (event) ->
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error')
     success: (data, textStatus, jqXHR) ->
-      console.log('success')
+      console.log('success_demote')
       change_style_to_member(user_id)
 
 change_style_to_admin = (user_id) ->
   id = "#list_member_element_user_#{user_id}"
   $(id).find('.list-members').addClass('admins')
+  $(id).find('.dropdown_add_admin').text(I18n.t('groups.all_members.demote_admin'))
+  $(id).find('.dropdown_add_admin').unbind('click')
+  $(id).find('.dropdown_add_admin').on 'click', (event) -> demote_administrator(event)
+  $(id).find('.dropdown_add_admin').addClass('dropdown_demote_admin').removeClass('dropdown_add_admin')
+
 
 change_style_to_member = (user_id) ->
   id = "#list_member_element_user_#{user_id}"
   $(id).find('.list-members').removeClass('admins')
+  $(id).find('.dropdown_demote_admin').text(I18n.t('groups.all_members.add_admin'))
+  $(id).find('.dropdown_demote_admin').unbind('click')
+  $(id).find('.dropdown_demote_admin').on 'click', (event) -> add_administrator(event)
+  $(id).find('.dropdown_demote_admin').removeClass('dropdown_demote_admin').addClass('dropdown_add_admin')
