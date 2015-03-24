@@ -5,7 +5,7 @@
       = t('groups.all_members.title')
     .invite-member-button style='text-align:right'
       = link_to '', data: {toggle: 'modal', target: '#add_group_members'}
-        button.btn.btn-default
+        button.btn.btn-default id='btn-invite-members'
           = t('groups.all_members.invite_members')
 
 - @sorted_group_admins.each do |user|
