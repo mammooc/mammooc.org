@@ -91,7 +91,7 @@ de:
       invite_members: Mitglieder einladen
       text: E-Mail-Adressen kommasepariert eingeben
     all_members:
-      title: '- Mitglieder'
+      title: ' - Mitglieder'
       options: Optionen
       add_admin: Als Administrator hinzufügen
       demote_admin: Administratorrechte entziehen
