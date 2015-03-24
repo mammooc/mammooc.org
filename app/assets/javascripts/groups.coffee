@@ -4,8 +4,8 @@
 
 $ ->
   $('#invitation_submit_button').click(send_invite)
-  $('#dropdown_add_admin').on 'click', (event) -> add_administrator(event)
-  $('#dropdown_demote_admin').on 'click', (event) -> demote_administrator(event)
+  $('.dropdown_add_admin').on 'click', (event) -> add_administrator(event)
+  $('.dropdown_demote_admin').on 'click', (event) -> demote_administrator(event)
   return
 
 send_invite = () ->
@@ -40,6 +40,7 @@ add_administrator = (event) ->
       console.log('error')
     success: (data, textStatus, jqXHR) ->
      console.log('success')
+    change_style_to_admin(user_id)
 
 demote_administrator = (event) ->
   button = $(event.target)
@@ -57,5 +58,12 @@ demote_administrator = (event) ->
       console.log('error')
     success: (data, textStatus, jqXHR) ->
       console.log('success')
+      change_style_to_member(user_id)
 
+change_style_to_admin = (user_id) ->
+  id = "#list_member_element_user_#{user_id}"
+  $(id).find('.list-members').addClass('admins')
 
+change_style_to_member = (user_id) ->
+  id = "#list_member_element_user_#{user_id}"
+  $(id).find('.list-members').removeClass('admins')

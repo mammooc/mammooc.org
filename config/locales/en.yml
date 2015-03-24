@@ -103,6 +103,7 @@ en:
       options: Options
       add_admin: Add as Admin
       demote_admin: Demote Admin to Member
+      invite_members: Invite Member
 
   static:
     contact:
