@@ -4,9 +4,8 @@
 
 $ ->
   $('#invitation_submit_button').click(send_invite)
-  $('#demote_group_administrator').on 'show.bs.modal', (event) -> set_var_demote_admin(event)
-  $('#demote_administrator_submit_button').click(demote_admin)
   $('#dropdown_add_admin').on 'click', (event) -> add_administrator(event)
+  $('#dropdown_demote_admin').on 'click', (event) -> demote_administrator(event)
   return
 
 send_invite = () ->
@@ -42,27 +41,21 @@ add_administrator = (event) ->
     success: (data, textStatus, jqXHR) ->
      console.log('success')
 
-set_var_demote_admin = (event) ->
-  button = $(event.relatedTarget)
-  user = button.data('user')
-  $('#user_id').val(user.id)
-  user_name = ' ' + user.first_name + ' ' + user.last_name + ' '
-  $('#demote_user_name').text(user_name)
-
-demote_admin = () ->
-  group_id = $('#group_id').val()
+demote_administrator = (event) ->
+  button = $(event.target)
+  group_id = button.data('group_id')
+  user_id = button.data('user_id')
   url = '/groups/' + group_id + '/demote_administrator.json'
   data =
-    demoted_admin : $('#user_id').val()
+    demoted_admin : user_id
 
   $.ajax
     url: url
     data: data
     method: 'POST'
     error: (jqXHR, textStatus, errorThrown) ->
-      $('.demote_admin-form').hide()
-      $('.demote_admin-error').text(errorThrown)
+      console.log('error')
     success: (data, textStatus, jqXHR) ->
-      $('#demote_group_administrator').modal('hide')
+      console.log('success')
 
 

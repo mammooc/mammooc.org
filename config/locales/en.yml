@@ -101,6 +101,8 @@ en:
     all_members:
       title: 'Members of '
       options: Options
+      add_admin: Add as Admin
+      demote_admin: Demote Admin to Member
 
   static:
     contact:

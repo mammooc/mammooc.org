@@ -101,7 +101,8 @@ de:
     all_members:
       title: 'Mitglieder von '
       options: Optionen
-
+      add_admin: Als Administrator hinzufügen
+      demote_admin: Administratorrechte entziehen
 
   static:
     contact:
