@@ -41,6 +41,9 @@ gem 'devise'
 # HTTP api_connection
 gem 'rest-client'
 
+# cron job
+gem 'sidekiq'
+
 gem 'bootstrap-sass'
 
 gem 'factory_girl_rails'

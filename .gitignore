@@ -5,8 +5,12 @@
 /vagrant_provision.sh
 
 /coverage
-# Ignore stupid Mac folders
+
+# Ignore stupid Mac file
 /.DS_Store
+
+# Ignore dump file
+/.dump.rdb
 
 # __ WEBAPP __
 # Ignore bundler config.
