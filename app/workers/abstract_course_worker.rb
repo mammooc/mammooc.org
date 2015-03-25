@@ -7,8 +7,13 @@ class AbstractCourseWorker
   end
 
   def loadCourses
-    responseData = getCourseData
-    handleResponseData responseData
+    begin
+      responseData = getCourseData
+    rescue SocketError, RestClient::ResourceNotFound => e
+      logger.error e.class.to_s + ": " + e.message
+    else
+      handleResponseData responseData
+    end
   end
 
   def moocProvider
@@ -23,7 +28,7 @@ class AbstractCourseWorker
     raise NotImplementedError
   end
 
-  def createUpdateMap
+  def createUpdateMap moocProvider
     updateMap = Hash.new
     Course.where(:mooc_provider_id => moocProvider.id).each { |course|
       updateMap.store(course.id, false)

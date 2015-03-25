@@ -1,19 +1,19 @@
 class OpenHPICourseWorker < AbstractCourseWorker
 
   MOOC_PROVIDER_NAME = 'openHPI'
-
+  MOOC_PROVIDER_API_LINK = 'https://open.hpi.de/api/courses'
 
   def moocProvider
     MoocProvider.find_by_name(MOOC_PROVIDER_NAME)
   end
 
   def getCourseData
-    response = RestClient.get('https://open.hpi.de/api/courses',{:accept => 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', :authorization => 'token=\"78783786789\"'})
+    response = RestClient.get(MOOC_PROVIDER_API_LINK,{:accept => 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', :authorization => 'token=\"78783786789\"'})
     JSON.parse response
   end
 
   def handleResponseData responseData
-    updateMap = createUpdateMap
+    updateMap = createUpdateMap moocProvider
 
     responseData.each { |courseElement|
       course = Course.where(:provider_course_id => courseElement['id'], :mooc_provider_id => moocProvider.id).first
