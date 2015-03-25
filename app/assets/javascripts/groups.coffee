@@ -2,10 +2,14 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-$ ->
+
+ready = ->
   $('#invitation_submit_button').click(send_invite)
   $('#add_administrators_submit_button').click(add_administrators)
   return
+
+$(document).ready(ready)
+$(document).on('page:load', ready)
 
 send_invite = () ->
 	group_id = $('#group_id').val()
