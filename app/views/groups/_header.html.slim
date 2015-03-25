@@ -19,15 +19,21 @@
       .row
         .col-md-12
           .entry
-            .active
-              a href='#'
+            div class=(current_page?(group_path) ? 'active' : '')
+              - if current_page?(group_path)
                 | Home
+              - else
+                a href=group_path(@group)
+                  | Home
           .entry
-            a href="#"
-              | Members
+            div class=""
+              a href="#"
+                | Members
           .entry
-            a href="#"
-              | Recommendations
+            div class=""
+              a href="#"
+                | Recommendations
           .entry
-            a href="#"
-              | Statistics
+            div class=""
+              a href="#"
+                | Statistics

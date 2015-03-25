@@ -1,14 +1,10 @@
-// Until import of bootstrap-variables.scss works
-
-$brand-primary:         darken(#5c911d, 6.5%);
-$link-color:            $brand-primary !default;
-$link-hover-color:      darken($link-color, 15%) !default;
-$panel-default-border:        #ddd !default;
-
-// Header
+@import 'bootstrap-variables';
 
 $group-logo-height: 80px;
 $group-logo-margin-left: 15px;
+$entry-padding-left: 10px;
+
+// Header
 
 .group-header {
   background-color: white;
@@ -46,18 +42,6 @@ $group-logo-margin-left: 15px;
     }
   }
 
-  .navbar {
-    margin: 0px;
-    min-height: none;
-    height: 20px;
-    border-radius: 0px;
-
-    li a {
-      height: 20px;
-      padding: 0px;
-    }
-  }
-
   .subnav {
     background-color: #eee;
     border-top: 1px solid $panel-default-border;
@@ -65,11 +49,13 @@ $group-logo-margin-left: 15px;
     .container-fluid {
       display: table;
       margin-top: 0px;
-      margin-left: $group-logo-margin-left;
+      margin-left: $group-logo-margin-left - $entry-padding-left;
         
       .entry {
         display: table-cell;
-        padding: 5px 5px 0px 5px;
+        padding-left: $entry-padding-left;
+        padding-right: 10px;
+        padding-top: 5px;
         font-size: 13px;
 
         a {
