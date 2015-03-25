@@ -1,7 +1,7 @@
 - number_of_shown_users = 9
 - number_of_shown_admins = 0
 
-- if current_page?(group_path)
+- if @group and current_page?("/groups/#{@group.id}")
   .panel.panel-default
     .panel-heading
       - if @group.users.count == 1
