@@ -21,19 +21,22 @@
           .entry
             div class=(current_page?(group_path) ? 'active' : '')
               - if current_page?(group_path)
-                | Home
+                = t('groups.subnav.home')
               - else
                 a href=group_path(@group)
-                  | Home
+                  = t('groups.subnav.home')
+          .entry
+            div class=(current_page?("/groups/#{@group.id}/members") ? 'active' : '')
+              - if current_page?("/groups/#{@group.id}/members")
+                = t('groups.subnav.members')
+              - else
+                a href="/groups/#{@group.id}/members"
+                  = t('groups.subnav.members')
           .entry
             div class=""
               a href="#"
-                | Members
+                = t('groups.subnav.recommendations')
           .entry
             div class=""
               a href="#"
-                | Recommendations
-          .entry
-            div class=""
-              a href="#"
-                | Statistics
+                = t('groups.subnav.statistics')
