@@ -28,74 +28,66 @@ RSpec.describe GroupsController, :type => :feature do
   describe 'invite users to an existing group' do
 
     it 'should invite a user to a group', js: true do
-      visit group_path(@group.id)
-      click_on 'add_members_symbol'
+      visit "/groups/#{@group.id}/members"
+      click_on 'btn-invite-members'
       fill_in 'text_area_invite_members', with: 'max@test.com'
       click_button 'Submit'
-      # Wait until modal has disappeared
       wait_for_ajax
-      expect(current_path).to eq(group_path(@group.id))
+      expect(current_path).to eq("/groups/#{@group.id}/members")
       expect(ActionMailer::Base.deliveries.count).to eq 1
       expect(GroupInvitation.count).to eq 1
     end
   end
 
-  describe 'add administrator to an existing group' do
+  describe 'change administrator status' do
 
     it 'should add an admin to an existing group', js:true do
-      visit group_path(@group.id)
-      click_on 'add_administrators_symbol'
-      check 'checkbox_add_as_admin_0'
-      click_button 'Submit'
-      # Wait until modal has disappeared
+      visit "/groups/#{@group.id}/members"
+      find("#list_member_element_user_#{@third_user.id}").click_on I18n.t('groups.all_members.options')
+      find("#list_member_element_user_#{@third_user.id}").click_on I18n.t('groups.all_members.add_admin')
       wait_for_ajax
-      expect(current_path).to eq(group_path(@group.id))
+      expect(current_path).to eq("/groups/#{@group.id}/members")
       current_admins_of_group = UserGroup.where(group_id: @group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq 2
+      expect(find("#list_member_element_user_#{@third_user.id}")).to have_selector 'div.col-md-4.list-members.admins'
+      find("#list_member_element_user_#{@third_user.id}").click_on I18n.t('groups.all_members.options')
+      expect(page).to have_content I18n.t('groups.all_members.demote_admin')
     end
 
-    it 'should add more than one admin to an existing group', js:true do
-      visit group_path(@group.id)
-      click_on 'add_administrators_symbol'
-      check 'checkbox_add_as_admin_0'
-      check 'checkbox_add_as_admin_1'
-      click_button 'Submit'
-      # Wait until modal has disappeared
+    it 'should demote an admin to an existing group', js:true do
+      UserGroup.set_is_admin(@group.id, @third_user.id, true)
+      visit "/groups/#{@group.id}/members"
+      find("#list_member_element_user_#{@third_user.id}").click_on I18n.t('groups.all_members.options')
+      find("#list_member_element_user_#{@third_user.id}").click_on I18n.t('groups.all_members.demote_admin')
       wait_for_ajax
-      expect(current_path).to eq(group_path(@group.id))
+      expect(current_path).to eq("/groups/#{@group.id}/members")
       current_admins_of_group = UserGroup.where(group_id: @group.id, is_admin: true)
-      expect(current_admins_of_group.count).to eq 3
+      expect(current_admins_of_group.count).to eq 1
+      expect(find("#list_member_element_user_#{@third_user.id}")).to have_selector 'div.col-md-4.list-members'
+      find("#list_member_element_user_#{@third_user.id}").click_on I18n.t('groups.all_members.options')
+      expect(page).to have_content I18n.t('groups.all_members.add_admin')
     end
 
-  end
-
-  describe 'show all group members' do
-    it 'should show all members of the group (including admins)' do
-      create_users = FactoryGirl.create_list(:user, 10)
-      @group.users.push(create_users)
-      visit group_path(@group)
-      click_on I18n.t('groups.show_all')
-      expect(page).to have_content I18n.t('groups.modal.title')
-      @group.users.each do |user|
-        expect(page).to have_content user.first_name
-      end
+    it 'should add an admin and demote and add him again', js:true do
+      visit "/groups/#{@group.id}/members"
+      find("#list_member_element_user_#{@third_user.id}").click_on I18n.t('groups.all_members.options')
+      find("#list_member_element_user_#{@third_user.id}").click_on I18n.t('groups.all_members.add_admin')
+      wait_for_ajax
+      expect(current_path).to eq("/groups/#{@group.id}/members")
+      current_admins_of_group = UserGroup.where(group_id: @group.id, is_admin: true)
+      expect(current_admins_of_group.count).to eq 2
+      find("#list_member_element_user_#{@third_user.id}").click_on I18n.t('groups.all_members.options')
+      find("#list_member_element_user_#{@third_user.id}").click_on I18n.t('groups.all_members.demote_admin')
+      wait_for_ajax
+      current_admins_of_group = UserGroup.where(group_id: @group.id, is_admin: true)
+      expect(current_admins_of_group.count).to eq 1
+      expect(find("#list_member_element_user_#{@third_user.id}")).to have_selector 'div.col-md-4.list-members'
+      find("#list_member_element_user_#{@third_user.id}").click_on I18n.t('groups.all_members.options')
+      find("#list_member_element_user_#{@third_user.id}").click_on I18n.t('groups.all_members.add_admin')
+      wait_for_ajax
+      current_admins_of_group = UserGroup.where(group_id: @group.id, is_admin: true)
+      expect(current_admins_of_group.count).to eq 2
+      expect(find("#list_member_element_user_#{@third_user.id}")).to have_selector 'div.col-md-4.list-members.admins'
     end
   end
-
-  describe 'show all group administrators' do
-    it 'should show all members of the group (including admins)' do
-      create_users = FactoryGirl.create_list(:user, 10)
-      @group.users.push(create_users)
-      create_users.each do |user|
-        UserGroup.set_is_admin(@group.id, user.id, true)
-      end
-      visit group_path(@group)
-      click_on I18n.t('groups.show_all')
-      expect(page).to have_content I18n.t('groups.all_admins')
-      create_users.each do |user|
-        expect(page).to have_content user.first_name
-      end
-    end
-  end
-
 end

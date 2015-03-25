@@ -253,26 +253,21 @@ RSpec.describe GroupsController, :type => :controller do
     let(:group) {FactoryGirl.create(:group, users:[user, second_user])}
 
     it "should add one administrator to an existing group" do
-      put :add_administrators, {id: group.id, group: valid_attributes, administrators: [user]}
+      put :add_administrator, {id: group.id, group: valid_attributes, additional_administrator: user}
       expect(response).to redirect_to group_path(group)
       current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq 1
     end
-
-    it "should add one administrator to an existing group" do
-      put :add_administrators, {id: group.id, group: valid_attributes, administrators: [user, second_user]}
-      expect(response).to redirect_to group_path(group)
-      current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
-      expect(current_admins_of_group.count).to eq 2
-    end
-
-    it "should do nothing if there is no one member in administrator argument" do
-      put :add_administrators, {id: group.id, group: valid_attributes, administrators: []}
-      expect(response).to redirect_to group_path(group)
-      current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
-      expect(current_admins_of_group.count).to eq 0
-    end
-
   end
 
+  describe "POST demote_administrator" do
+    let(:user) {FactoryGirl.create(:user)}
+    let(:group) {FactoryGirl.create(:group, users:[user])}
+
+    it "should demote an administrator to a normal memeber" do
+      UserGroup.set_is_admin(group.id, user.id, true)
+      expect{ put :demote_administrator, {id: group.id, demoted_admin: user} }.to change(UserGroup.where(group_id: group.id, is_admin: true), :count).by(-1)
+      expect(response).to redirect_to group_path(group)
+    end
+  end
 end

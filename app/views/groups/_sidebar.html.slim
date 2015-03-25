@@ -1,40 +1,28 @@
 - number_of_shown_users = 9
+- number_of_shown_admins = 0
 
-.panel.panel-default
-  .panel-heading
-    = t('groups.administrators')
-    - if @current_user_is_admin
-      = link_to '#', data: {toggle: 'modal', target: '#add_group_administrators'}, id: "add_administrators_symbol"
-        span.glyphicon.glyphicon-plus-sign
-  .panel-body
-    .add_new_admin
-      - @group_admins.each_with_index do |admin, i|
-          .row
-            .col-md-12.list-members
-              - unless i > number_of_shown_users
-                = link_to image_tag('/data/default.png'), user_path(admin)
-                = link_to admin.first_name + ' ' + admin.last_name, user_path(admin)
-  - if @group_admins.size > (number_of_shown_users+1)
-    .panel-footer
-      = link_to t('groups.show_all'), '#', data: {toggle: 'modal', target: '#show_group_admins'}
+- content_for :sidebar
+  h3
+    -if @group.users.count == 1
+      = t('groups.member')
+    -else
+      = t('groups.members')
+  - @group_admins.each_with_index do |admin, i|
+    - unless i > number_of_shown_users
+      .row
+        .col-md-12.list-members.admins
+          = link_to image_tag('/data/default.png'), user_path(admin)
+          = link_to admin.first_name + ' ' + admin.last_name, user_path(admin)
+    - number_of_shown_admins = i
 
-.panel.panel-default
-  .panel-heading
-    = t('groups.members')
-    = link_to '#', data: {toggle: 'modal', target: '#add_group_members'}, id: "add_members_symbol"
-      span.glyphicon.glyphicon-plus-sign
-  .panel-body
-    - @group_users.each_with_index do |user, i|
+  - @group_users.each_with_index do |user, i|
+    - unless i > number_of_shown_users - number_of_shown_admins
       .row
         .col-md-12.list-members
-          - unless i > number_of_shown_users
-            = link_to image_tag('/data/default.png'), user_path(user)
-            = link_to user.first_name + ' ' + user.last_name, user_path(user)
-  - if @group_users.size > (number_of_shown_users+1)
-    .panel-footer
-      = link_to t('groups.show_all'), '#', data: {toggle: 'modal', target: '#show_group_members'}
-
-= render 'add_administrators'
-= render 'add_members'
-= render 'show_members'
-= render 'show_admins'
+          = link_to image_tag('/data/default.png'), user_path(user)
+          = link_to user.first_name + ' ' + user.last_name, user_path(user)
+  .row
+    .col-md-12
+      = link_to "/groups/#{@group.id}/members"
+        button.btn.btn-primary
+          = t('groups.member_overview')

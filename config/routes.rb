@@ -49,8 +49,10 @@ Rails.application.routes.draw do
   get 'about' => 'static_pages#about'
   get 'dashboard' => 'dashboard#dashboard'
   post 'groups/:id/invite_members' => 'groups#invite_group_members'
-  post 'groups/:id/add_administrators' => 'groups#add_administrators'
+  post 'groups/:id/add_administrator' => 'groups#add_administrator'
+  post 'groups/:id/demote_administrator' => 'groups#demote_administrator'
   get 'groups/join/:token' => 'groups#join'
+  get 'groups/:id/members' => 'groups#members'
   root :to => 'home#index'
 
   
