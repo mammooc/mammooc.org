@@ -7,6 +7,7 @@ $ ->
   $('.dropdown_add_admin').on 'click', (event) -> add_administrator(event)
   $('.dropdown_demote_admin').on 'click', (event) -> demote_administrator(event)
   $('.dropdown_remove_member').on 'click', (event) -> remove_member(event)
+  $('#remove_last_member_confirm_button').on 'click', (event) -> delete_group(event)
   return
 
 send_invite = () ->
@@ -38,7 +39,7 @@ add_administrator = (event) ->
     data: data
     method: 'POST'
     error: (jqXHR, textStatus, errorThrown) ->
-      console.log('error')
+      console.log('error_add')
     success: (data, textStatus, jqXHR) ->
      console.log('success_add')
     change_style_to_admin(user_id)
@@ -57,7 +58,7 @@ demote_administrator = (event) ->
     data: data
     method: 'POST'
     error: (jqXHR, textStatus, errorThrown) ->
-      console.log('error')
+      console.log('error_demote')
     success: (data, textStatus, jqXHR) ->
       console.log('success_demote')
       change_style_to_member(user_id)
@@ -67,6 +68,27 @@ remove_member = (event) ->
   button = $(event.target)
   group_id = button.data('group_id')
   user_id = button.data('user_id')
+  url = '/groups/' + group_id + '/condition_for_changing_member_status.json'
+  data =
+    changing_member : user_id
+
+  $.ajax
+    url: url
+    data: data
+    method: 'POST'
+    error: (jqXHR, textStatus, errorThrown) ->
+      console.log('error_status')
+    success: (data, textStatus, jqXHR) ->
+      console.log('success_status')
+      if data.status == 'last_member'
+        $('#confirmation_remove_last_member').modal('show')
+      else if data.status == 'last_admin'
+        console.log('last_admin')
+      else if data.status == 'ok'
+        remove_group_member(group_id, user_id)
+  event.preventDefault()
+
+remove_group_member = (group_id, user_id) ->
   url = '/groups/' + group_id + '/remove_group_member.json'
   data =
     removing_member : user_id
@@ -76,12 +98,26 @@ remove_member = (event) ->
     data: data
     method: 'POST'
     error: (jqXHR, textStatus, errorThrown) ->
-      console.log('error')
+      console.log('error_remove')
     success: (data, textStatus, jqXHR) ->
       console.log('success_remove')
       delete_member_out_of_list(user_id)
-  event.preventDefault()
 
+delete_group = (event) ->
+  button = $(event.target)
+  group_id = button.data('group_id')
+  url = '/groups/' + group_id + '.json'
+
+  $.ajax
+    url: url
+    method: 'DELETE'
+    error: (jqXHR, textStatus, errorThrown) ->
+      console.log('error_delete_group')
+    success: (data, textStatus, jqXHR) ->
+      console.log('success_delete_group')
+      $('#confirmation_remove_last_member').modal('hide')
+      window.location.replace('/groups')
+  event.preventDefault()
 
 change_style_to_admin = (user_id) ->
   id = "#list_member_element_user_#{user_id}"

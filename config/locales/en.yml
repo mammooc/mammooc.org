@@ -24,6 +24,7 @@ en:
     require_login: You must be logged in to access this section
     close: Close
     submit: Submit
+    cancel: Cancel
 
   navbar:
     MAMMOOC: MAMMOOC
@@ -97,6 +98,10 @@ en:
       demote_admin: Demote Admin to Member
       invite_members: Invite Members
       remove_member: Remove Member
+    remove_last_member:
+      title: Remove Member
+      question: You are the last member of this group. If you want to leave the group, it will be deleted. Are you sure to leave the group?
+      confirm: Yes, leave and delete group.
 
   static:
     contact:

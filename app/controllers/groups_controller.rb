@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :demote_administrator, :remove_group_member]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :demote_administrator, :remove_group_member, :condition_for_changing_member_status]
 
   # GET /groups
   # GET /groups.json
@@ -116,6 +116,19 @@ class GroupsController < ApplicationController
     end
   end
 
+  def condition_for_changing_member_status
+    respond_to do |format|
+      begin
+        condition_for_changing_member
+        format.html { redirect_to @group, notice: t('group_success_update') }
+        format.json { render :condition_for_changing_member_status, status: :created, location: @group }
+      rescue StandardError => e
+        format.html { redirect_to @group, notice: t('group_success_failed') }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # DELETE /groups/1
   # DELETE /groups/1.json
   def destroy
@@ -203,6 +216,10 @@ class GroupsController < ApplicationController
       params[:removing_member]
     end
 
+    def changing_member
+      params[:changing_member]
+    end
+
     def invite_members
       return if invited_members.blank?
       emails = invited_members.split(/[^[:alpha:]]\s+|\s+|;\s*|,\s*/)
@@ -228,6 +245,16 @@ class GroupsController < ApplicationController
 
     def remove_member
       UserGroup.destroy(UserGroup.where(group_id: @group.id, user_id: removing_member).select(:id))
+    end
+
+    def condition_for_changing_member
+      if @group.users.count == 1
+        @status = 'last_member'
+      elsif admins.count == 1 && admins.include?(User.find(changing_member))
+        @status = 'last_admin'
+      else
+        @status = 'ok'
+      end
     end
 
     def sort_by_name members

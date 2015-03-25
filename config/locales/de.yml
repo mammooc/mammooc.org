@@ -24,6 +24,7 @@ de:
     require_login: Sie müssen eingeloggt sein um auf diese Seite zugreifen zu können.
     close: Schließen
     submit: Absenden
+    cancel: Abbrechen
 
   navbar:
     MAMMOOC: MAMMOOC
@@ -97,6 +98,10 @@ de:
       demote_admin: Administratorrechte entziehen
       invite_members: Mitglieder einladen
       remove_member: Mitglied entfernen
+    remove_last_member:
+      title: Mitglied löschen
+      question: Du bist das letzte Mitglied dieser Gruppe. Wenn du die Gruppe verlässt, wird sie automatisch gelöscht. Bist du dir sicher, dass du die Gruppe verlassen möchtest?
+      confirm: Ja, Gruppe verlassen und löschen.
 
   static:
     contact:

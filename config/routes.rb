@@ -52,6 +52,7 @@ Rails.application.routes.draw do
   post 'groups/:id/add_administrator' => 'groups#add_administrator'
   post 'groups/:id/demote_administrator' => 'groups#demote_administrator'
   post 'groups/:id/remove_group_member' => 'groups#remove_group_member'
+  post 'groups/:id/condition_for_changing_member_status' => 'groups#condition_for_changing_member_status'
   get 'groups/join/:token' => 'groups#join'
   get 'groups/:id/members' => 'groups#members'
   root :to => 'home#index'
