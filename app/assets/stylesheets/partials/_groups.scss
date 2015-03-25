@@ -10,7 +10,8 @@ $entry-padding-left: 10px;
   background-color: white;
   border: 1px solid $panel-default-border;
   border-radius: 2px;
-  -webkit-box-shadow: rgba(0, 0, 0, 0.0470588) 0px 1px 1px 0px;
+  -webkit-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
 
   .wrapper {
     min-height: $group-logo-height;
@@ -26,7 +27,8 @@ $entry-padding-left: 10px;
       height: $group-logo-height;
       max-width: 250px;
       overflow: hidden;
-      -webkit-box-shadow: rgba(0, 0, 0, 0.0470588) 0px 1px 1px 0px;
+      -webkit-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
 
       img {
         height: 100%;
