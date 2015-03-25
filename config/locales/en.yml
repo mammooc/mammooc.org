@@ -98,10 +98,12 @@ en:
       demote_admin: Demote Admin to Member
       invite_members: Invite Members
       remove_member: Remove Member
-    remove_last_member:
+    remove_member:
       title: Remove Member
-      question: You are the last member of this group. If you want to leave the group, it will be deleted. Are you sure to leave the group?
-      confirm: Yes, leave and delete group.
+      question_last_member: You are the last member of this group. If you want to leave the group, it will be deleted. Are you sure to leave the group?
+      question_last_admin: "You are the last admin of this group. If you want to leave the group, you may choose one of the following possibilities: either the whole group will be deleted or all other members will become admins. Do you want to continue?"
+      confirm_delete_group: Yes, leave and delete group.
+      confirm_leave_group: Yes, leave the group (all members will become admins).
 
   static:
     contact:

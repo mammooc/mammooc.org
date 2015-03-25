@@ -98,10 +98,12 @@ de:
       demote_admin: Administratorrechte entziehen
       invite_members: Mitglieder einladen
       remove_member: Mitglied entfernen
-    remove_last_member:
+    remove_member:
       title: Mitglied löschen
-      question: Du bist das letzte Mitglied dieser Gruppe. Wenn du die Gruppe verlässt, wird sie automatisch gelöscht. Bist du dir sicher, dass du die Gruppe verlassen möchtest?
-      confirm: Ja, Gruppe verlassen und löschen.
+      question_last_member: Du bist das letzte Mitglied dieser Gruppe. Wenn du die Gruppe verlässt, wird sie automatisch gelöscht. Bist du dir sicher, dass du die Gruppe verlassen möchtest?
+      question_last_admin: "Du bist der letzte Administrator dieser Gruppe. Wenn du diese Gruppe verlassen möchtest, gibt es folgende Möglichkeiten: Entweder wird die gesamte Gruppe gelöscht oder beim Verlassen der Gruppe werden alle verbleibenden Mitglieder automatisch zu Administratoren ernannt. Möchtest du wirklich fortfahren?"
+      confirm_delete_group: Ja, Gruppe verlassen und löschen.
+      confirm_leave_group: Ja, Gruppe verlassen (alle Mitglieder werden automatisch zu Administratoren).
 
   static:
     contact:

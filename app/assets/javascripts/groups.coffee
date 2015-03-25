@@ -8,6 +8,8 @@ $ ->
   $('.dropdown_demote_admin').on 'click', (event) -> demote_administrator(event)
   $('.dropdown_remove_member').on 'click', (event) -> remove_member(event)
   $('#remove_last_member_confirm_button').on 'click', (event) -> delete_group(event)
+  $('#confirm_delete_group_last_admin_button').on 'click', (event) -> delete_group(event)
+  $('#confirm_leave_group_last_admin_button').on 'click', (event) -> remove_last_admin(event)
   return
 
 send_invite = () ->
@@ -83,7 +85,8 @@ remove_member = (event) ->
       if data.status == 'last_member'
         $('#confirmation_remove_last_member').modal('show')
       else if data.status == 'last_admin'
-        console.log('last_admin')
+        $('#confirmation_remove_last_admin').modal('show')
+        $('#confirmation_remove_last_admin').find('#confirm_leave_group_last_admin_button').attr('data-user_id', user_id)
       else if data.status == 'ok'
         remove_group_member(group_id, user_id)
   event.preventDefault()
@@ -116,8 +119,42 @@ delete_group = (event) ->
     success: (data, textStatus, jqXHR) ->
       console.log('success_delete_group')
       $('#confirmation_remove_last_member').modal('hide')
+      # if we still use turbolinks: Turbolinks.visit('/groups')
       window.location.replace('/groups')
   event.preventDefault()
+
+remove_last_admin = (event) ->
+  button = $(event.target)
+  group_id = button.data('group_id')
+  user_id = button.data('user_id')
+  url = '/groups/' + group_id + '/all_members_to_administrators.json'
+
+  $.ajax
+    url: url
+    method: 'GET'
+    error: (jqXHR, textStatus, errorThrown) ->
+      console.log('error_remove_last_admin')
+    success: (data, textStatus, jqXHR) ->
+      console.log('success_remove_last_admin')
+      leave_group(group_id, user_id)
+  event.preventDefault()
+
+leave_group = (group_id, user_id) ->
+  url = '/groups/' + group_id + '/remove_group_member.json'
+  data =
+    removing_member : user_id
+
+  $.ajax
+    url: url
+    data: data
+    method: 'POST'
+    error: (jqXHR, textStatus, errorThrown) ->
+      console.log('error_leave_group')
+    success: (data, textStatus, jqXHR) ->
+      console.log('success_leave_group')
+      $('#confirmation_remove_last_admin').modal('hide')
+      # if we still use turbolinks: Turbolinks.visit('/groups')
+      window.location.replace('/groups')
 
 change_style_to_admin = (user_id) ->
   id = "#list_member_element_user_#{user_id}"

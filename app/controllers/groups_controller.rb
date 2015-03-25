@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :demote_administrator, :remove_group_member, :condition_for_changing_member_status]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :demote_administrator, :remove_group_member, :condition_for_changing_member_status, :all_members_to_administrators]
 
   # GET /groups
   # GET /groups.json
@@ -129,6 +129,19 @@ class GroupsController < ApplicationController
     end
   end
 
+  def all_members_to_administrators
+    respond_to do |format|
+      begin
+        all_members_to_admins
+        format.html { redirect_to @group, notice: t('group_success_update') }
+        format.json { render :show, status: :created, location: @group }
+      rescue StandardError => e
+        format.html { redirect_to @group, notice: t('group_success_failed') }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # DELETE /groups/1
   # DELETE /groups/1.json
   def destroy
@@ -237,6 +250,12 @@ class GroupsController < ApplicationController
 
     def add_admin
       UserGroup.set_is_admin(@group.id, additional_admin, true)
+    end
+
+    def all_members_to_admins
+      @group.users.each do |user|
+        UserGroup.set_is_admin(@group.id, user.id, true)
+      end
     end
 
     def demote_admin
