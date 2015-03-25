@@ -70,26 +70,37 @@ de:
       reset: Neues Passwort anfordern
 
   groups:
-    admins: Admins
-    administrators: Administrator(en)
     name: Name
     description: Beschreibung
-    members: Mitglied(er)
-    show_all: Alle anzeigen
+    member: Mitglied
+    members: Mitglieder
+    member_overview: Mitgliederübersicht
     no_groups: Du hast noch keine Gruppen.
     new: Neue Gruppe
     edit: Gruppe bearbeiten
     my_groups: Meine Gruppen
+    subnav:
+      home: Home
+      members: Mitglieder
+      recommendations: Empfehlungen
+      statistics: Statistiken
     invitation:
       joined _group: Sie wurden der Gruppe hinzugefügt.
       already_member: Sie sind schon Mitglied in der Gruppe.
       group_deleted: Gruppe gelöscht.
-      invite_members: Mitglieder einladen
       link_expired: Link ist abgelaufen.
       link_used: Link wurde bereits verwendet.
       link_invalid: Link ist ungültig.
-    modal:
-      title: Alle Mitglieder
+    add_members:
+      title: Mitglieder zur Gruppe hinzufügen
+      invite_members: Mitglieder einladen
+      text: E-Mail-Adressen kommasepariert eingeben
+    all_members:
+      title: ' - Mitglieder'
+      options: Optionen
+      add_admin: Als Administrator hinzufügen
+      demote_admin: Administratorrechte entziehen
+      invite_members: Mitglieder einladen
 
   static:
     contact:
@@ -119,7 +130,34 @@ de:
             password:
               too_short: ist zu kurz (Minimum sind %{count} Zeichen).
             password_confirmation:
-              confirmation: stimmt nicht mit Passwort überein.
+            confirmation: stimmt nicht mit Passwort überein.
+
+  #show course
+  courses:
+    description: Kursinformationen
+    reviews: Rezensionen
+    mooc_provider: Kursanbieter
+    instructor: Lehrperson
+    instructors: Lehrpersonen
+    time: Zeitraum
+    language: Sprache
+    requirements: Voraussetzungen
+    achievement: Abschluss
+    categories: Kategorien
+    costs: Kosten
+    difficulty: Schwierigkeitsgrad
+    workload: Arbeitsaufwand
+    enter_course: Zum Kurs
+    remember_course: Kurs merken
+    enroll_course: Kurs belegen
+    recommend_course: Kurs empfehlen
+    rate_course: Kurs bewerten
+    hours: Stunden
+    per_week: pro Woche
+    recommendations: Empfehlungen
+    rating: Bewertung
+    credit_points: Leistungspunkte
+    no_dates_available: Es sind keine Daten vorhanden.
 
   flash:
     #success:

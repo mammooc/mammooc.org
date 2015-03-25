@@ -64,6 +64,7 @@ group :development, :test do
 end
 
 gem 'rails-i18n'
+gem 'i18n-js'
 
-gem "rails_config"
+gem 'rails_config'
 

@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :admins, :invite_group_members]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :demote_administrator]
 
   # GET /groups
   # GET /groups.json
@@ -10,10 +10,10 @@ class GroupsController < ApplicationController
   # GET /groups/1
   # GET /groups/1.json
   def show
-    number_of_showed_users = 10
+    number_of_shown_users = 10
     @ordered_group_members = sort_by_name(admins) + sort_by_name(@group.users - admins)
-    @group_users = (@group.users - admins).size > number_of_showed_users ? (@group.users - admins).shuffle : sort_by_name(@group.users - admins)
-    @group_admins = admins.size > number_of_showed_users ? sort_by_name(admins) : admins.shuffle
+    @group_users = (@group.users - admins).size > number_of_shown_users ? (@group.users - admins).shuffle : sort_by_name(@group.users - admins)
+    @group_admins = admins.size > number_of_shown_users ? sort_by_name(admins) : admins.shuffle
     @current_user_is_admin = admins.include?(current_user)
   end
 
@@ -24,6 +24,11 @@ class GroupsController < ApplicationController
 
   # GET /groups/1/edit
   def edit
+  end
+
+  def members
+    @sorted_group_users = sort_by_name(@group.users - admins)
+    @sorted_group_admins = sort_by_name(admins)
   end
 
   # POST /groups
@@ -69,8 +74,32 @@ class GroupsController < ApplicationController
         format.html { redirect_to @group, notice: t('group_success_failed') }
         format.json { render json: e.to_json, status: :unprocessable_entity }
       end
+    end
+  end
 
-      
+  def add_administrator
+    respond_to do |format|
+      begin
+        add_admin
+        format.html { redirect_to @group, notice: t('group_success_update') }
+        format.json { render :show, status: :created, location: @group }
+      rescue StandardError => e
+        format.html { redirect_to @group, notice: t('group_success_failed') }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def demote_administrator
+    respond_to do |format|
+      begin
+        demote_admin
+        format.html { redirect_to @group, notice: t('group_success_update') }
+        format.json { render :show, status: :created, location: @group }
+      rescue StandardError => e
+        format.html { redirect_to @group, notice: t('group_success_failed') }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -149,6 +178,14 @@ class GroupsController < ApplicationController
       params[:members]
     end
 
+    def additional_admin
+      params[:additional_administrator]
+    end
+
+    def demoted_admin
+      params[:demoted_admin]
+    end
+
     def invite_members
       return if invited_members.blank?
       emails = invited_members.split(/[^[:alpha:]]\s+|\s+|;\s*|,\s*/)
@@ -162,7 +199,14 @@ class GroupsController < ApplicationController
         GroupInvitation.create(token: token, group_id: @group.id, expiry_date: expiry_date)
         UserMailer.group_invitation_mail(email_address, link, @group, current_user, root_url).deliver_later
       end
+    end
 
+    def add_admin
+      UserGroup.set_is_admin(@group.id, additional_admin, true)
+    end
+
+    def demote_admin
+      UserGroup.set_is_admin(@group.id, demoted_admin, false)
     end
 
     def sort_by_name members

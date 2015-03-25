@@ -1,0 +1,41 @@
+.group-header
+
+  .wrapper
+    .container-fluid
+      .row
+        .col-md-6
+          .logo.pull-left
+            img src="/data/group-default.png"
+          .title
+            = @group.name
+            = link_to edit_group_path(@group)
+              span.glyphicon.glyphicon-cog
+        .col-md-6
+          / space for options
+
+  .subnav
+    .container-fluid
+      .row
+        .col-md-12
+          .entry
+            div class=(current_page?("/groups/#{@group.id}") ? 'active' : '')
+              - if current_page?("/groups/#{@group.id}")
+                = t('groups.subnav.home')
+              - else
+                a href=group_path(@group)
+                  = t('groups.subnav.home')
+          .entry
+            div class=(current_page?("/groups/#{@group.id}/members") ? 'active' : '')
+              - if current_page?("/groups/#{@group.id}/members")
+                = t('groups.subnav.members')
+              - else
+                a href="/groups/#{@group.id}/members"
+                  = t('groups.subnav.members')
+          .entry
+            div class=""
+              a href="#"
+                = t('groups.subnav.recommendations')
+          .entry
+            div class=""
+              a href="#"
+                = t('groups.subnav.statistics')

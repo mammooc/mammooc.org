@@ -70,26 +70,37 @@ en:
       reset: Reset my password
 
   groups:
-    admins: Admins
-    administrators: Administrator(s)
     name: Name
     description: Description
-    members: Member(s)
-    show_all: Show all
+    member: Member
+    members: Members
+    member_overview: Member Overview
     no_groups: You don't have any groups.
     new: New group
     edit: Edit group
     my_groups: My Groups
+    subnav:
+      home: Home
+      members: Members
+      recommendations: Recommendations
+      statistics: Statistics
     invitation:
       joined_group: You were successfully added to the group.
       already_member: You are already member of the group.
       group_deleted: The group was deleted.
-      invite_members: Invite members
       link_expired: Link is expired.
       link_used: Link is already used.
       link_invalid: Link is invalid.
-    modal:
-      title: All Members
+    add_members:
+      title: Add Members to Group
+      invite_members: Invite members
+      text: Enter email addresses comma-separated
+    all_members:
+      title: ' - Members'
+      options: Options
+      add_admin: Add as Admin
+      demote_admin: Demote Admin to Member
+      invite_members: Invite Members
 
   static:
     contact:
@@ -119,6 +130,33 @@ en:
               too_short: 'is too short (minimum is %{count} characters).'
             password_confirmation:
               confirmation: doesn't match with password.
+
+  #show course
+  courses:
+    description: Description
+    reviews: Reviews
+    mooc_provider: MOOC Provider
+    instructor: Instructor
+    instructors: Instructors
+    time: Time
+    language: Language
+    requirements: Requirements
+    achievement: Type of Achievement
+    categories: Categories
+    costs: Costs
+    difficulty: Difficulty
+    workload: Workload
+    enter_course: Enter Course
+    remember_course: Remember Course
+    enroll_course: Enroll into Course
+    recommend_course: Recommend Course
+    rate_course: Rate Course
+    hours: hours
+    per_week: per week
+    recommendations: Recommendations
+    rating: Rating
+    credit_points: Credit Points
+    no_dates_available: There are no dates available.
 
   flash:
     #success:
