@@ -51,6 +51,7 @@ Rails.application.routes.draw do
   post 'groups/:id/invite_members' => 'groups#invite_group_members'
   post 'groups/:id/add_administrator' => 'groups#add_administrator'
   post 'groups/:id/demote_administrator' => 'groups#demote_administrator'
+  post 'groups/:id/remove_group_member' => 'groups#remove_group_member'
   get 'groups/join/:token' => 'groups#join'
   get 'groups/:id/members' => 'groups#members'
   root :to => 'home#index'

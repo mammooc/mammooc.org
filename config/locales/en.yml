@@ -96,6 +96,7 @@ en:
       add_admin: Add as Admin
       demote_admin: Demote Admin to Member
       invite_members: Invite Members
+      remove_member: Remove Member
 
   static:
     contact:

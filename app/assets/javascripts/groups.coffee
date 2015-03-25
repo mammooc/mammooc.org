@@ -6,6 +6,7 @@ $ ->
   $('#invitation_submit_button').click(send_invite)
   $('.dropdown_add_admin').on 'click', (event) -> add_administrator(event)
   $('.dropdown_demote_admin').on 'click', (event) -> demote_administrator(event)
+  $('.dropdown_remove_member').on 'click', (event) -> remove_member(event)
   return
 
 send_invite = () ->
@@ -62,6 +63,26 @@ demote_administrator = (event) ->
       change_style_to_member(user_id)
   event.preventDefault()
 
+remove_member = (event) ->
+  button = $(event.target)
+  group_id = button.data('group_id')
+  user_id = button.data('user_id')
+  url = '/groups/' + group_id + '/remove_group_member.json'
+  data =
+    removing_member : user_id
+
+  $.ajax
+    url: url
+    data: data
+    method: 'POST'
+    error: (jqXHR, textStatus, errorThrown) ->
+      console.log('error')
+    success: (data, textStatus, jqXHR) ->
+      console.log('success_remove')
+      delete_member_out_of_list(user_id)
+  event.preventDefault()
+
+
 change_style_to_admin = (user_id) ->
   id = "#list_member_element_user_#{user_id}"
   $(id).find('.list-members').addClass('admins')
@@ -78,3 +99,7 @@ change_style_to_member = (user_id) ->
   $(id).find('.dropdown_demote_admin').unbind('click')
   $(id).find('.dropdown_demote_admin').on 'click', (event) -> add_administrator(event)
   $(id).find('.dropdown_demote_admin').removeClass('dropdown_demote_admin').addClass('dropdown_add_admin')
+
+delete_member_out_of_list = (user_id) ->
+  id = "#list_member_element_user_#{user_id}"
+  $(id).html('')

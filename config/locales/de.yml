@@ -96,6 +96,7 @@ de:
       add_admin: Als Administrator hinzufügen
       demote_admin: Administratorrechte entziehen
       invite_members: Mitglieder einladen
+      remove_member: Mitglied entfernen
 
   static:
     contact:

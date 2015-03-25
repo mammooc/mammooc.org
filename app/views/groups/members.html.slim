@@ -24,6 +24,9 @@
             li
               a href='' class='dropdown_demote_admin' data-group_id='#{@group.id}' data-user_id='#{user.id}'
                 = t('groups.all_members.demote_admin')
+            li
+              a href='' class='dropdown_remove_member' data-group_id='#{@group.id}' data-user_id='#{user.id}'
+                = t('groups.all_members.remove_member')
 
 - @sorted_group_users.each do |user|
   .row id='list_member_element_user_#{user.id}'
@@ -41,5 +44,8 @@
             li
               a href='' class='dropdown_add_admin' data-group_id='#{@group.id}' data-user_id='#{user.id}'
                 = t('groups.all_members.add_admin')
+            li
+              a href='' class='dropdown_remove_member' data-group_id='#{@group.id}' data-user_id='#{user.id}'
+                = t('groups.all_members.remove_member')
 
 = render 'add_members'
