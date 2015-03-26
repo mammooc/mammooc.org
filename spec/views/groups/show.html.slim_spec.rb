@@ -13,7 +13,6 @@ RSpec.describe "groups/show", :type => :view do
   it "renders attributes in <p>" do
     render
     admin_name = @group.users.first.first_name + ' ' + @group.users.first.last_name
-    expect(rendered).to match(@group.name)
     expect(rendered).to match(@group.description)
   end
 end
