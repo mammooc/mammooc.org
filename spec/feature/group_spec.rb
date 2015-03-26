@@ -107,7 +107,7 @@ RSpec.describe GroupsController, :type => :feature do
       current_admins_of_group = UserGroup.where(group_id: @group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq (UserGroup.where(group_id: @group.id, is_admin: true)).count
       expect { find("#list_member_element_user_#{@third_user.id}") }.to raise_error
-      expect { UserGroup.where(group_id: @group.id, user_id: user.id) }.to raise_error
+      expect(UserGroup.where(group_id: @group.id, user_id: @third_user.id).empty?).to be_truthy
     end
 
     it 'should remove the chosen admin', js:true do
@@ -124,7 +124,37 @@ RSpec.describe GroupsController, :type => :feature do
       current_admins_of_group = UserGroup.where(group_id: @group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq (UserGroup.where(group_id: @group.id, is_admin: true)).count
       expect { find("#list_member_element_user_#{@third_user.id}") }.to raise_error
-      expect { UserGroup.where(group_id: @group.id, user_id: user.id) }.to raise_error
+      expect(UserGroup.where(group_id: @group.id, user_id: @third_user.id).empty?).to be_truthy
+    end
+
+    it 'should remove more than one chosen member', js:true do
+      visit "/groups/#{@group.id}/members"
+      number_of_members = @group.users.count
+
+      # delete one member
+      find("#list_member_element_user_#{@third_user.id}").click_on I18n.t('groups.all_members.options')
+      find("#list_member_element_user_#{@third_user.id}").click_on I18n.t('groups.all_members.remove_member')
+      wait_for_ajax
+      click_on I18n.t('groups.remove_member.confirm_remove_member')
+      wait_for_ajax
+
+      # delete another member
+      find("#list_member_element_user_#{@second_user.id}").click_on I18n.t('groups.all_members.options')
+      find("#list_member_element_user_#{@second_user.id}").click_on I18n.t('groups.all_members.remove_member')
+      wait_for_ajax
+      click_on I18n.t('groups.remove_member.confirm_remove_member')
+      wait_for_ajax
+
+      expect(current_path).to eq("/groups/#{@group.id}/members")
+      expect(@group.users.count).to eq number_of_members-2
+      current_admins_of_group = UserGroup.where(group_id: @group.id, is_admin: true)
+      expect(current_admins_of_group.count).to eq (UserGroup.where(group_id: @group.id, is_admin: true)).count
+
+      expect { find("#list_member_element_user_#{@second_user.id}") }.to raise_error
+      expect(UserGroup.where(group_id: @group.id, user_id: @second_user.id).empty?).to be_truthy
+      expect { find("#list_member_element_user_#{@third_user.id}") }.to raise_error
+      expect(UserGroup.where(group_id: @group.id, user_id: @third_user.id).empty?).to be_truthy
+
     end
 
     it 'should delete the group if the last member wants to leave (after confirmation)', js:true do
