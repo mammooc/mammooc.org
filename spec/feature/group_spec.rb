@@ -187,7 +187,7 @@ RSpec.describe GroupsController, :type => :feature do
     it 'should delete the group if the last member wants to leave (after confirmation)', js:true do
       visit "/groups/#{@second_group.id}/members"
       find("#list_member_element_user_#{@user.id}").click_on I18n.t('groups.all_members.options')
-      find("#list_member_element_user_#{@user.id}").click_on I18n.t('groups.all_members.remove_member')
+      find("#list_member_element_user_#{@user.id}").click_on I18n.t('groups.all_members.leave_group')
       wait_for_ajax
       click_on I18n.t('groups.remove_member.confirm_delete_group')
       wait_for_ajax
