@@ -5,8 +5,11 @@
 /.vagrant
 /vagrant_provision.sh
 
-# Ignore stupid Mac folders
+# Ignore stupid Mac file
 /.DS_Store
+
+# Ignore dump file
+/dump.rdb
 
 # __ WEBAPP __
 # Ignore bundler config.
@@ -33,4 +36,4 @@
 /config/environments/*.local.yml
 
 # Ignore auto-generated javascript files
-/public/javascript
+/public/javascripts

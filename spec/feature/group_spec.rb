@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'database_cleaner'
 
 RSpec.describe GroupsController, :type => :feature do
 
@@ -22,10 +21,14 @@ RSpec.describe GroupsController, :type => :feature do
     ActionMailer::Base.deliveries.clear
   end
 
-  after(:each) do
+  before(:all) do
     DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.clean
   end
+
+  after(:all) do
+    DatabaseCleaner.strategy = :transaction
+  end
+
 
   describe 'invite users to an existing group' do
 

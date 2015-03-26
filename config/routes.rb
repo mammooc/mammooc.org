@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
 
 
+  get 'api_connection/index'
+  get 'api_connection/sendRequest'
+
   devise_for :users, :controllers => { :registrations => "users/registrations",
                                        :sessions => "users/sessions",
                                        :passwords => "users/passwords"}

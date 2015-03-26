@@ -35,8 +35,19 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+
 # authentication
 gem 'devise'
+
+# HTTP api_connection
+gem 'rest-client'
+
+# cron job
+gem 'sidekiq'
+gem 'whenever'
+
+# start e.g. sidekiq and redis with one command
+gem 'foreman'
 
 gem 'bootstrap-sass'
 
