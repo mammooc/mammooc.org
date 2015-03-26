@@ -48,7 +48,7 @@ add_administrator = (event) ->
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_add')
     success: (data, textStatus, jqXHR) ->
-     console.log('success_add')
+      console.log('success_add')
     change_style_to_admin(user_id)
   event.preventDefault()
 
@@ -94,7 +94,6 @@ remove_member = (event) ->
         $('#confirmation_remove_last_admin').modal('show')
         $('#confirmation_remove_last_admin').find('#confirm_leave_group_last_admin_button').attr('data-user_id', user_id)
       else if data.status == 'ok'
-        console.log(user_name)
         $('#confirmation_remove_member').modal('show')
         $('#confirmation_remove_member').find('#removing_user_name').text(user_name)
         $('#confirmation_remove_member').find('#remove_member_user_id').val(user_id)
