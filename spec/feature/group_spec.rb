@@ -12,6 +12,7 @@ RSpec.describe GroupsController, :type => :feature do
     @group = FactoryGirl.create(:group, users: [@user, @second_user, @third_user])
     @second_group = FactoryGirl.create(:group, users: [@user])
     UserGroup.set_is_admin(@group.id, @user.id, true)
+    UserGroup.set_is_admin(@second_group.id, @user.id, true)
 
     visit new_user_session_path
     fill_in 'login_email', with: @user.email
@@ -90,6 +91,32 @@ RSpec.describe GroupsController, :type => :feature do
       expect(current_admins_of_group.count).to eq 2
       expect(find("#list_member_element_user_#{@third_user.id}")).to have_selector 'div.col-md-4.list-members.admins'
     end
+
+    it 'should not demote last admin', js:true do
+      visit "/groups/#{@group.id}/members"
+      find("#list_member_element_user_#{@user.id}").click_on I18n.t('groups.all_members.options')
+      find("#list_member_element_user_#{@user.id}").click_on I18n.t('groups.all_members.demote_admin')
+      wait_for_ajax
+      expect(page).to have_content I18n.t('groups.all_members.demote_last_admin_notice')
+      click_on I18n.t('groups.all_members.demote_last_admin_button')
+      expect(current_path).to eq("/groups/#{@group.id}/members")
+      current_admins_of_group = UserGroup.where(group_id: @group.id, is_admin: true)
+      expect(current_admins_of_group.count).to eq(UserGroup.where(group_id: @group.id, is_admin: true).count)
+    end
+
+    it 'should not demote last admin (additional last member)', js:true do
+      visit "/groups/#{@second_group.id}/members"
+      find("#list_member_element_user_#{@user.id}").click_on I18n.t('groups.all_members.options')
+      find("#list_member_element_user_#{@user.id}").click_on I18n.t('groups.all_members.demote_admin')
+      wait_for_ajax
+      expect(page).to have_content I18n.t('groups.all_members.demote_last_admin_notice')
+      click_on I18n.t('groups.all_members.demote_last_admin_button')
+      expect(current_path).to eq("/groups/#{@second_group.id}/members")
+      current_admins_of_group = UserGroup.where(group_id: @second_group.id, is_admin: true)
+      expect(current_admins_of_group.count).to eq(UserGroup.where(group_id: @second_group.id, is_admin: true).count)
+    end
+
+
   end
 
   describe 'remove member' do
@@ -160,7 +187,7 @@ RSpec.describe GroupsController, :type => :feature do
     it 'should delete the group if the last member wants to leave (after confirmation)', js:true do
       visit "/groups/#{@second_group.id}/members"
       find("#list_member_element_user_#{@user.id}").click_on I18n.t('groups.all_members.options')
-      find("#list_member_element_user_#{@user.id}").click_on I18n.t('groups.all_members.remove_member')
+      find("#list_member_element_user_#{@user.id}").click_on I18n.t('groups.all_members.leave_group')
       wait_for_ajax
       click_on I18n.t('groups.remove_member.confirm_delete_group')
       wait_for_ajax

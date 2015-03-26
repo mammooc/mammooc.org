@@ -101,6 +101,8 @@ de:
       options: Optionen
       add_admin: Als Administrator hinzufügen
       demote_admin: Administratorrechte entziehen
+      demote_last_admin_notice: Du bist der letzte Administrator dieser Gruppe. Deshalb kannst du dir selbst nicht die Administratorrechte entziehen. Bitte kehre erst zur Gruppe zurück und ernenne ein anderes Mitglied zum Administrator.
+      demote_last_admin_button: Zur Gruppe zurückkehren.
       invite_members: Mitglieder einladen
       remove_member: Mitglied entfernen
       leave_group: Gruppe verlassen
