@@ -23,16 +23,16 @@ describe OpenHPICourseWorker do
   end
 
   it 'should load new course into database' do
-    courseCount = Course.all.length
+    courseCount = Course.count
     openHPICourseWorker.handleResponseData json_course_data
-    expect(courseCount).to eql Course.all.length-1
+    expect(courseCount).to eql Course.count - 1
   end
 
   it 'should load course attributes into database' do
     openHPICourseWorker.handleResponseData json_course_data
 
     json_course = json_course_data[0]
-    course = Course.where(:provider_course_id => json_course['id'], :mooc_provider_id => @moocProvider.id).first
+    course = Course.find_by(:provider_course_id => json_course['id'], :mooc_provider_id => @moocProvider.id)
 
     expect(course.name).to eql json_course['name']
     expect(course.provider_course_id).to eql json_course['id']
@@ -40,8 +40,8 @@ describe OpenHPICourseWorker do
     expect(course.url).to include json_course['course_code']
     expect(course.language).to eql json_course['language']
     expect(course.imageId).to eql json_course['visual_url']
-    expect(course.start_date).to eql Time.parse json_course['available_from']
-    expect(course.end_date).to eql Time.parse json_course['available_to']
+    expect(course.start_date).to eql Time.parse(json_course['available_from'])
+    expect(course.end_date).to eql Time.parse(json_course['available_to'])
     expect(course.description).to eql json_course['description']
     expect(course.course_instructors).to eql [json_course['lecturer']]
     expect(course.open_for_registration).to eql !json_course['locked']

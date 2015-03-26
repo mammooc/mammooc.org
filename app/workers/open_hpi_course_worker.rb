@@ -2,6 +2,7 @@ class OpenHPICourseWorker < AbstractCourseWorker
 
   MOOC_PROVIDER_NAME = 'openHPI'
   MOOC_PROVIDER_API_LINK = 'https://open.hpi.de/api/courses'
+  COURSE_LINK_BODY = 'https://open.hpi.de/courses/'
 
   def moocProvider
     MoocProvider.find_by_name(MOOC_PROVIDER_NAME)
@@ -16,7 +17,7 @@ class OpenHPICourseWorker < AbstractCourseWorker
     updateMap = createUpdateMap moocProvider
 
     responseData.each { |courseElement|
-      course = Course.where(:provider_course_id => courseElement['id'], :mooc_provider_id => moocProvider.id).first
+      course = Course.find_by(:provider_course_id => courseElement['id'], :mooc_provider_id => moocProvider.id)
       if course.nil?
         course = Course.new
       else
@@ -26,7 +27,7 @@ class OpenHPICourseWorker < AbstractCourseWorker
       course.name = courseElement['name']
       course.provider_course_id = courseElement['id']
       course.mooc_provider_id = moocProvider.id
-      course.url = 'https://open.hpi.de/courses/' + courseElement['course_code']
+      course.url = COURSE_LINK_BODY + courseElement['course_code']
       course.language = courseElement['language']
       course.imageId = courseElement['visual_url']
       course.start_date = courseElement['available_from']

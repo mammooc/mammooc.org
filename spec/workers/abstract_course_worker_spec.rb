@@ -21,17 +21,17 @@ describe AbstractCourseWorker do
   end
 
   it 'should evaluate the updateMap and delete the right courses' do
-    courseCount = Course.all.length
+    courseCount = Course.count
     updateMap = abstractCourseWorker.createUpdateMap @moocProvider
+
     # set five courses to true
-    i = 0
-    updateMap.each { |course,_|
+    updateMap.each_with_index { |(course,_),index|
       updateMap[course] = true
-      i += 1
-      i >= 5 ? break : next
+      index >= 4 ? break : next
     }
+
     abstractCourseWorker.evaluateUpdateMap updateMap
-    expect(courseCount).to eql Course.all.length+5
+    expect(courseCount).to eql Course.count+5
   end
 
   it 'should throw exceptions when trying to call abstract methods' do
