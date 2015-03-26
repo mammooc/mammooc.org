@@ -9,6 +9,8 @@ RSpec.describe "groups/members", :type => :view do
     @group = FactoryGirl.create(:group, users: [@user, @second_user, @third_user])
     UserGroup.set_is_admin(@group.id, @user.id, true)
 
+    sign_in @user
+
     @sorted_group_users = @group.users - [@user]
     @sorted_group_admins = [@user]
   end

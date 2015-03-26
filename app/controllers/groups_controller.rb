@@ -29,7 +29,6 @@ class GroupsController < ApplicationController
   def members
     @sorted_group_users = sort_by_name(@group.users - admins)
     @sorted_group_admins = sort_by_name(admins)
-    @current_user = current_user
   end
 
   # POST /groups
