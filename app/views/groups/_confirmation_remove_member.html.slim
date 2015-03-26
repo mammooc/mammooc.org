@@ -16,6 +16,7 @@
               = t('groups.remove_member.question_member_2')
               .form-group
                 .col-md-10
+                  input type='hidden' value='' id='remove_member_user_id'
                   button.btn.btn-danger.mr10 id='remove_member_confirm_button' data-group_id='#{@group.id}'
                     = t('groups.remove_member.confirm_remove_member')
                   button.btn.btn-default type="button" data-dismiss="modal"

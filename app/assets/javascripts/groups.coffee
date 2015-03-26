@@ -97,13 +97,13 @@ remove_member = (event) ->
         console.log(user_name)
         $('#confirmation_remove_member').modal('show')
         $('#confirmation_remove_member').find('#removing_user_name').text(user_name)
-        $('#confirmation_remove_member').find('#remove_member_confirm_button').attr('data-user_id', user_id)
+        $('#confirmation_remove_member').find('#remove_member_user_id').val(user_id)
   event.preventDefault()
 
 remove_group_member = (event) ->
   button = $(event.target)
   group_id = button.data('group_id')
-  user_id = button.data('user_id')
+  user_id = $('#remove_member_user_id').val()
   url = '/groups/' + group_id + '/remove_group_member.json'
   data =
     removing_member : user_id
