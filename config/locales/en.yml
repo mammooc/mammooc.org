@@ -79,6 +79,11 @@ en:
     new: New group
     edit: Edit group
     my_groups: My Groups
+    subnav:
+      home: Home
+      members: Members
+      recommendations: Recommendations
+      statistics: Statistics
     invitation:
       joined_group: You were successfully added to the group.
       already_member: You are already member of the group.

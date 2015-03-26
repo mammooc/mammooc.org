@@ -79,6 +79,11 @@ de:
     new: Neue Gruppe
     edit: Gruppe bearbeiten
     my_groups: Meine Gruppen
+    subnav:
+      home: Home
+      members: Mitglieder
+      recommendations: Empfehlungen
+      statistics: Statistiken
     invitation:
       joined _group: Sie wurden der Gruppe hinzugefügt.
       already_member: Sie sind schon Mitglied in der Gruppe.

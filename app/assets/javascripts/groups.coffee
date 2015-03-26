@@ -2,11 +2,15 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-$ ->
+
+ready = ->
   $('#invitation_submit_button').click(send_invite)
   $('.dropdown_add_admin').on 'click', (event) -> add_administrator(event)
   $('.dropdown_demote_admin').on 'click', (event) -> demote_administrator(event)
   return
+
+$(document).ready(ready)
+$(document).on('page:load', ready)
 
 send_invite = () ->
 	group_id = $('#group_id').val()
@@ -66,15 +70,15 @@ change_style_to_admin = (user_id) ->
   id = "#list_member_element_user_#{user_id}"
   $(id).find('.list-members').addClass('admins')
   $(id).find('.dropdown_add_admin').text(I18n.t('groups.all_members.demote_admin'))
-  $(id).find('.dropdown_add_admin').unbind('click')
-  $(id).find('.dropdown_add_admin').on 'click', (event) -> demote_administrator(event)
-  $(id).find('.dropdown_add_admin').addClass('dropdown_demote_admin').removeClass('dropdown_add_admin')
+                                   .unbind('click')
+                                   .on 'click', (event) -> demote_administrator(event)
+                                   .addClass('dropdown_demote_admin').removeClass('dropdown_add_admin')
 
 
 change_style_to_member = (user_id) ->
   id = "#list_member_element_user_#{user_id}"
   $(id).find('.list-members').removeClass('admins')
   $(id).find('.dropdown_demote_admin').text(I18n.t('groups.all_members.add_admin'))
-  $(id).find('.dropdown_demote_admin').unbind('click')
-  $(id).find('.dropdown_demote_admin').on 'click', (event) -> add_administrator(event)
-  $(id).find('.dropdown_demote_admin').removeClass('dropdown_demote_admin').addClass('dropdown_add_admin')
+                                      .unbind('click')
+                                      .on 'click', (event) -> add_administrator(event)
+                                      .removeClass('dropdown_demote_admin').addClass('dropdown_add_admin')
