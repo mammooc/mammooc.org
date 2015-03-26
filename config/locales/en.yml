@@ -70,12 +70,11 @@ en:
       reset: Reset my password
 
   groups:
-    admins: Admins
-    administrators: Administrator(s)
     name: Name
     description: Description
-    members: Member(s)
-    show_all: Show all
+    member: Member
+    members: Members
+    member_overview: Member Overview
     no_groups: You don't have any groups.
     new: New group
     edit: Edit group
@@ -84,20 +83,19 @@ en:
       joined_group: You were successfully added to the group.
       already_member: You are already member of the group.
       group_deleted: The group was deleted.
-      invite_members: Invite members
       link_expired: Link is expired.
       link_used: Link is already used.
       link_invalid: Link is invalid.
-    modal:
-      title: All Members
-    add_admin:
-      title: Add Administrators
-      subtitle: "Select one or more members:"
-    all_admins: All Administrators
-    demote_admin:
-      title: Demote Administartor to Member
-      question_1: Are you sure to demote
-      question_2: to a normal member?
+    add_members:
+      title: Add Members to Group
+      invite_members: Invite members
+      text: Enter email addresses comma-separated
+    all_members:
+      title: ' - Members'
+      options: Options
+      add_admin: Add as Admin
+      demote_admin: Demote Admin to Member
+      invite_members: Invite Members
 
   static:
     contact:

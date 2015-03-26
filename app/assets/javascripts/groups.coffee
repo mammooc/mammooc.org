@@ -4,9 +4,8 @@
 
 $ ->
   $('#invitation_submit_button').click(send_invite)
-  $('#add_administrators_submit_button').click(add_administrators)
-  $('#demote_group_administrator').on 'show.bs.modal', (event) -> set_var_demote_admin(event)
-  $('#demote_administrator_submit_button').click(demote_admin)
+  $('.dropdown_add_admin').on 'click', (event) -> add_administrator(event)
+  $('.dropdown_demote_admin').on 'click', (event) -> demote_administrator(event)
   return
 
 send_invite = () ->
@@ -25,67 +24,57 @@ send_invite = () ->
 		success: (data, textStatus, jqXHR) ->
 			$('#add_group_members').modal('hide')
 
-add_administrators = () ->
-  group_id = $('#group_id').val()
-  url = '/groups/' + group_id + '/add_administrators.json'
-  user_ids = []
-  $.each $('.add_as_admin_list_member'), (i, user) ->
-    if $("#checkbox_add_as_admin_#{i}").prop('checked')
-      unless $("#checkbox_add_as_admin_#{i}").prop('disabled')
-        user_id = $("#user_id_#{i}").val()
-        user_ids.push user_id
-        add_new_admin(user_id, i)
-        $("#checkbox_add_as_admin_#{i}").attr('disabled', true)
+add_administrator = (event) ->
+  button = $(event.target)
+  group_id = button.data('group_id')
+  user_id = button.data('user_id')
+  url = '/groups/' + group_id + '/add_administrator.json'
   data =
-    administrators : user_ids
+    additional_administrator : user_id
 
   $.ajax
     url: url
     data: data
     method: 'POST'
     error: (jqXHR, textStatus, errorThrown) ->
-      $('.administrator-form').hide()
-      $('.administrator-error').text(errorThrown)
+      console.log('error')
     success: (data, textStatus, jqXHR) ->
-      $('#add_group_administrators').modal('hide')
+     console.log('success_add')
+    change_style_to_admin(user_id)
+  event.preventDefault()
 
-add_new_admin = (user_id, i) ->
-  $.ajax '/users/' + user_id + '.json',
-    success  : (data, status, xhr) ->
-      user_link = '/users/' + user_id
-      name = data.first_name + ' ' + data.last_name
-      new_entry = $("<div class='row'><div class='col-md-12 list-members'><a href=''><img src='/data/default.png' /><span></span></a></div></div>")
-      new_entry.find('a').addClass("js_user_link_add_admin_#{i}")
-                         .attr('href', user_link)
-      new_entry.find('span').addClass("js_user_name_add_admin_#{i}")
-                            .append(name)
-      
-      $('.add_new_admin').append(new_entry)
-      
-    error    : (xhr, status, err) ->
-      console.log("Error "+err)
-
-set_var_demote_admin = (event) ->
-  button = $(event.relatedTarget)
-  user = button.data('user')
-  $('#user_id').val(user.id)
-  user_name = ' ' + user.first_name + ' ' + user.last_name + ' '
-  $('#demote_user_name').text(user_name)
-
-demote_admin = () ->
-  group_id = $('#group_id').val()
+demote_administrator = (event) ->
+  button = $(event.target)
+  group_id = button.data('group_id')
+  user_id = button.data('user_id')
   url = '/groups/' + group_id + '/demote_administrator.json'
   data =
-    demoted_admin : $('#user_id').val()
+    demoted_admin : user_id
 
   $.ajax
     url: url
     data: data
     method: 'POST'
     error: (jqXHR, textStatus, errorThrown) ->
-      $('.demote_admin-form').hide()
-      $('.demote_admin-error').text(errorThrown)
+      console.log('error')
     success: (data, textStatus, jqXHR) ->
-      $('#demote_group_administrator').modal('hide')
+      console.log('success_demote')
+      change_style_to_member(user_id)
+  event.preventDefault()
+
+change_style_to_admin = (user_id) ->
+  id = "#list_member_element_user_#{user_id}"
+  $(id).find('.list-members').addClass('admins')
+  $(id).find('.dropdown_add_admin').text(I18n.t('groups.all_members.demote_admin'))
+  $(id).find('.dropdown_add_admin').unbind('click')
+  $(id).find('.dropdown_add_admin').on 'click', (event) -> demote_administrator(event)
+  $(id).find('.dropdown_add_admin').addClass('dropdown_demote_admin').removeClass('dropdown_add_admin')
 
 
+change_style_to_member = (user_id) ->
+  id = "#list_member_element_user_#{user_id}"
+  $(id).find('.list-members').removeClass('admins')
+  $(id).find('.dropdown_demote_admin').text(I18n.t('groups.all_members.add_admin'))
+  $(id).find('.dropdown_demote_admin').unbind('click')
+  $(id).find('.dropdown_demote_admin').on 'click', (event) -> add_administrator(event)
+  $(id).find('.dropdown_demote_admin').removeClass('dropdown_demote_admin').addClass('dropdown_add_admin')

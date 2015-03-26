@@ -70,12 +70,11 @@ de:
       reset: Neues Passwort anfordern
 
   groups:
-    admins: Admins
-    administrators: Administrator(en)
     name: Name
     description: Beschreibung
-    members: Mitglied(er)
-    show_all: Alle anzeigen
+    member: Mitglied
+    members: Mitglieder
+    member_overview: Mitgliederübersicht
     no_groups: Du hast noch keine Gruppen.
     new: Neue Gruppe
     edit: Gruppe bearbeiten
@@ -84,21 +83,20 @@ de:
       joined _group: Sie wurden der Gruppe hinzugefügt.
       already_member: Sie sind schon Mitglied in der Gruppe.
       group_deleted: Gruppe gelöscht.
-      invite_members: Mitglieder einladen
       link_expired: Link ist abgelaufen.
       link_used: Link wurde bereits verwendet.
       link_invalid: Link ist ungültig.
-    modal:
-      title: Alle Mitglieder
-    add_admin:
-      title: Administratoren hinzufügen
-      subtitle: "Aus Mitgliederliste auswählen:"
-    all_admins: Alle Administratoren
-    demote_admin:
-      title: Mitglied Administratorrechte entziehen
-      question_1: Bist du dir sicher, dass du
-      question_2: die Administratorrechte entziehen möchtest?
-    
+    add_members:
+      title: Mitglieder zur Gruppe hinzufügen
+      invite_members: Mitglieder einladen
+      text: E-Mail-Adressen kommasepariert eingeben
+    all_members:
+      title: ' - Mitglieder'
+      options: Optionen
+      add_admin: Als Administrator hinzufügen
+      demote_admin: Administratorrechte entziehen
+      invite_members: Mitglieder einladen
+
   static:
     contact:
       heading: Schreib uns!
