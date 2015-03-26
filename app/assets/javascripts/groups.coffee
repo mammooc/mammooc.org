@@ -8,6 +8,7 @@ ready = ->
   $('.dropdown_add_admin').on 'click', (event) -> add_administrator(event)
   $('.dropdown_demote_admin').on 'click', (event) -> demote_administrator(event)
   $('.dropdown_remove_member').on 'click', (event) -> remove_member(event)
+  $('#remove_member_confirm_button').on 'click', (event) -> remove_group_member(event)
   $('#remove_last_member_confirm_button').on 'click', (event) -> delete_group(event)
   $('#confirm_delete_group_last_admin_button').on 'click', (event) -> delete_group(event)
   $('#confirm_leave_group_last_admin_button').on 'click', (event) -> remove_last_admin(event)
@@ -47,7 +48,7 @@ add_administrator = (event) ->
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_add')
     success: (data, textStatus, jqXHR) ->
-     console.log('success_add')
+      console.log('success_add')
     change_style_to_admin(user_id)
   event.preventDefault()
 
@@ -92,6 +93,7 @@ remove_member = (event) ->
   button = $(event.target)
   group_id = button.data('group_id')
   user_id = button.data('user_id')
+  user_name = button.data('user_name')
   url = '/groups/' + group_id + '/condition_for_changing_member_status.json'
   data =
     changing_member : user_id
@@ -110,10 +112,15 @@ remove_member = (event) ->
         $('#confirmation_remove_last_admin').modal('show')
         $('#confirmation_remove_last_admin').find('#confirm_leave_group_last_admin_button').attr('data-user_id', user_id)
       else if data.status == 'ok'
-        remove_group_member(group_id, user_id)
+        $('#confirmation_remove_member').modal('show')
+        $('#confirmation_remove_member').find('#removing_user_name').text(user_name)
+        $('#confirmation_remove_member').find('#remove_member_user_id').val(user_id)
   event.preventDefault()
 
-remove_group_member = (group_id, user_id) ->
+remove_group_member = (event) ->
+  button = $(event.target)
+  group_id = button.data('group_id')
+  user_id = $('#remove_member_user_id').val()
   url = '/groups/' + group_id + '/remove_group_member.json'
   data =
     removing_member : user_id
@@ -126,6 +133,7 @@ remove_group_member = (group_id, user_id) ->
       console.log('error_remove')
     success: (data, textStatus, jqXHR) ->
       console.log('success_remove')
+      $('#confirmation_remove_member').modal('hide')
       delete_member_out_of_list(user_id)
 
 delete_group = (event) ->
