@@ -113,6 +113,7 @@ en:
       confirm_delete_group: Yes, leave and delete group.
       confirm_leave_group: Yes, leave the group (all members will become admins).
       confirm_remove_member: Delete Member
+      yourself: yourself
 
   static:
     contact:

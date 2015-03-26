@@ -113,6 +113,7 @@ de:
       confirm_delete_group: Ja, Gruppe verlassen und löschen.
       confirm_leave_group: Ja, Gruppe verlassen (alle Mitglieder werden automatisch zu Administratoren).
       confirm_remove_member: Mitglied löschen
+      yourself: dich
 
   static:
     contact:
