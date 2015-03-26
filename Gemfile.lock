@@ -104,6 +104,8 @@ GEM
     http-cookie (1.0.2)
       domain_name (~> 0.5)
     i18n (0.7.0)
+    i18n-js (2.1.2)
+      i18n
     jbuilder (2.2.12)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
@@ -274,6 +276,7 @@ DEPENDENCIES
   devise
   factory_girl_rails
   foreman
+  i18n-js
   jbuilder (~> 2.0)
   jquery-rails
   pg

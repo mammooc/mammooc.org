@@ -247,4 +247,86 @@ RSpec.describe GroupsController, :type => :controller do
     end
   end
 
+  describe "POST add_administrators" do
+    let(:user) {FactoryGirl.create(:user)}
+    let(:second_user) {FactoryGirl.create(:user)}
+    let(:group) {FactoryGirl.create(:group, users:[user, second_user])}
+
+    it "should add one administrator to an existing group" do
+      put :add_administrator, {id: group.id, group: valid_attributes, additional_administrator: user}
+      expect(response).to redirect_to group_path(group)
+      current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
+      expect(current_admins_of_group.count).to eq 1
+    end
+  end
+
+  describe "POST demote_administrator" do
+    let(:user) {FactoryGirl.create(:user)}
+    let(:group) {FactoryGirl.create(:group, users:[user])}
+
+    it "should demote an administrator to a normal memeber" do
+      UserGroup.set_is_admin(group.id, user.id, true)
+      expect{ put :demote_administrator, {id: group.id, demoted_admin: user} }.to change(UserGroup.where(group_id: group.id, is_admin: true), :count).by(-1)
+      expect(response).to redirect_to group_path(group)
+    end
+  end
+
+  describe  "POST remove group member" do
+    let(:user) {FactoryGirl.create(:user)}
+    let(:second_user) {FactoryGirl.create(:user)}
+    let(:third_user) {FactoryGirl.create(:user)}
+    let(:group) {FactoryGirl.create(:group, users:[user, second_user, third_user])}
+
+    it "should remove a member of a group" do
+      UserGroup.set_is_admin(group.id, user.id, true)
+      admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
+      expect{ put :remove_group_member, {id: group.id, removing_member: user.id } }.to change{group.users.count}.by(-1)
+      expect(admins_of_group).to eq(UserGroup.where(group_id: group.id, is_admin: true))
+    end
+  end
+
+
+  describe "POST condition for changing member status" do
+    let(:user) {FactoryGirl.create(:user)}
+    let(:second_user) {FactoryGirl.create(:user)}
+    let(:third_user) {FactoryGirl.create(:user)}
+    let(:group) {FactoryGirl.create(:group, users:[user, second_user, third_user])}
+    let(:second_group) {FactoryGirl.create(:group, users:[user])}
+
+    render_views
+    let(:json) { JSON.parse(response.body) }
+
+    it "should return 'last_admin' if the member is the last admin (but there are still other members)" do
+      UserGroup.set_is_admin(group.id, user.id, true)
+      post :condition_for_changing_member_status, format: :json, id: group.id, changing_member: user.id
+      expect(response.body).to have_content('last_admin')
+    end
+
+    it "should return 'last_member' if the member is the last member" do
+      UserGroup.set_is_admin(group.id, user.id, true)
+      post :condition_for_changing_member_status, format: :json, id: second_group.id, changing_member: user.id
+      expect(response.body).to have_content('last_member')
+    end
+
+    it "should return 'ok' if there are no restrictions to remove the member" do
+      UserGroup.set_is_admin(group.id, user.id, true)
+      post :condition_for_changing_member_status, format: :json, id: group.id, changing_member: second_user.id
+      expect(response.body).to have_content('ok')
+    end
+  end
+
+  describe "POST all members to administrators" do
+    let(:user) {FactoryGirl.create(:user)}
+    let(:second_user) {FactoryGirl.create(:user)}
+    let(:third_user) {FactoryGirl.create(:user)}
+    let(:group) {FactoryGirl.create(:group, users:[user, second_user, third_user])}
+
+    it "should make all members of a group to admins" do
+      put :all_members_to_administrators, {id: group.id}
+      current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
+      expect(current_admins_of_group.count).to eq(group.users.count)
+    end
+
+  end
+
 end

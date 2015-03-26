@@ -24,6 +24,7 @@ de:
     require_login: Sie müssen eingeloggt sein um auf diese Seite zugreifen zu können.
     close: Schließen
     submit: Absenden
+    cancel: Abbrechen
 
   navbar:
     MAMMOOC: MAMMOOC
@@ -70,26 +71,51 @@ de:
       reset: Neues Passwort anfordern
 
   groups:
-    admins: Admins
-    administrators: Administrator(en)
     name: Name
     description: Beschreibung
-    members: Mitglied(er)
-    show_all: Alle anzeigen
+    member: Mitglied
+    members: Mitglieder
+    member_overview: Mitgliederübersicht
     no_groups: Du hast noch keine Gruppen.
     new: Neue Gruppe
     edit: Gruppe bearbeiten
     my_groups: Meine Gruppen
+    subnav:
+      home: Home
+      members: Mitglieder
+      recommendations: Empfehlungen
+      statistics: Statistiken
     invitation:
       joined _group: Sie wurden der Gruppe hinzugefügt.
       already_member: Sie sind schon Mitglied in der Gruppe.
       group_deleted: Gruppe gelöscht.
-      invite_members: Mitglieder einladen
       link_expired: Link ist abgelaufen.
       link_used: Link wurde bereits verwendet.
       link_invalid: Link ist ungültig.
-    modal:
-      title: Alle Mitglieder
+    add_members:
+      title: Mitglieder zur Gruppe hinzufügen
+      invite_members: Mitglieder einladen
+      text: E-Mail-Adressen kommasepariert eingeben
+    all_members:
+      title: ' - Mitglieder'
+      options: Optionen
+      add_admin: Als Administrator hinzufügen
+      demote_admin: Administratorrechte entziehen
+      demote_last_admin_notice: Du bist der letzte Administrator dieser Gruppe. Deshalb kannst du dir selbst nicht die Administratorrechte entziehen. Bitte kehre erst zur Gruppe zurück und ernenne ein anderes Mitglied zum Administrator.
+      demote_last_admin_button: Zur Gruppe zurückkehren.
+      invite_members: Mitglieder einladen
+      remove_member: Mitglied entfernen
+      leave_group: Gruppe verlassen
+    remove_member:
+      title: Mitglied löschen
+      question_member_1: Bist du sicher, dass du
+      question_member_2: aus dieser Gruppe entfernen möchtest?
+      question_last_member: Du bist das letzte Mitglied dieser Gruppe. Wenn du die Gruppe verlässt, wird sie automatisch gelöscht. Bist du dir sicher, dass du die Gruppe verlassen möchtest?
+      question_last_admin: "Du bist der letzte Administrator dieser Gruppe. Wenn du diese Gruppe verlassen möchtest, gibt es folgende Möglichkeiten: Entweder wird die gesamte Gruppe gelöscht oder beim Verlassen der Gruppe werden alle verbleibenden Mitglieder automatisch zu Administratoren ernannt. Möchtest du wirklich fortfahren?"
+      confirm_delete_group: Ja, Gruppe verlassen und löschen.
+      confirm_leave_group: Ja, Gruppe verlassen (alle Mitglieder werden automatisch zu Administratoren).
+      confirm_remove_member: Mitglied löschen
+      yourself: dich
 
   static:
     contact:

@@ -1,0 +1,23 @@
+.modal.fade id="confirmation_remove_last_admin"
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close type="button" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true"
+            | &times;
+        h4.modal-title
+          = t('groups.remove_member.title')
+      .modal-body
+        .row
+          .col-md-12
+            .remove_last_member-form.form-horizontal
+              = t('groups.remove_member.question_last_admin')
+              .form-group
+                .col-md-10
+                  button.btn.btn-danger.mr10 id='confirm_delete_group_last_admin_button' data-group_id='#{@group.id}'
+                    = t('groups.remove_member.confirm_delete_group')
+                  button.btn.btn-warning.mr10 id='confirm_leave_group_last_admin_button' data-group_id='#{@group.id}'
+                    = t('groups.remove_member.confirm_leave_group')
+                  button.btn.btn-default type="button" data-dismiss="modal"
+                    = t('global.cancel')
+            .remove_last_member-error

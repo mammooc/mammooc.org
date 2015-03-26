@@ -24,6 +24,7 @@ en:
     require_login: You must be logged in to access this section
     close: Close
     submit: Submit
+    cancel: Cancel
 
   navbar:
     MAMMOOC: MAMMOOC
@@ -70,26 +71,51 @@ en:
       reset: Reset my password
 
   groups:
-    admins: Admins
-    administrators: Administrator(s)
     name: Name
     description: Description
-    members: Member(s)
-    show_all: Show all
+    member: Member
+    members: Members
+    member_overview: Member Overview
     no_groups: You don't have any groups.
     new: New group
     edit: Edit group
     my_groups: My Groups
+    subnav:
+      home: Home
+      members: Members
+      recommendations: Recommendations
+      statistics: Statistics
     invitation:
       joined_group: You were successfully added to the group.
       already_member: You are already member of the group.
       group_deleted: The group was deleted.
-      invite_members: Invite members
       link_expired: Link is expired.
       link_used: Link is already used.
       link_invalid: Link is invalid.
-    modal:
-      title: All Members
+    add_members:
+      title: Add Members to Group
+      invite_members: Invite members
+      text: Enter email addresses comma-separated
+    all_members:
+      title: ' - Members'
+      options: Options
+      add_admin: Add as Admin
+      demote_admin: Demote Admin to Member
+      demote_last_admin_notice: "You are the last admin of this group. Therefore you can't demote yourself. Please return back to group first and promote another member to admin."
+      demote_last_admin_button: Return to group.
+      invite_members: Invite Members
+      remove_member: Remove Member
+      leave_group: Leave group
+    remove_member:
+      title: Remove Member
+      question_member_1: Are you sure to remove
+      question_member_2: from this group?
+      question_last_member: You are the last member of this group. If you want to leave the group, it will be deleted. Are you sure to leave the group?
+      question_last_admin: "You are the last admin of this group. If you want to leave the group, you may choose one of the following possibilities: either the whole group will be deleted or all other members will become admins. Do you want to continue?"
+      confirm_delete_group: Yes, leave and delete group.
+      confirm_leave_group: Yes, leave the group (all members will become admins).
+      confirm_remove_member: Delete Member
+      yourself: yourself
 
   static:
     contact:

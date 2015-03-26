@@ -52,7 +52,13 @@ Rails.application.routes.draw do
   get 'about' => 'static_pages#about'
   get 'dashboard' => 'dashboard#dashboard'
   post 'groups/:id/invite_members' => 'groups#invite_group_members'
+  post 'groups/:id/add_administrator' => 'groups#add_administrator'
+  post 'groups/:id/demote_administrator' => 'groups#demote_administrator'
+  post 'groups/:id/remove_group_member' => 'groups#remove_group_member'
+  post 'groups/:id/condition_for_changing_member_status' => 'groups#condition_for_changing_member_status'
   get 'groups/join/:token' => 'groups#join'
+  get 'groups/:id/members' => 'groups#members'
+  get 'groups/:id/all_members_to_administrators' => 'groups#all_members_to_administrators'
   root :to => 'home#index'
 
   

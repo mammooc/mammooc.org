@@ -1,3 +1,86 @@
+@import 'bootstrap-variables';
+
+$group-logo-height: 80px;
+$group-logo-margin-left: 15px;
+$entry-padding-left: 10px;
+
+// Header
+
+.group-header {
+  background-color: white;
+  border: 1px solid $panel-default-border;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+
+  .wrapper {
+    min-height: $group-logo-height;
+
+    .logo {
+      background-color: white;
+      border: 1px solid $panel-default-border;
+      border-radius: 2px;
+      margin-top: -20px;
+      margin-left: $group-logo-margin-left;
+      margin-right: 10px;
+      padding: 5px;
+      height: $group-logo-height;
+      max-width: 250px;
+      overflow: hidden;
+      -webkit-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+
+      img {
+        height: 100%;
+        width: auto;
+      }
+
+    }
+
+    .title {
+      padding-top: 10px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  }
+
+  .subnav {
+    background-color: #eee;
+    border-top: 1px solid $panel-default-border;
+
+    .container-fluid {
+      display: table;
+      margin-top: 0px;
+      margin-left: $group-logo-margin-left - $entry-padding-left;
+        
+      .entry {
+        display: table-cell;
+        padding-left: $entry-padding-left;
+        padding-right: 10px;
+        padding-top: 5px;
+        font-size: 13px;
+
+        a {
+          color: black;
+          text-decoration: none;
+        }
+
+        a:hover {
+          color: $link-color;
+        }
+
+      }
+
+      .active {
+        font-weight: bold;
+        border-bottom: 2px solid $link-hover-color;
+      }
+    }
+  }
+}
+
+// Sidebar
+
 .list-members {
   img {
     width: 40px;
@@ -9,4 +92,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.admins {
+  font-weight: bold;
 }
