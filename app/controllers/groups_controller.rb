@@ -264,7 +264,7 @@ class GroupsController < ApplicationController
     end
 
     def remove_member
-      UserGroup.destroy(UserGroup.where(group_id: @group.id, user_id: removing_member).select(:id))
+      UserGroup.find_by(group_id: @group.id, user_id: removing_member).destroy
     end
 
     def condition_for_changing_member
