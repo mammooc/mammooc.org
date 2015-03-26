@@ -55,6 +55,25 @@ demote_administrator = (event) ->
   button = $(event.target)
   group_id = button.data('group_id')
   user_id = button.data('user_id')
+  url = '/groups/' + group_id + '/condition_for_changing_member_status.json'
+  data =
+    changing_member : user_id
+
+  $.ajax
+    url: url
+    data: data
+    method: 'POST'
+    error: (jqXHR, textStatus, errorThrown) ->
+      console.log('error_status')
+    success: (data, textStatus, jqXHR) ->
+      console.log('success_status')
+      if data.status == 'last_member' || data.status == 'last_admin'
+        $('#notice_demote_last_admin').modal('show')
+      else if data.status == 'ok'
+        demote_group_administrator(group_id, user_id)
+  event.preventDefault()
+
+demote_group_administrator = (group_id, user_id) ->
   url = '/groups/' + group_id + '/demote_administrator.json'
   data =
     demoted_admin : user_id
@@ -68,7 +87,6 @@ demote_administrator = (event) ->
     success: (data, textStatus, jqXHR) ->
       console.log('success_demote')
       change_style_to_member(user_id)
-  event.preventDefault()
 
 remove_member = (event) ->
   button = $(event.target)

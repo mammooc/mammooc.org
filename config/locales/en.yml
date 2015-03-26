@@ -101,6 +101,8 @@ en:
       options: Options
       add_admin: Add as Admin
       demote_admin: Demote Admin to Member
+      demote_last_admin_notice: "You are the last admin of this group. Therefore you can't demote yourself. Please return back to group first and promote another member to admin."
+      demote_last_admin_button: Return to group.
       invite_members: Invite Members
       remove_member: Remove Member
     remove_member:
