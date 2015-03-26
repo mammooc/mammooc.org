@@ -103,6 +103,7 @@ de:
       demote_admin: Administratorrechte entziehen
       invite_members: Mitglieder einladen
       remove_member: Mitglied entfernen
+      leave_group: Gruppe verlassen
     remove_member:
       title: Mitglied löschen
       question_last_member: Du bist das letzte Mitglied dieser Gruppe. Wenn du die Gruppe verlässt, wird sie automatisch gelöscht. Bist du dir sicher, dass du die Gruppe verlassen möchtest?

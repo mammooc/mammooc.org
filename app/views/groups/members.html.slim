@@ -26,7 +26,10 @@
                 = t('groups.all_members.demote_admin')
             li
               a href='' class='dropdown_remove_member' data-group_id='#{@group.id}' data-user_id='#{user.id}'
-                = t('groups.all_members.remove_member')
+                - if @current_user == user
+                  = t('groups.all_members.leave_group')
+                - else
+                  = t('groups.all_members.remove_member')
 
 - @sorted_group_users.each do |user|
   .row id='list_member_element_user_#{user.id}'

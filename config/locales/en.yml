@@ -103,6 +103,7 @@ en:
       demote_admin: Demote Admin to Member
       invite_members: Invite Members
       remove_member: Remove Member
+      leave_group: Leave group
     remove_member:
       title: Remove Member
       question_last_member: You are the last member of this group. If you want to leave the group, it will be deleted. Are you sure to leave the group?
