@@ -5,7 +5,7 @@ deployment:
       - heroku maintenance:on --app mammooc
       - git push git@heroku.com:mammooc.git
       - heroku pg:reset DATABASE --app mammooc --confirm mammooc
-      - heroku run rake db:setup --app mammooc
+      - heroku run rake db:schema:load db:seed --app mammooc
       - heroku restart --app mammooc
       - heroku maintenance:off --app mammooc
 
@@ -15,6 +15,6 @@ deployment:
        - heroku maintenance:on --app mammooc-dev
        - git push git@heroku.com:mammooc-dev.git dev:master
        - heroku pg:reset DATABASE --app mammooc-dev --confirm mammooc-dev
-       - heroku run rake db:setup --app mammooc-dev
+       - heroku run rake db:schema:load db:seed --app mammooc-dev
        - heroku restart --app mammooc-dev
        - heroku maintenance:off --app mammooc-dev
