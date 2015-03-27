@@ -1,18 +1,19 @@
 - content_for :main
+
   - if @group and (current_page?("/groups/#{@group.id}") or current_page?("/groups/#{@group.id}/members"))
     .container
       .row
         / Header
-        .col-md-12.mt50.mb30
+        .col-md-12
           = render 'groups/header'
 
   - if @group and current_page?("/groups/#{@group.id}/members")
-    .container
+    .container.mt30
       .row
         .col-md-12
           = yield
     - else
-      .container
+      .container.mt30
         .row
           / Content
           .col-md-9
