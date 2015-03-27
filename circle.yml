@@ -7,6 +7,7 @@ deployment:
       - heroku pg:reset DATABASE --app mammooc --confirm mammooc
       - heroku run rake db:setup --app mammooc
       - heroku restart --app mammooc
+      - heroku run foreman start
       - heroku maintenance:off --app mammooc
 
   development:
@@ -17,4 +18,5 @@ deployment:
        - heroku pg:reset DATABASE --app mammooc-dev --confirm mammooc-dev
        - heroku run rake db:setup --app mammooc-dev
        - heroku restart --app mammooc-dev
+       - heroku run foreman start
        - heroku maintenance:off --app mammooc-dev
