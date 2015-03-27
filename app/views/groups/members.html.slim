@@ -1,56 +1,101 @@
-.page-header
-  h1
-    .all_members-title style='text-align:left; float:left'
-      = link_to @group.name, group_path(@group)
-      = t('groups.all_members.title')
-    .invite-member-button style='text-align:right'
-      = link_to '', data: {toggle: 'modal', target: '#add_group_members'}
-        button.btn.btn-default id='btn-invite-members'
-          = t('groups.all_members.invite_members')
+p
+  .all_members-title style='text-align:left; float:left'
+    = link_to @group.name, group_path(@group)
+    = t('groups.all_members.title')
+  .invite-member-button style='text-align:right'
+    = link_to '', data: {toggle: 'modal', target: '#add_group_members'}
+      button.btn.btn-default id='btn-invite-members'
+        = t('groups.all_members.invite_members')
 
-- @sorted_group_admins.each do |user|
-  .row id='list_member_element_user_#{user.id}'
-    .col-md-4.list-members.admins
+.members-wrapper
+  - @sorted_group_admins.each do |user|
+    .members id='list_member_element_user_#{user.id}'
       = link_to user_path(user)
         = image_tag('/data/default.png')
-        | #{user.first_name} #{user.last_name}
-    .col-md-3
-      ul.nav.nav-pills
-        li class="dropdown"
-          a href='' class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false"
-            = t('groups.all_members.options')
-            span class="caret"
-          ul class="dropdown-menu" role="menu"
-            li
-              a href='' class='dropdown_demote_admin' data-group_id='#{@group.id}' data-user_id='#{user.id}'
-                = t('groups.all_members.demote_admin')
-            li
-              - if current_user.eql?(user)
-                a href='' class='dropdown_remove_member' data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name= ' #{I18n.t('groups.remove_member.yourself')} '
-                  = t('groups.all_members.leave_group')
-              - else
+      .name
+        = link_to user_path(user)
+          | #{user.first_name} #{user.last_name}
+        .options
+          .dropdown
+            button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown" aria-expanded="true"
+              = t('groups.all_members.options')
+              span class="caret"
+            ul class="dropdown-menu" role="menu"
+              li role="presentation"
+                a href='#' class='dropdown_add_admin' role="menuitem" tabindex="-1" data-group_id='#{@group.id}' data-user_id='#{user.id}'
+                  = t('groups.all_members.add_admin')
+
+  - @sorted_group_users.each do |user|
+    .members id='list_member_element_user_#{user.id}'
+      = link_to user_path(user)
+        = image_tag('/data/default.png')
+      .name
+        = link_to user_path(user)
+          | #{user.first_name} #{user.last_name}
+        .options
+          .dropdown
+            button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown" aria-expanded="true"
+              = t('groups.all_members.options')
+              span class="caret"
+            ul class="dropdown-menu" role="menu"
+              li role="presentation"
+                a href='#' class='dropdown_add_admin' role="menuitem" tabindex="-1" data-group_id='#{@group.id}' data-user_id='#{user.id}'
+                  = t('groups.all_members.add_admin')
+
+//
+  .page-header
+    h1
+      .all_members-title style='text-align:left; float:left'
+        = link_to @group.name, group_path(@group)
+        = t('groups.all_members.title')
+      .invite-member-button style='text-align:right'
+        = link_to '', data: {toggle: 'modal', target: '#add_group_members'}
+          button.btn.btn-default id='btn-invite-members'
+            = t('groups.all_members.invite_members')
+
+  - @sorted_group_admins.each do |user|
+    .row id='list_member_element_user_#{user.id}'
+      .col-md-4.list-members.admins
+        = link_to user_path(user)
+          = image_tag('/data/default.png')
+          | #{user.first_name} #{user.last_name}
+      .col-md-3
+        ul.nav.nav-pills
+          li class="dropdown"
+            a href='' class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false"
+              = t('groups.all_members.options')
+              span class="caret"
+            ul class="dropdown-menu" role="menu"
+              li
+                a href='' class='dropdown_demote_admin' data-group_id='#{@group.id}' data-user_id='#{user.id}'
+                  = t('groups.all_members.demote_admin')
+              li
+                - if current_user.eql?(user)
+                  a href='' class='dropdown_remove_member' data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name= ' #{I18n.t('groups.remove_member.yourself')} '
+                    = t('groups.all_members.leave_group')
+                - else
+                  a href='' class='dropdown_remove_member' data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name=' #{user.first_name} #{user.last_name} '
+                    = t('groups.all_members.remove_member')
+
+  - @sorted_group_users.each do |user|
+    .row id='list_member_element_user_#{user.id}'
+      .col-md-4.list-members
+        = link_to user_path(user)
+          = image_tag('/data/default.png')
+          | #{user.first_name} #{user.last_name}
+      .col-md-3
+        ul.nav.nav-pills
+          li class="dropdown"
+            a href='' class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false"
+              = t('groups.all_members.options')
+              span class="caret"
+            ul class="dropdown-menu" role="menu"
+              li
+                a href='' class='dropdown_add_admin' data-group_id='#{@group.id}' data-user_id='#{user.id}'
+                  = t('groups.all_members.add_admin')
+              li
                 a href='' class='dropdown_remove_member' data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name=' #{user.first_name} #{user.last_name} '
                   = t('groups.all_members.remove_member')
-
-- @sorted_group_users.each do |user|
-  .row id='list_member_element_user_#{user.id}'
-    .col-md-4.list-members
-      = link_to user_path(user)
-        = image_tag('/data/default.png')
-        | #{user.first_name} #{user.last_name}
-    .col-md-3
-      ul.nav.nav-pills
-        li class="dropdown"
-          a href='' class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false"
-            = t('groups.all_members.options')
-            span class="caret"
-          ul class="dropdown-menu" role="menu"
-            li
-              a href='' class='dropdown_add_admin' data-group_id='#{@group.id}' data-user_id='#{user.id}'
-                = t('groups.all_members.add_admin')
-            li
-              a href='' class='dropdown_remove_member' data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name=' #{user.first_name} #{user.last_name} '
-                = t('groups.all_members.remove_member')
 
 = render 'add_members'
 = render 'confirmation_remove_last_member'

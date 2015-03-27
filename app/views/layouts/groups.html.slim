@@ -5,14 +5,20 @@
         / Header
         .col-md-12.mt50.mb30
           = render 'groups/header'
-  .container
-    .row
-      / Content
-      .col-md-9
-        = yield
 
-      / Sidebar
-      .col-md-3.mb30
-        = render 'groups/sidebar'
+  - if @group and current_page?("/groups/#{@group.id}/members")
+    .container
+      .row
+        .col-md-12
+          = yield
+    - else
+      .container
+        .row
+          / Content
+          .col-md-9
+            = yield
+        / Sidebar
+        .col-md-3.mb30
+          = render 'groups/sidebar'
 
 = render file: 'layouts/application'
