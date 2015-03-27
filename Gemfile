@@ -43,6 +43,7 @@ gem 'devise'
 gem 'rest-client'
 
 # cron job
+gem 'redis'
 gem 'sidekiq'
 gem 'whenever'
 

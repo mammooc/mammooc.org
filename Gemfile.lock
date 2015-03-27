@@ -283,6 +283,7 @@ DEPENDENCIES
   rails (= 4.2.0)
   rails-i18n
   rails_config
+  redis
   rest-client
   rspec-rails
   sass-rails (~> 5.0)
