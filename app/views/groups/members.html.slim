@@ -1,8 +1,5 @@
 p
-  .all_members-title style='text-align:left; float:left'
-    = link_to @group.name, group_path(@group)
-    = t('groups.all_members.title')
-  .invite-member-button style='text-align:right'
+  .invite-member-button
     = link_to '', data: {toggle: 'modal', target: '#add_group_members'}
       button.btn.btn-default id='btn-invite-members'
         = t('groups.all_members.invite_members')

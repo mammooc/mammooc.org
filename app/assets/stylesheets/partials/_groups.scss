@@ -11,6 +11,7 @@ $entry-padding-left: 10px;
   border: 1px solid $panel-default-border;
   border-radius: 2px;
   -webkit-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
   box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
 
   .wrapper {
@@ -28,6 +29,7 @@ $entry-padding-left: 10px;
       max-width: 250px;
       overflow: hidden;
       -webkit-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+      -moz-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
       box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
 
       img {
@@ -68,7 +70,6 @@ $entry-padding-left: 10px;
         a:hover {
           color: $link-color;
         }
-
       }
 
       .active {
@@ -92,6 +93,7 @@ $members_image_height: 100px;
     border: 1px solid $panel-default-border;
     border-radius: 2px;
     -webkit-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
     box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
     float: left;
 
@@ -118,6 +120,18 @@ $members_image_height: 100px;
 
     .admins {
       font-weight: bold;
+    }
+
+    &:hover {
+      -webkit-box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.1);
+      -moz-box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.1);
+      box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.1);
+      -webkit-transition: all 0.1s linear;
+      -o-transition: all 0.1s linear;
+      -moz-transition: all 0.1s linear;
+      -ms-transition: all 0.1s linear;
+      -kthtml-transition: all 0.1s linear;
+      transition: all 0.1s linear;
     }
 
     img {
