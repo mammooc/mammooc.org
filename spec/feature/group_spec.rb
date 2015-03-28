@@ -55,7 +55,7 @@ RSpec.describe GroupsController, :type => :feature do
       expect(current_path).to eq("/groups/#{group.id}/members")
       current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq 2
-      expect(find("#list_member_element_user_#{third_user.id}")).to have_selector 'div.col-md-4.list-members.admins'
+      expect(find("#list_member_element_user_#{third_user.id}")).to have_selector '.options'
       find("#list_member_element_user_#{third_user.id}").click_on I18n.t('groups.all_members.options')
       expect(page).to have_content I18n.t('groups.all_members.demote_admin')
     end
@@ -69,7 +69,7 @@ RSpec.describe GroupsController, :type => :feature do
       expect(current_path).to eq("/groups/#{group.id}/members")
       current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq 1
-      expect(find("#list_member_element_user_#{third_user.id}")).to have_selector 'div.col-md-4.list-members'
+      expect(find("#list_member_element_user_#{third_user.id}")).to have_selector '.options'
       find("#list_member_element_user_#{third_user.id}").click_on I18n.t('groups.all_members.options')
       expect(page).to have_content I18n.t('groups.all_members.add_admin')
     end
@@ -87,13 +87,13 @@ RSpec.describe GroupsController, :type => :feature do
       wait_for_ajax
       current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq 1
-      expect(find("#list_member_element_user_#{third_user.id}")).to have_selector 'div.col-md-4.list-members'
+      expect(find("#list_member_element_user_#{third_user.id}")).to have_selector '.options'
       find("#list_member_element_user_#{third_user.id}").click_on I18n.t('groups.all_members.options')
       find("#list_member_element_user_#{third_user.id}").click_on I18n.t('groups.all_members.add_admin')
       wait_for_ajax
       current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq 2
-      expect(find("#list_member_element_user_#{third_user.id}")).to have_selector 'div.col-md-4.list-members.admins'
+      expect(find("#list_member_element_user_#{third_user.id}")).to have_selector '.options'
     end
 
     it 'should not demote last admin', js:true do

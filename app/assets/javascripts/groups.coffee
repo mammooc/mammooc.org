@@ -205,4 +205,4 @@ change_style_to_member = (user_id) ->
 
 delete_member_out_of_list = (user_id) ->
   id = "#list_member_element_user_#{user_id}"
-  $(id).html('')
+  $(id).remove()
