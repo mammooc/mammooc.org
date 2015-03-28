@@ -12,12 +12,12 @@
       .row
         .col-md-12
           = yield
-    - else
-      .container.mt30
-        .row
-          / Content
-          .col-md-9
-            = yield
+  - else
+    .container.mt30
+      .row
+        / Content
+        .col-md-9
+          = yield
         / Sidebar
         .col-md-3.mb30
           = render 'groups/sidebar'
