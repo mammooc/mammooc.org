@@ -16,5 +16,6 @@ deployment:
        - git push git@heroku.com:mammooc-dev.git dev:master
        - heroku pg:reset DATABASE --app mammooc-dev --confirm mammooc-dev
        - heroku run rake db:schema:load db:seed --app mammooc-dev
+       - heroku run bundle exec sidekiq
        - heroku restart --app mammooc-dev
        - heroku maintenance:off --app mammooc-dev
