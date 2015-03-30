@@ -97,8 +97,6 @@ de:
       invite_members: Mitglieder einladen
       text: E-Mail-Adressen kommasepariert eingeben
     all_members:
-      title: ' - Mitglieder'
-      options: Optionen
       add_admin: Als Administrator hinzufügen
       demote_admin: Administratorrechte entziehen
       demote_last_admin_notice: Du bist der letzte Administrator dieser Gruppe. Deshalb kannst du dir selbst nicht die Administratorrechte entziehen. Bitte kehre erst zur Gruppe zurück und ernenne ein anderes Mitglied zum Administrator.

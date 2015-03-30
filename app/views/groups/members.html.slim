@@ -9,28 +9,18 @@ p
     .members id='list_member_element_user_#{user.id}'
       = link_to user_path(user)
         = image_tag('/data/default.png')
-      .name.admins
+      .name.bold
         = link_to user_path(user)
           | #{user.first_name} #{user.last_name}
         .options
-          .dropdown
-            button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown" aria-expanded="true"
-              = t('groups.all_members.options')
-              span class="caret"
-            ul class="dropdown-menu" role="menu"
-              li role="presentation"
-                a href='#' class='dropdown_add_admin' role="menuitem" tabindex="-1" data-group_id='#{@group.id}' data-user_id='#{user.id}'
-                  = t('groups.all_members.add_admin')
-              li role="presentation"
-                a href='#' class='dropdown_demote_admin' data-group_id='#{@group.id}' data-user_id='#{user.id}'
-                  = t('groups.all_members.demote_admin')
-              li role="presentation"
-                - if current_user.eql?(user)
-                  a href='#' class='dropdown_remove_member' data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name= ' #{I18n.t('groups.remove_member.yourself')} '
-                    = t('groups.all_members.leave_group')
-                - else
-                  a href='#' class='dropdown_remove_member' data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name=' #{user.first_name} #{user.last_name} '
-                    = t('groups.all_members.remove_member')
+          button type="button" class="btn btn-gray btn-xs mr5 mb5 demote_admin" data-group_id='#{@group.id}' data-user_id='#{user.id}'
+            = t('groups.all_members.demote_admin')
+          - if current_user.eql?(user)
+            button type="button" class="btn btn-gray btn-xs mb5 remove_member" data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name= ' #{I18n.t('groups.remove_member.yourself')} '
+              = t('groups.all_members.leave_group')
+          - else
+            button type="button" class="btn btn-gray btn-xs mb5 remove_member" data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name=' #{user.first_name} #{user.last_name} '
+              = t('groups.all_members.remove_member')
 
   - @sorted_group_users.each do |user|
     .members id='list_member_element_user_#{user.id}'
@@ -40,17 +30,14 @@ p
         = link_to user_path(user)
           | #{user.first_name} #{user.last_name}
         .options
-          .dropdown
-            button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown" aria-expanded="true"
-              = t('groups.all_members.options')
-              span class="caret"
-            ul class="dropdown-menu" role="menu"
-              li role="presentation"
-                a href='#' class='dropdown_add_admin' role="menuitem" tabindex="-1" data-group_id='#{@group.id}' data-user_id='#{user.id}'
-                  = t('groups.all_members.add_admin')
-              li role="presentation"
-                a href='' class='dropdown_remove_member' data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name=' #{user.first_name} #{user.last_name} '
-                  = t('groups.all_members.remove_member')
+          button type="button" class="btn btn-gray btn-xs mr5 mb5 add_admin" data-group_id='#{@group.id}' data-user_id='#{user.id}'
+            = t('groups.all_members.add_admin')
+          - if current_user.eql?(user)
+            button type="button" class="btn btn-gray btn-xs mb5 remove_member" data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name= ' #{I18n.t('groups.remove_member.yourself')} '
+              = t('groups.all_members.leave_group')
+          - else
+            button type="button" class="btn btn-gray btn-xs mb5 remove_member" data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name=' #{user.first_name} #{user.last_name} '
+              = t('groups.all_members.remove_member')
 
 = render 'add_members'
 = render 'confirmation_remove_last_member'
