@@ -97,6 +97,7 @@ en:
       invite_members: Invite members
       text: Enter email addresses comma-separated
     all_members:
+      administrator: Administrator
       add_admin: Make Admin
       demote_admin: Remove from Admins
       demote_last_admin_notice: "You are the last admin of this group. Therefore you can't demote yourself. Please return back to group first and promote another member to admin."

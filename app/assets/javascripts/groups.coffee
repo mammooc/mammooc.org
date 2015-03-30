@@ -189,6 +189,7 @@ leave_group = (group_id, user_id) ->
 change_style_to_admin = (user_id) ->
   id = "#list_member_element_user_#{user_id}"
   $(id).find('.name').addClass('bold')
+  $(id).find('.admins').show();
   $(id).find('.add_admin').text(I18n.t('groups.all_members.demote_admin'))
                                    .unbind('click')
                                    .on 'click', (event) -> demote_administrator(event)
@@ -198,6 +199,7 @@ change_style_to_admin = (user_id) ->
 change_style_to_member = (user_id) ->
   id = "#list_member_element_user_#{user_id}"
   $(id).find('.name').removeClass('bold')
+  $(id).find('.admins').hide();
   $(id).find('.demote_admin').text(I18n.t('groups.all_members.add_admin'))
                                       .unbind('click')
                                       .on 'click', (event) -> add_administrator(event)

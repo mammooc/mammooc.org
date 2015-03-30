@@ -140,10 +140,11 @@ $members_image_height: 100px;
 
     .name {
       min-height: $members_image_height;
-      padding: 10px 10px 10px 0px;
+      padding: 8px 10px 10px 0px;
 
-      .options {
-
+      .admins {
+        font-weight: normal;
+        font-size: 12px;
       }
     }
   }
