@@ -4,29 +4,29 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
   MOOC_PROVIDER_API_LINK = ''
   COURSE_LINK_BODY = ''
 
-  def moocProvider
+  def mooc_provider
     MoocProvider.find_by_name(self.class::MOOC_PROVIDER_NAME)
   end
 
-  def getCourseData
+  def get_course_data
     response = RestClient.get(self.class::MOOC_PROVIDER_API_LINK,{:accept => 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', :authorization => 'token=\"78783786789\"'})
     JSON.parse response
   end
 
-  def handleResponseData responseData
-    updateMap = createUpdateMap moocProvider
+  def handle_response_data response_data
+    update_map = create_update_map mooc_provider
 
-    responseData.each { |courseElement|
-      course = Course.find_by(:provider_course_id => courseElement['id'], :mooc_provider_id => moocProvider.id)
+    response_data.each { |courseElement|
+      course = Course.find_by(:provider_course_id => courseElement['id'], :mooc_provider_id => mooc_provider.id)
       if course.nil?
         course = Course.new
       else
-        updateMap[course.id] = true
+        update_map[course.id] = true
       end
 
       course.name = courseElement['name']
       course.provider_course_id = courseElement['id']
-      course.mooc_provider_id = moocProvider.id
+      course.mooc_provider_id = mooc_provider.id
       course.url = self.class::COURSE_LINK_BODY + courseElement['course_code']
       course.language = courseElement['language']
       course.imageId = courseElement['visual_url']
@@ -40,7 +40,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
 
       course.save
     }
-    evaluateUpdateMap updateMap
+    evaluate_update_map update_map
   end
 
 end
