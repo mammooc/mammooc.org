@@ -47,9 +47,6 @@ gem 'redis'
 gem 'sidekiq'
 gem 'whenever'
 
-# start e.g. sidekiq and redis with one command
-gem 'foreman'
-
 gem 'bootstrap-sass'
 
 gem 'factory_girl_rails'

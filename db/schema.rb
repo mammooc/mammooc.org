@@ -204,6 +204,12 @@ ActiveRecord::Schema.define(version: 20150323144308) do
     t.uuid "user_id"
   end
 
+  create_table "news_emails", force: :cascade do |t|
+    t.string   "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "progresses", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.float    "percentage"
     t.string   "permissions",              array: true
