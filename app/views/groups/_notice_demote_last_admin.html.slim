@@ -8,12 +8,7 @@
         h4.modal-title
           = t('groups.all_members.demote_admin')
       .modal-body
-        .row
-          .col-md-12
-            .demote_last_admin-form.form-horizontal
-              = t('groups.all_members.demote_last_admin_notice')
-              .form-group
-                .col-md-10
-                  button.btn.btn-default type="button" data-dismiss="modal"
-                    = t('groups.all_members.demote_last_admin_button')
-            .demote_last_admin-error
+        = t('groups.all_members.demote_last_admin_notice')
+      .modal-footer
+        button.btn.btn-cancel type="button" data-dismiss="modal"
+          = t('groups.all_members.demote_last_admin_button')

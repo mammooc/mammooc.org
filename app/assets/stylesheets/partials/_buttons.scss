@@ -47,6 +47,23 @@
   color: $mammooc-dark;
 }
 
+.btn-cancel {
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  color: #333333;
+}
+
+.btn-cancel:hover,
+.btn-cancel:focus,
+.btn-cancel.focus,
+.btn-cancel:active,
+.btn-cancel.active,
+.open > .dropdown-toggle.btn-cancel {
+  background-color: #e6e6e6;
+  border-color: #adadad;
+  color: #333333;
+}
+
 // Changing style of Bootstrap buttons
 // For defining the button styling, have also a look at bootstrap-variables.scss
 
@@ -86,6 +103,10 @@ fieldset[disabled] .btn-default:active,
 fieldset[disabled] .btn-default.active {
   background-color: #ffffff;
   border-color: $mammooc;
+}
+
+.btn-primary {
+  font-weight: bold;
 }
 
 .btn-primary:hover,

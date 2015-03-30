@@ -99,8 +99,8 @@ en:
       administrator: Administrator
       add_admin: Make Admin
       demote_admin: Remove from Admins
-      demote_last_admin_notice: "You are the last admin of this group. Therefore you can't demote yourself. Please return back to group first and promote another member to admin."
-      demote_last_admin_button: Return to group.
+      demote_last_admin_notice: "You are the last admin of this group. Please promote another member before you change your status."
+      demote_last_admin_button: Return to group
       invite_members: Invite Members
       remove_member: Remove Member
       leave_group: Leave group
@@ -108,11 +108,11 @@ en:
       title: Remove Member
       question_member_1: Are you sure to remove
       question_member_2: from this group?
-      question_last_member: You are the last member of this group. If you want to leave the group, it will be deleted. Are you sure to leave the group?
-      question_last_admin: "You are the last admin of this group. If you want to leave the group, you may choose one of the following possibilities: either the whole group will be deleted or all other members will become admins. Do you want to continue?"
-      confirm_delete_group: Yes, leave and delete group.
-      confirm_leave_group: Yes, leave the group (all members will become admins).
-      confirm_remove_member: Delete Member
+      question_last_member: You are the last member of this group. If you leave the group, it will be deleted.
+      question_last_admin: "You are the last admin of this group. If you leave, all remaining members will become administrators."
+      confirm_delete_group: Delete group
+      confirm_leave_group: Leave
+      confirm_remove_member: Remove
       yourself: yourself
 
   static:
