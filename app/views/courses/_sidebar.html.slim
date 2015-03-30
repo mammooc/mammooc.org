@@ -7,8 +7,7 @@
       - if @course.course_instructors.length < 2
         = t('courses.instructor')
       - else
-        - if @course.course_instructors.length > 0
-          = t('courses.instructors')
+        = t('courses.instructors')
     - @course.course_instructors.each do |instructor|
       = instructor
       br
