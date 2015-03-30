@@ -27,14 +27,14 @@ de:
     cancel: Abbrechen
 
   navbar:
-    MAMMOOC: MAMMOOC
+    MAMMOOC: mammooc
     home: Home
     about: Über uns
     contact: Kontakt
     sign_out: Ausloggen
     dashboard: Dashboard
     profile: Profil
-    welcome_heading: Willkommen bei MAMMOOC!
+    welcome_heading: Willkommen bei mammooc!
 
   dashboard:
     hi: Hi
@@ -45,8 +45,8 @@ de:
     edit_group: Gruppe bearbeiten
 
   home:
-    welcome_heading: Willkommen bei MAMMOOC!
-    welcome_title: "MAMMOOC: Registriere Dich noch heute!"
+    welcome_heading: Willkommen bei mammooc!
+    welcome_title: "mammooc: Registriere Dich noch heute!"
     hello: Hallo
 
   users:
@@ -71,8 +71,7 @@ de:
       reset: Neues Passwort anfordern
 
   groups:
-    name: Name
-    description: Beschreibung
+    title: Meine Gruppen | mammooc
     member: Mitglied
     members: Mitglieder
     member_overview: Mitgliederübersicht
@@ -119,10 +118,10 @@ de:
   static:
     contact:
       heading: Schreib uns!
-      title: Kontakt - MAMMOOC
+      title: Kontakt | mammooc
     about:
       heading: Über uns
-      title: Über uns - MAMMOOC
+      title: Über uns | mammooc
 
   activerecord:
     models:
@@ -186,7 +185,7 @@ de:
       login:
         reqired: Sie müssen eingeloggt sein.
       sign_up:
-        terms_and_conditions_failure: Bitte bestätigen Sie die AGBs von MAMMOOC!
+        terms_and_conditions_failure: Bitte bestätigen Sie die AGBs von mammooc!
       user:
         password_too_short: ist zu kurz (Minimum sind %{count} Zeichen).
         password_confirmation: stimmt nicht mit Passwort überein.

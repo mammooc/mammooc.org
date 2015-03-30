@@ -1,3 +1,6 @@
+- content_for :title
+  = @group.name + ' | mammooc'
+
 p
   .invite-member-button
     = link_to '', data: {toggle: 'modal', target: '#add_group_members'}

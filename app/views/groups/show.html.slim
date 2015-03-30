@@ -1,4 +1,6 @@
+- content_for :title
+  = @group.name + ' | mammooc'
+
 .panel.panel-default
   .panel-body
-    = t('groups.description')
     = @group.description
