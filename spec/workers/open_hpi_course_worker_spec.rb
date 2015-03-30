@@ -6,7 +6,7 @@ describe OpenHPICourseWorker do
     @mooc_provider = FactoryGirl.create(:mooc_provider, name: 'openHPI')
   end
 
-  let(:openHPICourseWorker){
+  let(:open_hpi_course_worker){
     OpenHPICourseWorker.new
   }
 
@@ -15,21 +15,21 @@ describe OpenHPICourseWorker do
   }
 
   it 'should deliver MOOCProvider' do
-    expect(openHPICourseWorker.mooc_provider).to eql @mooc_provider
+    expect(open_hpi_course_worker.mooc_provider).to eql @mooc_provider
   end
 
   it 'should get an API response' do
-    expect(openHPICourseWorker.get_course_data).not_to be_nil
+    expect(open_hpi_course_worker.get_course_data).not_to be_nil
   end
 
   it 'should load new course into database' do
     course_count = Course.count
-    openHPICourseWorker.handle_response_data json_course_data
+    open_hpi_course_worker.handle_response_data json_course_data
     expect(course_count).to eql Course.count - 1
   end
 
   it 'should load course attributes into database' do
-    openHPICourseWorker.handle_response_data json_course_data
+    open_hpi_course_worker.handle_response_data json_course_data
 
     json_course = json_course_data[0]
     course = Course.find_by(:provider_course_id => json_course['id'], :mooc_provider_id => @mooc_provider.id)

@@ -6,16 +6,16 @@ describe OpenSAPCourseWorker do
     @mooc_provider = FactoryGirl.create(:mooc_provider, name: 'openSAP')
   end
 
-  let(:openSAPCourseWorker){
+  let(:open_sap_course_worker){
     OpenSAPCourseWorker.new
   }
 
   it 'should deliver MOOCProvider' do
-    expect(openSAPCourseWorker.mooc_provider).to eql @mooc_provider
+    expect(open_sap_course_worker.mooc_provider).to eql @mooc_provider
   end
 
   it 'should get an API response' do
-    expect(openSAPCourseWorker.get_course_data).not_to be_nil
+    expect(open_sap_course_worker.get_course_data).not_to be_nil
   end
 
 end
