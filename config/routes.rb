@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
 
   get 'api_connection/index'
-  get 'api_connection/sendRequest'
+  get 'api_connection/send_request'
 
   devise_for :users, :controllers => { :registrations => "users/registrations",
                                        :sessions => "users/sessions",
