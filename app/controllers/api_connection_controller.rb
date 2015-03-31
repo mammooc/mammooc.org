@@ -6,8 +6,9 @@ class ApiConnectionController < ApplicationController
   end
 
   def send_request
-    OpenHPICourseWorker.perform_async
-    OpenSAPCourseWorker.perform_async
+    # OpenHPICourseWorker.perform_async
+    # OpenSAPCourseWorker.perform_async
+    EdxCourseWorker.perform_async
     redirect_to api_connection_index_path
   end
 
