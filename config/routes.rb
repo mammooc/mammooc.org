@@ -48,7 +48,6 @@ Rails.application.routes.draw do
   get 'dashboard/dashboard'
 
   get 'home/index'
-  get 'contact' => 'static_pages#contact'
   get 'about' => 'static_pages#about'
   get 'dashboard' => 'dashboard#dashboard'
   post 'groups/:id/invite_members' => 'groups#invite_group_members'
@@ -59,6 +58,7 @@ Rails.application.routes.draw do
   get 'groups/join/:token' => 'groups#join'
   get 'groups/:id/members' => 'groups#members'
   get 'groups/:id/all_members_to_administrators' => 'groups#all_members_to_administrators'
+  get 'impressum' => 'static_pages#impressum'
   root :to => 'home#index'
 
   

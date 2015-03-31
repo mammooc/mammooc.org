@@ -37,7 +37,7 @@ RSpec.describe "Application", :type => :feature do
       fill_in 'login_email', with: user.email
       fill_in 'login_password', with: user.password
       click_button 'submit_sign_in'
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(dashboard_path)
     end
 
     it 'should redirect to root after visiting sign up page' do
@@ -49,7 +49,7 @@ RSpec.describe "Application", :type => :feature do
       fill_in 'registration_password_confirmation', with: '12345678'
       check 'terms_and_conditions_confirmation'
       click_button 'submit_sign_up'
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(dashboard_path)
     end
   end
 end

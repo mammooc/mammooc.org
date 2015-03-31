@@ -37,7 +37,7 @@ RSpec.describe GroupsController, :type => :feature do
       visit "/groups/#{group.id}/members"
       click_on 'btn-invite-members'
       fill_in 'text_area_invite_members', with: 'max@test.com'
-      click_button 'Submit'
+      click_button I18n.t('global.submit')
       wait_for_ajax
       expect(current_path).to eq("/groups/#{group.id}/members")
       expect(ActionMailer::Base.deliveries.count).to eq 1

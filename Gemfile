@@ -51,6 +51,13 @@ gem 'bootstrap-sass'
 
 gem 'factory_girl_rails'
 
+gem 'rails-i18n'
+gem 'i18n-js'
+
+gem 'http_accept_language'
+
+gem 'rails_config'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -71,9 +78,3 @@ group :development, :test do
 
   gem 'simplecov', :require => false
 end
-
-gem 'rails-i18n'
-gem 'i18n-js'
-
-gem 'rails_config'
-
