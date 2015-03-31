@@ -15,7 +15,7 @@
  */
 
 .modal-backdrop {
-  z-index: none;
+  z-index: 0 !important;
 }
 
 .modal-dialog {
