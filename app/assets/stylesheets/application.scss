@@ -14,8 +14,12 @@
  *= require_tree .
  */
 
+.modal-backdrop {
+  z-index: none;
+}
+
 .modal-dialog {
-  z-index: 1050;
+  z-index: 1040;
 }
 
 .field_with_errors {
