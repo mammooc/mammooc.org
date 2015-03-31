@@ -1,47 +1,55 @@
 = content_for :title, t('groups.title')
 
-.page-header
-  = link_to new_group_path, :class => 'btn btn-primary' do 
-    span.glyphicon.glyphicon-plus
-    |  New Group
-  .row
-    .col-md-9
-      - if @groups.empty?
-        = t('groups.no_groups')
-      - else
-        h1
-          = t('groups.my_groups')
+.site-header style="margin-bottom: 40px"
+  .wrapper
+    .container-fluid
+      .row
+        .col-md-6
+          .logo.pull-left
+            img src="/data/group-default.png"
+          .title
+            = t('groups.my_groups')
+        .col-md-6
+          .pull-right style="margin-top:10px"
+            = link_to new_group_path, :class => 'btn btn-default' do
+              span.glyphicon.glyphicon-plus
+              |  New Group
 
-        .table-responsive
-          table.table.table-striped.table-bordered.table-hover
-            thead
+.row
+  .col-md-9
+    - if @groups.empty?
+      = t('groups.no_groups')
+    - else
+      .table-responsive
+        table.table.table-striped.table-bordered.table-hover
+          thead
+            tr
+              th
+                | Name
+              th
+                | Imageid
+              th
+                | Description
+              th
+                | Primary statistics
+              th
+              th
+              th
+          tbody
+            - @groups.each do | group |
               tr
-                th
-                  | Name
-                th
-                  | Imageid
-                th
-                  | Description
-                th
-                  | Primary statistics
-                th
-                th
-                th
-            tbody
-              - @groups.each do | group |
-                tr
-                  td
-                    = group.name
-                  td
-                    = group.imageId
-                  td
-                    = group.description
-                  td
-                    = group.primary_statistics
-                  td
-                    = link_to 'Show', group
-                  td
-                    = link_to 'Edit', edit_group_path(group)
-                  td
-                    = link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' }
-    .col-md-3
+                td
+                  = group.name
+                td
+                  = group.imageId
+                td
+                  = group.description
+                td
+                  = group.primary_statistics
+                td
+                  = link_to 'Show', group
+                td
+                  = link_to 'Edit', edit_group_path(group)
+                td
+                  = link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' }
+  .col-md-3
