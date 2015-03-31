@@ -7,6 +7,13 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 provider1 = MoocProvider.create(name: 'openHPI')
+MoocProvider.create(name: 'openHPI China')
+MoocProvider.create(name: 'mooc.house')
+MoocProvider.create(name: 'openSAP')
+MoocProvider.create(name: 'openSAP China')
+MoocProvider.create(name: 'openUNE')
+
+
 Course.create(name: 'Web Technologies',
               url: 'https://open.hpi.de/courses/webtech2015',
               course_instructors: ['Prof. Dr. Christoph Meinel', 'Jan Renz', 'Thomas Staubitz'],

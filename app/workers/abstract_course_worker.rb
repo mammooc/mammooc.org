@@ -3,41 +3,41 @@ class AbstractCourseWorker
   require 'rest_client'
 
   def perform
-    loadCourses
+    load_courses
   end
 
-  def loadCourses
+  def load_courses
     begin
-      responseData = getCourseData
+      response_data = get_course_data
     rescue SocketError, RestClient::ResourceNotFound => e
       logger.error e.class.to_s + ": " + e.message
     else
-      handleResponseData responseData
+      handle_response_data response_data
     end
   end
 
-  def moocProvider
+  def mooc_provider
     raise NotImplementedError
   end
 
-  def getCourseData
+  def get_course_data
     raise NotImplementedError
   end
 
-  def handleResponseData responseData
+  def handle_response_data response_data
     raise NotImplementedError
   end
 
-  def createUpdateMap moocProvider
-    updateMap = Hash.new
-    Course.where(:mooc_provider_id => moocProvider.id).each { |course|
-      updateMap.store(course.id, false)
+  def create_update_map mooc_provider
+    update_map = Hash.new
+    Course.where(:mooc_provider_id => mooc_provider.id).each { |course|
+      update_map.store(course.id, false)
     }
-    return updateMap
+    return update_map
   end
 
-  def evaluateUpdateMap updateMap
-    updateMap.each { |course_id,updated|
+  def evaluate_update_map update_map
+    update_map.each { |course_id,updated|
       if !updated
         Course.find(course_id).destroy
       end

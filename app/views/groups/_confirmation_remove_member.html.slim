@@ -10,15 +10,12 @@
       .modal-body
         .row
           .col-md-12
-            .remove_member-form.form-horizontal
-              = t('groups.remove_member.question_member_1')
-              span id='removing_user_name'
-              = t('groups.remove_member.question_member_2')
-              .form-group
-                .col-md-10
-                  input type='hidden' value='' id='remove_member_user_id'
-                  button.btn.btn-danger.mr10 id='remove_member_confirm_button' data-group_id='#{@group.id}'
-                    = t('groups.remove_member.confirm_remove_member')
-                  button.btn.btn-default type="button" data-dismiss="modal"
-                    = t('global.cancel')
-            .remove_member-error
+            = t('groups.remove_member.question_member_1')
+            span id='removing_user_name'
+            = t('groups.remove_member.question_member_2')
+      .modal-footer
+        input type='hidden' value='' id='remove_member_user_id'
+        button.btn.btn-danger id='remove_member_confirm_button' data-group_id='#{@group.id}'
+          = t('groups.remove_member.confirm_remove_member')
+        button.btn.btn-cancel type="button" data-dismiss="modal"
+          = t('global.cancel')
