@@ -11,12 +11,12 @@
     - @course.course_instructors.each do |instructor|
       = instructor
       br
-    h4
-      = t('courses.time')
-    - if @course.start_date && @course.end_date
-      = @course.start_date.strftime("%d.%m.%Y") + ' - ' + @course.end_date.strftime("%d.%m.%Y")
-    - else
-      = t('courses.no_dates_available')
+  h4
+    = t('courses.time')
+  - if @course.start_date && @course.end_date
+    = @course.start_date.strftime("%d.%m.%Y") + ' - ' + @course.end_date.strftime("%d.%m.%Y")
+  - else
+    = t('courses.no_dates_available')
   - if @course.language
     h4
       = t('courses.language')
