@@ -27,7 +27,7 @@ de:
     cancel: Abbrechen
 
   navbar:
-    MAMMOOC: mammooc
+    mammooc: mammooc
     home: Home
     about: Über uns
     impressum: Impressum
@@ -195,31 +195,31 @@ de:
         text: Schau dir die gemeinsamen Statistiken an. Behalte Vormerkungen, Empfehlungen und die Kursbelegung deiner Gruppenmitglieder im Blick.
     bulletpoints:
       enterprise:
-        headline_1: MAMMOOC im
+        headline_1: mammooc im
         headline_2: Unternehmen
         text: MOOCs bieten eine moderne und kostengünstige Möglichkeit zur Fortbildung von Mitarbeitern. Finden Sie geeignete Kurse und empfehlen Sie sie weiter. Behalten Sie mit Hilfe der Gruppenstatistiken die Aktivitäten Ihrer Mitarbeiter im Blick. Nutzen Sie die Business-Version, um zur Teilnahme von Kursen zu verpflichten und den Fortschritt Ihrer Mitarbeiter zu verfolgen.
       classroom:
-        headline_1: MAMMOOC im
+        headline_1: mammooc im
         headline_2: Klassenraum
         text: Erweitern Sie Ihr Lehrangebot durch MOOCs und verwalten Sie die Kursteilnahme Ihrer SchülerInnen. Laden Sie die SchülerInnen in eine Gruppe ein, um den Status zu abgegebenen Hausaufgaben und Tests zu verfolgen. Erhalten Sie Gruppenstatistiken und Informationen darüber, wer einen Kurs erfolgreich abgeschlossen hat.
       home:
-        headline_1: MAMMOOC für
+        headline_1: mammooc für
         headline_2: Zuhause
-        text: Finde Online-Kurse, die zu dir passen, und tausche deine Erfahrungen mit Freunden aus. Mit MAMMOOC kannst du Kurse vormerken, empfehlen und in die Liste deiner aktuellen Belegungen aufnehmen. Verbinde darüber hinaus deinen Account mit MOOC-Anbietern, um deinen Kursfortschritt im Auge zu behalten.
+        text: Finde Online-Kurse, die zu dir passen, und tausche deine Erfahrungen mit Freunden aus. Mit mammooc kannst du Kurse vormerken, empfehlen und in die Liste deiner aktuellen Belegungen aufnehmen. Verbinde darüber hinaus deinen Account mit MOOC-Anbietern, um deinen Kursfortschritt im Auge zu behalten.
     featurettes:
       aggregator:
         headline: Finde Kurse verschiedener Anbieter.
-        subtitle:  MAMMOOC als MOOC-Aggregator.
-        text: Suche nach einem Thema, filtere die Ergebnisse nach deinen Vorstellungen und lies dir die Bewertungen anderer MAMMOOC-Nutzer durch. Merke einen Kurs vor, um zum Kursstart eine Erinnerung per E-Mail zu erhalten. Behalte deinen Lernfortschritt im Auge und sammle deine Abschlüsse an einem Ort.
+        subtitle:  mammooc als MOOC-Aggregator.
+        text: Suche nach einem Thema, filtere die Ergebnisse nach deinen Vorstellungen und lies dir die Bewertungen anderer mammooc-Nutzer durch. Merke einen Kurs vor, um zum Kursstart eine Erinnerung per E-Mail zu erhalten. Behalte deinen Lernfortschritt im Auge und sammle deine Abschlüsse an einem Ort.
       community:
         headline: Erstelle Gruppen!
-        subtitle: MAMMOOC für Gemeinschaften.
-        text: 'Ob für die Abteilung eines Unternehmens, für eine Schulklasse oder für private Lerngruppen: MAMMOOC bietet die Gelegenheit, Menschen in Form von Gruppen zusammen zu bringen. Auf diesem Weg können aktuell belegte Kurse, Kursfortschritte und Kursabschlüsse untereinander geteilt werden. Außerdem können Empfehlungen an Einzelpersonen oder an die Gruppe gesendet werden. Automatisch erstellte Statistiken informieren über die Aktivitäten der Gruppe.'
+        subtitle: mammooc für Gemeinschaften.
+        text: 'Ob für die Abteilung eines Unternehmens, für eine Schulklasse oder für private Lerngruppen: mammooc bietet die Gelegenheit, Menschen in Form von Gruppen zusammen zu bringen. Auf diesem Weg können aktuell belegte Kurse, Kursfortschritte und Kursabschlüsse untereinander geteilt werden. Außerdem können Empfehlungen an Einzelpersonen oder an die Gruppe gesendet werden. Automatisch erstellte Statistiken informieren über die Aktivitäten der Gruppe.'
       mammooc:
-        headline: MAMMOOC!
+        headline: mammooc!
         subtitle: Managing All My MOOCs.
-        text: MAMMOOC als innovativer Ansatz macht es möglich, Fortbildungsaktivitäten an einem Ort zu sammeln. Mit openSAP und openHPI haben wir bereits zwei feste Partner gewonnen. Unser Ziel ist es, weitere Kooperationen aufzubauen, um aus MAMMOOC das Maximale herauszuholen. Beim Verbinden der Accounts wird es so möglich, zum Beispiel Kursfortschritte stets aktuell abzurufen.
-        register_now: Registriere dich jetzt und trete der MAMMOOC Gemeinschaft bei!
+        text: mammooc als innovativer Ansatz macht es möglich, Fortbildungsaktivitäten an einem Ort zu sammeln. Mit openSAP und openHPI haben wir bereits zwei feste Partner gewonnen. Unser Ziel ist es, weitere Kooperationen aufzubauen, um aus mammooc das Maximale herauszuholen. Beim Verbinden der Accounts wird es so möglich, zum Beispiel Kursfortschritte stets aktuell abzurufen.
+        register_now: Registriere dich jetzt und trete der mammooc Gemeinschaft bei!
     registration_news_email:
       headline: Registriere dich jetzt für Neuigkeiten
       submit: Absenden
@@ -230,12 +230,12 @@ de:
   static:
     about:
       heading: Über uns
-      title: Über uns - MAMMOOC
-      text_1: Wir sind 6 Studenten des HPI, die als Abschlussprojekt unseres Bachelorstudiums MAMMOOC entwickeln.
+      title: Über uns | mammooc
+      text_1: Wir sind 6 Studenten des HPI, die als Abschlussprojekt unseres Bachelorstudiums mammooc entwickeln.
       text_2: Wir bemühen uns euch stets die bestmögliche Erfahrung zu bieten. Daher freuen wir uns immer über Feedback, Fragen, Wünsche und sonstige Kommentare!
       text_3: Schreibt uns einfach an
     impressum:
       heading: Impressum
-      title: Impressum - MAMMOOC
+      title: Impressum | mammooc
       text: Unser Impressum finden sie aktuell auf der Webseite von openHPI.
       link: Zum Impressum

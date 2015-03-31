@@ -35,5 +35,8 @@
 /config/settings/*.local.yml
 /config/environments/*.local.yml
 
-# Ignore auto-generated javascript files
+# Ignore auto-generated javascripts files
 /public/javascripts
+
+# Ignore auto-generated assets
+/public/assets

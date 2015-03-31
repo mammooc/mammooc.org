@@ -5,7 +5,7 @@ class UserMailer < ApplicationMailer
     @user = user
     @link = link
     @root_url = root_url
-    mail(to: email_adress, subject: 'You were invited to join a group on MAMMOOC')
+    mail(to: email_adress, subject: 'You were invited to join a group on mammooc')
   end
 
 end

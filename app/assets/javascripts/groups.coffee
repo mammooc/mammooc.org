@@ -149,8 +149,7 @@ delete_group = (event) ->
     success: (data, textStatus, jqXHR) ->
       console.log('success_delete_group')
       $('#confirmation_remove_last_member').modal('hide')
-      # if we still use turbolinks: Turbolinks.visit('/groups')
-      window.location.replace('/groups')
+      Turbolinks.visit('/groups')
   event.preventDefault()
 
 remove_last_admin = (event) ->
@@ -183,8 +182,7 @@ leave_group = (group_id, user_id) ->
     success: (data, textStatus, jqXHR) ->
       console.log('success_leave_group')
       $('#confirmation_remove_last_admin').modal('hide')
-      # if we still use turbolinks: Turbolinks.visit('/groups')
-      window.location.replace('/groups')
+      Turbolinks.visit('/groups')
 
 change_style_to_admin = (user_id) ->
   id = "#list_member_element_user_#{user_id}"
