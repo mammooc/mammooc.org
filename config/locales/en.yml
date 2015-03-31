@@ -27,14 +27,14 @@ en:
     cancel: Cancel
 
   navbar:
-    MAMMOOC: MAMMOOC
+    MAMMOOC: mammooc
     home: Home
     about: About us
     contact: Contact
     sign_out: Sign Out
     dashboard: Dashboard
     profile: Profile
-    welcome_heading: Welcome to MAMMOOC!
+    welcome_heading: Welcome to mammooc!
 
   dashboard:
     hi: Hi %{name}
@@ -45,8 +45,8 @@ en:
     edit_group: Editing Group
 
   home:
-    welcome_heading: Welcome to MAMMOOC!
-    welcome_title: "MAMMOOC: Sign up today!"
+    welcome_heading: Welcome to mammooc!
+    welcome_title: "mammooc: Sign up today!"
     hello: Hello
 
   users:
@@ -60,7 +60,7 @@ en:
       characters_minimum: characters minimum
       password: Password
       password_confirmation: Re-enter password
-      terms_and_conditions_confirmation: I confirm to MAMMOOCs terms and conditions.
+      terms_and_conditions_confirmation: I confirm to mammooc's terms and conditions.
       remember_me: Keep me logged in
       sign_in_link: Already signed up? Click here to log in.
       sign_up_link: Not signed up yet? Click here to sign up.
@@ -71,8 +71,7 @@ en:
       reset: Reset my password
 
   groups:
-    name: Name
-    description: Description
+    title: My Groups | mammooc
     member: Member
     members: Members
     member_overview: Member Overview
@@ -97,12 +96,11 @@ en:
       invite_members: Invite members
       text: Enter email addresses comma-separated
     all_members:
-      title: ' - Members'
-      options: Options
-      add_admin: Add as Admin
-      demote_admin: Demote Admin to Member
-      demote_last_admin_notice: "You are the last admin of this group. Therefore you can't demote yourself. Please return back to group first and promote another member to admin."
-      demote_last_admin_button: Return to group.
+      administrator: Administrator
+      add_admin: Make Admin
+      demote_admin: Remove from Admins
+      demote_last_admin_notice: "You are the last admin of this group. Please promote another member before you change your status."
+      demote_last_admin_button: Return to group
       invite_members: Invite Members
       remove_member: Remove Member
       leave_group: Leave group
@@ -110,20 +108,20 @@ en:
       title: Remove Member
       question_member_1: Are you sure to remove
       question_member_2: from this group?
-      question_last_member: You are the last member of this group. If you want to leave the group, it will be deleted. Are you sure to leave the group?
-      question_last_admin: "You are the last admin of this group. If you want to leave the group, you may choose one of the following possibilities: either the whole group will be deleted or all other members will become admins. Do you want to continue?"
-      confirm_delete_group: Yes, leave and delete group.
-      confirm_leave_group: Yes, leave the group (all members will become admins).
-      confirm_remove_member: Delete Member
+      question_last_member: You are the last member of this group. If you leave the group, it will be deleted.
+      question_last_admin: "You are the last admin of this group. If you leave, all remaining members will become administrators."
+      confirm_delete_group: Delete group
+      confirm_leave_group: Leave
+      confirm_remove_member: Remove
       yourself: yourself
 
   static:
     contact:
       heading: Contact us!
-      title: Contact - MAMMOOC
+      title: Contact | mammooc
     about:
       heading: About us
-      title: About us - MAMMOOC
+      title: About us | mammooc
 
   activerecord:
     models:
@@ -184,7 +182,7 @@ en:
       taken: has already been taken.
       blank: has to be filled in.
       sign_up:
-        terms_and_conditions_failure: Please confirm to MAMMOOCs terms and conditions!
+        terms_and_conditions_failure: Please confirm to mammooc's terms and conditions!
       login:
         reqired: You must be logged in.
       user:
