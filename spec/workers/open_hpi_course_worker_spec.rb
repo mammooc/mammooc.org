@@ -43,7 +43,7 @@ describe OpenHPICourseWorker do
     expect(course.start_date).to eql Time.parse(json_course['available_from'])
     expect(course.end_date).to eql Time.parse(json_course['available_to'])
     expect(course.description).to eql json_course['description']
-    expect(course.course_instructors).to eql [json_course['lecturer']]
+    expect(course.course_instructors).to eql json_course['lecturer']
     expect(course.open_for_registration).to eql !json_course['locked']
   end
 end

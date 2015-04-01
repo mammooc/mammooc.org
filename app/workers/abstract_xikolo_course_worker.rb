@@ -33,9 +33,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
       course.start_date = course_element['available_from']
       course.end_date = course_element['available_to']
       course.description = course_element['description']
-      if !course_element['lecturer'].empty?
-        course.course_instructors = [course_element['lecturer']]
-      end
+      course.course_instructors = course_element['lecturer']
       course.open_for_registration = !course_element['locked']
 
       course.save

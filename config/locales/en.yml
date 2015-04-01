@@ -164,12 +164,14 @@ en:
     enroll_course: Enroll into Course
     recommend_course: Recommend Course
     rate_course: Rate Course
-    hours: hours
-    per_week: per week
     recommendations: Recommendations
     rating: Rating
     credit_points: Credit Points
     no_dates_available: There are no dates available.
+    duration: Duration
+    subtitle_languages: Available Subtitles
+    previous_iteration: Previous Iteration
+    following_iteration: Following Iteration
 
   flash:
     #success:
