@@ -220,12 +220,6 @@ de:
         subtitle: Managing All My MOOCs.
         text: mammooc als innovativer Ansatz macht es möglich, Fortbildungsaktivitäten an einem Ort zu sammeln. Mit openSAP und openHPI haben wir bereits zwei feste Partner gewonnen. Unser Ziel ist es, weitere Kooperationen aufzubauen, um aus mammooc das Maximale herauszuholen. Beim Verbinden der Accounts wird es so möglich, zum Beispiel Kursfortschritte stets aktuell abzurufen.
         register_now: Registriere dich jetzt und trete der mammooc Gemeinschaft bei!
-    registration_news_email:
-      headline: Registriere dich jetzt für Neuigkeiten
-      submit: Absenden
-      success: E-Mail-Adresse erfolgreich registriert.
-      already_registered: wurde bereits registriert.
-      placeholder: E-Mail-Adresse
 
   static:
     about:
