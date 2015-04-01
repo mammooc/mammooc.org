@@ -3,30 +3,26 @@
   / Pages with Group subnav
   - if @group and (current_page?("/groups/#{@group.id}") or current_page?("/groups/#{@group.id}/members"))
     / Group header with subnav
-    .container
-      .row
-        .col-md-12
-          = render 'groups/header'
+    .row.mt30
+      .col-md-12
+        = render 'groups/header'
     - if @group and current_page?("/groups/#{@group.id}/members")
-      .container.mt30
-        .row
-          .col-md-12
-            = yield
+      .row.mt30
+        .col-md-12
+          = yield
     - else
-      .container.mt30
-        .row
-          / Content
-          .col-md-9
-            = yield
-          / Sidebar
-          .col-md-3.mb30
-            = render 'groups/sidebar'
+      .row.mt30
+        / Content
+        .col-md-9
+          = yield
+        / Sidebar
+        .col-md-3.mb30
+          = render 'groups/sidebar'
 
   / Pages without Group subnav
   - else
-    .container
-      .row
-        .col-md-12
-          = yield
+    .row.mt30
+      .col-md-12
+        = yield
 
 = render file: 'layouts/application'
