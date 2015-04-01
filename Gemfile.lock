@@ -97,6 +97,7 @@ GEM
     ffi (1.9.8)
     globalid (0.3.3)
       activesupport (>= 4.1.0)
+    headless (1.0.2)
     hike (1.2.3)
     hitimes (1.2.2)
     http-cookie (1.0.2)
@@ -190,7 +191,7 @@ GEM
     rspec-support (3.2.2)
     rubyzip (1.1.7)
     sass (3.4.13)
-    sass-rails (5.0.2)
+    sass-rails (5.0.3)
       railties (>= 4.0.0, < 5.0)
       sass (~> 3.1)
       sprockets (>= 2.8, < 4.0)
@@ -280,6 +281,7 @@ DEPENDENCIES
   database_cleaner
   devise
   factory_girl_rails
+  headless
   http_accept_language
   i18n-js
   jbuilder (~> 2.0)
