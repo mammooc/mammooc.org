@@ -6,7 +6,7 @@ require 'support/devise_support'
 require 'support/wait_for_ajax'
 require 'capybara/rspec'
 
-if ENV['HEADLESS_TEST'] = 'true' || ENV['USER'] == 'vagrant'
+if ENV['HEADLESS_TEST'] == 'true' || ENV['USER'] == 'vagrant'
   require 'headless'
 
   headless = Headless.new
