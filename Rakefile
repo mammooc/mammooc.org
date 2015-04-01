@@ -4,3 +4,6 @@
 require File.expand_path('../config/application', __FILE__)
 
 Rails.application.load_tasks
+
+# In order to deliver the latest versions of our translations, we need to export them first.
+Rake::Task["assets:precompile"].enhance ["i18n:js:export"]

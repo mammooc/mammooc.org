@@ -15,12 +15,16 @@
  */
 
 html, body {
-    width: auto !important;
-    overflow-x: hidden !important;
+  width: auto !important;
+  overflow-x: hidden !important;
+}
+
+.modal-backdrop {
+  z-index: 0 !important;
 }
 
 .modal-dialog {
-  z-index: 1050;
+  z-index: 1040;
 }
 
 .field_with_errors {
