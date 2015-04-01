@@ -11,11 +11,13 @@
 // about supported directives.
 //
 //= require jquery
-//= require bootstrap
+//= require jquery.turbolinks
 //= require jquery_ujs
-//= require turbolinks
+//= require jquery_ujs
+//= require bootstrap
 //= require i18n
 //= require i18n/translations
+//= require turbolinks
 //= require_tree .
 
 

@@ -1,4 +1,4 @@
-# MAMMOOC configuration file
+# mammooc configuration file
 
 # Create a new variable
 # name: value
@@ -10,7 +10,7 @@
 # See https://github.com/railsconfig/rails_config for more details
 
 # Mailers
-sender_notification_address: MAMMOOC <notifications@mammooc.com>
+sender_notification_address: mammooc <notifications@mammooc.com>
 default_hostname: mammooc-dev.herokuapp.com
 
 # GroupInvitation

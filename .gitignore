@@ -37,3 +37,6 @@
 
 # Ignore auto-generated javascript files
 /app/assets/javascripts/i18n
+
+# Ignore auto-generated assets
+/public/assets
