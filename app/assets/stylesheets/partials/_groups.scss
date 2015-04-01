@@ -153,18 +153,30 @@ $members_image_height: 100px;
 // Sidebar
 
 .list-members {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
   img {
     width: 40px;
     margin-right: 5px;
     margin-bottom: 5px;
   }
-  a {
-  }
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .admins {
   font-weight: bold;
+}
+
+// Customize Bootstrap Panel for this special case in Groups Sidebar
+
+.panel-groups-sidebar {
+
+  .container-fluid {
+    padding: 0px;
+  }
+
+  .row {
+    padding: 0px;
+  }
 }

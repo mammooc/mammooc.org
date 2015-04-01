@@ -1,7 +1,6 @@
 @import 'bootstrap-variables';
 
 $logo-height: 80px;
-//$entry-padding-left: 10px;
 
 .site-header {
   background-color: white;
@@ -42,4 +41,13 @@ $logo-height: 80px;
       font-weight: bold;
     }
   }
+}
+
+// Customize Bootstrap Panel
+
+.panel-default > .panel-heading {
+  background-color: #ffffff;
+  border-bottom: 0px;
+  font-size: 18px;
+  font-weight: 300;
 }
