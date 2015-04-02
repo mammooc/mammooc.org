@@ -8,17 +8,27 @@ nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
         span.icon-bar
         span.icon-bar
       - if user_signed_in?
-        = link_to t('navbar.MAMMOOC'), dashboard_path, :class => "navbar-brand"
+        = link_to t('navbar.mammooc'), dashboard_path, :class => "navbar-brand"
       - else
-        = link_to t('navbar.MAMMOOC'), home_index_path, :class => "navbar-brand"
-    .collapse.navbar-collapse
+        = link_to t('navbar.mammooc'), home_index_path, :class => "navbar-brand"
+    .collapse.navbar-collapse id="navbar"
       ul.nav.navbar-nav.navbar-right
-        li class=('active' if current_page?(home_index_path))
+        li class=('active' if current_page?(home_index_path) || current_page?(root_path))
           = link_to t('navbar.home'), home_index_path
         li class=('active' if current_page?(about_path))
           = link_to t('navbar.about'), about_path
-        li class=('active' if current_page?(contact_path))
-          = link_to t('navbar.contact'), contact_path
+        li class=('active' if current_page?(impressum_path))
+          = link_to t('navbar.impressum'), impressum_path
+        li class="dropdown"
+          a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-expanded="false"
+            = I18n.locale.upcase
+            span.caret
+          ul.dropdown-menu role="menu"
+            - (I18n.available_locales - [I18n.locale]).each do |l|
+              li
+                a href="#{request.fullpath.split('?')[0]}?language=#{l}" data-no-turbolink=""
+                  = language_names[l]
+
         - if user_signed_in?
           li class="dropdown"
             a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"

@@ -27,10 +27,10 @@ en:
     cancel: Cancel
 
   navbar:
-    MAMMOOC: mammooc
+    mammooc: mammooc
     home: Home
     about: About us
-    contact: Contact
+    impressum: Legal Notice
     sign_out: Sign Out
     dashboard: Dashboard
     profile: Profile
@@ -115,14 +115,6 @@ en:
       confirm_remove_member: Remove
       yourself: yourself
 
-  static:
-    contact:
-      heading: Contact us!
-      title: Contact | mammooc
-    about:
-      heading: About us
-      title: About us | mammooc
-
   activerecord:
     models:
       group:
@@ -132,6 +124,7 @@ en:
       group:
         name: Name
         description: Description
+    #error messages
     errors:
       messages:
         taken: 'has already been taken.'
@@ -149,7 +142,6 @@ en:
     description: Description
     reviews: Reviews
     mooc_provider: MOOC Provider
-    instructor: Instructor
     instructors: Instructors
     time: Time
     language: Language
@@ -164,12 +156,14 @@ en:
     enroll_course: Enroll into Course
     recommend_course: Recommend Course
     rate_course: Rate Course
-    hours: hours
-    per_week: per week
     recommendations: Recommendations
     rating: Rating
     credit_points: Credit Points
     no_dates_available: There are no dates available.
+    duration: Duration
+    subtitle_languages: Available Subtitles
+    previous_iteration: Previous Iteration
+    following_iteration: Following Iteration
 
   flash:
     #success:
@@ -188,3 +182,55 @@ en:
       user:
         password_too_short: is too short (minimum is %{count} characters).
         password_confirmation: doesn't match with password.
+
+  startpage:
+    carousel:
+      progress:
+        headline: Keep track of your learning progress
+        text: Retrieve the state of your current courses. Everything in one central place.
+      recommend:
+        headline: Recommend MOOCs you like
+        text: Create groups and share your experience.
+      evaluate:
+        headline: Evaluate your group’s activities
+        text: Check your joined statistics. Keep track of reminders, recommendations and other’s course participation.
+    bulletpoints:
+      enterprise:
+        headline_1: mammooc for
+        headline_2: enterprises
+        text: MOOCs offer a modern and cost efficient way to educate employees. Identify suitable courses and create recommendations. Use the group statistics to keep track of your employees activities. Make enrollments mandatory and generate reports on the learning progress with our enterprise edition.
+      classroom:
+        headline_1: mammooc for
+        headline_2: class rooms
+        text: Extend your lectures with MOOCs and manage your student’s course participation. Invite your students to a group to monitor the status of submitted homeworks and exams. Retrieve group statistics and information on which student has successfully completed a course.
+      home:
+        headline_1: mammooc at
+        headline_2: home
+        text: Find online courses matching your profile and exchange your experience with friends. With mammooc you can create reminders for courses, recommend them and add them to the list of your current enrollments. Connect your account with MOOC providers to keep track of your progress.
+    featurettes:
+      aggregator:
+        headline: Find courses of different providers.
+        subtitle: mammooc as MOOC aggregator.
+        text: Search for a topic, filter the results based on your ideas and read reviews written by other mammooc users. Create a reminder for a course to receive an email notification when the course starts. Keep track of your learning progress and archive your certifications in a central place.
+      community:
+        headline: Create groups.
+        subtitle: mammooc for communities.
+        text: 'No matter, whether it’s for a department, a school class or a personal learning group: mammooc supports people in a joint learning effort. This way, current enrollments, learning progress and completions can be shared. Additionally, recommendations can be sent to individuals and groups. Automatically generated statistics inform about activities of the group.'
+      mammooc:
+        headline: mammooc!
+        subtitle: Managing All My MOOCs.
+        text: mammooc's innovative approach makes it possible to put all your learning efforts in a central place. With openSAP and openHPI we have already been able to create partnerships. Our goal is to create additional cooperations to get the most out of mammooc. With connected accounts, course progress can be kept up to date.
+        register_now: Sign up now and join the mammooc community!
+
+  static:
+    about:
+      heading: About us
+      title: About us | mammooc
+      text_1: We are six students of the HPI, working on mammooc as the last phase of our bachelors-degree.
+      text_2: We are continuously trying to provide you with the best experience! You have feedback, questions, wishes or anything else to say about mammooc? We’d be glad to hear from you!
+      text_3: Write us at
+    impressum:
+      heading: Legal Notice
+      title: Legal Notice | mammooc
+      text: Currently you can find our legal notice on the openHPI website.
+      link: To legal notice

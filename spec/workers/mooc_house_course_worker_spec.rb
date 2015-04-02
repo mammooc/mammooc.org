@@ -2,16 +2,14 @@ require 'rails_helper'
 
 describe MoocHouseCourseWorker do
 
-  before(:all) do
-    @mooc_provider = FactoryGirl.create(:mooc_provider, name: 'mooc.house')
-  end
+  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'mooc.house') }
 
   let(:mooc_house_course_worker){
     MoocHouseCourseWorker.new
   }
 
   it 'should deliver MOOCProvider' do
-    expect(mooc_house_course_worker.mooc_provider).to eql @mooc_provider
+    expect(mooc_house_course_worker.mooc_provider).to eql mooc_provider
   end
 
   it 'should get an API response' do

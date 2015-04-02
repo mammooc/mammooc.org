@@ -8,13 +8,25 @@ deployment:
       - heroku run rake db:schema:load db:seed --app mammooc
       - heroku restart --app mammooc
       - heroku maintenance:off --app mammooc
+      - heroku run rake mammooc:update_course_data --app mammooc
+
 
   development:
     branch: dev
     commands:
-       - heroku maintenance:on --app mammooc-dev
-       - git push git@heroku.com:mammooc-dev.git dev:master
-       - heroku pg:reset DATABASE --app mammooc-dev --confirm mammooc-dev
-       - heroku run rake db:schema:load db:seed --app mammooc-dev
-       - heroku restart --app mammooc-dev
-       - heroku maintenance:off --app mammooc-dev
+      - heroku maintenance:on --app mammooc-dev
+      - git push git@heroku.com:mammooc-dev.git dev:master
+      - heroku pg:reset DATABASE --app mammooc-dev --confirm mammooc-dev
+      - heroku run rake db:schema:load db:seed --app mammooc-dev
+      - heroku restart --app mammooc-dev
+      - heroku maintenance:off --app mammooc-dev
+      - heroku run rake mammooc:update_course_data --app mammooc-dev
+
+  teaser:
+    branch: teaser
+    commands:
+      - heroku maintenance:on --app mammooc-teaser
+      - git push git@heroku.com:mammooc-teaser.git teaser:master
+      - heroku run rake db:migrate --app mammooc-teaser
+      - heroku restart --app mammooc-teaser
+      - heroku maintenance:off --app mammooc-teaser

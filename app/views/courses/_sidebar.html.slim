@@ -4,23 +4,29 @@
   = @course.mooc_provider.name
   - if @course.course_instructors
     h4
-      - if @course.course_instructors.length < 2
-        = t('courses.instructor')
-      - else
-        = t('courses.instructors')
-    - @course.course_instructors.each do |instructor|
-      = instructor
+      = t('courses.instructors')
+    = @course.course_instructors
       br
+  h4
+    = t('courses.time')
+  - if @course.start_date && @course.end_date
+    = @course.start_date.strftime("%d.%m.%Y") + ' - ' + @course.end_date.strftime("%d.%m.%Y")
+  - elsif @course.start_date
+    = @course.start_date.strftime("%d.%m.%Y")
+  - else
+    = t('courses.no_dates_available')
+  - if !@course.calculated_duration_in_days && @course.provider_given_duration
     h4
-      = t('courses.time')
-    - if @course.start_date && @course.end_date
-      = @course.start_date.strftime("%d.%m.%Y") + ' - ' + @course.end_date.strftime("%d.%m.%Y")
-    - else
-      = t('courses.no_dates_available')
+      = t('courses.duration')
+    = @course.provider_given_duration
   - if @course.language
     h4
       = t('courses.language')
     = @course.language
+  - if @course.subtitle_languages
+    h4
+      = t('courses.subtitle_languages')
+    = @course.subtitle_languages
   - if @course.requirements
     h4
       = t('courses.requirements')
@@ -49,8 +55,15 @@
     h4
       = t('courses.difficulty')
     = @course.difficulty
-  - if @course.minimum_weekly_workload && @course.maximum_weekly_workload
+  - if @course.workload
     h4
       = t('courses.workload')
-    = @course.minimum_weekly_workload.to_s + ' ' + t('courses.hours') + ' - ' + @course.maximum_weekly_workload.to_s
-    = ' ' + t('courses.hours') + ' ' + t('courses.per_week')
+    = @course.workload
+  - if @course.previous_iteration_id
+    h4
+      = t('courses.previous_iteration')
+    = link_to @previous_course_name, course_path(@course.previous_iteration_id)
+  - if @course.following_iteration_id
+    h4
+      = t('courses.following_iteration')
+    = link_to @following_course_name, course_path(@course.following_iteration_id)
