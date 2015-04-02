@@ -40,6 +40,9 @@ gem 'unicorn'
 # authentication
 gem 'devise'
 
+# authorization
+gem 'cancancan', '~>1.10'
+
 # HTTP api_connection
 gem 'rest-client'
 
