@@ -2,9 +2,7 @@ require 'rails_helper'
 
 describe OpenHPICourseWorker do
 
-  before(:all) do
-    @mooc_provider = FactoryGirl.create(:mooc_provider, name: 'openHPI')
-  end
+  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI') }
 
   let(:open_hpi_course_worker){
     OpenHPICourseWorker.new
@@ -15,7 +13,7 @@ describe OpenHPICourseWorker do
   }
 
   it 'should deliver MOOCProvider' do
-    expect(open_hpi_course_worker.mooc_provider).to eql @mooc_provider
+    expect(open_hpi_course_worker.mooc_provider).to eql mooc_provider
   end
 
   it 'should get an API response' do
@@ -32,11 +30,11 @@ describe OpenHPICourseWorker do
     open_hpi_course_worker.handle_response_data json_course_data
 
     json_course = json_course_data[0]
-    course = Course.find_by(:provider_course_id => json_course['id'], :mooc_provider_id => @mooc_provider.id)
+    course = Course.find_by(:provider_course_id => json_course['id'], :mooc_provider_id => mooc_provider.id)
 
     expect(course.name).to eql json_course['name']
     expect(course.provider_course_id).to eql json_course['id']
-    expect(course.mooc_provider_id).to eql @mooc_provider.id
+    expect(course.mooc_provider_id).to eql mooc_provider.id
     expect(course.url).to include json_course['course_code']
     expect(course.language).to eql json_course['language']
     expect(course.imageId).to eql json_course['visual_url']
