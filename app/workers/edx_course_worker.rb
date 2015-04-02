@@ -15,9 +15,7 @@ class EdxCourseWorker < AbstractCourseWorker
 
   def handle_response_data response_data
     update_map = create_update_map mooc_provider
-    # puts response_data['value']['items']
     response_data['value']['items'].each { |course_element|
-      # puts course_element['title']
       course = Course.find_by(:provider_course_id => course_element['id'], :mooc_provider_id => mooc_provider.id)
       if course.nil?
         course = Course.new
@@ -29,29 +27,41 @@ class EdxCourseWorker < AbstractCourseWorker
       course.provider_course_id = course_element['course:id']
       course.mooc_provider_id = mooc_provider.id
       course.url = course_element['link']
-    # #   course.language = course_element['language']
       course.imageId = course_element['course:image-thumbnail']
       if course_element['course:start']
         course.start_date = course_element['course:start']
-      else
-        puts 'EMPTY START DATE'
       end
       if course_element['course:end']
         course.end_date = course_element['course:end']
-      else
-        puts course_element['title']
+      end
+      if course_element['course:length']
+        course.provider_given_duration = course_element['course:length']
       end
       course.abstract = course_element['course:subtitle']
       course.description = course_element['description']
-    #   # if !course_element['course:staff'].empty?
-    #     course.course_instructors = [course_element['course:staff']]
-    #   # end
-    # #   course.open_for_registration = !course_element['locked']
-    # #
-    #   course.requirements = [course_element['course:prerequisites']]
-    #   course.categories = [course_element['course:subject']]
-    #
-      # course.save
+
+      temp = ''
+      if course_element['course:staff']
+        if course_element['course:staff'].class == Array
+          course_element['course:staff'].each_with_index do |staff_member, index|
+            temp = temp + staff_member
+            if !(index == course_element['course:staff'].size - 1)
+              temp = temp + ', '
+            end
+          end
+        elsif course_element['course:staff'].class == String
+          temp = course_element['course:staff']
+        end
+
+        course.course_instructors = temp
+      end
+      course.requirements = [course_element['course:prerequisites']]
+      course.categories = course_element['course:subject'] #+ course_element['course:school']
+      if course_element['course:effort']
+        course.workload = course_element['course:effort']
+      end
+
+      course.save
     }
     evaluate_update_map update_map
   end
