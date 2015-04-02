@@ -34,10 +34,10 @@ send_invite = () ->
       if data.error_email.length == 0
         $('#add_group_members').modal('hide')
         $('#text_area_invite_members').val('')
+        $('.invitation-error').empty('')
       else
         unprocessed_emails = ''
         for email_address in data.error_email
-          console.log email_address
           unprocessed_emails += email_address + ', '
         # Let's remove ', ' behind the last email address
         unprocessed_emails = unprocessed_emails.substring(0, unprocessed_emails.length - 2)

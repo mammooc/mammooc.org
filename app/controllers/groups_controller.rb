@@ -1,11 +1,12 @@
 class GroupsController < ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :demote_administrator, :remove_group_member, :condition_for_changing_member_status, :all_members_to_administrators]
 
-  LCHARS = /\w+\p{L}\p{N}\-\!\/#\$%&'*+=?^`{|}~/
-  LOCAL  = /[#{LCHARS.source}]+(\.[#{LCHARS.source}]+)*/
-  DCHARS = /A-z\d/
-  DOMAIN = /[#{DCHARS.source}][#{DCHARS.source}\-]*(\.[#{DCHARS.source}\-]{2,})*/
-  EMAIL  = /\A#{LOCAL.source}@#{DOMAIN.source}\z/i
+  LCHARS    = /\w+\p{L}\p{N}\-\!\/#\$%&'*+=?^`{|}~/
+  LOCAL     = /[#{LCHARS.source}]+(\.[#{LCHARS.source}]+)*/
+  DCHARS    = /A-z\d/
+  SUBDOMAIN = /[#{DCHARS.source}]+(\-+[#{DCHARS.source}]+)*/
+  DOMAIN    = /#{SUBDOMAIN.source}(\.#{SUBDOMAIN.source})*\.[#{DCHARS.source}]{2,}/
+  EMAIL     = /\A#{LOCAL.source}@#{DOMAIN.source}\z/i
 
   # GET /groups
   # GET /groups.json
