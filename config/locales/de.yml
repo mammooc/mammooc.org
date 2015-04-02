@@ -142,7 +142,6 @@ de:
     description: Kursinformationen
     reviews: Rezensionen
     mooc_provider: Kursanbieter
-    instructor: Lehrperson
     instructors: Lehrpersonen
     time: Zeitraum
     language: Sprache
@@ -157,12 +156,14 @@ de:
     enroll_course: Kurs belegen
     recommend_course: Kurs empfehlen
     rate_course: Kurs bewerten
-    hours: Stunden
-    per_week: pro Woche
     recommendations: Empfehlungen
     rating: Bewertung
     credit_points: Leistungspunkte
     no_dates_available: Es sind keine Daten vorhanden.
+    duration: Dauer
+    subtitle_languages: Verfügbare Untertitel
+    previous_iteration: Vorheriger Durchlauf
+    following_iteration: Nachfolgender Durchlauf
 
   flash:
     #success:
