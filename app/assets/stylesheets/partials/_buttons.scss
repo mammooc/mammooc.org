@@ -34,8 +34,15 @@
 .btn-gray-lg {
   @extend .no-radius;
   background-color: $gray-lighter;
-  border: 1px solid $panel-default-border;
-  color: $gray-light;
+  border: 0px;
+  color: black;
+  width: 100%;
+  display: block;
+  margin: 0px;
+  font-weight: bold;
+  a {
+    color: black;
+  }
 }
 
 .btn-gray-lg:hover,
@@ -44,7 +51,12 @@
 .btn-gray-lg:active,
 .btn-gray-lg.active,
 .open > .dropdown-toggle.btn-gray-lg {
+  background-color: darken($gray-lighter, 2%);
   color: $mammooc-dark;
+  a {
+    color: $mammooc;
+    text-decoration: none;
+  }
 }
 
 .btn-cancel {
