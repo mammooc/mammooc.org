@@ -149,7 +149,6 @@ en:
     description: Description
     reviews: Reviews
     mooc_provider: MOOC Provider
-    instructor: Instructor
     instructors: Instructors
     time: Time
     language: Language
