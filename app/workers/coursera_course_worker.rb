@@ -1,9 +1,11 @@
 class CourseraCourseWorker < AbstractCourseWorker
 
   MOOC_PROVIDER_NAME = 'coursera'
-  MOOC_PROVIDER_API_LINK = 'https://api.coursera.org/api/catalog.v1/courses'
-  MOOC_PROVIDER_FIELDS = '?fields=language,shortDescription,photo,aboutTheCourse,video,targetAudience,instructor,estimatedClassWorkload,recommendedBackground'
+  MOOC_PROVIDER_COURSE_API_LINK = 'https://api.coursera.org/api/catalog.v1/courses'
+  MOOC_PROVIDER_COURSE_FIELDS = '?fields=language,shortDescription,photo,aboutTheCourse,video,targetAudience,instructor,estimatedClassWorkload,recommendedBackground'
   MOOC_PROVIDER_INCLUDES = '?includes=categories,universities,sessions'
+  MOOC_PROVIDER_SESSIONS_API_LINK = 'https://api.coursera.org/api/catalog.v1/sessions'
+  MOOC_PROVIDER_SESSIONS_FIELDS = '?fields=courseId'
   COURSE_LINK_BODY = 'https://www.coursera.org/course/'
 
   def mooc_provider
@@ -11,7 +13,7 @@ class CourseraCourseWorker < AbstractCourseWorker
   end
 
   def get_course_data
-    response = RestClient.get(MOOC_PROVIDER_API_LINK + MOOC_PROVIDER_FIELDS)
+    response = RestClient.get(MOOC_PROVIDER_SESSIONS_API_LINK + MOOC_PROVIDER_SESSIONS_FIELDS)
     JSON.parse response
   end
 
@@ -27,21 +29,22 @@ class CourseraCourseWorker < AbstractCourseWorker
         update_map[course.id] = true
       end
 
-      course.name = course_element['name']
-      course.provider_course_id = course_element['id']
-      course.mooc_provider_id = mooc_provider.id
-      course.url = COURSE_LINK_BODY + course_element['shortName']
-      course.language = course_element['language']
-      course.imageId = course_element['photo']
-      course.start_date = DateTime.now
-      course.end_date = DateTime.now + 1.month
-      course.description = course_element['shortDescription']
+      puts response_data["elements"]["courseId"]
+      # course.name = course_element['name']
+      # course.provider_course_id = course_element['id']
+      # course.mooc_provider_id = mooc_provider.id
+      # course.url = COURSE_LINK_BODY + course_element['shortName']
+      # course.language = course_element['language']
+      # course.imageId = course_element['photo']
+      # course.start_date = DateTime.now
+      # course.end_date = DateTime.now + 1.month
+      # course.description = course_element['shortDescription']
       # if !course_element['lecturer'].empty?
       #   course.course_instructors = [course_element['lecturer']]
       # end
       #course.open_for_registration = !course_element['locked']
 
-      course.save
+      #course.save
     }
     evaluate_update_map update_map
   end
