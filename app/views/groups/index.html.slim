@@ -1,3 +1,5 @@
+= content_for :title, t('groups.title')
+
 .page-header
   = link_to new_group_path, :class => 'btn btn-primary' do 
     span.glyphicon.glyphicon-plus
@@ -5,10 +7,10 @@
   .row
     .col-md-9
       - if @groups.empty?
-        = t('no_groups')
+        = t('groups.no_groups')
       - else
         h1
-          = t('my_groups')
+          = t('groups.my_groups')
 
         .table-responsive
           table.table.table-striped.table-bordered.table-hover

@@ -48,7 +48,7 @@ RSpec.describe GroupsController, :type => :controller do
         expect {
           post :create, {:group => valid_attributes}
         }.to change(Group, :count).by(1)
-        expect(flash[:notice]).to eq I18n.t('group_success_create')
+        expect(flash[:notice]).to eq I18n.t('flash.notice.groups.successfully_created')
       end
 
       it "assigns a newly created group as @group" do
@@ -85,7 +85,7 @@ RSpec.describe GroupsController, :type => :controller do
         group.reload
         expect(group.name).to eq('Test_different')
         expect(group.description).to eq('edited text')
-        expect(flash[:notice]).to eq I18n.t('group_success_update')
+        expect(flash[:notice]).to eq I18n.t('flash.notice.groups.successfully_updated')
       end
 
       it "assigns the requested group as @group" do
@@ -105,7 +105,7 @@ RSpec.describe GroupsController, :type => :controller do
       expect {
         delete :destroy, {:id => group.to_param}
       }.to change(Group, :count).by(-1)
-      expect(flash[:notice]).to eq I18n.t('group_success_destroy')
+      expect(flash[:notice]).to eq I18n.t('flash.notice.groups.successfully_destroyed')
     end
 
     it "redirects to the groups list" do
@@ -180,6 +180,19 @@ RSpec.describe GroupsController, :type => :controller do
         expect(ActionMailer::Base.deliveries.count).to eq 2
       end
     end
+
+    context "on show page" do
+      it "should do nothing if there are no members to invite" do
+        put :invite_group_members, {id: group.id, group: valid_attributes}
+        expect(GroupInvitation.count).to eq 0
+        expect(ActionMailer::Base.deliveries.count).to eq 0
+      end
+
+      it "should invite members" do
+        expect{ put :invite_group_members, {id: group.id, group: valid_attributes, members: members} }.to change{ GroupInvitation.count }.by(2)
+        expect(ActionMailer::Base.deliveries.count).to eq 2
+      end
+    end
   end
 
   describe "GET join" do
@@ -192,7 +205,7 @@ RSpec.describe GroupsController, :type => :controller do
       expect(response).to redirect_to(group_path(another_group))
       expect(Group.find(another_group.id).users).to include(user)
       expect(GroupInvitation.find(invitation.id).used).to be true
-      expect(flash[:success]).to eq I18n.t('joined_group')
+      expect(flash[:success]).to eq I18n.t('groups.invitation.joined_group')
     end
 
     it "should not allow to use link twice" do
@@ -200,14 +213,14 @@ RSpec.describe GroupsController, :type => :controller do
       group_users_before = Group.find(another_group.id).users.count
       get :join, token: invitation.token
       expect(response).to redirect_to(root_path)
-      expect(flash[:error]).to eq I18n.t('link_used')
+      expect(flash[:error]).to eq I18n.t('groups.invitation.link_used')
       expect(Group.find(another_group.id).users.count).to eq group_users_before
     end
 
     it "should not add user with expired invitation" do
       get :join, token: expired_invitation.token
       expect(response).to redirect_to(root_path)
-      expect(flash[:error]).to eql I18n.t('link_expired')
+      expect(flash[:error]).to eql I18n.t('groups.invitation.link_expired')
       expect(Group.find(another_group.id).users.count).to eq another_group.users.count
     end
 
@@ -215,14 +228,14 @@ RSpec.describe GroupsController, :type => :controller do
       delete :destroy, {id: another_group.to_param}
       get :join, token: invitation.token
       expect(response).to redirect_to(root_path)
-      expect(flash[:error]).to eql I18n.t('group_deleted')
+      expect(flash[:error]).to eql I18n.t('groups.invitation.group_deleted')
     end
 
     it "should not add member twice" do
       another_group.users.push(user)
       get :join, token: invitation.token
       expect(response).to redirect_to(group_path(another_group))
-      expect(flash[:notice]).to eq I18n.t('already_member')
+      expect(flash[:notice]).to eq I18n.t('groups.invitation.already_member')
       expect(GroupInvitation.find(invitation.id).used).to be true
       expect(Group.find(another_group.id).users.where(id: user.id).count).to eq 1
     end
@@ -230,8 +243,90 @@ RSpec.describe GroupsController, :type => :controller do
     it "should display error message if token is invalid" do
       get :join, token: "132465798"
       expect(response).to redirect_to(root_path)
-      expect(flash[:error]).to eq I18n.t('link_invalid')
+      expect(flash[:error]).to eq I18n.t('groups.invitation.link_invalid')
     end
+  end
+
+  describe "POST add_administrators" do
+    let(:user) {FactoryGirl.create(:user)}
+    let(:second_user) {FactoryGirl.create(:user)}
+    let(:group) {FactoryGirl.create(:group, users:[user, second_user])}
+
+    it "should add one administrator to an existing group" do
+      put :add_administrator, {id: group.id, group: valid_attributes, additional_administrator: user}
+      expect(response).to redirect_to group_path(group)
+      current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
+      expect(current_admins_of_group.count).to eq 1
+    end
+  end
+
+  describe "POST demote_administrator" do
+    let(:user) {FactoryGirl.create(:user)}
+    let(:group) {FactoryGirl.create(:group, users:[user])}
+
+    it "should demote an administrator to a normal memeber" do
+      UserGroup.set_is_admin(group.id, user.id, true)
+      expect{ put :demote_administrator, {id: group.id, demoted_admin: user} }.to change(UserGroup.where(group_id: group.id, is_admin: true), :count).by(-1)
+      expect(response).to redirect_to group_path(group)
+    end
+  end
+
+  describe  "POST remove group member" do
+    let(:user) {FactoryGirl.create(:user)}
+    let(:second_user) {FactoryGirl.create(:user)}
+    let(:third_user) {FactoryGirl.create(:user)}
+    let(:group) {FactoryGirl.create(:group, users:[user, second_user, third_user])}
+
+    it "should remove a member of a group" do
+      UserGroup.set_is_admin(group.id, user.id, true)
+      admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
+      expect{ put :remove_group_member, {id: group.id, removing_member: user.id } }.to change{group.users.count}.by(-1)
+      expect(admins_of_group).to eq(UserGroup.where(group_id: group.id, is_admin: true))
+    end
+  end
+
+
+  describe "POST condition for changing member status" do
+    let(:user) {FactoryGirl.create(:user)}
+    let(:second_user) {FactoryGirl.create(:user)}
+    let(:third_user) {FactoryGirl.create(:user)}
+    let(:group) {FactoryGirl.create(:group, users:[user, second_user, third_user])}
+    let(:second_group) {FactoryGirl.create(:group, users:[user])}
+
+    render_views
+    let(:json) { JSON.parse(response.body) }
+
+    it "should return 'last_admin' if the member is the last admin (but there are still other members)" do
+      UserGroup.set_is_admin(group.id, user.id, true)
+      post :condition_for_changing_member_status, format: :json, id: group.id, changing_member: user.id
+      expect(response.body).to have_content('last_admin')
+    end
+
+    it "should return 'last_member' if the member is the last member" do
+      UserGroup.set_is_admin(group.id, user.id, true)
+      post :condition_for_changing_member_status, format: :json, id: second_group.id, changing_member: user.id
+      expect(response.body).to have_content('last_member')
+    end
+
+    it "should return 'ok' if there are no restrictions to remove the member" do
+      UserGroup.set_is_admin(group.id, user.id, true)
+      post :condition_for_changing_member_status, format: :json, id: group.id, changing_member: second_user.id
+      expect(response.body).to have_content('ok')
+    end
+  end
+
+  describe "POST all members to administrators" do
+    let(:user) {FactoryGirl.create(:user)}
+    let(:second_user) {FactoryGirl.create(:user)}
+    let(:third_user) {FactoryGirl.create(:user)}
+    let(:group) {FactoryGirl.create(:group, users:[user, second_user, third_user])}
+
+    it "should make all members of a group to admins" do
+      put :all_members_to_administrators, {id: group.id}
+      current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
+      expect(current_admins_of_group.count).to eq(group.users.count)
+    end
+
   end
 
 end

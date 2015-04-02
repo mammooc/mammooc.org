@@ -6,77 +6,64 @@ html
     meta name="viewport" content="width=device-width, initial-scale=1"
     meta name="description" content=""
     meta name="author" content=""
+    link rel="icon" href="/icon.png"
     title
       = yield(:title)
     /! HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
     /[if lt IE 9]
       = javascript_include_tag "https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js", "https://oss.maxcdn.com/respond/1.4.2/respond.min.js"
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   body
-    nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
-      .container
-        .navbar-header
-          button.navbar-toggle.collapsed type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"
-            span.sr-only
-              | Toggle navigation
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          = link_to t('MAMMOOC'), dashboard_path, :class => "navbar-brand"
-        .collapse.navbar-collapse
-          ul.nav.navbar-nav.navbar-right
-            li class=('active' if current_page?(home_index_path))
-              = link_to t('home'), home_index_path
-            li class=('active' if current_page?(about_path))
-              = link_to t('about'), about_path
-            li class=('active' if current_page?(contact_path))
-              = link_to t('contact'), contact_path
-            - if user_signed_in?
-              li class="dropdown"
-                a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
-                  = current_user.first_name + ' '
-                  = current_user.last_name
-                  span class="caret"
-                ul class="dropdown-menu" role="menu"
-                  li
-                    = link_to t('dashboard'), dashboard_path
-                  li
-                    = link_to t('profile'), current_user
-                  li
-                    = link_to t('sign_out'), destroy_user_session_path, {:method => 'delete'}
-            - else
-              li class="dropdown"
-                a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
-                  = t('sign_in')
-                  span class="caret"
-                ul class="dropdown-menu login-dropdown" role="menu"
-                  .row
-                    .col-md-12.login-form
-                      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-                        .field
-                          = f.label :email, t('email')
-                          = f.email_field :email, autofocus: true, :class => 'form-control'
-                        .field
-                          = f.label :password, t('password')
-                          = f.password_field :password, autocomplete: "off", :class => 'form-control'
-                        - if devise_mapping.rememberable?
-                          .field
-                            = f.check_box :remember_me
-                            = f.label :remember_me, t('remember_me')
-                        .actions
-                          = f.submit t('sign_in'), :class => 'btn btn-primary'
-                      = link_to t('forgot_password'), new_password_path(resource_name)
-                      br
-                      = link_to t('sign_up_dropdown'), new_registration_path(resource_name)
-    .container
+    = render 'shared/navigation'
+
+    - if content_for? :teaser
       - flash.each do |name, msg|
-        = content_tag :div, :class => "alert alert-#{ name == :error ? "danger" : "success" } alert-dismissable", :role => "alert" do
-          button.close type="button" data-dismiss="alert"
-            span aria-hidden="true"
-              | &times;
-            span.sr-only
-              | Close
-          = msg
-      = yield
+        - if not msg.empty?
+          = content_tag :div, :class => "alert alert-#{ name.to_s == :error.to_s ? "danger" : "success" } alert-dismissable mt-10 mb10 text-center", :role => "alert" do
+            button.close type="button" data-dismiss="alert"
+              span aria-hidden="true"
+                | &times;
+              span.sr-only
+                = t('global.close')
+            - if msg.class == Array
+              - msg.each do |message|
+                = message
+                br
+              end
+            - else
+              = msg
+            end
+        end
+      = yield :teaser
+
+    - else
+      .container
+        - flash.each do |name, msg|
+          - if not msg.empty?
+            = content_tag :div, :class => "alert alert-#{ name.to_s == :error.to_s ? "danger" : "success" } alert-dismissable", :role => "alert" do
+              button.close type="button" data-dismiss="alert"
+                span aria-hidden="true"
+                  | &times;
+                span.sr-only
+                  = t('global.close')
+              - if msg.class == Array
+                - msg.each do |message|
+                  = message
+                  br
+                end
+              - else
+                = msg
+              end
+          end
+
+        .row.mt50
+          - if content_for? :main
+            = yield :main
+          - else
+            .col-md-9
+              = yield
+            .col-md-3
+              - if content_for? :sidebar
+                = yield :sidebar

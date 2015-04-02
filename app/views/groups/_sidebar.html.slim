@@ -1,0 +1,30 @@
+- number_of_shown_users = 10
+- number_of_shown_admins = 0
+/ This offset is needed because .each_with_index starts counting by 0, but we need to count persons (where usually we start counting by 1)
+- offset = 1
+
+- if @group and current_page?("/groups/#{@group.id}")
+  .panel.panel-default
+    .panel-heading
+      - if @group.users.count == 1
+        = t('groups.member')
+      - else
+        = t('groups.members')
+    .panel-body
+      - @group_admins.each_with_index do |admin, i|
+        - unless i + offset >= number_of_shown_users
+          .row
+            .col-md-12.list-members.admins
+              = link_to image_tag('/data/default.png'), user_path(admin)
+              = link_to admin.first_name + ' ' + admin.last_name, user_path(admin)
+        - number_of_shown_admins = i
+      - @group_users.each_with_index do |user, i|
+        - unless i + offset >= number_of_shown_users - number_of_shown_admins
+          .row
+            .col-md-12.list-members
+              = link_to image_tag('/data/default.png'), user_path(user)
+              = link_to user.first_name + ' ' + user.last_name, user_path(user)
+    - if @group_users.size > (number_of_shown_users + 1)
+      .panel-footer
+        = link_to "/groups/#{@group.id}/members"
+          = t('groups.member_overview')

@@ -1,7 +1,5 @@
 .page-header
-  = link_to new_course_path, :class => 'btn btn-primary' do 
-    span.glyphicon.glyphicon-plus
-    |  New Course
+
   h1
     | Listing courses
 
@@ -48,8 +46,6 @@
         th
           | Course result
         th
-        th
-        th
     tbody
       - @courses.each do | course |
         tr
@@ -58,7 +54,7 @@
           td
             = course.url
           td
-            = course.course_instructor
+            = course.course_instructors
           td
             = course.abstract
           td
@@ -72,7 +68,7 @@
           td
             = course.end_date
           td
-            = course.duration
+            = course.calculated_duration_in_days
           td
             = course.costs
           td
@@ -93,7 +89,3 @@
             = course.course_result
           td
             = link_to 'Show', course
-          td
-            = link_to 'Edit', edit_course_path(course) 
-          td
-            = link_to 'Destroy', course, method: :delete, data: { confirm: 'Are you sure?' } 

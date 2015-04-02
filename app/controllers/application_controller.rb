@@ -4,24 +4,42 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :require_login
+  before_filter :set_language
 
   def after_sign_in_path_for(resource)
     sign_in_url = new_user_session_url
     if session[:user_original_url] == sign_in_url
       super
     else
-      stored_location_for(resource) || session[:user_original_url] || root_path
+      stored_location_for(resource) || session[:user_original_url] || dashboard_path
     end
   end
 
   private
 
+  def set_language
+    locale = http_accept_language.compatible_language_from(I18n.available_locales)
+    if session[:language] and I18n.available_locales.include? session[:language].to_sym
+      locale = session[:language]
+    end
+    if params[:language] and I18n.available_locales.include? params[:language].to_sym
+      locale = params[:language]
+      session[:language] = locale
+    end
+    I18n.locale = locale
+  end
+
   def require_login
     unless user_signed_in?
-        session[:user_original_url] = request.fullpath
-      flash[:error] = "You must be logged in to access this section"
+      flash[:error] = t('flash.error.login.reqired')
+      session[:user_original_url] = request.fullpath
       redirect_to new_user_session_path # halts request cycle
     end
   end
+
+  def language_names
+    {de: 'Deutsch', en: 'English'}
+  end
+  helper_method 'language_names'
 
 end

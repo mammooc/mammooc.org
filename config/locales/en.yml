@@ -20,72 +20,217 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  #navbar
-  MAMMOOC: "MAMMOOC"
-  home: "Home"
-  about: "About us"
-  contact: "Contact"
-  welcome_heading: "Welcome to MAMMOOC!"
-  sign_out: "Sign Out"
-  dashboard: "Dashboard"
-  profile: "Profile"
+  global:
+    require_login: You must be logged in to access this section
+    close: Close
+    submit: Submit
+    cancel: Cancel
 
-  #users/sign_up
-  sign_up: "Sign Up"
-  first_name: "First name"
-  last_name: "Last name"
-  email: "Email"
-  characters_minimum: "characters minimum"
-  password_confirmation: "Re-enter password"
-  agb_confirmation: "I confirm to MAMMOOCs terms and conditions."
+  navbar:
+    mammooc: mammooc
+    home: Home
+    about: About us
+    impressum: Legal Notice
+    sign_out: Sign Out
+    dashboard: Dashboard
+    profile: Profile
+    welcome_heading: Welcome to mammooc!
 
-  #users/sign_in
-  sign_in_process: "Log in"
-  sign_in: "Sign in"
-  password: "Password"
-  remember_me: "Keep me logged in"
+  dashboard:
+    hi: Hi %{name}
+    my_groups: :groups.my_groups
+    my_current_courses: My Current Courses
+    no_groups: :groups.no_groups
+    new_group: Creating Group
+    edit_group: Editing Group
 
-  #devise/shared/_links
-  sign_in_link: "Already signed up? Click here to log in."
-  sign_up_link: "Not signed up yet? Click here to sign up."
-  sign_up_dropdown: "Not signed up yet? Sign up here."
-  forgot_password: "Forgot your password?"
+  home:
+    welcome_heading: Welcome to mammooc!
+    welcome_title: "mammooc: Sign up today!"
+    hello: Hello
 
-  #dashboard
-  hi: "Hi"
-  my_groups: "My Groups"
-  my_current_courses: "My Current Courses"
-  no_groups: "You don't have any groups."
-  new_group: "Creating Group"
-  edit_group: "Editing Group"
+  users:
+    sign_in_up:
+      sign_in: Sign in
+      sign_up: Sign Up
+      sign_in_process: Log in
+      first_name: First name
+      last_name: Last name
+      email: Email
+      characters_minimum: characters minimum
+      password: Password
+      password_confirmation: Re-enter password
+      terms_and_conditions_confirmation: I confirm to mammooc's terms and conditions.
+      remember_me: Keep me logged in
+      sign_in_link: Already signed up? Click here to log in.
+      sign_up_link: Not signed up yet? Click here to sign up.
+      sign_up_dropdown: Not signed up yet? Sign up here.
+      forgot_password: Forgot your password?
+    password:
+      forgot: Forgot your password?
+      reset: Reset my password
 
-  #groups/show
-  admins: "Admins"
+  groups:
+    title: My Groups | mammooc
+    member: Member
+    members: Members
+    member_overview: Member Overview
+    no_groups: You don't have any groups.
+    new: New group
+    edit: Edit group
+    my_groups: My Groups
+    subnav:
+      home: Home
+      members: Members
+      recommendations: Recommendations
+      statistics: Statistics
+    invitation:
+      joined_group: You were successfully added to the group.
+      already_member: You are already member of the group.
+      group_deleted: The group was deleted.
+      link_expired: Link is expired.
+      link_used: Link is already used.
+      link_invalid: Link is invalid.
+    add_members:
+      title: Add Members to Group
+      invite_members: Invite members
+      text: Enter email addresses comma-separated
+    all_members:
+      administrator: Administrator
+      add_admin: Make Admin
+      demote_admin: Remove from Admins
+      demote_last_admin_notice: "You are the last admin of this group. Please promote another member before you change your status."
+      demote_last_admin_button: Return to group
+      invite_members: Invite Members
+      remove_member: Remove Member
+      leave_group: Leave group
+    remove_member:
+      title: Remove Member
+      question_member_1: Are you sure to remove
+      question_member_2: from this group?
+      question_last_member: You are the last member of this group. If you leave the group, it will be deleted.
+      question_last_admin: "You are the last admin of this group. If you leave, all remaining members will become administrators."
+      confirm_delete_group: Delete group
+      confirm_leave_group: Leave
+      confirm_remove_member: Remove
+      yourself: yourself
 
-  #group/_form
-  invite_members: Invite members
-
-  #model group
   activerecord:
     models:
       group:
-        one: "Group"
-        other: "Groups"
+        one: Group
+        other: Groups
     attributes:
       group:
-        name: "Name"
-        description: "Description"
+        name: Name
+        description: Description
+    #error messages
+    errors:
+      messages:
+        taken: 'has already been taken.'
+        blank: 'has to be filled in.'
+      models:
+        user:
+          attributes:
+            password:
+              too_short: 'is too short (minimum is %{count} characters).'
+            password_confirmation:
+              confirmation: doesn't match with password.
 
-  #create group
-  group_success_create: 'Group was successfully created.'
-  group_success_update: 'Group was successfully updated.'
-  group_success_destroy: 'Group was successfully destroyed.'
+  #show course
+  courses:
+    description: Description
+    reviews: Reviews
+    mooc_provider: MOOC Provider
+    instructors: Instructors
+    time: Time
+    language: Language
+    requirements: Requirements
+    achievement: Type of Achievement
+    categories: Categories
+    costs: Costs
+    difficulty: Difficulty
+    workload: Workload
+    enter_course: Enter Course
+    remember_course: Remember Course
+    enroll_course: Enroll into Course
+    recommend_course: Recommend Course
+    rate_course: Rate Course
+    recommendations: Recommendations
+    rating: Rating
+    credit_points: Credit Points
+    no_dates_available: There are no dates available.
+    duration: Duration
+    subtitle_languages: Available Subtitles
+    previous_iteration: Previous Iteration
+    following_iteration: Following Iteration
 
+  flash:
+    #success:
+    notice:
+      groups:
+        successfully_created: Group was successfully created.
+        successfully_updated: Group was successfully updated.
+        successfully_destroyed: Group was successfully destroyed.
+    error:
+      taken: has already been taken.
+      blank: has to be filled in.
+      sign_up:
+        terms_and_conditions_failure: Please confirm to mammooc's terms and conditions!
+      login:
+        reqired: You must be logged in.
+      user:
+        password_too_short: is too short (minimum is %{count} characters).
+        password_confirmation: doesn't match with password.
 
-  #join group
-  link_expired: Link is expired.
-  link_used: Link is already used.
-  group_deleted: The group was deleted.
-  already_member: You are already member of the group.
-  joined_group: You were successfully added to the group.
-  link_invalid: Link is invalid.
+  startpage:
+    carousel:
+      progress:
+        headline: Keep track of your learning progress
+        text: Retrieve the state of your current courses. Everything in one central place.
+      recommend:
+        headline: Recommend MOOCs you like
+        text: Create groups and share your experience.
+      evaluate:
+        headline: Evaluate your group’s activities
+        text: Check your joined statistics. Keep track of reminders, recommendations and other’s course participation.
+    bulletpoints:
+      enterprise:
+        headline_1: mammooc for
+        headline_2: enterprises
+        text: MOOCs offer a modern and cost efficient way to educate employees. Identify suitable courses and create recommendations. Use the group statistics to keep track of your employees activities. Make enrollments mandatory and generate reports on the learning progress with our enterprise edition.
+      classroom:
+        headline_1: mammooc for
+        headline_2: class rooms
+        text: Extend your lectures with MOOCs and manage your student’s course participation. Invite your students to a group to monitor the status of submitted homeworks and exams. Retrieve group statistics and information on which student has successfully completed a course.
+      home:
+        headline_1: mammooc at
+        headline_2: home
+        text: Find online courses matching your profile and exchange your experience with friends. With mammooc you can create reminders for courses, recommend them and add them to the list of your current enrollments. Connect your account with MOOC providers to keep track of your progress.
+    featurettes:
+      aggregator:
+        headline: Find courses of different providers.
+        subtitle: mammooc as MOOC aggregator.
+        text: Search for a topic, filter the results based on your ideas and read reviews written by other mammooc users. Create a reminder for a course to receive an email notification when the course starts. Keep track of your learning progress and archive your certifications in a central place.
+      community:
+        headline: Create groups.
+        subtitle: mammooc for communities.
+        text: 'No matter, whether it’s for a department, a school class or a personal learning group: mammooc supports people in a joint learning effort. This way, current enrollments, learning progress and completions can be shared. Additionally, recommendations can be sent to individuals and groups. Automatically generated statistics inform about activities of the group.'
+      mammooc:
+        headline: mammooc!
+        subtitle: Managing All My MOOCs.
+        text: mammooc's innovative approach makes it possible to put all your learning efforts in a central place. With openSAP and openHPI we have already been able to create partnerships. Our goal is to create additional cooperations to get the most out of mammooc. With connected accounts, course progress can be kept up to date.
+        register_now: Sign up now and join the mammooc community!
+
+  static:
+    about:
+      heading: About us
+      title: About us | mammooc
+      text_1: We are six students of the HPI, working on mammooc as the last phase of our bachelors-degree.
+      text_2: We are continuously trying to provide you with the best experience! You have feedback, questions, wishes or anything else to say about mammooc? We’d be glad to hear from you!
+      text_3: Write us at
+    impressum:
+      heading: Legal Notice
+      title: Legal Notice | mammooc
+      text: Currently you can find our legal notice on the openHPI website.
+      link: To legal notice

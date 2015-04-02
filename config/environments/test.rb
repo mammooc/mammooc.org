@@ -38,8 +38,11 @@ Rails.application.configure do
   config.active_support.deprecation = :stderr
 
   # Raises error for missing translations
-  # config.action_view.raise_on_missing_translations = true
+  config.action_view.raise_on_missing_translations = true
 
   # mail configurations
   ActionMailer::Base.delivery_method = :test
+
+  # Set only available language to English
+  config.i18n.available_locales = [:en]
 end

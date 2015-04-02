@@ -1,0 +1,14 @@
+.modal.fade id="notice_demote_last_admin"
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close type="button" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true"
+            | &times;
+        h4.modal-title
+          = t('groups.all_members.demote_admin')
+      .modal-body
+        = t('groups.all_members.demote_last_admin_notice')
+      .modal-footer
+        button.btn.btn-cancel type="button" data-dismiss="modal"
+          = t('groups.all_members.demote_last_admin_button')

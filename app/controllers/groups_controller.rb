@@ -1,12 +1,6 @@
 class GroupsController < ApplicationController
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :admins]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :demote_administrator, :remove_group_member, :condition_for_changing_member_status, :all_members_to_administrators]
 
-  LCHARS = /\w+\p{L}\p{N}\-\!\/#\$%&'*+=?^`{|}~/
-  LOCAL  = /[#{LCHARS.source}]+(\.[#{LCHARS.source}]+)*/
-  DCHARS = /A-z\d/
-  DOMAIN = /[#{DCHARS.source}][#{DCHARS.source}\-]*(\.[#{DCHARS.source}\-]{2,})*/
-  EMAIL  = /\A#{LOCAL.source}@#{DOMAIN.source}\z/i
-  
   # GET /groups
   # GET /groups.json
   def index
@@ -16,7 +10,11 @@ class GroupsController < ApplicationController
   # GET /groups/1
   # GET /groups/1.json
   def show
-    admins
+    number_of_shown_users = 10
+    @ordered_group_members = sort_by_name(admins) + sort_by_name(@group.users - admins)
+    @group_users = (@group.users - admins).size > number_of_shown_users ? (@group.users - admins).shuffle : sort_by_name(@group.users - admins)
+    @group_admins = admins.size > number_of_shown_users ? sort_by_name(admins) : admins.shuffle
+    @current_user_is_admin = admins.include?(current_user)
   end
 
   # GET /groups/new
@@ -28,6 +26,11 @@ class GroupsController < ApplicationController
   def edit
   end
 
+  def members
+    @sorted_group_users = sort_by_name(@group.users - admins)
+    @sorted_group_admins = sort_by_name(admins)
+  end
+
   # POST /groups
   # POST /groups.json
   def create
@@ -37,7 +40,7 @@ class GroupsController < ApplicationController
         @group.users.push(current_user)
         UserGroup.set_is_admin(@group.id, current_user.id, true)
         invite_members
-        format.html { redirect_to @group, notice: t('group_success_create') }
+        format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_created') }
         format.json { render :show, status: :created, location: @group }
       else
         format.html { render :new }
@@ -51,16 +54,90 @@ class GroupsController < ApplicationController
   def update
     respond_to do |format|
       if @group.update(group_params)
-        if invite_members.nil?
-          format.html { redirect_to @group, notice: t('group_success_update') }
-          format.json { render :show, status: :ok, location: @group }
-        else
-          format.html { render :edit }
-          format.json { render :edit, status: :ok, location: @group }
-        end
+        invite_members
+        format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
+        format.json { render :show, status: :ok, location: @group }
       else
         format.html { render :edit }
         format.json { render json: @group.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def invite_group_members
+    respond_to do |format|
+      begin
+        invite_members
+        format.html { redirect_to @group, notice: t('group_success_update') }
+        format.json { render :show, status: :created, location: @group }
+      rescue StandardError => e
+        format.html { redirect_to @group, notice: t('group_success_failed') }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def add_administrator
+    respond_to do |format|
+      begin
+        add_admin
+        format.html { redirect_to @group, notice: t('group_success_update') }
+        format.json { render :show, status: :created, location: @group }
+      rescue StandardError => e
+        format.html { redirect_to @group, notice: t('group_success_failed') }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def demote_administrator
+    respond_to do |format|
+      begin
+        demote_admin
+        format.html { redirect_to @group, notice: t('group_success_update') }
+        format.json { render :show, status: :created, location: @group }
+      rescue StandardError => e
+        format.html { redirect_to @group, notice: t('group_success_failed') }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def remove_group_member
+    respond_to do |format|
+      begin
+        remove_member
+        format.html { redirect_to @group, notice: t('group_success_update') }
+        format.json { render :show, status: :created, location: @group }
+      rescue StandardError => e
+        format.html { redirect_to @group, notice: t('group_success_failed') }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def condition_for_changing_member_status
+    respond_to do |format|
+      begin
+        condition_for_changing_member
+        format.html { redirect_to @group, notice: t('group_success_update') }
+        format.json { render :condition_for_changing_member_status, status: :created, location: @group }
+      rescue StandardError => e
+        format.html { redirect_to @group, notice: t('group_success_failed') }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def all_members_to_administrators
+    respond_to do |format|
+      begin
+        all_members_to_admins
+        format.html { redirect_to @group, notice: t('group_success_update') }
+        format.json { render :show, status: :created, location: @group }
+      rescue StandardError => e
+        format.html { redirect_to @group, notice: t('group_success_failed') }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
       end
     end
   end
@@ -70,47 +147,47 @@ class GroupsController < ApplicationController
   def destroy
     @group.destroy
     respond_to do |format|
-      format.html { redirect_to groups_url, notice: t('group_success_destroy') }
+      format.html { redirect_to groups_url, notice: t('flash.notice.groups.successfully_destroyed') }
       format.json { head :no_content }
     end
   end
 
   def admins
     admin_ids = UserGroup.where(group_id: @group.id, is_admin: true).collect{|user_groups| user_groups.user_id}
-    @admins = Array.new
+    admins = Array.new
     admin_ids.each do |admin_id|
-      @admins.push(User.find(admin_id))
+      admins.push(User.find(admin_id))
     end
-    return @admins
+    return admins
   end
 
   def join
     group_invitation = GroupInvitation.find_by_token!(params[:token])
 
     if group_invitation.expiry_date <= Time.now.in_time_zone
-      flash[:error] = t('link_expired')
+      flash[:error] = t('groups.invitation.link_expired')
       redirect_to root_path
       return
     end
 
     if group_invitation.used == true
-      flash[:error] = t('link_used')
+      flash[:error] = t('groups.invitation.link_used')
       redirect_to root_path
       return
     end
 
     if group_invitation.group_id.nil?
-      flash[:error] = t('group_deleted')
+      flash[:error] = t('groups.invitation.group_deleted')
       redirect_to root_path
       return
     end
 
     group = Group.find(group_invitation.group_id)
     if group.users.include? current_user
-      flash[:notice] = t('already_member')
+      flash[:notice] = t('groups.invitation.already_member')
     else
       group.users.push(current_user)
-      flash[:success] = t('joined_group')
+      flash[:success] = t('groups.invitation.joined_group')
     end
 
     group_invitation.used = true
@@ -120,7 +197,7 @@ class GroupsController < ApplicationController
 
 
   rescue ActiveRecord::RecordNotFound => error
-    flash[:error] = t('link_invalid')
+    flash[:error] = t('groups.invitation.link_invalid')
     redirect_to root_path
 
   end
@@ -140,23 +217,67 @@ class GroupsController < ApplicationController
       params[:members]
     end
 
+    def additional_admin
+      params[:additional_administrator]
+    end
+
+    def demoted_admin
+      params[:demoted_admin]
+    end
+
+    def removing_member
+      params[:removing_member]
+    end
+
+    def changing_member
+      params[:changing_member]
+    end
+
     def invite_members
-      return nil if invited_members.blank?
+      return if invited_members.blank?
       emails = invited_members.split(/[^[:alpha:]]\s+|\s+|;\s*|,\s*/)
       expiry_date = Settings.token_expiry_date
       emails.each do |email_address|
-        if email_address == EMAIL.match(email_address).to_s
+        token = SecureRandom.urlsafe_base64(Settings.token_length)
+        until GroupInvitation.find_by_token(token).nil? do
           token = SecureRandom.urlsafe_base64(Settings.token_length)
-          until GroupInvitation.find_by_token(token).nil? do
-            token = SecureRandom.urlsafe_base64(Settings.token_length)
-          end
-          link = root_url + 'groups/join/' + token
-          GroupInvitation.create(token: token, group_id: @group.id, expiry_date: expiry_date)
-          UserMailer.group_invitation_mail(email_address, link, @group, current_user, root_url).deliver_later
-        else
-          flash[:error] = "email address #{email_address} is not valid."
         end
+        link = root_url + 'groups/join/' + token
+        GroupInvitation.create(token: token, group_id: @group.id, expiry_date: expiry_date)
+        UserMailer.group_invitation_mail(email_address, link, @group, current_user, root_url).deliver_later
       end
+    end
+
+    def add_admin
+      UserGroup.set_is_admin(@group.id, additional_admin, true)
+    end
+
+    def all_members_to_admins
+      @group.users.each do |user|
+        UserGroup.set_is_admin(@group.id, user.id, true)
+      end
+    end
+
+    def demote_admin
+      UserGroup.set_is_admin(@group.id, demoted_admin, false)
+    end
+
+    def remove_member
+      UserGroup.find_by(group_id: @group.id, user_id: removing_member).destroy
+    end
+
+    def condition_for_changing_member
+      if @group.users.count == 1
+        @status = 'last_member'
+      elsif admins.count == 1 && admins.include?(User.find(changing_member))
+        @status = 'last_admin'
+      else
+        @status = 'ok'
+      end
+    end
+
+    def sort_by_name members
+      members.sort_by{ |m| [m.last_name, m.first_name] }
     end
 
 end

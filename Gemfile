@@ -4,7 +4,7 @@ ruby '2.2.0'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.0'
+gem 'rails', '4.2.1'
 # Use sqlite3 as the database for Active Record
 gem 'pg'
 gem 'sass-rails', '~> 5.0'
@@ -21,6 +21,7 @@ gem 'slim-rails'
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
+gem 'jquery-turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
@@ -30,17 +31,33 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'bcrypt', '~> 3.1.7'
 
 # Use Unicorn as the app server
-# gem 'unicorn'
+gem 'unicorn'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+
 # authentication
 gem 'devise'
+
+# HTTP api_connection
+gem 'rest-client'
+
+# cron job
+gem 'redis'
+gem 'sidekiq'
+gem 'whenever'
 
 gem 'bootstrap-sass'
 
 gem 'factory_girl_rails'
+
+gem 'rails-i18n'
+gem 'i18n-js'
+
+gem 'http_accept_language'
+
+gem 'rails_config'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -57,11 +74,12 @@ group :development, :test do
   gem 'bootstrap-generators'
 
   gem 'capybara'
+  gem 'capybara-selenium'
+  #gem 'selenium-webdriver'
+  gem 'database_cleaner'
+
+  # Run selenium tests headless
+  gem 'headless'
 
   gem 'simplecov', :require => false
 end
-
-gem 'rails-i18n'
-
-gem "rails_config"
-

@@ -1,0 +1,170 @@
+@import 'bootstrap-variables';
+
+$group-logo-height: 80px;
+$group-logo-margin-left: 15px;
+$entry-padding-left: 10px;
+
+// Header
+
+.group-header {
+  background-color: white;
+  border: 1px solid $panel-default-border;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+
+  .wrapper {
+    min-height: $group-logo-height;
+
+    .logo {
+      background-color: white;
+      border: 1px solid $panel-default-border;
+      border-radius: 2px;
+      margin-top: -20px;
+      margin-left: $group-logo-margin-left;
+      margin-right: 10px;
+      padding: 5px;
+      height: $group-logo-height;
+      max-width: 250px;
+      overflow: hidden;
+      -webkit-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+      -moz-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+
+      img {
+        height: 100%;
+        width: auto;
+      }
+
+    }
+
+    .title {
+      padding-top: 10px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  }
+
+  .subnav {
+    background-color: $gray-lighter;
+    border-top: 1px solid $panel-default-border;
+
+    .container-fluid {
+      display: table;
+      margin-top: 0px;
+      margin-left: $group-logo-margin-left - $entry-padding-left;
+        
+      .entry {
+        display: table-cell;
+        padding-left: $entry-padding-left;
+        padding-right: 10px;
+        padding-top: 5px;
+        font-size: 13px;
+
+        a {
+          color: black;
+          text-decoration: none;
+        }
+
+        a:hover {
+          color: $link-color;
+        }
+      }
+
+      .active {
+        font-weight: bold;
+        border-bottom: 2px solid $link-hover-color;
+      }
+    }
+  }
+}
+
+// Member view
+
+$members_image_height: 100px;
+
+.members-wrapper{
+
+  .members {
+    margin-bottom: 20px;
+    background-color: white;
+    padding: 0px;
+    border: 1px solid $panel-default-border;
+    border-radius: 2px;
+    -webkit-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+    float: left;
+
+    @media(min-width: 992px) {
+      &:nth-child(3n+1) {
+        width: 32%;
+        margin-right: 1%;
+      }
+
+      &:nth-child(3n+2) {
+        width: 32%;
+        margin-left: 1%;
+        margin-right: 1%;
+      }
+      &:nth-child(3n+0) {
+        width: 32%;
+        margin-left: 1%;
+      }
+    }
+
+    @media(max-width: 991px) {
+      width: 100%;
+    }
+
+    &:hover {
+      -webkit-box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.1);
+      -moz-box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.1);
+      box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.1);
+      -webkit-transition: all 0.1s linear;
+      -o-transition: all 0.1s linear;
+      -moz-transition: all 0.1s linear;
+      -ms-transition: all 0.1s linear;
+      -kthtml-transition: all 0.1s linear;
+      transition: all 0.1s linear;
+    }
+
+    img {
+      height: $members_image_height;
+      width: auto;
+      float: left;
+      margin-right: 15px;
+      border-right: 1px solid $panel-default-border;
+    }
+
+    .name {
+      min-height: $members_image_height;
+      padding: 8px 10px 10px 0px;
+
+      .admins {
+        font-weight: normal;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+// Sidebar
+
+.list-members {
+  img {
+    width: 40px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+  }
+  a {
+  }
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admins {
+  font-weight: bold;
+}

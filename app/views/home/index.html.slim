@@ -1,6 +1,105 @@
-=content_for :title, "MAMMOOC: Sign up today!"
-.page-header
-  h1
-    = t('welcome_heading')
-p
-  = t('hello')
+=content_for :title, t('navbar.mammooc')
+=content_for :teaser
+  #myCarousel.carousel.slide data-ride="carousel"
+    ol.carousel-indicators
+      li.active data-slide-to="0" data-target="#myCarousel"
+      li data-slide-to="1" data-target="#myCarousel"
+      li data-slide-to="2" data-target="#myCarousel"
+    .carousel-inner role="listbox"
+      .item.active
+        = image_tag '/data/Fortschritt_web.jpg', id: 'carousel-fortschritt'
+        .carousel-caption
+          .background-transparent
+            h1
+              = t('startpage.carousel.progress.headline')
+            p
+              = t('startpage.carousel.progress.text')
+      .item
+        = image_tag '/data/Empfehlung_web.jpg', id: 'carousel-empfehlung'
+        .carousel-caption
+          .background-transparent
+            h1
+              = t('startpage.carousel.recommend.headline')
+            p
+              =t ('startpage.carousel.recommend.text')
+      .item
+        = image_tag '/data/Gruppenaktivitaet_web.jpg', id: 'carousel-gruppenaktivitaet'
+        .carousel-caption
+          .background-transparent
+            h1
+              = t('startpage.carousel.evaluate.headline')
+            p
+              = t('startpage.carousel.evaluate.text')
+
+  /
+    | Marketing messaging and featurettes
+    | ==================================================
+  / Wrap the rest of the page in another container to center all the content.
+
+  .container.marketing
+    / Three columns of text below the carousel
+    .row
+      .col-lg-4
+        img.img-circle alt=("Enterprise") src="/data/enterprise.png"
+        h2
+          = t('startpage.bulletpoints.enterprise.headline_1')
+          br
+          = t('startpage.bulletpoints.enterprise.headline_2')
+        p
+          = t('startpage.bulletpoints.enterprise.text')
+
+      .col-lg-4
+        img.img-circle alt=("Classroom") src="/data/education.png"
+        h2
+          = t('startpage.bulletpoints.classroom.headline_1')
+          br
+          = t('startpage.bulletpoints.classroom.headline_2')
+        p
+          = t('startpage.bulletpoints.classroom.text')
+
+      .col-lg-4
+        img.img-circle alt=("Home") src="/data/home.png"
+        h2
+          = t('startpage.bulletpoints.home.headline_1')
+          br
+          = t('startpage.bulletpoints.home.headline_2')
+        p
+          = t('startpage.bulletpoints.home.text')
+
+    / START THE FEATURETTES
+    hr.featurette-divider
+    .row.featurette
+      .col-md-7
+        h2.featurette-heading
+          = t('startpage.featurettes.aggregator.headline')
+          span.text-muted
+            =< t('startpage.featurettes.aggregator.subtitle')
+        p.lead
+          = t('startpage.featurettes.aggregator.text')
+      .col-md-5
+    / img.featurette-image.img-responsive alt=(" ") data-src="holder.js/500x500/auto"
+    hr.featurette-divider
+    .row.featurette
+      .col-md-5
+      / img.featurette-image.img-responsive alt=(" ") data-src="holder.js/500x500/auto"
+      .col-md-7
+        h2.featurette-heading
+          = t('startpage.featurettes.community.headline')
+          span.text-muted
+            =< t('startpage.featurettes.community.subtitle')
+        p.lead
+          = t('startpage.featurettes.community.text')
+    hr.featurette-divider
+    .row.featurette
+      .col-md-7
+        h2.featurette-heading
+          = t('startpage.featurettes.mammooc.headline')
+          span.text-muted
+            =< t('startpage.featurettes.mammooc.subtitle')
+        p.lead
+          => t('startpage.featurettes.mammooc.text')
+        p.lead
+          = link_to t('startpage.featurettes.mammooc.register_now'), '#'
+      .col-md-5
+    / img.featurette-image.img-responsive alt=(" ") data-src="holder.js/500x500/auto"
+    hr.featurette-divider

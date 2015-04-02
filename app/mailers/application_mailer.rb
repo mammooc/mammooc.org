@@ -1,3 +1,3 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "MAMMOOC <notifications@mammooc.com>"
+  default from: Settings.sender_notification_address
 end
