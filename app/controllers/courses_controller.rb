@@ -10,10 +10,12 @@ class CoursesController < ApplicationController
   # GET /courses/1
   # GET /courses/1.json
   def show
-    if @course.previous_iteration
-      @previous_course_name = Course.find(@course.previous_iteration).name
+    if @course.previous_iteration_id
+      @previous_course_name = Course.find(@course.previous_iteration_id).name
     end
-    @following_course_name = Course.find(@course.following_iteration).name
+    if @course.following_iteration_id
+      @following_course_name = Course.find(@course.following_iteration_id).name
+    end
   end
 
   # GET /courses/new
