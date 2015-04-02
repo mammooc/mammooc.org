@@ -7,11 +7,28 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 provider1 = MoocProvider.create(name: 'openHPI')
+MoocProvider.create(name: 'openHPI China')
+MoocProvider.create(name: 'mooc.house')
 MoocProvider.create(name: 'openSAP')
 MoocProvider.create(name: 'edX')
+MoocProvider.create(name: 'openSAP China')
+MoocProvider.create(name: 'openUNE')
+
+minimal_previous_course = Course.create(name: 'Minimal Previous Technologies',
+              url: 'https://open.hpi.de/courses/pythonjunior2015',
+              provider_course_id: 2,
+              mooc_provider_id: provider1.id
+)
+
+minimal_following_course = Course.create(name: 'Minimal Following Technologies',
+                                        url: 'https://open.hpi.de/courses/pythonjunior2015',
+                                        provider_course_id: 2,
+                                        mooc_provider_id: provider1.id
+)
+
 Course.create(name: 'Web Technologies',
               url: 'https://open.hpi.de/courses/webtech2015',
-              course_instructors: ['Prof. Dr. Christoph Meinel', 'Jan Renz', 'Thomas Staubitz'],
+              course_instructors: 'Prof. Dr. Christoph Meinel, Jan Renz',
               abstract: 'WWW, the world wide web or shortly the web - really nothing more than an information  service on the Internet – has changed our world by creating a whole new digital world that is closely intertwined with our real world, making reality what was previously unimaginable: communication across the world in seconds, watching movies on a smartphone, playing games or looking at photos with remote partners in distant continents, shopping or banking from your couch … In our online course on web technologies you will learn how it all works.',
               description: 'WWW, the world wide web or shortly the web - really nothing more than an information service on the Internet – has changed our world by creating a whole new digital world that is closely intertwined with our real world, making reality what was previously unimaginable: communication across the world in seconds, watching movies on a smartphone, playing games or looking at photos with remote partners in distant continents, shopping or banking from your couch … In our online course on web technologies you will learn how it all works.
 
@@ -25,29 +42,26 @@ Kerstin: “I have to honestly say that I am impressed by what you’ve accompli
 
 Claudia; “I enjoyed this course so much. It gave me a chance to expand my horizons in web technologies a great deal. I really liked the practical homework exercises, especially the calculation task in Week 5. I’m already looking forward to the next course. Keep up the good work!”',
               language: 'English',
+              subtitle_languages: 'English, German',
               imageId: 'https://open.hpi.de/files/45ce8877-d21b-4389-9032-c6525b4724d0',
               videoId: '',
               start_date: DateTime.new(2015,6,1,8),
               end_date: DateTime.new(2015,7,20,23,30),
+              provider_given_duration: '8 weeks',
               costs: 10,
               price_currency: '€',
               type_of_achievement:'Certificate',
               categories: ['Web','Technologies','Computer Science','#geilon'],
               requirements: %w[Computer Brain Strength],
               difficulty: 'medium',
-              minimum_weekly_workload: 7,
-              maximum_weekly_workload: 45,
+              workload: '4-6 hours per week',
               provider_course_id: 1,
               credit_points: 6,
-              mooc_provider_id: provider1.id
+              mooc_provider_id: provider1.id,
+              previous_iteration_id: minimal_previous_course.id,
+              following_iteration_id: minimal_following_course.id
 )
-Course.create(name: 'Minimal Technologies',
-              url: 'https://open.hpi.de/courses/pythonjunior2015',
-              start_date: DateTime.new(2015,9,3,9),
-              end_date: DateTime.new(2015,10,20,22,10),
-              provider_course_id: 2,
-              mooc_provider_id: provider1.id
-)
+
 
 user1 =User.create(first_name: 'Max', last_name: 'Mustermann', email: 'max@test.com', password: '12345678')
 user2 = User.create(first_name: 'Maxi', last_name: 'Musterfrau', email: 'maxi@test.com', password: '12345678')
