@@ -31,7 +31,18 @@ send_invite = () ->
       $('.invitation-form').hide()
       $('.invitation-error').text(errorThrown)
     success: (data, textStatus, jqXHR) ->
-      $('#add_group_members').modal('hide')
+      if data.error_email.length == 0
+        $('#add_group_members').modal('hide')
+        $('#text_area_invite_members').val('')
+      else
+        unprocessed_emails = ''
+        for email_address in data.error_email
+          console.log email_address
+          unprocessed_emails += email_address + ', '
+        # Let's remove ', ' behind the last email address
+        unprocessed_emails = unprocessed_emails.substring(0, unprocessed_emails.length - 2)
+        $('#text_area_invite_members').val(unprocessed_emails)
+        $('.invitation-error').text(I18n.t('groups.add_members.error'))
 
 add_administrator = (event) ->
   button = $(event.target)

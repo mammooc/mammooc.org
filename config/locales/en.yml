@@ -95,6 +95,7 @@ en:
       title: Add Members to Group
       invite_members: Invite members
       text: Enter email addresses comma-separated
+      error: 'Error: Not all mails could be delivered. Please check the remaining addresses!'
     all_members:
       administrator: Administrator
       add_admin: Make Admin
