@@ -3,6 +3,10 @@ namespace :mammooc do
     OpenHPICourseWorker.perform_async
     OpenSAPCourseWorker.perform_async
     CoseraCourseWorker.perform_async
+    # OpenUNECourseWorker.perform_async
+    # MoocHouseCourseWorker.perform_async
+    # OpenSAPChinaCourseWorker.perform_async
+    # OpenHPIChinaCourseWorker.perform_async
   end
 
 end

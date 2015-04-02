@@ -5,9 +5,9 @@
 
 ready = ->
   $('#invitation_submit_button').click(send_invite)
-  $('.dropdown_add_admin').on 'click', (event) -> add_administrator(event)
-  $('.dropdown_demote_admin').on 'click', (event) -> demote_administrator(event)
-  $('.dropdown_remove_member').on 'click', (event) -> remove_member(event)
+  $('.add_admin').on 'click', (event) -> add_administrator(event)
+  $('.demote_admin').on 'click', (event) -> demote_administrator(event)
+  $('.remove_member').on 'click', (event) -> remove_member(event)
   $('#remove_member_confirm_button').on 'click', (event) -> remove_group_member(event)
   $('#remove_last_member_confirm_button').on 'click', (event) -> delete_group(event)
   $('#confirm_delete_group_last_admin_button').on 'click', (event) -> delete_group(event)
@@ -18,20 +18,20 @@ $(document).ready(ready)
 $(document).on('page:load', ready)
 
 send_invite = () ->
-	group_id = $('#group_id').val()
-	url = '/groups/' + group_id + '/invite_members.json'
-	data = 
-		members : $('#text_area_invite_members').val()
+  group_id = $('#group_id').val()
+  url = '/groups/' + group_id + '/invite_members.json'
+  data =
+    members : $('#text_area_invite_members').val()
 
-	$.ajax
-		url: url
-		data: data
-		method: 'POST'
-		error: (jqXHR, textStatus, errorThrown) ->
-			$('.invitation-form').hide()
-			$('.invitation-error').text(errorThrown)
-		success: (data, textStatus, jqXHR) ->
-			$('#add_group_members').modal('hide')
+  $.ajax
+    url: url
+    data: data
+    method: 'POST'
+    error: (jqXHR, textStatus, errorThrown) ->
+      $('.invitation-form').hide()
+      $('.invitation-error').text(errorThrown)
+    success: (data, textStatus, jqXHR) ->
+      $('#add_group_members').modal('hide')
 
 add_administrator = (event) ->
   button = $(event.target)
@@ -149,8 +149,7 @@ delete_group = (event) ->
     success: (data, textStatus, jqXHR) ->
       console.log('success_delete_group')
       $('#confirmation_remove_last_member').modal('hide')
-      # if we still use turbolinks: Turbolinks.visit('/groups')
-      window.location.replace('/groups')
+      Turbolinks.visit('/groups')
   event.preventDefault()
 
 remove_last_admin = (event) ->
@@ -183,26 +182,27 @@ leave_group = (group_id, user_id) ->
     success: (data, textStatus, jqXHR) ->
       console.log('success_leave_group')
       $('#confirmation_remove_last_admin').modal('hide')
-      # if we still use turbolinks: Turbolinks.visit('/groups')
-      window.location.replace('/groups')
+      Turbolinks.visit('/groups')
 
 change_style_to_admin = (user_id) ->
   id = "#list_member_element_user_#{user_id}"
-  $(id).find('.list-members').addClass('admins')
-  $(id).find('.dropdown_add_admin').text(I18n.t('groups.all_members.demote_admin'))
-                                   .unbind('click')
-                                   .on 'click', (event) -> demote_administrator(event)
-                                   .addClass('dropdown_demote_admin').removeClass('dropdown_add_admin')
+  $(id).find('.name').addClass('bold')
+  $(id).find('.admins').show();
+  $(id).find('.add_admin').text(I18n.t('groups.all_members.demote_admin'))
+                          .unbind('click')
+                          .on 'click', (event) -> demote_administrator(event)
+                          .addClass('demote_admin').removeClass('add_admin')
 
 
 change_style_to_member = (user_id) ->
   id = "#list_member_element_user_#{user_id}"
-  $(id).find('.list-members').removeClass('admins')
-  $(id).find('.dropdown_demote_admin').text(I18n.t('groups.all_members.add_admin'))
-                                      .unbind('click')
-                                      .on 'click', (event) -> add_administrator(event)
-                                      .removeClass('dropdown_demote_admin').addClass('dropdown_add_admin')
+  $(id).find('.name').removeClass('bold')
+  $(id).find('.admins').hide();
+  $(id).find('.demote_admin').text(I18n.t('groups.all_members.add_admin'))
+                             .unbind('click')
+                             .on 'click', (event) -> add_administrator(event)
+                             .removeClass('demote_admin').addClass('add_admin')
 
 delete_member_out_of_list = (user_id) ->
   id = "#list_member_element_user_#{user_id}"
-  $(id).html('')
+  $(id).remove()

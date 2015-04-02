@@ -2,16 +2,14 @@ require 'rails_helper'
 
 describe OpenSAPCourseWorker do
 
-  before(:all) do
-    @mooc_provider = FactoryGirl.create(:mooc_provider, name: 'openSAP')
-  end
+  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openSAP') }
 
   let(:open_sap_course_worker){
     OpenSAPCourseWorker.new
   }
 
   it 'should deliver MOOCProvider' do
-    expect(open_sap_course_worker.mooc_provider).to eql @mooc_provider
+    expect(open_sap_course_worker.mooc_provider).to eql mooc_provider
   end
 
   it 'should get an API response' do

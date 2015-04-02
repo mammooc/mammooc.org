@@ -6,6 +6,7 @@ html
     meta name="viewport" content="width=device-width, initial-scale=1"
     meta name="description" content=""
     meta name="author" content=""
+    link rel="icon" href="/icon.png"
     title
       = yield(:title)
     /! HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
@@ -16,10 +17,11 @@ html
     = csrf_meta_tags
   body
     = render 'shared/navigation'
-    .container
+
+    - if content_for? :teaser
       - flash.each do |name, msg|
         - if not msg.empty?
-          = content_tag :div, :class => "alert alert-#{ name.to_s == :error.to_s ? "danger" : "success" } alert-dismissable", :role => "alert" do
+          = content_tag :div, :class => "alert alert-#{ name.to_s == :error.to_s ? "danger" : "success" } alert-dismissable mt-10 mb10 text-center", :role => "alert" do
             button.close type="button" data-dismiss="alert"
               span aria-hidden="true"
                 | &times;
@@ -34,12 +36,34 @@ html
               = msg
             end
         end
-      .row
-        - if content_for? :main
-          = yield :main
-        - else
-          .col-md-9
-            = yield
-          .col-md-3
-            - if content_for? :sidebar
-              = yield :sidebar
+      = yield :teaser
+
+    - else
+      .container
+        - flash.each do |name, msg|
+          - if not msg.empty?
+            = content_tag :div, :class => "alert alert-#{ name.to_s == :error.to_s ? "danger" : "success" } alert-dismissable", :role => "alert" do
+              button.close type="button" data-dismiss="alert"
+                span aria-hidden="true"
+                  | &times;
+                span.sr-only
+                  = t('global.close')
+              - if msg.class == Array
+                - msg.each do |message|
+                  = message
+                  br
+                end
+              - else
+                = msg
+              end
+          end
+
+        .row.mt50
+          - if content_for? :main
+            = yield :main
+          - else
+            .col-md-9
+              = yield
+            .col-md-3
+              - if content_for? :sidebar
+                = yield :sidebar

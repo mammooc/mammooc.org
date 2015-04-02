@@ -35,8 +35,6 @@ Rails.application.routes.draw do
 
   resources :groups
 
-  resources :courses
-
   resources :course_results
 
   resources :mooc_providers
@@ -48,7 +46,6 @@ Rails.application.routes.draw do
   get 'dashboard/dashboard'
 
   get 'home/index'
-  get 'contact' => 'static_pages#contact'
   get 'about' => 'static_pages#about'
   get 'dashboard' => 'dashboard#dashboard'
   post 'groups/:id/invite_members' => 'groups#invite_group_members'
@@ -59,8 +56,13 @@ Rails.application.routes.draw do
   get 'groups/join/:token' => 'groups#join'
   get 'groups/:id/members' => 'groups#members'
   get 'groups/:id/all_members_to_administrators' => 'groups#all_members_to_administrators'
+  get 'impressum' => 'static_pages#impressum'
   root :to => 'home#index'
 
+  # Courses
+  get 'courses' => 'courses#index'
+  get 'courses/index'
+  get 'courses/:id' => 'courses#show', as: 'course'
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

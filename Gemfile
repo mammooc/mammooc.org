@@ -21,6 +21,7 @@ gem 'slim-rails'
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
+gem 'jquery-turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
@@ -51,6 +52,13 @@ gem 'bootstrap-sass'
 
 gem 'factory_girl_rails'
 
+gem 'rails-i18n'
+gem 'i18n-js'
+
+gem 'http_accept_language'
+
+gem 'rails_config'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -67,13 +75,11 @@ group :development, :test do
 
   gem 'capybara'
   gem 'capybara-selenium'
+  #gem 'selenium-webdriver'
   gem 'database_cleaner'
+
+  # Run selenium tests headless
+  gem 'headless'
 
   gem 'simplecov', :require => false
 end
-
-gem 'rails-i18n'
-gem 'i18n-js'
-
-gem 'rails_config'
-

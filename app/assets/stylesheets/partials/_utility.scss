@@ -8,8 +8,6 @@
 .pos-rel { position: relative }
 
 /* floats */
-.left { float: left !important }
-.right { float: right !important }
 .centered { margin: 0px auto}
 
 /* alignments */
@@ -56,12 +54,14 @@
 .ma5 { margin: 5px }
 .ma10 { margin: 10px }
 
-.mt0  { margin-top: 0px }
-.mt5  { margin-top: 5px }
-.mt10 { margin-top: 10px }
-.mt15 { margin-top: 15px }
-.mt20 { margin-top: 20px }
-.mt50 { margin-top: 50px }
+.mt-10 { margin-top: -10px }
+.mt0   { margin-top:   0px }
+.mt5   { margin-top:   5px }
+.mt10  { margin-top:  10px }
+.mt15  { margin-top:  15px }
+.mt20  { margin-top:  20px }
+.mt30  { margin-top:  30px }
+.mt50  { margin-top:  50px }
 
 .mr0  { margin-right: 0px }
 .mr5  { margin-right: 5px }

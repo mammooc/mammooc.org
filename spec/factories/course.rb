@@ -3,15 +3,13 @@ FactoryGirl.define do
   factory :course do
     name 'Minimal Technologies'
     url 'https://test.com/course'
-    start_date DateTime.new(2016,02,16,8)
-    end_date DateTime.new(2016,02,28,20)
     sequence(:provider_course_id ) { |n| "a#{n}" }
   end
 
   factory :full_course, class: Course do
     name 'Full Technologies'
     url 'https://open.hpi.de/courses/webtech2015'
-    course_instructors ['Prof. Dr. Christoph Meinel', 'Jan Renz', 'Thomas Staubitz']
+    course_instructors 'Prof. Dr. Christoph Meinel, Jan Renz, Thomas Staubitz'
     abstract 'WWW, the world wide web or shortly the web - really nothing more than an information  service on the Internet – has changed our world by creating a whole new digital world that is closely intertwined with our real world, making reality what was previously unimaginable: communication across the world in seconds, watching movies on a smartphone, playing games or looking at photos with remote partners in distant continents, shopping or banking from your couch … In our online course on web technologies you will learn how it all works.'
     description 'WWW, the world wide web or shortly the web - really nothing more than an information service on the Internet – has changed our world by creating a whole new digital world that is closely intertwined with our real world, making reality what was previously unimaginable: communication across the world in seconds, watching movies on a smartphone, playing games or looking at photos with remote partners in distant continents, shopping or banking from your couch … In our online course on web technologies you will learn how it all works.
 
@@ -35,11 +33,12 @@ Claudia; “I enjoyed this course so much. It gave me a chance to expand my hori
     categories ['Web','Technologies','Computer Science','#geilon']
     requirements %w[Computer Brain Strength]
     difficulty 'medium'
-    minimum_weekly_workload 7
-    maximum_weekly_workload 45
+    workload '4-8 hours a week'
     sequence(:provider_course_id ) { |n| "#{n}" }
     credit_points 6
     open_for_registration true
+    provider_given_duration '6 weeks'
+    subtitle_languages 'english, german'
   end
 
 end

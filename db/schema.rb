@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150323144308) do
+ActiveRecord::Schema.define(version: 20150401090015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -109,32 +109,35 @@ ActiveRecord::Schema.define(version: 20150323144308) do
   end
 
   create_table "courses", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.string   "name",                    null: false
-    t.string   "url",                     null: false
+    t.string   "name",                        null: false
+    t.string   "url",                         null: false
     t.text     "abstract"
     t.string   "language"
     t.string   "imageId"
     t.string   "videoId"
-    t.datetime "start_date",              null: false
-    t.datetime "end_date",                null: false
-    t.integer  "duration"
+    t.datetime "start_date"
+    t.datetime "end_date"
     t.float    "costs"
     t.string   "type_of_achievement"
     t.string   "difficulty"
-    t.string   "provider_course_id",      null: false
-    t.uuid     "mooc_provider_id",        null: false
+    t.string   "provider_course_id",          null: false
+    t.uuid     "mooc_provider_id",            null: false
     t.uuid     "course_result_id"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.float    "credit_points"
-    t.float    "minimum_weekly_workload"
-    t.float    "maximum_weekly_workload"
     t.string   "price_currency"
-    t.string   "categories",                           array: true
-    t.string   "requirements",                         array: true
-    t.string   "course_instructors",                   array: true
+    t.string   "categories",                               array: true
+    t.string   "requirements",                             array: true
+    t.string   "course_instructors"
     t.text     "description"
     t.boolean  "open_for_registration"
+    t.string   "workload"
+    t.uuid     "previous_iteration_id"
+    t.uuid     "following_iteration_id"
+    t.string   "subtitle_languages"
+    t.integer  "calculated_duration_in_days"
+    t.string   "provider_given_duration"
   end
 
   add_index "courses", ["course_result_id"], name: "index_courses_on_course_result_id", using: :btree
