@@ -80,6 +80,7 @@ group :development, :test do
 
   # Run selenium tests headless
   gem 'headless'
+  gem 'poltergeist'
 
   gem 'simplecov', :require => false
 end
