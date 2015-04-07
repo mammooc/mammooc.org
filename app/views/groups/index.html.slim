@@ -1,47 +1,35 @@
 = content_for :title, t('groups.title')
 
-.page-header
-  = link_to new_group_path, :class => 'btn btn-primary' do 
-    span.glyphicon.glyphicon-plus
-    |  New Group
-  .row
-    .col-md-9
-      - if @groups.empty?
-        = t('groups.no_groups')
-      - else
-        h1
-          = t('groups.my_groups')
+.site-header style="margin-bottom: 40px"
+  .wrapper
+    .logo.pull-left
+      img src="/data/icons/group.png"
+    .title
+      = t('groups.my_groups')
+      .options.pull-right
+        = link_to new_group_path
+          button.btn.btn-default
+            span.glyphicon.glyphicon-plus
+            = t('groups.new')
 
-        .table-responsive
-          table.table.table-striped.table-bordered.table-hover
-            thead
-              tr
-                th
-                  | Name
-                th
-                  | Imageid
-                th
-                  | Description
-                th
-                  | Primary statistics
-                th
-                th
-                th
-            tbody
-              - @groups.each do | group |
-                tr
-                  td
-                    = group.name
-                  td
-                    = group.imageId
-                  td
-                    = group.description
-                  td
-                    = group.primary_statistics
-                  td
-                    = link_to 'Show', group
-                  td
-                    = link_to 'Edit', edit_group_path(group)
-                  td
-                    = link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' }
-    .col-md-3
+
+- if @groups.empty?
+  .panel.panel-default
+    .panel-body
+      = t('groups.no_groups')
+
+- else
+
+  .groups-wrapper
+    - @groups.each do | group |
+      .groups
+        .groups-info
+          .logo
+            img src="/data/group-openSAP.png"
+          .name
+            = group.name
+            = link_to edit_group_path(group)
+              span.glyphicon.glyphicon-cog
+        = link_to group
+          button.btn.btn-gray-lg
+            = t('groups.show')

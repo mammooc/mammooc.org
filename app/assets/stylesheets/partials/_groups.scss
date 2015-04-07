@@ -21,7 +21,7 @@ $entry-padding-left: 10px;
       background-color: white;
       border: 1px solid $panel-default-border;
       border-radius: 2px;
-      margin-top: -20px;
+      margin-top: -15px;
       margin-left: $group-logo-margin-left;
       margin-right: 10px;
       padding: 5px;
@@ -75,6 +75,70 @@ $entry-padding-left: 10px;
       .active {
         font-weight: bold;
         border-bottom: 2px solid $link-hover-color;
+      }
+    }
+  }
+}
+
+// Groups Overview
+
+.groups-wrapper {
+
+  .groups {
+    background-color: white;
+    border: 1px solid $panel-default-border;
+    border-radius: $panel-border-radius;
+    -webkit-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+    float: left;
+    margin-bottom: 30px;
+
+    @media(min-width: 992px) {
+      &:nth-child(even) {
+        width: 48%;
+        margin-left: 2%;
+      }
+
+      &:nth-child(odd) {
+        width: 48%;
+        margin-right: 2%;
+      }
+    }
+
+    @media(max-width: 991px) {
+      width: 100%;
+    }
+
+    .groups-info {
+      min-height: $group-logo-height + 20px;
+
+      .logo {
+        background-color: white;
+        border: 1px solid $panel-default-border;
+        border-radius: 2px;
+        margin-top: -15px;
+        margin-left: 15px;
+        margin-right: 15px;
+        padding: 5px;
+        height: $group-logo-height;
+        max-width: 250px;
+        overflow: hidden;
+        float: left;
+        -webkit-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+        -moz-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+
+        img {
+          height: 100%;
+          width: auto;
+        }
+      }
+
+      .name {
+        font-weight: 300;
+        font-size: 18px;
+        padding: 10px;
       }
     }
   }
@@ -153,18 +217,30 @@ $members_image_height: 100px;
 // Sidebar
 
 .list-members {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
   img {
     width: 40px;
     margin-right: 5px;
     margin-bottom: 5px;
   }
-  a {
-  }
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .admins {
   font-weight: bold;
+}
+
+// Customize Bootstrap Panel for this special case in Groups Sidebar
+
+.panel-groups-sidebar {
+
+  .container-fluid {
+    padding: 0px;
+  }
+
+  .row {
+    padding: 0px;
+  }
 }
