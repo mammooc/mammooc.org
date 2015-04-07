@@ -7,7 +7,7 @@
           .logo.pull-left
             img src="/data/icons/courses.png"
           .title
-            | Courses
+            = t('courses.heading')
             .options.pull-right
               / Space for options
   .row
@@ -18,8 +18,8 @@
     .col-md-3.mb30
       - if current_page?(courses_path)
         .courses-filter
-          = render 'courses/filter'
+          = render 'filter'
       - else
-        = render 'courses/sidebar'
+        = yield :sidebar
 
 = render file: 'layouts/application'
