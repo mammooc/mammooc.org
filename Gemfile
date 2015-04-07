@@ -75,7 +75,6 @@ group :development, :test do
 
   gem 'capybara'
   gem 'capybara-selenium'
-  #gem 'selenium-webdriver'
   gem 'database_cleaner'
 
   # Run selenium tests headless
