@@ -70,6 +70,6 @@ class RecommendationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def recommendation_params
-      params.require(:recommendation).permit(:is_obligatory, :group_id, :course_id)
+      params.require(:recommendation).permit(:is_obligatory, :group_id, :course_id, :text)
     end
 end
