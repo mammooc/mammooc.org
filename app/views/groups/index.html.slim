@@ -7,9 +7,10 @@
     .title
       = t('groups.my_groups')
       .options.pull-right
-        = link_to new_group_path, :class => 'btn btn-default' do
-          span.glyphicon.glyphicon-plus
-          = t('groups.new')
+        = link_to new_group_path
+          button.btn.btn-default
+            span.glyphicon.glyphicon-plus
+            = t('groups.new')
 
 
 - if @groups.empty?
@@ -29,4 +30,6 @@
             = group.name
             = link_to edit_group_path(group)
               span.glyphicon.glyphicon-cog
-        = link_to t('groups.show'), group, :class => 'btn btn-gray-lg'
+        = link_to group
+          button.btn.btn-gray-lg
+            = t('groups.show')
