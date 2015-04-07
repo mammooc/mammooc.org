@@ -1,0 +1,21 @@
+- content_for :main
+
+  .row.mt30
+    .col-md-12
+      .site-header.mb40
+        .wrapper
+          .logo.pull-left
+            img src="/data/icons/courses.png"
+          .title
+            | Courses
+            .options.pull-right
+              / Space for options
+  .row
+    / Content
+    .col-md-9
+      = yield
+    / Sidebar
+    .col-md-3.mb30
+      / render sidebar
+
+= render file: 'layouts/application'
