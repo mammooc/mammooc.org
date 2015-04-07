@@ -1,13 +1,6 @@
 class GroupsController < ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :demote_administrator, :remove_group_member, :condition_for_changing_member_status, :all_members_to_administrators]
 
-  LCHARS    = /\w+\p{L}\p{N}\-\!\/#\$%&'*+=?^`{|}~/
-  LOCAL     = /[#{LCHARS.source}]+(\.[#{LCHARS.source}]+)*/
-  DCHARS    = /A-z\d/
-  SUBDOMAIN = /[#{DCHARS.source}]+(\-+[#{DCHARS.source}]+)*/
-  DOMAIN    = /#{SUBDOMAIN.source}(\.#{SUBDOMAIN.source})*\.[#{DCHARS.source}]{2,}/
-  EMAIL     = /\A#{LOCAL.source}@#{DOMAIN.source}\z/i
-
   # GET /groups
   # GET /groups.json
   def index
@@ -244,6 +237,14 @@ class GroupsController < ApplicationController
       return if invited_members.blank?
       emails = invited_members.split(/[^[:alpha:]]\s+|\s+|;\s*|,\s*/)
       expiry_date = Settings.token_expiry_date
+
+      LCHARS    = /\w+\p{L}\p{N}\-\!\/#\$%&'*+=?^`{|}~/
+      LOCAL     = /[#{LCHARS.source}]+(\.[#{LCHARS.source}]+)*/
+      DCHARS    = /A-z\d/
+      SUBDOMAIN = /[#{DCHARS.source}]+(\-+[#{DCHARS.source}]+)*/
+      DOMAIN    = /#{SUBDOMAIN.source}(\.#{SUBDOMAIN.source})*\.[#{DCHARS.source}]{2,}/
+      EMAIL     = /\A#{LOCAL.source}@#{DOMAIN.source}\z/i
+
       emails.each do |email_address|
         if email_address == EMAIL.match(email_address).to_s
           token = SecureRandom.urlsafe_base64(Settings.token_length)
