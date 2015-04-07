@@ -42,7 +42,4 @@ Rails.application.configure do
 
   # mail configurations
   ActionMailer::Base.delivery_method = :test
-
-  # Set only available language to English
-  config.i18n.available_locales = [:en]
 end
