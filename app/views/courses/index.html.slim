@@ -13,8 +13,10 @@
       .courses
         = link_to course
           .course-image
-            // TODO : Change to course image / insert standard image if no other one is available
-            img src="/data/course-image-openSAP.jpg"
+            - if course.imageId
+              = image_tag(course.imageId)
+            - else
+              img src="/data/icons/courses-list-std.png"
           .course-info
             .name
               = course.name
