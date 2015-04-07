@@ -2,8 +2,6 @@
   h1
     = t('dashboard.hi', name: current_user.first_name)
 
-.row
-  .col-md-9
-    | Your Recommendations will be listed here!
-  .col-md-3
-   = render 'sidebar'
+| Your Recommendations will be listed here!
+
+= render 'sidebar'

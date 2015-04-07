@@ -1,11 +1,11 @@
-doctype html
-html
+doctype 5
+html lang="#{I18n.locale}"
   head
     meta charset="utf-8"
     meta http-equiv="X-UA-Compatible" content="IE=edge"
     meta name="viewport" content="width=device-width, initial-scale=1"
     meta name="description" content=""
-    meta name="author" content=""
+    meta name="author" content="mammooc"
     link rel="icon" href="/icon.png"
     title
       = yield(:title)
@@ -15,6 +15,9 @@ html
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
+    javascript:
+      I18n.defaultLocale = "#{I18n.default_locale}";
+      I18n.locale = "#{I18n.locale}";
   body
     = render 'shared/navigation'
 
@@ -58,10 +61,10 @@ html
               end
           end
 
-        .row.mt50
-          - if content_for? :main
-            = yield :main
-          - else
+        - if content_for? :main
+          = yield :main
+        - else
+          .row
             .col-md-9
               = yield
             .col-md-3

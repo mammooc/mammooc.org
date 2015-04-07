@@ -1,25 +1,28 @@
 - content_for :main
 
+  / Pages with Group subnav
   - if @group and (current_page?("/groups/#{@group.id}") or current_page?("/groups/#{@group.id}/members"))
-    .container
-      .row
-        / Header
-        .col-md-12
-          = render 'groups/header'
-
-  - if @group and current_page?("/groups/#{@group.id}/members")
-    .container.mt30
-      .row
+    / Group header with subnav
+    .row.mt30
+      .col-md-12
+        = render 'groups/header'
+    - if @group and current_page?("/groups/#{@group.id}/members")
+      .row.mt30
         .col-md-12
           = yield
-  - else
-    .container.mt30
-      .row
+    - else
+      .row.mt30
         / Content
         .col-md-9
           = yield
         / Sidebar
         .col-md-3.mb30
           = render 'groups/sidebar'
+
+  / Pages without Group subnav
+  - else
+    .row.mt30
+      .col-md-12
+        = yield
 
 = render file: 'layouts/application'
