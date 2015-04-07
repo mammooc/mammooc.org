@@ -11,6 +11,7 @@
     box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
     float: left;
     margin-bottom: 30px;
+    width: 200px;
     height: 300px;
 
     .course-image {
@@ -29,68 +30,93 @@
       font-size: 14px;
       padding: 10px;
     }
+  }
+}
 
-    @media(max-width: 480px) {
-      float: none;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
+// Show 1 item per line for extra small screens,
+// mainly phones (portrait)
+
+@media(max-width: 480px) {
+  .courses-wrapper > .courses {
+    float: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 200px;
+
+  }
+}
+
+// Show 2 items per line for extra small screens,
+// mainly phones (landscape)
+
+@media(min-width: 481px) and (max-width: 767px) {
+  .courses-wrapper {
+    width: 416px;
+    display: block;
+    margin: auto;
+  }
+
+  .courses-wrapper > .courses {
+    &:nth-child(2n+1) {
       width: 200px;
+      margin-right: 15.5px;
     }
 
-    @media(min-width: 481px) and (max-width: 767px) {
-      &:nth-child(2n+1) {
-        width: 200px;
-        margin-left: 10px;
-        margin-right: 10px;
-      }
-
-      &:nth-child(2n+0) {
-        width: 200px;
-        margin-left: 10px;
-        margin-right: 10px;
-      }
+    &:nth-child(2n+0) {
+      width: 200px;
+      margin-right: auto;
     }
+  }
+}
 
-    @media(min-width: 768px) and (max-width: 1200px) {
-      &:nth-child(3n+1) {
-        width: 31%;
-        margin-right: 2%;
-      }
+// Show 3 items per line for small and medium screens
 
-      &:nth-child(3n+2) {
-        width: 31%;
-        margin-left: 1%;
-        margin-right: 1%;
-      }
-      &:nth-child(3n+0) {
-        width: 31%;
-        margin-left: 2%;
-      }
+@media(min-width: 768px) and (max-width: 1199px) {
+  .courses-wrapper {
+    width: 632px;
+    display: block;
+    margin: auto;
+  }
+
+  .courses-wrapper > .courses {
+    &:nth-child(3n+1) {
+      margin-left: auto;
+      margin-right: 15.5px;
     }
-
-    @media(min-width: 1201px) {
-      &:nth-child(4n+1) {
-        width: 23%;
-        margin-left: 1%;
-        margin-right: 1%;
-      }
-
-      &:nth-child(4n+2) {
-        width: 23%;
-        margin-left: 1%;
-        margin-right: 1%;
-      }
-      &:nth-child(4n+3) {
-        width: 23%;
-        margin-left: 1%;
-        margin-right: 1%;
-      }
-      &:nth-child(4n+0) {
-        width: 23%;
-        margin-left: 1%;
-        margin-right: 1%;
-      }
+    &:nth-child(3n+2) {
+      margin-right: 15.5px;
     }
+    &:nth-child(3n+0) {
+      margin-right: auto;
+    }
+  }
+}
+
+// Show 4 items per line on large screens
+
+@media(min-width: 1200px) {
+  .courses-wrapper > .courses {
+    &:nth-child(4n+1) {
+      margin-right: 15.5px;
+    }
+    &:nth-child(4n+2) {
+      margin-right: 15.5px;
+    }
+    &:nth-child(4n+3) {
+      margin-right: 15.5px;
+    }
+    &:nth-child(4n+0) {
+      margin-right: auto;
+    }
+  }
+}
+
+// Hide sidebar and show filter in another way
+// for small and extra small screens
+
+@media(max-width: 991px) {
+  .course-sidebar {
+    display: none;
   }
 }
