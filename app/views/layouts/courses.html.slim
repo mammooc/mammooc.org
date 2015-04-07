@@ -16,8 +16,10 @@
       = yield
     / Sidebar
     .col-md-3.mb30
-      .course-sidebar
-        // Just for testing
-        .panel.panel-default style="height: 600px"
+      - if current_page?(courses_path)
+        .courses-filter
+          = render 'courses/filter'
+      - else
+        = render 'courses/sidebar'
 
 = render file: 'layouts/application'

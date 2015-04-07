@@ -9,112 +9,16 @@
 - else
 
   .courses-wrapper
-    .courses
-      .course-image
-        img src="/data/course-image-udemy.png"
-      .name
-        | Name
-    .courses
-      .course-image
-        img src="/data/course-image-openSAP.jpg"
-      .name
-        | Name
-    .courses
-      .course-image
-        img src="/data/course-image-openSAP.jpg"
-      .name
-        | Name
     - @courses.each do |course|
       .courses
-        .course-image
-          img src="/data/course-image-openHPI.jpg"
-        .name
-          = course.name
-
-/div style="display:block"
-  .table-responsive
-    table.table.table-striped.table-bordered.table-hover
-      thead
-        tr
-          th
-            | Name
-          th
-            | Url
-          th
-            | Course instructor
-          th
-            | Abstract
-          th
-            | Language
-          th
-            | Imageid
-          th
-            | Videoid
-          th
-            | Start date
-          th
-            | End date
-          th
-            | Duration
-          th
-            | Costs
-          th
-            | Type of achievement
-          th
-            | Categories
-          th
-            | Difficulty
-          th
-            | Requirements
-          th
-            | Workload
-          th
-            | Provider course
-          th
-            | Mooc provider
-          th
-            | Course result
-          th
-      tbody
-        - @courses.each do | course |
-          tr
-            td
+        = link_to course
+          .course-image
+            // TODO : Change to course image / insert standard image if no other one is available
+            img src="/data/course-image-openSAP.jpg"
+          .course-info
+            .name
               = course.name
-            td
-              = course.url
-            td
-              = course.course_instructors
-            td
-              = course.abstract
-            td
-              = course.language
-            td
-              = course.imageId
-            td
-              = course.videoId
-            td
-              = course.start_date
-            td
-              = course.end_date
-            td
-              = course.calculated_duration_in_days
-            td
-              = course.costs
-            td
-              = course.type_of_achievement
-            td
-              = course.categories
-            td
-              = course.difficulty
-            td
-              = course.requirements
-            td
-              = course.workload
-            td
-              = course.provider_course_id
-            td
-              = course.mooc_provider
-            td
-              = course.course_result
-            td
-              = link_to 'Show', course
+            = course.course_instructors
+            .provider
+              // TODO : Change to provider logo
+              img src="/data/logo-openSAP.png"
