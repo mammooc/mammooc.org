@@ -6,6 +6,7 @@ namespace :mammooc do
     # MoocHouseCourseWorker.perform_async
     # OpenSAPChinaCourseWorker.perform_async
     # OpenHPIChinaCourseWorker.perform_async
+    EdxCourseWorker.perform_async
   end
 
 end
