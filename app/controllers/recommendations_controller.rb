@@ -25,6 +25,7 @@ class RecommendationsController < ApplicationController
   # POST /recommendations.json
   def create
     @recommendation = Recommendation.new(recommendation_params)
+    @recommendation.user = @current_user
 
     respond_to do |format|
       if @recommendation.save
@@ -69,6 +70,6 @@ class RecommendationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def recommendation_params
-      params.require(:recommendation).permit(:is_obligatory, :user_id, :group_id, :course_id)
+      params.require(:recommendation).permit(:is_obligatory, :group_id, :course_id)
     end
 end

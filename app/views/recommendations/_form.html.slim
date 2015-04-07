@@ -15,17 +15,19 @@
     .col-sm-10
       = f.check_box :is_obligatory, :class => "form-control"
   .form-group
-    = f.label :user, :class => "col-sm-2 control-label"
-    .col-sm-10
-      = f.text_field :user, :class => "form-control"
-  .form-group
     = f.label :group, :class => "col-sm-2 control-label"
     .col-sm-10
       = f.text_field :group, :class => "form-control"
   .form-group
-    = f.label :course, :class => "col-sm-2 control-label"
+    = f.label :course_id, :class => "col-sm-2 control-label"
     .col-sm-10
-      = f.text_field :course, :class => "form-control"
+      - if params.include?(:course_id)
+        = f.text_field :course_name, :class => "form-control", :value => Course.find(params[:course_id]).name
+        = f.text_field :course_id, :class => "form-control", :value => params[:course_id], :type => 'hidden'
+      - else
+        = f.text_field :course_name, :class => "form-control", :value => ''
+        = f.text_field :course_id, :class => "form-control", :type => 'hidden', :value => ''
+
   .form-group
     .col-sm-offset-2.col-sm-10
       = f.submit :class => "btn btn-primary"
