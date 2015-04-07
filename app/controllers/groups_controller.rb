@@ -1,5 +1,6 @@
 class GroupsController < ApplicationController
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :demote_administrator, :remove_group_member, :condition_for_changing_member_status, :all_members_to_administrators]
+  #before_action :set_group, only: [:show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :demote_administrator, :remove_group_member, :condition_for_changing_member_status, :all_members_to_administrators]
+  load_and_authorize_resource only: [:index, :show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :demote_administrator, :remove_group_member, :condition_for_changing_member_status, :all_members_to_administrators]
 
   # GET /groups
   # GET /groups.json
@@ -203,11 +204,6 @@ class GroupsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_group
-      @group = Group.find(params[:id])
-    end
-
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
       params.require(:group).permit(:name, :imageId, :description, :primary_statistics)
