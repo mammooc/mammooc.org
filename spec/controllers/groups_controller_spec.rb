@@ -151,7 +151,7 @@ RSpec.describe GroupsController, :type => :controller do
     it "should do nothing if there are no members to invite" do
       post :invite_group_members, format: :json, id: group.id, members: ""
       expect(GroupInvitation.count).to eq 0
-      expect(response.body).to have_content("\"error_email\":[]")
+      expect(response.body).to have_content('"error_email":[]')
       expect(ActionMailer::Base.deliveries.count).to eq 0
     end
 
@@ -161,20 +161,20 @@ RSpec.describe GroupsController, :type => :controller do
       ActionMailer::Base.deliveries.each_with_index do |delivery, i|
         expect(delivery.to).to contain_exactly("test#{i+1}@example.com")
       end
-      expect(response.body).to have_content("\"error_email\":[]")
+      expect(response.body).to have_content('"error_email":[]')
       expect(ActionMailer::Base.deliveries.count).to eq 8
     end
 
     it "should invite members" do
       expect{ post :invite_group_members, format: :json, id: group.id, members: members}.to change{ GroupInvitation.count }.by(2)
-      expect(response.body).to have_content("\"error_email\":[]")
+      expect(response.body).to have_content('"error_email":[]')
       expect(ActionMailer::Base.deliveries.count).to eq 2
     end
 
     it "should return wrong email addresses" do
       email_string = members + ', wrong; misspelled valid@example.org'
       expect{ post :invite_group_members, format: :json, id: group.id, members: email_string}.to change{ GroupInvitation.count }.by(3)
-      expect(response.body).to have_content("\"error_email\":[\"wrong\",\"misspelled\"]")
+      expect(response.body).to have_content('"error_email":["wrong","misspelled"]')
       expect(ActionMailer::Base.deliveries.count).to eq 3
     end
   end
