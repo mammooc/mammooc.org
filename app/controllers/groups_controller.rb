@@ -14,7 +14,6 @@ class GroupsController < ApplicationController
     @ordered_group_members = sort_by_name(admins) + sort_by_name(@group.users - admins)
     @group_users = (@group.users - admins).size > number_of_shown_users ? (@group.users - admins).shuffle : sort_by_name(@group.users - admins)
     @group_admins = admins.size > number_of_shown_users ? sort_by_name(admins) : admins.shuffle
-    @current_user_is_admin = admins.include?(current_user)
   end
 
   # GET /groups/new
@@ -69,7 +68,7 @@ class GroupsController < ApplicationController
       begin
         invite_members
         format.html { redirect_to @group, notice: t('group_success_update') }
-        format.json { render :show, status: :created, location: @group }
+        format.json { render :invite_members_result, status: :created, location: @group }
       rescue StandardError => e
         format.html { redirect_to @group, notice: t('group_success_failed') }
         format.json { render json: e.to_json, status: :unprocessable_entity }
@@ -233,18 +232,30 @@ class GroupsController < ApplicationController
       params[:changing_member]
     end
 
+    LCHARS    = /\w+\p{L}\p{N}\-\!\/#\$%&'*+=?^`{|}~/
+    LOCAL     = /[#{LCHARS.source}]+(\.[#{LCHARS.source}]+)*/
+    DCHARS    = /A-z\d/
+    SUBDOMAIN = /[#{DCHARS.source}]+(\-+[#{DCHARS.source}]+)*/
+    DOMAIN    = /#{SUBDOMAIN.source}(\.#{SUBDOMAIN.source})*\.[#{DCHARS.source}]{2,}/
+    EMAIL     = /\A#{LOCAL.source}@#{DOMAIN.source}\z/i
+
     def invite_members
+      @error_emails ||= []
       return if invited_members.blank?
       emails = invited_members.split(/[^[:alpha:]]\s+|\s+|;\s*|,\s*/)
       expiry_date = Settings.token_expiry_date
       emails.each do |email_address|
-        token = SecureRandom.urlsafe_base64(Settings.token_length)
-        until GroupInvitation.find_by_token(token).nil? do
+        if email_address == EMAIL.match(email_address).to_s
           token = SecureRandom.urlsafe_base64(Settings.token_length)
+          until GroupInvitation.find_by_token(token).nil? do
+            token = SecureRandom.urlsafe_base64(Settings.token_length)
+          end
+          link = root_url + 'groups/join/' + token
+          GroupInvitation.create(token: token, group_id: @group.id, expiry_date: expiry_date)
+          UserMailer.group_invitation_mail(email_address, link, @group, current_user, root_url).deliver_later
+        else
+          @error_emails << email_address
         end
-        link = root_url + 'groups/join/' + token
-        GroupInvitation.create(token: token, group_id: @group.id, expiry_date: expiry_date)
-        UserMailer.group_invitation_mail(email_address, link, @group, current_user, root_url).deliver_later
       end
     end
 
