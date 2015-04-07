@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150401090015) do
+ActiveRecord::Schema.define(version: 20150407110607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -222,14 +222,12 @@ ActiveRecord::Schema.define(version: 20150401090015) do
   create_table "recommendations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.boolean  "is_obligatory"
     t.uuid     "user_id"
-    t.uuid     "group_id"
     t.uuid     "course_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end
 
   add_index "recommendations", ["course_id"], name: "index_recommendations_on_course_id", using: :btree
-  add_index "recommendations", ["group_id"], name: "index_recommendations_on_group_id", using: :btree
   add_index "recommendations", ["user_id"], name: "index_recommendations_on_user_id", using: :btree
 
   create_table "recommendations_users", id: false, force: :cascade do |t|
@@ -317,7 +315,6 @@ ActiveRecord::Schema.define(version: 20150401090015) do
   add_foreign_key "progresses", "courses"
   add_foreign_key "progresses", "users"
   add_foreign_key "recommendations", "courses"
-  add_foreign_key "recommendations", "groups"
   add_foreign_key "recommendations", "users"
   add_foreign_key "statistics", "groups"
   add_foreign_key "user_assignments", "course_assignments"
