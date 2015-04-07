@@ -52,14 +52,30 @@ class EdxCourseWorker < AbstractCourseWorker
         elsif course_element['course:staff'].class == String
           temp = course_element['course:staff']
         end
-
         course.course_instructors = temp
       end
-      course.requirements = [course_element['course:prerequisites']]
-      course.categories = course_element['course:subject'] #+ course_element['course:school']
+
+      course.requirements = nil
+      if course_element['course:prerequisites']
+        if !course_element['course:prerequisites'].empty?
+          course.requirements = [course_element['course:prerequisites']]
+        end
+      end
+
+      course.categories = nil
+      if course_element['course:subject']
+        if course_element['course:subject'].class == Array
+          course.categories = course_element['course:subject']
+        elsif course_element['course:subject'].class == String
+          course.categories = [course_element['course:subject']]
+        end
+      end
+
       if course_element['course:effort']
         course.workload = course_element['course:effort']
       end
+
+      # course_element['course:verified']
 
       course.save
     }
