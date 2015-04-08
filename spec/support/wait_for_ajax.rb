@@ -7,7 +7,7 @@ module WaitForAjax
       loop until finished_all_ajax_requests?
     end
     # PhantomJS is much faster, a way too fast...
-    if ENV['PHANTOM_JS'] == 'true' || ENV['CIRCLECI'] == 'true'
+    if ENV['PHANTOM_JS'] == 'true'
       sleep(0.33)
     end
   end
