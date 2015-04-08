@@ -141,6 +141,9 @@ en:
 
   #show course
   courses:
+    title: Courses | mammooc
+    heading: Courses
+    no_courses: No courses available
     description: Description
     reviews: Reviews
     mooc_provider: MOOC Provider
