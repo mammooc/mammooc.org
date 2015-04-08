@@ -1,0 +1,37 @@
+/* GLOBAL STYLES
+-------------------------------------------------- */
+
+/* Padding below the footer and lighter body text */
+
+body {
+  padding-bottom: 40px;
+  color: #5a5a5a;
+}
+
+html, body {
+  width: auto !important;
+  overflow-x: hidden !important;
+}
+
+.field_with_errors {
+  display: inline;
+}
+
+// Customize Bootstrap Modal
+
+.modal-backdrop {
+  z-index: 0 !important;
+}
+
+.modal-dialog {
+  z-index: 1040;
+}
+
+// Customize Bootstrap Panel
+
+.panel-default > .panel-heading {
+  background-color: #ffffff;
+  border-bottom: 0px;
+  font-size: 18px;
+  font-weight: 300;
+}

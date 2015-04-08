@@ -1,6 +1,4 @@
-@import 'bootstrap-variables';
-
-$logo-height: 60px;
+// Site header
 
 .site-header {
   background-color: white;
@@ -35,13 +33,4 @@ $logo-height: 60px;
       margin-right: 10px;
     }
   }
-}
-
-// Customize Bootstrap Panel
-
-.panel-default > .panel-heading {
-  background-color: #ffffff;
-  border-bottom: 0px;
-  font-size: 18px;
-  font-weight: 300;
 }
