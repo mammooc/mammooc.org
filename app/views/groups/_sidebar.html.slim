@@ -15,7 +15,7 @@
         - @group_admins.each_with_index do |admin, i|
           - unless i + offset > number_of_shown_users
             .row
-              .col-md-12.list-members.admins
+              .col-md-12.list-members.bold
                 = link_to image_tag('/data/default.png'), user_path(admin)
                 = link_to admin.first_name + ' ' + admin.last_name, user_path(admin)
           - number_of_shown_admins = i
