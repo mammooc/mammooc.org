@@ -28,6 +28,8 @@ class GroupsController < ApplicationController
   def members
     @sorted_group_users = sort_by_name(@group.users - admins)
     @sorted_group_admins = sort_by_name(admins)
+    @group_members = Group.find(@group.id).users
+    @group_members -= [current_user]
   end
 
   # POST /groups
@@ -140,6 +142,7 @@ class GroupsController < ApplicationController
       end
     end
   end
+
 
   # DELETE /groups/1
   # DELETE /groups/1.json
