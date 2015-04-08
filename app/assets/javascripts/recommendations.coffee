@@ -90,5 +90,14 @@ generate_course_autocomplete = () ->
         console.log('course id success')
         course_name = data.name
         $('#recommendation_course_id').tokenfield('setTokens', [{value: course_id, label: course_name}])
-  else
-    console.log('false')
+  else if 'group_id' of params
+    group_id = params['group_id']
+    $.ajax
+      url: '/groups/' + group_id + '.json'
+      method: 'GET'
+      error: (jqXHR, textStatus, errorThrown) ->
+        console.log('group id error')
+      success: (data, textStatus, jqXHR) ->
+        console.log('group id success')
+        group_name = data.name
+        $('#recommendation_related_group_ids').tokenfield('setTokens', [{value: group_id, label: group_name}])
