@@ -25,12 +25,7 @@
   .form-group
     = f.label :course_id, :class => "col-sm-2 control-label"
     .col-sm-10
-      - if params.include?(:course_id)
-        = f.text_field :course_name, :class => "form-control", :value => Course.find(params[:course_id]).name
-        = f.text_field :course_id, :class => "form-control", :value => params[:course_id], :type => 'hidden'
-      - else
-        = f.text_field :course_name, :class => "form-control", :value => ''
-        = f.text_field :course_id, :class => "form-control", :type => 'hidden', :value => ''
+      = f.text_field :course_id, :class => "form-control tokenize ui-autocomplete-input", :value => ''
   .form-group
     = f.label :text, :class => "col-sm-2 control-label"
     .col-sm-10
@@ -40,3 +35,6 @@
   .form-group
     .col-sm-offset-2.col-sm-10
       = f.submit :class => "btn btn-primary"
+
+script type="text/javascript"
+  | recommendationNewParameters();
