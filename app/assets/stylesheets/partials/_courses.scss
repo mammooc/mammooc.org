@@ -1,0 +1,159 @@
+@import 'bootstrap-variables';
+
+.courses-wrapper {
+
+  .courses {
+    background-color: white;
+    border: 1px solid $panel-default-border;
+    border-radius: $panel-border-radius;
+    float: left;
+    width: 200px;
+    height: 300px;
+    margin-bottom: 30px;
+    -webkit-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+
+    &:hover {
+      cursor: pointer;
+      -webkit-box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.1);
+      -moz-box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.1);
+      box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.1);
+      -webkit-transition: all 0.1s linear;
+      -o-transition: all 0.1s linear;
+      -moz-transition: all 0.1s linear;
+      -ms-transition: all 0.1s linear;
+      -kthtml-transition: all 0.1s linear;
+      transition: all 0.1s linear;
+    }
+
+    .course-image {
+      border-bottom: 1px solid $panel-default-border;
+
+      img {
+        object-fit: cover;
+        width: 100%;
+        height: 130px;
+        overflow: hidden;
+      }
+    }
+
+    a {
+      text-decoration: none;
+      color: black;
+    }
+
+    .course-info {
+      position: relative;
+      height: 170px;
+      width: 100%;
+      padding: 10px;
+      font-size: 12px;
+      font-weight: 300;
+
+      .name {
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .provider {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+
+        img {
+          width: 100px;
+          height: auto;
+        }
+      }
+    }
+  }
+}
+
+// Show 1 item per line for extra small screens,
+// mainly phones (portrait)
+
+@media(max-width: 480px) {
+  .courses-wrapper > .courses {
+    float: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 200px;
+
+  }
+}
+
+// Show 2 items per line for extra small screens,
+// mainly phones (landscape)
+
+@media(min-width: 481px) and (max-width: 767px) {
+  .courses-wrapper {
+    width: 416px;
+    display: block;
+    margin: auto;
+  }
+
+  .courses-wrapper > .courses {
+    &:nth-child(2n+1) {
+      width: 200px;
+      margin-right: 15.5px;
+    }
+
+    &:nth-child(2n+0) {
+      width: 200px;
+      margin-right: auto;
+    }
+  }
+}
+
+// Show 3 items per line for small and medium screens
+
+@media(min-width: 768px) and (max-width: 1199px) {
+  .courses-wrapper {
+    width: 632px;
+    display: block;
+    margin: auto;
+  }
+
+  .courses-wrapper > .courses {
+    &:nth-child(3n+1) {
+      margin-left: auto;
+      margin-right: 15.5px;
+    }
+    &:nth-child(3n+2) {
+      margin-right: 15.5px;
+    }
+    &:nth-child(3n+0) {
+      margin-right: auto;
+    }
+  }
+}
+
+// Show 4 items per line on large screens
+
+@media(min-width: 1200px) {
+  .courses-wrapper > .courses {
+    &:nth-child(4n+1) {
+      margin-right: 15.5px;
+    }
+    &:nth-child(4n+2) {
+      margin-right: 15.5px;
+    }
+    &:nth-child(4n+3) {
+      margin-right: 15.5px;
+    }
+    &:nth-child(4n+0) {
+      margin-right: auto;
+    }
+  }
+}
+
+// Hide sidebar and show filter in another way
+// for small and extra small screens
+
+@media(max-width: 991px) {
+  .courses-filter {
+    display: none;
+  }
+}

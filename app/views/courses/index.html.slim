@@ -1,91 +1,26 @@
-.page-header
+= content_for :title
+  = t('courses.title')
 
-  h1
-    | Listing courses
+- if @courses.empty?
+  .panel.panel-default
+    .panel-body
+      = t('courses.no_courses')
 
-.table-responsive
-  table.table.table-striped.table-bordered.table-hover
-    thead
-      tr
-        th
-          | Name
-        th
-          | Url
-        th
-          | Course instructor
-        th
-          | Abstract
-        th
-          | Language
-        th
-          | Imageid
-        th
-          | Videoid
-        th
-          | Start date
-        th
-          | End date
-        th
-          | Duration
-        th
-          | Costs
-        th
-          | Type of achievement
-        th
-          | Categories
-        th
-          | Difficulty
-        th
-          | Requirements
-        th
-          | Workload
-        th
-          | Provider course
-        th
-          | Mooc provider
-        th
-          | Course result
-        th
-    tbody
-      - @courses.each do | course |
-        tr
-          td
-            = course.name
-          td
-            = course.url
-          td
+- else
+
+  .courses-wrapper
+    - @courses.each do |course|
+      .courses
+        = link_to course
+          .course-image
+            - if course.imageId
+              = image_tag(course.imageId)
+            - else
+              img src="/data/icons/courses-list-std.png"
+          .course-info
+            .name
+              = course.name
             = course.course_instructors
-          td
-            = course.abstract
-          td
-            = course.language
-          td
-            = course.imageId
-          td
-            = course.videoId
-          td
-            = course.start_date
-          td
-            = course.end_date
-          td
-            = course.calculated_duration_in_days
-          td
-            = course.costs
-          td
-            = course.type_of_achievement
-          td
-            = course.categories
-          td
-            = course.difficulty
-          td
-            = course.requirements
-          td
-            = course.workload
-          td
-            = course.provider_course_id
-          td
-            = course.mooc_provider
-          td
-            = course.course_result
-          td
-            = link_to 'Show', course
+            .provider
+              // TODO : Change to provider logo
+              img src="/data/logo-openSAP.png"
