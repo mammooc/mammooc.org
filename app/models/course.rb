@@ -12,12 +12,21 @@ class Course < ActiveRecord::Base
   has_many :course_assignments
   has_many :user_assignments
 
+  validate :has_free_version_or_has_paid_version
+
   before_save :check_and_update_duration
   after_save :create_and_update_course_connections
   before_destroy :delete_dangling_course_connections
 
 
   private
+
+  def has_free_version_or_has_paid_version
+    unless self.has_free_version || self.has_paid_version
+      self.errors[:base] << 'A Course needs at least a free or a paid version!'
+    end
+  end
+
   def check_and_update_duration
     if self.end_date && self.start_date
       if start_date_is_before_end_date

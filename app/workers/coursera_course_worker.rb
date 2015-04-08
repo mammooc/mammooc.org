@@ -67,11 +67,13 @@ class CourseraCourseWorker < AbstractCourseWorker
         course.requirements = nil
       end
 
+      course.has_free_version = true
       course.type_of_achievement = ""
       if session_element["eligibleForCertificates"]
         course.type_of_achievement += "Certificate"
       end
       if session_element["eligibleForSignatureTrack"]
+        course.has_paid_version = true
         if course.type_of_achievement.length > 0
           course.type_of_achievement += ", "
         end
