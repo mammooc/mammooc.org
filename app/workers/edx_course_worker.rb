@@ -2,7 +2,6 @@ class EdxCourseWorker < AbstractCourseWorker
 
   MOOC_PROVIDER_NAME = 'edX'
   MOOC_PROVIDER_API_LINK = 'http://pipes.yahoo.com/pipes/pipe.run?_id=74859f52b084a75005251ae7a119f371&_render=json'
-  # COURSE_LINK_BODY = ''
 
   def mooc_provider
     MoocProvider.find_by_name(self.class::MOOC_PROVIDER_NAME)
