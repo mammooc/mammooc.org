@@ -10,6 +10,7 @@ provider1 = MoocProvider.create(name: 'openHPI')
 MoocProvider.create(name: 'openHPI China')
 MoocProvider.create(name: 'mooc.house')
 MoocProvider.create(name: 'openSAP')
+MoocProvider.create(name: 'coursera')
 MoocProvider.create(name: 'openSAP China')
 MoocProvider.create(name: 'openUNE')
 
