@@ -7,6 +7,12 @@ RSpec.describe GroupsController, :type => :controller do
 
   let(:user) {FactoryGirl.create(:user)}
   let!(:group) {FactoryGirl.create(:group, users: [user])}
+  let!(:group_with_admin) {
+    g = FactoryGirl.create(:group, users: [user])
+    UserGroup.set_is_admin(g.id, user.id, true)
+    g
+  }
+  let(:user_groups) { [group_with_admin, group] }
 
   before(:each) do
     @request.env["devise.mapping"] = Devise.mappings[:user]
@@ -17,7 +23,7 @@ RSpec.describe GroupsController, :type => :controller do
   describe "GET index" do
     it "assigns all groups as @groups" do
       get :index, {}
-      expect(assigns(:groups)).to eq([group])
+      expect(assigns(:groups)).to match_array(user_groups)
     end
   end
 
@@ -37,8 +43,8 @@ RSpec.describe GroupsController, :type => :controller do
 
   describe "GET edit" do
     it "assigns the requested group as @group" do
-      get :edit, {:id => group.to_param}
-      expect(assigns(:group)).to eq(group)
+      get :edit, {:id => group_with_admin.to_param}
+      expect(assigns(:group)).to eq(group_with_admin)
     end
   end
 
@@ -81,21 +87,21 @@ RSpec.describe GroupsController, :type => :controller do
       let(:new_attributes) { {name: 'Test_different', description: 'edited text'} }
 
       it "updates the requested group" do
-        put :update, {:id => group.to_param, :group => new_attributes}
-        group.reload
-        expect(group.name).to eq('Test_different')
-        expect(group.description).to eq('edited text')
+        put :update, {:id => group_with_admin.to_param, :group => new_attributes}
+        group_with_admin.reload
+        expect(group_with_admin.name).to eq('Test_different')
+        expect(group_with_admin.description).to eq('edited text')
         expect(flash[:notice]).to eq I18n.t('flash.notice.groups.successfully_updated')
       end
 
       it "assigns the requested group as @group" do
-        put :update, {:id => group.to_param, :group => FactoryGirl.attributes_for(:group)}
-        expect(assigns(:group)).to eq(group)
+        put :update, {:id => group_with_admin.to_param, :group => FactoryGirl.attributes_for(:group)}
+        expect(assigns(:group)).to eq(group_with_admin)
       end
 
       it "redirects to the group" do
-        put :update, {:id => group.to_param, :group => FactoryGirl.attributes_for(:group)}
-        expect(response).to redirect_to(group)
+        put :update, {:id => group_with_admin.to_param, :group => FactoryGirl.attributes_for(:group)}
+        expect(response).to redirect_to(group_with_admin)
       end
     end
   end
@@ -103,28 +109,28 @@ RSpec.describe GroupsController, :type => :controller do
   describe "DELETE destroy" do
     it "destroys the requested group" do
       expect {
-        delete :destroy, {:id => group.to_param}
+        delete :destroy, {:id => group_with_admin.to_param}
       }.to change(Group, :count).by(-1)
       expect(flash[:notice]).to eq I18n.t('flash.notice.groups.successfully_destroyed')
     end
 
     it "redirects to the groups list" do
-      delete :destroy, {:id => group.to_param}
+      delete :destroy, {:id => group_with_admin.to_param}
       expect(response).to redirect_to(groups_url)
     end
 
     it "destroys the membership of all users of the deleted group and only of the deleted group" do
       user_1 = FactoryGirl.create(:user)
       user_2 = FactoryGirl.create(:user)
-      group.update(users: [user, user_1, user_2])
+      group_with_admin.update(users: [user, user_1, user_2])
       group_2 = FactoryGirl.create(:group, users: [user, user_1, user_2])
       expect {
-        delete :destroy, {:id => group.to_param}
+        delete :destroy, {:id => group_with_admin.to_param}
       }.to change(UserGroup, :count).by(-3)
       # users are no longer members of group
-      expect(user.groups).not_to include(group)
-      expect(user_1.groups).not_to include(group)
-      expect(user_2.groups).not_to include(group)
+      expect(user.groups).not_to include(group_with_admin)
+      expect(user_1.groups).not_to include(group_with_admin)
+      expect(user_2.groups).not_to include(group_with_admin)
       # users are still members of group_2
       expect(user.groups).to include(group_2)
       expect(user_1.groups).to include(group_2)
@@ -170,33 +176,33 @@ RSpec.describe GroupsController, :type => :controller do
 
     context "on update" do
       it "should do nothing if there are no members to invite" do
-        put :update, {id: group.id, group: valid_attributes}
+        put :update, {id: group_with_admin.id, group: valid_attributes}
         expect(GroupInvitation.count).to eq 0
         expect(ActionMailer::Base.deliveries.count).to eq 0
       end
 
       it "should invite members" do
-        expect{ put :update, {id: group.id, group: valid_attributes, members: members} }.to change{ GroupInvitation.count }.by(2)
+        expect{ put :update, {id: group_with_admin.id, group: valid_attributes, members: members} }.to change{ GroupInvitation.count }.by(2)
         expect(ActionMailer::Base.deliveries.count).to eq 2
       end
     end
 
     context "on show page" do
       it "should do nothing if there are no members to invite" do
-        put :invite_group_members, {id: group.id, group: valid_attributes}
+        put :invite_group_members, {id: group_with_admin.id, group: valid_attributes}
         expect(GroupInvitation.count).to eq 0
         expect(ActionMailer::Base.deliveries.count).to eq 0
       end
 
       it "should invite members" do
-        expect{ put :invite_group_members, {id: group.id, group: valid_attributes, members: members} }.to change{ GroupInvitation.count }.by(2)
+        expect{ put :invite_group_members, {id: group_with_admin.id, group: valid_attributes, members: members} }.to change{ GroupInvitation.count }.by(2)
         expect(ActionMailer::Base.deliveries.count).to eq 2
       end
     end
   end
 
   describe "GET join" do
-    let(:another_group) { FactoryGirl.create :group }
+    let(:another_group) { FactoryGirl.create :group, users: [user] }
     let!(:invitation) { FactoryGirl.create :group_invitation, group: another_group }
     let(:expired_invitation) { FactoryGirl.create :group_invitation, group: another_group, expiry_date: 1.day.ago.in_time_zone }
 
@@ -225,6 +231,7 @@ RSpec.describe GroupsController, :type => :controller do
     end
 
     it "should not add user to deleted group" do
+      UserGroup.set_is_admin(another_group.id, user.id, true)
       delete :destroy, {id: another_group.to_param}
       get :join, token: invitation.token
       expect(response).to redirect_to(root_path)
@@ -232,7 +239,6 @@ RSpec.describe GroupsController, :type => :controller do
     end
 
     it "should not add member twice" do
-      another_group.users.push(user)
       get :join, token: invitation.token
       expect(response).to redirect_to(group_path(another_group))
       expect(flash[:notice]).to eq I18n.t('groups.invitation.already_member')
@@ -253,10 +259,13 @@ RSpec.describe GroupsController, :type => :controller do
     let(:group) {FactoryGirl.create(:group, users:[user, second_user])}
 
     it "should add one administrator to an existing group" do
-      put :add_administrator, {id: group.id, group: valid_attributes, additional_administrator: user}
+      UserGroup.set_is_admin(group.id, user.id, true)
+      new_admin = FactoryGirl.create(:user)
+      group.users.push(new_admin)
+      put :add_administrator, {id: group.id, group: valid_attributes, additional_administrator: new_admin}
       expect(response).to redirect_to group_path(group)
       current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
-      expect(current_admins_of_group.count).to eq 1
+      expect(current_admins_of_group.count).to eq 2
     end
   end
 
@@ -303,7 +312,7 @@ RSpec.describe GroupsController, :type => :controller do
     end
 
     it "should return 'last_member' if the member is the last member" do
-      UserGroup.set_is_admin(group.id, user.id, true)
+      UserGroup.set_is_admin(second_group.id, user.id, true)
       post :condition_for_changing_member_status, format: :json, id: second_group.id, changing_member: user.id
       expect(response.body).to have_content('last_member')
     end
@@ -322,6 +331,7 @@ RSpec.describe GroupsController, :type => :controller do
     let(:group) {FactoryGirl.create(:group, users:[user, second_user, third_user])}
 
     it "should make all members of a group to admins" do
+      UserGroup.set_is_admin(group.id, user.id, true)
       put :all_members_to_administrators, {id: group.id}
       current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq(group.users.count)

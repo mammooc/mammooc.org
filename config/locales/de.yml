@@ -85,7 +85,7 @@ de:
       recommendations: Empfehlungen
       statistics: Statistiken
     invitation:
-      joined _group: Sie wurden der Gruppe hinzugefügt.
+      joined_group: Sie wurden der Gruppe hinzugefügt.
       already_member: Sie sind schon Mitglied in der Gruppe.
       group_deleted: Gruppe gelöscht.
       link_expired: Link ist abgelaufen.
