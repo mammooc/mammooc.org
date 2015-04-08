@@ -8,9 +8,7 @@ $entry-padding-left: 10px;
   background-color: white;
   border: 1px solid $panel-default-border;
   border-radius: 2px;
-  -webkit-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
-  -moz-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
-  box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+  @include box-shadow-light;
 
   .wrapper {
     min-height: $group-logo-height;
@@ -26,9 +24,7 @@ $entry-padding-left: 10px;
       height: $group-logo-height;
       max-width: 250px;
       overflow: hidden;
-      -webkit-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
-      -moz-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
-      box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+      @include box-shadow-light;
 
       img {
         height: 100%;
@@ -86,9 +82,7 @@ $entry-padding-left: 10px;
     background-color: white;
     border: 1px solid $panel-default-border;
     border-radius: $panel-border-radius;
-    -webkit-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
-    -moz-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
-    box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+    @include box-shadow-light;
     float: left;
     margin-bottom: 30px;
 
@@ -123,9 +117,7 @@ $entry-padding-left: 10px;
         max-width: 250px;
         overflow: hidden;
         float: left;
-        -webkit-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
-        -moz-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
-        box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+        @include box-shadow-light;
 
         img {
           height: 100%;
@@ -154,9 +146,7 @@ $members_image_height: 100px;
     padding: 0px;
     border: 1px solid $panel-default-border;
     border-radius: 2px;
-    -webkit-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
-    -moz-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
-    box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+    @include box-shadow-light;
     float: left;
 
     @media(min-width: 992px) {
@@ -181,15 +171,7 @@ $members_image_height: 100px;
     }
 
     &:hover {
-      -webkit-box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.1);
-      -moz-box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.1);
-      box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.1);
-      -webkit-transition: all 0.1s linear;
-      -o-transition: all 0.1s linear;
-      -moz-transition: all 0.1s linear;
-      -ms-transition: all 0.1s linear;
-      -kthtml-transition: all 0.1s linear;
-      transition: all 0.1s linear;
+      @include box-shadow-hover;
     }
 
     img {

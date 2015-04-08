@@ -4,9 +4,7 @@
   background-color: white;
   border: 1px solid $panel-default-border;
   border-radius: 2px;
-  -webkit-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
-  -moz-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
-  box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+  @include box-shadow-light;
 
   .wrapper {
     height: 60px;
