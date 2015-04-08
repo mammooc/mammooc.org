@@ -23,9 +23,7 @@ describe CourseraCourseWorker do
   end
 
   it 'should load new course into database' do
-    course_count = Course.count
-    coursera_course_worker.handle_response_data json_session_data
-    expect(course_count).to eql Course.count - 2
+    expect{coursera_course_worker.handle_response_data json_session_data}.to change(Course, :count).by(2)
   end
 
   it 'should load course attributes into database' do
