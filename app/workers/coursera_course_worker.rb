@@ -51,7 +51,6 @@ class CourseraCourseWorker < AbstractCourseWorker
       course.description = corresponding_course["aboutTheCourse"]
       course.workload = corresponding_course["estimatedClassWorkload"]
 
-      #course.open_for_registration = !session_element["active"]
       course.difficulty = case corresponding_course["targetAudience"]
                             when 0 then TARGET_AUDIENCE_0
                             when 1 then TARGET_AUDIENCE_1
