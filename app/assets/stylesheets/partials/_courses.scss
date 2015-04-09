@@ -1,5 +1,3 @@
-@import 'bootstrap-variables';
-
 .courses-wrapper {
 
   .courses {
@@ -10,21 +8,11 @@
     width: 200px;
     height: 300px;
     margin-bottom: 30px;
-    -webkit-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
-    -moz-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
-    box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+    @include box-shadow-light;
 
     &:hover {
       cursor: pointer;
-      -webkit-box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.1);
-      -moz-box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.1);
-      box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.1);
-      -webkit-transition: all 0.1s linear;
-      -o-transition: all 0.1s linear;
-      -moz-transition: all 0.1s linear;
-      -ms-transition: all 0.1s linear;
-      -kthtml-transition: all 0.1s linear;
-      transition: all 0.1s linear;
+      @include box-shadow-hover;
     }
 
     .course-image {
@@ -73,7 +61,7 @@
 // Show 1 item per line for extra small screens,
 // mainly phones (portrait)
 
-@media(max-width: 480px) {
+@media(max-width: $screen-xs) {
   .courses-wrapper > .courses {
     float: none;
     display: block;
@@ -87,7 +75,7 @@
 // Show 2 items per line for extra small screens,
 // mainly phones (landscape)
 
-@media(min-width: 481px) and (max-width: 767px) {
+@media(min-width: $screen-xs + 1) and (max-width: $screen-xs-max) {
   .courses-wrapper {
     width: 416px;
     display: block;
@@ -109,7 +97,7 @@
 
 // Show 3 items per line for small and medium screens
 
-@media(min-width: 768px) and (max-width: 1199px) {
+@media(min-width: $screen-sm-min) and (max-width: $screen-md-max) {
   .courses-wrapper {
     width: 632px;
     display: block;
@@ -132,7 +120,7 @@
 
 // Show 4 items per line on large screens
 
-@media(min-width: 1200px) {
+@media(min-width: $screen-lg-min) {
   .courses-wrapper > .courses {
     &:nth-child(4n+1) {
       margin-right: 15.5px;
@@ -152,7 +140,7 @@
 // Hide sidebar and show filter in another way
 // for small and extra small screens
 
-@media(max-width: 991px) {
+@media(max-width: $screen-sm-max) {
   .courses-filter {
     display: none;
   }

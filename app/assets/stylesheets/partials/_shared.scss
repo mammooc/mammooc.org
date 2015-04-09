@@ -1,14 +1,10 @@
-@import 'bootstrap-variables';
-
-$logo-height: 60px;
+// Site header
 
 .site-header {
   background-color: white;
   border: 1px solid $panel-default-border;
   border-radius: 2px;
-  -webkit-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
-  -moz-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
-  box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+  @include box-shadow-light;
 
   .wrapper {
     height: 60px;
@@ -35,13 +31,4 @@ $logo-height: 60px;
       margin-right: 10px;
     }
   }
-}
-
-// Customize Bootstrap Panel
-
-.panel-default > .panel-heading {
-  background-color: #ffffff;
-  border-bottom: 0px;
-  font-size: 18px;
-  font-weight: 300;
 }
