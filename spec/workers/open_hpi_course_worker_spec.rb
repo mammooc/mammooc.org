@@ -43,6 +43,8 @@ describe OpenHPICourseWorker do
     expect(course.description).to eql json_course['description']
     expect(course.course_instructors).to eql json_course['lecturer']
     expect(course.open_for_registration).to eql !json_course['locked']
+    expect(course.has_free_version).to be true
+    expect(course.has_paid_version).to be_falsey
   end
 end
 
