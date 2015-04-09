@@ -27,13 +27,9 @@ class RecommendationsController < ApplicationController
     @recommendation = Recommendation.new(recommendation_params)
     @recommendation.user = @current_user
     user_ids = params[:recommendation][:related_user_ids].split(' ')
-    user_ids.each do |user_id|
-      @recommendation.users.push(User.find(user_id))
-    end
+    @recommendation.users += User.where id: user_ids
     group_ids = params[:recommendation][:related_group_ids].split(' ')
-    group_ids.each do |group_id|
-      @recommendation.groups.push(Group.find(group_id))
-    end
+    @recommendation.groups += Group.where id: group_ids
     respond_to do |format|
       if @recommendation.save
         format.html { redirect_to @recommendation, notice: 'Recommendation was successfully created.' }
