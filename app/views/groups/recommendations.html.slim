@@ -2,7 +2,6 @@
   = @group.name + ' | mammooc'
 
 p
-  .invite-member-button
-    = link_to new_recommendation_path(:group_id => @group.id)
-      button.btn.btn-default id='btn-recommend-course'
-        = t('groups.recommend_course')
+  = link_to new_recommendation_path(:group_id => @group.id)
+    button.btn.btn-default
+      = t('groups.recommend_course')
