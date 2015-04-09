@@ -18,13 +18,16 @@ MoocProvider.create(name: 'openUNE')
 minimal_previous_course = Course.create(name: 'Minimal Previous Technologies',
               url: 'https://open.hpi.de/courses/pythonjunior2015',
               provider_course_id: 2,
-              mooc_provider_id: provider1.id
+              mooc_provider_id: provider1.id,
+              has_free_version: true
+
 )
 
 minimal_following_course = Course.create(name: 'Minimal Following Technologies',
                                         url: 'https://open.hpi.de/courses/pythonjunior2015',
                                         provider_course_id: 2,
-                                        mooc_provider_id: provider1.id
+                                        mooc_provider_id: provider1.id,
+                                        has_paid_version: true
 )
 
 Course.create(name: 'Web Technologies',
@@ -60,7 +63,9 @@ Claudia; “I enjoyed this course so much. It gave me a chance to expand my hori
               credit_points: 6,
               mooc_provider_id: provider1.id,
               previous_iteration_id: minimal_previous_course.id,
-              following_iteration_id: minimal_following_course.id
+              following_iteration_id: minimal_following_course.id,
+              has_paid_version: true,
+              has_free_version: true
 )
 
 

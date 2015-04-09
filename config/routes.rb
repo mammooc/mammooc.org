@@ -41,7 +41,7 @@ Rails.application.routes.draw do
 
   resources :emails
 
-  resources :users
+  resources :users, except: [:new, :create]
 
   get 'dashboard/dashboard'
 
@@ -55,6 +55,7 @@ Rails.application.routes.draw do
   post 'groups/:id/condition_for_changing_member_status' => 'groups#condition_for_changing_member_status'
   get 'groups/join/:token' => 'groups#join'
   get 'groups/:id/members' => 'groups#members'
+  get 'groups/:id/recommendations' => 'groups#recommendations'
   get 'groups/:id/all_members_to_administrators' => 'groups#all_members_to_administrators'
   get 'impressum' => 'static_pages#impressum'
   root :to => 'home#index'

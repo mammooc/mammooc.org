@@ -37,7 +37,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     arel (6.0.0)
-    autoprefixer-rails (5.1.8)
+    autoprefixer-rails (5.1.8.1)
       execjs
       json
     bcrypt (3.1.10)
@@ -48,6 +48,7 @@ GEM
     bootstrap-sass (3.3.4.1)
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.2.19)
+    bootstrap_tokenfield_rails (0.0.7)
     builder (3.2.2)
     byebug (4.0.5)
       columnize (= 0.9.0)
@@ -62,7 +63,7 @@ GEM
       selenium-webdriver
     celluloid (0.16.0)
       timers (~> 4.0.0)
-    childprocess (0.5.5)
+    childprocess (0.5.6)
       ffi (~> 1.0, >= 1.0.11)
     chronic (0.10.2)
     cliver (0.3.2)
@@ -89,14 +90,14 @@ GEM
     domain_name (0.5.23)
       unf (>= 0.0.5, < 1.0.0)
     erubis (2.7.0)
-    execjs (2.5.0)
+    execjs (2.5.1)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
     factory_girl_rails (4.5.0)
       factory_girl (~> 4.5.0)
       railties (>= 3.0.0)
     ffi (1.9.8)
-    globalid (0.3.3)
+    globalid (0.3.5)
       activesupport (>= 4.1.0)
     headless (1.0.2)
     hike (1.2.3)
@@ -117,6 +118,8 @@ GEM
     jquery-turbolinks (2.1.0)
       railties (>= 3.1.0)
       turbolinks
+    jquery-ui-rails (5.0.3)
+      railties (>= 3.2.16)
     json (1.8.2)
     kgio (2.9.3)
     loofah (2.0.1)
@@ -286,6 +289,7 @@ PLATFORMS
 DEPENDENCIES
   bootstrap-generators
   bootstrap-sass
+  bootstrap_tokenfield_rails
   byebug
   capybara
   capybara-selenium
@@ -299,6 +303,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   jquery-turbolinks
+  jquery-ui-rails
   pg
   poltergeist
   rails (= 4.2.1)

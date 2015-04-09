@@ -25,7 +25,8 @@ RSpec.describe "courses/show", :type => :view do
       :course_result => nil,
       :start_date => DateTime.new(2015,9,3,9),
       :end_date => DateTime.new(2015,10,3,9),
-      :mooc_provider_id => moocProvider.id
+      :mooc_provider_id => moocProvider.id,
+      :has_free_version => true
     ))
   end
 

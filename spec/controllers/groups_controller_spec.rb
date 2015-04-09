@@ -310,7 +310,21 @@ RSpec.describe GroupsController, :type => :controller do
       current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq(group.users.count)
     end
-
   end
 
+  describe "GET members" do
+    render_views
+    let(:json) { JSON.parse(response.body) }
+
+    let(:user) { FactoryGirl.create(:user) }
+    let(:second_user) { FactoryGirl.create(:user) }
+    let(:group) { FactoryGirl.create(:group, users:[user, second_user]) }
+
+
+    it "should return JSON with all members exclude the current user" do
+      get :members, format: :json, id: group.id
+      expect(response.body).to have_content(second_user.id)
+      expect(response.body).not_to have_content(user.id)
+    end
+  end
 end

@@ -1,9 +1,11 @@
+- content_for :title
+  = t('recommendation.new') + ' | mammooc'
+
 .page-header
   = link_to recommendations_path, :class => 'btn btn-default' do 
     span.glyphicon.glyphicon-list-alt
-    |  Back 
+    = t('global.cancel')
   h1
-    | New 
-    | recommendation
+    = t('recommendation.new')
 
 = render 'form'
