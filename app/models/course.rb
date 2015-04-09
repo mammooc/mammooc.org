@@ -20,11 +20,19 @@ class Course < ActiveRecord::Base
   private
   def check_and_update_duration
     if self.end_date && self.start_date
-      if self.calculated_duration_in_days != (self.end_date.to_date - self.start_date.to_date).to_i
-        self.calculated_duration_in_days = (self.end_date.to_date - self.start_date.to_date).to_i
-        self.save
+      if start_date_is_before_end_date
+        if self.calculated_duration_in_days != (self.end_date.to_date - self.start_date.to_date).to_i
+          self.calculated_duration_in_days = (self.end_date.to_date - self.start_date.to_date).to_i
+          self.save
+        end
+      else
+        self.end_date = nil
       end
     end
+  end
+
+  def start_date_is_before_end_date
+    self.start_date <= self.end_date ? (return true) : (return false)
   end
 
   def delete_dangling_course_connections

@@ -15,7 +15,7 @@ if ENV['HEADLESS_TEST'] == 'true' || ENV['USER'] == 'vagrant'
   headless.start
 end
 
-if ENV['PHANTOM_JS'] == 'true' || ENV['CIRCLECI'] == 'true'
+if ENV['PHANTOM_JS'] == 'true'
   Capybara.register_driver :poltergeist do |app|
     Capybara::Poltergeist::Driver.new(app, :headers => {'ACCEPT-LANGUAGE' => 'en' })
   end

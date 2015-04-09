@@ -3,15 +3,17 @@
   .wrapper
     .container-fluid
       .row
-        .col-md-6
-          .logo.pull-left
+        .col-md-12
+          .logo
             img src="/data/group-default.png"
           .title
             = @group.name
             = link_to edit_group_path(@group)
               span.glyphicon.glyphicon-cog
-        .col-md-6
-          / space for options
+            span.invite-member-button
+              = link_to '', data: {toggle: 'modal', target: '#add_group_members'}
+                button.btn.btn-sm.btn-default id='btn-invite-members'
+                  = t('groups.all_members.invite_members')
 
   .subnav
     .container-fluid
@@ -42,3 +44,5 @@
             div class=""
               a href="#"
                 = t('groups.subnav.statistics')
+
+= render 'add_members'

@@ -149,6 +149,9 @@ de:
 
   #show course
   courses:
+    title: Kursübersicht | mammooc
+    heading: Kurse
+    no_courses: Keine Kurse verfügbar
     description: Kursinformationen
     reviews: Rezensionen
     mooc_provider: Kursanbieter

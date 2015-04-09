@@ -31,8 +31,7 @@
     h4
       = t('courses.requirements')
     - @course.requirements.each do |requirement|
-      span.label.label-default
-        = requirement
+      = raw requirement
   - if @course.type_of_achievement
     h4
       = t('courses.achievement')
