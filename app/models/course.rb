@@ -15,7 +15,7 @@ class Course < ActiveRecord::Base
   before_save :check_and_update_duration
   after_save :create_and_update_course_connections
   before_destroy :delete_dangling_course_connections
-
+  validates_uniqueness_of :name
 
   private
   def check_and_update_duration
