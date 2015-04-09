@@ -1,0 +1,30 @@
+/*
+To define mixins, just write "@mixin name".
+Use mixins within any other stylesheet with the "@include name" method.
+*/
+
+@mixin box-shadow-light {
+  -webkit-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
+}
+
+@mixin box-shadow-hover {
+  -webkit-box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.1);
+  -moz-box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.1);
+  -webkit-transition: all 0.1s linear;
+  -o-transition: all 0.1s linear;
+  -moz-transition: all 0.1s linear;
+  -ms-transition: all 0.1s linear;
+  -kthtml-transition: all 0.1s linear;
+  transition: all 0.1s linear;
+}
+
+@mixin vertical-align {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}

@@ -1,12 +1,15 @@
 # See https://help.github.com/articles/ignoring-files for more about ignoring files.
 
+# Ignore Vagrant files
 /Vagrantfile
 /.vagrant
 /vagrant_provision.sh
 
-/coverage
-# Ignore stupid Mac folders
+# Ignore stupid Mac file
 /.DS_Store
+
+# Ignore dump file
+/dump.rdb
 
 # __ WEBAPP __
 # Ignore bundler config.
@@ -24,8 +27,16 @@
 /.idea
 *.idea
 
+# Ignore code coverage files
 /coverage
 
-config/settings.local.yml
-config/settings/*.local.yml
-config/environments/*.local.yml
+# Ignore locale config files
+/config/settings.local.yml
+/config/settings/*.local.yml
+/config/environments/*.local.yml
+
+# Ignore auto-generated javascript files
+/app/assets/javascripts/i18n
+
+# Ignore auto-generated assets
+/public/assets

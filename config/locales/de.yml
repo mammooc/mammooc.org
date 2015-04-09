@@ -24,19 +24,21 @@ de:
     require_login: Sie müssen eingeloggt sein um auf diese Seite zugreifen zu können.
     close: Schließen
     submit: Absenden
+    cancel: Abbrechen
 
   navbar:
-    MAMMOOC: MAMMOOC
+    mammooc: mammooc
     home: Home
+    courses: Kurse
     about: Über uns
-    contact: Kontakt
+    impressum: Impressum
     sign_out: Ausloggen
     dashboard: Dashboard
     profile: Profil
-    welcome_heading: Willkommen bei MAMMOOC!
+    welcome_heading: Willkommen bei mammooc!
 
   dashboard:
-    hi: Hi
+    hi: Hi %{name}
     my_groups: :groups.my_groups
     my_current_courses: Meine aktuellen Kurse
     no_groups: :groups.no_groups
@@ -44,8 +46,8 @@ de:
     edit_group: Gruppe bearbeiten
 
   home:
-    welcome_heading: Willkommen bei MAMMOOC!
-    welcome_title: "MAMMOOC: Registriere Dich noch heute!"
+    welcome_heading: Willkommen bei mammooc!
+    welcome_title: "mammooc: Registriere Dich noch heute!"
     hello: Hallo
 
   users:
@@ -70,44 +72,69 @@ de:
       reset: Neues Passwort anfordern
 
   groups:
-    admins: Admins
-    administrators: Administrator(en)
-    name: Name
-    description: Beschreibung
-    members: Mitglied(er)
-    show_all: Alle anzeigen
+    title: Meine Gruppen | mammooc
+    member: Mitglied
+    members: Mitglieder
+    member_overview: Alle anzeigen
     no_groups: Du hast noch keine Gruppen.
     new: Neue Gruppe
     edit: Gruppe bearbeiten
     my_groups: Meine Gruppen
+    show: Zur Gruppe
+    recommend_course: Dieser Gruppe einen Kurs empfehlen
+    subnav:
+      home: Home
+      members: Mitglieder
+      recommendations: Empfehlungen
+      statistics: Statistiken
     invitation:
       joined _group: Sie wurden der Gruppe hinzugefügt.
       already_member: Sie sind schon Mitglied in der Gruppe.
       group_deleted: Gruppe gelöscht.
-      invite_members: Mitglieder einladen
       link_expired: Link ist abgelaufen.
       link_used: Link wurde bereits verwendet.
       link_invalid: Link ist ungültig.
-    modal:
-      title: Alle Mitglieder
-
-  static:
-    contact:
-      heading: Schreib uns!
-      title: Kontakt - MAMMOOC
-    about:
-      heading: Über uns
-      title: Über uns - MAMMOOC
+    add_members:
+      title: Mitglieder zur Gruppe hinzufügen
+      invite_members: Mitglieder einladen
+      text: E-Mail-Adressen durch Komma getrennt eingeben
+      error: 'Fehler: Nicht alle Emails konnten zugestellt werden. Bitte überprüfe die verbleibenden E-Mails'
+    all_members:
+      administrator: AdministratorIn
+      add_admin: Als AdministratorIn hinzufügen
+      demote_admin: Administratorrechte entziehen
+      demote_last_admin_notice: Du bist der letzte Administrator dieser Gruppe. Bitte ernenne erst ein anderes Mitglied zum Administrator, bevor du deinen Status änderst.
+      demote_last_admin_button: Zurück zur Gruppe
+      invite_members: Mitglieder einladen
+      remove_member: Mitglied entfernen
+      leave_group: Gruppe verlassen
+    remove_member:
+      title: Mitglied entfernen
+      question_member_1: Bist du sicher, dass du
+      question_member_2: aus dieser Gruppe entfernen möchtest?
+      question_last_member: Du bist das letzte Mitglied dieser Gruppe. Wenn du die Gruppe verlässt, wird sie automatisch gelöscht.
+      question_last_admin: "Du bist der letzte Administrator dieser Gruppe. Wenn du die Gruppe verlässt, werden alle verbleibenden Mitglieder zu Administratoren ernannt."
+      confirm_delete_group: Gruppe verlassen und löschen
+      confirm_leave_group: Gruppe verlassen
+      confirm_remove_member: Mitglied entfernen
+      yourself: dich
 
   activerecord:
     models:
       group:
         one: Gruppe
         other: Gruppen
+      recommendation:
+        one: Empfehlung
+        other: Empfehlungen
     attributes:
       group:
         name: Name
         description: Beschreibung
+      recommendation:
+        is_obligatory: Verpflichtend?
+        text: Nachricht
+
    #error messages
     errors:
       messages:
@@ -119,7 +146,45 @@ de:
             password:
               too_short: ist zu kurz (Minimum sind %{count} Zeichen).
             password_confirmation:
-              confirmation: stimmt nicht mit Passwort überein.
+            confirmation: stimmt nicht mit Passwort überein.
+
+  #show course
+  courses:
+    title: Kursübersicht | mammooc
+    heading: Kurse
+    no_courses: Keine Kurse verfügbar
+    description: Kursinformationen
+    reviews: Rezensionen
+    mooc_provider: Kursanbieter
+    instructors: Lehrpersonen
+    time: Zeitraum
+    language: Sprache
+    requirements: Voraussetzungen
+    achievement: Abschluss
+    categories: Kategorien
+    costs: Kosten
+    difficulty: Schwierigkeitsgrad
+    workload: Arbeitsaufwand
+    enter_course: Zum Kurs
+    remember_course: Kurs merken
+    enroll_course: Kurs belegen
+    recommend_course: Kurs empfehlen
+    rate_course: Kurs bewerten
+    recommendations: Empfehlungen
+    rating: Bewertung
+    credit_points: Leistungspunkte
+    no_dates_available: Es sind keine Daten vorhanden.
+    duration: Dauer
+    subtitle_languages: Verfügbare Untertitel
+    previous_iteration: Vorheriger Durchlauf
+    following_iteration: Nachfolgender Durchlauf
+
+  recommendation:
+    placeholder: Gib deine persönliche Nachricht hier ein ...
+    new: Neue Empfehlung
+    related_course: Kurs
+    related_users: Nutzer
+    related_groups: Gruppen
 
   flash:
     #success:
@@ -134,7 +199,59 @@ de:
       login:
         reqired: Sie müssen eingeloggt sein.
       sign_up:
-        terms_and_conditions_failure: Bitte bestätigen Sie die AGBs von MAMMOOC!
+        terms_and_conditions_failure: Bitte bestätigen Sie die AGBs von mammooc!
       user:
         password_too_short: ist zu kurz (Minimum sind %{count} Zeichen).
         password_confirmation: stimmt nicht mit Passwort überein.
+
+  startpage:
+    carousel:
+      progress:
+        headline: Behalte deinen Lernfortschritt im Auge
+        text: Rufe den Stand deiner aktuellen Kurse ab. Finde alles an einem Ort.
+      recommend:
+        headline: Empfiehl MOOCs weiter, die dir gefallen
+        text: Bilde Gruppen mit anderen und tausche dich aus.
+      evaluate:
+        headline: Evaluiere die Aktivitäten deiner Gruppe
+        text: Schau dir die gemeinsamen Statistiken an. Behalte Vormerkungen, Empfehlungen und die Kursbelegung deiner Gruppenmitglieder im Blick.
+    bulletpoints:
+      enterprise:
+        headline_1: mammooc im
+        headline_2: Unternehmen
+        text: MOOCs bieten eine moderne und kostengünstige Möglichkeit zur Fortbildung von Mitarbeitern. Finden Sie geeignete Kurse und empfehlen Sie sie weiter. Behalten Sie mit Hilfe der Gruppenstatistiken die Aktivitäten Ihrer Mitarbeiter im Blick. Nutzen Sie die Business-Version, um zur Teilnahme von Kursen zu verpflichten und den Fortschritt Ihrer Mitarbeiter zu verfolgen.
+      classroom:
+        headline_1: mammooc im
+        headline_2: Klassenraum
+        text: Erweitern Sie Ihr Lehrangebot durch MOOCs und verwalten Sie die Kursteilnahme Ihrer SchülerInnen. Laden Sie die SchülerInnen in eine Gruppe ein, um den Status zu abgegebenen Hausaufgaben und Tests zu verfolgen. Erhalten Sie Gruppenstatistiken und Informationen darüber, wer einen Kurs erfolgreich abgeschlossen hat.
+      home:
+        headline_1: mammooc für
+        headline_2: Zuhause
+        text: Finde Online-Kurse, die zu dir passen, und tausche deine Erfahrungen mit Freunden aus. Mit mammooc kannst du Kurse vormerken, empfehlen und in die Liste deiner aktuellen Belegungen aufnehmen. Verbinde darüber hinaus deinen Account mit MOOC-Anbietern, um deinen Kursfortschritt im Auge zu behalten.
+    featurettes:
+      aggregator:
+        headline: Finde Kurse verschiedener Anbieter.
+        subtitle:  mammooc als MOOC-Aggregator.
+        text: Suche nach einem Thema, filtere die Ergebnisse nach deinen Vorstellungen und lies dir die Bewertungen anderer mammooc-Nutzer durch. Merke einen Kurs vor, um zum Kursstart eine Erinnerung per E-Mail zu erhalten. Behalte deinen Lernfortschritt im Auge und sammle deine Abschlüsse an einem Ort.
+      community:
+        headline: Erstelle Gruppen!
+        subtitle: mammooc für Gemeinschaften.
+        text: 'Ob für die Abteilung eines Unternehmens, für eine Schulklasse oder für private Lerngruppen: mammooc bietet die Gelegenheit, Menschen in Form von Gruppen zusammen zu bringen. Auf diesem Weg können aktuell belegte Kurse, Kursfortschritte und Kursabschlüsse untereinander geteilt werden. Außerdem können Empfehlungen an Einzelpersonen oder an die Gruppe gesendet werden. Automatisch erstellte Statistiken informieren über die Aktivitäten der Gruppe.'
+      mammooc:
+        headline: mammooc!
+        subtitle: Managing All My MOOCs.
+        text: mammooc als innovativer Ansatz macht es möglich, Fortbildungsaktivitäten an einem Ort zu sammeln. Mit openSAP und openHPI haben wir bereits zwei feste Partner gewonnen. Unser Ziel ist es, weitere Kooperationen aufzubauen, um aus mammooc das Maximale herauszuholen. Beim Verbinden der Accounts wird es so möglich, zum Beispiel Kursfortschritte stets aktuell abzurufen.
+        register_now: Registriere dich jetzt und trete der mammooc Gemeinschaft bei!
+
+  static:
+    about:
+      heading: Über uns
+      title: Über uns | mammooc
+      text_1: Wir sind 6 Studenten des HPI, die als Abschlussprojekt unseres Bachelorstudiums mammooc entwickeln.
+      text_2: Wir bemühen uns euch stets die bestmögliche Erfahrung zu bieten. Daher freuen wir uns immer über Feedback, Fragen, Wünsche und sonstige Kommentare!
+      text_3: Schreibt uns einfach an
+    impressum:
+      heading: Impressum
+      title: Impressum | mammooc
+      text: Unser Impressum finden sie aktuell auf der Webseite von openHPI.
+      link: Zum Impressum

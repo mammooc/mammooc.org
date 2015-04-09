@@ -1,0 +1,7 @@
+- content_for :title
+  = @group.name + ' | mammooc'
+
+p
+  = link_to new_recommendation_path(group_id: @group.id)
+    button.btn.btn-default
+      = t('groups.recommend_course')

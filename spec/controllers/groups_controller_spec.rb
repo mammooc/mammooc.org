@@ -145,53 +145,37 @@ RSpec.describe GroupsController, :type => :controller do
   end
 
   describe "invite members" do
-    context "on create" do
-      it "should do nothing if there are no members to invite" do
-        post :create, {group: valid_attributes}
-        expect(GroupInvitation.count).to eq 0
-        expect(ActionMailer::Base.deliveries.count).to eq 0
-      end
+    render_views
+    let(:json) { JSON.parse(response.body) }
 
-      it "should invite members" do
-        expect{ post :create, {group: valid_attributes, members: members} }.to change{ GroupInvitation.count }.by(2)
-        expect(ActionMailer::Base.deliveries.count).to eq 2
-      end
-
-      it "should split invite members string correctly to email array" do
-        email_string = "test1@example.com test2@example.com,test3@example.com, test4@example.com;test5@example.com; test6@example.com  test7@example.com\ntest8@example.com"
-        post :create, {group: valid_attributes, members: email_string}
-        ActionMailer::Base.deliveries.each_with_index do |delivery, i|
-          expect(delivery.to).to contain_exactly("test#{i+1}@example.com")
-        end
-        expect(ActionMailer::Base.deliveries.count).to eq 8
-      end
-
+    it "should do nothing if there are no members to invite" do
+      post :invite_group_members, format: :json, id: group.id, members: ""
+      expect(GroupInvitation.count).to eq 0
+      expect(response.body).to have_content('"error_email":[]')
+      expect(ActionMailer::Base.deliveries.count).to eq 0
     end
 
-    context "on update" do
-      it "should do nothing if there are no members to invite" do
-        put :update, {id: group.id, group: valid_attributes}
-        expect(GroupInvitation.count).to eq 0
-        expect(ActionMailer::Base.deliveries.count).to eq 0
+    it "should split invite members string correctly to email array" do
+      email_string = "test1@example.com test2@example.com,test3@example.com, test4@example.com;test5@example.com; test6@example.com  test7@example.com\ntest8@example.com"
+      post :invite_group_members, format: :json, id: group.id, members: email_string
+      ActionMailer::Base.deliveries.each_with_index do |delivery, i|
+        expect(delivery.to).to contain_exactly("test#{i+1}@example.com")
       end
-
-      it "should invite members" do
-        expect{ put :update, {id: group.id, group: valid_attributes, members: members} }.to change{ GroupInvitation.count }.by(2)
-        expect(ActionMailer::Base.deliveries.count).to eq 2
-      end
+      expect(response.body).to have_content('"error_email":[]')
+      expect(ActionMailer::Base.deliveries.count).to eq 8
     end
 
-    context "on show page" do
-      it "should do nothing if there are no members to invite" do
-        put :invite_group_members, {id: group.id, group: valid_attributes}
-        expect(GroupInvitation.count).to eq 0
-        expect(ActionMailer::Base.deliveries.count).to eq 0
-      end
+    it "should invite members" do
+      expect{ post :invite_group_members, format: :json, id: group.id, members: members}.to change{ GroupInvitation.count }.by(2)
+      expect(response.body).to have_content('"error_email":[]')
+      expect(ActionMailer::Base.deliveries.count).to eq 2
+    end
 
-      it "should invite members" do
-        expect{ put :invite_group_members, {id: group.id, group: valid_attributes, members: members} }.to change{ GroupInvitation.count }.by(2)
-        expect(ActionMailer::Base.deliveries.count).to eq 2
-      end
+    it "should return wrong email addresses" do
+      email_string = members + ', wrong; misspelled valid@example.org'
+      expect{ post :invite_group_members, format: :json, id: group.id, members: email_string}.to change{ GroupInvitation.count }.by(3)
+      expect(response.body).to have_content('"error_email":["wrong","misspelled"]')
+      expect(ActionMailer::Base.deliveries.count).to eq 3
     end
   end
 
@@ -247,4 +231,100 @@ RSpec.describe GroupsController, :type => :controller do
     end
   end
 
+  describe "POST add_administrators" do
+    let(:user) {FactoryGirl.create(:user)}
+    let(:second_user) {FactoryGirl.create(:user)}
+    let(:group) {FactoryGirl.create(:group, users:[user, second_user])}
+
+    it "should add one administrator to an existing group" do
+      put :add_administrator, {id: group.id, group: valid_attributes, additional_administrator: user}
+      expect(response).to redirect_to group_path(group)
+      current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
+      expect(current_admins_of_group.count).to eq 1
+    end
+  end
+
+  describe "POST demote_administrator" do
+    let(:user) {FactoryGirl.create(:user)}
+    let(:group) {FactoryGirl.create(:group, users:[user])}
+
+    it "should demote an administrator to a normal memeber" do
+      UserGroup.set_is_admin(group.id, user.id, true)
+      expect{ put :demote_administrator, {id: group.id, demoted_admin: user} }.to change(UserGroup.where(group_id: group.id, is_admin: true), :count).by(-1)
+      expect(response).to redirect_to group_path(group)
+    end
+  end
+
+  describe  "POST remove group member" do
+    let(:user) {FactoryGirl.create(:user)}
+    let(:second_user) {FactoryGirl.create(:user)}
+    let(:third_user) {FactoryGirl.create(:user)}
+    let(:group) {FactoryGirl.create(:group, users:[user, second_user, third_user])}
+
+    it "should remove a member of a group" do
+      UserGroup.set_is_admin(group.id, user.id, true)
+      admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
+      expect{ put :remove_group_member, {id: group.id, removing_member: user.id } }.to change{group.users.count}.by(-1)
+      expect(admins_of_group).to eq(UserGroup.where(group_id: group.id, is_admin: true))
+    end
+  end
+
+
+  describe "POST condition for changing member status" do
+    let(:user) {FactoryGirl.create(:user)}
+    let(:second_user) {FactoryGirl.create(:user)}
+    let(:third_user) {FactoryGirl.create(:user)}
+    let(:group) {FactoryGirl.create(:group, users:[user, second_user, third_user])}
+    let(:second_group) {FactoryGirl.create(:group, users:[user])}
+
+    render_views
+    let(:json) { JSON.parse(response.body) }
+
+    it "should return 'last_admin' if the member is the last admin (but there are still other members)" do
+      UserGroup.set_is_admin(group.id, user.id, true)
+      post :condition_for_changing_member_status, format: :json, id: group.id, changing_member: user.id
+      expect(response.body).to have_content('last_admin')
+    end
+
+    it "should return 'last_member' if the member is the last member" do
+      UserGroup.set_is_admin(group.id, user.id, true)
+      post :condition_for_changing_member_status, format: :json, id: second_group.id, changing_member: user.id
+      expect(response.body).to have_content('last_member')
+    end
+
+    it "should return 'ok' if there are no restrictions to remove the member" do
+      UserGroup.set_is_admin(group.id, user.id, true)
+      post :condition_for_changing_member_status, format: :json, id: group.id, changing_member: second_user.id
+      expect(response.body).to have_content('ok')
+    end
+  end
+
+  describe "POST all members to administrators" do
+    let(:user) {FactoryGirl.create(:user)}
+    let(:second_user) {FactoryGirl.create(:user)}
+    let(:third_user) {FactoryGirl.create(:user)}
+    let(:group) {FactoryGirl.create(:group, users:[user, second_user, third_user])}
+
+    it "should make all members of a group to admins" do
+      put :all_members_to_administrators, {id: group.id}
+      current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
+      expect(current_admins_of_group.count).to eq(group.users.count)
+    end
+  end
+
+  describe "GET members" do
+    render_views
+    let(:json) { JSON.parse(response.body) }
+
+    let(:user) { FactoryGirl.create(:user) }
+    let(:second_user) { FactoryGirl.create(:user) }
+    let(:group) { FactoryGirl.create(:group, users:[user, second_user]) }
+
+
+    it "should return JSON with all members exclude the current user" do
+      get :members, format: :json, id: group.id
+      expect(response.body).to have_content(second_user.id)
+      expect(response.body).not_to have_content(user.id)
+    end
+  end
 end

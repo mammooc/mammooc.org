@@ -11,10 +11,16 @@
 // about supported directives.
 //
 //= require jquery
-//= require bootstrap
+//= require jquery.turbolinks
 //= require jquery_ujs
+//= require jquery-ui
+//= require bootstrap
+//= require bootstrap-tokenfield
+//= require i18n
+//= require i18n/translations
 //= require turbolinks
 //= require_tree .
+
 
 $(document).ready(function(){
     //Handles menu drop down

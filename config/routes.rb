@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
 
 
+  get 'api_connection/index'
+  get 'api_connection/send_request'
+
   devise_for :users, :controllers => { :registrations => "users/registrations",
                                        :sessions => "users/sessions",
                                        :passwords => "users/passwords"}
@@ -32,26 +35,35 @@ Rails.application.routes.draw do
 
   resources :groups
 
-  resources :courses
-
   resources :course_results
 
   resources :mooc_providers
 
   resources :emails
 
-  resources :users
+  resources :users, except: [:new, :create]
 
   get 'dashboard/dashboard'
 
   get 'home/index'
-  get 'contact' => 'static_pages#contact'
   get 'about' => 'static_pages#about'
   get 'dashboard' => 'dashboard#dashboard'
   post 'groups/:id/invite_members' => 'groups#invite_group_members'
+  post 'groups/:id/add_administrator' => 'groups#add_administrator'
+  post 'groups/:id/demote_administrator' => 'groups#demote_administrator'
+  post 'groups/:id/remove_group_member' => 'groups#remove_group_member'
+  post 'groups/:id/condition_for_changing_member_status' => 'groups#condition_for_changing_member_status'
   get 'groups/join/:token' => 'groups#join'
+  get 'groups/:id/members' => 'groups#members'
+  get 'groups/:id/recommendations' => 'groups#recommendations'
+  get 'groups/:id/all_members_to_administrators' => 'groups#all_members_to_administrators'
+  get 'impressum' => 'static_pages#impressum'
   root :to => 'home#index'
 
+  # Courses
+  get 'courses' => 'courses#index'
+  get 'courses/index'
+  get 'courses/:id' => 'courses#show', as: 'course'
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

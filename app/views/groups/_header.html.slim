@@ -1,0 +1,48 @@
+.group-header
+
+  .wrapper
+    .container-fluid
+      .row
+        .col-md-12
+          .logo
+            img src="/data/group-default.png"
+          .title
+            = @group.name
+            = link_to edit_group_path(@group)
+              span.glyphicon.glyphicon-cog
+            span.invite-member-button
+              = link_to '', data: {toggle: 'modal', target: '#add_group_members'}
+                button.btn.btn-sm.btn-default id='btn-invite-members'
+                  = t('groups.all_members.invite_members')
+
+  .subnav
+    .container-fluid
+      .row
+        .col-md-12
+          .entry
+            div class=(current_page?("/groups/#{@group.id}") ? 'active' : '')
+              - if current_page?("/groups/#{@group.id}")
+                = t('groups.subnav.home')
+              - else
+                a href=group_path(@group)
+                  = t('groups.subnav.home')
+          .entry
+            div class=(current_page?("/groups/#{@group.id}/members") ? 'active' : '')
+              - if current_page?("/groups/#{@group.id}/members")
+                = t('groups.subnav.members')
+              - else
+                a href="/groups/#{@group.id}/members"
+                  = t('groups.subnav.members')
+          .entry
+            div class=(current_page?("/groups/#{@group.id}/recommendations") ? 'active' : '')
+              - if current_page?("/groups/#{@group.id}/recommendations")
+                = t('groups.subnav.recommendations')
+              - else
+                a href="/groups/#{@group.id}/recommendations"
+                  = t('groups.subnav.recommendations')
+          .entry
+            div class=""
+              a href="#"
+                = t('groups.subnav.statistics')
+
+= render 'add_members'

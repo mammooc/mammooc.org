@@ -1,9 +1,194 @@
-/*------------------------------------*\
-    $Glyphs
-\*------------------------------------*/
+// Glyphs
 
 .glyphicon {
   top: 3px !important;
   padding:0px 5px;
   color: black;
+}
+
+// Buttons
+
+.no-radius {
+  border-radius: 0px;
+}
+
+.btn-gray {
+  @extend .no-radius;
+  background-color: $gray-lighter;
+  border: 0px;
+  color: $gray-light;
+}
+
+.btn-gray:hover,
+.btn-gray:focus,
+.btn-gray.focus,
+.btn-gray:active,
+.btn-gray.active,
+.open > .dropdown-toggle.btn-gray {
+  background-color: $mammooc;
+  color: #ffffff;
+}
+
+.btn-gray-lg {
+  @extend .no-radius;
+  background-color: $gray-lighter;
+  border: 0px;
+  color: black;
+  width: 100%;
+  display: block;
+  margin: 0px;
+  font-weight: bold;
+  a {
+    color: black;
+  }
+}
+
+.btn-gray-lg:hover,
+.btn-gray-lg:focus,
+.btn-gray-lg.focus,
+.btn-gray-lg:active,
+.btn-gray-lg.active,
+.open > .dropdown-toggle.btn-gray-lg {
+  background-color: darken($gray-lighter, 2%);
+  color: $mammooc-dark;
+  a {
+    color: $mammooc;
+    text-decoration: none;
+  }
+}
+
+.btn-cancel {
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  color: #333333;
+}
+
+.btn-cancel:hover,
+.btn-cancel:focus,
+.btn-cancel.focus,
+.btn-cancel:active,
+.btn-cancel.active,
+.open > .dropdown-toggle.btn-cancel {
+  background-color: #e6e6e6;
+  border-color: #adadad;
+  color: #333333;
+}
+
+// Changing style of Bootstrap buttons
+// For defining the button styling, have also a look at bootstrap-variables.scss
+
+.btn-default:hover,
+.btn-default:focus,
+.btn-default.focus,
+.btn-default:active,
+.btn-default.active,
+.open > .dropdown-toggle.btn-default {
+  background-color: $mammooc;
+  border-color: $mammooc;
+  color: #ffffff;
+}
+
+.btn-default:active,
+.btn-default.active,
+.open > .dropdown-toggle.btn-default {
+  background-image: none;
+}
+.btn-default.disabled,
+.btn-default[disabled],
+fieldset[disabled] .btn-default,
+.btn-default.disabled:hover,
+.btn-default[disabled]:hover,
+fieldset[disabled] .btn-default:hover,
+.btn-default.disabled:focus,
+.btn-default[disabled]:focus,
+fieldset[disabled] .btn-default:focus,
+.btn-default.disabled.focus,
+.btn-default[disabled].focus,
+fieldset[disabled] .btn-default.focus,
+.btn-default.disabled:active,
+.btn-default[disabled]:active,
+fieldset[disabled] .btn-default:active,
+.btn-default.disabled.active,
+.btn-default[disabled].active,
+fieldset[disabled] .btn-default.active {
+  background-color: #ffffff;
+  border-color: $mammooc;
+}
+
+.btn-primary {
+  font-weight: bold;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary.focus,
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+  color: #ffffff;
+  background-color: $mammooc-dark;
+  border-color: $mammooc-darker;
+}
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+  background-image: none;
+}
+.btn-primary.disabled,
+.btn-primary[disabled],
+fieldset[disabled] .btn-primary,
+.btn-primary.disabled:hover,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus,
+.btn-primary[disabled]:focus,
+fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled.focus,
+.btn-primary[disabled].focus,
+fieldset[disabled] .btn-primary.focus,
+.btn-primary.disabled:active,
+.btn-primary[disabled]:active,
+fieldset[disabled] .btn-primary:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled].active,
+fieldset[disabled] .btn-primary.active {
+  background-color: $mammooc;
+  border-color: #000000;
+}
+
+.btn-danger:hover,
+.btn-danger:focus,
+.btn-danger.focus,
+.btn-danger:active,
+.btn-danger.active,
+.open > .dropdown-toggle.btn-danger {
+  color: #ffffff;
+  background-color: $brand-danger;
+  border-color: $brand-danger;
+}
+.btn-danger:active,
+.btn-danger.active,
+.open > .dropdown-toggle.btn-danger {
+  background-image: none;
+}
+.btn-danger.disabled,
+.btn-danger[disabled],
+fieldset[disabled] .btn-danger,
+.btn-danger.disabled:hover,
+.btn-danger[disabled]:hover,
+fieldset[disabled] .btn-danger:hover,
+.btn-danger.disabled:focus,
+.btn-danger[disabled]:focus,
+fieldset[disabled] .btn-danger:focus,
+.btn-danger.disabled.focus,
+.btn-danger[disabled].focus,
+fieldset[disabled] .btn-danger.focus,
+.btn-danger.disabled:active,
+.btn-danger[disabled]:active,
+fieldset[disabled] .btn-danger:active,
+.btn-danger.disabled.active,
+.btn-danger[disabled].active,
+fieldset[disabled] .btn-danger.active {
+  background-color: $brand-danger;
+  border-color: $brand-danger;
 }

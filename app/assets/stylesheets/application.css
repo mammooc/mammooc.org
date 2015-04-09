@@ -1,0 +1,11 @@
+/*
+Avoid writing any regular SASS code in application.css or in partials.scss.
+If you need to write styles that affect the website globally or
+that will overwrite other styles (e.g. from Bootstrap), please use partials/_base.scss.
+If you need to create new partials, please import them in partials.scss.
+
+*= require jquery-ui
+*= require bootstrap-tokenfield
+*= require_self
+*= require partials
+*/

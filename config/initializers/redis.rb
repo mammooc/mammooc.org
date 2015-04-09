@@ -1,0 +1,3 @@
+require 'redis'
+require 'sidekiq'
+

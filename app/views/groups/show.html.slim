@@ -1,10 +1,6 @@
-.page-header
-  h1
-    = @group.name
-    = link_to edit_group_path(@group)
-      span.glyphicon.glyphicon-cog
-p
-  = t('groups.description')
-  = @group.description
+- content_for :title
+  = @group.name + ' | mammooc'
 
-= render 'sidebar'
+.panel.panel-default
+  .panel-body
+    = @group.description

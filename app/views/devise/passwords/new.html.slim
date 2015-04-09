@@ -1,5 +1,5 @@
 h2
-  = t('users.password.forgot_password')
+  = t('users.password.forgot')
 = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
   /= devise_error_messages!
   .form-group
@@ -7,5 +7,5 @@ h2
       = f.label :email
       = f.email_field :email, :class => 'form-control',  autofocus: true
   .actions
-    = f.submit t('users.password.reset_my_password'), :class => 'btn btn-primary'
+    = f.submit t('users.password.reset'), :class => 'btn btn-primary'
 = render "devise/shared/links"

@@ -25,7 +25,11 @@ class RecommendationsController < ApplicationController
   # POST /recommendations.json
   def create
     @recommendation = Recommendation.new(recommendation_params)
-
+    @recommendation.user = @current_user
+    user_ids = params[:recommendation][:related_user_ids].split(' ')
+    @recommendation.users += User.where id: user_ids
+    group_ids = params[:recommendation][:related_group_ids].split(' ')
+    @recommendation.groups += Group.where id: group_ids
     respond_to do |format|
       if @recommendation.save
         format.html { redirect_to @recommendation, notice: 'Recommendation was successfully created.' }
@@ -69,6 +73,6 @@ class RecommendationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def recommendation_params
-      params.require(:recommendation).permit(:is_obligatory, :user_id, :group_id, :course_id)
+      params.require(:recommendation).permit(:is_obligatory, :group_id, :course_id, :text)
     end
 end
