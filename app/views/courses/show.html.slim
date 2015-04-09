@@ -1,36 +1,48 @@
-.page-header
-  h1
-    = @course.name
-= image_tag(@course.imageId)
-- if @course.abstract
-  / panel ist nur Zwischenlösung - Abstract ist ansonsten nicht lesbar
-  .panel.panel-default
-    .panel-body
-      = raw @course.abstract
-= link_to @course.url
-  button.btn.btn-default
-    = t('courses.enter_course')
-= link_to new_bookmark_path
-  button.btn.btn-default
-    = t('courses.remember_course')
-= link_to @course.url
-  button.btn.btn-default
-    = t('courses.enroll_course')
-= link_to new_recommendation_path
-  button.btn.btn-default
-    = t('courses.recommend_course')
-- if @course.description
-  h3
-    = t('courses.description')
-  = raw @course.description
-h3
-  = t('courses.recommendations')
-| blablabla
-h3
-  = t('courses.rating')
-  = link_to new_evaluation_path
-    button.btn.btn-default
-      = t('courses.rate_course')
-| blablabla
+- content_for :title
+  = @course.name + ' | mammooc'
 
-= render 'sidebar'
+- content_for :header
+  .logo.pull-left
+    img src="/data/icons/books.png"
+  .title
+    = @course.name
+
+- content_for :content
+
+  .page-header
+    h1
+      = @course.name
+  = image_tag(@course.imageId)
+  - if @course.abstract
+    / panel ist nur Zwischenlösung - Abstract ist ansonsten nicht lesbar
+    .panel.panel-default
+      .panel-body
+        = raw @course.abstract
+  = link_to @course.url
+    button.btn.btn-default
+      = t('courses.enter_course')
+  = link_to new_bookmark_path
+    button.btn.btn-default
+      = t('courses.remember_course')
+  = link_to @course.url
+    button.btn.btn-default
+      = t('courses.enroll_course')
+  = link_to new_recommendation_path
+    button.btn.btn-default
+      = t('courses.recommend_course')
+  - if @course.description
+    h3
+      = t('courses.description')
+    = raw @course.description
+  h3
+    = t('courses.recommendations')
+  | blablabla
+  h3
+    = t('courses.rating')
+    = link_to new_evaluation_path
+      button.btn.btn-default
+        = t('courses.rate_course')
+  | blablabla
+
+- content_for :sidebar
+  = render 'sidebar'
