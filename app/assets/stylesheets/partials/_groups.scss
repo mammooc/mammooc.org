@@ -8,6 +8,7 @@ $entry-padding-left: 10px;
   background-color: white;
   border: 1px solid $panel-default-border;
   border-radius: 2px;
+  margin-bottom: 30px;
   @include box-shadow-light;
 
   .wrapper {
@@ -82,9 +83,10 @@ $entry-padding-left: 10px;
     background-color: white;
     border: 1px solid $panel-default-border;
     border-radius: $panel-border-radius;
-    @include box-shadow-light;
-    float: left;
+    margin-top: 15px;
     margin-bottom: 30px;
+    float: left;
+    @include box-shadow-light;
 
     @media(min-width: 992px) {
       &:nth-child(even) {
