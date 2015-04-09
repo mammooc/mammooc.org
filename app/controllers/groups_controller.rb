@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :demote_administrator, :remove_group_member, :condition_for_changing_member_status, :all_members_to_administrators]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :recommendations, :demote_administrator, :remove_group_member, :condition_for_changing_member_status, :all_members_to_administrators]
 
   # GET /groups
   # GET /groups.json
@@ -25,9 +25,13 @@ class GroupsController < ApplicationController
   def edit
   end
 
+  def recommendations
+  end
+
   def members
     @sorted_group_users = sort_by_name(@group.users - admins)
     @sorted_group_admins = sort_by_name(admins)
+    @group_members = @group.users - [current_user]
   end
 
   # POST /groups
@@ -140,6 +144,7 @@ class GroupsController < ApplicationController
       end
     end
   end
+
 
   # DELETE /groups/1
   # DELETE /groups/1.json

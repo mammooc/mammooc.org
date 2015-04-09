@@ -81,6 +81,7 @@ en:
     edit: Edit group
     my_groups: My Groups
     show: Show group
+    recommend_course: Recommend a course to this group
     subnav:
       home: Home
       members: Members
@@ -123,10 +124,16 @@ en:
       group:
         one: Group
         other: Groups
+      recommendation:
+        one: Recommendation
+        other: Recommendations
     attributes:
       group:
         name: Name
         description: Description
+      recommendation:
+        is_obligatory: Obligatory?
+        text: Message
     #error messages
     errors:
       messages:
@@ -170,6 +177,13 @@ en:
     subtitle_languages: Available Subtitles
     previous_iteration: Previous Iteration
     following_iteration: Following Iteration
+
+  recommendation:
+    placeholder: Enter your personal message here ...
+    new: New recommendation
+    related_course: course
+    related_users: users
+    related_groups: groups
 
   flash:
     #success:

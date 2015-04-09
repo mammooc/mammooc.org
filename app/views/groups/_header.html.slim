@@ -34,9 +34,12 @@
                 a href="/groups/#{@group.id}/members"
                   = t('groups.subnav.members')
           .entry
-            div class=""
-              a href="#"
+            div class=(current_page?("/groups/#{@group.id}/recommendations") ? 'active' : '')
+              - if current_page?("/groups/#{@group.id}/recommendations")
                 = t('groups.subnav.recommendations')
+              - else
+                a href="/groups/#{@group.id}/recommendations"
+                  = t('groups.subnav.recommendations')
           .entry
             div class=""
               a href="#"
