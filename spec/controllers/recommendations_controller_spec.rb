@@ -59,6 +59,21 @@ RSpec.describe RecommendationsController, :type => :controller do
         post :create, {:recommendation => valid_controller_attributes}
         expect(response).to redirect_to(Recommendation.last)
       end
+
+      it "adds relations to specified groups" do
+        post :create, {:recommendation => valid_controller_attributes}
+        expect(assigns(:recommendation).groups).to match_array([group, second_group])
+      end
+
+      it "adds relations to specified users" do
+        post :create, {:recommendation => valid_controller_attributes}
+        expect(assigns(:recommendation).users).to match_array([second_user, third_user])
+      end
+
+      it "adds relations to specified course" do
+        post :create, {:recommendation => valid_controller_attributes}
+        expect(assigns(:recommendation).course).to eql course
+      end
     end
   end
 
