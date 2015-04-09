@@ -1,6 +1,6 @@
 FactoryGirl.define do
 
   factory :mooc_provider do
-    name 'testProvider'
+    sequence(:name) { |n| "testProvider#{n}" }
   end
 end
