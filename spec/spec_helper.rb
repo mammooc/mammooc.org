@@ -17,7 +17,7 @@ end
 
 if ENV['PHANTOM_JS'] == 'true'
   Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app, :headers => {'ACCEPT-LANGUAGE' => 'en' })
+    Capybara::Poltergeist::Driver.new(app)
   end
   Capybara.javascript_driver = :poltergeist
 else
@@ -53,6 +53,10 @@ RSpec.configure do |config|
   end
 
   config.around(:each) do |example|
+    if ENV['PHANTOM_JS'] == 'true' && example.metadata[:js]
+      Capybara.current_driver = :poltergeist
+      Capybara.current_session.driver.headers = {'ACCEPT-LANGUAGE' => 'en'}
+    end
     DatabaseCleaner.cleaning do
       example.run
     end
