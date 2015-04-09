@@ -74,7 +74,13 @@ class EdxCourseWorker < AbstractCourseWorker
         course.workload = course_element['course:effort']
       end
 
-      # course_element['course:verified']
+      course.has_free_version = true
+      if course_element['course:verified'] && course_element['course:verified'] == "1"
+        course.has_paid_version = true
+      elsif course_element['course:profed'] && course_element['course:profed'] == "1"
+        course.has_free_version = false
+        course.has_paid_version = true
+      end
 
       course.save
     }

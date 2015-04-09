@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150407143439) do
+ActiveRecord::Schema.define(version: 20150408094957) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -138,6 +138,8 @@ ActiveRecord::Schema.define(version: 20150407143439) do
     t.string   "subtitle_languages"
     t.integer  "calculated_duration_in_days"
     t.string   "provider_given_duration"
+    t.boolean  "has_paid_version"
+    t.boolean  "has_free_version"
   end
 
   add_index "courses", ["course_result_id"], name: "index_courses_on_course_result_id", using: :btree

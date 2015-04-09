@@ -51,6 +51,9 @@ describe CourseraCourseWorker do
     expect(course.type_of_achievement).to eql 'Certificate'
     expect(course.costs).to eql 50.5
     expect(course.price_currency).to eql '$'
+    expect(course.has_free_version).to be true
+    expect(course.has_paid_version).to be_falsey
+
 
   end
 

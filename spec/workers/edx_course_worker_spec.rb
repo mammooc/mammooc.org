@@ -42,6 +42,9 @@ describe EdxCourseWorker do
     expect(course.categories).to include json_course['course:subject'][0]
     expect(course.description).to eql json_course['description']
     expect(course.course_instructors).to include json_course['course:staff'][0]
+    expect(course.has_free_version).to be true
+    expect(course.has_paid_version).to be_falsey
+
   end
 end
 

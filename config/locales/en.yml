@@ -29,6 +29,7 @@ en:
   navbar:
     mammooc: mammooc
     home: Home
+    courses: Courses
     about: About us
     impressum: Legal Notice
     sign_out: Sign Out

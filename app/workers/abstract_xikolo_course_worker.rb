@@ -35,6 +35,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
       course.description = course_element['description']
       course.course_instructors = course_element['lecturer']
       course.open_for_registration = !course_element['locked']
+      course.has_free_version = true
 
       course.save
     }
