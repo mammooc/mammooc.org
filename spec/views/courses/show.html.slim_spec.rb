@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "courses/show", :type => :view do
   before(:each) do
-    moocProvider = MoocProvider.create()
+    moocProvider = MoocProvider.create(name: 'testProvider')
     @course = assign(:course, Course.create!(
       :name => "Name",
       :url => "Url",

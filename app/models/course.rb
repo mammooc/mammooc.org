@@ -18,7 +18,6 @@ class Course < ActiveRecord::Base
   after_save :create_and_update_course_connections
   before_destroy :delete_dangling_course_connections
 
-
   private
 
   def has_free_version_or_has_paid_version
