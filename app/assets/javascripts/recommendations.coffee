@@ -68,10 +68,10 @@ generate_course_autocomplete = () ->
         courses_autocomplete.push({ label: course.name, value: course.id })
   $('#recommendation_course_id').tokenfield
     autocomplete:
+      minLength: 3
       source: courses_autocomplete
       delay: 100
     showAutocompleteOnFocus: true
-    delimiter: ' '
     limit: 1
 
 @recommendationNewParameters = () ->
