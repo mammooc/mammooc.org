@@ -1,6 +1,6 @@
 class CoursesController < ApplicationController
   before_action :set_course, only: [:show]
-  skip_before_action :require_login
+  skip_before_action :require_login, only: [:index, :show]
 
   # GET /courses
   # GET /courses.json
