@@ -99,7 +99,7 @@ en:
       administrator: Administrator
       add_admin: Make Admin
       demote_admin: Remove from Admins
-      demote_last_admin_notice: "You are the last admin of this group. Please promote another member before you change your status."
+      demote_last_admin_notice: You are the last admin of this group. Please promote another member before you change your status.
       demote_last_admin_button: Return to group
       invite_members: Invite Members
       remove_member: Remove Member
@@ -109,11 +109,12 @@ en:
       question_member_1: Are you sure to remove
       question_member_2: from this group?
       question_last_member: You are the last member of this group. If you leave the group, it will be deleted.
-      question_last_admin: "You are the last admin of this group. If you leave, all remaining members will become administrators."
+      question_last_admin: You are the last admin of this group. If you leave, all remaining members will become administrators.
       confirm_delete_group: Delete group
       confirm_leave_group: Leave
       confirm_remove_member: Remove
       yourself: yourself
+
 
   activerecord:
     models:
@@ -182,6 +183,8 @@ en:
       user:
         password_too_short: is too short (minimum is %{count} characters).
         password_confirmation: doesn't match with password.
+      groups:
+        update: Updating group failed.
 
   startpage:
     carousel:

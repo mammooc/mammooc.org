@@ -52,6 +52,18 @@ RSpec.describe Ability do
       it { should_not be_able_to(:admins, group_without_user) }
     end
 
+    describe 'leave' do
+      it { should be_able_to(:leave, group_with_user) }
+      it { should be_able_to(:leave, group_with_admin) }
+      it { should_not be_able_to(:leave, group_without_user) }
+    end
+
+    describe 'condition_for_changing_member_status' do
+      it { should be_able_to(:condition_for_changing_member_status, group_with_admin) }
+      it { should be_able_to(:condition_for_changing_member_status, group_with_user) }
+      it { should_not be_able_to(:condition_for_changing_member_status, group_without_user) }
+    end
+
     describe 'invite_group_members' do
       it { should be_able_to(:invite_group_members, group_with_admin) }
       it { should_not be_able_to(:invite_group_members, group_without_user) }
@@ -74,12 +86,6 @@ RSpec.describe Ability do
       it { should be_able_to(:remove_group_member, group_with_admin) }
       it { should_not be_able_to(:remove_group_member, group_without_user) }
       it { should_not be_able_to(:remove_group_member, group_with_user) }
-    end
-
-    describe 'condition_for_changing_member_status' do
-      it { should be_able_to(:condition_for_changing_member_status, group_with_admin) }
-      it { should_not be_able_to(:condition_for_changing_member_status, group_without_user) }
-      it { should_not be_able_to(:condition_for_changing_member_status, group_with_user) }
     end
 
     describe 'all_members_to_administrators' do

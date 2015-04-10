@@ -182,6 +182,8 @@ de:
       user:
         password_too_short: ist zu kurz (Minimum sind %{count} Zeichen).
         password_confirmation: stimmt nicht mit Passwort überein.
+      groups:
+        update: Aktualisieren der Gruppe fehlgeschlagen.
 
   startpage:
     carousel:
