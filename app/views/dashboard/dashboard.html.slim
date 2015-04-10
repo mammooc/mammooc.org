@@ -1,7 +1,11 @@
 .page-header
   h1
     = t('dashboard.hi', name: current_user.first_name)
-
-| Your Recommendations will be listed here!
+  h2
+    = link_to recommendations_path
+      = t('dashboard.recommendations', number: @number_of_recommendations)
+  .recommendations-wrapper
+    - @recommendations.each do |recommendation|
+      = render 'recommendations/recommendation', recommendation: recommendation, group: false
 
 = render 'sidebar'
