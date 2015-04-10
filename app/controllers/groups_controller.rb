@@ -124,9 +124,9 @@ class GroupsController < ApplicationController
         remove_member current_user.id
         format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
         format.json { render :show, status: :created, location: @group }
-      #rescue StandardError => e
-      #  format.html { redirect_to @group, notice: t('flash.error.groups.update') }
-      #  format.json { render json: e.to_json, status: :unprocessable_entity }
+      rescue StandardError => e
+        format.html { redirect_to @group, notice: t('flash.error.groups.update') }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
       end
     end
   end
