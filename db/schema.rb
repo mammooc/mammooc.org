@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150409090413) do
+ActiveRecord::Schema.define(version: 20150408094957) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -202,14 +202,12 @@ ActiveRecord::Schema.define(version: 20150409090413) do
 
   create_table "mooc_providers", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "logo_id"
-    t.string   "name",        null: false
+    t.string   "name"
     t.string   "url"
     t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
-
-  add_index "mooc_providers", ["name"], name: "index_mooc_providers_on_name", unique: true, using: :btree
 
   create_table "mooc_providers_users", id: false, force: :cascade do |t|
     t.uuid "mooc_provider_id"
