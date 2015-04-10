@@ -5,7 +5,7 @@ RSpec.describe "recommendations/_recommendation", :type => :view do
     @recommendation = FactoryGirl.create(:recommendation)
   end
 
-  it "renders the edit recommendation form" do
+  it "renders the recommendation partial" do
     render 'recommendations/recommendation', recommendation: @recommendation, group: true
     expect(rendered).to match(/#{@recommendation.course.name}/)
     expect(rendered).to match(/#{@recommendation.user.first_name} #{@recommendation.user.last_name}/)
