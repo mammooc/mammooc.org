@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150410095706) do
+ActiveRecord::Schema.define(version: 20150410121942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -200,13 +200,16 @@ ActiveRecord::Schema.define(version: 20150410095706) do
     t.uuid "group_id"
   end
 
-  create_table "mooc_provider_users", force: :cascade do |t|
+  create_table "mooc_provider_users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "user_id"
     t.uuid     "mooc_provider_id"
     t.string   "authentication_token"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
   end
+
+  add_index "mooc_provider_users", ["mooc_provider_id"], name: "index_mooc_provider_users_on_mooc_provider_id", using: :btree
+  add_index "mooc_provider_users", ["user_id"], name: "index_mooc_provider_users_on_user_id", using: :btree
 
   create_table "mooc_providers", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "logo_id"
@@ -325,6 +328,8 @@ ActiveRecord::Schema.define(version: 20150410095706) do
   add_foreign_key "evaluations", "courses"
   add_foreign_key "evaluations", "users"
   add_foreign_key "group_invitations", "groups"
+  add_foreign_key "mooc_provider_users", "mooc_providers"
+  add_foreign_key "mooc_provider_users", "users"
   add_foreign_key "progresses", "courses"
   add_foreign_key "progresses", "users"
   add_foreign_key "recommendations", "courses"
