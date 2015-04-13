@@ -19,7 +19,12 @@ class Course < ActiveRecord::Base
   before_destroy :delete_dangling_course_connections
 
   def self.get_course_id_by_mooc_provider_id_and_provider_course_id(mooc_provider_id, provider_course_id)
-    return Course.where(:provider_course_id => provider_course_id, :mooc_provider_id => mooc_provider_id).first.id
+    course = Course.where(:provider_course_id => provider_course_id, :mooc_provider_id => mooc_provider_id).first
+    if course.present?
+      return course.id
+    else
+      return nil
+    end
   end
 
   private

@@ -33,4 +33,10 @@ class ApiConnectionController < ApplicationController
     redirect_to api_connection_index_path
   end
 
+  def update_all_users
+    OpenHPIUserWorker.perform_async nil
+
+    redirect_to api_connection_index_path
+  end
+
 end

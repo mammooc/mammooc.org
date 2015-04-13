@@ -21,11 +21,13 @@ class AbstractXikoloUserWorker < AbstractUserWorker
 
     response_data.each { |course_element|
       course_id = Course.get_course_id_by_mooc_provider_id_and_provider_course_id mooc_provider.id, course_element['course_id']
-      enrolled_course = user.courses.where(:id => course_id).first
-      if enrolled_course.nil?
-        user.courses << Course.find(course_id)
-      else
-        update_map[enrolled_course.id] = true
+      if course_id.present?
+        enrolled_course = user.courses.where(:id => course_id).first
+        if enrolled_course.nil?
+          user.courses << Course.find(course_id)
+        else
+          update_map[enrolled_course.id] = true
+        end
       end
     }
     evaluate_enrollments_update_map update_map, user

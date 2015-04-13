@@ -6,14 +6,25 @@ class AbstractUserWorker
   def perform user_ids
 
     if user_ids.blank?
-      Users.find_each { |user|
-        load_user_data user
+      User.find_each { |user|
+        puts user.first_name
+        if has_connection_to_mooc_provider user
+          puts "################################"
+          load_user_data user
+        end
       }
     else
       user_ids.each { |user_id|
-        load_user_data User.find(user_id)
+        user = User.find(user_id)
+        if has_connection_to_mooc_provider user
+          load_user_data user
+        end
       }
     end
+  end
+
+  def has_connection_to_mooc_provider user
+    return user.mooc_providers.where(:id => mooc_provider).present?
   end
 
   def load_user_data user
