@@ -5,13 +5,13 @@ RSpec.describe "mooc_providers/index", :type => :view do
     assign(:mooc_providers, [
       MoocProvider.create!(
         :logo_id => "Logo",
-        :name => "Name",
+        :name => "Name1",
         :url => "Url",
         :description => "MyText"
       ),
       MoocProvider.create!(
         :logo_id => "Logo",
-        :name => "Name",
+        :name => "Name2",
         :url => "Url",
         :description => "MyText"
       )
@@ -21,7 +21,8 @@ RSpec.describe "mooc_providers/index", :type => :view do
   it "renders a list of mooc_providers" do
     render
     assert_select "tr>td", :text => "Logo".to_s, :count => 2
-    assert_select "tr>td", :text => "Name".to_s, :count => 2
+    assert_select "tr>td", :text => "Name1".to_s, :count => 1
+    assert_select "tr>td", :text => "Name2".to_s, :count => 1
     assert_select "tr>td", :text => "Url".to_s, :count => 2
     assert_select "tr>td", :text => "MyText".to_s, :count => 2
   end

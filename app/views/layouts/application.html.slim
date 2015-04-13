@@ -61,10 +61,10 @@ html lang="#{I18n.locale}"
               end
           end
 
-        .row.mt50
-          - if content_for? :main
-            = yield :main
-          - else
+        - if content_for? :main
+          = yield :main
+        - else
+          .row
             .col-md-9
               = yield
             .col-md-3

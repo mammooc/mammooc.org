@@ -1,0 +1,11 @@
+- content_for :title
+  = @group.name + ' | mammooc'
+
+p
+  = link_to new_recommendation_path(group_id: @group.id)
+    button.btn.btn-default
+      = t('groups.recommend_course')
+
+.recommendations-wrapper
+  - @recommendations.each do |recommendation|
+    = render 'recommendations/recommendation', recommendation: recommendation, group: true

@@ -1,6 +1,7 @@
 class GroupsController < ApplicationController
-  #before_action :set_group, only: [:show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :demote_administrator, :remove_group_member, :condition_for_changing_member_status, :all_members_to_administrators]
-  load_and_authorize_resource only: [:index, :show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :demote_administrator, :remove_group_member, :leave, :condition_for_changing_member_status, :all_members_to_administrators]
+  load_and_authorize_resource only: [:index, :show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :recommendations, :demote_administrator, :remove_group_member, :leave, :condition_for_changing_member_status, :all_members_to_administrators]
+  
+  NUMBER_OF_SHOWN_RECOMMENDATIONS = 2
 
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
@@ -26,6 +27,8 @@ class GroupsController < ApplicationController
     @group_users = (@group.users - admins).size > number_of_shown_users ? (@group.users - admins).shuffle : sort_by_name(@group.users - admins)
     @group_admins = admins.size > number_of_shown_users ? sort_by_name(admins) : admins.shuffle
     @current_user_is_admin = current_user_is_admin?
+    sorted_recommendations = @group.recommendations.sort_by { | recommendation | recommendation.created_at }.reverse!
+    @recommendations = sorted_recommendations.first(NUMBER_OF_SHOWN_RECOMMENDATIONS )
   end
 
   # GET /groups/new
@@ -37,9 +40,14 @@ class GroupsController < ApplicationController
   def edit
   end
 
+  def recommendations
+    @recommendations = @group.recommendations.sort_by { | recommendation | recommendation.created_at }.reverse!
+  end
+
   def members
     @sorted_group_users = sort_by_name(@group.users - admins)
     @sorted_group_admins = sort_by_name(admins)
+    @group_members = @group.users - [current_user]
     @current_user_is_admin = current_user_is_admin?
   end
 
@@ -81,7 +89,7 @@ class GroupsController < ApplicationController
       begin
         invite_members
         format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
-        format.json { render :show, status: :created, location: @group }
+        format.json { render :invite_members_result, status: :created, location: @group }
       rescue StandardError => e
         format.html { redirect_to @group, notice: t('flash.error.groups.update') }
         format.json { render json: e.to_json, status: :unprocessable_entity }
@@ -253,18 +261,30 @@ class GroupsController < ApplicationController
       params[:changing_member]
     end
 
+    LCHARS    = /\w+\p{L}\p{N}\-\!\/#\$%&'*+=?^`{|}~/
+    LOCAL     = /[#{LCHARS.source}]+(\.[#{LCHARS.source}]+)*/
+    DCHARS    = /A-z\d/
+    SUBDOMAIN = /[#{DCHARS.source}]+(\-+[#{DCHARS.source}]+)*/
+    DOMAIN    = /#{SUBDOMAIN.source}(\.#{SUBDOMAIN.source})*\.[#{DCHARS.source}]{2,}/
+    EMAIL     = /\A#{LOCAL.source}@#{DOMAIN.source}\z/i
+
     def invite_members
+      @error_emails ||= []
       return if invited_members.blank?
       emails = invited_members.split(/[^[:alpha:]]\s+|\s+|;\s*|,\s*/)
       expiry_date = Settings.token_expiry_date
       emails.each do |email_address|
-        token = SecureRandom.urlsafe_base64(Settings.token_length)
-        until GroupInvitation.find_by_token(token).nil? do
+        if email_address == EMAIL.match(email_address).to_s
           token = SecureRandom.urlsafe_base64(Settings.token_length)
+          until GroupInvitation.find_by_token(token).nil? do
+            token = SecureRandom.urlsafe_base64(Settings.token_length)
+          end
+          link = root_url + 'groups/join/' + token
+          GroupInvitation.create(token: token, group_id: @group.id, expiry_date: expiry_date)
+          UserMailer.group_invitation_mail(email_address, link, @group, current_user, root_url).deliver_later
+        else
+          @error_emails << email_address
         end
-        link = root_url + 'groups/join/' + token
-        GroupInvitation.create(token: token, group_id: @group.id, expiry_date: expiry_date)
-        UserMailer.group_invitation_mail(email_address, link, @group, current_user, root_url).deliver_later
       end
     end
 

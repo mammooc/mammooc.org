@@ -4,6 +4,8 @@ FactoryGirl.define do
     name 'Minimal Technologies'
     url 'https://test.com/course'
     sequence(:provider_course_id ) { |n| "a#{n}" }
+    mooc_provider {FactoryGirl.create(:mooc_provider)}
+    has_free_version true
   end
 
   factory :full_course, class: Course do
@@ -39,6 +41,9 @@ Claudia; “I enjoyed this course so much. It gave me a chance to expand my hori
     open_for_registration true
     provider_given_duration '6 weeks'
     subtitle_languages 'english, german'
+    mooc_provider {FactoryGirl.create(:mooc_provider)}
+    has_free_version true
+    has_paid_version true
   end
 
 end

@@ -43,6 +43,52 @@ RSpec.describe GroupsController, :type => :feature do
       expect(ActionMailer::Base.deliveries.count).to eq 1
       expect(GroupInvitation.count).to eq 1
     end
+
+    it 'should not invite a user to a group if the email address is misspelled', js: true do
+      visit "/groups/#{group.id}/members"
+      click_on 'btn-invite-members'
+      fill_in 'text_area_invite_members', with: 'max@testcom'
+      click_button I18n.t('global.submit')
+      wait_for_ajax
+      expect(page).to have_content I18n.t('groups.add_members.error')
+      expect(find('#text_area_invite_members').value).to have_content('max@testcom')
+      expect(current_path).to eq("/groups/#{group.id}/members")
+      expect(ActionMailer::Base.deliveries.count).to eq 0
+      expect(GroupInvitation.count).to eq 0
+    end
+
+    it 'should invite users with valid address and reject these with invalid address', js:true do
+      visit "/groups/#{group.id}/members"
+      click_on 'btn-invite-members'
+      fill_in 'text_area_invite_members', with: 'max@test.com, max@testcom'
+      click_button I18n.t('global.submit')
+      wait_for_ajax
+      expect(page).to have_content I18n.t('groups.add_members.error')
+      expect(find('#text_area_invite_members').value).to have_content('max@testcom')
+      expect(current_path).to eq("/groups/#{group.id}/members")
+      expect(ActionMailer::Base.deliveries.count).to eq 1
+      expect(GroupInvitation.count).to eq 1
+    end
+
+    it 'should empty the textbox after successfull invite and remove the error', js:true do
+      visit "/groups/#{group.id}/members"
+      click_on 'btn-invite-members'
+      fill_in 'text_area_invite_members', with: 'max@test.com, max@testcom'
+      click_button I18n.t('global.submit')
+      wait_for_ajax
+      expect(page).to have_content I18n.t('groups.add_members.error')
+      expect(find('#text_area_invite_members').value).to have_content('max@testcom')
+      fill_in 'text_area_invite_members', with: 'maxi@test.com'
+      click_button I18n.t('global.submit')
+      wait_for_ajax
+      click_on 'btn-invite-members'
+      wait_for_ajax
+      expect(page).not_to have_content('@test')
+      expect(page).not_to have_content I18n.t('groups.add_members.error')
+      expect(current_path).to eq("/groups/#{group.id}/members")
+      expect(ActionMailer::Base.deliveries.count).to eq 2
+      expect(GroupInvitation.count).to eq 2
+    end
   end
 
   describe 'change administrator status' do

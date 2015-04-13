@@ -5,8 +5,8 @@ RSpec.describe "recommendations/show", :type => :view do
     @recommendation = assign(:recommendation, Recommendation.create!(
       :is_obligatory => false,
       :user => nil,
-      :group => nil,
-      :course => nil
+      :course => nil,
+      :text => nil
     ))
   end
 

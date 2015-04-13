@@ -1,29 +1,20 @@
 require 'rails_helper'
 
 RSpec.describe "recommendations/index", :type => :view do
+  let(:user) { FactoryGirl.create(:user) }
+  let(:course) { FactoryGirl.create(:course) }
+  let(:first_recommendation) {FactoryGirl.create(:recommendation, user: user, course: course)}
+  let(:second_recommendation) {FactoryGirl.create(:recommendation, user: user, course: course)}
+
   before(:each) do
-    assign(:recommendations, [
-      Recommendation.create!(
-        :is_obligatory => false,
-        :user => nil,
-        :group => nil,
-        :course => nil
-      ),
-      Recommendation.create!(
-        :is_obligatory => false,
-        :user => nil,
-        :group => nil,
-        :course => nil
-      )
-    ])
+    @recommendations = [first_recommendation, second_recommendation]
   end
 
   it "renders a list of recommendations" do
-    pending
     render
-    assert_select "tr>td", :text => false.to_s, :count => 2
-    assert_select "tr>td", :text => nil.to_s, :count => 2
-    assert_select "tr>td", :text => nil.to_s, :count => 2
-    assert_select "tr>td", :text => nil.to_s, :count => 2
+    expect(rendered).to match(/#{first_recommendation.course.name}/)
+    expect(rendered).to match(/#{second_recommendation.course.name}/)
+    expect(rendered).to match(/#{first_recommendation.user.first_name} #{first_recommendation.user.last_name}/)
+    expect(rendered).to match(/#{second_recommendation.user.first_name} #{second_recommendation.user.last_name}/)
   end
 end

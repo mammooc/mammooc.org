@@ -30,7 +30,7 @@ RSpec.describe CoursesController, :type => :controller do
 
   describe "GET index" do
     it "assigns all courses as @courses" do
-      mooc_provider = MoocProvider.create
+      mooc_provider = MoocProvider.create(name: 'testProvider')
       course = FactoryGirl.create(:course, mooc_provider_id: mooc_provider.id)
       get :index, {}, valid_session
       expect(assigns(:courses)).to eq([course])
@@ -39,7 +39,7 @@ RSpec.describe CoursesController, :type => :controller do
 
   describe "GET show" do
     it "assigns the requested course as @course" do
-      mooc_provider = MoocProvider.create
+      mooc_provider = MoocProvider.create(name: 'testProvider')
       course = FactoryGirl.create(:course, mooc_provider_id: mooc_provider.id)
       get :show, {:id => course.to_param}, valid_session
       expect(assigns(:course)).to eq(course)

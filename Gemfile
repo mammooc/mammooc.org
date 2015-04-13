@@ -19,6 +19,7 @@ gem 'slim-rails'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 gem 'jquery-turbolinks'
@@ -53,6 +54,8 @@ gem 'whenever'
 
 gem 'bootstrap-sass'
 
+gem 'bootstrap_tokenfield_rails'
+
 gem 'factory_girl_rails'
 
 gem 'rails-i18n'
@@ -78,11 +81,11 @@ group :development, :test do
 
   gem 'capybara'
   gem 'capybara-selenium'
-  #gem 'selenium-webdriver'
   gem 'database_cleaner'
 
   # Run selenium tests headless
   gem 'headless'
+  gem 'poltergeist'
 
   gem 'simplecov', :require => false
 end

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "courses/index", :type => :view do
   before(:each) do
-    mooc_provider = MoocProvider.create()
+    mooc_provider = MoocProvider.create(name: 'testProvider')
     FactoryGirl.create_list(:full_course, 2, mooc_provider_id: mooc_provider.id)
   end
 

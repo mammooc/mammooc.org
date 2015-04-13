@@ -4,3 +4,11 @@
 .panel.panel-default
   .panel-body
     = @group.description
+
+.panel.panel-default
+  .panel-body
+    h2
+      = t('groups.new_recommendations')
+    .recommendations-wrapper
+      - @recommendations.each do |recommendation|
+        = render 'recommendations/recommendation', recommendation: recommendation, group: true

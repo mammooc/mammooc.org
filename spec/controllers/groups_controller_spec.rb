@@ -235,75 +235,59 @@ RSpec.describe GroupsController, :type => :controller do
   end
 
   describe "invite members" do
-    context "on create" do
-      it "should do nothing if there are no members to invite" do
-        post :create, {group: valid_attributes}
-        expect(GroupInvitation.count).to eq 0
-        expect(ActionMailer::Base.deliveries.count).to eq 0
-      end
+    render_views
+    let(:json) { JSON.parse(response.body) }
 
-      it "should invite members" do
-        expect{ post :create, {group: valid_attributes, members: members} }.to change{ GroupInvitation.count }.by(2)
-        expect(ActionMailer::Base.deliveries.count).to eq 2
-      end
-
-      it "should split invite members string correctly to email array" do
-        email_string = "test1@example.com test2@example.com,test3@example.com, test4@example.com;test5@example.com; test6@example.com  test7@example.com\ntest8@example.com"
-        post :create, {group: valid_attributes, members: email_string}
-        ActionMailer::Base.deliveries.each_with_index do |delivery, i|
-          expect(delivery.to).to contain_exactly("test#{i+1}@example.com")
-        end
-        expect(ActionMailer::Base.deliveries.count).to eq 8
-      end
-
+    it "should do nothing if there are no members to invite" do
+      post :invite_group_members, format: :json, id: group.id, members: ""
+      expect(GroupInvitation.count).to eq 0
+      expect(response.body).to have_content('"error_email":[]')
+      expect(ActionMailer::Base.deliveries.count).to eq 0
     end
 
-    context "on update" do
-      it "should do nothing if there are no members to invite" do
-        put :update, {id: group_with_admin.id, group: valid_attributes}
-        expect(GroupInvitation.count).to eq 0
-        expect(ActionMailer::Base.deliveries.count).to eq 0
+    it "should split invite members string correctly to email array" do
+      email_string = "test1@example.com test2@example.com,test3@example.com, test4@example.com;test5@example.com; test6@example.com  test7@example.com\ntest8@example.com"
+      post :invite_group_members, format: :json, id: group.id, members: email_string
+      ActionMailer::Base.deliveries.each_with_index do |delivery, i|
+        expect(delivery.to).to contain_exactly("test#{i+1}@example.com")
       end
-
-      it "should invite members" do
-        expect{ put :update, {id: group_with_admin.id, group: valid_attributes, members: members} }.to change{ GroupInvitation.count }.by(2)
-        expect(ActionMailer::Base.deliveries.count).to eq 2
-      end
+      expect(response.body).to have_content('"error_email":[]')
+      expect(ActionMailer::Base.deliveries.count).to eq 8
     end
 
-    context "on show page" do
-      it "should do nothing if there are no members to invite" do
-        put :invite_group_members, {id: group_with_admin.id, group: valid_attributes}
-        expect(GroupInvitation.count).to eq 0
-        expect(ActionMailer::Base.deliveries.count).to eq 0
-      end
+    it "should invite members" do
+      expect{ post :invite_group_members, format: :json, id: group.id, members: members}.to change{ GroupInvitation.count }.by(2)
+      expect(response.body).to have_content('"error_email":[]')
+      expect(ActionMailer::Base.deliveries.count).to eq 2
+    end
 
-      it "should invite members" do
-        expect{ put :invite_group_members, {id: group_with_admin.id, group: valid_attributes, members: members} }.to change{ GroupInvitation.count }.by(2)
-        expect(ActionMailer::Base.deliveries.count).to eq 2
-      end
+    it "should return wrong email addresses" do
+      email_string = members + ', wrong; misspelled valid@example.org'
+      expect{ post :invite_group_members, format: :json, id: group.id, members: email_string}.to change{ GroupInvitation.count }.by(3)
+      expect(response.body).to have_content('"error_email":["wrong","misspelled"]')
+      expect(ActionMailer::Base.deliveries.count).to eq 3
+    end
 
-      context 'without authorization' do
-        context 'user is not in group' do
-          before(:each) { put :invite_group_members, {id: group_without_user.id, group: valid_attributes} }
-          it 'redirects to groups page' do
-            expect(response).to redirect_to(groups_path)
-          end
-
-          it 'shows an alert message' do
-            expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
-          end
+    context 'without authorization' do
+      context 'user is not in group' do
+        before(:each) { put :invite_group_members, {id: group_without_user.id, group: valid_attributes} }
+        it 'redirects to groups page' do
+          expect(response).to redirect_to(groups_path)
         end
 
-        context 'user is group member but not admin' do
-          before(:each) { put :invite_group_members, {id: group.id, group: valid_attributes} }
-          it 'redirects to groups page' do
-            expect(response).to redirect_to(groups_path)
-          end
+        it 'shows an alert message' do
+          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+        end
+      end
 
-          it 'shows an alert message' do
-            expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
-          end
+      context 'user is group member but not admin' do
+        before(:each) { put :invite_group_members, {id: group.id, group: valid_attributes} }
+        it 'redirects to groups page' do
+          expect(response).to redirect_to(groups_path)
+        end
+
+        it 'shows an alert message' do
+          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
         end
       end
     end
@@ -510,8 +494,6 @@ RSpec.describe GroupsController, :type => :controller do
       post :condition_for_changing_member_status, format: :json, id: group.id, changing_member: second_user.id
       expect(response.body).to have_content('ok')
     end
-
-
   end
 
   describe "POST all members to administrators" do
@@ -549,6 +531,21 @@ RSpec.describe GroupsController, :type => :controller do
           expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
         end
       end
+    end
+  end
+  describe "GET members" do
+    render_views
+    let(:json) { JSON.parse(response.body) }
+
+    let(:user) { FactoryGirl.create(:user) }
+    let(:second_user) { FactoryGirl.create(:user) }
+    let(:group) { FactoryGirl.create(:group, users:[user, second_user]) }
+
+
+    it "should return JSON with all members exclude the current user" do
+      get :members, format: :json, id: group.id
+      expect(response.body).to have_content(second_user.id)
+      expect(response.body).not_to have_content(user.id)
     end
   end
 end

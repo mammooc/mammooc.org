@@ -6,7 +6,7 @@
   / panel ist nur Zwischenlösung - Abstract ist ansonsten nicht lesbar
   .panel.panel-default
     .panel-body
-      = @course.abstract
+      = raw @course.abstract
 = link_to @course.url
   button.btn.btn-default
     = t('courses.enter_course')
@@ -16,13 +16,13 @@
 = link_to @course.url
   button.btn.btn-default
     = t('courses.enroll_course')
-= link_to new_recommendation_path
+= link_to new_recommendation_path(course_id: @course.id)
   button.btn.btn-default
     = t('courses.recommend_course')
 - if @course.description
   h3
     = t('courses.description')
-  = @course.description
+  = raw @course.description
 h3
   = t('courses.recommendations')
 | blablabla

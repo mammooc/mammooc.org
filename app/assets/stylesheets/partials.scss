@@ -1,0 +1,20 @@
+// Import Bootstrap
+
+@import "bootstrap-variables";
+@import "bootstrap-generators";
+
+// Import Partials
+
+@import "partials/variables";
+@import "partials/mixins";
+@import "partials/utility";
+
+@import "partials/base";
+@import "partials/buttons";
+@import "partials/courses";
+@import "partials/recommendations";
+@import "partials/comments";
+@import "partials/groups";
+@import "partials/navbar";
+@import "partials/shared";
+@import "partials/teaser";

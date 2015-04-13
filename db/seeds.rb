@@ -10,23 +10,27 @@ provider1 = MoocProvider.create(name: 'openHPI')
 MoocProvider.create(name: 'openHPI China')
 MoocProvider.create(name: 'mooc.house')
 MoocProvider.create(name: 'openSAP')
+MoocProvider.create(name: 'edX')
+MoocProvider.create(name: 'coursera')
 MoocProvider.create(name: 'openSAP China')
 MoocProvider.create(name: 'openUNE')
-
 
 minimal_previous_course = Course.create(name: 'Minimal Previous Technologies',
               url: 'https://open.hpi.de/courses/pythonjunior2015',
               provider_course_id: 2,
-              mooc_provider_id: provider1.id
+              mooc_provider_id: provider1.id,
+              has_free_version: true
+
 )
 
 minimal_following_course = Course.create(name: 'Minimal Following Technologies',
                                         url: 'https://open.hpi.de/courses/pythonjunior2015',
                                         provider_course_id: 2,
-                                        mooc_provider_id: provider1.id
+                                        mooc_provider_id: provider1.id,
+                                        has_paid_version: true
 )
 
-Course.create(name: 'Web Technologies',
+full_course = Course.create(name: 'Web Technologies',
               url: 'https://open.hpi.de/courses/webtech2015',
               course_instructors: 'Prof. Dr. Christoph Meinel, Jan Renz',
               abstract: 'WWW, the world wide web or shortly the web - really nothing more than an information  service on the Internet – has changed our world by creating a whole new digital world that is closely intertwined with our real world, making reality what was previously unimaginable: communication across the world in seconds, watching movies on a smartphone, playing games or looking at photos with remote partners in distant continents, shopping or banking from your couch … In our online course on web technologies you will learn how it all works.',
@@ -59,7 +63,9 @@ Claudia; “I enjoyed this course so much. It gave me a chance to expand my hori
               credit_points: 6,
               mooc_provider_id: provider1.id,
               previous_iteration_id: minimal_previous_course.id,
-              following_iteration_id: minimal_following_course.id
+              following_iteration_id: minimal_following_course.id,
+              has_paid_version: true,
+              has_free_version: true
 )
 
 
@@ -91,3 +97,6 @@ group3.users.push(user1, user2)
 
 UserGroup.set_is_admin(group3.id, user1.id, true)
 UserGroup.set_is_admin(group3.id, user2.id, true)
+
+4.times do FactoryGirl.create(:recommendation, users:[user1], course: full_course, groups: [group1, group3]) end
+

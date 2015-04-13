@@ -1,4 +1,4 @@
-= form_for(@recommendation, :html => { :class => "form-horizontal", :role => "form" }) do |f|
+= form_for(@recommendation, :html => { :class => "form-horizontal", :role => "form", :id => "recommendation_form" }) do |f|
   - if @recommendation.errors.any?
     .alert.alert-danger.alert-dismissable role="alert"
       button.close type="button" data-dismiss="alert"
@@ -15,17 +15,26 @@
     .col-sm-10
       = f.check_box :is_obligatory, :class => "form-control"
   .form-group
-    = f.label :user, :class => "col-sm-2 control-label"
+    = f.label t('recommendation.related_groups'), :class => "col-sm-2 control-label"
     .col-sm-10
-      = f.text_field :user, :class => "form-control"
+      = f.text_field :related_group_ids, :class => "form-control tokenize ui-autocomplete-input", :value => ''
   .form-group
-    = f.label :group, :class => "col-sm-2 control-label"
+    = f.label t('recommendation.related_users'), :class => "col-sm-2 control-label"
     .col-sm-10
-      = f.text_field :group, :class => "form-control"
+      = f.text_field :related_user_ids, :class => "form-control tokenize ui-autocomplete-input", :value => ''
   .form-group
-    = f.label :course, :class => "col-sm-2 control-label"
+    = f.label t('recommendation.related_course'), :class => "col-sm-2 control-label"
     .col-sm-10
-      = f.text_field :course, :class => "form-control"
+      = f.text_field :course_id, :class => "form-control tokenize ui-autocomplete-input", :value => ''
+  .form-group
+    = f.label :text, :class => "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_area :text, :class => "form-control", :placeholder => t('recommendation.placeholder')
+
+
   .form-group
     .col-sm-offset-2.col-sm-10
       = f.submit :class => "btn btn-primary"
+
+script type="text/javascript"
+  | recommendationNewParameters();

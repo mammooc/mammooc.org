@@ -26,7 +26,7 @@ $mammooc-darker:        darken($mammooc, 10%) !default;
 $mammooc-light-green:   #0CF204 !default;
 $mammooc-dark-green:    #078C02 !default;
 
-$brand-primary:         darken(#5F8C1C, 6.5%) !default; // mammooc green
+$brand-primary:         $mammooc !default;
 $brand-success:         #5cb85c !default;
 $brand-info:            #5bc0de !default;
 $brand-warning:         #f0ad4e !default;
@@ -707,7 +707,7 @@ $list-group-link-heading-color: #333 !default;
 
 $panel-bg:                    #fff !default;
 $panel-body-padding:          10px !default;
-$panel-heading-padding:       10px 15px !default;
+$panel-heading-padding:       10px 10px 5px 10px !default;
 $panel-footer-padding:        $panel-heading-padding !default;
 $panel-border-radius:         2px !default;
 

@@ -1,39 +1,7 @@
 .page-header
-  = link_to new_recommendation_path, :class => 'btn btn-primary' do 
-    span.glyphicon.glyphicon-plus
-    |  New Recommendation
   h1
-    | Listing recommendations
+    = t('recommendation.show_all')
 
-.table-responsive
-  table.table.table-striped.table-bordered.table-hover
-    thead
-      tr
-        th
-          | Is obligatory
-        th
-          | User
-        th
-          | Group
-        th
-          | Course
-        th
-        th
-        th
-    tbody
-      - @recommendations.each do | recommendation |
-        tr
-          td
-            = recommendation.is_obligatory
-          td
-            = recommendation.user
-          td
-            = recommendation.group
-          td
-            = recommendation.course
-          td
-            = link_to 'Show', recommendation
-          td
-            = link_to 'Edit', edit_recommendation_path(recommendation) 
-          td
-            = link_to 'Destroy', recommendation, method: :delete, data: { confirm: 'Are you sure?' } 
+.recommendations-wrapper
+  - @recommendations.each do |recommendation|
+    = render 'recommendations/recommendation', recommendation: recommendation, group: false
