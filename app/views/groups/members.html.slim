@@ -12,12 +12,13 @@
         .admins
           = t('groups.all_members.administrator')
         .options
-          button type="button" class="btn btn-gray btn-xs demote_admin" data-group_id='#{@group.id}' data-user_id='#{user.id}'
-            = t('groups.all_members.demote_admin')
+          - if can? :add_administrator, @group
+            button type="button" class="btn btn-gray btn-xs mr5 demote_admin" data-group_id='#{@group.id}' data-user_id='#{user.id}'
+              = t('groups.all_members.demote_admin')
           - if current_user.eql?(user)
             button type="button" class="btn btn-gray btn-xs remove_member" data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name= ' #{I18n.t('groups.remove_member.yourself')} '
               = t('groups.all_members.leave_group')
-          - else
+          - elsif @current_user_is_admin
             button type="button" class="btn btn-gray btn-xs remove_member" data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name=' #{user.first_name} #{user.last_name} '
               = t('groups.all_members.remove_member')
 
@@ -31,12 +32,13 @@
         .admins style="display: none"
           = t('groups.all_members.administrator')
         .options
-          button type="button" class="btn btn-gray btn-xs add_admin" data-group_id='#{@group.id}' data-user_id='#{user.id}'
-            = t('groups.all_members.add_admin')
+          - if can? :add_administrator, @group
+            button type="button" class="btn btn-gray btn-xs mr5 add_admin" data-group_id='#{@group.id}' data-user_id='#{user.id}'
+              = t('groups.all_members.add_admin')
           - if current_user.eql?(user)
             button type="button" class="btn btn-gray btn-xs remove_member" data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name= ' #{I18n.t('groups.remove_member.yourself')} '
               = t('groups.all_members.leave_group')
-          - else
+          - elsif @current_user_is_admin
             button type="button" class="btn btn-gray btn-xs remove_member" data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name=' #{user.first_name} #{user.last_name} '
               = t('groups.all_members.remove_member')
 
