@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   has_many :recommendations
   has_and_belongs_to_many :recommendations
   has_many :comments
+  has_many :mooc_provider_users
   has_many :mooc_providers, through: :mooc_provider_users
   has_many :completions
   has_and_belongs_to_many :courses
