@@ -198,6 +198,8 @@ de:
     successfully_created: Empfehlung erfolgreich erstellt.
     successfully_updated: Empfehlung erfolgreich bearbeitet.
     successfully_destroyed: Empfehlung erfolgreich gelöscht.
+    creation_error: Fehler beim Erstellen.
+    update_error: Fehler beim Bearbeiten.
     group:
       has_pledged: ' hat diesen Kurs vorgeschrieben.'
       has_recommended: ' hat diesen Kurs empfohlen.'

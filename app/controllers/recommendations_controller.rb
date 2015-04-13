@@ -27,7 +27,7 @@ class RecommendationsController < ApplicationController
       if @recommendation.save
         format.html { redirect_to session.delete(:return_to), notice: t('recommendation.successfully_created') }
       else
-        format.html { render :new }
+        format.html { redirect_to :back, notice: t('recommendation.creation_error')}
       end
     end
   end
@@ -39,7 +39,7 @@ class RecommendationsController < ApplicationController
       if @recommendation.update(recommendation_params)
         format.html { redirect_to :back, notice: t('recommendation.successfully_updated') }
       else
-        format.html { render :edit }
+        format.html { redirect_to :back, notice: t('recommendation.update_error') }
       end
     end
   end
