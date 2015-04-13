@@ -18,9 +18,9 @@ class RecommendationsController < ApplicationController
   def create
     @recommendation = Recommendation.new(recommendation_params)
     @recommendation.user = @current_user
-    user_ids = params[:recommendation][:related_user_ids].split(' ')
+    user_ids = params[:recommendation][:related_user_ids].split(',')
     @recommendation.users += User.where id: user_ids
-    group_ids = params[:recommendation][:related_group_ids].split(' ')
+    group_ids = params[:recommendation][:related_group_ids].split(',')
     @recommendation.groups += Group.where id: group_ids
     respond_to do |format|
       if @recommendation.save
