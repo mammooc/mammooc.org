@@ -12,6 +12,7 @@ RSpec.describe GroupsController, :type => :controller do
     UserGroup.set_is_admin(g.id, user.id, true)
     g
   }
+  let!(:group_without_user) { FactoryGirl.create :group }
   let(:user_groups) { [group_with_admin, group] }
 
   before(:each) do
@@ -32,6 +33,17 @@ RSpec.describe GroupsController, :type => :controller do
       get :show, {:id => group.to_param}
       expect(assigns(:group)).to eq(group)
     end
+
+    context 'without authorization' do
+      before(:each) { get :show, {id: group_without_user.id} }
+      it 'redirects to groups page' do
+        expect(response).to redirect_to(groups_path)
+      end
+
+      it 'shows an alert message' do
+        expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+      end
+    end
   end
 
   describe "GET new" do
@@ -45,6 +57,30 @@ RSpec.describe GroupsController, :type => :controller do
     it "assigns the requested group as @group" do
       get :edit, {:id => group_with_admin.to_param}
       expect(assigns(:group)).to eq(group_with_admin)
+    end
+
+    context 'without authorization' do
+      context 'user is not in group' do
+        before(:each) { get :edit, {id: group_without_user.id} }
+        it 'redirects to groups page' do
+          expect(response).to redirect_to(groups_path)
+        end
+
+        it 'shows an alert message' do
+          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+        end
+      end
+
+      context 'user is group member but not admin' do
+        before(:each) { get :edit, {id: group.id} }
+        it 'redirects to groups page' do
+          expect(response).to redirect_to(groups_path)
+        end
+
+        it 'shows an alert message' do
+          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+        end
+      end
     end
   end
 
@@ -103,6 +139,30 @@ RSpec.describe GroupsController, :type => :controller do
         put :update, {:id => group_with_admin.to_param, :group => FactoryGirl.attributes_for(:group)}
         expect(response).to redirect_to(group_with_admin)
       end
+
+      context 'without authorization' do
+        context 'user is not in group' do
+          before(:each) { put :update, {id: group_without_user.id} }
+          it 'redirects to groups page' do
+            expect(response).to redirect_to(groups_path)
+          end
+
+          it 'shows an alert message' do
+            expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+          end
+        end
+
+        context 'user is group member but not admin' do
+          before(:each) { put :update, {id: group.id} }
+          it 'redirects to groups page' do
+            expect(response).to redirect_to(groups_path)
+          end
+
+          it 'shows an alert message' do
+            expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+          end
+        end
+      end
     end
   end
 
@@ -135,6 +195,30 @@ RSpec.describe GroupsController, :type => :controller do
       expect(user.groups).to include(group_2)
       expect(user_1.groups).to include(group_2)
       expect(user_2.groups).to include(group_2)
+    end
+
+    context 'without authorization' do
+      context 'user is not in group' do
+        before(:each) { delete :destroy, {id: group_without_user.id} }
+        it 'redirects to groups page' do
+          expect(response).to redirect_to(groups_path)
+        end
+
+        it 'shows an alert message' do
+          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+        end
+      end
+
+      context 'user is group member but not admin' do
+        before(:each) { delete :destroy, {id: group.id} }
+        it 'redirects to groups page' do
+          expect(response).to redirect_to(groups_path)
+        end
+
+        it 'shows an alert message' do
+          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+        end
+      end
     end
   end
 
@@ -197,6 +281,30 @@ RSpec.describe GroupsController, :type => :controller do
       it "should invite members" do
         expect{ put :invite_group_members, {id: group_with_admin.id, group: valid_attributes, members: members} }.to change{ GroupInvitation.count }.by(2)
         expect(ActionMailer::Base.deliveries.count).to eq 2
+      end
+
+      context 'without authorization' do
+        context 'user is not in group' do
+          before(:each) { put :invite_group_members, {id: group_without_user.id, group: valid_attributes} }
+          it 'redirects to groups page' do
+            expect(response).to redirect_to(groups_path)
+          end
+
+          it 'shows an alert message' do
+            expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+          end
+        end
+
+        context 'user is group member but not admin' do
+          before(:each) { put :invite_group_members, {id: group.id, group: valid_attributes} }
+          it 'redirects to groups page' do
+            expect(response).to redirect_to(groups_path)
+          end
+
+          it 'shows an alert message' do
+            expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+          end
+        end
       end
     end
   end
@@ -262,15 +370,42 @@ RSpec.describe GroupsController, :type => :controller do
     let(:user) {FactoryGirl.create(:user)}
     let(:second_user) {FactoryGirl.create(:user)}
     let(:group) {FactoryGirl.create(:group, users:[user, second_user])}
+    let(:new_admin) {
+      new_admin = FactoryGirl.create(:user)
+      group.users.push(new_admin)
+      new_admin
+    }
 
     it "should add one administrator to an existing group" do
       UserGroup.set_is_admin(group.id, user.id, true)
-      new_admin = FactoryGirl.create(:user)
-      group.users.push(new_admin)
       put :add_administrator, {id: group.id, group: valid_attributes, additional_administrator: new_admin}
       expect(response).to redirect_to group_path(group)
       current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq 2
+    end
+
+    context 'without authorization' do
+      context 'user is not in group' do
+        before(:each) { put :add_administrator, {id: group_without_user.id, group: valid_attributes, additional_administrator: new_admin} }
+        it 'redirects to groups page' do
+          expect(response).to redirect_to(groups_path)
+        end
+
+        it 'shows an alert message' do
+          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+        end
+      end
+
+      context 'user is group member but not admin' do
+        before(:each) { put :add_administrator, {id: group.id, group: valid_attributes, additional_administrator: new_admin} }
+        it 'redirects to groups page' do
+          expect(response).to redirect_to(groups_path)
+        end
+
+        it 'shows an alert message' do
+          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+        end
+      end
     end
   end
 
@@ -282,6 +417,30 @@ RSpec.describe GroupsController, :type => :controller do
       UserGroup.set_is_admin(group.id, user.id, true)
       expect{ put :demote_administrator, {id: group.id, demoted_admin: user} }.to change(UserGroup.where(group_id: group.id, is_admin: true), :count).by(-1)
       expect(response).to redirect_to group_path(group)
+    end
+
+    context 'without authorization' do
+      context 'user is not in group' do
+        before(:each) { put :demote_administrator, {id: group_without_user.id, demote_admin: user} }
+        it 'redirects to groups page' do
+          expect(response).to redirect_to(groups_path)
+        end
+
+        it 'shows an alert message' do
+          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+        end
+      end
+
+      context 'user is group member but not admin' do
+        before(:each) { put :demote_administrator, {id: group.id, demote_admin: user} }
+        it 'redirects to groups page' do
+          expect(response).to redirect_to(groups_path)
+        end
+
+        it 'shows an alert message' do
+          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+        end
+      end
     end
   end
 
@@ -296,6 +455,30 @@ RSpec.describe GroupsController, :type => :controller do
       admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
       expect{ put :remove_group_member, {id: group.id, removing_member: user.id } }.to change{group.users.count}.by(-1)
       expect(admins_of_group).to eq(UserGroup.where(group_id: group.id, is_admin: true))
+    end
+
+    context 'without authorization' do
+      context 'user is not in group' do
+        before(:each) { put :remove_group_member, {id: group_without_user.id, removing_member: user.id} }
+        it 'redirects to groups page' do
+          expect(response).to redirect_to(groups_path)
+        end
+
+        it 'shows an alert message' do
+          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+        end
+      end
+
+      context 'user is group member but not admin' do
+        before(:each) { put :remove_group_member, {id: group.id, removing_member: user.id} }
+        it 'redirects to groups page' do
+          expect(response).to redirect_to(groups_path)
+        end
+
+        it 'shows an alert message' do
+          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+        end
+      end
     end
   end
 
@@ -327,6 +510,8 @@ RSpec.describe GroupsController, :type => :controller do
       post :condition_for_changing_member_status, format: :json, id: group.id, changing_member: second_user.id
       expect(response.body).to have_content('ok')
     end
+
+
   end
 
   describe "POST all members to administrators" do
@@ -342,6 +527,28 @@ RSpec.describe GroupsController, :type => :controller do
       expect(current_admins_of_group.count).to eq(group.users.count)
     end
 
-  end
+    context 'without authorization' do
+      context 'user is not in group' do
+        before(:each) { put :all_members_to_administrators, {id: group_without_user.id} }
+        it 'redirects to groups page' do
+          expect(response).to redirect_to(groups_path)
+        end
 
+        it 'shows an alert message' do
+          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+        end
+      end
+
+      context 'user is group member but not admin' do
+        before(:each) { put :all_members_to_administrators, {id: group.id} }
+        it 'redirects to groups page' do
+          expect(response).to redirect_to(groups_path)
+        end
+
+        it 'shows an alert message' do
+          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+        end
+      end
+    end
+  end
 end
