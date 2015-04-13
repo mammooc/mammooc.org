@@ -5,5 +5,5 @@
   = t('recommendation.no_recommendation')
 - else
   .recommendations-wrapper
-    - @recommendations.each do |recommendation|
-      = render 'recommendations/recommendation', recommendation: recommendation, group: false
+    - @recommendations.each do |recommendation_array|
+      = render 'recommendations/recommendation', recommendation: recommendation_array[0], group: recommendation_array[1]

@@ -1,6 +1,7 @@
 class GroupsController < ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :recommendations, :demote_administrator, :remove_group_member, :condition_for_changing_member_status, :all_members_to_administrators]
   NUMBER_OF_SHOWN_RECOMMENDATIONS = 2
+  NUMBER_OF_SHOWN_USERS = 10
 
   # GET /groups
   # GET /groups.json
@@ -11,12 +12,18 @@ class GroupsController < ApplicationController
   # GET /groups/1
   # GET /groups/1.json
   def show
-    number_of_shown_users = 10
     @ordered_group_members = sort_by_name(admins) + sort_by_name(@group.users - admins)
-    @group_users = (@group.users - admins).size > number_of_shown_users ? (@group.users - admins).shuffle : sort_by_name(@group.users - admins)
-    @group_admins = admins.size > number_of_shown_users ? sort_by_name(admins) : admins.shuffle
-    sorted_recommendations = @group.recommendations.sort_by { | recommendation | recommendation.created_at }.reverse!
-    @recommendations = sorted_recommendations.first(NUMBER_OF_SHOWN_RECOMMENDATIONS )
+    @group_users = (@group.users - admins).size > NUMBER_OF_SHOWN_USERS ? (@group.users - admins).shuffle : sort_by_name(@group.users - admins)
+    @group_admins = admins.size > NUMBER_OF_SHOWN_USERS ? sort_by_name(admins) : admins.shuffle
+
+    # RECOMMENDATIONS
+    group_recommendations = Hash.new
+    @group.recommendations.each do |recommendation|
+      group_recommendations[recommendation] = @group
+    end
+    sorted_recommendations = group_recommendations.sort_by { |k, _| k.created_at}.reverse!
+    @recommendations = sorted_recommendations.first(NUMBER_OF_SHOWN_RECOMMENDATIONS)
+    @number_of_recommendations =group_recommendations.length
   end
 
   # GET /groups/new
@@ -29,7 +36,13 @@ class GroupsController < ApplicationController
   end
 
   def recommendations
-    @recommendations = @group.recommendations.sort_by { | recommendation | recommendation.created_at }.reverse!
+    group_recommendations = Hash.new
+    @group.recommendations.each do |recommendation|
+      group_recommendations[recommendation] = @group
+    end
+    sorted_recommendations = group_recommendations.sort_by { |k, _| k.created_at}.reverse!
+    @recommendations = sorted_recommendations
+
   end
 
   def members

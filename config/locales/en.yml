@@ -186,8 +186,8 @@ en:
     related_course: course
     related_users: users
     related_groups: groups
-    obligatory: mandatory
-    recommended: recommended
+    obligatory: mandatory for you
+    recommended: recommended to you
     show_all: Your Recommendations
     pledged_by: ' expects you to enroll in this course.'
     recommended_by: ' has recommmended this course to you.'
@@ -196,6 +196,8 @@ en:
       pledged_by: ' expects enrollment in this course.'
       recommended_by: ' has recommmended this course.'
       no_recommendation: This group doesn't have any recommendations right now.
+      obligatory: 'mandatory for '
+      recommended: 'recommended to '
 
   flash:
     #success:

@@ -4,7 +4,18 @@ class RecommendationsController < ApplicationController
   # GET /recommendations
   # GET /recommendations.json
   def index
-    @recommendations = current_user.recommendations.sort_by { | recommendation | recommendation.created_at }.reverse!
+    all_my_recommendations = Hash.new
+    current_user.groups.each do |group|
+      group.recommendations.each do |recommendation|
+        all_my_recommendations[recommendation] = group
+      end
+    end
+    current_user.recommendations.each do |recommendation|
+      all_my_recommendations[recommendation] = nil
+    end
+
+    my_sorted_recommendations = all_my_recommendations.sort_by { |k, _| k.created_at}.reverse!
+    @recommendations = my_sorted_recommendations
   end
 
   # GET /recommendations/1

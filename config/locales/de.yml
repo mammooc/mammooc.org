@@ -187,8 +187,8 @@ de:
     related_course: Kurs
     related_users: Nutzer
     related_groups: Gruppen
-    obligatory: verpflichtend
-    recommended: empfohlen
+    obligatory: verpflichtend für dich
+    recommended: empfohlen für dich
     show_all: Deine Empfehlungen
     pledged_by: ' hat dir diesen Kurs vorgeschrieben.'
     recommended_by: ' hat dir diesen Kurs empfohlen.'
@@ -197,6 +197,8 @@ de:
       pledged_by: ' hat diesen Kurs vorgeschrieben.'
       recommended_by: ' hat diesen Kurs empfohlen.'
       no_recommendation: Diese Gruppe hat leider momentan keine Empfehlungen.
+      obligatory: 'verpflichtend für '
+      recommended: 'empfohlen für '
 
   flash:
     #success:
