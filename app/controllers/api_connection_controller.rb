@@ -28,17 +28,7 @@ class ApiConnectionController < ApplicationController
   end
 
   def update_user
-    mooc_provider = MoocProvider.find_by_name("openHPI").id
-    authentication_token = MoocProviderUser.where(user_id: current_user, mooc_provider_id: mooc_provider).first.authentication_token
-    token_string = "Token token=#{authentication_token}"
-
-    response = RestClient.get("https://open.hpi.de/api/users/me/enrollments", {:accept => 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', :authorization => token_string})
-    json_response = JSON.parse response
-
-    json_response.each {|enrollment|
-      course = Course.where(mooc_provider_id: mooc_provider, provider_course_id: enrollment['course_id']).first
-      current_user.courses << course
-    }
+    OpenHPIUserWorker.perform_async([current_user.id])
 
     redirect_to api_connection_index_path
   end

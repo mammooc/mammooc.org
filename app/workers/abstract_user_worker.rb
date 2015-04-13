@@ -2,25 +2,21 @@ class AbstractUserWorker
   include Sidekiq::Worker
   require 'rest_client'
 
-  def perform users
-    if users.blank?
-      load_users
+  # users is Array of String
+  def perform user_ids
+
+    if user_ids.blank?
+      Users.find_each { |user|
+        load_user_data user
+      }
     else
-      load_specified_users users
+      user_ids.each { |user_id|
+        load_user_data User.find(user_id)
+      }
     end
   end
 
-  def load_users
-    begin
-      response_data = get_user_data
-    rescue SocketError, RestClient::ResourceNotFound => e
-      logger.error e.class.to_s + ": " + e.message
-    else
-      handle_response_data response_data
-    end
-  end
-
-  def load_specified_users user
+  def load_user_data user
     begin
       response_data = get_enrollments_for_specified_user user
     rescue SocketError, RestClient::ResourceNotFound => e
@@ -50,11 +46,10 @@ class AbstractUserWorker
     return update_map
   end
 
-  def evaluate_enrollments_update_map update_map
+  def evaluate_enrollments_update_map update_map, user
     update_map.each { |course_id,updated|
-      course = Course.find(course_id)
-      if !updated && course.exit
-        course.destroy
+      if !updated
+        user.courses.destroy(course_id)
       end
     }
   end
