@@ -8,7 +8,10 @@
 .panel.panel-default
   .panel-body
     h2
-      = t('groups.new_recommendations')
-    .recommendations-wrapper
-      - @recommendations.each do |recommendation|
-        = render 'recommendations/recommendation', recommendation: recommendation, group: true
+      = t('groups.current_recommendations')
+    - if @recommendations.length == 0
+      = t('recommendation.group.no_recommendation')
+    - else
+      .recommendations-wrapper
+        - @recommendations.each do |recommendation|
+          = render 'recommendations/recommendation', recommendation: recommendation, group: true

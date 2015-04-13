@@ -1,7 +1,9 @@
 .page-header
   h1
     = t('recommendation.show_all')
-
-.recommendations-wrapper
-  - @recommendations.each do |recommendation|
-    = render 'recommendations/recommendation', recommendation: recommendation, group: false
+- if @recommendations.length == 0
+  = t('recommendation.no_recommendation')
+- else
+  .recommendations-wrapper
+    - @recommendations.each do |recommendation|
+      = render 'recommendations/recommendation', recommendation: recommendation, group: false

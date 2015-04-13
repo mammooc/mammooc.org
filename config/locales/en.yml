@@ -83,7 +83,7 @@ en:
     my_groups: My Groups
     show: Show group
     recommend_course: Recommend a course to this group
-    new_recommendations: Current Recommendations
+    current_recommendations: Current Recommendations
     subnav:
       home: Home
       members: Members
@@ -188,12 +188,14 @@ en:
     related_groups: groups
     obligatory: mandatory
     recommended: recommended
-    show_all: My Recommendations
+    show_all: Your Recommendations
     pledged_by: ' expects you to enroll in this course.'
     recommended_by: ' has recommmended this course to you.'
+    no_recommendation: You don't have any recommendations right now.
     group:
       pledged_by: ' expects enrollment in this course.'
       recommended_by: ' has recommmended this course.'
+      no_recommendation: This group doesn't have any recommendations right now.
 
   flash:
     #success:

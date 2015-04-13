@@ -83,7 +83,7 @@ de:
     my_groups: Meine Gruppen
     show: Zur Gruppe
     recommend_course: Dieser Gruppe einen Kurs empfehlen
-    new_recommendations: Aktuelle Empfehlungen
+    current_recommendations: Aktuelle Empfehlungen
     subnav:
       home: Home
       members: Mitglieder
@@ -189,12 +189,14 @@ de:
     related_groups: Gruppen
     obligatory: verpflichtend
     recommended: empfohlen
-    show_all: Meine Empfehlungen
+    show_all: Deine Empfehlungen
     pledged_by: ' hat dir diesen Kurs vorgeschrieben.'
     recommended_by: ' hat dir diesen Kurs empfohlen.'
+    no_recommendation: Du hast leider momentan keine Empfehlungen.
     group:
       pledged_by: ' hat diesen Kurs vorgeschrieben.'
       recommended_by: ' hat diesen Kurs empfohlen.'
+      no_recommendation: Diese Gruppe hat leider momentan keine Empfehlungen.
 
   flash:
     #success:
