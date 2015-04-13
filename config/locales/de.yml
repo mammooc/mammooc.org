@@ -195,6 +195,9 @@ de:
     pledged_by: 'vorgeschrieben von '
     recommended_by: 'empfohlen von '
     no_recommendation: Du hast leider momentan keine Empfehlungen.
+    successfully_created: Empfehlung erfolgreich erstellt.
+    successfully_updated: Empfehlung erfolgreich bearbeitet.
+    successfully_destroyed: Empfehlung erfolgreich gelöscht.
     group:
       has_pledged: ' hat diesen Kurs vorgeschrieben.'
       has_recommended: ' hat diesen Kurs empfohlen.'

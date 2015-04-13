@@ -1,5 +1,5 @@
 class RecommendationsController < ApplicationController
-  before_action :set_recommendation, only: [:show, :edit, :update, :destroy]
+  before_action :set_recommendation, only: [:update, :destroy]
 
   # GET /recommendations
   # GET /recommendations.json
@@ -7,18 +7,10 @@ class RecommendationsController < ApplicationController
     @recommendations = Recommendation.sorted_recommendations_for(current_user, current_user.groups, nil)
   end
 
-  # GET /recommendations/1
-  # GET /recommendations/1.json
-  def show
-  end
-
   # GET /recommendations/new
   def new
     @recommendation = Recommendation.new
-  end
-
-  # GET /recommendations/1/edit
-  def edit
+    session[:return_to] ||= request.referer
   end
 
   # POST /recommendations
@@ -32,11 +24,9 @@ class RecommendationsController < ApplicationController
     @recommendation.groups += Group.where id: group_ids
     respond_to do |format|
       if @recommendation.save
-        format.html { redirect_to @recommendation, notice: 'Recommendation was successfully created.' }
-        format.json { render :show, status: :created, location: @recommendation }
+        format.html { redirect_to session.delete(:return_to), notice: t('recommendation.successfully_created') }
       else
         format.html { render :new }
-        format.json { render json: @recommendation.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -46,11 +36,9 @@ class RecommendationsController < ApplicationController
   def update
     respond_to do |format|
       if @recommendation.update(recommendation_params)
-        format.html { redirect_to @recommendation, notice: 'Recommendation was successfully updated.' }
-        format.json { render :show, status: :ok, location: @recommendation }
+        format.html { redirect_to :back, notice: t('recommendation.successfully_updated') }
       else
         format.html { render :edit }
-        format.json { render json: @recommendation.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -60,7 +48,7 @@ class RecommendationsController < ApplicationController
   def destroy
     @recommendation.destroy
     respond_to do |format|
-      format.html { redirect_to recommendations_url, notice: 'Recommendation was successfully destroyed.' }
+      format.html { redirect_to recommendations_url, notice: t('recommendation.successfully_destroyed') }
       format.json { head :no_content }
     end
   end

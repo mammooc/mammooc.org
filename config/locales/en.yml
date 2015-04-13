@@ -194,6 +194,9 @@ en:
     pledged_by: 'participation made mandatory by '
     recommended_by: 'recommended by '
     no_recommendation: You don't have any recommendations right now.
+    successfully_created: Recommendation was successfully created.
+    successfully_updated: Recommendation was successfully updated.
+    successfully_destroyed: Recommendation was successfully destroyed.
     group:
       has_pledged: ' expects enrollment in this course.'
       has_recommended: ' has recommmended this course.'

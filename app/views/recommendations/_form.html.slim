@@ -11,10 +11,6 @@
         - @recommendation.errors.full_messages.each do |msg|
           li= msg
   .form-group
-    = f.label :is_obligatory, :class => "col-sm-2 control-label"
-    .col-sm-10
-      = f.check_box :is_obligatory, :class => "form-control"
-  .form-group
     = f.label t('recommendation.related_groups'), :class => "col-sm-2 control-label"
     .col-sm-10
       = f.text_field :related_group_ids, :class => "form-control tokenize ui-autocomplete-input", :value => ''
