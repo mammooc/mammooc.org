@@ -1,18 +1,16 @@
 .courses-wrapper {
 
   .courses {
-    background-color: white;
-    border: 1px solid $panel-default-border;
-    border-radius: $panel-border-radius;
-    float: left;
+    @include white-box;
+    @include box-shadow-light;
+    margin-bottom: 30px;
     width: 200px;
     height: 300px;
-    margin-bottom: 30px;
-    @include box-shadow-light;
+    float: left;
 
     &:hover {
-      cursor: pointer;
       @include box-shadow-hover;
+      cursor: pointer;
     }
 
     .course-image {
@@ -63,12 +61,11 @@
 
 @media(max-width: $screen-xs) {
   .courses-wrapper > .courses {
-    float: none;
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 200px;
-
+    float: none;
   }
 }
 
@@ -77,8 +74,8 @@
 
 @media(min-width: $screen-xs + 1) and (max-width: $screen-xs-max) {
   .courses-wrapper {
-    width: 416px;
     display: block;
+    width: 416px;
     margin: auto;
   }
 

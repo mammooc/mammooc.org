@@ -3,6 +3,24 @@ To define mixins, just write "@mixin name".
 Use mixins within any other stylesheet with the "@include name" method.
 */
 
+// General
+
+@mixin vertical-align {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+// For white box styling
+
+@mixin white-box {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+}
+
 @mixin box-shadow-light {
   -webkit-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05);
@@ -19,12 +37,4 @@ Use mixins within any other stylesheet with the "@include name" method.
   -ms-transition: all 0.1s linear;
   -kthtml-transition: all 0.1s linear;
   transition: all 0.1s linear;
-}
-
-@mixin vertical-align {
-  position: relative;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
 }

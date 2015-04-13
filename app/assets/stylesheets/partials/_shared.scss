@@ -1,9 +1,7 @@
 // Site header
 
 .site-header {
-  background-color: white;
-  border: 1px solid $panel-default-border;
-  border-radius: 2px;
+  @include white-box;
   @include box-shadow-light;
 
   .wrapper {
