@@ -18,3 +18,7 @@ form action="#{api_connection_send_user_request_path}" method="post"
   input name="authenticity_token" type="hidden" value="#{form_authenticity_token}"
   input type="submit" value="Send User Requests"
 /= button_to "Send User Connection Request", api_connection_send_user_request_path, {:class => "button.btn.btn-default"}
+
+= link_to api_connection_update_user_path
+  button.btn.btn-default
+    | Update User Data
