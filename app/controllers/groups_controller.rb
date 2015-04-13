@@ -1,5 +1,6 @@
 class GroupsController < ApplicationController
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :demote_administrator, :remove_group_member, :condition_for_changing_member_status, :all_members_to_administrators]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :recommendations, :demote_administrator, :remove_group_member, :condition_for_changing_member_status, :all_members_to_administrators]
+  NUMBER_OF_SHOWN_RECOMMENDATIONS = 2
 
   # GET /groups
   # GET /groups.json
@@ -14,6 +15,8 @@ class GroupsController < ApplicationController
     @ordered_group_members = sort_by_name(admins) + sort_by_name(@group.users - admins)
     @group_users = (@group.users - admins).size > number_of_shown_users ? (@group.users - admins).shuffle : sort_by_name(@group.users - admins)
     @group_admins = admins.size > number_of_shown_users ? sort_by_name(admins) : admins.shuffle
+    sorted_recommendations = @group.recommendations.sort_by { | recommendation | recommendation.created_at }.reverse!
+    @recommendations = sorted_recommendations.first(NUMBER_OF_SHOWN_RECOMMENDATIONS )
   end
 
   # GET /groups/new
@@ -25,9 +28,14 @@ class GroupsController < ApplicationController
   def edit
   end
 
+  def recommendations
+    @recommendations = @group.recommendations.sort_by { | recommendation | recommendation.created_at }.reverse!
+  end
+
   def members
     @sorted_group_users = sort_by_name(@group.users - admins)
     @sorted_group_admins = sort_by_name(admins)
+    @group_members = @group.users - [current_user]
   end
 
   # POST /groups
@@ -140,6 +148,7 @@ class GroupsController < ApplicationController
       end
     end
   end
+
 
   # DELETE /groups/1
   # DELETE /groups/1.json

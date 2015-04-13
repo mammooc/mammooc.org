@@ -29,6 +29,7 @@ en:
   navbar:
     mammooc: mammooc
     home: Home
+    courses: Courses
     about: About us
     impressum: Legal Notice
     sign_out: Sign Out
@@ -43,6 +44,7 @@ en:
     no_groups: :groups.no_groups
     new_group: Creating Group
     edit_group: Editing Group
+    recommendations: Your Recommendations (%{number})
 
   home:
     welcome_heading: Welcome to mammooc!
@@ -80,6 +82,8 @@ en:
     edit: Edit group
     my_groups: My Groups
     show: Show group
+    recommend_course: Recommend a course to this group
+    new_recommendations: Current Recommendations
     subnav:
       home: Home
       members: Members
@@ -122,10 +126,16 @@ en:
       group:
         one: Group
         other: Groups
+      recommendation:
+        one: Recommendation
+        other: Recommendations
     attributes:
       group:
         name: Name
         description: Description
+      recommendation:
+        is_obligatory: Obligatory?
+        text: Message
     #error messages
     errors:
       messages:
@@ -169,6 +179,21 @@ en:
     subtitle_languages: Available Subtitles
     previous_iteration: Previous Iteration
     following_iteration: Following Iteration
+
+  recommendation:
+    placeholder: Enter your personal message here ...
+    new: New recommendation
+    related_course: course
+    related_users: users
+    related_groups: groups
+    obligatory: mandatory
+    recommended: recommended
+    show_all: My Recommendations
+    pledged_by: ' expects you to enroll in this course.'
+    recommended_by: ' has recommmended this course to you.'
+    group:
+      pledged_by: ' expects enrollment in this course.'
+      recommended_by: ' has recommmended this course.'
 
   flash:
     #success:
