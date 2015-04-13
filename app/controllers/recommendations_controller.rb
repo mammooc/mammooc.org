@@ -22,6 +22,7 @@ class RecommendationsController < ApplicationController
     @recommendation.users += User.where id: user_ids
     group_ids = params[:recommendation][:related_group_ids].split(',')
     @recommendation.groups += Group.where id: group_ids
+    session[:return_to] ||= dashboard_dashboard_path
     respond_to do |format|
       if @recommendation.save
         format.html { redirect_to session.delete(:return_to), notice: t('recommendation.successfully_created') }

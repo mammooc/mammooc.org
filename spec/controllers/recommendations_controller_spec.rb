@@ -12,7 +12,7 @@ RSpec.describe RecommendationsController, :type => :controller do
   let(:course) {FactoryGirl.create(:course)}
 
   let(:valid_model_attributes) { {user: second_user, is_obligatory: false, groups: [group, second_group], users: [user, third_user], course: course} }
-  let(:valid_controller_attributes) { {user: user, is_obligatory: false, related_group_ids: "#{group.id} #{second_group.id}", related_user_ids: "#{second_user.id} #{third_user.id}", course_id: course.id} }
+  let(:valid_controller_attributes) { {user: user, is_obligatory: false, related_group_ids: "#{group.id},#{second_group.id}", related_user_ids: "#{second_user.id},#{third_user.id}", course_id: course.id} }
 
   before(:each) do
     sign_in user
@@ -22,17 +22,10 @@ RSpec.describe RecommendationsController, :type => :controller do
     it "assigns all recommendations as @recommendations" do
       recommendation = Recommendation.create! valid_model_attributes
       get :index, {}
-      expect(assigns(:recommendations)).to eq([recommendation])
+      expect(assigns(:recommendations)[0][0]).to eq(recommendation)
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested recommendation as @recommendation" do
-      recommendation = Recommendation.create! valid_model_attributes
-      get :show, {:id => recommendation.to_param}
-      expect(assigns(:recommendation)).to eq(recommendation)
-    end
-  end
 
   describe "GET new" do
     it "assigns a new recommendation as @recommendation" do
@@ -42,38 +35,36 @@ RSpec.describe RecommendationsController, :type => :controller do
   end
 
   describe "POST create" do
-    describe "with valid params" do
-      it "creates a new Recommendation" do
-        expect {
-          post :create, {:recommendation => valid_controller_attributes}
-        }.to change(Recommendation, :count).by(1)
-      end
-
-      it "assigns a newly created recommendation as @recommendation" do
+    it "creates a new Recommendation" do
+      expect {
         post :create, {:recommendation => valid_controller_attributes}
-        expect(assigns(:recommendation)).to be_a(Recommendation)
-        expect(assigns(:recommendation)).to be_persisted
-      end
+      }.to change(Recommendation, :count).by(1)
+    end
 
-      it "redirects to the created recommendation" do
-        post :create, {:recommendation => valid_controller_attributes}
-        expect(response).to redirect_to(Recommendation.last)
-      end
+    it "assigns a newly created recommendation as @recommendation" do
+      post :create, {:recommendation => valid_controller_attributes}
+      expect(assigns(:recommendation)).to be_a(Recommendation)
+      expect(assigns(:recommendation)).to be_persisted
+    end
 
-      it "adds relations to specified groups" do
-        post :create, {:recommendation => valid_controller_attributes}
-        expect(assigns(:recommendation).groups).to match_array([group, second_group])
-      end
+    it "redirects to dashboard" do
+      post :create, {:recommendation => valid_controller_attributes}
+      expect(response).to redirect_to dashboard_dashboard_path
+    end
 
-      it "adds relations to specified users" do
-        post :create, {:recommendation => valid_controller_attributes}
-        expect(assigns(:recommendation).users).to match_array([second_user, third_user])
-      end
+    it "adds relations to specified groups" do
+      post :create, {:recommendation => valid_controller_attributes}
+      expect(assigns(:recommendation).groups).to match_array([group, second_group])
+    end
 
-      it "adds relations to specified course" do
-        post :create, {:recommendation => valid_controller_attributes}
-        expect(assigns(:recommendation).course).to eql course
-      end
+    it "adds relations to specified users" do
+      post :create, {:recommendation => valid_controller_attributes}
+      expect(assigns(:recommendation).users).to match_array([second_user, third_user])
+    end
+
+    it "adds relations to specified course" do
+      post :create, {:recommendation => valid_controller_attributes}
+      expect(assigns(:recommendation).course).to eql course
     end
   end
 
