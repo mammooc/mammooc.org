@@ -42,13 +42,13 @@
     - if recommendation.text.empty?
       - if group
         - if recommendation.is_obligatory
-          = t('recommendation.group.pledged_by')
+          = t('recommendation.group.has_pledged')
         - else
-          = t('recommendation.group.recommended_by')
+          = t('recommendation.group.has_recommended')
       - else
         - if recommendation.is_obligatory
-          = t('recommendation.pledged_by')
+          = t('recommendation.has_pledged')
         - else
-          = t('recommendation.recommended_by')
+          = t('recommendation.has_recommended')
     - else
-      = ": #{recommendation.text}"
+      = ": \"#{recommendation.text}\""

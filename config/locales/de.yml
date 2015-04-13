@@ -190,12 +190,14 @@ de:
     obligatory: verpflichtend für dich
     recommended: empfohlen für dich
     show_all: Deine Empfehlungen
-    pledged_by: ' hat dir diesen Kurs vorgeschrieben.'
-    recommended_by: ' hat dir diesen Kurs empfohlen.'
+    has_pledged: ' hat dir diesen Kurs vorgeschrieben.'
+    has_recommended: ' hat dir diesen Kurs empfohlen.'
+    pledged_by: 'vorgeschrieben von '
+    recommended_by: 'empfohlen von '
     no_recommendation: Du hast leider momentan keine Empfehlungen.
     group:
-      pledged_by: ' hat diesen Kurs vorgeschrieben.'
-      recommended_by: ' hat diesen Kurs empfohlen.'
+      has_pledged: ' hat diesen Kurs vorgeschrieben.'
+      has_recommended: ' hat diesen Kurs empfohlen.'
       no_recommendation: Diese Gruppe hat leider momentan keine Empfehlungen.
       obligatory: 'verpflichtend für '
       recommended: 'empfohlen für '

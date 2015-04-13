@@ -189,12 +189,14 @@ en:
     obligatory: mandatory for you
     recommended: recommended to you
     show_all: Your Recommendations
-    pledged_by: ' expects you to enroll in this course.'
-    recommended_by: ' has recommmended this course to you.'
+    has_pledged: ' expects you to enroll in this course.'
+    has_recommended: ' has recommmended this course to you.'
+    pledged_by: 'participation made mandatory by '
+    recommended_by: 'recommended by '
     no_recommendation: You don't have any recommendations right now.
     group:
-      pledged_by: ' expects enrollment in this course.'
-      recommended_by: ' has recommmended this course.'
+      has_pledged: ' expects enrollment in this course.'
+      has_recommended: ' has recommmended this course.'
       no_recommendation: This group doesn't have any recommendations right now.
       obligatory: 'mandatory for '
       recommended: 'recommended to '

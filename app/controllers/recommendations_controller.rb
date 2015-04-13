@@ -4,7 +4,7 @@ class RecommendationsController < ApplicationController
   # GET /recommendations
   # GET /recommendations.json
   def index
-    @recommendations = Recommendation.sorted_recommendations_for(current_user, current_user.groups)
+    @recommendations = Recommendation.sorted_recommendations_for(current_user, current_user.groups, nil)
   end
 
   # GET /recommendations/1

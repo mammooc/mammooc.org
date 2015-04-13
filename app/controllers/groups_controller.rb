@@ -17,7 +17,7 @@ class GroupsController < ApplicationController
     @group_admins = admins.size > NUMBER_OF_SHOWN_USERS ? sort_by_name(admins) : admins.shuffle
 
     # RECOMMENDATIONS
-    sorted_recommendations = Recommendation.sorted_recommendations_for(nil, [@group])
+    sorted_recommendations = Recommendation.sorted_recommendations_for(nil, [@group], nil)
     @recommendations = sorted_recommendations.first(NUMBER_OF_SHOWN_RECOMMENDATIONS)
     @number_of_recommendations = sorted_recommendations.length
   end
@@ -32,7 +32,7 @@ class GroupsController < ApplicationController
   end
 
   def recommendations
-    @recommendations = Recommendation.sorted_recommendations_for(nil, [@group])
+    @recommendations = Recommendation.sorted_recommendations_for(nil, [@group], nil)
   end
 
   def members
