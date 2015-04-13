@@ -83,7 +83,7 @@ en:
     my_groups: My Groups
     show: Show group
     recommend_course: Recommend a course to this group
-    current_recommendations: Current Recommendations
+    current_recommendations: Current Recommendations (%{shown_number} out of %{complete_number})
     subnav:
       home: Home
       members: Members

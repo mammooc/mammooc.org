@@ -83,7 +83,7 @@ de:
     my_groups: Meine Gruppen
     show: Zur Gruppe
     recommend_course: Dieser Gruppe einen Kurs empfehlen
-    current_recommendations: Aktuelle Empfehlungen
+    current_recommendations: Aktuelle Empfehlungen (%{shown_number} von %{complete_number})
     subnav:
       home: Home
       members: Mitglieder

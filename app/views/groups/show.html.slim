@@ -8,8 +8,8 @@
 .panel.panel-default
   .panel-body
     h2
-      = t('groups.current_recommendations')
-    - if @recommendations.length == 0
+      = t('groups.current_recommendations', complete_number: @number_of_recommendations, shown_number: @recommendations.length)
+    - if @number_of_recommendations == 0
       = t('recommendation.group.no_recommendation')
     - else
       .recommendations-wrapper
