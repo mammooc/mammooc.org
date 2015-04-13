@@ -30,7 +30,7 @@ minimal_following_course = Course.create(name: 'Minimal Following Technologies',
                                         has_paid_version: true
 )
 
-Course.create(name: 'Web Technologies',
+full_course = Course.create(name: 'Web Technologies',
               url: 'https://open.hpi.de/courses/webtech2015',
               course_instructors: 'Prof. Dr. Christoph Meinel, Jan Renz',
               abstract: 'WWW, the world wide web or shortly the web - really nothing more than an information  service on the Internet – has changed our world by creating a whole new digital world that is closely intertwined with our real world, making reality what was previously unimaginable: communication across the world in seconds, watching movies on a smartphone, playing games or looking at photos with remote partners in distant continents, shopping or banking from your couch … In our online course on web technologies you will learn how it all works.',
@@ -97,3 +97,6 @@ group3.users.push(user1, user2)
 
 UserGroup.set_is_admin(group3.id, user1.id, true)
 UserGroup.set_is_admin(group3.id, user2.id, true)
+
+4.times do FactoryGirl.create(:recommendation, users:[user1], course: full_course, groups: [group1, group3]) end
+
