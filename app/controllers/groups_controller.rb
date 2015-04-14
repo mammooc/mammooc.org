@@ -26,7 +26,6 @@ class GroupsController < ApplicationController
     @ordered_group_members = sort_by_name(admins) + sort_by_name(@group.users - admins)
     @group_users = (@group.users - admins).size > number_of_shown_users ? (@group.users - admins).shuffle : sort_by_name(@group.users - admins)
     @group_admins = admins.size > number_of_shown_users ? sort_by_name(admins) : admins.shuffle
-    @current_user_is_admin = current_user_is_admin?
     sorted_recommendations = @group.recommendations.sort_by { | recommendation | recommendation.created_at }.reverse!
     @recommendations = sorted_recommendations.first(NUMBER_OF_SHOWN_RECOMMENDATIONS )
   end
@@ -48,7 +47,6 @@ class GroupsController < ApplicationController
     @sorted_group_users = sort_by_name(@group.users - admins)
     @sorted_group_admins = sort_by_name(admins)
     @group_members = @group.users - [current_user]
-    @current_user_is_admin = current_user_is_admin?
   end
 
   # POST /groups
@@ -318,9 +316,5 @@ class GroupsController < ApplicationController
 
     def sort_by_name members
       members.sort_by{ |m| [m.last_name, m.first_name] }
-    end
-
-    def current_user_is_admin?
-      admins.include?(current_user)
     end
 end

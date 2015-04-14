@@ -18,7 +18,7 @@
           - if current_user.eql?(user)
             button type="button" class="btn btn-gray btn-xs remove_member" data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name= ' #{I18n.t('groups.remove_member.yourself')} '
               = t('groups.all_members.leave_group')
-          - elsif @current_user_is_admin
+          - elsif can? :remove_group_member, @group
             button type="button" class="btn btn-gray btn-xs remove_member" data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name=' #{user.first_name} #{user.last_name} '
               = t('groups.all_members.remove_member')
 
@@ -38,7 +38,7 @@
           - if current_user.eql?(user)
             button type="button" class="btn btn-gray btn-xs remove_member" data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name= ' #{I18n.t('groups.remove_member.yourself')} '
               = t('groups.all_members.leave_group')
-          - elsif @current_user_is_admin
+          - elsif can? :remove_group_member, @group
             button type="button" class="btn btn-gray btn-xs remove_member" data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name=' #{user.first_name} #{user.last_name} '
               = t('groups.all_members.remove_member')
 
