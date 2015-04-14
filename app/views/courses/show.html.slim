@@ -45,18 +45,20 @@
       = link_to '#'
         .entry
           = t('courses.enroll_course')
-      a data-toggle="collapse" href="#recommend-course" aria-expanded="false" aria-controls="recommend-course"
-        .entry
-          = t('courses.recommend_course')
-      a data-toggle="collapse" href="#rate-course" aria-expanded="false" aria-controls="rate-course"
-        .entry
-          = t('courses.rate_course')
+      div role="tab" id="courses-subnav-recommend"
+        a data-toggle="collapse" href="#recommend-course" id="recommend-course-link" aria-expanded="false" aria-controls="recommend-course"
+          .entry
+            = t('courses.recommend_course')
+      div role="tab" id="courses-subnav-rate"
+        a data-toggle="collapse" href="#rate-course" id="rate-course-link" aria-expanded="false" aria-controls="rate-course"
+          .entry
+            = t('courses.rate_course')
 
-    .collapse id="recommend-course"
+    .collapse id="recommend-course" role="tabpanel" aria-labelledby="courses-subnav-recommend"
       .collapse-subnav
         = render 'recommendation'
 
-    .collapse id="rate-course"
+    .collapse id="rate-course" role="tabpanel" aria-labelledby="courses-subnav-rate"
       .collapse-subnav
         = render 'rating'
 

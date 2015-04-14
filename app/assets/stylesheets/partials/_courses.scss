@@ -62,11 +62,6 @@ $course-img-height: 250px;
       background-color: inherit;
       padding: 5px 15px;
       white-space: nowrap;
-
-      .active {
-        font-weight: bold;
-        border-bottom: 2px solid $link-hover-color;
-      }
     }
   }
 
@@ -75,6 +70,11 @@ $course-img-height: 250px;
     padding: 10px;
   }
 
+}
+
+.active {
+  background-color: white !important;
+  border-bottom: 1px solid white;
 }
 
 /* Course listing */
