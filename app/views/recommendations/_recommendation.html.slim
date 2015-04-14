@@ -33,12 +33,12 @@
   .comment
 
     .profile-picture
-      - if recommendation.user.profile_image_id
-        img src=recommendation.user.profile_image_id
+      - if recommendation.author.profile_image_id
+        img src=recommendation.author.profile_image_id
       - else
         img src="/data/default.png"
-    = link_to recommendation.user
-      = "#{recommendation.user.first_name} #{recommendation.user.last_name}"
+    = link_to recommendation.author
+      = "#{recommendation.author.first_name} #{recommendation.author.last_name}"
     - if recommendation.text.empty?
       - if group
         - if recommendation.is_obligatory

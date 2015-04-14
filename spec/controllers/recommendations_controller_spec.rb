@@ -11,8 +11,8 @@ RSpec.describe RecommendationsController, :type => :controller do
 
   let(:course) {FactoryGirl.create(:course)}
 
-  let(:valid_model_attributes) { {user: second_user, is_obligatory: false, groups: [group, second_group], users: [user, third_user], course: course} }
-  let(:valid_controller_attributes) { {user: user, is_obligatory: false, related_group_ids: "#{group.id},#{second_group.id}", related_user_ids: "#{second_user.id},#{third_user.id}", course_id: course.id} }
+  let(:valid_model_attributes) { {author: second_user, is_obligatory: false, groups: [group, second_group], users: [user, third_user], course: course} }
+  let(:valid_controller_attributes) { {author: user, is_obligatory: false, related_group_ids: "#{group.id},#{second_group.id}", related_user_ids: "#{second_user.id},#{third_user.id}", course_id: course.id} }
 
   before(:each) do
     sign_in user

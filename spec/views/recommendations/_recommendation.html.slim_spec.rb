@@ -8,6 +8,6 @@ RSpec.describe "recommendations/_recommendation", :type => :view do
   it "renders the recommendation partial" do
     render 'recommendations/recommendation', recommendation: @recommendation, group: nil
     expect(rendered).to match(/#{@recommendation.course.name}/)
-    expect(rendered).to match(/#{@recommendation.user.first_name} #{@recommendation.user.last_name}/)
+    expect(rendered).to match(/#{@recommendation.author.first_name} #{@recommendation.author.last_name}/)
     end
 end
