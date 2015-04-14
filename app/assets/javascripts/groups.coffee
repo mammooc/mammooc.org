@@ -133,7 +133,6 @@ remove_group_member = (event) ->
   group_id = button.data('group_id')
   user_id = $('#remove_member_user_id').val()
   user_name = $('#removing_user_name').text()
-  console.log(user_name.trim() + " | " + I18n.t('groups.remove_member.yourself'))
   if user_name.trim() == I18n.t('groups.remove_member.yourself')
     url = '/groups/' + group_id + '/leave.json'
   else
