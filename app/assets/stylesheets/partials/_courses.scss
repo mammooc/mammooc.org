@@ -1,3 +1,83 @@
+/* Course detail page */
+
+$course-img-height: 250px;
+
+.course-infobox {
+  @include white-box;
+  @include box-shadow-light;
+  margin-bottom: 30px;
+
+  .wrapper {
+    position: relative;
+    min-height: $course-img-height + 40px;
+    width: 100%;
+
+     img {
+       height: $course-img-height;
+       width: auto;
+       float: left;
+       margin: 20px 20px 20px 0px;
+     }
+
+     .content {
+       display: block;
+       padding: 15px;
+
+       .title {
+         font-weight: 400;
+         font-size: 20px;
+         padding-bottom: 10px;
+       }
+     }
+
+    .options {
+      position: absolute;
+      bottom: 0px;
+      right: 10px;
+
+      img {
+        height: 40px;
+      }
+    }
+  }
+
+  .subnav {
+    border-top: 1px solid $panel-default-border;
+    background-color: $gray-lighter;
+    width: 100%;
+    height: 32px;
+
+    a {
+      color: inherit;
+
+      &:hover {
+        color: $link-color;
+      }
+    }
+
+    .entry {
+      float: left;
+      border-right: 1px solid $panel-default-border;
+      background-color: inherit;
+      padding: 5px 15px;
+      white-space: nowrap;
+
+      .active {
+        font-weight: bold;
+        border-bottom: 2px solid $link-hover-color;
+      }
+    }
+  }
+
+  .collapse-subnav {
+    background-color: white;
+    padding: 10px;
+  }
+
+}
+
+/* Course listing */
+
 .courses-wrapper {
 
   .courses {

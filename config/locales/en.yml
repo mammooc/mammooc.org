@@ -25,6 +25,7 @@ en:
     close: Close
     submit: Submit
     cancel: Cancel
+    by: 'by '
 
   navbar:
     mammooc: mammooc
@@ -168,7 +169,7 @@ en:
     workload: Workload
     enter_course: Enter Course
     remember_course: Remember Course
-    enroll_course: Enroll into Course
+    enroll_course: Mark course as booked
     recommend_course: Recommend Course
     rate_course: Rate Course
     recommendations: Recommendations
