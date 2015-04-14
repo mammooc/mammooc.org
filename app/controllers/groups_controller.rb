@@ -1,7 +1,18 @@
 class GroupsController < ApplicationController
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :recommendations, :demote_administrator, :remove_group_member, :condition_for_changing_member_status, :all_members_to_administrators]
+  load_and_authorize_resource only: [:index, :show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :recommendations, :demote_administrator, :remove_group_member, :leave, :condition_for_changing_member_status, :all_members_to_administrators]
+  
   NUMBER_OF_SHOWN_RECOMMENDATIONS = 2
   NUMBER_OF_SHOWN_USERS = 10
+
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      format.html { redirect_to groups_path, alert: t("unauthorized.#{exception.action}.group") }
+      format.json do
+        error = {message: exception.message, action: exception.action, subject: exception.subject.id}
+        render json: error.to_json, status: :unauthorized
+      end
+    end
+  end
 
   # GET /groups
   # GET /groups.json
@@ -78,10 +89,10 @@ class GroupsController < ApplicationController
     respond_to do |format|
       begin
         invite_members
-        format.html { redirect_to @group, notice: t('group_success_update') }
+        format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
         format.json { render :invite_members_result, status: :created, location: @group }
       rescue StandardError => e
-        format.html { redirect_to @group, notice: t('group_success_failed') }
+        format.html { redirect_to @group, notice: t('flash.error.groups.update') }
         format.json { render json: e.to_json, status: :unprocessable_entity }
       end
     end
@@ -91,10 +102,10 @@ class GroupsController < ApplicationController
     respond_to do |format|
       begin
         add_admin
-        format.html { redirect_to @group, notice: t('group_success_update') }
+        format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
         format.json { render :show, status: :created, location: @group }
       rescue StandardError => e
-        format.html { redirect_to @group, notice: t('group_success_failed') }
+        format.html { redirect_to @group, notice: t('flash.error.groups.update') }
         format.json { render json: e.to_json, status: :unprocessable_entity }
       end
     end
@@ -104,10 +115,10 @@ class GroupsController < ApplicationController
     respond_to do |format|
       begin
         demote_admin
-        format.html { redirect_to @group, notice: t('group_success_update') }
+        format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
         format.json { render :show, status: :created, location: @group }
       rescue StandardError => e
-        format.html { redirect_to @group, notice: t('group_success_failed') }
+        format.html { redirect_to @group, notice: t('flash.error.groups.update') }
         format.json { render json: e.to_json, status: :unprocessable_entity }
       end
     end
@@ -116,11 +127,24 @@ class GroupsController < ApplicationController
   def remove_group_member
     respond_to do |format|
       begin
-        remove_member
-        format.html { redirect_to @group, notice: t('group_success_update') }
+        remove_member removing_member
+        format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
         format.json { render :show, status: :created, location: @group }
       rescue StandardError => e
-        format.html { redirect_to @group, notice: t('group_success_failed') }
+        format.html { redirect_to @group, notice: t('flash.error.groups.update') }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def leave
+    respond_to do |format|
+      begin
+        remove_member current_user.id
+        format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
+        format.json { render :show, status: :created, location: @group }
+      rescue StandardError => e
+        format.html { redirect_to @group, notice: t('flash.error.groups.update') }
         format.json { render json: e.to_json, status: :unprocessable_entity }
       end
     end
@@ -130,10 +154,10 @@ class GroupsController < ApplicationController
     respond_to do |format|
       begin
         condition_for_changing_member
-        format.html { redirect_to @group, notice: t('group_success_update') }
+        format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
         format.json { render :condition_for_changing_member_status, status: :created, location: @group }
       rescue StandardError => e
-        format.html { redirect_to @group, notice: t('group_success_failed') }
+        format.html { redirect_to @group, notice: t('flash.error.groups.update') }
         format.json { render json: e.to_json, status: :unprocessable_entity }
       end
     end
@@ -143,15 +167,14 @@ class GroupsController < ApplicationController
     respond_to do |format|
       begin
         all_members_to_admins
-        format.html { redirect_to @group, notice: t('group_success_update') }
+        format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
         format.json { render :show, status: :created, location: @group }
       rescue StandardError => e
-        format.html { redirect_to @group, notice: t('group_success_failed') }
+        format.html { redirect_to @group, notice: t('flash.error.groups.update') }
         format.json { render json: e.to_json, status: :unprocessable_entity }
       end
     end
   end
-
 
   # DELETE /groups/1
   # DELETE /groups/1.json
@@ -214,11 +237,6 @@ class GroupsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_group
-      @group = Group.find(params[:id])
-    end
-
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
       params.require(:group).permit(:name, :imageId, :description, :primary_statistics)
@@ -285,8 +303,8 @@ class GroupsController < ApplicationController
       UserGroup.set_is_admin(@group.id, demoted_admin, false)
     end
 
-    def remove_member
-      UserGroup.find_by(group_id: @group.id, user_id: removing_member).destroy
+    def remove_member member_id
+      UserGroup.find_by(group_id: @group.id, user_id: member_id).destroy
     end
 
     def condition_for_changing_member
@@ -302,5 +320,4 @@ class GroupsController < ApplicationController
     def sort_by_name members
       members.sort_by{ |m| [m.last_name, m.first_name] }
     end
-
 end

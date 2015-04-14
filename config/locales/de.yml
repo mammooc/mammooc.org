@@ -91,7 +91,7 @@ de:
       recommendations: Empfehlungen
       statistics: Statistiken
     invitation:
-      joined _group: Sie wurden der Gruppe hinzugefügt.
+      joined_group: Sie wurden der Gruppe hinzugefügt.
       already_member: Sie sind schon Mitglied in der Gruppe.
       group_deleted: Gruppe gelöscht.
       link_expired: Link ist abgelaufen.
@@ -276,5 +276,33 @@ de:
     impressum:
       heading: Impressum
       title: Impressum | mammooc
-      text: Unser Impressum finden sie aktuell auf der Webseite von openHPI.
+      text: Unser Impressum finden Sie aktuell auf der Webseite von openHPI.
       link: Zum Impressum
+
+  unauthorized:
+    show:
+      group: Sie haben keinen Zugriff auf diese Gruppe.
+    edit:
+      group: Sie können diese Gruppe nicht bearbeiten.
+    members:
+      group: :unauthorized.show.group
+    admins:
+      group: :unauthorized.show.group
+    leave:
+      group: :unauthorized.show.group
+    condition_for_changing_member_status:
+      group: :unauthorized.show.group
+    update:
+      group: :unauthorized.edit.group
+    destroy:
+      group: :unauthorized.edit.group
+    invite_group_members:
+      group: :unauthorized.edit.group
+    add_administrator:
+      group: :unauthorized.edit.group
+    demote_administrator:
+      group: :unauthorized.edit.group
+    remove_group_member:
+      group: :unauthorized.edit.group
+    all_members_to_administrators:
+      group: :unauthorized.edit.group
