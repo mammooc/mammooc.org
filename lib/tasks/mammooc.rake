@@ -10,4 +10,8 @@ namespace :mammooc do
     EdxCourseWorker.perform_async
   end
 
+  task update_user_data: :environment do
+    OpenHPIUserWorker.perform_async nil
+  end
+
 end

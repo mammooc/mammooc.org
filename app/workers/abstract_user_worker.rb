@@ -7,9 +7,7 @@ class AbstractUserWorker
 
     if user_ids.blank?
       User.find_each { |user|
-        puts user.first_name
         if has_connection_to_mooc_provider user
-          puts "################################"
           load_user_data user
         end
       }
