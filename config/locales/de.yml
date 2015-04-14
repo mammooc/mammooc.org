@@ -44,7 +44,8 @@ de:
     no_groups: :groups.no_groups
     new_group: Gruppe erstellen
     edit_group: Gruppe bearbeiten
-    recommendations: Deine Empfehlungen (%{number})
+    recommendations: :recommendation.your_recommendations
+    recommendations_with_quantity: :recommendation.your_recommendations_with_quantity
 
   home:
     welcome_heading: Willkommen bei mammooc!
@@ -189,7 +190,8 @@ de:
     related_groups: Gruppen
     obligatory: verpflichtend für dich
     recommended: empfohlen für dich
-    show_all: Deine Empfehlungen
+    your_recommendations: Deine Empfehlungen
+    your_recommendations_with_quantity: Deine Empfehlungen (%{number})
     has_pledged: hat dir diesen Kurs vorgeschrieben.
     has_recommended: hat dir diesen Kurs empfohlen.
     pledged_by: vorgeschrieben von

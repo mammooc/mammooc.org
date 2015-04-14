@@ -33,7 +33,7 @@ class Recommendation < ActiveRecord::Base
       end
     end
 
-    sorted_recommendations = all_recommendations.sort_by { |k, _| k.created_at}.reverse!
+    sorted_recommendations = all_recommendations.sort_by { |recommendation, _| recommendation.created_at}.reverse!
     return sorted_recommendations
   end
 end

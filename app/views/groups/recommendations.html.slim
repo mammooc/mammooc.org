@@ -5,7 +5,7 @@ p
   = link_to new_recommendation_path(group_id: @group.id)
     button.btn.btn-default
       = t('groups.recommend_course')
-- if @recommendations.length == 0
+- if @recommendations.empty?
   = t('recommendation.group.no_recommendation')
 - else
   .recommendations-wrapper

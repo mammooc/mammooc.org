@@ -10,7 +10,6 @@ RSpec.describe Recommendation, :type => :model do
 
     it "should return recommendations of user" do
       user_recommendation = FactoryGirl.create(:recommendation, users: [user])
-      sleep 1
       user_second_recommendation = FactoryGirl.create(:recommendation, users: [user])
       recommendations = Recommendation.sorted_recommendations_for(user, nil, nil)
       expect(recommendations).to match([[user_second_recommendation, nil], [user_recommendation, nil]])
@@ -18,7 +17,6 @@ RSpec.describe Recommendation, :type => :model do
 
     it "should return recommendations of user" do
       groups_recommendation = FactoryGirl.create(:recommendation, groups: [second_group])
-      sleep 1
       groups_second_recommendation = FactoryGirl.create(:recommendation, groups: [group])
       recommendations = Recommendation.sorted_recommendations_for(nil, [group, second_group], nil)
       expect(recommendations).to match([[groups_second_recommendation, group], [groups_recommendation, second_group]])
@@ -26,7 +24,6 @@ RSpec.describe Recommendation, :type => :model do
 
     it "should return recommendations of user and groups" do
       user_recommendation = FactoryGirl.create(:recommendation, users: [user])
-      sleep 1
       groups_recommendation = FactoryGirl.create(:recommendation, groups: [group])
       recommendations = Recommendation.sorted_recommendations_for(user, [group, second_group], nil)
       expect(recommendations).to match([[groups_recommendation, group], [user_recommendation, nil]])
@@ -35,7 +32,6 @@ RSpec.describe Recommendation, :type => :model do
     it "should return recommendation of user and groups for specified course" do
       user_recommendation = FactoryGirl.create(:recommendation, users: [user], course: course)
       FactoryGirl.create(:recommendation, users: [user])
-      sleep 1
       groups_recommendation = FactoryGirl.create(:recommendation, groups: [group], course: course)
       recommendations = Recommendation.sorted_recommendations_for(user, [group, second_group], course)
       expect(recommendations).to match([[groups_recommendation, group], [user_recommendation, nil]])

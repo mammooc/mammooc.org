@@ -4,9 +4,9 @@
   h2
     = link_to recommendations_path
       - if @number_of_recommendations == 0
-        = t('recommendation.show_all')
+        = t('dashboard.recommendations')
       - else
-        = t('dashboard.recommendations', number: @number_of_recommendations)
+        = t('dashboard.recommendations_with_quantity', number: @number_of_recommendations)
   - if @number_of_recommendations == 0
     = t('recommendation.no_recommendation')
   - else

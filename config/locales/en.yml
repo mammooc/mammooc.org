@@ -44,7 +44,8 @@ en:
     no_groups: :groups.no_groups
     new_group: Creating Group
     edit_group: Editing Group
-    recommendations: Your Recommendations (%{number})
+    recommendations: :recommendation.your_recommendations
+    recommendations_with_quantity: :recommendation.your_recommendations_with_quantity
 
   home:
     welcome_heading: Welcome to mammooc!
@@ -188,7 +189,8 @@ en:
     related_groups: groups
     obligatory: mandatory for you
     recommended: recommended to you
-    show_all: Your Recommendations
+    your_recommendations: Your Recommendations
+    your_recommendations_with_quantity: Your Recommendations (%{number})
     has_pledged: expects you to enroll in this course.
     has_recommended: has recommmended this course to you.
     pledged_by: participation made mandatory by
