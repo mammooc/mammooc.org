@@ -8,9 +8,9 @@ RSpec.describe GroupsController, :type => :controller do
   let(:user) {FactoryGirl.create(:user)}
   let!(:group) {FactoryGirl.create(:group, users: [user])}
   let!(:group_with_admin) {
-    g = FactoryGirl.create(:group, users: [user])
-    UserGroup.set_is_admin(g.id, user.id, true)
-    g
+    group = FactoryGirl.create(:group, users: [user])
+    UserGroup.set_is_admin(group.id, user.id, true)
+    group
   }
   let!(:group_without_user) { FactoryGirl.create :group }
   let(:user_groups) { [group_with_admin, group] }
