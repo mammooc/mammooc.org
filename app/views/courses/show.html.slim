@@ -52,11 +52,13 @@
         .entry
           = t('courses.rate_course')
 
-    .collapse.collapse-subnav id="recommend-course"
-      | Text for recommending a course... This will be awesome!
+    .collapse id="recommend-course"
+      .collapse-subnav
+        = render 'recommendation'
 
-    .collapse.collapse-subnav id="rate-course"
-      | Text for rating a course... This will be awesome!
+    .collapse id="rate-course"
+      .collapse-subnav
+        = render 'rating'
 
   - if @course.abstract
     .panel.panel-default
