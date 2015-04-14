@@ -1,3 +1,20 @@
+/recommendations in sidebar
+  - if @pledged_by.empty?
+    - unless @recommended_by.empty?
+      => t('recommendation.recommended_by')
+      - @recommended_by.each do |user|
+        = link_to user
+          = "#{user.first_name} #{user.last_name}"
+          - unless @recommended_by.last == user
+            = ', '
+  - else
+    => t('recommendation.pledged_by')
+    - @pledged_by.each do |user|
+      = link_to user
+        = "#{user.first_name} #{user.last_name}"
+        - unless @pledged_by.last == user
+          = ', '
+
 - content_for :sidebar
   h4
     = t('courses.mooc_provider')

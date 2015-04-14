@@ -1,11 +1,21 @@
 .recommendations
   = link_to recommendation.course
-    - if recommendation.is_obligatory
-      .participation-obligatory
-        = t('recommendation.obligatory')
+    - if group
+      - if recommendation.is_obligatory
+        .participation-obligatory
+          => t('recommendation.group.obligatory')
+          = link_to group.name, group_path(group)
+      - else
+        .participation-recommended
+          => t('recommendation.group.recommended')
+          = link_to group.name, group_path(group)
     - else
-      .participation-recommended
-        = t('recommendation.recommended')
+      - if recommendation.is_obligatory
+        .participation-obligatory
+          = t('recommendation.obligatory')
+      - else
+        .participation-recommended
+          = t('recommendation.recommended')
     .course-image
       - if recommendation.course.imageId
         = image_tag(recommendation.course.imageId)
@@ -32,13 +42,13 @@
     - if recommendation.text.empty?
       - if group
         - if recommendation.is_obligatory
-          = t('recommendation.group.pledged_by')
+          =< t('recommendation.group.has_pledged')
         - else
-          = t('recommendation.group.recommended_by')
+          =< t('recommendation.group.has_recommended')
       - else
         - if recommendation.is_obligatory
-          = t('recommendation.pledged_by')
+          =< t('recommendation.has_pledged')
         - else
-          = t('recommendation.recommended_by')
+          =< t('recommendation.has_recommended')
     - else
-      = ": #{recommendation.text}"
+      = ": \"#{recommendation.text}\""
