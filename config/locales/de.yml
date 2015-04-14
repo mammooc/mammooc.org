@@ -272,7 +272,7 @@ de:
     show:
       group: Sie haben keinen Zugriff auf diese Gruppe.
     edit:
-      group: :unauthorized.show.group
+      group: Sie können diese Gruppe nicht bearbeiten.
     members:
       group: :unauthorized.show.group
     admins:
@@ -282,16 +282,16 @@ de:
     condition_for_changing_member_status:
       group: :unauthorized.show.group
     update:
-      group: :unauthorized.show.group
+      group: :unauthorized.edit.group
     destroy:
-      group: :unauthorized.show.group
+      group: :unauthorized.edit.group
     invite_group_members:
-      group: :unauthorized.show.group
+      group: :unauthorized.edit.group
     add_administrator:
-      group: :unauthorized.show.group
+      group: :unauthorized.edit.group
     demote_administrator:
-      group: :unauthorized.show.group
+      group: :unauthorized.edit.group
     remove_group_member:
-      group: :unauthorized.show.group
+      group: :unauthorized.edit.group
     all_members_to_administrators:
-      group: :unauthorized.show.group
+      group: :unauthorized.edit.group

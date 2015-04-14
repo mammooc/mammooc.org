@@ -67,7 +67,7 @@ RSpec.describe GroupsController, :type => :controller do
         end
 
         it 'shows an alert message' do
-          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+          expect(flash[:alert]).to eq I18n.t('unauthorized.edit.group')
         end
       end
 
@@ -78,7 +78,7 @@ RSpec.describe GroupsController, :type => :controller do
         end
 
         it 'shows an alert message' do
-          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+          expect(flash[:alert]).to eq I18n.t('unauthorized.edit.group')
         end
       end
     end
@@ -148,7 +148,7 @@ RSpec.describe GroupsController, :type => :controller do
           end
 
           it 'shows an alert message' do
-            expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+            expect(flash[:alert]).to eq I18n.t('unauthorized.edit.group')
           end
         end
 
@@ -159,7 +159,7 @@ RSpec.describe GroupsController, :type => :controller do
           end
 
           it 'shows an alert message' do
-            expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+            expect(flash[:alert]).to eq I18n.t('unauthorized.edit.group')
           end
         end
       end
@@ -205,7 +205,7 @@ RSpec.describe GroupsController, :type => :controller do
         end
 
         it 'shows an alert message' do
-          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+          expect(flash[:alert]).to eq I18n.t('unauthorized.edit.group')
         end
       end
 
@@ -216,7 +216,7 @@ RSpec.describe GroupsController, :type => :controller do
         end
 
         it 'shows an alert message' do
-          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+          expect(flash[:alert]).to eq I18n.t('unauthorized.edit.group')
         end
       end
     end
@@ -276,7 +276,7 @@ RSpec.describe GroupsController, :type => :controller do
         end
 
         it 'shows an alert message' do
-          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+          expect(flash[:alert]).to eq I18n.t('unauthorized.edit.group')
         end
       end
 
@@ -287,7 +287,7 @@ RSpec.describe GroupsController, :type => :controller do
         end
 
         it 'shows an alert message' do
-          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+          expect(flash[:alert]).to eq I18n.t('unauthorized.edit.group')
         end
       end
     end
@@ -376,7 +376,7 @@ RSpec.describe GroupsController, :type => :controller do
         end
 
         it 'shows an alert message' do
-          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+          expect(flash[:alert]).to eq I18n.t('unauthorized.edit.group')
         end
       end
 
@@ -387,7 +387,7 @@ RSpec.describe GroupsController, :type => :controller do
         end
 
         it 'shows an alert message' do
-          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+          expect(flash[:alert]).to eq I18n.t('unauthorized.edit.group')
         end
       end
     end
@@ -411,7 +411,7 @@ RSpec.describe GroupsController, :type => :controller do
         end
 
         it 'shows an alert message' do
-          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+          expect(flash[:alert]).to eq I18n.t('unauthorized.edit.group')
         end
       end
 
@@ -422,7 +422,7 @@ RSpec.describe GroupsController, :type => :controller do
         end
 
         it 'shows an alert message' do
-          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+          expect(flash[:alert]).to eq I18n.t('unauthorized.edit.group')
         end
       end
     end
@@ -449,7 +449,7 @@ RSpec.describe GroupsController, :type => :controller do
         end
 
         it 'shows an alert message' do
-          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+          expect(flash[:alert]).to eq I18n.t('unauthorized.edit.group')
         end
       end
 
@@ -460,7 +460,7 @@ RSpec.describe GroupsController, :type => :controller do
         end
 
         it 'shows an alert message' do
-          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+          expect(flash[:alert]).to eq I18n.t('unauthorized.edit.group')
         end
       end
     end
@@ -517,7 +517,7 @@ RSpec.describe GroupsController, :type => :controller do
         end
 
         it 'shows an alert message' do
-          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+          expect(flash[:alert]).to eq I18n.t('unauthorized.edit.group')
         end
       end
 
@@ -528,7 +528,7 @@ RSpec.describe GroupsController, :type => :controller do
         end
 
         it 'shows an alert message' do
-          expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+          expect(flash[:alert]).to eq I18n.t('unauthorized.edit.group')
         end
       end
     end
