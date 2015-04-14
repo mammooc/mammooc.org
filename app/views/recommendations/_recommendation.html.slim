@@ -3,11 +3,11 @@
     - if group
       - if recommendation.is_obligatory
         .participation-obligatory
-          = t('recommendation.group.obligatory')
+          => t('recommendation.group.obligatory')
           = link_to group.name, group_path(group)
       - else
         .participation-recommended
-          = t('recommendation.group.recommended')
+          => t('recommendation.group.recommended')
           = link_to group.name, group_path(group)
     - else
       - if recommendation.is_obligatory
@@ -42,13 +42,13 @@
     - if recommendation.text.empty?
       - if group
         - if recommendation.is_obligatory
-          = t('recommendation.group.has_pledged')
+          =< t('recommendation.group.has_pledged')
         - else
-          = t('recommendation.group.has_recommended')
+          =< t('recommendation.group.has_recommended')
       - else
         - if recommendation.is_obligatory
-          = t('recommendation.has_pledged')
+          =< t('recommendation.has_pledged')
         - else
-          = t('recommendation.has_recommended')
+          =< t('recommendation.has_recommended')
     - else
       = ": \"#{recommendation.text}\""

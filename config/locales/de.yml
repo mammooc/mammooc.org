@@ -190,10 +190,10 @@ de:
     obligatory: verpflichtend für dich
     recommended: empfohlen für dich
     show_all: Deine Empfehlungen
-    has_pledged: ' hat dir diesen Kurs vorgeschrieben.'
-    has_recommended: ' hat dir diesen Kurs empfohlen.'
-    pledged_by: 'vorgeschrieben von '
-    recommended_by: 'empfohlen von '
+    has_pledged: hat dir diesen Kurs vorgeschrieben.
+    has_recommended: hat dir diesen Kurs empfohlen.
+    pledged_by: vorgeschrieben von
+    recommended_by: empfohlen von
     no_recommendation: Du hast leider momentan keine Empfehlungen.
     successfully_created: Empfehlung erfolgreich erstellt.
     successfully_updated: Empfehlung erfolgreich bearbeitet.
@@ -201,11 +201,11 @@ de:
     creation_error: Fehler beim Erstellen.
     update_error: Fehler beim Bearbeiten.
     group:
-      has_pledged: ' hat diesen Kurs vorgeschrieben.'
-      has_recommended: ' hat diesen Kurs empfohlen.'
+      has_pledged: hat diesen Kurs vorgeschrieben.
+      has_recommended: hat diesen Kurs empfohlen.
       no_recommendation: Diese Gruppe hat leider momentan keine Empfehlungen.
-      obligatory: 'verpflichtend für '
-      recommended: 'empfohlen für '
+      obligatory: verpflichtend für
+      recommended: empfohlen für
 
   flash:
     #success:
