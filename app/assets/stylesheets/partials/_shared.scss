@@ -1,11 +1,9 @@
 // Site header
 
 .site-header {
-  background-color: white;
-  border: 1px solid $panel-default-border;
-  border-radius: 2px;
-  margin-bottom: 30px;
+  @include white-box;
   @include box-shadow-light;
+  margin-bottom: 30px;
 
   .wrapper {
     height: 60px;

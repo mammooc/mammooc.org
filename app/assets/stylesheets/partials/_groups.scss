@@ -5,13 +5,7 @@ $entry-padding-left: 10px;
 // Header
 
 .group-header {
-<<<<<<< HEAD
-  background-color: white;
-  border: 1px solid $panel-default-border;
-  border-radius: 2px;
-=======
   @include white-box;
->>>>>>> e36aee4cf1f7d4b8cb98d019d800c3bbf69b569d
   @include box-shadow-light;
   margin-bottom: 30px;
 
@@ -87,21 +81,11 @@ $entry-padding-left: 10px;
 .groups-wrapper {
 
   .groups {
-<<<<<<< HEAD
-    background-color: white;
-    border: 1px solid $panel-default-border;
-    border-radius: $panel-border-radius;
-    margin-top: 15px;
-    margin-bottom: 30px;
-    float: left;
-    @include box-shadow-light;
-=======
     @include white-box;
     @include box-shadow-light;
     margin-top: 15px;
     margin-bottom: 30px;
     float: left;
->>>>>>> e36aee4cf1f7d4b8cb98d019d800c3bbf69b569d
 
     @media(min-width: 992px) {
       &:nth-child(even) {
