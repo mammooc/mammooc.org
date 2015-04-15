@@ -6,4 +6,4 @@
 - else
   .recommendations-wrapper
     - @recommendations.each do |recommendation_array|
-      = render 'recommendations/recommendation', recommendation: recommendation_array[0], group: recommendation_array[1]
+      = render 'recommendations/recommendation', recommendation: recommendation_array[0], group: recommendation_array[1], context_is_group: false

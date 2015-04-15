@@ -1,5 +1,10 @@
 .recommendations
-  = link_to recommendation.course
+  - if context_is_group && group
+    span.glyphicon.glyphicon-remove id="remove-recommendation-group" data-group_id='#{group.id}' data-recommendation_id='#{recommendation.id}'
+  - else
+    - unless group
+      span.glyphicon.glyphicon-remove id="remove-recommendation-current-user" data-recommendation_id='#{recommendation.id}'
+  = link_to course_path(recommendation.course)
     - if group
       - if recommendation.is_obligatory
         .participation-obligatory
@@ -31,7 +36,6 @@
         img src="/data/logo-openSAP.png"
       = raw recommendation.course.abstract
   .comment
-
     .profile-picture
       - if recommendation.author.profile_image_id
         img src=recommendation.author.profile_image_id

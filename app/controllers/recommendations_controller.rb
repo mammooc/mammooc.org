@@ -1,5 +1,5 @@
 class RecommendationsController < ApplicationController
-  before_action :set_recommendation, only: [:update, :destroy]
+  before_action :set_recommendation, only: [:update, :destroy, :delete]
 
   # GET /recommendations
   # GET /recommendations.json
@@ -32,22 +32,16 @@ class RecommendationsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /recommendations/1
-  # PATCH/PUT /recommendations/1.json
-  def update
-    respond_to do |format|
-      if @recommendation.update(recommendation_params)
-        format.html { redirect_to :back, notice: t('recommendation.successfully_updated') }
-      else
-        format.html { redirect_to :back, notice: t('recommendation.update_error') }
-      end
-    end
-  end
 
-  # DELETE /recommendations/1
-  # DELETE /recommendations/1.json
-  def destroy
-    @recommendation.destroy
+  def delete
+    if params[:group]
+      @recommendation.groups -= [params[:group]]
+    else
+      @recommendation.users -= [current_user]
+    end
+    if @recommendation.users.empty? && @recommendation.groups.empty?
+      @recommendation.destroy
+    end
     respond_to do |format|
       format.html { redirect_to recommendations_url, notice: t('recommendation.successfully_destroyed') }
       format.json { head :no_content }
