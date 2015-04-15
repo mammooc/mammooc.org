@@ -29,7 +29,7 @@ Rails.application.routes.draw do
 
   resources :comments
 
-  resources :recommendations
+  resources :recommendations, except: [:edit, :show]
 
   resources :statistics
 
@@ -53,6 +53,7 @@ Rails.application.routes.draw do
   post 'groups/:id/demote_administrator' => 'groups#demote_administrator'
   post 'groups/:id/remove_group_member' => 'groups#remove_group_member'
   post 'groups/:id/condition_for_changing_member_status' => 'groups#condition_for_changing_member_status'
+  post 'groups/:id/leave' => 'groups#leave'
   get 'groups/join/:token' => 'groups#join'
   get 'groups/:id/members' => 'groups#members'
   get 'groups/:id/recommendations' => 'groups#recommendations'

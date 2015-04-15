@@ -28,8 +28,9 @@
             img src="/data/logo-openSAP.png"
           .name
             = group.name
-            = link_to edit_group_path(group)
-              span.glyphicon.glyphicon-cog
+            - if can? :edit, group
+              = link_to edit_group_path(group)
+                span.glyphicon.glyphicon-cog
         = link_to group
           button.btn.btn-gray-lg
             = t('groups.show')

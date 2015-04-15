@@ -6,7 +6,7 @@ RSpec.describe "recommendations/_recommendation", :type => :view do
   end
 
   it "renders the recommendation partial" do
-    render 'recommendations/recommendation', recommendation: @recommendation, group: true
+    render 'recommendations/recommendation', recommendation: @recommendation, group: nil
     expect(rendered).to match(/#{@recommendation.course.name}/)
     expect(rendered).to match(/#{@recommendation.user.first_name} #{@recommendation.user.last_name}/)
     end

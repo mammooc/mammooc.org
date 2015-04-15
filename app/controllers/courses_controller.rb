@@ -17,6 +17,19 @@ class CoursesController < ApplicationController
     if @course.following_iteration_id
       @following_course_name = Course.find(@course.following_iteration_id).name
     end
+
+    # RECOMMENDATIONS
+    @recommendations = Recommendation.sorted_recommendations_for(current_user, current_user.groups, @course)
+    @recommended_by = []
+    @pledged_by = []
+    @recommendations.each do |recommendation_array|
+      if recommendation_array[0].is_obligatory
+        @pledged_by.push(recommendation_array[0].user)
+      else
+        @recommended_by.push(recommendation_array[0].user)
+      end
+    end
+
   end
 
   private

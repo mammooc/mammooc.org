@@ -7,7 +7,7 @@ RSpec.describe "recommendations/index", :type => :view do
   let(:second_recommendation) {FactoryGirl.create(:recommendation, user: user, course: course)}
 
   before(:each) do
-    @recommendations = [first_recommendation, second_recommendation]
+    @recommendations = [[first_recommendation, nil], [second_recommendation, nil]]
   end
 
   it "renders a list of recommendations" do

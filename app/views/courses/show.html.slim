@@ -1,3 +1,47 @@
+/ for recommendations
+/h3
+/  = t('courses.recommendations')
+/- @recommendations.each do |recommendation_array|
+/  .comment
+/    .profile-picture
+/      - if recommendation_array[0].user.profile_image_id
+/        img src=recommendation_array[0].user.profile_image_id
+/      - else
+/        img src="/data/default.png"
+/    = link_to recommendation_array[0].user
+/      = "#{recommendation_array[0].user.first_name} #{recommendation_array[0].user.last_name}"
+/
+/    - if recommendation_array[1]
+/      - if recommendation_array[0].is_obligatory
+/        .participation-obligatory
+/          => t('recommendation.group.obligatory')
+/          = link_to recommendation_array[1].name, group_path(recommendation_array[1])
+/      - else
+/        .participation-recommended
+/          => t('recommendation.group.recommended')
+/          = link_to recommendation_array[1].name, group_path(recommendation_array[1])
+/    - else
+/      - if recommendation_array[0].is_obligatory
+/        .participation-obligatory
+/          = t('recommendation.obligatory')
+/      - else
+/        .participation-recommended
+/          = t('recommendation.recommended')
+/
+/    - if recommendation_array[0].text.empty?
+/      - if recommendation_array[1]
+/        - if recommendation_array[0].is_obligatory
+/          =< t('recommendation.group.has_pledged')
+/        - else
+/          =< t('recommendation.group.has_recommended')
+/      - else
+/        - if recommendation_array[0].is_obligatory
+/          =< t('recommendation.has_pledged')
+/        - else
+/          =< t('recommendation.has_recommended')
+/    - else
+/      = "\"#{recommendation_array[0].text}\""
+
 - content_for :title
   = @course.name + ' | mammooc'
 

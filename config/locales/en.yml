@@ -45,7 +45,8 @@ en:
     no_groups: :groups.no_groups
     new_group: Creating Group
     edit_group: Editing Group
-    recommendations: Your Recommendations (%{number})
+    recommendations: :recommendation.your_recommendations
+    recommendations_with_quantity: :recommendation.your_recommendations_with_quantity
 
   home:
     welcome_heading: Welcome to mammooc!
@@ -84,7 +85,7 @@ en:
     my_groups: My Groups
     show: Show group
     recommend_course: Recommend a course to this group
-    new_recommendations: Current Recommendations
+    current_recommendations: Current Recommendations (%{shown_number} out of %{complete_number})
     subnav:
       home: Home
       members: Members
@@ -106,7 +107,7 @@ en:
       administrator: Administrator
       add_admin: Make Admin
       demote_admin: Remove from Admins
-      demote_last_admin_notice: "You are the last admin of this group. Please promote another member before you change your status."
+      demote_last_admin_notice: You are the last admin of this group. Please promote another member before you change your status.
       demote_last_admin_button: Return to group
       invite_members: Invite Members
       remove_member: Remove Member
@@ -116,11 +117,12 @@ en:
       question_member_1: Are you sure to remove
       question_member_2: from this group?
       question_last_member: You are the last member of this group. If you leave the group, it will be deleted.
-      question_last_admin: "You are the last admin of this group. If you leave, all remaining members will become administrators."
+      question_last_admin: You are the last admin of this group. If you leave, all remaining members will become administrators.
       confirm_delete_group: Delete group
       confirm_leave_group: Leave
       confirm_remove_member: Remove
       yourself: yourself
+
 
   activerecord:
     models:
@@ -187,14 +189,26 @@ en:
     related_course: course
     related_users: users
     related_groups: groups
-    obligatory: mandatory
-    recommended: recommended
-    show_all: My Recommendations
-    pledged_by: ' expects you to enroll in this course.'
-    recommended_by: ' has recommmended this course to you.'
+    obligatory: mandatory for you
+    recommended: recommended to you
+    your_recommendations: Your Recommendations
+    your_recommendations_with_quantity: Your Recommendations (%{number})
+    has_pledged: expects you to enroll in this course.
+    has_recommended: has recommmended this course to you.
+    pledged_by: participation made mandatory by
+    recommended_by: recommended by
+    no_recommendation: You don't have any recommendations right now.
+    successfully_created: Recommendation was successfully created.
+    successfully_updated: Recommendation was successfully updated.
+    successfully_destroyed: Recommendation was successfully destroyed.
+    creation_error: Error on creation.
+    update_error: Error on update.
     group:
-      pledged_by: ' expects enrollment in this course.'
-      recommended_by: ' has recommmended this course.'
+      has_pledged:  expects enrollment in this course.
+      has_recommended: has recommmended this course.
+      no_recommendation: This group doesn't have any recommendations right now.
+      obligatory: mandatory for
+      recommended: recommended to
 
   flash:
     #success:
@@ -265,3 +279,31 @@ en:
       title: Legal Notice | mammooc
       text: Currently you can find our legal notice on the openHPI website.
       link: To legal notice
+
+  unauthorized:
+    show:
+      group: You do not have access to this group.
+    edit:
+      group: You are not able to edit this group.
+    members:
+      group: :unauthorized.show.group
+    admins:
+      group: :unauthorized.show.group
+    leave:
+      group: :unauthorized.show.group
+    condition_for_changing_member_status:
+      group: :unauthorized.show.group
+    update:
+      group: :unauthorized.edit.group
+    destroy:
+      group: :unauthorized.edit.group
+    invite_group_members:
+      group: :unauthorized.edit.group
+    add_administrator:
+      group: :unauthorized.edit.group
+    demote_administrator:
+      group: :unauthorized.edit.group
+    remove_group_member:
+      group: :unauthorized.edit.group
+    all_members_to_administrators:
+      group: :unauthorized.edit.group

@@ -3,9 +3,15 @@
     = t('dashboard.hi', name: current_user.first_name)
   h2
     = link_to recommendations_path
-      = t('dashboard.recommendations', number: @number_of_recommendations)
-  .recommendations-wrapper
-    - @recommendations.each do |recommendation|
-      = render 'recommendations/recommendation', recommendation: recommendation, group: false
+      - if @number_of_recommendations == 0
+        = t('dashboard.recommendations')
+      - else
+        = t('dashboard.recommendations_with_quantity', number: @number_of_recommendations)
+  - if @number_of_recommendations == 0
+    = t('recommendation.no_recommendation')
+  - else
+    .recommendations-wrapper
+      - @recommendations.each do |recommendation_array|
+        = render 'recommendations/recommendation', recommendation: recommendation_array[0], group: recommendation_array[1]
 
 = render 'sidebar'

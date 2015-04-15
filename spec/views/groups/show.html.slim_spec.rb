@@ -11,7 +11,7 @@ RSpec.describe "groups/show", :type => :view do
   before(:each) do
     @group = group
     UserGroup.set_is_admin(group.id, group.users.first.id, true)
-    @recommendations = [recommendation]
+    @recommendations = [[recommendation, nil]]
   end
 
   it "renders attributes in <p>" do
