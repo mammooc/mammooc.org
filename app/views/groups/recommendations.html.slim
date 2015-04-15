@@ -5,3 +5,9 @@ p
   = link_to new_recommendation_path(group_id: @group.id)
     button.btn.btn-default
       = t('groups.recommend_course')
+- if @recommendations.empty?
+  = t('recommendation.group.no_recommendation')
+- else
+  .recommendations-wrapper
+    - @recommendations.each do |recommendation_array|
+      = render 'recommendations/recommendation', recommendation: recommendation_array[0], group: recommendation_array[1]

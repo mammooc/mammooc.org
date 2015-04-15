@@ -1,21 +1,27 @@
 require 'rails_helper'
 
 RSpec.describe "groups/index", :type => :view do
+  let(:user) { FactoryGirl.create(:user) }
+  let(:groups){
+    [
+        Group.create!(
+            :name => "Name",
+            :imageId => "Image",
+            :description => "MyText",
+            :primary_statistics => ""
+        ),
+        Group.create!(
+            :name => "Name",
+            :imageId => "Image",
+            :description => "MyText",
+            :primary_statistics => ""
+        )
+    ]
+  }
+
   before(:each) do
-    assign(:groups, [
-      Group.create!(
-        :name => "Name",
-        :imageId => "Image",
-        :description => "MyText",
-        :primary_statistics => ""
-      ),
-      Group.create!(
-        :name => "Name",
-        :imageId => "Image",
-        :description => "MyText",
-        :primary_statistics => ""
-      )
-    ])
+    @groups = groups
+    sign_in user
   end
 
   it "renders a list of groups" do

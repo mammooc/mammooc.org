@@ -15,8 +15,6 @@ RSpec.describe "recommendations/new", :type => :view do
 
     assert_select "form[action=?][method=?]", recommendations_path, "post" do
 
-      assert_select "input#recommendation_is_obligatory[name=?]", "recommendation[is_obligatory]"
-
       assert_select "input#recommendation_related_user_ids[name=?]", "recommendation[related_user_ids]"
 
       assert_select "input#recommendation_related_group_ids[name=?]", "recommendation[related_group_ids]"

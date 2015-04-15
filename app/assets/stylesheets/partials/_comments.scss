@@ -1,0 +1,14 @@
+.comment {
+  .profile-picture {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline;
+
+    img {
+      width: 40px;
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+  }
+}

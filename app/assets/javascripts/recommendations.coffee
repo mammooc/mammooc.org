@@ -13,8 +13,8 @@ generate_groups_autocomplete = () ->
     autocomplete:
       source: groups_autocomplete
       delay: 100
+      autoFocus: true
     showAutocompleteOnFocus: true
-    delimiter: ' '
 
 get_my_groups = () ->
   group_ids = []
@@ -51,8 +51,8 @@ generate_users_autocomplete = () ->
     autocomplete:
       source: users_autocomplete
       delay: 100
+      autoFocus: true
     showAutocompleteOnFocus: true
-    delimiter: ' '
 
 generate_course_autocomplete = () ->
   courses_autocomplete = []
@@ -71,6 +71,7 @@ generate_course_autocomplete = () ->
       minLength: 3
       source: courses_autocomplete
       delay: 100
+      autoFocus: true
     showAutocompleteOnFocus: true
     limit: 1
 

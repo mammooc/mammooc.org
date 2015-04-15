@@ -5,7 +5,7 @@ RSpec.describe "dashboard/dashboard.html.slim", :type => :view do
   let(:user) { FactoryGirl.create(:user) }
   let(:course) { FactoryGirl.create(:full_course) }
   let(:second_course) { FactoryGirl.create(:full_course) }
-
+  let(:recommendation) { FactoryGirl.create(:recommendation)}
 
   before(:each) do
     assign(:groups, [
@@ -26,6 +26,7 @@ RSpec.describe "dashboard/dashboard.html.slim", :type => :view do
                       FactoryGirl.create(:full_course),
                       FactoryGirl.create(:full_course)
                    ])
+    @recommendations = [[recommendation, nil]]
     sign_in user
     user.courses << course
     user.courses << second_course

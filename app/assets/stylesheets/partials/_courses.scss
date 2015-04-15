@@ -1,18 +1,97 @@
+/* Course detail page */
+
+$course-img-height: 250px;
+
+.course-infobox {
+  @include white-box;
+  @include box-shadow-light;
+  margin-bottom: 30px;
+
+  .wrapper {
+    position: relative;
+    min-height: $course-img-height + 40px;
+    width: 100%;
+
+     img {
+       height: $course-img-height;
+       width: auto;
+       float: left;
+       margin: 20px 20px 20px 0px;
+     }
+
+     .content {
+       display: block;
+       padding: 15px;
+
+       .title {
+         font-weight: 400;
+         font-size: 20px;
+         padding-bottom: 10px;
+       }
+     }
+
+    .options {
+      position: absolute;
+      bottom: 0px;
+      right: 10px;
+
+      img {
+        height: 40px;
+      }
+    }
+  }
+
+  .subnav {
+    border-top: 1px solid $panel-default-border;
+    border-bottom: 1px solid $panel-default-border;
+    background-color: $gray-lighter;
+    width: 100%;
+    height: 32px;
+
+    a {
+      color: inherit;
+
+      &:hover {
+        color: $link-color;
+      }
+    }
+
+    .entry {
+      float: left;
+      border-right: 1px solid $panel-default-border;
+      background-color: inherit;
+      padding: 5px 15px;
+      white-space: nowrap;
+    }
+  }
+
+  .collapse-subnav {
+    background-color: white;
+    padding: 10px;
+  }
+
+}
+
+.active {
+  background-color: white !important;
+  border-bottom: 1px solid white;
+}
+
+/* Course listing */
+
 .courses-wrapper {
 
   .courses {
-    background-color: white;
-    border: 1px solid $panel-default-border;
-    border-radius: $panel-border-radius;
-    float: left;
+    @include white-box;
+    @include box-shadow-light;
+    margin-bottom: 30px;
     width: 200px;
     height: 300px;
-    margin-bottom: 30px;
-    @include box-shadow-light;
+    float: left;
 
     &:hover {
-      cursor: pointer;
       @include box-shadow-hover;
+      cursor: pointer;
     }
 
     .course-image {
@@ -63,12 +142,11 @@
 
 @media(max-width: $screen-xs) {
   .courses-wrapper > .courses {
-    float: none;
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 200px;
-
+    float: none;
   }
 }
 
@@ -77,8 +155,8 @@
 
 @media(min-width: $screen-xs + 1) and (max-width: $screen-xs-max) {
   .courses-wrapper {
-    width: 416px;
     display: block;
+    width: 416px;
     margin: auto;
   }
 
