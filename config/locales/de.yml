@@ -44,6 +44,7 @@ de:
     no_groups: :groups.no_groups
     new_group: Gruppe erstellen
     edit_group: Gruppe bearbeiten
+    no_courses: :courses.no_courses
 
   home:
     welcome_heading: Willkommen bei mammooc!

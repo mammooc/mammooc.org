@@ -19,11 +19,10 @@ RSpec.describe "groups/index", :type => :view do
   end
 
   it "renders a list of groups" do
-    pending
     render
-    assert_select "tr>td", :text => "Name".to_s, :count => 2
-    assert_select "tr>td", :text => "Image".to_s, :count => 2
-    assert_select "tr>td", :text => "MyText".to_s, :count => 2
-    assert_select "tr>td", :text => "".to_s, :count => 2
+    assert rendered, :text => "Name".to_s, :count => 2
+    assert rendered, :text => "Image".to_s, :count => 2
+    assert rendered, :text => "MyText".to_s, :count => 2
+    assert rendered, :text => "".to_s, :count => 2
   end
 end
