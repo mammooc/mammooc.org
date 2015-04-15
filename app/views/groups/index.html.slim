@@ -1,16 +1,16 @@
 = content_for :title, t('groups.title')
 
-.site-header.mb40
+.site-header
   .wrapper
-    .logo.pull-left
+    .logo
       img src="/data/icons/group.png"
     .title
       = t('groups.my_groups')
-      .options.pull-right
-        = link_to new_group_path
-          button.btn.btn-default
-            span.glyphicon.glyphicon-plus
-            = t('groups.new')
+    .options
+      = link_to new_group_path
+        button.btn.btn-sm.btn-default
+          span.glyphicon.glyphicon-plus
+          = t('groups.new')
 
 
 - if @groups.empty?

@@ -7,6 +7,7 @@ $entry-padding-left: 10px;
 .group-header {
   @include white-box;
   @include box-shadow-light;
+  margin-bottom: 30px;
 
   .wrapper {
     min-height: $group-logo-height;
@@ -82,6 +83,7 @@ $entry-padding-left: 10px;
   .groups {
     @include white-box;
     @include box-shadow-light;
+    margin-top: 15px;
     margin-bottom: 30px;
     float: left;
 

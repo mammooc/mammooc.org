@@ -25,6 +25,7 @@ de:
     close: Schließen
     submit: Absenden
     cancel: Abbrechen
+    by: 'von '
 
   navbar:
     mammooc: mammooc
@@ -170,7 +171,7 @@ de:
     workload: Arbeitsaufwand
     enter_course: Zum Kurs
     remember_course: Kurs merken
-    enroll_course: Kurs belegen
+    enroll_course: Kurs als belegt markieren
     recommend_course: Kurs empfehlen
     rate_course: Kurs bewerten
     recommendations: Empfehlungen

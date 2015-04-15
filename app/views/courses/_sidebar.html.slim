@@ -15,71 +15,78 @@
         - unless @pledged_by.last == user
           = ', '
 
-- content_for :sidebar
-  h4
-    = t('courses.mooc_provider')
-  = @course.mooc_provider.name
-  - if @course.course_instructors
+.panel.panel-default
+  .panel-heading
+    | Kursdetails
+  .panel-body
     h4
-      = t('courses.instructors')
-    = @course.course_instructors
-      br
-  h4
-    = t('courses.time')
-  - if @course.start_date && @course.end_date
-    = @course.start_date.strftime("%d.%m.%Y") + ' - ' + @course.end_date.strftime("%d.%m.%Y")
-  - elsif @course.start_date
-    = @course.start_date.strftime("%d.%m.%Y")
-  - else
-    = t('courses.no_dates_available')
-  - if !@course.calculated_duration_in_days && @course.provider_given_duration
-    h4
-      = t('courses.duration')
-    = @course.provider_given_duration
-  - if @course.language
-    h4
-      = t('courses.language')
-    = @course.language
-  - if @course.subtitle_languages
-    h4
-      = t('courses.subtitle_languages')
-    = @course.subtitle_languages
-  - if @course.requirements
-    h4
-      = t('courses.requirements')
-    - @course.requirements.each do |requirement|
-      = raw requirement
-  - if @course.type_of_achievement
-    h4
-      = t('courses.achievement')
-    = @course.type_of_achievement
-  - if @course.credit_points
-    h4
-      = t('courses.credit_points')
-    = @course.credit_points
-  - if @course.categories
-    h4
-      = t('courses.categories')
-    - @course.categories.each do |category|
-      span.label.label-default
-        = category
-  - if @course.costs
-    h4
-      = t('courses.costs') + ':'
-    = @course.costs.to_s + @course.price_currency
-  - if @course.difficulty
-    h4
-      = t('courses.difficulty')
-    = @course.difficulty
-  - if @course.workload
-    h4
-      = t('courses.workload')
-    = @course.workload
-  - if @course.previous_iteration_id
-    h4
-      = t('courses.previous_iteration')
-    = link_to @previous_course_name, course_path(@course.previous_iteration_id)
-  - if @course.following_iteration_id
-    h4
-      = t('courses.following_iteration')
-    = link_to @following_course_name, course_path(@course.following_iteration_id)
+      = t('courses.mooc_provider')
+    = @course.mooc_provider.name
+    - if @course.course_instructors
+      h4
+        = t('courses.mooc_provider')
+      = @course.mooc_provider.name
+      - if @course.course_instructors
+        h4
+          = t('courses.instructors')
+        = @course.course_instructors
+          br
+      h4
+        = t('courses.time')
+      - if @course.start_date && @course.end_date
+        = @course.start_date.strftime("%d.%m.%Y") + ' - ' + @course.end_date.strftime("%d.%m.%Y")
+      - elsif @course.start_date
+        = @course.start_date.strftime("%d.%m.%Y")
+      - else
+        = t('courses.no_dates_available')
+      - if !@course.calculated_duration_in_days && @course.provider_given_duration
+        h4
+          = t('courses.duration')
+        = @course.provider_given_duration
+      - if @course.language
+        h4
+          = t('courses.language')
+        = @course.language
+      - if @course.subtitle_languages
+        h4
+          = t('courses.subtitle_languages')
+        = @course.subtitle_languages
+      - if @course.requirements
+        h4
+          = t('courses.requirements')
+        - @course.requirements.each do |requirement|
+          = raw requirement
+      - if @course.type_of_achievement
+        h4
+          = t('courses.achievement')
+        = @course.type_of_achievement
+      - if @course.credit_points
+        h4
+          = t('courses.credit_points')
+        = @course.credit_points
+      - if @course.categories
+        h4
+          = t('courses.categories')
+        - @course.categories.each do |category|
+          span.label.label-default
+            = category
+      - if @course.costs
+        h4
+          = t('courses.costs') + ':'
+        = @course.costs.to_s + @course.price_currency
+      - if @course.difficulty
+        h4
+          = t('courses.difficulty')
+        = @course.difficulty
+      - if @course.workload
+        h4
+          = t('courses.workload')
+        = @course.workload
+      - if @course.previous_iteration_id
+        h4
+          = t('courses.previous_iteration')
+        = link_to @previous_course_name, course_path(@course.previous_iteration_id)
+      - if @course.following_iteration_id
+        h4
+          = t('courses.following_iteration')
+        = link_to @following_course_name, course_path(@course.following_iteration_id)

@@ -32,21 +32,7 @@ RSpec.describe "courses/show", :type => :view do
 
   it "renders attributes in <p>" do
     render
-    expect(rendered).to match(/Name/)
-    expect(rendered).to match(/Url/)
-    expect(rendered).to match(/MyAbstract/)
-    expect(rendered).to match(/MyDescription/)
-    expect(rendered).to match(/Image/)
-    expect(rendered).to match(/1/)
-    expect(rendered).to match(//)
-    expect(rendered).to match(//)
+    expect(view.content_for(:content)).to match(/Name/)
     expect(view.content_for(:sidebar)).to match(/Difficulty/)
-    expect(view.content_for(:sidebar)).to match(/Course Instructor/)
-    expect(view.content_for(:sidebar)).to match(/Costs/)
-    expect(view.content_for(:sidebar)).to match(/Type Of Achievement/)
-    expect(view.content_for(:sidebar)).to match(/Categories/)
-    expect(view.content_for(:sidebar)).to match(/Requirements/)
-    expect(view.content_for(:sidebar)).to match(/Workload/)
-    expect(view.content_for(:sidebar)).to match(/4.0/)
   end
 end
