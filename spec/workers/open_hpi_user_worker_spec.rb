@@ -24,7 +24,7 @@ describe OpenHPICourseWorker do
     connection.user_id = user.id
     connection.mooc_provider_id = mooc_provider.id
     connection.save
-    expect{open_hpi_user_worker.get_enrollments_for_specified_user user}.to raise_error RestClient::InternalServerError
+    expect{open_hpi_user_worker.get_enrollments_for_user user}.to raise_error RestClient::InternalServerError
   end
 
   it 'should load new enrollment into database' do
@@ -42,4 +42,3 @@ describe OpenHPICourseWorker do
     expect(enrollment_array).not_to be_empty
   end
 end
-

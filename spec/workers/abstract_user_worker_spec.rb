@@ -40,17 +40,17 @@ describe AbstractUserWorker do
 
   it 'should throw exceptions when trying to call abstract methods' do
     expect{abstract_user_worker.mooc_provider}.to raise_error NotImplementedError
-    expect{abstract_user_worker.get_enrollments_for_specified_user @user}.to raise_error NotImplementedError
+    expect{abstract_user_worker.get_enrollments_for_user @user}.to raise_error NotImplementedError
     expect{abstract_user_worker.handle_enrollments_response 'test', @user}.to raise_error NotImplementedError
   end
 
   it 'should handle internet connection error' do
-    allow(abstract_user_worker).to receive(:get_enrollments_for_specified_user).and_raise SocketError
+    allow(abstract_user_worker).to receive(:get_enrollments_for_user).and_raise SocketError
     expect{abstract_user_worker.load_user_data @user}.not_to raise_error
   end
 
   it 'should handle API not found error' do
-    allow(abstract_user_worker).to receive(:get_enrollments_for_specified_user).and_raise RestClient::ResourceNotFound
+    allow(abstract_user_worker).to receive(:get_enrollments_for_user).and_raise RestClient::ResourceNotFound
     expect{abstract_user_worker.load_user_data @user}.not_to raise_error
   end
 

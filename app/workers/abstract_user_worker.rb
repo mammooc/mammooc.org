@@ -27,7 +27,7 @@ class AbstractUserWorker
 
   def load_user_data user
     begin
-      response_data = get_enrollments_for_specified_user user
+      response_data = get_enrollments_for_user user
     rescue SocketError, RestClient::ResourceNotFound => e
       logger.error e.class.to_s + ": " + e.message
     else
@@ -39,7 +39,7 @@ class AbstractUserWorker
     raise NotImplementedError
   end
 
-  def get_enrollments_for_specified_user user
+  def get_enrollments_for_user user
     raise NotImplementedError
   end
 

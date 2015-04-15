@@ -8,7 +8,7 @@ class AbstractXikoloUserWorker < AbstractUserWorker
     MoocProvider.find_by_name(self.class::MOOC_PROVIDER_NAME)
   end
 
-  def get_enrollments_for_specified_user user
+  def get_enrollments_for_user user
     authentication_token = MoocProviderUser.where(user_id: user, mooc_provider_id: mooc_provider).first.authentication_token
     token_string = "Token token=#{authentication_token}"
     api_url = self.class::MOOC_PROVIDER_API_ROOT_LINK + self.class::MOOC_PROVIDER_LIST_ENROLLMENTS_API
