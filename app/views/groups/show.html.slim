@@ -13,5 +13,5 @@
       = t('recommendation.group.no_recommendation')
     - else
       .recommendations-wrapper
-        - @recommendations.each do |recommendation_array|
-          = render 'recommendations/recommendation', recommendation: recommendation_array[0], group: recommendation_array[1], context_is_group: true
+        - @recommendations.each_with_index do |recommendation_array, index|
+          = render 'recommendations/recommendation', recommendation: recommendation_array[0], group: recommendation_array[1], context_is_group: true, id: "recommendation_number_#{index}"

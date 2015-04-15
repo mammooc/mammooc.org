@@ -1,0 +1,2 @@
+json.recommendations @recommendations
+json.number_of_recommendations @number_of_recommendations

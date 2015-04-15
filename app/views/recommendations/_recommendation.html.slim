@@ -1,9 +1,9 @@
-.recommendations
+.recommendations id='#{id}'
   - if context_is_group && group
-    span.glyphicon.glyphicon-remove id="remove-recommendation-group" data-group_id='#{group.id}' data-recommendation_id='#{recommendation.id}'
+    span.glyphicon.glyphicon-remove.remove-recommendation-group data-group_id='#{group.id}' data-recommendation_id='#{recommendation.id}'
   - else
     - unless group
-      span.glyphicon.glyphicon-remove id="remove-recommendation-current-user" data-recommendation_id='#{recommendation.id}'
+      span.glyphicon.glyphicon-remove.remove-recommendation-current-user data-recommendation_id='#{recommendation.id}'
   = link_to course_path(recommendation.course)
     - if group
       - if recommendation.is_obligatory

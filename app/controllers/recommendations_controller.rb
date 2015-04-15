@@ -35,7 +35,7 @@ class RecommendationsController < ApplicationController
 
   def delete
     if params[:group]
-      @recommendation.groups -= [params[:group]]
+      @recommendation.groups -= [Group.find(params[:group])]
     else
       @recommendation.users -= [current_user]
     end

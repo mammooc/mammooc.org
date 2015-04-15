@@ -3,8 +3,8 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 ready = ->
-  $('#remove-recommendation-group').click(delete_group_from_recommendation)
-  $('#remove-recommendation-current-user').click(delete_user_from_recommendation)
+  $('.remove-recommendation-group').click(delete_group_from_recommendation)
+  $('.remove-recommendation-current-user').click(delete_user_from_recommendation)
   return
 
 $(document).ready(ready)
@@ -12,10 +12,11 @@ $(document).on('page:load', ready)
 
 
 delete_group_from_recommendation = () ->
-  group_id = $('#remove-recommendation-group').data('group_id')
+  group_id = $(this).data('group_id')
   console.log(group_id)
-  recommendation_id = $('#remove-recommendation-group').data('recommendation_id')
+  recommendation_id = $(this).data('recommendation_id')
   console.log(recommendation_id)
+  recommendation = $(this).parent()
 
   $.ajax
     url: "/recommendations/#{recommendation_id}/delete/#{group_id}"
@@ -25,10 +26,12 @@ delete_group_from_recommendation = () ->
     success: (data, textStatus, jqXHR) ->
       console.log('group delete recommendation success')
 
+
 delete_user_from_recommendation = () ->
   console.log('delete user')
-  recommendation_id = $('#remove-recommendation-current-user').data('recommendation_id')
+  recommendation_id = $(this).data('recommendation_id')
   console.log(recommendation_id)
+  recommendation = $(this).parent()
 
   $.ajax
     url: "/recommendations/#{recommendation_id}/delete"
@@ -37,6 +40,20 @@ delete_user_from_recommendation = () ->
       console.log('user delete recommendation error')
     success: (data, textStatus, jqXHR) ->
       console.log('user delete recommendation success')
+      replace_deleted_recommendations(recommendation.attr('id'))
+
+replace_deleted_recommendations = (recommendation_element_id) ->
+  $.ajax
+    url: "/dashboard.json"
+    method: "GET"
+    error: (jqXHR, textStatus, errorThrown) ->
+      console.log('error fetching dashboard.json')
+    success: (data, textStatus, jqXHR) ->
+      console.log('success in fetching dashboard.json')
+      recommendations = data.recommendations
+      number_of_recommendations = data.number_of_recommendations
+    console.log recommendation_element_id
+    Turbolinks.replace('<div><p>I bin a boom.</p></div>', change: "#{recommendation_element_id}")
 
 group_ids = []
 groups_autocomplete = []
