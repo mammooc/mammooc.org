@@ -34,44 +34,36 @@ RSpec.describe CoursesController, :type => :feature do
 
     it 'should only display the recommendation view upon click', js: true do
       visit "/courses/#{course.id}"
-      find('#recommend-course-link').trigger(:click)
-      wait_for_phantom_js
+      click_link('recommend-course-link')
       expect(page).to have_selector('#recommend-course')
       expect(page).to have_no_selector('#rate-course')
-      wait_for_phantom_js
-      find('#recommend-course-link').trigger(:click)
+      click_link('recommend-course-link')
       expect(page).to have_no_selector('#recommend-course')
       expect(page).to have_no_selector('#rate-course')
     end
 
     it 'should only display the rating view upon click', js: true do
       visit "/courses/#{course.id}"
-      find('#rate-course-link').trigger(:click)
-      wait_for_phantom_js
+      click_link('rate-course-link')
       expect(page).to have_selector('#rate-course')
       expect(page).to have_no_selector('#recommend-course')
-      wait_for_phantom_js
-      find('#rate-course-link').trigger(:click)
+      click_link('rate-course-link')
       expect(page).to have_no_selector('#recommend-course')
       expect(page).to have_no_selector('#rate-course')
     end
 
     it 'should toggle between rating and recommendations view upon click', js: true do
       visit "/courses/#{course.id}"
-      find('#rate-course-link').trigger(:click)
-      wait_for_phantom_js
+      click_link('rate-course-link')
       expect(page).to have_selector('#rate-course')
       expect(page).to have_no_selector('#recommend-course')
-      wait_for_phantom_js
-      find('#recommend-course-link').trigger(:click)
+      click_link('recommend-course-link')
       expect(page).to have_selector('#recommend-course')
       expect(page).to have_no_selector('#rate-course')
-      wait_for_phantom_js
-      find('#rate-course-link').trigger(:click)
+      click_link('rate-course-link')
       expect(page).to have_selector('#rate-course')
       expect(page).to have_no_selector('#recommend-course')
-      wait_for_phantom_js
-      find('#rate-course-link').trigger(:click)
+      click_link('rate-course-link')
       expect(page).to have_no_selector('#recommend-course')
       expect(page).to have_no_selector('#rate-course')
     end
