@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe OpenHPICourseWorker do
+describe OpenHPIUserWorker do
 
   let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI') }
   let!(:course) { FactoryGirl.create(:full_course, provider_course_id: '0c6c5ad1-a770-4f16-81c3-536169f3cbd3', mooc_provider_id: mooc_provider.id) }
