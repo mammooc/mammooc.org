@@ -139,7 +139,6 @@ de:
       recommendation:
         is_obligatory: Verpflichtend?
         text: Nachricht
-
    #error messages
     errors:
       messages:

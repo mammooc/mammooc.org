@@ -49,7 +49,6 @@ en:
     recommendations: :recommendation.your_recommendations
     recommendations_with_quantity: :recommendation.your_recommendations_with_quantity
 
-
   home:
     welcome_heading: Welcome to mammooc!
     welcome_title: "mammooc: Sign up today!"
