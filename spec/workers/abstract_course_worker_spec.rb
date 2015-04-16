@@ -15,9 +15,9 @@ describe AbstractCourseWorker do
   it 'should create a valid update_map' do
     update_map = abstract_course_worker.create_update_map @mooc_provider
     expect(update_map.length).to eql 10
-    update_map.each { |_, updated|
+    update_map.each do |_, updated|
       expect(updated).to be false
-    }
+    end
   end
 
   it 'should evaluate the update_map and delete the right courses' do
@@ -25,10 +25,10 @@ describe AbstractCourseWorker do
     update_map = abstract_course_worker.create_update_map @mooc_provider
 
     # set five courses to true
-    update_map.each_with_index { |(course,_),index|
+    update_map.each_with_index do |(course,_),index|
       update_map[course] = true
       index >= 4 ? break : next
-    }
+    end
 
     abstract_course_worker.evaluate_update_map update_map
     expect(course_count).to eql Course.count+5

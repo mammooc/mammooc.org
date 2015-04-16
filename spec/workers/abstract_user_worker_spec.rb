@@ -19,9 +19,9 @@ describe AbstractUserWorker do
   it 'should create a valid update_map' do
     update_map = abstract_user_worker.create_enrollments_update_map @mooc_provider, @user
     expect(update_map.length).to eql 2
-    update_map.each { |_, updated|
+    update_map.each do |_, updated|
       expect(updated).to be false
-    }
+    end
   end
 
   it 'should evaluate the update_map and delete the right enrollment' do
@@ -29,10 +29,10 @@ describe AbstractUserWorker do
       update_map = abstract_user_worker.create_enrollments_update_map @mooc_provider, @user
 
       # set one enrollment to true -> prevent from deleting
-      update_map.each_with_index { |(enrollment, _), index |
+      update_map.each_with_index do |(enrollment, _), index |
         update_map[enrollment] = true
         index >= 0 ? break : next
-      }
+      end
 
       abstract_user_worker.evaluate_enrollments_update_map update_map, @user
     }.to change(@user.courses, :count).by(-1)
