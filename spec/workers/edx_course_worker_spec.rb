@@ -28,7 +28,7 @@ describe EdxCourseWorker do
     edx_course_worker.handle_response_data json_course_data
 
     json_course = json_course_data['value']['items'][0]
-    course = Course.find_by(:provider_course_id => json_course['course:id'], :mooc_provider_id => mooc_provider.id)
+    course = Course.find_by(provider_course_id: json_course['course:id'], mooc_provider_id: mooc_provider.id)
 
     expect(course.name).to eql json_course['title']
     expect(course.provider_course_id).to eql json_course['course:id']

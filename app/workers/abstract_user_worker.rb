@@ -57,7 +57,6 @@ class AbstractUserWorker
 
   def evaluate_enrollments_update_map update_map, user
     update_map.each do |course_id,updated|
-    end
       if !updated
         user.courses.destroy(course_id)
       end

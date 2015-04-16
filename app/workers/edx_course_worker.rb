@@ -14,8 +14,8 @@ class EdxCourseWorker < AbstractCourseWorker
 
   def handle_response_data response_data
     update_map = create_update_map mooc_provider
-    response_data['value']['items'].each { |course_element|
-      course = Course.find_by(:provider_course_id => course_element['id'], :mooc_provider_id => mooc_provider.id)
+    response_data['value']['items'].each do |course_element|
+      course = Course.find_by(provider_course_id: course_element['id'], mooc_provider_id: mooc_provider.id)
       if course.nil?
         course = Course.new
       else
@@ -83,7 +83,7 @@ class EdxCourseWorker < AbstractCourseWorker
       end
 
       course.save
-    }
+    end
     evaluate_update_map update_map
   end
 
