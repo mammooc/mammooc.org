@@ -10,16 +10,16 @@ RSpec.describe "dashboard/dashboard.html.slim", :type => :view do
   before(:each) do
     assign(:groups, [
                       Group.create!(
-                          :name => "Name",
-                          :imageId => "Image",
-                          :description => "MyText",
-                          :primary_statistics => ""
+                          name: "Name",
+                          imageId: "Image",
+                          description: "MyText",
+                          primary_statistics: ""
                       ),
                       Group.create!(
-                          :name => "Name",
-                          :imageId => "Image",
-                          :description => "MyText",
-                          :primary_statistics => ""
+                          name: "Name",
+                          imageId: "Image",
+                          description: "MyText",
+                          primary_statistics: ""
                       )
                   ])
     assign(:courses, [
@@ -34,14 +34,14 @@ RSpec.describe "dashboard/dashboard.html.slim", :type => :view do
 
   it 'renders my enrollments' do
     render
-    assert rendered, :text => course.name, :count => 2
+    assert rendered, text: course.name, count: 2
   end
 
   it 'renders a list of groups' do
     render
-    assert rendered, :text => "Name".to_s, :count => 2
-    assert rendered, :text => "Image".to_s, :count => 2
-    assert rendered, :text => "MyText".to_s, :count => 2
-    assert rendered, :text => "".to_s, :count => 2
+    assert rendered, text: "Name".to_s, count: 2
+    assert rendered, text: "Image".to_s, count: 2
+    assert rendered, text: "MyText".to_s, count: 2
+    assert rendered, text: "".to_s, count: 2
   end
 end
