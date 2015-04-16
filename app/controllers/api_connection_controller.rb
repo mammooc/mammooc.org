@@ -14,7 +14,7 @@ class ApiConnectionController < ApplicationController
   end
 
   def send_user_request
-    requestParameters = "email=" + params[:email] + "&password=" + params[:password]
+    requestParameters = "email=#{params[:email]}&password=#{params[:password]}"
     response = RestClient.post("https://open.hpi.de/api/authenticate", requestParameters, {:accept => 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', :authorization => 'token=\"78783786789\"'})
     json_response = JSON.parse response
 
