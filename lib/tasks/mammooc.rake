@@ -10,4 +10,13 @@ namespace :mammooc do
     EdxCourseWorker.perform_async
   end
 
+  task update_user_data: :environment do
+    OpenHPIUserWorker.perform_async nil
+    OpenSAPUserWorker.perform_async nil
+    # OpenUNEUserWorker.perform_async
+    # MoocHouseUserWorker.perform_async
+    # OpenSAPChinaUserWorker.perform_async
+    # OpenHPIChinaUserWorker.perform_async
+  end
+
 end

@@ -26,8 +26,8 @@ class CourseraCourseWorker < AbstractCourseWorker
     update_map = create_update_map mooc_provider
     iteration_hash = Hash.new
 
-    response_data["elements"].each { |session_element|
-      course = Course.find_by(:provider_course_id => session_element["courseId"].to_s + '|' + session_element["id"].to_s, :mooc_provider_id => mooc_provider.id)
+    response_data["elements"].each do |session_element|
+      course = Course.find_by(provider_course_id: session_element["courseId"].to_s + '|' + session_element["id"].to_s, mooc_provider_id: mooc_provider.id)
       if course.nil?
         course = Course.new
       else
@@ -92,7 +92,7 @@ class CourseraCourseWorker < AbstractCourseWorker
       end
       course.save
       iteration_hash[corresponding_course["id"]] << course.id
-    }
+    end
     evaluate_update_map update_map
     # multiple iterations
     evaluate_iteration_hash iteration_hash

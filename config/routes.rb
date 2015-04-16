@@ -3,6 +3,9 @@ Rails.application.routes.draw do
 
   get 'api_connection/index'
   get 'api_connection/send_request'
+  post'api_connection/send_user_request'
+  get 'api_connection/update_user'
+  get 'api_connection/update_all_users'
 
   devise_for :users, :controllers => { :registrations => "users/registrations",
                                        :sessions => "users/sessions",

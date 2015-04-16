@@ -18,6 +18,15 @@ class Course < ActiveRecord::Base
   after_save :create_and_update_course_connections
   before_destroy :delete_dangling_course_connections
 
+  def self.get_course_id_by_mooc_provider_id_and_provider_course_id(mooc_provider_id, provider_course_id)
+    course = Course.where(provider_course_id: provider_course_id, mooc_provider_id: mooc_provider_id).first
+    if course.present?
+      return course.id
+    else
+      return nil
+    end
+  end
+
   private
 
   def has_free_version_or_has_paid_version

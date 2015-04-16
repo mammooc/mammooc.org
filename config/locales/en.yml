@@ -45,6 +45,7 @@ en:
     no_groups: :groups.no_groups
     new_group: Creating Group
     edit_group: Editing Group
+    no_courses: :courses.no_courses
     recommendations: :recommendation.your_recommendations
     recommendations_with_quantity: :recommendation.your_recommendations_with_quantity
 
@@ -122,7 +123,6 @@ en:
       confirm_leave_group: Leave
       confirm_remove_member: Remove
       yourself: yourself
-
 
   activerecord:
     models:

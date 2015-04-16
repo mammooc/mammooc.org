@@ -45,6 +45,7 @@ de:
     no_groups: :groups.no_groups
     new_group: Gruppe erstellen
     edit_group: Gruppe bearbeiten
+    no_courses: :courses.no_courses
     recommendations: :recommendation.your_recommendations
     recommendations_with_quantity: :recommendation.your_recommendations_with_quantity
 
@@ -138,7 +139,6 @@ de:
       recommendation:
         is_obligatory: Verpflichtend?
         text: Nachricht
-
    #error messages
     errors:
       messages:
