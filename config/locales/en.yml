@@ -125,7 +125,6 @@ en:
       confirm_remove_member: Remove
       yourself: yourself
 
-
   activerecord:
     models:
       group:
