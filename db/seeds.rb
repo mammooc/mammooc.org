@@ -14,6 +14,7 @@ MoocProvider.create(name: 'edX')
 MoocProvider.create(name: 'coursera')
 MoocProvider.create(name: 'openSAP China')
 MoocProvider.create(name: 'openUNE')
+MoocProvider.create(name: 'iversity')
 
 minimal_previous_course = Course.create(name: 'Minimal Previous Technologies',
               url: 'https://open.hpi.de/courses/pythonjunior2015',
