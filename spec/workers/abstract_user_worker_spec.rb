@@ -12,9 +12,7 @@ describe AbstractUserWorker do
     @user.courses << @second_course
   end
 
-  let (:abstract_user_worker) {
-    AbstractUserWorker.new
-  }
+  let (:abstract_user_worker) { AbstractUserWorker.new }
 
   it 'should create a valid update_map' do
     update_map = abstract_user_worker.create_enrollments_update_map @mooc_provider, @user

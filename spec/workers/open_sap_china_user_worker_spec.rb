@@ -5,9 +5,7 @@ describe OpenSAPChinaUserWorker do
   let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openSAP China') }
   let!(:user) { FactoryGirl.create(:user) }
 
-  let(:open_sap_china_user_worker){
-    OpenSAPChinaUserWorker.new
-  }
+  let(:open_sap_china_user_worker){ OpenSAPChinaUserWorker.new }
 
   it 'should deliver MOOCProvider' do
     expect(open_sap_china_user_worker.mooc_provider).to eql mooc_provider

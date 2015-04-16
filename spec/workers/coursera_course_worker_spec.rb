@@ -4,9 +4,7 @@ describe CourseraCourseWorker do
 
   let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'coursera') }
 
-  let(:coursera_course_worker){
-    CourseraCourseWorker.new
-  }
+  let(:coursera_course_worker){ CourseraCourseWorker.new }
 
   let(:json_session_data) {
     JSON.parse '{"elements":[{"id":90,"signatureTrackPrice":50.5,"courseId":9,"homeLink":"https://class.coursera.org/crypto-2012-002/","active":true,"durationString":"6 weeks","startDay":11,"startMonth":6,"startYear":2012,"eligibleForCertificates":true,"eligibleForSignatureTrack":false,"links":{}},{"id":91,"courseId":9,"homeLink":"https://class.coursera.org/crypto-2012-002/","active":true,"durationString":"6 weeks","startDay":13,"startMonth":6,"startYear":2012,"eligibleForCertificates":true,"eligibleForSignatureTrack":false,"links":{}}],"linked":{}}'

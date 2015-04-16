@@ -8,9 +8,7 @@ describe AbstractCourseWorker do
     FactoryGirl.create_list(:full_course, 10, mooc_provider_id: @mooc_provider.id)
   end
 
-  let (:abstract_course_worker) {
-    AbstractCourseWorker.new
-  }
+  let (:abstract_course_worker) { AbstractCourseWorker.new }
 
   it 'should create a valid update_map' do
     update_map = abstract_course_worker.create_update_map @mooc_provider

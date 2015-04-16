@@ -4,9 +4,7 @@ describe MoocHouseCourseWorker do
 
   let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'mooc.house') }
 
-  let(:mooc_house_course_worker){
-    MoocHouseCourseWorker.new
-  }
+  let(:mooc_house_course_worker){ MoocHouseCourseWorker.new }
 
   it 'should deliver MOOCProvider' do
     expect(mooc_house_course_worker.mooc_provider).to eql mooc_provider

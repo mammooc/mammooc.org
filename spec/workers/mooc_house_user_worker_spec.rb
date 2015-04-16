@@ -5,9 +5,7 @@ describe MoocHouseUserWorker do
   let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'mooc.house') }
   let!(:user) { FactoryGirl.create(:user) }
 
-  let(:mooc_house_user_worker){
-    MoocHouseUserWorker.new
-  }
+  let(:mooc_house_user_worker){ MoocHouseUserWorker.new }
 
   it 'should deliver MOOCProvider' do
     expect(mooc_house_user_worker.mooc_provider).to eql mooc_provider

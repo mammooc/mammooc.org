@@ -6,9 +6,7 @@ describe OpenHPIUserWorker do
   let!(:course) { FactoryGirl.create(:full_course, provider_course_id: '0c6c5ad1-a770-4f16-81c3-536169f3cbd3', mooc_provider_id: mooc_provider.id) }
   let!(:user) { FactoryGirl.create(:user) }
 
-  let(:open_hpi_user_worker){
-    OpenHPIUserWorker.new
-  }
+  let(:open_hpi_user_worker){ OpenHPIUserWorker.new }
 
   let(:json_enrollment_data) {
     JSON.parse '[{"id":"dfcfdf0f-e0ad-4887-abfa-83cc233c291f","course_id":"c5600abf-5abf-460b-ba6f-1d030053fd79"},{"id":"bbc4c2a7-51ed-460a-a312-6ba4b3da3545","course_id":"0c6c5ad1-a770-4f16-81c3-536169f3cbd3"},{"id":"48edd6a8-3a9a-4a64-8b5c-631142022d15","course_id":"bccf2ca2-429c-4cd0-9f63-caaccf85727a"}]'
