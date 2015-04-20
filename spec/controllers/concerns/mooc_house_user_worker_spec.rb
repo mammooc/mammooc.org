@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-describe OpenUNEUserWorker do
+RSpec.describe MoocHouseConnector do
 
-  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openUNE') }
+  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'mooc.house') }
   let!(:user) { FactoryGirl.create(:user) }
 
-  let(:open_une_user_worker){ OpenUNEUserWorker.new }
+  let(:mooc_house_connector){ MoocHouseConnector.new }
 
   it 'should deliver MOOCProvider' do
-    expect(open_une_user_worker.mooc_provider).to eql mooc_provider
+    expect(mooc_house_connector.send(:mooc_provider)).to eql mooc_provider
   end
 
   it 'should get an API response' do
@@ -18,6 +18,6 @@ describe OpenUNEUserWorker do
     connection.user_id = user.id
     connection.mooc_provider_id = mooc_provider.id
     connection.save
-    expect{open_une_user_worker.get_enrollments_for_user user}.to raise_error RestClient::InternalServerError
+    expect{mooc_house_connector.send(:get_enrollments_for_user, user)}.to raise_error RestClient::InternalServerError
   end
 end

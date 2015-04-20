@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Users::SessionsController, :type => :feature do
+RSpec.describe Users::SessionsController, type: :feature do
 
   let(:user) { FactoryGirl.create(:user) }
 

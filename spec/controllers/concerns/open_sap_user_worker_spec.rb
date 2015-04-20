@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-describe OpenSAPUserWorker do
+RSpec.describe OpenSAPConnector do
 
   let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openSAP') }
   let!(:user) { FactoryGirl.create(:user) }
 
-  let(:open_sap_user_worker){ OpenSAPUserWorker.new }
+  let(:open_sap_connector){ OpenSAPConnector.new }
 
   it 'should deliver MOOCProvider' do
-    expect(open_sap_user_worker.mooc_provider).to eql mooc_provider
+    expect(open_sap_connector.send(:mooc_provider)).to eql mooc_provider
   end
 
   it 'should get an API response' do
@@ -17,6 +17,6 @@ describe OpenSAPUserWorker do
     connection.user_id = user.id
     connection.mooc_provider_id = mooc_provider.id
     connection.save
-    expect{open_sap_user_worker.get_enrollments_for_user user}.to raise_error RestClient::InternalServerError
+    expect{open_sap_connector.send(:get_enrollments_for_user, user)}.to raise_error RestClient::InternalServerError
   end
 end

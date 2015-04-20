@@ -36,7 +36,7 @@ class AbstractMoocProviderConnector
     begin
       response_data = get_enrollments_for_user user
     rescue SocketError, RestClient::ResourceNotFound, RestClient::SSLCertificateNotVerified => e
-      logger.error e.class.to_s + ": " + e.message
+      Rails.logger.error e.class.to_s + ": " + e.message
     else
       handle_enrollments_response response_data, user
     end

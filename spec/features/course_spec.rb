@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CoursesController, :type => :feature do
+RSpec.describe CoursesController, type: :feature do
 
   self.use_transactional_fixtures = false
 
