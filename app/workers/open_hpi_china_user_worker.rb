@@ -1,6 +1,8 @@
-class OpenHPIChinaUserWorker < AbstractXikoloUserWorker
+class OpenHPIChinaUserWorker
+  include Sidekiq::Worker
 
-  MOOC_PROVIDER_NAME = 'openHPI China'
-  MOOC_PROVIDER_API_ROOT_LINK = 'https://openhpi.cn/api/'
+  def perform
+    OpenHPIChinaConnector.new.load_user_data nil
+  end
 
 end

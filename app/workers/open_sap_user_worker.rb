@@ -1,6 +1,8 @@
-class OpenSAPUserWorker < AbstractXikoloUserWorker
+class OpenSAPUserWorker
+  include Sidekiq::Worker
 
-  MOOC_PROVIDER_NAME = 'openSAP'
-  MOOC_PROVIDER_API_ROOT_LINK = 'https://open.sap.com/api/'
+  def perform
+    OpenSAPConnector.new.load_user_data nil
+  end
 
 end

@@ -1,6 +1,8 @@
-class MoocHouseUserWorker < AbstractXikoloUserWorker
+class MoocHouseUserWorker
+  include Sidekiq::Worker
 
-  MOOC_PROVIDER_NAME = 'mooc.house'
-  MOOC_PROVIDER_API_ROOT_LINK = 'https://mooc.house/api'
+  def perform
+    MoocHouseConnector.new.load_user_data nil
+  end
 
 end

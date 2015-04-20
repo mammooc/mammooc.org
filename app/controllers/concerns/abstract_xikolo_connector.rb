@@ -1,17 +1,28 @@
-class AbstractXikoloUserWorker < AbstractUserWorker
+class AbstractXikoloConnector < AbstractMoocProviderConnector
 
-  MOOC_PROVIDER_NAME = ''
-  MOOC_PROVIDER_API_ROOT_LINK = ''
-  MOOC_PROVIDER_LIST_ENROLLMENTS_API = 'users/me/enrollments/'
+  AUTHENTICATE_API = 'authenticate/'
+  LIST_ENROLLMENTS_API = 'users/me/enrollments/'
+  COURSES_API = 'courses/'
 
-  def mooc_provider
-    MoocProvider.find_by_name(self.class::MOOC_PROVIDER_NAME)
+  def initialize_connection user, arguments
+    request_parameters = "email=#{arguments[:email]}&password=#{arguments[:password]}"
+    authentication_url = self.class::ROOT_API + AUTHENTICATE_API
+    response = RestClient.post(authentication_url, request_parameters, {:accept => 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', :authorization => 'token=\"78783786789\"'})
+    json_response = JSON.parse response
+
+    connection = MoocProviderUser.new
+    connection.authentication_token = json_response['token']
+    connection.user_id = user.id
+    connection.mooc_provider_id = mooc_provider.id
+    connection.save
   end
+
+  private
 
   def get_enrollments_for_user user
     authentication_token = MoocProviderUser.where(user_id: user, mooc_provider_id: mooc_provider).first.authentication_token
     token_string = "Token token=#{authentication_token}"
-    api_url = self.class::MOOC_PROVIDER_API_ROOT_LINK + self.class::MOOC_PROVIDER_LIST_ENROLLMENTS_API
+    api_url = self.class::ROOT_API + self.class::LIST_ENROLLMENTS_API
     response = RestClient.get(api_url,{accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', authorization: token_string})
     JSON.parse response
   end

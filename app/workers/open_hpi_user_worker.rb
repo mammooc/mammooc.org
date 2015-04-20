@@ -1,6 +1,8 @@
-class OpenHPIUserWorker < AbstractXikoloUserWorker
+class OpenHPIUserWorker
+  include Sidekiq::Worker
 
-  MOOC_PROVIDER_NAME = 'openHPI'
-  MOOC_PROVIDER_API_ROOT_LINK = 'https://open.hpi.de/api/'
+  def perform
+    OpenHPIConnector.new.load_user_data nil
+  end
 
 end
