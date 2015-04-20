@@ -18,9 +18,9 @@ class RecommendationsController < ApplicationController
   def create
     @recommendation = Recommendation.new(recommendation_params)
     @recommendation.author = @current_user
-    user_ids = params[:recommendation][:related_user_ids].split(',')
+    user_ids = params[:recommendation][:related_user_ids].split(', ')
     @recommendation.users += User.where id: user_ids
-    group_ids = params[:recommendation][:related_group_ids].split(',')
+    group_ids = params[:recommendation][:related_group_ids].split(', ')
     @recommendation.groups += Group.where id: group_ids
     session[:return_to] ||= dashboard_dashboard_path
     respond_to do |format|
@@ -44,7 +44,6 @@ class RecommendationsController < ApplicationController
     end
     respond_to do |format|
       format.html { redirect_to recommendations_url, notice: t('recommendation.successfully_destroyed') }
-      format.json { head :no_content }
     end
   end
 
