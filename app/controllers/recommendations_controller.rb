@@ -1,5 +1,5 @@
 class RecommendationsController < ApplicationController
-  before_action :set_recommendation, only: [:update, :destroy, :delete]
+  before_action :set_recommendation, only: [:delete]
 
   # GET /recommendations
   # GET /recommendations.json

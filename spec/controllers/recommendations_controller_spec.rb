@@ -12,7 +12,7 @@ RSpec.describe RecommendationsController, :type => :controller do
   let(:course) {FactoryGirl.create(:course)}
 
   let(:valid_model_attributes) { {author: second_user, is_obligatory: false, groups: [group, second_group], users: [user, third_user], course: course} }
-  let(:valid_controller_attributes) { {author: user, is_obligatory: false, related_group_ids: "#{group.id},#{second_group.id}", related_user_ids: "#{second_user.id},#{third_user.id}", course_id: course.id} }
+  let(:valid_controller_attributes) { {author: user, is_obligatory: false, related_group_ids: "#{group.id}, #{second_group.id}", related_user_ids: "#{second_user.id}, #{third_user.id}", course_id: course.id} }
 
   before(:each) do
     sign_in user
@@ -68,20 +68,37 @@ RSpec.describe RecommendationsController, :type => :controller do
     end
   end
 
-  describe "DELETE destroy" do
-    it "destroys the requested recommendation" do
-      recommendation = Recommendation.create! valid_model_attributes
+  describe "GET DELETE" do
+    it "should destroy the requested recommendation of current user" do
+      recommendation = FactoryGirl.create(:recommendation, users: [user], groups: [])
       expect {
-        delete :destroy, {:id => recommendation.to_param}
+        get :delete, {:id => recommendation.to_param}
       }.to change(Recommendation, :count).by(-1)
     end
 
-    it "redirects to the recommendations list" do
-      recommendation = Recommendation.create! valid_model_attributes
-      delete :destroy, {:id => recommendation.to_param}
-      expect(response).to redirect_to(recommendations_url)
+    it "should destroy the requested recommendation of specified group" do
+      recommendation = FactoryGirl.create(:recommendation, users: [], groups: [group])
+      expect {
+        get :delete, id: recommendation.to_param, group: group.id
+      }.to change(Recommendation, :count).by(-1)
+    end
+
+    it "should remove current user from recommendation but do not delete recommendation" do
+      recommendation = FactoryGirl.create(:recommendation, users: [user, second_user], groups: [])
+      expect {
+        get :delete, {:id => recommendation.to_param}
+      }.to change(Recommendation, :count).by(0)
+      expect(Recommendation.find(recommendation.id).users).to match_array([second_user])
+    end
+
+    it "should remove specified group from recommendation but do not delete recommendation" do
+      recommendation = FactoryGirl.create(:recommendation, users: [user], groups: [group, second_group])
+      expect {
+        get :delete, id: recommendation.to_param, group: group.id
+      }.to change(Recommendation, :count).by(0)
+      expect(Recommendation.find(recommendation.id).users).to match_array([user])
+      expect(Recommendation.find(recommendation.id).groups).to match_array([second_group])
     end
   end
-
 end
 
