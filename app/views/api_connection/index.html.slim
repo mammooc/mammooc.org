@@ -5,4 +5,23 @@ p
   | Find me in app/views/api_connection/index.html.slim
 = link_to api_connection_send_request_path
   button.btn.btn-default
-    | Click me !!
+    | Send Course Requests!
+p
+   | User Connection:
+form action="#{api_connection_send_user_request_path}" method="post"
+  label
+    | Email
+  input id="email" name="email"
+  label
+    | Passwort
+  input id="password" name="password"
+  input name="authenticity_token" type="hidden" value="#{form_authenticity_token}"
+  input type="submit" value="Send User Requests"
+
+= link_to api_connection_update_user_path
+  button.btn.btn-default
+    | Update User Data
+
+= link_to api_connection_update_all_users_path
+  button.btn.btn-default
+    | Update All User Data

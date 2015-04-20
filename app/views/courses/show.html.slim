@@ -42,40 +42,87 @@
 /    - else
 /      = "\"#{recommendation_array[0].text}\""
 
-.page-header
-  h1
-    = @course.name
-= image_tag(@course.imageId)
-- if @course.abstract
-  / panel ist nur Zwischenlösung - Abstract ist ansonsten nicht lesbar
-  .panel.panel-default
-    .panel-body
-      = raw @course.abstract
-= link_to @course.url
-  button.btn.btn-default
-    = t('courses.enter_course')
-= link_to new_bookmark_path
-  button.btn.btn-default
-    = t('courses.remember_course')
-= link_to @course.url
-  button.btn.btn-default
-    = t('courses.enroll_course')
-= link_to new_recommendation_path(course_id: @course.id)
-  button.btn.btn-default
-    = t('courses.recommend_course')
-- if @course.description
+- content_for :title
+  = @course.name + ' | mammooc'
+
+- content_for :content
+
+  .course-infobox
+    .wrapper
+      - if @course.imageId
+        = image_tag(@course.imageId)
+      .content
+        .title
+          = @course.name
+        // TODO : Include Rating (stars + number of ratings)
+        = t('global.by')
+        = @course.course_instructors
+        p
+        - if @course.start_date && @course.end_date
+          - if @course.start_date > Date.today
+            | Kurs beginnt am:
+            = @course.start_date.strftime("%d.%m.%Y")
+          - elsif @course.start_date == Date.today
+            | Kurs startet heute, jetzt einschreiben!
+          - elsif @course.start_date < Date.today and @course.end_date < Date.today
+            | Kurs läuft
+          - else
+            | Zeitraum:
+            = @course.start_date.strftime("%d.%m.%Y") + ' - ' + @course.end_date.strftime("%d.%m.%Y")
+        - elsif @course.start_date
+          = @course.start_date
+        - else
+          = t('courses.no_dates_available')
+        p
+        - if @course.language
+          | Kurssprache:
+          = @course.language
+      .options
+        img src="/data/logo-openSAP.png"
+    .subnav
+      = link_to @course.url, target: "_blank"
+        .entry
+          = t('courses.enter_course')
+      = link_to new_bookmark_path
+        .entry
+          = t('courses.remember_course')
+      = link_to '#'
+        .entry
+          = t('courses.enroll_course')
+      div role="tab" id="courses-subnav-recommend"
+        a data-toggle="collapse" href="#recommend-course" id="recommend-course-link" aria-expanded="false" aria-controls="recommend-course"
+          .entry
+            = t('courses.recommend_course')
+      div role="tab" id="courses-subnav-rate"
+        a data-toggle="collapse" href="#rate-course" id="rate-course-link" aria-expanded="false" aria-controls="rate-course"
+          .entry
+            = t('courses.rate_course')
+
+    .collapse id="recommend-course" role="tabpanel" aria-labelledby="courses-subnav-recommend"
+      .collapse-subnav
+        = render 'recommendation'
+
+    .collapse id="rate-course" role="tabpanel" aria-labelledby="courses-subnav-rate"
+      .collapse-subnav
+        = render 'rating'
+
+  - if @course.abstract
+    .panel.panel-default
+      .panel-body
+        = raw @course.abstract
+  - if @course.description
+    h3
+      = t('courses.description')
+    = raw @course.description
   h3
-    = t('courses.description')
-  = raw @course.description
-h3
-  = t('courses.recommendations')
-| blablabla
+    = t('courses.recommendations')
+  | blablabla
+  h3
+    = t('courses.rating')
+    = link_to new_evaluation_path
+      button.btn.btn-default
+        = t('courses.rate_course')
+  | blablabla
 
-h3
-  = t('courses.rating')
-  = link_to new_evaluation_path
-    button.btn.btn-default
-      = t('courses.rate_course')
-| blablabla
-
-= render 'sidebar'
+- content_for :sidebar
+  = render 'sidebar'

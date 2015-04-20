@@ -3,6 +3,9 @@ Rails.application.routes.draw do
 
   get 'api_connection/index'
   get 'api_connection/send_request'
+  post'api_connection/send_user_request'
+  get 'api_connection/update_user'
+  get 'api_connection/update_all_users'
 
   devise_for :users, :controllers => { :registrations => "users/registrations",
                                        :sessions => "users/sessions",
@@ -53,6 +56,7 @@ Rails.application.routes.draw do
   post 'groups/:id/demote_administrator' => 'groups#demote_administrator'
   post 'groups/:id/remove_group_member' => 'groups#remove_group_member'
   post 'groups/:id/condition_for_changing_member_status' => 'groups#condition_for_changing_member_status'
+  post 'groups/:id/leave' => 'groups#leave'
   get 'groups/join/:token' => 'groups#join'
   get 'groups/:id/members' => 'groups#members'
   get 'groups/:id/recommendations' => 'groups#recommendations'

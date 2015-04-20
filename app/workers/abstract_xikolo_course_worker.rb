@@ -9,15 +9,15 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
   end
 
   def get_course_data
-    response = RestClient.get(self.class::MOOC_PROVIDER_API_LINK,{:accept => 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', :authorization => 'token=\"78783786789\"'})
+    response = RestClient.get(self.class::MOOC_PROVIDER_API_LINK,{accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', authorization: 'token=\"78783786789\"'})
     JSON.parse response
   end
 
   def handle_response_data response_data
     update_map = create_update_map mooc_provider
 
-    response_data.each { |course_element|
-      course = Course.find_by(:provider_course_id => course_element['id'], :mooc_provider_id => mooc_provider.id)
+    response_data.each do |course_element|
+      course = Course.find_by(provider_course_id: course_element['id'], mooc_provider_id: mooc_provider.id)
       if course.nil?
         course = Course.new
       else
@@ -38,7 +38,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
       course.has_free_version = true
 
       course.save
-    }
+    end
     evaluate_update_map update_map
   end
 

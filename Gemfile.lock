@@ -37,7 +37,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     arel (6.0.0)
-    autoprefixer-rails (5.1.8.1)
+    autoprefixer-rails (5.1.9)
       execjs
       json
     bcrypt (3.1.10)
@@ -52,6 +52,7 @@ GEM
     builder (3.2.2)
     byebug (4.0.5)
       columnize (= 0.9.0)
+    cancancan (1.10.1)
     capybara (2.4.4)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -73,9 +74,9 @@ GEM
     coffee-script (2.4.1)
       coffee-script-source
       execjs
-    coffee-script-source (1.9.1)
+    coffee-script-source (1.9.1.1)
     columnize (0.9.0)
-    connection_pool (2.1.3)
+    connection_pool (2.2.0)
     database_cleaner (1.4.1)
     debug_inspector (0.0.2)
     devise (3.4.1)
@@ -90,7 +91,7 @@ GEM
     domain_name (0.5.23)
       unf (>= 0.0.5, < 1.0.0)
     erubis (2.7.0)
-    execjs (2.5.1)
+    execjs (2.5.2)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
     factory_girl_rails (4.5.0)
@@ -100,7 +101,6 @@ GEM
     globalid (0.3.5)
       activesupport (>= 4.1.0)
     headless (1.0.2)
-    hike (1.2.3)
     hitimes (1.2.2)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
@@ -108,7 +108,7 @@ GEM
     i18n (0.7.0)
     i18n-js (2.1.2)
       i18n
-    jbuilder (2.2.12)
+    jbuilder (2.2.13)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
     jquery-rails (4.0.3)
@@ -125,7 +125,7 @@ GEM
       mime-types (>= 1.16, < 3)
     mime-types (2.4.3)
     mini_portile (0.6.2)
-    minitest (5.5.1)
+    minitest (5.6.0)
     multi_json (1.11.0)
     netrc (0.10.3)
     nokogiri (1.6.6.2)
@@ -235,11 +235,8 @@ GEM
       railties (>= 3.1, < 5.0)
       slim (~> 3.0)
     spring (1.3.4)
-    sprockets (2.12.3)
-      hike (~> 1.2)
-      multi_json (~> 1.0)
+    sprockets (3.0.1)
       rack (~> 1.0)
-      tilt (~> 1.1, != 1.3.0)
     sprockets-rails (2.2.4)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
@@ -286,6 +283,7 @@ DEPENDENCIES
   bootstrap-sass
   bootstrap_tokenfield_rails
   byebug
+  cancancan (~> 1.10)
   capybara
   capybara-selenium
   coffee-rails (~> 4.1.0)

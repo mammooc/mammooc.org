@@ -4,9 +4,7 @@ describe OpenUNECourseWorker do
 
   let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openUNE') }
 
-  let(:open_une_course_worker){
-    OpenUNECourseWorker.new
-  }
+  let(:open_une_course_worker){ OpenUNECourseWorker.new }
 
   it 'should deliver MOOCProvider' do
     expect(open_une_course_worker.mooc_provider).to eql mooc_provider
