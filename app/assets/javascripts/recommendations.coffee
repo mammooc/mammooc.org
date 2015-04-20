@@ -8,8 +8,6 @@ ready = ->
   return
 
 $(document).ready(ready)
-$(document).on('page:load', ready)
-
 
 delete_group_from_recommendation = () ->
   console.log('delete group')

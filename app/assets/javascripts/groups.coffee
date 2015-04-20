@@ -15,7 +15,6 @@ ready = ->
   return
 
 $(document).ready(ready)
-$(document).on('page:load', ready)
 
 send_invite = () ->
   group_id = $('#group_id').val()
@@ -160,7 +159,7 @@ delete_group = (event) ->
     success: (data, textStatus, jqXHR) ->
       console.log('success_delete_group')
       $('#confirmation_remove_last_member').modal('hide')
-      Turbolinks.visit('/groups')
+      window.location.replace('/groups')
   event.preventDefault()
 
 remove_last_admin = (event) ->
@@ -193,7 +192,7 @@ leave_group = (group_id, user_id) ->
     success: (data, textStatus, jqXHR) ->
       console.log('success_leave_group')
       $('#confirmation_remove_last_admin').modal('hide')
-      Turbolinks.visit('/groups')
+      window.location.replace('/groups')
 
 change_style_to_admin = (user_id) ->
   id = "#list_member_element_user_#{user_id}"
