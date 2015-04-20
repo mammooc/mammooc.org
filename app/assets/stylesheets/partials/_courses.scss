@@ -77,6 +77,29 @@ $course-img-height: 250px;
   border-bottom: 1px solid white;
 }
 
+.course-details {
+  @include white-box;
+  @include box-shadow-light;
+  margin-bottom: 30px;
+
+  .title {
+    display: inline-block;
+    top: 0;
+    left: 0;
+    background-color: $gray;
+    padding: 5px 25px;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+  }
+
+  .content {
+    padding: 10px;
+  }
+}
+
+
+
 /* Course listing */
 
 .courses-wrapper {

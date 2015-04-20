@@ -107,22 +107,27 @@
         = render 'rating'
 
   - if @course.abstract
-    .panel.panel-default
-      .panel-body
+    .course-details
+      .title
+        = t('courses.abstract')
+      .content
         = raw @course.abstract
   - if @course.description
-    h3
-      = t('courses.description')
-    = raw @course.description
-  h3
-    = t('courses.recommendations')
-  | blablabla
-  h3
-    = t('courses.rating')
-    = link_to new_evaluation_path
-      button.btn.btn-default
-        = t('courses.rate_course')
-  | blablabla
+    .course-details
+      .title
+        = t('courses.description')
+      .content
+        = raw @course.description
+  .course-details
+    .title
+      = t('courses.recommendations')
+    .content
+      | blablabla
+  .course-details
+    .title
+      = t('courses.rating')
+    .content
+      | blablabla
 
 - content_for :sidebar
   = render 'sidebar'
