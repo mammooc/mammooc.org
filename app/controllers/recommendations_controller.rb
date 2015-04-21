@@ -28,20 +28,37 @@ class RecommendationsController < ApplicationController
   # POST /recommendations
   # POST /recommendations.json
   def create
-    @recommendation = Recommendation.new(recommendation_params)
-    @recommendation.author = @current_user
-    user_ids = params[:recommendation][:related_user_ids].split(', ')
-    @recommendation.users += User.where id: user_ids
-    group_ids = params[:recommendation][:related_group_ids].split(', ')
-    @recommendation.groups += Group.where id: group_ids
+    puts '############################################### start create'
     session[:return_to] ||= dashboard_dashboard_path
-    respond_to do |format|
-      if @recommendation.save
-        format.html { redirect_to session.delete(:return_to), notice: t('recommendation.successfully_created') }
-      else
-        format.html { redirect_to :back, notice: t('recommendation.creation_error')}
-      end
+    user_ids = params[:recommendation][:related_user_ids].split(', ')
+    group_ids = params[:recommendation][:related_group_ids].split(', ')
+
+
+    user_ids.each do | user_id |
+      recommendation = Recommendation.new(recommendation_params)
+      recommendation.author = current_user
+      recommendation.users.push(User.find(user_id))
+      recommendation.save!
     end
+
+    group_ids.each do | group_id |
+      recommendation = Recommendation.new(recommendation_params)
+      recommendation.author = current_user
+      recommendation.group = Group.find(group_id)
+      recommendation.group.users.each do | user |
+        recommendation.users.push(user)
+      end
+      recommendation.save!
+    end
+
+    respond_to do |format|
+        format.html { redirect_to session.delete(:return_to), notice: t('recommendation.successfully_created') }
+      end
+
+  rescue ActiveRecord::RecordNotSaved => error
+    flash[:error] = t('recommendation.creation_error')
+    redirect_to root_path
+
   end
 
 
