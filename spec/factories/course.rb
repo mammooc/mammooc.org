@@ -34,7 +34,6 @@ Claudia; “I enjoyed this course so much. It gave me a chance to expand my hori
     difficulty 'medium'
     workload '4-8 hours a week'
     sequence(:provider_course_id ) { |n| "#{n}" }
-    credit_points 6
     open_for_registration true
     provider_given_duration '6 weeks'
     subtitle_languages 'english, german'

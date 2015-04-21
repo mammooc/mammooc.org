@@ -9,6 +9,7 @@ class CreateCourseTracksAndCourseTrackTypesAndAddCourseTracksToCourses < ActiveR
     create_table :course_tracks, id: :uuid do |t|
       t.float :costs
       t.string :costs_currency
+      t.float :credit_points
       t.references :course_track_type, type: 'uuid', index: true
       t.references :course, type: 'uuid', index: true
     end
@@ -21,5 +22,6 @@ class CreateCourseTracksAndCourseTrackTypesAndAddCourseTracksToCourses < ActiveR
     remove_column :courses, :price_currency
     remove_column :courses, :has_free_version
     remove_column :courses, :has_paid_version
+    remove_column :courses, :credit_points
   end
 end

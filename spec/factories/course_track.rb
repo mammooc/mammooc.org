@@ -12,6 +12,7 @@ FactoryGirl.define do
     factory :ects_course_track do
       costs 50.0
       costs_currency 'Euro'
+      credit_points 6.0
       association :track_type, factory: :ects_course_track_type
     end
   end

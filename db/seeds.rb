@@ -67,7 +67,6 @@ Claudia; “I enjoyed this course so much. It gave me a chance to expand my hori
               difficulty: 'medium',
               workload: '4-6 hours per week',
               provider_course_id: 1,
-              credit_points: 6,
               mooc_provider_id: provider1.id,
               previous_iteration_id: minimal_previous_course.id,
               following_iteration_id: minimal_following_course.id

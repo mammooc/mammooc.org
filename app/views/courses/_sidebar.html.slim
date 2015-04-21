@@ -49,24 +49,24 @@
       = t('courses.requirements')
     - @course.requirements.each do |requirement|
       = raw requirement
-  - if @course.type_of_achievement
-    h4
-      = t('courses.achievement')
-    = @course.type_of_achievement
-  - if @course.credit_points
-    h4
-      = t('courses.credit_points')
-    = @course.credit_points
+  /- if @course.type_of_achievement
+  /  h4
+  /    = t('courses.achievement')
+  /  = @course.type_of_achievement
+  /- if @course.credit_points
+  /  h4
+  /    = t('courses.credit_points')
+  /  = @course.credit_points
   - if @course.categories
     h4
       = t('courses.categories')
     - @course.categories.each do |category|
       span.label.label-default
         = category
-  - if @course.costs
-    h4
-      = t('courses.costs') + ':'
-    = @course.costs.to_s + @course.price_currency
+  /- if @course.costs
+  /  h4
+  /    = t('courses.costs') + ':'
+  /  = @course.costs.to_s + @course.price_currency
   - if @course.difficulty
     h4
       = t('courses.difficulty')
