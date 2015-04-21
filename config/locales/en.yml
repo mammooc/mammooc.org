@@ -282,6 +282,10 @@ en:
       link: To legal notice
 
   unauthorized:
+    create:
+      recommendation: You need to be member of a group to create a recommendation.
+    new:
+      recommendation: :unauthorized.create.recommendation
     show:
       group: You do not have access to this group.
     edit:
@@ -308,3 +312,9 @@ en:
       group: :unauthorized.edit.group
     all_members_to_administrators:
       group: :unauthorized.edit.group
+    delete:
+      recommendation: You are not allowed to delete this recommendation.
+    recommendations:
+      group: :unauthorized.show.group
+    index:
+      recommendations: You are not allowed to access any recommendations.

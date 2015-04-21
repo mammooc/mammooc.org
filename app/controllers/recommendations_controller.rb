@@ -1,5 +1,17 @@
 class RecommendationsController < ApplicationController
-  before_action :set_recommendation, only: [:update, :destroy]
+  before_action :set_recommendation, only: [:delete]
+  load_and_authorize_resource only: [:create, :delete, :index, :new]
+
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      request.env["HTTP_REFERER"] ||= dashboard_path
+      format.html { redirect_to :back, alert: t("unauthorized.#{exception.action}.recommendation") }
+      format.json do
+        error = {message: exception.message, action: exception.action, subject: exception.subject.id}
+        render json: error.to_json, status: :unauthorized
+      end
+    end
+  end
 
   # GET /recommendations
   # GET /recommendations.json
@@ -17,10 +29,10 @@ class RecommendationsController < ApplicationController
   # POST /recommendations.json
   def create
     @recommendation = Recommendation.new(recommendation_params)
-    @recommendation.user = @current_user
-    user_ids = params[:recommendation][:related_user_ids].split(',')
+    @recommendation.author = @current_user
+    user_ids = params[:recommendation][:related_user_ids].split(', ')
     @recommendation.users += User.where id: user_ids
-    group_ids = params[:recommendation][:related_group_ids].split(',')
+    group_ids = params[:recommendation][:related_group_ids].split(', ')
     @recommendation.groups += Group.where id: group_ids
     session[:return_to] ||= dashboard_dashboard_path
     respond_to do |format|
@@ -32,25 +44,18 @@ class RecommendationsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /recommendations/1
-  # PATCH/PUT /recommendations/1.json
-  def update
-    respond_to do |format|
-      if @recommendation.update(recommendation_params)
-        format.html { redirect_to :back, notice: t('recommendation.successfully_updated') }
-      else
-        format.html { redirect_to :back, notice: t('recommendation.update_error') }
-      end
-    end
-  end
 
-  # DELETE /recommendations/1
-  # DELETE /recommendations/1.json
-  def destroy
-    @recommendation.destroy
+  def delete
+    if params[:group]
+      @recommendation.groups -= [Group.find(params[:group])]
+    else
+      @recommendation.users -= [current_user]
+    end
+    if @recommendation.users.empty? && @recommendation.groups.empty?
+      @recommendation.destroy
+    end
     respond_to do |format|
       format.html { redirect_to recommendations_url, notice: t('recommendation.successfully_destroyed') }
-      format.json { head :no_content }
     end
   end
 

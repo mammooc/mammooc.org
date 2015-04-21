@@ -32,7 +32,7 @@ Rails.application.routes.draw do
 
   resources :comments
 
-  resources :recommendations, except: [:edit, :show]
+  resources :recommendations, except: [:edit, :show, :update, :destroy]
 
   resources :statistics
 
@@ -62,6 +62,8 @@ Rails.application.routes.draw do
   get 'groups/:id/recommendations' => 'groups#recommendations'
   get 'groups/:id/all_members_to_administrators' => 'groups#all_members_to_administrators'
   get 'impressum' => 'static_pages#impressum'
+  get 'recommendations/:id/delete' => 'recommendations#delete'
+  get 'recommendations/:id/delete/:group' => 'recommendations#delete'
   root :to => 'home#index'
 
   # Courses

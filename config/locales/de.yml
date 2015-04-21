@@ -282,6 +282,10 @@ de:
       link: Zum Impressum
 
   unauthorized:
+    create:
+      recommendation: Du musst Mitglied einer Gruppe sein, um eine Empfehlung zu erstellen.
+    new:
+      recommendation: :unauthorized.create.recommendation
     show:
       group: Sie haben keinen Zugriff auf diese Gruppe.
     edit:
@@ -308,3 +312,9 @@ de:
       group: :unauthorized.edit.group
     all_members_to_administrators:
       group: :unauthorized.edit.group
+    delete:
+      recommendation: Du bist nicht berechtigt diese Empfehlung zu löschen.
+    recommendations:
+      group: :unauthorized.show.group
+    index:
+      recommendations: Du bist nicht berechtigt auf Empfehlungen zuzugreifen.

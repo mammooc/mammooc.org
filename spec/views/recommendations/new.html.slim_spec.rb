@@ -4,7 +4,7 @@ RSpec.describe "recommendations/new", :type => :view do
   before(:each) do
     assign(:recommendation, Recommendation.new(
       :is_obligatory => false,
-      :user => nil,
+      :author => nil,
       :course => nil,
       :text => nil
     ))
