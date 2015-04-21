@@ -1,5 +1,17 @@
 class RecommendationsController < ApplicationController
   before_action :set_recommendation, only: [:delete]
+  load_and_authorize_resource only: [:create, :delete, :index, :new]
+
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      request.env["HTTP_REFERER"] ||= dashboard_path
+      format.html { redirect_to :back, alert: t("unauthorized.#{exception.action}.recommendation") }
+      format.json do
+        error = {message: exception.message, action: exception.action, subject: exception.subject.id}
+        render json: error.to_json, status: :unauthorized
+      end
+    end
+  end
 
   # GET /recommendations
   # GET /recommendations.json

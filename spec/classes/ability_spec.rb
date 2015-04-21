@@ -4,6 +4,7 @@ require 'cancan/matchers'
 RSpec.describe Ability do
   subject(:ability) { Ability.new(user) }
   let(:user) { nil }
+
   describe 'Groups' do
     let (:user) { FactoryGirl.create :user }
     let(:group_without_user) { FactoryGirl.create :group }
@@ -94,4 +95,40 @@ RSpec.describe Ability do
       it { is_expected.to_not be_able_to(:all_members_to_administrators, group_with_user) }
     end
   end
-end
+
+  describe 'Recommendations' do
+    let!(:user) { FactoryGirl.create :user }
+    let!(:second_user) { FactoryGirl.create :user }
+    let!(:third_user) { FactoryGirl.create :user }
+    let!(:group) { FactoryGirl.create :group, users:[second_user]}
+    let!(:group_with_admin) {
+      group = FactoryGirl.create :group, users: [user]
+      UserGroup.set_is_admin(group.id, user.id, true)
+      group
+    }
+    let(:recommendation_of_user) { FactoryGirl.create :recommendation, users: [user] }
+    let(:recommendation_of_group) { FactoryGirl.create :recommendation, groups: [group] }
+    let(:recommendation_of_group_admin) { FactoryGirl.create :recommendation, groups: [group_with_admin] }
+
+    describe 'create' do
+      it { is_expected.to be_able_to(:create, Recommendation.new) }
+    end
+
+    describe 'index' do
+      it { is_expected.to be_able_to(:index, Recommendation.new) }
+    end
+
+    describe 'delete' do
+      it { is_expected.to be_able_to(:delete, recommendation_of_user) }
+      it { is_expected.to_not be_able_to(:delete, recommendation_of_group)}
+      it { is_expected.to be_able_to(:delete, recommendation_of_group_admin)}
+    end
+
+    describe 'create as user without groups' do
+      subject(:ability) { Ability.new(third_user) }
+      it { is_expected.to_not be_able_to(:create, Recommendation.new) }
+    end
+
+  end
+
+  end

@@ -6,7 +6,11 @@ RSpec.describe RecommendationsController, :type => :controller do
   let(:second_user) {FactoryGirl.create(:user)}
   let(:third_user) {FactoryGirl.create(:user)}
 
-  let(:group) {FactoryGirl.create(:group)}
+  let(:group) {
+    group = FactoryGirl.create :group, users: [user]
+    UserGroup.set_is_admin(group.id, user.id, true)
+    group
+  }
   let(:second_group) {FactoryGirl.create(:group)}
 
   let(:course) {FactoryGirl.create(:course)}
