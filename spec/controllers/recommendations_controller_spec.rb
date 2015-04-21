@@ -6,7 +6,7 @@ RSpec.describe RecommendationsController, :type => :controller do
   let(:second_user) {FactoryGirl.create(:user)}
   let(:third_user) {FactoryGirl.create(:user)}
 
-  let(:group) {
+  let!(:group) {
     group = FactoryGirl.create :group, users: [user]
     UserGroup.set_is_admin(group.id, user.id, true)
     group
@@ -18,6 +18,7 @@ RSpec.describe RecommendationsController, :type => :controller do
   let(:valid_model_attributes) { {author: second_user, is_obligatory: false, groups: [group, second_group], users: [user, third_user], course: course} }
   let(:valid_controller_attributes_group) { {author: user, is_obligatory: false, related_group_ids: "#{group.id}", related_user_ids: "", course_id: course.id} }
   let(:valid_controller_attributes_user) { {author: user, is_obligatory: false, related_user_ids: "#{second_user.id}", related_group_ids: "", course_id: course.id} }
+  let(:valid_controller_attributes_multiple_users) { {author: user, is_obligatory: false, related_group_ids: "", related_user_ids: "#{second_user.id}, #{third_user.id}", course_id: course.id} }
   let(:valid_controller_attributes_multiple) { {author: user, is_obligatory: false, related_group_ids: "#{group.id}, #{second_group.id}", related_user_ids: "#{second_user.id}, #{third_user.id}", course_id: course.id} }
 
   before(:each) do
@@ -47,7 +48,7 @@ RSpec.describe RecommendationsController, :type => :controller do
 
     it "redirects to dashboard" do
       post :create, {:recommendation => valid_controller_attributes_user}
-      expect(response).to redirect_to dashboard_path
+      expect(response).to redirect_to dashboard_dashboard_path
     end
 
     it "adds relations to specified groups" do
@@ -57,13 +58,14 @@ RSpec.describe RecommendationsController, :type => :controller do
     end
 
     it "adds relations to specified users" do
-      post :create, {:recommendation => valid_controller_attributes_multiple}
-      expect(assigns(:recommendation).users).to match_array([second_user, third_user])
+      post :create, {:recommendation => valid_controller_attributes_multiple_users}
+      expect(Recommendation.first.users).to match_array([third_user])
+      expect(Recommendation.last.users).to match_array([second_user])
     end
 
     it "adds relations to specified course" do
       post :create, {:recommendation => valid_controller_attributes_group}
-      expect(assigns(:recommendation).course).to eql course
+      expect(Recommendation.last.course).to eql course
     end
 
     it "should create one recommendation for each specified user or group" do
@@ -74,7 +76,7 @@ RSpec.describe RecommendationsController, :type => :controller do
 
   describe "GET DELETE" do
     it "should destroy the requested recommendation of current user" do
-      recommendation = FactoryGirl.create(:recommendation, users: [user])
+      recommendation = FactoryGirl.create(:recommendation, users: [user], group: nil)
       expect {
         get :delete, {:id => recommendation.to_param}
       }.to change(Recommendation, :count).by(-1)
@@ -88,19 +90,11 @@ RSpec.describe RecommendationsController, :type => :controller do
     end
 
     it "should remove current user from recommendation but do not delete recommendation" do
-      recommendation = FactoryGirl.create(:recommendation, users: [user, second_user])
+      recommendation = FactoryGirl.create(:recommendation, users: [user, second_user], group: nil)
       expect {
         get :delete, {:id => recommendation.to_param}
       }.to change(Recommendation, :count).by(0)
       expect(Recommendation.find(recommendation.id).users).to match_array([second_user])
-    end
-
-    it "should remove specified group from recommendation but do not delete recommendation" do
-      recommendation = FactoryGirl.create(:recommendation, users: [user], group: group)
-      expect {
-        get :delete, id: recommendation.to_param, group: group.id
-      }.to change(Recommendation, :count).by(0)
-      expect(Recommendation.find(recommendation.id).users).to match_array([user])
     end
   end
 end

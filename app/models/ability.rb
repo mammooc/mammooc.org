@@ -18,17 +18,22 @@ class Ability
 
     #Recommendations
     can [:create], Recommendation do
-      !user.groups.empty?
+      user.groups.any?
     end
+
     can [:delete], Recommendation do |recommendation|
-      is_admin = false
-      (recommendation.groups & user.groups).each do |group|
-        unless UserGroup.where(group_id: group.id, user_id: user.id, is_admin: true).empty?
-          is_admin = true
+      if recommendation.group.present?
+        usergroup = UserGroup.find_by(user_id: user.id, group_id: recommendation.group.id)
+        if usergroup
+          usergroup.is_admin == true
+        else
+          false
         end
+      else
+        recommendation.users.include? user
       end
-      (recommendation.users.include? user) || is_admin
     end
+
     can [:index], Recommendation
 
   end

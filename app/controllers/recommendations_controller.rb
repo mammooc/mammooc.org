@@ -63,11 +63,11 @@ class RecommendationsController < ApplicationController
 
   def delete
     if params[:group]
-      @recommendation.groups -= [Group.find(params[:group])]
+      @recommendation.destroy
     else
       @recommendation.users -= [current_user]
     end
-    if @recommendation.users.empty? && @recommendation.groups.empty?
+    if @recommendation.users.empty? && @recommendation.group.blank?
       @recommendation.destroy
     end
     respond_to do |format|
