@@ -16,7 +16,7 @@ class RecommendationsController < ApplicationController
   # GET /recommendations
   # GET /recommendations.json
   def index
-    @recommendations = Recommendation.sorted_recommendations_for(current_user, current_user.groups, nil)
+    @recommendations = current_user.recommendations.sort_by { |recommendation| recommendation.created_at}.reverse!
   end
 
   # GET /recommendations/new

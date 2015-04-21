@@ -15,7 +15,7 @@ RSpec.describe RecommendationsController, :type => :controller do
 
   let(:course) {FactoryGirl.create(:course)}
 
-  let(:valid_model_attributes) { {author: second_user, is_obligatory: false, groups: [group, second_group], users: [user, third_user], course: course} }
+  let(:valid_model_attributes) { {author: second_user, is_obligatory: false, group: group, users: [user, third_user], course: course} }
   let(:valid_controller_attributes_group) { {author: user, is_obligatory: false, related_group_ids: "#{group.id}", related_user_ids: "", course_id: course.id} }
   let(:valid_controller_attributes_user) { {author: user, is_obligatory: false, related_user_ids: "#{second_user.id}", related_group_ids: "", course_id: course.id} }
   let(:valid_controller_attributes_multiple_users) { {author: user, is_obligatory: false, related_group_ids: "", related_user_ids: "#{second_user.id}, #{third_user.id}", course_id: course.id} }
@@ -29,7 +29,7 @@ RSpec.describe RecommendationsController, :type => :controller do
     it "assigns all recommendations as @recommendations" do
       recommendation = Recommendation.create! valid_model_attributes
       get :index, {}
-      expect(assigns(:recommendations)[0][0]).to eq(recommendation)
+      expect(assigns(:recommendations)).to eq([recommendation])
     end
   end
 
@@ -59,8 +59,9 @@ RSpec.describe RecommendationsController, :type => :controller do
 
     it "adds relations to specified users" do
       post :create, {:recommendation => valid_controller_attributes_multiple_users}
-      expect(Recommendation.first.users).to match_array([third_user])
-      expect(Recommendation.last.users).to match_array([second_user])
+      Recommendation.all.each do |recommendation|
+        expect(recommendation.users & [third_user, second_user]).not_to be_blank
+      end
     end
 
     it "adds relations to specified course" do

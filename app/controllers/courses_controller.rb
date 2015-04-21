@@ -20,14 +20,14 @@ class CoursesController < ApplicationController
 
     # RECOMMENDATIONS
     if user_signed_in?
-      @recommendations = Recommendation.sorted_recommendations_for(current_user, current_user.groups, @course)
+      @recommendations = Recommendation.sorted_recommendations_for_course_and_user(@course, current_user)
       @recommended_by = []
       @pledged_by = []
-      @recommendations.each do |recommendation_array|
-        if recommendation_array[0].is_obligatory
-          @pledged_by.push(recommendation_array[0].user)
+      @recommendations.each do |recommendation|
+        if recommendation.is_obligatory
+          @pledged_by.push(recommendation.user)
         else
-          @recommended_by.push(recommendation_array[0].user)
+          @recommended_by.push(recommendation.user)
         end
       end
     end
