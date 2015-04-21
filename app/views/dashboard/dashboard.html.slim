@@ -11,7 +11,7 @@
     = t('recommendation.no_recommendation')
   - else
     .recommendations-wrapper
-      - @recommendations.each_with_index do |recommendation_array, index|
-        = render 'recommendations/recommendation', recommendation: recommendation_array[0], group: recommendation_array[1], context_is_group: false, id: "recommendation_number_#{index}"
+      - @recommendations.each_with_index do |recommendation, index|
+        = render 'recommendations/user_recommendation', recommendation: recommendation, id: "recommendation_number_#{index}"
 
 = render 'sidebar'

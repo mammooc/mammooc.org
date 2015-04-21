@@ -26,7 +26,7 @@ RSpec.describe "dashboard/dashboard.html.slim", :type => :view do
                       FactoryGirl.create(:full_course),
                       FactoryGirl.create(:full_course)
                    ])
-    @recommendations = [[recommendation, nil]]
+    @recommendations = [recommendation]
     sign_in user
     user.courses << course
     user.courses << second_course
