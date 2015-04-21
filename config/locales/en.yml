@@ -175,6 +175,8 @@ en:
     recommend_course: Recommend Course
     rate_course: Rate Course
     recommendations: Recommendations
+    user_belongs_to_group: 'Group: '
+    user_belongs_to_groups: 'Groups: '
     rating: Rating
     credit_points: Credit Points
     no_dates_available: There are no dates available.

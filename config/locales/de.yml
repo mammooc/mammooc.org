@@ -175,6 +175,8 @@ de:
     recommend_course: Kurs empfehlen
     rate_course: Kurs bewerten
     recommendations: Empfehlungen
+    user_belongs_to_group: 'Gruppe: '
+    user_belongs_to_groups: 'Gruppen: '
     rating: Bewertung
     credit_points: Leistungspunkte
     no_dates_available: Es sind keine Daten vorhanden.
