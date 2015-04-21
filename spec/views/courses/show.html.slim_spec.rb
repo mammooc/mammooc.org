@@ -13,9 +13,6 @@ RSpec.describe "courses/show", :type => :view do
       :imageId => "Image",
       :videoId => "Video",
       :provider_given_duration => "Duration",
-      :costs => "Costs",
-      :price_currency => "€",
-      :type_of_achievement => "Type Of Achievement",
       :categories => "Categories",
       :difficulty => "Difficulty",
       :requirements => "Requirements",
@@ -26,7 +23,7 @@ RSpec.describe "courses/show", :type => :view do
       :start_date => DateTime.new(2015,9,3,9),
       :end_date => DateTime.new(2015,10,3,9),
       :mooc_provider_id => moocProvider.id,
-      :has_free_version => true
+      :tracks => [FactoryGirl.create(:course_track)]
     ))
   end
 
@@ -42,8 +39,6 @@ RSpec.describe "courses/show", :type => :view do
     expect(rendered).to match(//)
     expect(view.content_for(:sidebar)).to match(/Difficulty/)
     expect(view.content_for(:sidebar)).to match(/Course Instructor/)
-    expect(view.content_for(:sidebar)).to match(/Costs/)
-    expect(view.content_for(:sidebar)).to match(/Type Of Achievement/)
     expect(view.content_for(:sidebar)).to match(/Categories/)
     expect(view.content_for(:sidebar)).to match(/Requirements/)
     expect(view.content_for(:sidebar)).to match(/Workload/)

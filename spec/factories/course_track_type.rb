@@ -8,13 +8,13 @@ FactoryGirl.define do
     factory :certificate_course_track_type do
       title 'Certificate'
       description 'You get a certificate.'
-      record_of_achievement 'certificate'
+      type_of_achievement 'certificate'
     end
 
     factory :ects_course_track_type do
       title 'ECTS'
       description 'You get ECTS points.'
-      record_of_achievement 'ects'
+      type_of_achievement 'ects'
     end
   end
 end
