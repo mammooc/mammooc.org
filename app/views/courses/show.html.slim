@@ -86,13 +86,18 @@
       = link_to new_bookmark_path
         .entry
           = t('courses.remember_course')
-      - if current_user.courses.include? @course
-        a href='' id='unenroll-course-link'
-          .entry data-course-id='#{@course.id}'
-            = t('courses.unenroll_course')
+      - if user_signed_in?
+        - if current_user.courses.include? @course
+          a href='' id='unenroll-course-link'
+            .entry data-course-id='#{@course.id}'
+              = t('courses.unenroll_course')
+        - else
+          a href='' id='enroll-course-link'
+            .entry data-course-id='#{@course.id}'
+              = t('courses.enroll_course')
       - else
-        a href='' id='enroll-course-link'
-          .entry data-course-id='#{@course.id}'
+        = link_to new_user_session_path
+          .entry
             = t('courses.enroll_course')
       div role="tab" id="courses-subnav-recommend"
         a data-toggle="collapse" href="#recommend-course" id="recommend-course-link" aria-expanded="false" aria-controls="recommend-course"

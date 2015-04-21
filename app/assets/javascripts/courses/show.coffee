@@ -34,11 +34,10 @@ enrollCourse = (event) ->
     success: (data, textStatus, jqXHR) ->
       console.log('success_status')
       if data.status == true
-        $(event.target).parent().off("click","#enroll-course-link")
         $(event.target).text(I18n.t('courses.unenroll_course'))
-        $(event.target).parent().attr("id","unenroll-course-link")
-        $(event.target).parent().on("click","#unenroll-course-link",unenrollCourse)
-
+                       .parent().unbind('click')
+                                .attr('id','unenroll-course-link')
+                                .on 'click', (event) -> unenrollCourse(event)
   event.preventDefault()
 
 unenrollCourse = (event) ->
@@ -53,9 +52,8 @@ unenrollCourse = (event) ->
     success: (data, textStatus, jqXHR) ->
       console.log('success_status')
       if data.status == true
-        $(event.target).parent().off("click","#unenroll-course-link")
         $(event.target).text(I18n.t('courses.enroll_course'))
-        $(event.target).parent().attr("id","enroll-course-link")
-        $(event.target).parent().on("click","#enroll-course-link",enrollCourse)
-
+                       .parent().unbind('click')
+                                .attr('id','enroll-course-link')
+                                .on 'click', (event) -> enrollCourse(event)
   event.preventDefault()

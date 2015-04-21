@@ -19,4 +19,23 @@ module ConnectorMapper extend ActiveSupport::Concern
     end
   end
 
+  def get_worker_by_mooc_provider mooc_provider
+    case mooc_provider.name
+      when 'openHPI'
+        return OpenHPIUserWorker
+      when 'openSAP'
+        return OpenSAPUserWorker
+      when 'openHPI China'
+        return OpenHPIChinaUserWorker
+      when 'openSAP China'
+        return OpenSAPChinaUserWorker
+      when 'mooc.house'
+        return MoocHouseUserWorker
+      when 'openUNE'
+        return OpenUNEUserWorker
+      else
+        return nil
+    end
+  end
+
 end

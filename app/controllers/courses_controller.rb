@@ -79,7 +79,8 @@ class CoursesController < ApplicationController
       if provider_connector.present?
         @has_enrolled = provider_connector.enroll_user_for_course current_user, @course.id
         if @has_enrolled
-          provider_connector.load_user_data [current_user]
+          provider_worker = get_worker_by_mooc_provider @course.mooc_provider
+          provider_worker.perform_async([current_user.id])
         end
       end
     end
@@ -89,7 +90,8 @@ class CoursesController < ApplicationController
     if provider_connector.present?
       @has_unenrolled = provider_connector.unenroll_user_for_course current_user, @course.id
       if @has_unenrolled
-        provider_connector.load_user_data [current_user]
+        provider_worker = get_worker_by_mooc_provider @course.mooc_provider
+        provider_worker.perform_async([current_user.id])
       end
     end
   end
