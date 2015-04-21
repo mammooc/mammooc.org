@@ -41,7 +41,7 @@ class IversityCourseWorker < AbstractCourseWorker
         end
       end
 
-      course.type_of_achievement =
+      #course.type_of_achievement =
     end
     puts update_map.inspect
     evaluate_update_map update_map

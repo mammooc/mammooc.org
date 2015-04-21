@@ -16,20 +16,29 @@ MoocProvider.create(name: 'openSAP China')
 MoocProvider.create(name: 'openUNE')
 MoocProvider.create(name: 'iversity')
 
+signature_track_type = CourseTrackType.create(title: 'Signature',
+                                         description: 'You get a record of Achievement.',
+                                         type_of_achievement: 'record_of_achievement')
+certificate_track_type = CourseTrackType.create(title: 'Certificate',
+                                                 description: 'You get a certificate.',
+                                                 type_of_achievement: 'certificate')
+ects_track_type = CourseTrackType.create(title: 'ECTS',
+                                          description: 'You get ECTS points.',
+                                          type_of_achievement: 'ects')
+
 minimal_previous_course = Course.create(name: 'Minimal Previous Technologies',
               url: 'https://open.hpi.de/courses/pythonjunior2015',
               provider_course_id: 2,
-              mooc_provider_id: provider1.id,
-              has_free_version: true
-
+              mooc_provider_id: provider1.id
 )
+minimal_previous_course.tracks.push(CourseTrack.new(track_type: signature_track_type))
 
 minimal_following_course = Course.create(name: 'Minimal Following Technologies',
                                         url: 'https://open.hpi.de/courses/pythonjunior2015',
                                         provider_course_id: 2,
-                                        mooc_provider_id: provider1.id,
-                                        has_paid_version: true
+                                        mooc_provider_id: provider1.id
 )
+minimal_following_course.tracks.push(CourseTrack.new(track_type: signature_track_type))
 
 full_course = Course.create(name: 'Web Technologies',
               url: 'https://open.hpi.de/courses/webtech2015',
@@ -53,9 +62,6 @@ Claudia; “I enjoyed this course so much. It gave me a chance to expand my hori
               start_date: DateTime.new(2015,6,1,8),
               end_date: DateTime.new(2015,7,20,23,30),
               provider_given_duration: '8 weeks',
-              costs: 10,
-              price_currency: '€',
-              type_of_achievement:'Certificate',
               categories: ['Web','Technologies','Computer Science','#geilon'],
               requirements: %w[Computer Brain Strength],
               difficulty: 'medium',
@@ -64,10 +70,11 @@ Claudia; “I enjoyed this course so much. It gave me a chance to expand my hori
               credit_points: 6,
               mooc_provider_id: provider1.id,
               previous_iteration_id: minimal_previous_course.id,
-              following_iteration_id: minimal_following_course.id,
-              has_paid_version: true,
-              has_free_version: true
+              following_iteration_id: minimal_following_course.id
 )
+full_course.tracks.push(CourseTrack.new(track_type: signature_track_type))
+full_course.tracks.push(CourseTrack.new(track_type: certificate_track_type, costs: 20.0, costs_currency: '€'))
+full_course.tracks.push(CourseTrack.new(track_type: ects_track_type, costs: 50.0, costs_currency: '€'))
 
 
 user1 =User.create(first_name: 'Max', last_name: 'Mustermann', email: 'max@test.com', password: '12345678')
