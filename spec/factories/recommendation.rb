@@ -2,7 +2,7 @@ FactoryGirl.define do
 
   factory :recommendation do
     is_obligatory false
-    user {FactoryGirl.create(:user)}
+    author {FactoryGirl.create(:user)}
     course {FactoryGirl.create(:course)}
     text  'Great Course!'
     users {[FactoryGirl.create(:user), FactoryGirl.create(:user)]}

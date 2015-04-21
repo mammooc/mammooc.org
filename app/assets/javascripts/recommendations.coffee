@@ -2,10 +2,46 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+ready = ->
+  $('.remove-recommendation-group').click(delete_group_from_recommendation)
+  $('.remove-recommendation-current-user').click(delete_user_from_recommendation)
+  return
+
+$(document).ready(ready)
+
+delete_group_from_recommendation = () ->
+  group_id = $(this).data('group_id')
+  recommendation_id = $(this).data('recommendation_id')
+  recommendation = $(this).parent()
+
+  $.ajax
+    url: "/recommendations/#{recommendation_id}/delete/#{group_id}"
+    method: 'GET'
+    error: (jqXHR, textStatus, errorThrown) ->
+      console.log('group delete recommendation error')
+    success: (data, textStatus, jqXHR) ->
+      console.log('group delete recommendation success')
+      recommendation.remove()
+
+
+delete_user_from_recommendation = () ->
+  recommendation_id = $(this).data('recommendation_id')
+  recommendation = $(this).parent()
+
+  $.ajax
+    url: "/recommendations/#{recommendation_id}/delete"
+    method: 'GET'
+    error: (jqXHR, textStatus, errorThrown) ->
+      console.log('user delete recommendation error')
+    success: (data, textStatus, jqXHR) ->
+      console.log('user delete recommendation success')
+      recommendation.remove()
+
 group_ids = []
 groups_autocomplete = []
 users_autocomplete = []
 courses_autocomplete = []
+
 
 generate_groups_autocomplete = () ->
   get_my_groups()

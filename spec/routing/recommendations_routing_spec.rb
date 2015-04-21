@@ -14,14 +14,5 @@ RSpec.describe RecommendationsController, :type => :routing do
     it "routes to #create" do
       expect(:post => "/recommendations").to route_to("recommendations#create")
     end
-
-    it "routes to #update" do
-      expect(:put => "/recommendations/1").to route_to("recommendations#update", :id => "1")
-    end
-
-    it "routes to #destroy" do
-      expect(:delete => "/recommendations/1").to route_to("recommendations#destroy", :id => "1")
-    end
-
   end
 end
