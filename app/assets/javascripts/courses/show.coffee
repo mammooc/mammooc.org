@@ -4,6 +4,7 @@ ready = ->
   $('.collapse').on('hidden.bs.collapse', removeActiveClass)
   $('#recommend-course-link').click(toggleAccordion)
   $('#rate-course-link').click(toggleAccordion)
+  $('#showmore.show-more').click(showMore)
   return
 
 $(document).ready(ready)
@@ -19,4 +20,15 @@ addActiveClass = (event) ->
 
 toggleAccordion = (event) ->
   $('.collapse').collapse('hide')
-  
+
+showMore = () ->
+  $('#showmore').parent().css('height', 'auto')
+  $('#showmore').removeClass('show-more')
+  $('#showmore').addClass('show-less')
+  $('#showmore.show-less').click(showLess)
+
+showLess = () ->
+  $('.show-less').parent().css('height', '250px')
+  $('.show-less').parent().children('a').addClass('show-more')
+  $('.show-more').parent().children('a').removeClass('show-less')
+  $('#showmore.show-more').click(showMore)

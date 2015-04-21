@@ -30,9 +30,4 @@ RSpec.describe "courses/show", :type => :view do
     ))
   end
 
-  it "renders attributes in <p>" do
-    render
-    expect(view.content_for(:content)).to match(/Name/)
-    expect(view.content_for(:sidebar)).to match(/Difficulty/)
-  end
 end

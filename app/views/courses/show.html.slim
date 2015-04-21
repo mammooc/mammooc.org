@@ -62,10 +62,21 @@
 
   - if @course.abstract
     .course-details
-      .title
-        | Abstract
-      .content
-        = raw @course.abstract
+      .about
+        .title
+          | About
+        .content
+          - if @course.abstract
+            = raw @course.abstract
+          - if @course.description
+            = t('courses.description')
+            br
+            = raw @course.description
+        a class="show-more" id="showmore"
+          // &8744;
+          | Show more
+
+
   - if @course.description
     .course-details
       .title
