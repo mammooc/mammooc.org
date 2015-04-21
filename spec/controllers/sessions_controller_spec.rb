@@ -19,7 +19,7 @@ RSpec.describe Users::SessionsController, :type => :controller do
     expect(subject.signed_in?).to be_truthy
   end
   it "should not work without valid terms and conditions" do
-    expect{post :create, { user: { email: 'nosuchuser@example.com', password: '123456789'}}}.to raise_error(UncaughtThrowError)
+    post :create, { user: { email: 'nosuchuser@example.com', password: '123456789'}}
     expect(subject.signed_in?).to be_falsey
   end
 end
