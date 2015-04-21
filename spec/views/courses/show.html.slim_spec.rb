@@ -2,8 +2,6 @@ require 'rails_helper'
 
 RSpec.describe "courses/show", :type => :view do
 
-  let(:user) {FactoryGirl.create(:user)}
-
   before(:each) do
     moocProvider = MoocProvider.create(name: 'testProvider')
     @course = assign(:course, Course.create!(
@@ -31,7 +29,6 @@ RSpec.describe "courses/show", :type => :view do
       :mooc_provider_id => moocProvider.id,
       :has_free_version => true
     ))
-    sign_out user
   end
 
   it "renders attributes in <p>" do
