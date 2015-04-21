@@ -1,8 +1,8 @@
 class Recommendation < ActiveRecord::Base
   belongs_to :author, class_name: "User"
   belongs_to :course
+  belongs_to :group
   has_many :comments
-  has_and_belongs_to_many :groups
   has_and_belongs_to_many :users
 
   def self.sorted_recommendations_for(user, groups, course)
