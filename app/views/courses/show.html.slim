@@ -9,7 +9,8 @@
         = image_tag(@course.imageId)
       .content
         .title
-          = @course.name
+          = link_to @course.url, target: "_blank"
+            = @course.name
         // TODO : Include Rating (stars + number of ratings)
         = t('global.by')
         = @course.course_instructors
@@ -62,7 +63,7 @@
   - if @course.abstract
     .course-details
       .title
-        = t('courses.abstract')
+        | Abstract
       .content
         = raw @course.abstract
   - if @course.description
@@ -72,7 +73,7 @@
       .content
         = raw @course.description
 
-  .course-details
+  .course-details id="recommendations"
     .title
       = t('courses.recommendations')
     .content

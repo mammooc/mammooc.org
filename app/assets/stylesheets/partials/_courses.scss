@@ -27,6 +27,11 @@ $course-img-height: 250px;
          font-weight: 400;
          font-size: 20px;
          padding-bottom: 10px;
+
+         a {
+           color: $text-color;
+           &:hover { text-decoration: none; }
+         }
        }
      }
 

@@ -3,11 +3,10 @@
 $user-picture-size: 50px;
 
 .recommendation-small {
-  padding: 20px 10px 10px 10px;
+  padding-top: 5px;
 
   .user-info {
     min-height: $user-picture-size;
-    margin-bottom: 10px;
 
     img {
       width: $user-picture-size;
@@ -17,7 +16,6 @@ $user-picture-size: 50px;
 
     .name {
       display: inline-block;
-      height: $user-picture-size;
       line-height: 16px;
       font-size: 12px;
       font-weight: 300;
@@ -42,7 +40,8 @@ $user-picture-size: 50px;
 }
 
 .course-details > .content > .gradient-divider {
-  margin: 0px 10px;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 // How to show recommendations on dashboard / group dashboard
