@@ -42,25 +42,18 @@ RSpec.describe RecommendationsController, :type => :controller do
 
   describe "POST create" do
     it "creates a new Recommendation" do
-      expect {
-        post :create, {:recommendation => valid_controller_attributes_user}
-      }.to change(Recommendation, :count).by(1)
-    end
-
-    it "assigns a newly created recommendation as @recommendation" do
-      post :create, {:recommendation => valid_controller_attributes_user}
-      expect(assigns(:recommendation)).to be_a(Recommendation)
-      expect(assigns(:recommendation)).to be_persisted
+      expect { post :create, {:recommendation => valid_controller_attributes_user} }.to change(Recommendation, :count).by(1)
     end
 
     it "redirects to dashboard" do
       post :create, {:recommendation => valid_controller_attributes_user}
-      expect(response).to redirect_to dashboard_dashboard_path
+      expect(response).to redirect_to dashboard_path
     end
 
     it "adds relations to specified groups" do
       post :create, {:recommendation => valid_controller_attributes_group}
-      expect(assigns(:recommendation).group).to eq group
+      expect(Recommendation.last.group).to eq group
+      expect(Recommendation.last.users).to match_array(group.users)
     end
 
     it "adds relations to specified users" do
@@ -72,6 +65,11 @@ RSpec.describe RecommendationsController, :type => :controller do
       post :create, {:recommendation => valid_controller_attributes_group}
       expect(assigns(:recommendation).course).to eql course
     end
+
+    it "should create one recommendation for each specified user or group" do
+      expect { post :create, {:recommendation => valid_controller_attributes_multiple}}.to change(Recommendation, :count).by(4)
+    end
+
   end
 
   describe "GET DELETE" do

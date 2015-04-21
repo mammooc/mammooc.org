@@ -28,7 +28,6 @@ class RecommendationsController < ApplicationController
   # POST /recommendations
   # POST /recommendations.json
   def create
-    puts '############################################### start create'
     session[:return_to] ||= dashboard_dashboard_path
     user_ids = params[:recommendation][:related_user_ids].split(', ')
     group_ids = params[:recommendation][:related_group_ids].split(', ')
