@@ -68,7 +68,10 @@ Rails.application.routes.draw do
   get 'courses' => 'courses#index'
   get 'courses/index'
   get 'courses/:id' => 'courses#show', as: 'course'
-  
+  get 'courses/:id/enroll_course' => 'courses#enroll_course'
+  get 'courses/:id/unenroll_course' => 'courses#unenroll_course'
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -27,6 +27,15 @@ class Course < ActiveRecord::Base
     end
   end
 
+  def self.get_provider_course_id_by_course_id(course_id)
+    course = Course.find(course_id)
+    if course.present?
+      return course.provider_course_id
+    else
+      return nil
+    end
+  end
+
   private
 
   def has_free_version_or_has_paid_version

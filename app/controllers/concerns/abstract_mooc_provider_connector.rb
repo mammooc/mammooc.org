@@ -6,6 +6,10 @@ class AbstractMoocProviderConnector
     raise NotImplementedError
   end
 
+  def enroll_user_for_course user, course_id
+    raise NotImplementedError
+  end
+
   def load_user_data users
     if users.blank?
       User.find_each do |user|
@@ -21,6 +25,7 @@ class AbstractMoocProviderConnector
       end
     end
   end
+
 
   private
 

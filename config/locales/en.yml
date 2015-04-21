@@ -171,7 +171,8 @@ en:
     workload: Workload
     enter_course: Enter Course
     remember_course: Remember Course
-    enroll_course: Mark course as booked
+    enroll_course: Enroll me for this Course
+    unenroll_course: Un-enroll me for this Course
     recommend_course: Recommend Course
     rate_course: Rate Course
     recommendations: Recommendations
