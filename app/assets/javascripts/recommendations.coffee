@@ -10,7 +10,6 @@ ready = ->
 $(document).ready(ready)
 
 delete_group_from_recommendation = () ->
-  console.log('delete group')
   group_id = $(this).data('group_id')
   recommendation_id = $(this).data('recommendation_id')
   recommendation = $(this).parent()
@@ -26,9 +25,7 @@ delete_group_from_recommendation = () ->
 
 
 delete_user_from_recommendation = () ->
-  console.log('delete user')
   recommendation_id = $(this).data('recommendation_id')
-  console.log(recommendation_id)
   recommendation = $(this).parent()
 
   $.ajax
@@ -141,6 +138,3 @@ generate_course_autocomplete = () ->
         console.log('group id success')
         group_name = data.name
         $('#recommendation_related_group_ids').tokenfield('setTokens', [{value: group_id, label: group_name}])
-
-
-
