@@ -31,12 +31,12 @@ showMore = () ->
   $('#course-description-show-more').parent().css('max-height', 'none')
   $('#course-description-show-more').removeClass('show-more')
   $('#course-description-show-more').addClass('show-less')
-  $('#course-description-show-more').text('^ Show less ^')
+  $('#course-description-show-more').text(I18n.t('global.show_less'))
   $('#course-description-show-more.show-less').click(showLess)
 
 showLess = () ->
   $('.show-less').parent().css('max-height', '250px')
   $('.show-less').parent().children('a').addClass('show-more')
-  $('#course-description-show-more').text('v Show more v')
+  $('#course-description-show-more').text(I18n.t('global.show_more'))
   $('.show-more').parent().children('a').removeClass('show-less')
   $('#course-description-show-more.show-more').click(showMore)

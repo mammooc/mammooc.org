@@ -26,6 +26,8 @@ en:
     submit: Submit
     cancel: Cancel
     by: 'by '
+    show_more: Show more
+    show_less: Show less
 
   navbar:
     mammooc: mammooc

@@ -37,20 +37,16 @@
       .options
         img src="/data/logo-openSAP.png"
     .subnav
-      = link_to new_bookmark_path
-        .entry
-          = t('courses.remember_course')
-      = link_to '#'
-        .entry
-          = t('courses.enroll_course')
+      a class="entry" href=''
+        = t('courses.remember_course')
+      a class="entry" href=''
+        = t('courses.enroll_course')
       div role="tab" id="courses-subnav-recommend"
-        a data-toggle="collapse" href="#recommend-course" id="recommend-course-link" aria-expanded="false" aria-controls="recommend-course"
-          .entry
-            = t('courses.recommend_course')
+        a class="entry" data-toggle="collapse" href="#recommend-course" id="recommend-course-link" aria-expanded="false" aria-controls="recommend-course"
+          = t('courses.recommend_course')
       div role="tab" id="courses-subnav-rate"
-        a data-toggle="collapse" href="#rate-course" id="rate-course-link" aria-expanded="false" aria-controls="rate-course"
-          .entry
-            = t('courses.rate_course')
+        a class="entry" data-toggle="collapse" href="#rate-course" id="rate-course-link" aria-expanded="false" aria-controls="rate-course"
+          = t('courses.rate_course')
 
     .collapse id="recommend-course" role="tabpanel" aria-labelledby="courses-subnav-recommend"
       .collapse-subnav
@@ -60,7 +56,7 @@
       .collapse-subnav
         = render 'rating'
 
-  - if @course.abstract
+  - if @course.abstract or @course.description
     .course-details id="course-description"
       .about
         .title
@@ -77,7 +73,7 @@
             p
               = raw @course.description
         a class="show-more" id="course-description-show-more" style="display: none"
-          | v Show more v
+          = t('global.show_more')
 
   .course-details id="course-recommendations"
     .title

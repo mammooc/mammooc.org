@@ -26,6 +26,8 @@ de:
     submit: Absenden
     cancel: Abbrechen
     by: 'von '
+    show_more: Mehr anzeigen
+    show_less: Weniger anzeigen
 
   navbar:
     mammooc: mammooc
