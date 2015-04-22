@@ -106,10 +106,10 @@ RSpec.describe Ability do
       UserGroup.set_is_admin(group.id, user.id, true)
       group
     }
-    let(:recommendation_of_user) { FactoryGirl.create :recommendation, users: [user], group: nil }
-    let(:recommendation_of_another_user) { FactoryGirl.create :recommendation, users: [second_user], group: nil }
-    let(:recommendation_of_group) { FactoryGirl.create :recommendation, group: group, users: [] }
-    let(:recommendation_of_group_admin) { FactoryGirl.create :recommendation, group: group_with_admin, users: [] }
+    let(:recommendation_of_user) { FactoryGirl.create :user_recommendation, users: [user] }
+    let(:recommendation_of_another_user) { FactoryGirl.create :user_recommendation, users: [second_user] }
+    let(:recommendation_of_group) { FactoryGirl.create :group_recommendation, group: group }
+    let(:recommendation_of_group_admin) { FactoryGirl.create :group_recommendation, group: group_with_admin }
 
     describe 'create' do
       it { is_expected.to be_able_to(:create, Recommendation.new) }

@@ -6,7 +6,7 @@ RSpec.describe "groups/show", :type => :view do
   let(:group_admins) { group.users }
   let(:group_users) { group.users }
   let(:ordered_group_members) { group.users }
-  let(:recommendation) { FactoryGirl.create(:recommendation, group: group) }
+  let(:recommendation) { FactoryGirl.create(:group_recommendation, group: group) }
 
   before(:each) do
     @group = group

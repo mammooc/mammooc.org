@@ -77,14 +77,14 @@ RSpec.describe RecommendationsController, :type => :controller do
 
   describe "delete user from recommendation" do
     it "should destroy the requested recommendation of current user" do
-      recommendation = FactoryGirl.create(:recommendation, users: [user], group: nil)
+      recommendation = FactoryGirl.create(:user_recommendation, users: [user])
       expect {
         get :delete_user_from_recommendation, id: recommendation.to_param
       }.to change(Recommendation, :count).by(-1)
     end
 
     it "should remove current user from recommendation but do not delete recommendation" do
-      recommendation = FactoryGirl.create(:recommendation, users: [user, second_user], group: nil)
+      recommendation = FactoryGirl.create(:user_recommendation, users: [user, second_user])
       expect {
         get :delete_user_from_recommendation, id: recommendation.to_param
       }.to change(Recommendation, :count).by(0)
@@ -94,7 +94,7 @@ RSpec.describe RecommendationsController, :type => :controller do
 
   describe "delete group recommendation" do
     it "should destroy the requested recommendation of specified group" do
-      recommendation = FactoryGirl.create(:recommendation, users: [], group: group)
+      recommendation = FactoryGirl.create(:group_recommendation, group: group)
       expect {
         get :delete_group_recommendation, id: recommendation.to_param
       }.to change(Recommendation, :count).by(-1)

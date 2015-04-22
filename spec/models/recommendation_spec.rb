@@ -10,9 +10,9 @@ RSpec.describe Recommendation, :type => :model do
 
 
     it "should return recommendation of user for specified course" do
-      user_recommendation = FactoryGirl.create(:recommendation, users: [user], course: course)
-      FactoryGirl.create(:recommendation, users: [user])
-      groups_recommendation = FactoryGirl.create(:recommendation, group: group, course: course)
+      user_recommendation = FactoryGirl.create(:user_recommendation, users: [user], course: course)
+      FactoryGirl.create(:user_recommendation, users: [user])
+      groups_recommendation = FactoryGirl.create(:group_recommendation, group: group, course: course)
       recommendations = Recommendation.sorted_recommendations_for_course_and_user(course, user)
       expect(recommendations).to match([groups_recommendation, user_recommendation])
     end

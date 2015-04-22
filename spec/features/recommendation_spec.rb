@@ -30,7 +30,7 @@ RSpec.describe GroupsController, :type => :feature do
 
   describe 'delete recommendation from dashboard' do
     it 'should delete the current user from recommendation', js:true do
-      user_recommendation = FactoryGirl.create(:recommendation, users: [user], group: nil)
+      user_recommendation = FactoryGirl.create(:user_recommendation, users: [user])
       visit dashboard_path
       page.find('.remove-recommendation-current-user').click
       wait_for_ajax
@@ -38,7 +38,7 @@ RSpec.describe GroupsController, :type => :feature do
     end
 
     it 'should hide the deleted recommendation', js:true do
-      user_recommendation = FactoryGirl.create(:recommendation, users: [user], group: nil)
+      user_recommendation = FactoryGirl.create(:user_recommendation, users: [user])
       visit dashboard_path
       page.find('.remove-recommendation-current-user').click
       wait_for_ajax
@@ -46,7 +46,7 @@ RSpec.describe GroupsController, :type => :feature do
     end
 
     it 'should remove user from recommendation', js:true do
-      recommendation = FactoryGirl.create(:recommendation, users: [user, second_user], group: nil)
+      recommendation = FactoryGirl.create(:user_recommendation, users: [user, second_user])
       visit dashboard_path
       page.find('.remove-recommendation-current-user').click
       wait_for_ajax
@@ -54,7 +54,7 @@ RSpec.describe GroupsController, :type => :feature do
     end
 
     it 'should not delete recommendation', js:true do
-      recommendation = FactoryGirl.create(:recommendation, users: [user, second_user], group: nil)
+      recommendation = FactoryGirl.create(:user_recommendation, users: [user, second_user])
       visit dashboard_path
       page.find('.remove-recommendation-current-user').click
       wait_for_ajax
@@ -62,7 +62,7 @@ RSpec.describe GroupsController, :type => :feature do
     end
 
     it 'should delete user from group recommendation', js: true do
-      recommendation = FactoryGirl.create(:recommendation, users: [user], group: group)
+      recommendation = FactoryGirl.create(:group_recommendation, users: [user], group: group)
       visit dashboard_path
       page.find('.remove-recommendation-current-user').click
       wait_for_ajax
@@ -75,7 +75,7 @@ RSpec.describe GroupsController, :type => :feature do
 
   describe 'delete recommendation from my recommendation page' do
     it 'should delete the current user from recommendation', js:true do
-      user_recommendation = FactoryGirl.create(:recommendation, users: [user], group: nil)
+      user_recommendation = FactoryGirl.create(:user_recommendation, users: [user])
       visit recommendations_path
       page.find('.remove-recommendation-current-user').click
       wait_for_ajax
@@ -83,7 +83,7 @@ RSpec.describe GroupsController, :type => :feature do
     end
 
     it 'should hide the deleted recommendation', js:true do
-      user_recommendation = FactoryGirl.create(:recommendation, users: [user], group: nil)
+      user_recommendation = FactoryGirl.create(:user_recommendation, users: [user])
       visit recommendations_path
       page.find('.remove-recommendation-current-user').click
       wait_for_ajax
@@ -91,7 +91,7 @@ RSpec.describe GroupsController, :type => :feature do
     end
 
     it 'should remove user from recommendation', js:true do
-      recommendation = FactoryGirl.create(:recommendation, users: [user, second_user], group: nil)
+      recommendation = FactoryGirl.create(:user_recommendation, users: [user, second_user])
       visit recommendations_path
       page.find('.remove-recommendation-current-user').click
       wait_for_ajax
@@ -99,7 +99,7 @@ RSpec.describe GroupsController, :type => :feature do
     end
 
     it 'should not delete recommendation', js:true do
-      recommendation = FactoryGirl.create(:recommendation, users: [user, second_user], group: nil)
+      recommendation = FactoryGirl.create(:user_recommendation, users: [user, second_user])
       visit recommendations_path
       page.find('.remove-recommendation-current-user').click
       wait_for_ajax
@@ -107,7 +107,7 @@ RSpec.describe GroupsController, :type => :feature do
     end
 
     it 'should delete user from group recommendation', js: true do
-      recommendation = FactoryGirl.create(:recommendation, users: [user], group: group)
+      recommendation = FactoryGirl.create(:group_recommendation, users: [user], group: group)
       visit recommendations_path
       page.find('.remove-recommendation-current-user').click
       wait_for_ajax
@@ -120,14 +120,14 @@ RSpec.describe GroupsController, :type => :feature do
   describe 'delete group recommendation from groups dashboard' do
 
     it 'should not be possible to delete a recommendation as normal member' do
-      recommendation = FactoryGirl.create(:recommendation, group: group)
+      recommendation = FactoryGirl.create(:group_recommendation, group: group)
       visit group_path(group)
       expect(page).to have_content(recommendation.course.name)
       expect(page).not_to have_selector('.remove-recommendation-group')
     end
 
     it 'should delete group recommendation', js:true do
-      recommendation = FactoryGirl.create(:recommendation, group: group)
+      recommendation = FactoryGirl.create(:group_recommendation, group: group)
       UserGroup.set_is_admin(group.id, user.id, true)
       visit group_path(group)
       page.find('.remove-recommendation-group').click
@@ -136,7 +136,7 @@ RSpec.describe GroupsController, :type => :feature do
     end
 
     it 'should hide deleted group recommendation', js:true do
-      recommendation = FactoryGirl.create(:recommendation, group: group)
+      recommendation = FactoryGirl.create(:group_recommendation, group: group)
       UserGroup.set_is_admin(group.id, user.id, true)
       visit group_path(group)
       page.find('.remove-recommendation-group').click
@@ -149,14 +149,14 @@ RSpec.describe GroupsController, :type => :feature do
   describe 'delete group recommendation from groups recommendations page' do
 
     it 'should not be possible to delete a recommendation as normal member' do
-      recommendation = FactoryGirl.create(:recommendation, group: group)
+      recommendation = FactoryGirl.create(:group_recommendation, group: group)
       visit "/groups/#{group.id}/recommendations"
       expect(page).to have_content(recommendation.course.name)
       expect(page).not_to have_selector('.remove-recommendation-group')
     end
 
     it 'should delete group recommendation', js:true do
-      recommendation = FactoryGirl.create(:recommendation, group: group)
+      recommendation = FactoryGirl.create(:group_recommendation, group: group)
       UserGroup.set_is_admin(group.id, user.id, true)
       visit "/groups/#{group.id}/recommendations"
       page.find('.remove-recommendation-group').click
@@ -165,7 +165,7 @@ RSpec.describe GroupsController, :type => :feature do
     end
 
     it 'should hide deleted group recommendation', js:true do
-      recommendation = FactoryGirl.create(:recommendation, group: group)
+      recommendation = FactoryGirl.create(:group_recommendation, group: group)
       UserGroup.set_is_admin(group.id, user.id, true)
       visit "/groups/#{group.id}/recommendations"
       page.find('.remove-recommendation-group').click
