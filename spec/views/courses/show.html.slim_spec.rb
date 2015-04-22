@@ -16,7 +16,6 @@ RSpec.describe "courses/show", :type => :view do
       :categories => "Categories",
       :difficulty => "Difficulty",
       :requirements => "Requirements",
-      :credit_points => 4.0,
       :workload => "Workload",
       :provider_course_id => 1,
       :course_result => nil,
