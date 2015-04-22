@@ -38,3 +38,15 @@ Use mixins within any other stylesheet with the "@include name" method.
   -kthtml-transition: all 0.1s linear;
   transition: all 0.1s linear;
 }
+
+// Links
+
+@mixin link-black-hover-green {
+  color: inherit;
+  text-decoration: none;
+  &:hover {
+    color: $link-color;
+    text-decoration: none;
+    cursor: pointer;
+  }
+}

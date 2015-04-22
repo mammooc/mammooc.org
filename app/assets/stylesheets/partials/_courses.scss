@@ -58,6 +58,8 @@ $course-img-height: 250px;
 
       &:hover {
         color: $link-color;
+        cursor: auto;
+        text-decoration: none;
       }
     }
 
@@ -119,29 +121,25 @@ $course-img-height: 250px;
   box-shadow: 0 -15px 5px -3px rgba(255,255,255,0.8);
   width: 100%;
   display: block;
-  padding: 10px;
+  padding: 5px 15px;
   text-align: center;
-  font-size: 12px;
-  line-height: 14px;
+  font-size: 14px;
   font-weight: 400;
-  color: $text-color;
-  text-decoration: none;
+  @include link-black-hover-green;
 }
 
 .course-details > .about > .show-less {
   position: absolute;
   bottom: 0px;
-  background-color: $gray-lighter;
+  background-color: #f5f5f5;
   border-top: 1px solid #ddd;
   width: 100%;
   display: block;
-  padding: 10px;
+  padding: 5px 15px;
   text-align: center;
-  font-size: 12px;
-  line-height: 14px;
+  font-size: 14px;
   font-weight: 400;
-  color: $text-color;
-  text-decoration: none;
+  @include link-black-hover-green;
 }
 
 /* Course listing */
