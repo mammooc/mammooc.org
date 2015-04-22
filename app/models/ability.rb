@@ -8,12 +8,7 @@ class Ability
       user.groups.include? group
     end
     can [:update, :destroy, :invite_group_members, :add_administrator, :demote_administrator, :remove_group_member, :all_members_to_administrators], Group do |group|
-      usergroup = UserGroup.find_by(user_id: user.id, group_id: group.id)
-      if usergroup
-        usergroup.is_admin == true
-      else
-        false
-      end
+      UserGroup.where(user_id: user.id, group_id: group.id, is_admin: true).any?
     end
 
     #Recommendations
