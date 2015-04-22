@@ -107,6 +107,7 @@ RSpec.describe Ability do
       group
     }
     let(:recommendation_of_user) { FactoryGirl.create :recommendation, users: [user], group: nil }
+    let(:recommendation_of_another_user) { FactoryGirl.create :recommendation, users: [second_user], group: nil }
     let(:recommendation_of_group) { FactoryGirl.create :recommendation, group: group, users: [] }
     let(:recommendation_of_group_admin) { FactoryGirl.create :recommendation, group: group_with_admin, users: [] }
 
@@ -118,10 +119,14 @@ RSpec.describe Ability do
       it { is_expected.to be_able_to(:index, Recommendation.new) }
     end
 
-    describe 'delete' do
-      it { is_expected.to be_able_to(:delete, recommendation_of_user) }
-      it { is_expected.to_not be_able_to(:delete, recommendation_of_group)}
-      it { is_expected.to be_able_to(:delete, recommendation_of_group_admin)}
+    describe 'delete_user_from_recommendation' do
+      it { is_expected.to be_able_to(:delete_user_from_recommendation, recommendation_of_user) }
+      it { is_expected.to_not be_able_to(:delete_user_from_recommendation, recommendation_of_another_user) }
+    end
+
+    describe 'delete_group_recommendation' do
+      it { is_expected.to_not be_able_to(:delete_group_recommendation, recommendation_of_group)}
+      it { is_expected.to be_able_to(:delete_group_recommendation, recommendation_of_group_admin)}
     end
 
     describe 'create as user without groups' do

@@ -17,24 +17,20 @@ class Ability
     end
 
     #Recommendations
+
+    can [:index], Recommendation
+
     can [:create], Recommendation do
       user.groups.any?
     end
 
-    can [:delete], Recommendation do |recommendation|
-      if recommendation.group.present?
-        usergroup = UserGroup.find_by(user_id: user.id, group_id: recommendation.group.id)
-        if usergroup
-          usergroup.is_admin == true
-        else
-          false
-        end
-      else
-        recommendation.users.include? user
-      end
+    can [:delete_user_from_recommendation], Recommendation do |recommendation|
+      recommendation.users.include? user
     end
 
-    can [:index], Recommendation
+    can [:delete_group_recommendation], Recommendation do |recommendation|
+      UserGroup.where(user_id: user.id, group_id: recommendation.group.id, is_admin: true).any?
+    end
 
   end
 end

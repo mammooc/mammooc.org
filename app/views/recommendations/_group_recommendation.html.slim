@@ -1,6 +1,6 @@
 .recommendations id='#{id}'
-  - if can? :delete, recommendation
-    span.glyphicon.glyphicon-remove.remove-recommendation-group data-group_id='#{recommendation.group.id}' data-recommendation_id='#{recommendation.id}'
+  - if can? :delete_group_recommendation, recommendation
+    span.glyphicon.glyphicon-remove.remove-recommendation-group data-recommendation_id='#{recommendation.id}'
   = link_to course_path(recommendation.course)
     - if recommendation.is_obligatory
       .participation-obligatory

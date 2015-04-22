@@ -1,6 +1,6 @@
 class RecommendationsController < ApplicationController
-  before_action :set_recommendation, only: [:delete]
-  load_and_authorize_resource only: [:create, :delete, :index, :new]
+  before_action :set_recommendation, only: [:delete_user_from_recommendation, :delete_group_recommendation]
+  load_and_authorize_resource only: [:create, :delete_user_from_recommendation, :delete_group_recommendation, :index, :new]
 
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
@@ -52,7 +52,7 @@ class RecommendationsController < ApplicationController
 
     respond_to do |format|
         format.html { redirect_to session.delete(:return_to), notice: t('recommendation.successfully_created') }
-      end
+    end
 
   rescue ActiveRecord::RecordNotSaved => error
     flash[:error] = t('recommendation.creation_error')
@@ -61,17 +61,21 @@ class RecommendationsController < ApplicationController
   end
 
 
-  def delete
-    if params[:group]
-      @recommendation.destroy
-    else
-      @recommendation.users -= [current_user]
-    end
+  def delete_user_from_recommendation
+    @recommendation.users -= [current_user]
     if @recommendation.users.empty? && @recommendation.group.blank?
       @recommendation.destroy
     end
     respond_to do |format|
-      format.html { redirect_to recommendations_url, notice: t('recommendation.successfully_destroyed') }
+      format.html { redirect_to recommendations_path, notice: t('recommendation.successfully_destroyed') }
+    end
+  end
+
+  def delete_group_recommendation
+    group_id = @recommendation.group.id
+    @recommendation.destroy
+    respond_to do |format|
+      format.html { redirect_to "/groups/#{group_id}/recommendations", notice: t('recommendation.successfully_destroyed') }
     end
   end
 

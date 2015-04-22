@@ -75,27 +75,29 @@ RSpec.describe RecommendationsController, :type => :controller do
 
   end
 
-  describe "GET DELETE" do
+  describe "delete user from recommendation" do
     it "should destroy the requested recommendation of current user" do
       recommendation = FactoryGirl.create(:recommendation, users: [user], group: nil)
       expect {
-        get :delete, {:id => recommendation.to_param}
-      }.to change(Recommendation, :count).by(-1)
-    end
-
-    it "should destroy the requested recommendation of specified group" do
-      recommendation = FactoryGirl.create(:recommendation, users: [], group: group)
-      expect {
-        get :delete, id: recommendation.to_param, group: group.id
+        get :delete_user_from_recommendation, id: recommendation.to_param
       }.to change(Recommendation, :count).by(-1)
     end
 
     it "should remove current user from recommendation but do not delete recommendation" do
       recommendation = FactoryGirl.create(:recommendation, users: [user, second_user], group: nil)
       expect {
-        get :delete, {:id => recommendation.to_param}
+        get :delete_user_from_recommendation, id: recommendation.to_param
       }.to change(Recommendation, :count).by(0)
       expect(Recommendation.find(recommendation.id).users).to match_array([second_user])
+    end
+  end
+
+  describe "delete group recommendation" do
+    it "should destroy the requested recommendation of specified group" do
+      recommendation = FactoryGirl.create(:recommendation, users: [], group: group)
+      expect {
+        get :delete_group_recommendation, id: recommendation.to_param
+      }.to change(Recommendation, :count).by(-1)
     end
   end
 end
