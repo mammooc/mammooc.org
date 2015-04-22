@@ -39,4 +39,40 @@ RSpec.describe OpenHPIConnector do
     enrollment_array = user.courses.where(id: course_id)
     expect(enrollment_array).not_to be_empty
   end
+
+  it 'should return nil when trying to enroll and user has no mooc provider connection' do
+    expect(open_hpi_connector.enroll_user_for_course user, course).to eql nil
+  end
+
+  it 'should return false when trying to enroll and user has mooc provider connection but something went wrong' do
+    user.mooc_providers << mooc_provider
+    expect(open_hpi_connector.enroll_user_for_course user, course).to eql false
+  end
+
+  it 'should return nil when trying to unenroll and user has no mooc provider connection' do
+    expect(open_hpi_connector.unenroll_user_for_course user, course).to eql nil
+  end
+
+  it 'should return false when trying to unenroll and user has mooc provider connection but something went wrong' do
+    user.mooc_providers << mooc_provider
+    expect(open_hpi_connector.unenroll_user_for_course user, course).to eql false
+  end
+
+  it 'should return nil when user has no connection to mooc provider' do
+    expect(open_hpi_connector.send(:get_authentication_token, user)).to eql nil
+  end
+
+  it 'should return authentication_token when user has connection to mooc provider' do
+    FactoryGirl.create(:mooc_provider_user, user: user, mooc_provider: mooc_provider, authentication_token: '123')
+    expect(open_hpi_connector.send(:get_authentication_token, user)).to eql '123'
+  end
+
+  it 'should return false when user has no conncetion to mooc provider' do
+    expect(open_hpi_connector.has_connection_to_mooc_provider user).to eql false
+  end
+
+  it 'should return true when user has conncetion to mooc provider' do
+    user.mooc_providers << mooc_provider
+    expect(open_hpi_connector.has_connection_to_mooc_provider user).to eql true
+  end
 end

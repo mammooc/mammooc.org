@@ -36,7 +36,6 @@ class CoursesController < ApplicationController
   end
 
   def enroll_course
-    puts 'Try to enroll !'
     respond_to do |format|
       begin
         create_enrollment
@@ -50,7 +49,6 @@ class CoursesController < ApplicationController
   end
 
   def unenroll_course
-    puts 'Try to unenroll !'
     respond_to do |format|
       begin
         destroy_enrollment
@@ -77,7 +75,7 @@ class CoursesController < ApplicationController
     def create_enrollment
       provider_connector = get_connector_by_mooc_provider @course.mooc_provider
       if provider_connector.present?
-        @has_enrolled = provider_connector.enroll_user_for_course current_user, @course.id
+        @has_enrolled = provider_connector.enroll_user_for_course current_user, @course
         if @has_enrolled
           provider_worker = get_worker_by_mooc_provider @course.mooc_provider
           provider_worker.perform_async([current_user.id])
@@ -88,7 +86,7 @@ class CoursesController < ApplicationController
   def destroy_enrollment
     provider_connector = get_connector_by_mooc_provider @course.mooc_provider
     if provider_connector.present?
-      @has_unenrolled = provider_connector.unenroll_user_for_course current_user, @course.id
+      @has_unenrolled = provider_connector.unenroll_user_for_course current_user, @course
       if @has_unenrolled
         provider_worker = get_worker_by_mooc_provider @course.mooc_provider
         provider_worker.perform_async([current_user.id])

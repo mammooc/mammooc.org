@@ -4,8 +4,9 @@ RSpec.describe CoursesController, type: :feature do
 
   self.use_transactional_fixtures = false
 
+  let(:mooc_provider){FactoryGirl.create(:mooc_provider, name:'openHPI')}
   let(:user) { FactoryGirl.create(:user) }
-  let(:course) { FactoryGirl.create(:course)}
+  let!(:course) { FactoryGirl.create(:course, mooc_provider: mooc_provider)}
 
   before(:each) do
     visit new_user_session_path
@@ -68,5 +69,24 @@ RSpec.describe CoursesController, type: :feature do
       expect(page).to have_no_selector('#rate-course')
     end
 
+    it 'should toggle the enrollment button upon click', js: true do
+      allow_any_instance_of(OpenHPIConnector).to receive(:enroll_user_for_course).and_return(true)
+      visit "/courses/#{course.id}"
+      find("#enroll-course-link").find(".entry").click
+      wait_for_ajax
+      expect(page).to have_no_selector('#enroll-course-link')
+      expect(page).to have_selector('#unenroll-course-link')
+    end
+
+    it 'should toggle the unenrollment button upon click', js: true do
+      user.courses << course
+      allow_any_instance_of(OpenHPIConnector).to receive(:unenroll_user_for_course).and_return(true)
+      visit "/courses/#{course.id}"
+      find("#unenroll-course-link").find(".entry").click
+      wait_for_ajax
+      expect(page).to have_no_selector('#unenroll-course-link')
+      expect(page).to have_selector('#enroll-course-link')
+    end
   end
+
 end

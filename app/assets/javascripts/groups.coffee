@@ -58,8 +58,7 @@ add_administrator = (event) ->
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_add')
     success: (data, textStatus, jqXHR) ->
-      console.log('success_add')
-    change_style_to_admin(user_id)
+      change_style_to_admin(user_id)
   event.preventDefault()
 
 demote_administrator = (event) ->
@@ -77,7 +76,6 @@ demote_administrator = (event) ->
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_status')
     success: (data, textStatus, jqXHR) ->
-      console.log('success_status')
       if data.status == 'last_member' || data.status == 'last_admin'
         $('#notice_demote_last_admin').modal('show')
       else if data.status == 'ok'
@@ -96,7 +94,6 @@ demote_group_administrator = (group_id, user_id) ->
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_demote')
     success: (data, textStatus, jqXHR) ->
-      console.log('success_demote')
       change_style_to_member(user_id)
 
 remove_member = (event) ->
@@ -115,7 +112,6 @@ remove_member = (event) ->
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_status')
     success: (data, textStatus, jqXHR) ->
-      console.log('success_status')
       if data.status == 'last_member'
         $('#confirmation_remove_last_member').modal('show')
       else if data.status == 'last_admin'
@@ -146,7 +142,6 @@ remove_group_member = (event) ->
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_remove')
     success: (data, textStatus, jqXHR) ->
-      console.log('success_remove')
       $('#confirmation_remove_member').modal('hide')
       delete_member_out_of_list(user_id)
 
@@ -161,7 +156,6 @@ delete_group = (event) ->
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_delete_group')
     success: (data, textStatus, jqXHR) ->
-      console.log('success_delete_group')
       $('#confirmation_remove_last_member').modal('hide')
       window.location.replace('/groups')
   event.preventDefault()
@@ -178,7 +172,6 @@ remove_last_admin = (event) ->
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_remove_last_admin')
     success: (data, textStatus, jqXHR) ->
-      console.log('success_remove_last_admin')
       leave_group(group_id, user_id)
   event.preventDefault()
 
@@ -194,7 +187,6 @@ leave_group = (group_id, user_id) ->
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_leave_group')
     success: (data, textStatus, jqXHR) ->
-      console.log('success_leave_group')
       $('#confirmation_remove_last_admin').modal('hide')
       window.location.replace('/groups')
 

@@ -23,7 +23,6 @@ toggleAccordion = (event) ->
   $('.collapse').collapse('hide')
 
 enrollCourse = (event) ->
-  console.log($(event.target))
   course_id = $(event.target).data('course-id')
   url = '/courses/' + course_id + '/enroll_course.json'
   $.ajax
@@ -32,7 +31,6 @@ enrollCourse = (event) ->
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_status')
     success: (data, textStatus, jqXHR) ->
-      console.log('success_status')
       if data.status == true
         $(event.target).text(I18n.t('courses.unenroll_course'))
                        .parent().unbind('click')
@@ -41,7 +39,6 @@ enrollCourse = (event) ->
   event.preventDefault()
 
 unenrollCourse = (event) ->
-  console.log($(event.target))
   course_id = $(event.target).data('course-id')
   url = '/courses/' + course_id + '/unenroll_course.json'
   $.ajax
@@ -50,7 +47,6 @@ unenrollCourse = (event) ->
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_status')
     success: (data, textStatus, jqXHR) ->
-      console.log('success_status')
       if data.status == true
         $(event.target).text(I18n.t('courses.enroll_course'))
                        .parent().unbind('click')

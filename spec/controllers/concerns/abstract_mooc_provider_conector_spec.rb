@@ -49,6 +49,9 @@ RSpec.describe AbstractMoocProviderConnector do
     expect{abstract_mooc_provider_connector.send(:mooc_provider)}.to raise_error NameError
     expect{abstract_mooc_provider_connector.send(:get_enrollments_for_user, @user)}.to raise_error NotImplementedError
     expect{abstract_mooc_provider_connector.send(:handle_enrollments_response, 'test', @user)}.to raise_error NotImplementedError
+    expect{abstract_mooc_provider_connector.send(:send_connection_request, @user, 'test')}.to raise_error NotImplementedError
+    expect{abstract_mooc_provider_connector.send(:send_enrollment_for_course, @user, '123')}.to raise_error NotImplementedError
+    expect{abstract_mooc_provider_connector.send(:send_unenrollment_for_course, @user, '123')}.to raise_error NotImplementedError
   end
 
   it 'should handle internet connection error' do
@@ -60,5 +63,7 @@ RSpec.describe AbstractMoocProviderConnector do
     allow(abstract_mooc_provider_connector).to receive(:get_enrollments_for_user).and_raise RestClient::ResourceNotFound
     expect{abstract_mooc_provider_connector.send(:fetch_user_data, @user)}.not_to raise_error
   end
+
+
 
 end

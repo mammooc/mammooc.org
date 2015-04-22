@@ -4,52 +4,32 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
   ENROLLMENTS_API = 'users/me/enrollments/'
   COURSES_API = 'courses/'
 
-
-  def initialize_connection user, arguments
-    request_parameters = "email=#{arguments[:email]}&password=#{arguments[:password]}"
-    authentication_url = self.class::ROOT_API + AUTHENTICATE_API
-    response = RestClient.post(authentication_url, request_parameters, {accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', authorization: 'token=\"78783786789\"'})
-    json_response = JSON.parse response
-
-    connection = MoocProviderUser.new
-    connection.authentication_token = json_response['token']
-    connection.user_id = user.id
-    connection.mooc_provider_id = mooc_provider.id
-    connection.save
-  end
-
-  def enroll_user_for_course user, course_id
-    token_string = "Token token=#{get_authentication_token user}"
-    api_url = self.class::ROOT_API + ENROLLMENTS_API
-    request_parameters = "course_id=#{Course.get_provider_course_id_by_course_id course_id}"
-    begin
-      RestClient.post(api_url, request_parameters, {accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', authorization: token_string})
-    rescue RestClient::InternalServerError => e
-      Rails.logger.error e.class.to_s + ": " + e.message
-      return false
-    else
-      return true
-    end
-  end
-
-  def unenroll_user_for_course user, course_id
-    token_string = "Token token=#{get_authentication_token user}"
-    api_url = self.class::ROOT_API + ENROLLMENTS_API + "#{Course.get_provider_course_id_by_course_id course_id}"
-    begin
-      RestClient.delete(api_url, {accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', authorization: token_string})
-    rescue RestClient::InternalServerError => e
-      Rails.logger.error e.class.to_s + ": " + e.message
-      return false
-    else
-      return true
-    end
-  end
-
-
   private
 
-    def get_authentication_token user
-      MoocProviderUser.where(user_id: user, mooc_provider_id: mooc_provider).first.authentication_token
+    def send_connection_request user, credentials
+      request_parameters = "email=#{credentials[:email]}&password=#{credentials[:password]}"
+      authentication_url = self.class::ROOT_API + AUTHENTICATE_API
+      response = RestClient.post(authentication_url, request_parameters, {accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', authorization: 'token=\"78783786789\"'})
+      json_response = JSON.parse response
+
+      connection = MoocProviderUser.new
+      connection.authentication_token = json_response['token']
+      connection.user_id = user.id
+      connection.mooc_provider_id = mooc_provider.id
+      connection.save
+    end
+
+    def send_enrollment_for_course user, course
+      token_string = "Token token=#{get_authentication_token user}"
+      api_url = self.class::ROOT_API + ENROLLMENTS_API
+      request_parameters = "course_id=#{course.provider_course_id}"
+      RestClient.post(api_url, request_parameters, {accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', authorization: token_string})
+    end
+
+    def send_unenrollment_for_course user, course
+      token_string = "Token token=#{get_authentication_token user}"
+      api_url = self.class::ROOT_API + ENROLLMENTS_API + course.provider_course_id
+      RestClient.delete(api_url, {accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', authorization: token_string})
     end
 
     def get_enrollments_for_user user
