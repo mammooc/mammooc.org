@@ -101,26 +101,24 @@ $course-img-height: 250px;
   }
 
   .content {
-    padding: 10px;
+    padding: 20px;
   }
 }
 
 .course-details > .about {
   position: relative;
-  height: 250px;
+  max-height: 250px;
   overflow: hidden;
 }
 
 .course-details > .about > .show-more {
-  z-index: 5;
   position: absolute;
-  bottom: 20px;
-  background-color: $gray-lighter;
+  bottom: 0px;
+  background-color: #f5f5f5;
   border-top: 1px solid #ddd;
   box-shadow: 0 -15px 5px -3px rgba(255,255,255,0.8);
   width: 100%;
   display: block;
-  margin: 0 0 -20px 0px;
   padding: 10px;
   text-align: center;
   font-size: 12px;
@@ -131,14 +129,12 @@ $course-img-height: 250px;
 }
 
 .course-details > .about > .show-less {
-  z-index: 5;
   position: absolute;
-  bottom: 20px;
+  bottom: 0px;
   background-color: $gray-lighter;
   border-top: 1px solid #ddd;
   width: 100%;
   display: block;
-  margin: 0 0 -20px 0px;
   padding: 10px;
   text-align: center;
   font-size: 12px;

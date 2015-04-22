@@ -157,7 +157,9 @@ de:
     title: Kursübersicht | mammooc
     heading: Kurse
     no_courses: Keine Kurse verfügbar
-    description: Kursinformationen
+    about: Über diesen Kurs
+    abstract: Zusammenfassung
+    description: Kursbeschreibung
     reviews: Rezensionen
     mooc_provider: Kursanbieter
     instructors: Lehrpersonen

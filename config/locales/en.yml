@@ -157,6 +157,8 @@ en:
     title: Courses | mammooc
     heading: Courses
     no_courses: No courses available
+    about: About
+    abstract: Abstract
     description: Description
     reviews: Reviews
     mooc_provider: MOOC Provider

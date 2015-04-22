@@ -4,7 +4,13 @@ ready = ->
   $('.collapse').on('hidden.bs.collapse', removeActiveClass)
   $('#recommend-course-link').click(toggleAccordion)
   $('#rate-course-link').click(toggleAccordion)
-  $('#showmore.show-more').click(showMore)
+
+  content_height = $('#course-description').children().find('.content').outerHeight()
+  title_height = $('#course-description').children().find('.title').outerHeight()
+  if content_height > ($('#course-description').height() - title_height)
+    $('#course-description').children().find('.content').css('padding-bottom', '45px')
+    $('#course-description-show-more.show-more').show()
+                            .click(showMore)
   return
 
 $(document).ready(ready)
@@ -22,13 +28,15 @@ toggleAccordion = (event) ->
   $('.collapse').collapse('hide')
 
 showMore = () ->
-  $('#showmore').parent().css('height', 'auto')
-  $('#showmore').removeClass('show-more')
-  $('#showmore').addClass('show-less')
-  $('#showmore.show-less').click(showLess)
+  $('#course-description-show-more').parent().css('max-height', 'none')
+  $('#course-description-show-more').removeClass('show-more')
+  $('#course-description-show-more').addClass('show-less')
+  $('#course-description-show-more').text('^ Show less ^')
+  $('#course-description-show-more.show-less').click(showLess)
 
 showLess = () ->
-  $('.show-less').parent().css('height', '250px')
+  $('.show-less').parent().css('max-height', '250px')
   $('.show-less').parent().children('a').addClass('show-more')
+  $('#course-description-show-more').text('v Show more v')
   $('.show-more').parent().children('a').removeClass('show-less')
-  $('#showmore.show-more').click(showMore)
+  $('#course-description-show-more.show-more').click(showMore)

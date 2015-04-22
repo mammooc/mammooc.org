@@ -61,30 +61,25 @@
         = render 'rating'
 
   - if @course.abstract
-    .course-details
+    .course-details id="course-description"
       .about
         .title
-          | About
+          = t('courses.about')
         .content
           - if @course.abstract
-            = raw @course.abstract
+            p
+              = t('courses.abstract')
+            p
+              = raw @course.abstract
           - if @course.description
-            = t('courses.description')
-            br
-            = raw @course.description
-        a class="show-more" id="showmore"
-          // &8744;
-          | Show more
+            p
+              = t('courses.description')
+            p
+              = raw @course.description
+        a class="show-more" id="course-description-show-more" style="display: none"
+          | v Show more v
 
-
-  - if @course.description
-    .course-details
-      .title
-        = t('courses.description')
-      .content
-        = raw @course.description
-
-  .course-details id="recommendations"
+  .course-details id="course-recommendations"
     .title
       = t('courses.recommendations')
     .content
