@@ -25,9 +25,9 @@ class CoursesController < ApplicationController
       @pledged_by = []
       @recommendations.each do |recommendation_array|
         if recommendation_array[0].is_obligatory
-          @pledged_by.push(recommendation_array[0].user)
+          @pledged_by.push(recommendation_array[0].author)
         else
-          @recommended_by.push(recommendation_array[0].user)
+          @recommended_by.push(recommendation_array[0].author)
         end
       end
     end
