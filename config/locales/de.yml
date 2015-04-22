@@ -181,6 +181,16 @@ de:
     subtitle_languages: Verfügbare Untertitel
     previous_iteration: Vorheriger Durchlauf
     following_iteration: Nachfolgender Durchlauf
+    tracks:
+      headline: Pfade
+      types:
+        type_of_achievement: Art des Abschlusses
+        costs: Kosten
+        credit_points: ECTS-Punkte
+        achievement_types:
+          record_of_achievement: Teilnahmebescheinigung
+          certificate: Zertifikat
+          ects: ECTS-Punkte
 
   recommendation:
     placeholder: Gib deine persönliche Nachricht hier ein ...

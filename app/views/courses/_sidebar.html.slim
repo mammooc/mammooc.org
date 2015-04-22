@@ -49,24 +49,12 @@
       = t('courses.requirements')
     - @course.requirements.each do |requirement|
       = raw requirement
-  /- if @course.type_of_achievement
-  /  h4
-  /    = t('courses.achievement')
-  /  = @course.type_of_achievement
-  /- if @course.credit_points
-  /  h4
-  /    = t('courses.credit_points')
-  /  = @course.credit_points
   - if @course.categories
     h4
       = t('courses.categories')
     - @course.categories.each do |category|
       span.label.label-default
         = category
-  /- if @course.costs
-  /  h4
-  /    = t('courses.costs') + ':'
-  /  = @course.costs.to_s + @course.price_currency
   - if @course.difficulty
     h4
       = t('courses.difficulty')
@@ -83,3 +71,21 @@
     h4
       = t('courses.following_iteration')
     = link_to @following_course_name, course_path(@course.following_iteration_id)
+  h4
+    = t('courses.tracks.headline')
+  - @course.tracks.each do |track|
+    h5
+      = track.track_type.title
+    - if track.track_type.description
+      = track.track_type.description
+    h6
+      = t('courses.tracks.types.type_of_achievement')
+    = t("courses.tracks.achievement_types.#{track.track_type.type_of_achievement}")
+    - if track.costs
+      h6
+        = t('courses.tracks.types.costs')
+      = "#{format("%.2f", track.costs)} #{track.costs_currency}"
+    - if track.credit_points
+      h6
+        = t('courses.tracks.types.description')
+      = track.credit_points

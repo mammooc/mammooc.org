@@ -1,7 +1,7 @@
 FactoryGirl.define do
 
   factory :course_track_type do
-    title 'Signature'
+    title 'Audit'
     description 'You get a Record of Achievement.'
     type_of_achievement 'record_of_achievement'
 

@@ -181,6 +181,16 @@ en:
     subtitle_languages: Available Subtitles
     previous_iteration: Previous Iteration
     following_iteration: Following Iteration
+    tracks:
+      headline: Tracks
+      types:
+        type_of_achievement: Type of achievement
+        costs: Costs
+        credit_points: ECTS Points
+        achievement_types:
+          record_of_achievement: Record of Achievement
+          certificate: Certificate
+          ects: ECTS points
 
   recommendation:
     placeholder: Enter your personal message here ...
