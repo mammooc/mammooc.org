@@ -64,6 +64,4 @@ RSpec.describe AbstractMoocProviderConnector do
     expect{abstract_mooc_provider_connector.send(:fetch_user_data, @user)}.not_to raise_error
   end
 
-
-
 end

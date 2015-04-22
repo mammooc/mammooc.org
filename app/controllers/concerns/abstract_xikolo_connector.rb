@@ -11,12 +11,13 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
       authentication_url = self.class::ROOT_API + AUTHENTICATE_API
       response = RestClient.post(authentication_url, request_parameters, {accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', authorization: 'token=\"78783786789\"'})
       json_response = JSON.parse response
-
-      connection = MoocProviderUser.new
-      connection.authentication_token = json_response['token']
-      connection.user_id = user.id
-      connection.mooc_provider_id = mooc_provider.id
-      connection.save
+      if json_response['token'].present?
+        connection = MoocProviderUser.new
+        connection.authentication_token = json_response['token']
+        connection.user_id = user.id
+        connection.mooc_provider_id = mooc_provider.id
+        connection.save
+      end
     end
 
     def send_enrollment_for_course user, course

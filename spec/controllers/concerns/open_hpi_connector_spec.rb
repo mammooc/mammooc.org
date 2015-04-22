@@ -5,6 +5,7 @@ RSpec.describe OpenHPIConnector do
   let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI') }
   let!(:course) { FactoryGirl.create(:full_course, provider_course_id: '0c6c5ad1-a770-4f16-81c3-536169f3cbd3', mooc_provider_id: mooc_provider.id) }
   let!(:user) { FactoryGirl.create(:user) }
+  let(:credentials) {{email: 'blub@blub.blub', password: 'blubblub'}}
 
   let(:open_hpi_connector){ OpenHPIConnector.new }
 
@@ -75,4 +76,33 @@ RSpec.describe OpenHPIConnector do
     user.mooc_providers << mooc_provider
     expect(open_hpi_connector.has_connection_to_mooc_provider user).to eql true
   end
+
+  it 'should create MoocProvider-User connection, when request is answered with token' do
+    allow(RestClient).to receive(:post).and_return('{"token":"1234567890"}')
+    expect{open_hpi_connector.send(:send_connection_request, user, credentials)}.to change{MoocProviderUser.count}.by(1)
+  end
+
+  it 'should not create MoocProvider-User connection, when request is answered with empty token' do
+    allow(RestClient).to receive(:post).and_return('{"token":""}')
+    expect{open_hpi_connector.send(:send_connection_request, user, credentials)}.to change{MoocProviderUser.count}.by(0)
+  end
+
+  it 'should handle internal server error for course enrollments' do
+    user.mooc_providers << mooc_provider
+    allow(open_hpi_connector).to receive(:send_enrollment_for_course).and_raise RestClient::InternalServerError
+    expect{open_hpi_connector.enroll_user_for_course(user, course)}.not_to raise_error
+  end
+
+  it 'should handle internal server error for course unenrollments' do
+    user.mooc_providers << mooc_provider
+    allow(open_hpi_connector).to receive(:send_unenrollment_for_course).and_raise RestClient::InternalServerError
+    expect{open_hpi_connector.unenroll_user_for_course(user, course)}.not_to raise_error
+  end
+
+  it 'should handle internal server error for token request' do
+    user.mooc_providers << mooc_provider
+    allow(open_hpi_connector).to receive(:send_connection_request).and_raise RestClient::InternalServerError
+    expect{open_hpi_connector.initialize_connection(user, credentials)}.not_to raise_error
+  end
+
 end
