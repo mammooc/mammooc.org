@@ -35,8 +35,8 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
       course.description = course_element['description']
       course.course_instructors = course_element['lecturer']
       course.open_for_registration = !course_element['locked']
-      course.has_free_version = true
-
+      course_track_type = CourseTrackType.find_by(type_of_achievement: 'record_of_achievement')
+      course.tracks.push(CourseTrack.create(track_type: course_track_type))
       course.save
     }
     evaluate_update_map update_map
