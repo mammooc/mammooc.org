@@ -190,7 +190,8 @@ de:
     previous_iteration: Vorheriger Durchlauf
     following_iteration: Nachfolgender Durchlauf
     sidebar:
-          recommended_by: An dich empfohlen von
+          recommended_by: Wurde dir empfohlen von
+          details: Kursdetails
 
   recommendation:
     placeholder: Gib deine persönliche Nachricht hier ein ...

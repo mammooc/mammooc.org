@@ -191,6 +191,7 @@ en:
     following_iteration: Following Iteration
     sidebar:
       recommended_by: Recommended to you by
+      details: Course Details
 
   recommendation:
     placeholder: Enter your personal message here ...
