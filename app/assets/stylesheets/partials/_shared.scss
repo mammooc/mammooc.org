@@ -31,13 +31,12 @@
         height: 100%;
         width: auto;
       }
-
     }
 
     .title {
       display: inline-block;
-      font-size: 20px;
-      font-weight: 400;
+      @extend .hd3;
+      color: black;
       line-height: 40px;
       @include vertical-align;
     }

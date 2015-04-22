@@ -18,11 +18,11 @@ $(document).on('page:load', ready)
 
 removeActiveClass = (event) ->
   targetId = $(event.currentTarget)[0].id + '-link'
-  $('#' + targetId).children('.entry').removeClass('entry-active')
+  $('#' + targetId).removeClass('entry-active')
 
 addActiveClass = (event) ->
   targetId = $(event.currentTarget)[0].id + '-link'
-  $('#' + targetId).children('.entry').addClass('entry-active')
+  $('#' + targetId).addClass('entry-active')
 
 toggleAccordion = (event) ->
   $('.collapse').collapse('hide')

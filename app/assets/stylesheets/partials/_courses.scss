@@ -24,8 +24,7 @@ $course-img-height: 250px;
        padding: 15px;
 
        .title {
-         font-weight: 400;
-         font-size: 20px;
+         @extend .hd2;
          padding-bottom: 10px;
 
          a {
@@ -97,8 +96,7 @@ $course-img-height: 250px;
     left: 0;
     background-color: $gray;
     padding: 5px 25px;
-    font-size: 14px;
-    font-weight: 600;
+    @extend .hd6;
     color: white;
   }
 
@@ -114,32 +112,16 @@ $course-img-height: 250px;
 }
 
 .course-details > .about > .show-more {
-  position: absolute;
-  bottom: 0px;
-  background-color: #f5f5f5;
-  border-top: 1px solid #ddd;
-  box-shadow: 0 -15px 5px -3px rgba(255,255,255,0.8);
-  width: 100%;
-  display: block;
-  padding: 5px 15px;
+  @extend .show-button;
   text-align: center;
-  font-size: 14px;
   font-weight: 400;
-  @include link-black-hover-green;
+  box-shadow: 0 -15px 5px -3px rgba(255,255,255,0.8);
 }
 
 .course-details > .about > .show-less {
-  position: absolute;
-  bottom: 0px;
-  background-color: #f5f5f5;
-  border-top: 1px solid #ddd;
-  width: 100%;
-  display: block;
-  padding: 5px 15px;
+  @extend .show-button;
   text-align: center;
-  font-size: 14px;
   font-weight: 400;
-  @include link-black-hover-green;
 }
 
 /* Course listing */
@@ -182,11 +164,6 @@ $course-img-height: 250px;
       padding: 10px;
       font-size: 12px;
       font-weight: 300;
-
-      .name {
-        font-size: 14px;
-        font-weight: 500;
-      }
 
       .provider {
         position: absolute;

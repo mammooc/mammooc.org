@@ -42,7 +42,7 @@ Use mixins within any other stylesheet with the "@include name" method.
 // Links
 
 @mixin link-black-hover-green {
-  color: inherit;
+  color: $text-color;
   text-decoration: none;
   &:hover {
     color: $link-color;
