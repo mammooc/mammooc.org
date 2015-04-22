@@ -17,19 +17,13 @@ $user-picture-size: 50px;
     .name {
       display: inline-block;
       line-height: 16px;
-      font-size: 12px;
       font-weight: 300;
 
       a {
+        @include link-black-hover-green;
         font-size: 14px;
         font-weight: 500;
-        color: black;
-        
-        &:hover {
-          text-decoration: none;
-        }
       }
-      //@include vertical-align;
     }
   }
 

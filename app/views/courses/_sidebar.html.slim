@@ -1,106 +1,129 @@
-.panel-group
-
-  .panel.panel-default
-    .panel-heading
-      = link_to @course.url, target: "_blank"
-        = t('courses.enter_course')
-        | &#8594;
-
-  .panel.panel-default
-    .panel-heading
-      | Recommended by
-    .panel-body
+.sidebar
+  .element
+    .content
+      .hd5
+        = link_to @course.url, target: "_blank"
+          = t('courses.enter_course') + ' '
+          | &#8594;
+  .element
+    .content
+      .hd5.pb5
+        = t('courses.sidebar.recommended_by')
       - if @pledged_by.empty?
         - unless @recommended_by.empty?
-          => t('recommendation.recommended_by')
           - @recommended_by.each do |user|
             = link_to user
               = "#{user.first_name} #{user.last_name}"
               - unless @recommended_by.last == user
                 = ', '
         - else
-          => t('recommendation.pledged_by')
+          = t('recommendation.pledged_by')
           - @pledged_by.each do |user|
             = link_to user
               = "#{user.first_name} #{user.last_name}"
               - unless @pledged_by.last == user
                 = ', '
-    .panel-footer
-      = link_to '#course-recommendations'
-        | Show details
+    a class="show-button" href="#course-recommendations"
+      = t('global.show_details')
 
-  .panel.panel-default
-    .panel-heading
-      | Kursdetails
-    .panel-body
-      h4
+
+  .element
+    .content
+      .hd5.pb20
+        | Kursdetails
+
+      .hd6.pb5
         = t('courses.mooc_provider')
       = @course.mooc_provider.name
+
+      .gradient-divider
+
       - if @course.course_instructors
-        h4
-          = t('courses.mooc_provider')
-        = @course.mooc_provider.name
-        - if @course.course_instructors
-          h4
-            = t('courses.instructors')
-          = @course.course_instructors
-            br
-        h4
-          = t('courses.time')
-        - if @course.start_date && @course.end_date
-          = @course.start_date.strftime("%d.%m.%Y") + ' - ' + @course.end_date.strftime("%d.%m.%Y")
-        - elsif @course.start_date
-          = @course.start_date.strftime("%d.%m.%Y")
-        - else
-          = t('courses.no_dates_available')
-        - if !@course.calculated_duration_in_days && @course.provider_given_duration
-          h4
-            = t('courses.duration')
-          = @course.provider_given_duration
-        - if @course.language
-          h4
-            = t('courses.language')
-          = @course.language
-        - if @course.subtitle_languages
-          h4
-            = t('courses.subtitle_languages')
-          = @course.subtitle_languages
-        - if @course.requirements
-          h4
-            = t('courses.requirements')
-          - @course.requirements.each do |requirement|
-            = raw requirement
-        - if @course.type_of_achievement
-          h4
-            = t('courses.achievement')
-          = @course.type_of_achievement
-        - if @course.credit_points
-          h4
-            = t('courses.credit_points')
-          = @course.credit_points
-        - if @course.categories
-          h4
-            = t('courses.categories')
-          - @course.categories.each do |category|
-            span.label.label-default
-              = category
-        - if @course.costs
-          h4
-            = t('courses.costs') + ':'
-          = @course.costs.to_s + @course.price_currency
-        - if @course.difficulty
-          h4
-            = t('courses.difficulty')
-          = @course.difficulty
-        - if @course.workload
-          h4
-            = t('courses.workload')
-          = @course.workload
-        - if @course.previous_iteration_id
-          h4
-            = t('courses.previous_iteration')
-          = link_to @previous_course_name, course_path(@course.previous_iteration_id)
-        - if @course.following_iteration_id
-          h4
-            = t('courses.following_iteration')
-          = link_to @following_course_name, course_path(@course.following_iteration_id)
+        .hd6.pb5
+          = t('courses.instructors')
+        = @course.course_instructors
+        .gradient-divider
+
+      .hd6.pb5
+        = t('courses.time')
+      - if @course.start_date && @course.end_date
+        = @course.start_date.strftime("%d.%m.%Y") + ' - ' + @course.end_date.strftime("%d.%m.%Y")
+      - elsif @course.start_date
+        = @course.start_date.strftime("%d.%m.%Y")
+      - else
+        = t('courses.no_dates_available')
+      .gradient-divider
+
+      - if !@course.calculated_duration_in_days && @course.provider_given_duration
+        .hd6.pb5
+          = t('courses.duration')
+        = @course.provider_given_duration
+        .gradient-divider
+
+      - if @course.language
+        .hd6.pb5
+          = t('courses.language')
+        = @course.language
+        .gradient-divider
+
+      - if @course.subtitle_languages
+        .hd6.pb5
+          = t('courses.subtitle_languages')
+        = @course.subtitle_languages
+        .gradient-divider
+
+      - if @course.requirements
+        .hd6.pb5
+          = t('courses.requirements')
+        - @course.requirements.each do |requirement|
+          = raw requirement
+        .gradient-divider
+
+      - if @course.workload
+        .hd6.pb5
+          = t('courses.workload')
+        = @course.workload
+        .gradient-divider
+
+      - if @course.type_of_achievement
+        .hd6.pb5
+          = t('courses.achievement')
+        = @course.type_of_achievement
+        .gradient-divider
+
+      - if @course.credit_points
+        .hd6.pb5
+          = t('courses.credit_points')
+        = @course.credit_points
+        .gradient-divider
+
+      - if @course.costs
+        .hd6.pb5
+          = t('courses.costs') + ':'
+        = @course.costs.to_s + @course.price_currency
+        .gradient-divider
+
+      - if @course.difficulty
+        .hd6.pb5
+          = t('courses.difficulty')
+        = @course.difficulty
+        .gradient-divider
+
+      - if @course.previous_iteration_id
+        .hd6.pb5
+          = t('courses.previous_iteration')
+        = link_to @previous_course_name, course_path(@course.previous_iteration_id)
+        .gradient-divider
+
+      - if @course.following_iteration_id
+        .hd6.pb5
+          = t('courses.following_iteration')
+        = link_to @following_course_name, course_path(@course.following_iteration_id)
+        .gradient-divider
+
+      - if @course.categories
+        .hd6.pb5
+          = t('courses.categories')
+        - @course.categories.each do |category|
+          span.label.label-default
+            = category

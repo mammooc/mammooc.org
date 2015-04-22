@@ -113,6 +113,8 @@ $course-img-height: 250px;
 
 .course-details > .about > .show-more {
   @extend .show-button;
+  position: absolute;
+  bottom: 0px;
   text-align: center;
   font-weight: 400;
   box-shadow: 0 -15px 5px -3px rgba(255,255,255,0.8);

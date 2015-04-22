@@ -90,11 +90,11 @@
             .name
               = link_to recommendation_array[0].user
                 = "#{recommendation_array[0].user.first_name} #{recommendation_array[0].user.last_name}"
-              br
-              = t('courses.user_belongs_to_group')
-              / if > 1 dann groups
-              | openHPI
-            /
+              .small
+                = t('courses.user_belongs_to_group')
+                | openHPI
+            .pull-right.small
+              // TODO : put label or something nice instead of text
               - if recommendation_array[1]
                 - if recommendation_array[0].is_obligatory
                   .participation-obligatory

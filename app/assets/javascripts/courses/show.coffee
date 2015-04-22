@@ -8,9 +8,8 @@ ready = ->
   content_height = $('#course-description').children().find('.content').outerHeight()
   title_height = $('#course-description').children().find('.title').outerHeight()
   if content_height > ($('#course-description').height() - title_height)
-    $('#course-description').children().find('.content').css('padding-bottom', '45px')
     $('#course-description-show-more.show-more').show()
-                            .click(showMore)
+                                                .click(showMore)
   return
 
 $(document).ready(ready)

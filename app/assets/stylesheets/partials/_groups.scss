@@ -130,6 +130,8 @@ $entry-padding-left: 10px;
 
 .btn-show-group {
   @extend .show-button;
+  position: absolute;
+  bottom: 0px;
   text-align: center;
   font-weight: 500;
   &:hover {
@@ -224,6 +226,7 @@ $members_image_height: 100px;
 // Customize Bootstrap Panel for this special case in Groups Sidebar
 
 .panel-groups-sidebar {
+  background-color: white;
 
   .container-fluid {
     padding: 0px;

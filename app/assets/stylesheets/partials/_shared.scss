@@ -8,7 +8,35 @@
   background: linear-gradient(to right, rgba(238,238,238,0.1), rgba(238,238,238,0.7), rgba(238,238,238,1), rgba(238,238,238,0.7), rgba(238,238,238,0.1));
 }
 
-// Site header
+/* Standard content boxes */
+
+.content-box {
+  @include white-box;
+  @include box-shadow-light;
+}
+
+.main-section {
+  .element {
+    @extend .content-box;
+    margin-bottom: 30px;
+    .content {
+      padding: 20px;
+    }
+  }
+}
+
+.sidebar {
+  .element {
+    @extend .content-box;
+    margin-bottom: 15px;
+    .content {
+      padding: 10px;
+      a { @include link-black-hover-green; }
+    }
+  }
+}
+
+/* Site header */
 
 .site-header {
   @include white-box;

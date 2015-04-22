@@ -28,6 +28,7 @@ de:
     by: 'von '
     show_more: Mehr anzeigen
     show_less: Weniger anzeigen
+    show_details: Details anzeigen
 
   navbar:
     mammooc: mammooc
@@ -188,6 +189,8 @@ de:
     subtitle_languages: Verfügbare Untertitel
     previous_iteration: Vorheriger Durchlauf
     following_iteration: Nachfolgender Durchlauf
+    sidebar:
+          recommended_by: An dich empfohlen von
 
   recommendation:
     placeholder: Gib deine persönliche Nachricht hier ein ...
