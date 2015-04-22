@@ -1,5 +1,4 @@
 class RecommendationsController < ApplicationController
-  before_action :set_recommendation, only: [:delete_user_from_recommendation, :delete_group_recommendation]
   load_and_authorize_resource only: [:create, :delete_user_from_recommendation, :delete_group_recommendation, :index, :new]
 
   rescue_from CanCan::AccessDenied do |exception|
