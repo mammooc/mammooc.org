@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150414092402) do
+ActiveRecord::Schema.define(version: 20150421094231) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -195,11 +195,6 @@ ActiveRecord::Schema.define(version: 20150414092402) do
     t.datetime "updated_at",         null: false
   end
 
-  create_table "groups_recommendations", id: false, force: :cascade do |t|
-    t.uuid "recommendation_id"
-    t.uuid "group_id"
-  end
-
   create_table "mooc_provider_users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "user_id"
     t.uuid     "mooc_provider_id"
@@ -241,10 +236,12 @@ ActiveRecord::Schema.define(version: 20150414092402) do
     t.datetime "updated_at",    null: false
     t.text     "text"
     t.uuid     "author_id"
+    t.uuid     "group_id"
   end
 
   add_index "recommendations", ["author_id"], name: "index_recommendations_on_author_id", using: :btree
   add_index "recommendations", ["course_id"], name: "index_recommendations_on_course_id", using: :btree
+  add_index "recommendations", ["group_id"], name: "index_recommendations_on_group_id", using: :btree
 
   create_table "recommendations_users", id: false, force: :cascade do |t|
     t.uuid "recommendation_id"
@@ -333,6 +330,7 @@ ActiveRecord::Schema.define(version: 20150414092402) do
   add_foreign_key "progresses", "courses"
   add_foreign_key "progresses", "users"
   add_foreign_key "recommendations", "courses"
+  add_foreign_key "recommendations", "groups"
   add_foreign_key "recommendations", "users", column: "author_id"
   add_foreign_key "statistics", "groups"
   add_foreign_key "user_assignments", "course_assignments"
