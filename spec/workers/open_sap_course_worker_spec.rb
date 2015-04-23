@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe OpenSAPCourseWorker do
+RSpec.describe OpenSAPCourseWorker do
 
   let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openSAP') }
 

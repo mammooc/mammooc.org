@@ -47,7 +47,7 @@ class AbstractMoocProviderConnector
     end
   end
 
-  def load_user_data users
+  def load_user_data users=nil
     if users.blank?
       User.find_each do |user|
         if has_connection_to_mooc_provider user

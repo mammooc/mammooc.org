@@ -1,5 +1,17 @@
 require 'simplecov'
-SimpleCov.start
+SimpleCov.start do
+  add_filter '/spec/'
+  add_filter '/config'
+
+  add_group 'Controllers', 'app/controllers'
+  add_group 'Concerns', 'app/controllers/concerns'
+  add_group 'Helpers', 'app/helpers'
+  add_group 'Mailers', 'app/mailers'
+  add_group 'Models', 'app/models'
+  add_group 'Views', 'app/views'
+  add_group 'Workers', 'app/workers'
+  add_group 'Libraries', 'lib'
+end
 require 'factory_girl_rails'
 require 'devise'
 require 'support/devise_support'
@@ -8,6 +20,7 @@ require 'support/wait_for_phantom_js'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
 require 'selenium/webdriver'
+require 'sidekiq/testing'
 
 if ENV['HEADLESS_TEST'] == 'true' || ENV['USER'] == 'vagrant'
   require 'headless'

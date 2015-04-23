@@ -10,7 +10,7 @@ class AbstractCourseWorker
     begin
       response_data = get_course_data
     rescue SocketError, RestClient::ResourceNotFound, RestClient::SSLCertificateNotVerified => e
-      logger.error e.class.to_s + ": " + e.message
+      Rails.logger.error e.class.to_s + ": " + e.message
     else
       handle_response_data response_data
     end

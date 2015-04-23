@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe EdxCourseWorker do
+RSpec.describe EdxCourseWorker do
 
   let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'edX') }
 

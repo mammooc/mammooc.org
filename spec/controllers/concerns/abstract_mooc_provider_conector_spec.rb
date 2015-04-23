@@ -4,6 +4,14 @@ RSpec.describe AbstractMoocProviderConnector do
 
   self.use_transactional_fixtures = false
 
+  before(:all) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  after(:all) do
+    DatabaseCleaner.strategy = :transaction
+  end
+
   before(:each) do
     @mooc_provider = FactoryGirl.create(:mooc_provider)
     @user = FactoryGirl.create(:user)
@@ -11,14 +19,6 @@ RSpec.describe AbstractMoocProviderConnector do
     @second_course = FactoryGirl.create(:full_course, mooc_provider_id: @mooc_provider.id)
     @user.courses << @course
     @user.courses << @second_course
-  end
-
-  before(:all) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  after(:all) do
-    DatabaseCleaner.strategy = :transaction
   end
 
   let (:abstract_mooc_provider_connector) { AbstractMoocProviderConnector.new }
