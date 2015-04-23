@@ -34,7 +34,7 @@ showMore = () ->
   $('#course-description-show-more.show-less').click(showLess)
 
 showLess = () ->
-  $('.show-less').parent().css('max-height', '250px')
+  $('.show-less').parent().css('max-height', '400px')
   $('.show-less').parent().children('a').addClass('show-more')
   $('#course-description-show-more').text(I18n.t('global.show_more'))
   $('.show-more').parent().children('a').removeClass('show-less')
