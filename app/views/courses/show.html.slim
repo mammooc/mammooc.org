@@ -78,7 +78,7 @@
         a class="show-more" id="course-description-show-more" style="display: none"
           = t('global.show_more')
 
-  - if @recommendations
+  - if @recommendations.size > 0
     .course-details id="course-recommendations"
       .title
         = t('courses.recommendations')
