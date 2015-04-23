@@ -160,10 +160,10 @@ de:
     title: Kursübersicht | mammooc
     heading: Kurse
     no_courses: Keine Kurse verfügbar
-    starting_soon: 'Kurs beginnt am '
-    starts_today: 'Kurs beginnt heute'
-    already_running: 'Kurs läuft'
-    course_dates: 'Zeitraum: '
+    starting_soon: Kurs beginnt am
+    starts_today: Kurs beginnt heute
+    already_running: Kurs läuft
+    course_dates: Zeitraum:
     about: Über diesen Kurs
     abstract: Zusammenfassung
     description: Kursbeschreibung

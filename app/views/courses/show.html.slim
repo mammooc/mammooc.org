@@ -20,14 +20,14 @@
         img src="/data/icons/calendar.png" class="pr5" style="height:18px"
         - if @course.start_date && @course.end_date
           - if @course.start_date > Date.today
-            = t('courses.starting_soon')
+            => t('courses.starting_soon')
             = @course.start_date.strftime("%d.%m.%Y")
           - elsif @course.start_date == Date.today
             = t('courses.starts_today')
           - elsif @course.start_date < Date.today and @course.end_date < Date.today
-            = t('courses.already_running')
+            => t('courses.already_running')
           - else
-            = t('courses.course_dates')
+            => t('courses.course_dates')
             = @course.start_date.strftime("%d.%m.%Y") + ' - ' + @course.end_date.strftime("%d.%m.%Y")
         - elsif @course.start_date
           = @course.start_date
@@ -78,7 +78,7 @@
         a class="show-more" id="course-description-show-more" style="display: none"
           = t('global.show_more')
 
-  - if @recommendations.any?
+  - if @recommendations.present?
     .course-details id="course-recommendations"
       .title
         = t('courses.recommendations')
