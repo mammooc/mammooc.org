@@ -41,7 +41,7 @@ class CoursesController < ApplicationController
       begin
         create_enrollment
         format.html { redirect_to @course }
-        format.json { render :enroll_course_result, status: :ok, location: @course }
+        format.json { render :enroll_course_result, status: :ok }
       rescue StandardError => e
         format.html { redirect_to @course }
         format.json { render json: e.to_json, status: :unprocessable_entity }
@@ -54,7 +54,7 @@ class CoursesController < ApplicationController
       begin
         destroy_enrollment
         format.html { redirect_to @course }
-        format.json { render :unenroll_course_result, status: :ok, location: @course }
+        format.json { render :unenroll_course_result, status: :ok }
       rescue StandardError => e
         format.html { redirect_to @course }
         format.json { render json: e.to_json, status: :unprocessable_entity }
