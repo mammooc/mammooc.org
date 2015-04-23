@@ -27,6 +27,9 @@ de:
     cancel: Abbrechen
     by: 'von '
     ajax_failed: Hoppla! Bei der Anforderung ist etwas schief gelaufen. Bitte versuche es erneut.
+    show_more: Mehr anzeigen
+    show_less: Weniger anzeigen
+    show_details: Details anzeigen
 
   navbar:
     mammooc: mammooc
@@ -158,7 +161,13 @@ de:
     title: Kursübersicht | mammooc
     heading: Kurse
     no_courses: Keine Kurse verfügbar
-    description: Kursinformationen
+    starting_soon: Kurs beginnt am
+    starts_today: Kurs beginnt heute
+    already_running: Kurs läuft
+    course_dates: 'Zeitraum:'
+    about: Über diesen Kurs
+    abstract: Zusammenfassung
+    description: Kursbeschreibung
     reviews: Rezensionen
     mooc_provider: Kursanbieter
     instructors: Lehrpersonen
@@ -177,15 +186,20 @@ de:
     recommend_course: Kurs empfehlen
     rate_course: Kurs bewerten
     recommendations: Empfehlungen
+    user_belongs_to_group: 'Gruppe: '
+    user_belongs_to_groups: 'Gruppen: '
     rating: Bewertung
     credit_points: Leistungspunkte
-    no_dates_available: Es sind keine Daten vorhanden.
+    no_dates_available: Es wurde kein Zeitraum angegeben
     duration: Dauer
     subtitle_languages: Verfügbare Untertitel
     previous_iteration: Vorheriger Durchlauf
     following_iteration: Nachfolgender Durchlauf
     enrollment_error: Die Belegung beim MOOC-Anbieter hat leider nicht funktioniert.
     unenrollment_error: Das Entfernen der Belegung beim MOOC-Anbieter hat leider nicht funktioniert.
+    sidebar:
+      recommended_by: Wurde dir empfohlen von
+      details: Kursdetails
 
   recommendation:
     placeholder: Gib deine persönliche Nachricht hier ein ...

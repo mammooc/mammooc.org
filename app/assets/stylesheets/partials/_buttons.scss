@@ -6,16 +6,25 @@
   color: black;
 }
 
-// Buttons
+// Button templates for extending purposes
 
-.no-radius {
-  border-radius: 0px;
+.show-button {
+  display: block;
+  background-color: $gray-ultra-light;
+  border-top: 1px solid #ddd;
+  width: 100%;
+  margin: 0px;
+  padding: 5px 10px;
+  font-size: 14px;
+  @include link-black-hover-green;
 }
 
+// Buttons to use as HTML element "button"
+
 .btn-gray {
-  @extend .no-radius;
-  background-color: $gray-lighter;
+  background-color: $gray-ultra-light;
   border: 0px;
+  border-radius: 0px;
   color: $gray-light;
 }
 
@@ -27,34 +36,6 @@
 .open > .dropdown-toggle.btn-gray {
   background-color: $mammooc;
   color: #ffffff;
-}
-
-.btn-gray-lg {
-  @extend .no-radius;
-  background-color: $gray-lighter;
-  border: 0px;
-  color: black;
-  width: 100%;
-  display: block;
-  margin: 0px;
-  font-weight: bold;
-  a {
-    color: black;
-  }
-}
-
-.btn-gray-lg:hover,
-.btn-gray-lg:focus,
-.btn-gray-lg.focus,
-.btn-gray-lg:active,
-.btn-gray-lg.active,
-.open > .dropdown-toggle.btn-gray-lg {
-  background-color: darken($gray-lighter, 2%);
-  color: $mammooc-dark;
-  a {
-    color: $mammooc;
-    text-decoration: none;
-  }
 }
 
 .btn-cancel {
