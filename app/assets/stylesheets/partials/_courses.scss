@@ -12,12 +12,14 @@ $course-img-height: 250px;
     min-height: $course-img-height + 40px;
     width: 100%;
 
-     img {
-       height: $course-img-height;
-       width: auto;
-       float: left;
-       margin: 20px 20px 20px 0px;
-     }
+    .course-image {
+      img {
+        height: $course-img-height;
+        width: auto;
+        float: left;
+        margin: 20px 20px 20px 0px;
+      }
+    }
 
      .content {
        display: block;
