@@ -4,6 +4,7 @@ require 'factory_girl_rails'
 require 'devise'
 require 'support/devise_support'
 require 'support/wait_for_ajax'
+require 'support/wait_for_phantom_js'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
 require 'selenium/webdriver'
@@ -17,7 +18,7 @@ end
 
 if ENV['PHANTOM_JS'] == 'true'
   Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app)
+    Capybara::Poltergeist::Driver.new(app, :window_size => [1280, 960])
   end
   Capybara.javascript_driver = :poltergeist
 else

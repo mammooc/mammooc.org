@@ -28,7 +28,7 @@ nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
           ul.dropdown-menu role="menu"
             - (I18n.available_locales - [I18n.locale]).each do |l|
               li
-                a href="#{request.fullpath.split('?')[0]}?language=#{l}" data-no-turbolink=""
+                a href="#{request.fullpath.split('?')[0]}?language=#{l}"
                   = language_names[l]
 
         - if user_signed_in?

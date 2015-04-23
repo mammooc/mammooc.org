@@ -30,18 +30,18 @@ class AbstractCourseWorker
 
   def create_update_map mooc_provider
     update_map = Hash.new
-    Course.where(:mooc_provider_id => mooc_provider.id).each { |course|
+    Course.where(:mooc_provider_id => mooc_provider.id).each do |course|
       update_map.store(course.id, false)
-    }
+    end
     return update_map
   end
 
   def evaluate_update_map update_map
-    update_map.each { |course_id,updated|
+    update_map.each do |course_id,updated|
       if !updated
         Course.find(course_id).destroy
       end
-    }
+    end
   end
 
 end

@@ -2,7 +2,7 @@ class Course < ActiveRecord::Base
   belongs_to :mooc_provider
   belongs_to :course_result
   has_many :courses
-  has_many :recommendations
+  has_many :recommendations, dependent: :destroy
   has_many :completions
   has_and_belongs_to_many :users
   has_many :course_requests
@@ -17,6 +17,15 @@ class Course < ActiveRecord::Base
   before_save :check_and_update_duration
   after_save :create_and_update_course_connections
   before_destroy :delete_dangling_course_connections
+
+  def self.get_course_id_by_mooc_provider_id_and_provider_course_id(mooc_provider_id, provider_course_id)
+    course = Course.where(provider_course_id: provider_course_id, mooc_provider_id: mooc_provider_id).first
+    if course.present?
+      return course.id
+    else
+      return nil
+    end
+  end
 
   private
 

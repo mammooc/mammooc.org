@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  load_and_authorize_resource only: [:index, :show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :recommendations, :demote_administrator, :remove_group_member, :leave, :condition_for_changing_member_status, :all_members_to_administrators]
+  load_and_authorize_resource only: [:index, :show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :recommendations, :demote_administrator, :remove_group_member, :leave, :condition_for_changing_member_status, :all_members_to_administrators, :recommendations]
   
   NUMBER_OF_SHOWN_RECOMMENDATIONS = 2
   NUMBER_OF_SHOWN_USERS = 10
@@ -28,7 +28,7 @@ class GroupsController < ApplicationController
     @group_admins = admins.size > NUMBER_OF_SHOWN_USERS ? sort_by_name(admins) : admins.shuffle
 
     # RECOMMENDATIONS
-    sorted_recommendations = Recommendation.sorted_recommendations_for(nil, [@group], nil)
+    sorted_recommendations = @group.recommendations.sort_by { |recommendation| recommendation.created_at}.reverse!
     @recommendations = sorted_recommendations.first(NUMBER_OF_SHOWN_RECOMMENDATIONS)
     @number_of_recommendations = sorted_recommendations.length
   end
@@ -43,7 +43,7 @@ class GroupsController < ApplicationController
   end
 
   def recommendations
-    @recommendations = Recommendation.sorted_recommendations_for(nil, [@group], nil)
+    @recommendations = @group.recommendations.sort_by { |recommendation| recommendation.created_at}.reverse!
   end
 
   def members

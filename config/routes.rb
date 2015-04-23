@@ -3,6 +3,9 @@ Rails.application.routes.draw do
 
   get 'api_connection/index'
   get 'api_connection/send_request'
+  post'api_connection/send_user_request'
+  get 'api_connection/update_user'
+  get 'api_connection/update_all_users'
 
   devise_for :users, :controllers => { :registrations => "users/registrations",
                                        :sessions => "users/sessions",
@@ -29,7 +32,7 @@ Rails.application.routes.draw do
 
   resources :comments
 
-  resources :recommendations, except: [:edit, :show]
+  resources :recommendations, except: [:edit, :show, :update, :destroy]
 
   resources :statistics
 
@@ -59,6 +62,8 @@ Rails.application.routes.draw do
   get 'groups/:id/recommendations' => 'groups#recommendations'
   get 'groups/:id/all_members_to_administrators' => 'groups#all_members_to_administrators'
   get 'impressum' => 'static_pages#impressum'
+  get 'recommendations/:id/delete_user_from_recommendation' => 'recommendations#delete_user_from_recommendation'
+  get 'recommendations/:id/delete_group_recommendation' => 'recommendations#delete_group_recommendation'
   root :to => 'home#index'
 
   # Courses

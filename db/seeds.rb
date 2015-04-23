@@ -6,7 +6,8 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-provider1 = MoocProvider.create(name: 'openHPI')
+provider1 = MoocProvider.create(name: 'testProvider')
+MoocProvider.create(name: 'openHPI')
 MoocProvider.create(name: 'openHPI China')
 MoocProvider.create(name: 'mooc.house')
 MoocProvider.create(name: 'openSAP')
@@ -98,5 +99,6 @@ group3.users.push(user1, user2)
 UserGroup.set_is_admin(group3.id, user1.id, true)
 UserGroup.set_is_admin(group3.id, user2.id, true)
 
-4.times do FactoryGirl.create(:recommendation, users:[user1], course: full_course, groups: [group1, group3]) end
-
+4.times do FactoryGirl.create(:group_recommendation, course: full_course, group: group1, users: group1.users) end
+3.times do FactoryGirl.create(:user_recommendation, course: full_course, users: [user1]) end
+2.times do FactoryGirl.create(:user_recommendation, course: full_course, users: [user2]) end
