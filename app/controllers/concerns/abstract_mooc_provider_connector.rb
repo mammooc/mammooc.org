@@ -96,12 +96,8 @@ class AbstractMoocProviderConnector
     end
 
     def get_authentication_token user
-      connection = MoocProviderUser.where(user_id: user, mooc_provider_id: mooc_provider).first
-      if connection.present?
-        return connection.authentication_token
-      else
-        return nil
-      end
+      connection = MoocProviderUser.find_by(user_id: user, mooc_provider_id: mooc_provider)
+      return connection.present? ? connection.authentication_token : nil
     end
 
     def get_enrollments_for_user user

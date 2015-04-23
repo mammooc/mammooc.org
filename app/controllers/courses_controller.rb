@@ -41,7 +41,7 @@ class CoursesController < ApplicationController
       begin
         create_enrollment
         format.html { redirect_to @course }
-        format.json { render :enroll_course_result, status: :created, location: @group }
+        format.json { render :enroll_course_result, status: :ok, location: @course }
       rescue StandardError => e
         format.html { redirect_to @course }
         format.json { render json: e.to_json, status: :unprocessable_entity }
@@ -54,7 +54,7 @@ class CoursesController < ApplicationController
       begin
         destroy_enrollment
         format.html { redirect_to @course }
-        format.json { render :unenroll_course_result, status: :created, location: @group }
+        format.json { render :unenroll_course_result, status: :ok, location: @course }
       rescue StandardError => e
         format.html { redirect_to @course }
         format.json { render json: e.to_json, status: :unprocessable_entity }
@@ -81,17 +81,23 @@ class CoursesController < ApplicationController
           provider_worker = get_worker_by_mooc_provider @course.mooc_provider
           provider_worker.perform_async([current_user.id])
         end
+      else
+        # We didn't implement a provider_connector for this mooc_provider
+        @has_enrolled = false
       end
     end
 
-  def destroy_enrollment
-    provider_connector = get_connector_by_mooc_provider @course.mooc_provider
-    if provider_connector.present?
-      @has_unenrolled = provider_connector.unenroll_user_for_course current_user, @course
-      if @has_unenrolled
-        provider_worker = get_worker_by_mooc_provider @course.mooc_provider
-        provider_worker.perform_async([current_user.id])
+    def destroy_enrollment
+      provider_connector = get_connector_by_mooc_provider @course.mooc_provider
+      if provider_connector.present?
+        @has_unenrolled = provider_connector.unenroll_user_for_course current_user, @course
+        if @has_unenrolled
+          provider_worker = get_worker_by_mooc_provider @course.mooc_provider
+          provider_worker.perform_async([current_user.id])
+        end
+      else
+        # We didn't implement a provider_connector for this mooc_provider
+        @has_unenrolled = false
       end
     end
-  end
 end

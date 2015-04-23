@@ -184,6 +184,8 @@ de:
     subtitle_languages: Verfügbare Untertitel
     previous_iteration: Vorheriger Durchlauf
     following_iteration: Nachfolgender Durchlauf
+    enrollment_error: Die Belegung beim MOOC-Anbieter hat leider nicht funktioniert.
+    unenrollment_error: Das Entfernen der Belegung beim MOOC-Anbieter hat leider nicht funktioniert.
 
   recommendation:
     placeholder: Gib deine persönliche Nachricht hier ein ...

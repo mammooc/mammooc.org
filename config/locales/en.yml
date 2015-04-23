@@ -173,7 +173,7 @@ en:
     enter_course: Enter Course
     remember_course: Remember Course
     enroll_course: Enroll me for this Course
-    unenroll_course: Un-enroll me for this Course
+    unenroll_course: Unenroll me for this Course
     recommend_course: Recommend Course
     rate_course: Rate Course
     recommendations: Recommendations
@@ -184,6 +184,8 @@ en:
     subtitle_languages: Available Subtitles
     previous_iteration: Previous Iteration
     following_iteration: Following Iteration
+    enrollment_error: Sorry, the enrollment for this course has failed.
+    unenrollment_error: Sorry, the unenrollment for this course has failed.
 
   recommendation:
     placeholder: Enter your personal message here ...

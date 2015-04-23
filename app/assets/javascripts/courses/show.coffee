@@ -36,6 +36,8 @@ enrollCourse = (event) ->
                        .parent().unbind('click')
                                 .attr('id','unenroll-course-link')
                                 .on 'click', (event) -> unenrollCourse(event)
+      else
+        alert(I18n.t('courses.enrollment_error'))
   event.preventDefault()
 
 unenrollCourse = (event) ->
@@ -53,4 +55,6 @@ unenrollCourse = (event) ->
                        .parent().unbind('click')
                                 .attr('id','enroll-course-link')
                                 .on 'click', (event) -> enrollCourse(event)
+      else
+        alert(I18n.t('courses.unenrollment_error'))
   event.preventDefault()
