@@ -189,8 +189,10 @@ de:
         credit_points: ECTS-Punkte
         achievement_types:
           record_of_achievement: Teilnahmebescheinigung
+          nothing: Nichts
           certificate: Zertifikat
           ects: ECTS-Punkte
+          verified_certificate: Verifiziertes Zertifikat
 
   recommendation:
     placeholder: Gib deine persönliche Nachricht hier ein ...

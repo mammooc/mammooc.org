@@ -16,29 +16,35 @@ MoocProvider.create(name: 'openSAP China')
 MoocProvider.create(name: 'openUNE')
 MoocProvider.create(name: 'iversity')
 
-audit = CourseTrackType.create(title: 'Audit',
+audit_track_type = CourseTrackType.create(title: 'Audit',
                                          description: 'You get a record of Achievement.',
                                          type_of_achievement: 'record_of_achievement')
+audit_coursera_track_type = CourseTrackType.create(title: 'Audit',
+                                                   description: 'You do not receive a participation document.',
+                                                   type_of_achievement: 'nothing')
 certificate_track_type = CourseTrackType.create(title: 'Certificate',
                                                  description: 'You get a certificate.',
                                                  type_of_achievement: 'certificate')
 ects_track_type = CourseTrackType.create(title: 'ECTS',
                                           description: 'You get ECTS points.',
                                           type_of_achievement: 'ects')
+signature_track_type = CourseTrackType.create(title: 'Signature Track',
+                                              description: 'You get a Verified Certificate issued by Coursera and the participating university.',
+                                              type_of_achievement: 'verified_certificate')
 
 minimal_previous_course = Course.create(name: 'Minimal Previous Technologies',
               url: 'https://open.hpi.de/courses/pythonjunior2015',
               provider_course_id: 2,
               mooc_provider_id: provider1.id
 )
-minimal_previous_course.tracks.push(CourseTrack.new(track_type: audit))
+minimal_previous_course.tracks.push(CourseTrack.new(track_type: audit_track_type))
 
 minimal_following_course = Course.create(name: 'Minimal Following Technologies',
                                         url: 'https://open.hpi.de/courses/pythonjunior2015',
                                         provider_course_id: 2,
                                         mooc_provider_id: provider1.id
 )
-minimal_following_course.tracks.push(CourseTrack.new(track_type: audit))
+minimal_following_course.tracks.push(CourseTrack.new(track_type: audit_track_type))
 
 full_course = Course.create(name: 'Web Technologies',
               url: 'https://open.hpi.de/courses/webtech2015',
@@ -71,7 +77,7 @@ Claudia; “I enjoyed this course so much. It gave me a chance to expand my hori
               previous_iteration_id: minimal_previous_course.id,
               following_iteration_id: minimal_following_course.id
 )
-full_course.tracks.push(CourseTrack.new(track_type: audit))
+full_course.tracks.push(CourseTrack.new(track_type: audit_track_type))
 full_course.tracks.push(CourseTrack.new(track_type: certificate_track_type, costs: 20.0, costs_currency: '€'))
 full_course.tracks.push(CourseTrack.new(track_type: ects_track_type, costs: 50.0, costs_currency: '€'))
 

@@ -26,6 +26,10 @@ class CourseraCourseWorker < AbstractCourseWorker
     update_map = create_update_map mooc_provider
     iteration_hash = Hash.new
 
+    free_track_type = CourseTrackType.find_by(type_of_achievement: 'nothing')
+    certificate_track_type = CourseTrackType.find_by(type_of_achievement: 'certificate')
+    signature_track_type = CourseTrackType.find_by(type_of_achievement: 'verified_certificate')
+
     response_data["elements"].each { |session_element|
       course = Course.find_by(:provider_course_id => session_element["courseId"].to_s + '|' + session_element["id"].to_s, :mooc_provider_id => mooc_provider.id)
       if course.nil?
@@ -67,25 +71,22 @@ class CourseraCourseWorker < AbstractCourseWorker
         course.requirements = nil
       end
 
-      course.has_free_version = true
-      course.type_of_achievement = ""
+      course.tracks.push(CourseTrack.new(track_type: free_track_type))
       if session_element["eligibleForCertificates"]
-        course.type_of_achievement += "Certificate"
+        course.tracks.push(CourseTrack.new(track_type: certificate_track_type))
       end
       if session_element["eligibleForSignatureTrack"]
-        course.has_paid_version = true
-        if course.type_of_achievement.length > 0
-          course.type_of_achievement += ", "
+        track = CourseTrack.new(track_type: signature_track_type)
+        if session_element["signatureTrackPrice"]
+          track.costs = session_element["signatureTrackPrice"].to_f
+        else
+          track.costs = session_element["signatureTrackRegularPrice"].to_f
         end
-        course.type_of_achievement += "Signature Track"
+        track.costs_currency = '$'
+        track.save!
+        course.tracks.push(track)
       end
 
-      if session_element["signatureTrackPrice"]
-        course.costs = session_element["signatureTrackPrice"]
-      else
-        course.costs = session_element["signatureTrackRegularPrice"]
-      end
-      course.price_currency = "$"
       # multiple iterations
       unless iteration_hash[corresponding_course["id"]]
         iteration_hash[corresponding_course["id"]] = Array.new
