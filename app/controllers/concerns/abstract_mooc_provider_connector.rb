@@ -6,7 +6,7 @@ class AbstractMoocProviderConnector
     begin
       send_connection_request user, credentials
     rescue RestClient::InternalServerError => e
-      Rails.logger.error e.class.to_s + ": " + e.message
+      Rails.logger.error "#{e.class.to_s}: #{e.message}"
       return false
     else
       return true
@@ -18,11 +18,11 @@ class AbstractMoocProviderConnector
       begin
         send_enrollment_for_course user, course
       rescue RestClient::InternalServerError => e
-        Rails.logger.error e.class.to_s + ": " + e.message
+        Rails.logger.error "#{e.class.to_s}: #{e.message}"
         return false
       rescue RestClient::Unauthorized => e
         # This would be the case, when the user's authorization token is invalid
-        Rails.logger.error e.class.to_s + ": " + e.message
+        Rails.logger.error "#{e.class.to_s}: #{e.message}"
         return false
       else
         return true
@@ -35,11 +35,11 @@ class AbstractMoocProviderConnector
       begin
         send_unenrollment_for_course user, course
       rescue RestClient::InternalServerError => e
-        Rails.logger.error e.class.to_s + ": " + e.message
+        Rails.logger.error "#{e.class.to_s}: #{e.message}"
         return false
       rescue RestClient::Unauthorized => e
         # This would be the case, when the user's authorization token is invalid
-        Rails.logger.error e.class.to_s + ": " + e.message
+        Rails.logger.error "#{e.class.to_s}: #{e.message}"
         return false
       else
         return true
@@ -89,7 +89,7 @@ class AbstractMoocProviderConnector
       begin
         response_data = get_enrollments_for_user user
       rescue SocketError, RestClient::ResourceNotFound, RestClient::SSLCertificateNotVerified => e
-        Rails.logger.error e.class.to_s + ": " + e.message
+        Rails.logger.error "#{e.class.to_s}: #{e.message}"
       else
         handle_enrollments_response response_data, user
       end

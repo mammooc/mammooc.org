@@ -26,6 +26,7 @@ en:
     submit: Submit
     cancel: Cancel
     by: 'by '
+    ajax_failed: Sorry, something went wrong. Please try again.
 
   navbar:
     mammooc: mammooc

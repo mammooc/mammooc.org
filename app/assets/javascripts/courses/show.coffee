@@ -9,7 +9,6 @@ ready = ->
   return
 
 $(document).ready(ready)
-$(document).on('page:load', ready)
 
 removeActiveClass = (event) ->
   targetId = $(event.currentTarget)[0].id + '-link'
@@ -30,6 +29,7 @@ enrollCourse = (event) ->
     method: 'GET'
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_status')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       if data.status == true
         $(event.target).text(I18n.t('courses.unenroll_course'))
@@ -46,6 +46,7 @@ unenrollCourse = (event) ->
     method: 'GET'
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_status')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       if data.status == true
         $(event.target).text(I18n.t('courses.enroll_course'))

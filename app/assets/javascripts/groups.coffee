@@ -57,6 +57,7 @@ add_administrator = (event) ->
     method: 'POST'
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_add')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       change_style_to_admin(user_id)
   event.preventDefault()
@@ -75,6 +76,7 @@ demote_administrator = (event) ->
     method: 'POST'
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_status')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       if data.status == 'last_member' || data.status == 'last_admin'
         $('#notice_demote_last_admin').modal('show')
@@ -93,6 +95,7 @@ demote_group_administrator = (group_id, user_id) ->
     method: 'POST'
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_demote')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       change_style_to_member(user_id)
 
@@ -111,6 +114,7 @@ remove_member = (event) ->
     method: 'POST'
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_status')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       if data.status == 'last_member'
         $('#confirmation_remove_last_member').modal('show')
@@ -141,6 +145,7 @@ remove_group_member = (event) ->
     method: 'POST'
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_remove')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       $('#confirmation_remove_member').modal('hide')
       delete_member_out_of_list(user_id)
@@ -155,6 +160,7 @@ delete_group = (event) ->
     method: 'DELETE'
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_delete_group')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       $('#confirmation_remove_last_member').modal('hide')
       window.location.replace('/groups')
@@ -171,6 +177,7 @@ remove_last_admin = (event) ->
     method: 'GET'
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_remove_last_admin')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       leave_group(group_id, user_id)
   event.preventDefault()
@@ -186,6 +193,7 @@ leave_group = (group_id, user_id) ->
     method: 'POST'
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_leave_group')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       $('#confirmation_remove_last_admin').modal('hide')
       window.location.replace('/groups')

@@ -19,6 +19,7 @@ delete_group_from_recommendation = () ->
     method: 'GET'
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('group delete recommendation error')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       console.log('group delete recommendation success')
       recommendation.remove()
@@ -33,6 +34,7 @@ delete_user_from_recommendation = () ->
     method: 'GET'
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('user delete recommendation error')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       console.log('user delete recommendation success')
       recommendation.remove()
@@ -61,6 +63,7 @@ get_my_groups = () ->
     async: false
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_get_my_groups')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       console.log('success_get_my_groups')
       for group in data
@@ -78,6 +81,7 @@ generate_users_autocomplete = () ->
       method: 'GET'
       error: (jqXHR, textStatus, errorThrown) ->
         console.log('users error')
+        alert(I18n.t('global.ajax_failed'))
       success: (data, textStatus, jqXHR) ->
         console.log('users success')
         for user in data.group_members
@@ -98,6 +102,7 @@ generate_course_autocomplete = () ->
     method: 'GET'
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('courses error')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       console.log('courses success')
       for course in data
@@ -123,6 +128,7 @@ generate_course_autocomplete = () ->
       method: 'GET'
       error: (jqXHR, textStatus, errorThrown) ->
         console.log('course id error')
+        alert(I18n.t('global.ajax_failed'))
       success: (data, textStatus, jqXHR) ->
         console.log('course id success')
         course_name = data.name
@@ -134,6 +140,7 @@ generate_course_autocomplete = () ->
       method: 'GET'
       error: (jqXHR, textStatus, errorThrown) ->
         console.log('group id error')
+        alert(I18n.t('global.ajax_failed'))
       success: (data, textStatus, jqXHR) ->
         console.log('group id success')
         group_name = data.name

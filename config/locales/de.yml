@@ -21,11 +21,12 @@
 
 de:
   global:
-    require_login: Sie müssen eingeloggt sein um auf diese Seite zugreifen zu können.
+    require_login: Du musst eingeloggt sein um auf diese Seite zugreifen zu können.
     close: Schließen
     submit: Absenden
     cancel: Abbrechen
     by: 'von '
+    ajax_failed: Hoppla! Bei der Anforderung ist etwas schief gelaufen. Bitte versuche es erneut.
 
   navbar:
     mammooc: mammooc
@@ -93,8 +94,8 @@ de:
       recommendations: Empfehlungen
       statistics: Statistiken
     invitation:
-      joined_group: Sie wurden der Gruppe hinzugefügt.
-      already_member: Sie sind schon Mitglied in der Gruppe.
+      joined_group: Du wurdest der Gruppe hinzugefügt.
+      already_member: Du bist schon Mitglied in der Gruppe.
       group_deleted: Gruppe gelöscht.
       link_expired: Link ist abgelaufen.
       link_used: Link wurde bereits verwendet.
@@ -222,9 +223,9 @@ de:
       taken: ist bereits belegt.
       blank: muss ausgefüllt werden.
       login:
-        reqired: Sie müssen eingeloggt sein.
+        reqired: Du musst eingeloggt sein.
       sign_up:
-        terms_and_conditions_failure: Bitte bestätigen Sie die AGBs von mammooc!
+        terms_and_conditions_failure: Bitte bestätige die AGBs von mammooc!
       user:
         password_too_short: ist zu kurz (Minimum sind %{count} Zeichen).
         password_confirmation: stimmt nicht mit Passwort überein.
@@ -278,7 +279,7 @@ de:
     impressum:
       heading: Impressum
       title: Impressum | mammooc
-      text: Unser Impressum finden Sie aktuell auf der Webseite von openHPI.
+      text: Unser Impressum findest Du aktuell auf der Webseite von openHPI.
       link: Zum Impressum
 
   unauthorized:
@@ -287,9 +288,9 @@ de:
     new:
       recommendation: :unauthorized.create.recommendation
     show:
-      group: Sie haben keinen Zugriff auf diese Gruppe.
+      group: Du hast keinen Zugriff auf diese Gruppe.
     edit:
-      group: Sie können diese Gruppe nicht bearbeiten.
+      group: Du kannst diese Gruppe nicht bearbeiten.
     members:
       group: :unauthorized.show.group
     admins:
