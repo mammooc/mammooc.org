@@ -160,6 +160,10 @@ en:
     title: Courses | mammooc
     heading: Courses
     no_courses: No courses available
+    starting_soon: 'Course starts on '
+    starts_today: 'Course starts today'
+    already_running: 'Course is already running'
+    course_dates: 'Dates: '
     about: About
     abstract: Abstract
     description: Description
@@ -184,7 +188,7 @@ en:
     user_belongs_to_groups: 'Groups: '
     rating: Rating
     credit_points: Credit Points
-    no_dates_available: There are no dates available.
+    no_dates_available: There are no dates available
     duration: Duration
     subtitle_languages: Available Subtitles
     previous_iteration: Previous Iteration

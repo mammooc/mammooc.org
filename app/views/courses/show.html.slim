@@ -20,14 +20,14 @@
         img src="/data/icons/calendar.png" class="pr5" style="height:18px"
         - if @course.start_date && @course.end_date
           - if @course.start_date > Date.today
-            | Kurs beginnt am:
+            = t('courses.starting_soon')
             = @course.start_date.strftime("%d.%m.%Y")
           - elsif @course.start_date == Date.today
-            | Kurs startet heute, jetzt einschreiben!
+            = t('courses.starts_today')
           - elsif @course.start_date < Date.today and @course.end_date < Date.today
-            | Kurs läuft
+            = t('courses.already_running')
           - else
-            | Zeitraum:
+            = t('courses.course_dates')
             = @course.start_date.strftime("%d.%m.%Y") + ' - ' + @course.end_date.strftime("%d.%m.%Y")
         - elsif @course.start_date
           = @course.start_date
@@ -78,58 +78,59 @@
         a class="show-more" id="course-description-show-more" style="display: none"
           = t('global.show_more')
 
-  .course-details id="course-recommendations"
-    .title
-      = t('courses.recommendations')
-    .content
-      - @recommendations.each_with_index do |recommendation_array, index|
-        .recommendation-small
-          .user-info
-            = link_to recommendation_array[0].user
-              - if recommendation_array[0].user.profile_image_id
-                img src=recommendation_array[0].user.profile_image_id
-              - else
-                img src="/data/default.png"
-            .name
+  - if @recommendations
+    .course-details id="course-recommendations"
+      .title
+        = t('courses.recommendations')
+      .content
+        - @recommendations.each_with_index do |recommendation_array, index|
+          .recommendation-small
+            .user-info
               = link_to recommendation_array[0].user
-                = "#{recommendation_array[0].user.first_name} #{recommendation_array[0].user.last_name}"
-              .small
-                = t('courses.user_belongs_to_group')
-                | openHPI
-            .pull-right.small
-              // TODO : put label or something nice instead of text
-              - if recommendation_array[1]
-                - if recommendation_array[0].is_obligatory
-                  .participation-obligatory
-                    => t('recommendation.group.obligatory')
-                    = link_to recommendation_array[1].name, group_path(recommendation_array[1])
+                - if recommendation_array[0].user.profile_image_id
+                  img src=recommendation_array[0].user.profile_image_id
                 - else
-                  .participation-recommended
-                    => t('recommendation.group.recommended')
-                    = link_to recommendation_array[1].name, group_path(recommendation_array[1])
+                  img src="/data/default.png"
+              .name
+                = link_to recommendation_array[0].user
+                  = "#{recommendation_array[0].user.first_name} #{recommendation_array[0].user.last_name}"
+                .small
+                  = t('courses.user_belongs_to_group')
+                  | openHPI
+              .pull-right.small
+                // TODO : put label or something nice instead of text
+                - if recommendation_array[1]
+                  - if recommendation_array[0].is_obligatory
+                    .participation-obligatory
+                      => t('recommendation.group.obligatory')
+                      = link_to recommendation_array[1].name, group_path(recommendation_array[1])
+                  - else
+                    .participation-recommended
+                      => t('recommendation.group.recommended')
+                      = link_to recommendation_array[1].name, group_path(recommendation_array[1])
+                - else
+                  - if recommendation_array[0].is_obligatory
+                    .participation-obligatory
+                      = t('recommendation.obligatory')
+                  - else
+                    .participation-recommended
+                      = t('recommendation.recommended')
+            .comment
+              - if recommendation_array[0].text.empty?
+                - if recommendation_array[1]
+                  - if recommendation_array[0].is_obligatory
+                    =< t('recommendation.group.has_pledged')
+                  - else
+                    =< t('recommendation.group.has_recommended')
+                - else
+                  - if recommendation_array[0].is_obligatory
+                    =< t('recommendation.has_pledged')
+                  - else
+                    =< t('recommendation.has_recommended')
               - else
-                - if recommendation_array[0].is_obligatory
-                  .participation-obligatory
-                    = t('recommendation.obligatory')
-                - else
-                  .participation-recommended
-                    = t('recommendation.recommended')
-          .comment
-            - if recommendation_array[0].text.empty?
-              - if recommendation_array[1]
-                - if recommendation_array[0].is_obligatory
-                  =< t('recommendation.group.has_pledged')
-                - else
-                  =< t('recommendation.group.has_recommended')
-              - else
-                - if recommendation_array[0].is_obligatory
-                  =< t('recommendation.has_pledged')
-                - else
-                  =< t('recommendation.has_recommended')
-            - else
-              = "\"#{recommendation_array[0].text}\""
-        - if index < @recommendations.size - 1
-          .gradient-divider
+                = "\"#{recommendation_array[0].text}\""
+          - if index < @recommendations.size - 1
+            .gradient-divider
 
   .course-details
     .title

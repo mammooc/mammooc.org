@@ -160,6 +160,10 @@ de:
     title: Kursübersicht | mammooc
     heading: Kurse
     no_courses: Keine Kurse verfügbar
+    starting_soon: 'Kurs beginnt am '
+    starts_today: 'Kurs beginnt heute'
+    already_running: 'Kurs läuft'
+    course_dates: 'Zeitraum: '
     about: Über diesen Kurs
     abstract: Zusammenfassung
     description: Kursbeschreibung
@@ -184,7 +188,7 @@ de:
     user_belongs_to_groups: 'Gruppen: '
     rating: Bewertung
     credit_points: Leistungspunkte
-    no_dates_available: Es sind keine Daten vorhanden.
+    no_dates_available: Es wurde kein Zeitraum angegeben
     duration: Dauer
     subtitle_languages: Verfügbare Untertitel
     previous_iteration: Vorheriger Durchlauf
