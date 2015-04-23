@@ -26,6 +26,9 @@ en:
     submit: Submit
     cancel: Cancel
     by: 'by '
+    show_more: Show more
+    show_less: Show less
+    show_details: Show details
 
   navbar:
     mammooc: mammooc
@@ -157,6 +160,12 @@ en:
     title: Courses | mammooc
     heading: Courses
     no_courses: No courses available
+    starting_soon: Course starts on
+    starts_today: Course starts today
+    already_running: Course is already running
+    course_dates: Dates:
+    about: About
+    abstract: Abstract
     description: Description
     reviews: Reviews
     mooc_provider: MOOC Provider
@@ -175,13 +184,18 @@ en:
     recommend_course: Recommend Course
     rate_course: Rate Course
     recommendations: Recommendations
+    user_belongs_to_group: 'Group: '
+    user_belongs_to_groups: 'Groups: '
     rating: Rating
     credit_points: Credit Points
-    no_dates_available: There are no dates available.
+    no_dates_available: There are no dates available
     duration: Duration
     subtitle_languages: Available Subtitles
     previous_iteration: Previous Iteration
     following_iteration: Following Iteration
+    sidebar:
+      recommended_by: Recommended to you by
+      details: Course Details
 
   recommendation:
     placeholder: Enter your personal message here ...

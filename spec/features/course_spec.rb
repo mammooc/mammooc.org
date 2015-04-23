@@ -5,7 +5,7 @@ RSpec.describe CoursesController, :type => :feature do
   self.use_transactional_fixtures = false
 
   let(:user) { FactoryGirl.create(:user) }
-  let(:course) { FactoryGirl.create(:course)}
+  let(:course) { FactoryGirl.create(:full_course)}
 
   before(:each) do
     visit new_user_session_path
@@ -25,7 +25,7 @@ RSpec.describe CoursesController, :type => :feature do
   end
 
 
-  describe 'display details of an existing course' do
+  describe 'display form to recommend or rate an existing course' do
     it 'should not display the collapsible items', js: true do
       visit "/courses/#{course.id}"
       expect(page).to have_no_selector('#recommend-course')
@@ -69,4 +69,15 @@ RSpec.describe CoursesController, :type => :feature do
     end
 
   end
+
+  describe 'display the option to collapse long course descriptions' do
+    it 'should display a button', js: true do
+      visit "/courses/#{course.id}"
+      expect(page).to have_selector('#course-description')
+      expect(page).to have_content I18n.t('global.show_more')
+      find("a[id='course-description-show-more']").click
+      expect(page).to have_content I18n.t('global.show_less')
+    end
+  end
+
 end
