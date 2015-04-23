@@ -19,7 +19,6 @@ delete_group_recommendation = () ->
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('group delete recommendation error')
     success: (data, textStatus, jqXHR) ->
-      console.log('group delete recommendation success')
       recommendation.remove()
 
 
@@ -33,7 +32,6 @@ delete_user_from_recommendation = () ->
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('user delete recommendation error')
     success: (data, textStatus, jqXHR) ->
-      console.log('user delete recommendation success')
       recommendation.remove()
 
 group_ids = []

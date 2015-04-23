@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GroupsController, :type => :feature do
+RSpec.describe RecommendationsController, :type => :feature do
   self.use_transactional_fixtures = false
 
   let(:user) { FactoryGirl.create(:user) }
@@ -174,6 +174,5 @@ RSpec.describe GroupsController, :type => :feature do
     end
 
   end
-
 
 end
