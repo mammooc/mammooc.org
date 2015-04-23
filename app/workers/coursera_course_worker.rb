@@ -28,7 +28,7 @@ class CourseraCourseWorker < AbstractCourseWorker
 
     free_track_type = CourseTrackType.find_by(type_of_achievement: 'nothing')
     certificate_track_type = CourseTrackType.find_by(type_of_achievement: 'certificate')
-    signature_track_type = CourseTrackType.find_by(type_of_achievement: 'verified_certificate')
+    signature_track_type = CourseTrackType.find_by(type_of_achievement: 'coursera_verified_certificate')
 
     response_data["elements"].each { |session_element|
       course = Course.find_by(:provider_course_id => session_element["courseId"].to_s + '|' + session_element["id"].to_s, :mooc_provider_id => mooc_provider.id)

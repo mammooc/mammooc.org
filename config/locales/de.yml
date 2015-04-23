@@ -192,7 +192,10 @@ de:
           nothing: Nichts
           certificate: Zertifikat
           ects: ECTS-Punkte
-          verified_certificate: Verifiziertes Zertifikat
+          coursera_verified_certificate: Verifiziertes Zertifikat
+          edx_verified_certificate: Verifiziertes Zertifikat
+          edx_xseries_certificate: edX XSeries Zertifikat
+          edx_profed_certificate: edX Professional Education Zertifikat
 
   recommendation:
     placeholder: Gib deine persönliche Nachricht hier ein ...

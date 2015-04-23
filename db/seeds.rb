@@ -25,12 +25,22 @@ audit_coursera_track_type = CourseTrackType.create(title: 'Audit',
 certificate_track_type = CourseTrackType.create(title: 'Certificate',
                                                  description: 'You get a certificate.',
                                                  type_of_achievement: 'certificate')
+edx_certificate_track_type = CourseTrackType.create(title: 'Verified Certificate',
+                                                    description: 'Receive a credential signed by the instructor, with the institution logo to verify your achievement and increase your job prospects.',
+                                                    type_of_achievement: 'edx_verified_certificate')
 ects_track_type = CourseTrackType.create(title: 'ECTS',
                                           description: 'You get ECTS points.',
                                           type_of_achievement: 'ects')
 signature_track_type = CourseTrackType.create(title: 'Signature Track',
                                               description: 'You get a Verified Certificate issued by Coursera and the participating university.',
-                                              type_of_achievement: 'verified_certificate')
+                                              type_of_achievement: 'coursera_verified_certificate')
+edx_xseries_track_type = CourseTrackType.create(title: 'XSeries',
+                                              description: 'You get a edX XSeries certificate.',
+                                              type_of_achievement: 'edx_xseries_verified_certificate')
+edx_profed_track_type = CourseTrackType.create(title: 'Professional Education',
+                                              description: 'You get a Professional Education certificate.',
+                                              type_of_achievement: 'edx_profed_certificate')
+
 
 minimal_previous_course = Course.create(name: 'Minimal Previous Technologies',
               url: 'https://open.hpi.de/courses/pythonjunior2015',

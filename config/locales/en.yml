@@ -192,7 +192,10 @@ en:
           nothing: Nothing
           certificate: Certificate
           ects: ECTS points
-          verified_certificate: Verified Certificate
+          coursera_verified_certificate: Verified Certificate
+          edx_verified_certificate: Verified Certificate
+          edx_xseries_certificate: edX XSeries Certificate
+          edx_profed_certificate: edX Professional Education Certificate
 
   recommendation:
     placeholder: Enter your personal message here ...
