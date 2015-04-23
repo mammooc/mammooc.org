@@ -1,22 +1,21 @@
 require 'rails_helper'
 
-describe OpenSAPUserWorker do
+RSpec.describe OpenSAPUserWorker do
 
-  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openSAP') }
-  let!(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryGirl.create(:user) }
 
-  let(:open_sap_user_worker){ OpenSAPUserWorker.new }
-
-  it 'should deliver MOOCProvider' do
-    expect(open_sap_user_worker.mooc_provider).to eql mooc_provider
+  before(:each) do
+    Sidekiq::Testing.inline!
   end
 
-  it 'should get an API response' do
-    connection = MoocProviderUser.new
-    connection.authentication_token = '1234567890abcdef'
-    connection.user_id = user.id
-    connection.mooc_provider_id = mooc_provider.id
-    connection.save
-    expect{open_sap_user_worker.get_enrollments_for_user user}.to raise_error RestClient::InternalServerError
+  it 'should load all users when no argument is passed' do
+    expect_any_instance_of(OpenSAPConnector).to receive(:load_user_data).with(no_args)
+    OpenSAPUserWorker.perform_async
   end
+
+  it 'should load specified user when the corresponding id is passed' do
+    expect_any_instance_of(OpenSAPConnector).to receive(:load_user_data).with([user])
+    OpenSAPUserWorker.perform_async([user.id])
+  end
+
 end

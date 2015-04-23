@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe MoocHouseCourseWorker do
+RSpec.describe MoocHouseCourseWorker do
 
   let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'mooc.house') }
 

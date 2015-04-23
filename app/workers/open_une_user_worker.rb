@@ -1,6 +1,11 @@
-class OpenUNEUserWorker < AbstractXikoloUserWorker
+class OpenUNEUserWorker
+  include Sidekiq::Worker
 
-  MOOC_PROVIDER_NAME = 'openUNE'
-  MOOC_PROVIDER_API_ROOT_LINK = 'https://openune.cn/api/'
-
+  def perform(user_ids=nil)
+    if user_ids.nil?
+      OpenUNEConnector.new.load_user_data
+    else
+      OpenUNEConnector.new.load_user_data User.find(user_ids)
+    end
+  end
 end

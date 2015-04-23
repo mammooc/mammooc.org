@@ -6,8 +6,8 @@
           => t('courses.enter_course')
           | &#8594;
 
-  - if @pledged_by.empty?
-    - unless @recommended_by.empty?
+  - if @pledged_by.blank?
+    - unless @recommended_by.blank?
       .element
         .content
           .hd5.pb5

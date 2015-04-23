@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GroupsController, :type => :feature do
+RSpec.describe GroupsController, type: :feature do
 
   self.use_transactional_fixtures = false
 

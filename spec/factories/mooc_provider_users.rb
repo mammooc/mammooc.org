@@ -1,8 +1,7 @@
 FactoryGirl.define do
   factory :mooc_provider_user do
-    user_id ""
-mooc_provider_id ""
-authentication_token "MyString"
+    association :user_id, factory: :user
+    association :mooc_provider_id, factory: :mooc_provider
+    sequence(:authentication_token) { |n| "token#{n}" }
   end
-
 end

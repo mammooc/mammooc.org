@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Application", :type => :feature do
+RSpec.describe "Application", type: :feature do
 
   describe 'GET any URL without being signed in' do
 

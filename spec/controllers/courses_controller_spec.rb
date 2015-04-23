@@ -22,7 +22,11 @@ RSpec.describe CoursesController, :type => :controller do
 
   let(:valid_session) { {} }
 
-  let(:user) {FactoryGirl.create(:user)}
+  let(:user) { FactoryGirl.create(:user) }
+  let(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'testProvider') }
+  let(:course) { FactoryGirl.create(:course, mooc_provider: mooc_provider) }
+  let(:second_mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI') }
+  let(:second_course) { FactoryGirl.create(:course, mooc_provider: second_mooc_provider) }
 
   before(:each) do
     sign_in user
@@ -30,8 +34,6 @@ RSpec.describe CoursesController, :type => :controller do
 
   describe "GET index" do
     it "assigns all courses as @courses" do
-      mooc_provider = MoocProvider.create(name: 'testProvider')
-      course = FactoryGirl.create(:course, mooc_provider_id: mooc_provider.id)
       get :index, {}, valid_session
       expect(assigns(:courses)).to eq([course])
     end
@@ -39,10 +41,44 @@ RSpec.describe CoursesController, :type => :controller do
 
   describe "GET show" do
     it "assigns the requested course as @course" do
-      mooc_provider = MoocProvider.create(name: 'testProvider')
-      course = FactoryGirl.create(:course, mooc_provider_id: mooc_provider.id)
-      get :show, {:id => course.to_param}, valid_session
+      get :show, {id: course.to_param}, valid_session
       expect(assigns(:course)).to eq(course)
+    end
+  end
+
+  describe "GET enroll_course" do
+    it "assigns false as @has_enrolled if no provider connector is present" do
+      get :enroll_course, {id: course.to_param}, valid_session
+      expect(assigns(:has_enrolled)).to eq false
+    end
+
+    it "assigns nil as @has_enrolled if a connector is present but user has no connection" do
+      get :enroll_course, {id: second_course.to_param}, valid_session
+      expect(assigns(:has_enrolled)).to eq nil
+    end
+
+    it "assigns true as @has_enrolled if everything was ok" do
+      allow_any_instance_of(OpenHPIConnector).to receive(:enroll_user_for_course).and_return(true)
+      get :enroll_course, {id: second_course.to_param}, valid_session
+      expect(assigns(:has_enrolled)).to eq true
+    end
+  end
+
+  describe "GET unenroll_course" do
+    it "assigns false as @has_unenrolled if no provider connector is present" do
+      get :unenroll_course, {id: course.to_param}, valid_session
+      expect(assigns(:has_unenrolled)).to eq false
+    end
+
+    it "assigns nil as @has_unenrolled if a connector is present but user has no connection" do
+      get :unenroll_course, {id: second_course.to_param}, valid_session
+      expect(assigns(:has_unenrolled)).to eq nil
+    end
+
+    it "assigns true as @has_unenrolled if everything was ok" do
+      allow_any_instance_of(OpenHPIConnector).to receive(:unenroll_user_for_course).and_return(true)
+      get :unenroll_course, {id: second_course.to_param}, valid_session
+      expect(assigns(:has_unenrolled)).to eq true
     end
   end
 
