@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   post'api_connection/send_user_request'
   get 'api_connection/update_user'
   get 'api_connection/update_all_users'
+  get 'api_connection/synchronize_courses_for_user' => 'api_connection#synchronize_courses_for_user'
+
 
   devise_for :users, :controllers => { :registrations => "users/registrations",
                                        :sessions => "users/sessions",
