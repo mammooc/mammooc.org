@@ -1,7 +1,17 @@
 .page-header
   h1
     = t('dashboard.hi', name: current_user.first_name)
-
-| Your Recommendations will be listed here!
+  h2
+    = link_to recommendations_path
+      - if @number_of_recommendations == 0
+        = t('dashboard.recommendations')
+      - else
+        = t('dashboard.recommendations_with_quantity', number: @number_of_recommendations)
+  - if @number_of_recommendations == 0
+    = t('recommendation.no_recommendation')
+  - else
+    .recommendations-wrapper
+      - @recommendations.each_with_index do |recommendation, index|
+        = render 'recommendations/user_recommendation', recommendation: recommendation, id: "recommendation_number_#{index}"
 
 = render 'sidebar'

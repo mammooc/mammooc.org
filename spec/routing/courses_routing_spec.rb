@@ -11,5 +11,13 @@ RSpec.describe CoursesController, :type => :routing do
       expect(:get => "/courses/1").to route_to("courses#show", :id => "1")
     end
 
+    it "routes to #enroll_course" do
+      expect(:get => "/courses/1/enroll_course").to route_to("courses#enroll_course", :id => "1")
+    end
+
+    it "routes to #unenroll_course" do
+      expect(:get => "/courses/1/unenroll_course").to route_to("courses#unenroll_course", :id => "1")
+    end
+
   end
 end

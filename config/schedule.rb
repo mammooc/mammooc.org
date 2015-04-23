@@ -21,4 +21,5 @@
 
 every 1.day, :at => '1:00 am' do
   rake 'mammooc:update_course_data'
+  rake 'mammooc:update_user_data'
 end

@@ -1,18 +1,149 @@
+/* Course detail page */
+
+$course-img-height: 250px;
+
+.course-infobox {
+  @include white-box;
+  @include box-shadow-light;
+  margin-bottom: 30px;
+
+  .wrapper {
+    position: relative;
+    min-height: $course-img-height + 40px;
+    width: 100%;
+
+    .course-image {
+      img {
+        height: $course-img-height;
+        width: auto;
+        float: left;
+        margin: 20px 20px 20px 0px;
+      }
+    }
+
+     .content {
+       display: block;
+       padding: 15px;
+
+       .title {
+         @extend .hd2;
+         padding-bottom: 10px;
+
+         a {
+           color: $text-color;
+           &:hover { text-decoration: none; }
+         }
+       }
+     }
+
+    .options {
+      position: absolute;
+      bottom: 0px;
+      right: 10px;
+
+      img {
+        height: 40px;
+        padding: 20px;
+      }
+    }
+  }
+
+  .subnav {
+    border-top: 1px solid $panel-default-border;
+    border-bottom: 1px solid $panel-default-border;
+    background-color: $gray-lighter;
+    width: 100%;
+    height: 32px;
+
+    a {
+      color: inherit;
+
+      &:hover {
+        color: $link-color;
+        cursor: auto;
+        text-decoration: none;
+      }
+    }
+
+    .entry {
+      float: left;
+      border-right: 1px solid $panel-default-border;
+      background-color: inherit;
+      padding: 5px 15px;
+      white-space: nowrap;
+    }
+  }
+
+  .collapse-subnav {
+    background-color: white;
+    padding: 10px;
+  }
+
+}
+
+.entry-active {
+  background-color: white !important;
+  border-bottom: 1px solid white;
+}
+
+/* Standard content boxes */
+
+.course-details {
+  @include white-box;
+  @include box-shadow-light;
+  margin-bottom: 30px;
+
+  .title {
+    display: inline-block;
+    top: 0;
+    left: 0;
+    background-color: $gray;
+    padding: 5px 25px;
+    @extend .hd6;
+    color: white;
+  }
+
+  .content {
+    padding: 20px;
+  }
+}
+
+.course-details > .about {
+  position: relative;
+  max-height: 250px;
+  overflow: hidden;
+}
+
+.course-details > .about > .show-more {
+  @extend .show-button;
+  position: absolute;
+  bottom: 0px;
+  text-align: center;
+  font-weight: 400;
+  box-shadow: 0 -15px 5px -3px rgba(255,255,255,0.8);
+}
+
+.course-details > .about > .show-less {
+  @extend .show-button;
+  text-align: center;
+  font-weight: 400;
+}
+
+/* Course listing */
+
 .courses-wrapper {
 
   .courses {
-    background-color: white;
-    border: 1px solid $panel-default-border;
-    border-radius: $panel-border-radius;
-    float: left;
+    @include white-box;
+    @include box-shadow-light;
+    margin-bottom: 30px;
     width: 200px;
     height: 300px;
-    margin-bottom: 30px;
-    @include box-shadow-light;
+    float: left;
 
     &:hover {
-      cursor: pointer;
       @include box-shadow-hover;
+      cursor: pointer;
     }
 
     .course-image {
@@ -39,11 +170,6 @@
       font-size: 12px;
       font-weight: 300;
 
-      .name {
-        font-size: 14px;
-        font-weight: 500;
-      }
-
       .provider {
         position: absolute;
         bottom: 10px;
@@ -63,12 +189,11 @@
 
 @media(max-width: $screen-xs) {
   .courses-wrapper > .courses {
-    float: none;
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 200px;
-
+    float: none;
   }
 }
 
@@ -77,8 +202,8 @@
 
 @media(min-width: $screen-xs + 1) and (max-width: $screen-xs-max) {
   .courses-wrapper {
-    width: 416px;
     display: block;
+    width: 416px;
     margin: auto;
   }
 

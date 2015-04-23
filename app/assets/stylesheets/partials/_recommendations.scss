@@ -1,0 +1,180 @@
+// How to show recommendations on course detail page
+
+$user-picture-size: 50px;
+
+.recommendation-small {
+  padding-top: 5px;
+
+  .user-info {
+    min-height: $user-picture-size;
+
+    img {
+      width: $user-picture-size;
+      margin-top: -10px;
+      margin-right: 10px;
+    }
+
+    .name {
+      display: inline-block;
+      line-height: 16px;
+      font-weight: 300;
+
+      a {
+        @include link-black-hover-green;
+        font-size: 14px;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .comment {
+
+  }
+
+}
+
+.course-details > .content > .gradient-divider {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+// How to show recommendations on dashboard / group dashboard
+
+.recommendations-wrapper {
+
+  .recommendations {
+    background-color: white;
+    border: 1px solid $panel-default-border;
+    border-radius: $panel-border-radius;
+    float: left;
+    width: 835px;
+    height: 400px;
+    margin-bottom: 30px;
+    @include box-shadow-light;
+
+    &:hover {
+      cursor: pointer;
+      @include box-shadow-hover;
+    }
+
+    .course-image {
+      border-bottom: 1px solid $panel-default-border;
+      display: inline;
+      img {
+        object-fit: cover;
+        display: inline;
+        width: 25%;
+        height: 130px;
+        overflow: hidden;
+      }
+    }
+
+    a {
+      text-decoration: none;
+      color: black;
+    }
+
+    .course-info {
+      position: relative;
+      height: 170px;
+      width: 90%;
+      padding: 10px;
+      font-size: 12px;
+      font-weight: 300;
+
+      .name {
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .provider {
+        position: relative;
+
+
+        img {
+          width: 100px;
+          height: auto;
+        }
+      }
+    }
+  }
+}
+
+// Show 1 item per line for extra small screens,
+// mainly phones (portrait)
+
+@media(max-width: $screen-xs) {
+  .recommendations-wrapper > .recommendations {
+    float: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 200px;
+
+  }
+}
+
+// Show 2 items per line for extra small screens,
+// mainly phones (landscape)
+
+@media(min-width: $screen-xs + 1) and (max-width: $screen-xs-max) {
+  .recommendations-wrapper {
+    width: 416px;
+    display: block;
+    margin: auto;
+  }
+
+  .recommendations-wrapper > .recommendations {
+    &:nth-child(2n+1) {
+      width: 200px;
+      margin-right: 15.5px;
+    }
+
+    &:nth-child(2n+0) {
+      width: 200px;
+      margin-right: auto;
+    }
+  }
+}
+
+// Show 3 items per line for small and medium screens
+
+@media(min-width: $screen-sm-min) and (max-width: $screen-md-max) {
+  .recommendations-wrapper {
+    width: 632px;
+    display: block;
+    margin: auto;
+  }
+
+  .recommendations-wrapper > .recommendations {
+    &:nth-child(3n+1) {
+      margin-left: auto;
+      margin-right: 15.5px;
+    }
+    &:nth-child(3n+2) {
+      margin-right: 15.5px;
+    }
+    &:nth-child(3n+0) {
+      margin-right: auto;
+    }
+  }
+}
+
+// Show 4 items per line on large screens
+
+@media(min-width: $screen-lg-min) {
+  .recommendations-wrapper > .recommendations {
+    &:nth-child(4n+1) {
+      margin-right: 15.5px;
+    }
+    &:nth-child(4n+2) {
+      margin-right: 15.5px;
+    }
+    &:nth-child(4n+3) {
+      margin-right: 15.5px;
+    }
+    &:nth-child(4n+0) {
+      margin-right: auto;
+    }
+  }
+}

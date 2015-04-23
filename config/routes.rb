@@ -3,6 +3,9 @@ Rails.application.routes.draw do
 
   get 'api_connection/index'
   get 'api_connection/send_request'
+  post'api_connection/send_user_request'
+  get 'api_connection/update_user'
+  get 'api_connection/update_all_users'
 
   devise_for :users, :controllers => { :registrations => "users/registrations",
                                        :sessions => "users/sessions",
@@ -29,7 +32,7 @@ Rails.application.routes.draw do
 
   resources :comments
 
-  resources :recommendations
+  resources :recommendations, except: [:edit, :show, :update, :destroy]
 
   resources :statistics
 
@@ -53,18 +56,24 @@ Rails.application.routes.draw do
   post 'groups/:id/demote_administrator' => 'groups#demote_administrator'
   post 'groups/:id/remove_group_member' => 'groups#remove_group_member'
   post 'groups/:id/condition_for_changing_member_status' => 'groups#condition_for_changing_member_status'
+  post 'groups/:id/leave' => 'groups#leave'
   get 'groups/join/:token' => 'groups#join'
   get 'groups/:id/members' => 'groups#members'
   get 'groups/:id/recommendations' => 'groups#recommendations'
   get 'groups/:id/all_members_to_administrators' => 'groups#all_members_to_administrators'
   get 'impressum' => 'static_pages#impressum'
+  get 'recommendations/:id/delete_user_from_recommendation' => 'recommendations#delete_user_from_recommendation'
+  get 'recommendations/:id/delete_group_recommendation' => 'recommendations#delete_group_recommendation'
   root :to => 'home#index'
 
   # Courses
   get 'courses' => 'courses#index'
   get 'courses/index'
   get 'courses/:id' => 'courses#show', as: 'course'
-  
+  get 'courses/:id/enroll_course' => 'courses#enroll_course'
+  get 'courses/:id/unenroll_course' => 'courses#unenroll_course'
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

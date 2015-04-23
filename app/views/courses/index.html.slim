@@ -1,26 +1,38 @@
-= content_for :title
+- content_for :title
   = t('courses.title')
 
-- if @courses.empty?
-  .panel.panel-default
-    .panel-body
-      = t('courses.no_courses')
+- content_for :header
+  .site-header
+    .wrapper
+      .logo
+        img src="/data/icons/courses.png"
+      .title
+        = t('courses.heading')
 
-- else
+- content_for :content
 
-  .courses-wrapper
-    - @courses.each do |course|
-      .courses
-        = link_to course
-          .course-image
-            - if course.imageId
-              = image_tag(course.imageId)
-            - else
-              img src="/data/icons/courses-list-std.png"
-          .course-info
-            .name
-              = course.name
-            = course.course_instructors
-            .provider
-              // TODO : Change to provider logo
-              img src="/data/logo-openSAP.png"
+  - if @courses.empty?
+    .panel.panel-default
+      .panel-body
+        = t('courses.no_courses')
+
+  - else
+    .courses-wrapper
+      - @courses.each do |course|
+        .courses
+          = link_to course
+            .course-image
+              - if course.imageId
+                = image_tag(course.imageId)
+              - else
+                img src="/data/icons/courses-list-std.png"
+            .course-info
+              .hd6
+                = course.name
+              = course.course_instructors
+              .provider
+                // TODO : Change to provider logo
+                img src="/data/logo-openSAP.png"
+
+- content_for :sidebar
+    = render 'filter'
