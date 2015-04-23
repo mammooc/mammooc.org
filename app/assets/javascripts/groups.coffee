@@ -18,7 +18,7 @@ $(document).ready(ready)
 
 send_invite = () ->
   group_id = $('#group_id').val()
-  url = '/groups/' + group_id + '/invite_members.json'
+  url = "/groups/#{group_id}/invite_members.json"
   data =
     members : $('#text_area_invite_members').val()
 
@@ -47,7 +47,7 @@ add_administrator = (event) ->
   button = $(event.target)
   group_id = button.data('group_id')
   user_id = button.data('user_id')
-  url = '/groups/' + group_id + '/add_administrator.json'
+  url = "/groups/#{group_id}/add_administrator.json"
   data =
     additional_administrator : user_id
 
@@ -66,7 +66,7 @@ demote_administrator = (event) ->
   button = $(event.target)
   group_id = button.data('group_id')
   user_id = button.data('user_id')
-  url = '/groups/' + group_id + '/condition_for_changing_member_status.json'
+  url = "/groups/#{group_id}/condition_for_changing_member_status.json"
   data =
     changing_member : user_id
 
@@ -85,7 +85,7 @@ demote_administrator = (event) ->
   event.preventDefault()
 
 demote_group_administrator = (group_id, user_id) ->
-  url = '/groups/' + group_id + '/demote_administrator.json'
+  url = "/groups/#{group_id}/demote_administrator.json"
   data =
     demoted_admin : user_id
 
@@ -104,7 +104,7 @@ remove_member = (event) ->
   group_id = button.data('group_id')
   user_id = button.data('user_id')
   user_name = button.data('user_name')
-  url = '/groups/' + group_id + '/condition_for_changing_member_status.json'
+  url = "/groups/#{group_id}/condition_for_changing_member_status.json"
   data =
     changing_member : user_id
 
@@ -133,9 +133,9 @@ remove_group_member = (event) ->
   user_id = $('#remove_member_user_id').val()
   user_name = $('#removing_user_name').text()
   if user_name.trim() == I18n.t('groups.remove_member.yourself')
-    url = '/groups/' + group_id + '/leave.json'
+    url = "/groups/#{group_id}/leave.json"
   else
-    url = '/groups/' + group_id + '/remove_group_member.json'
+    url = "/groups/#{group_id}/remove_group_member.json"
   data =
     removing_member : user_id
 
@@ -153,7 +153,7 @@ remove_group_member = (event) ->
 delete_group = (event) ->
   button = $(event.target)
   group_id = button.data('group_id')
-  url = '/groups/' + group_id + '.json'
+  url = "/groups/#{group_id}.json"
 
   $.ajax
     url: url
@@ -170,7 +170,7 @@ remove_last_admin = (event) ->
   button = $(event.target)
   group_id = button.data('group_id')
   user_id = button.data('user_id')
-  url = '/groups/' + group_id + '/all_members_to_administrators.json'
+  url = "/groups/#{group_id}/all_members_to_administrators.json"
 
   $.ajax
     url: url
@@ -183,7 +183,7 @@ remove_last_admin = (event) ->
   event.preventDefault()
 
 leave_group = (group_id, user_id) ->
-  url = '/groups/' + group_id + '/remove_group_member.json'
+  url = "/groups/#{group_id}/remove_group_member.json"
   data =
     removing_member : user_id
 

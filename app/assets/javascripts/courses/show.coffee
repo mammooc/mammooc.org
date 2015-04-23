@@ -23,7 +23,7 @@ toggleAccordion = (event) ->
 
 enrollCourse = (event) ->
   course_id = $(event.target).data('course-id')
-  url = '/courses/' + course_id + '/enroll_course.json'
+  url = "/courses/#{course_id}/enroll_course.json"
   $.ajax
     url: url
     method: 'GET'
@@ -40,7 +40,7 @@ enrollCourse = (event) ->
 
 unenrollCourse = (event) ->
   course_id = $(event.target).data('course-id')
-  url = '/courses/' + course_id + '/unenroll_course.json'
+  url = "/courses/#{course_id}/unenroll_course.json"
   $.ajax
     url: url
     method: 'GET'

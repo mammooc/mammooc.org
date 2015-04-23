@@ -76,7 +76,7 @@ generate_users_autocomplete = () ->
   get_my_groups()
   for group_id in group_ids
     $.ajax
-      url: '/groups/' + group_id + '/members.json'
+      url: "/groups/#{group_id}/members.json"
       async: false
       method: 'GET'
       error: (jqXHR, textStatus, errorThrown) ->
@@ -124,7 +124,7 @@ generate_course_autocomplete = () ->
   if 'course_id' of params
     course_id = params['course_id']
     $.ajax
-      url: '/courses/' + course_id + '.json'
+      url: "/courses/#{course_id}.json"
       method: 'GET'
       error: (jqXHR, textStatus, errorThrown) ->
         console.log('course id error')
@@ -136,7 +136,7 @@ generate_course_autocomplete = () ->
   else if 'group_id' of params
     group_id = params['group_id']
     $.ajax
-      url: '/groups/' + group_id + '.json'
+      url: "/groups/#{group_id}.json"
       method: 'GET'
       error: (jqXHR, textStatus, errorThrown) ->
         console.log('group id error')
