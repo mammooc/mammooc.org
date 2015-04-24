@@ -19,10 +19,10 @@ class ApiConnectionController < ApplicationController
   end
 
   def synchronize_courses_for_user
-    OpenHPIUserWorker.perform_async [current_user.id]
-    OpenSAPUserWorker.perform_async [current_user.id]
-    @status = render_to_string 'dashboard/_sidebar', formats: [:html]
-    puts @status
+    OpenHPIUserWorker.new.perform [current_user.id]
+    OpenSAPUserWorker.new.perform [current_user.id]
+    @partial = render_to_string partial: 'dashboard/user_courses', formats: [:html]
+    puts @partial
     respond_to do |format|
       begin
         format.html { redirect_to dashboard_path }

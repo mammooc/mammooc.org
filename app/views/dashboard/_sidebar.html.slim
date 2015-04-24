@@ -3,13 +3,8 @@
     = t('dashboard.my_current_courses')
     button.btn.btn-default id='sync-course-button'
       span.glyphicon.glyphicon-refresh
-  .blab
-    - if current_user.courses.empty?
-      = t('dashboard.no_courses')
-    - else
-      - current_user.courses.each do |course|
-        p
-          = link_to course.name, course_path(course)
+  .user-courses-container
+    = render partial: 'dashboard/user_courses'
   h3
     = link_to t('dashboard.my_groups'), groups_path
 

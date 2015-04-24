@@ -16,5 +16,5 @@ synchronizeCourse = () ->
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_status')
     success: (data, textStatus, jqXHR) ->
-      $("div.blab").html('test')
+      $("div.user-courses-container").html(data.partial)
   event.preventDefault()
