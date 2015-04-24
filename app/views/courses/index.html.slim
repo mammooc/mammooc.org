@@ -32,7 +32,7 @@
               = course.course_instructors
               .provider
                 // TODO : Change to provider logo
-                img src=AmazonS3.instance.get_object('logo-openSAP.png')
+                img src = "data:image/png;base64,#{@image}"
 
 - content_for :sidebar
     = render 'filter'

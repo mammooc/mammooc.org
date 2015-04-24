@@ -7,6 +7,9 @@ class CoursesController < ApplicationController
   # GET /courses.json
   def index
     @courses = Course.all
+    #image_b64 = Base64.encode64(File.open("/home/rosabraatz/mammooc/public/data/logo-openSAP.png").read)
+    #AmazonS3.instance.put_object('logo-openSAP.png', image_b64, {content_type: 'png'})
+    @image = AmazonS3.instance.get_data('logo-openSAP.png')
   end
 
   # GET /courses/1
