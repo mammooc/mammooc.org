@@ -1,6 +1,3 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
 
 ready = ->
   $('#sync-course-button').click(synchronizeCourse)
@@ -9,12 +6,13 @@ ready = ->
 $(document).ready(ready)
 
 synchronizeCourse = () ->
-  url = '/api_connection/synchronize_courses_for_user.json'
+  url = '/users/geilon/synchronize_courses.json'
   $.ajax
     url: url
     method: 'GET'
     error: (jqXHR, textStatus, errorThrown) ->
-      console.log('error_status')
+      console.log('error_synchronize')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       $("div.user-courses-container").html(data.partial)
   event.preventDefault()

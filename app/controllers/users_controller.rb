@@ -43,6 +43,23 @@ class UsersController < ApplicationController
     end
   end
 
+  def synchronize_courses
+    puts current_user
+    OpenHPIUserWorker.new.perform [current_user.id]
+    OpenSAPUserWorker.new.perform [current_user.id]
+    @partial = render_to_string partial: 'dashboard/user_courses', formats: [:html]
+    puts @partial
+    respond_to do |format|
+      begin
+        format.html { redirect_to dashboard_path }
+        format.json { render :synchronization_result, status: :ok }
+      rescue StandardError => e
+        format.html { redirect_to dashboard_path }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

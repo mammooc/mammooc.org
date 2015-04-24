@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  load_and_authorize_resource only: [:index, :show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :recommendations, :demote_administrator, :remove_group_member, :leave, :condition_for_changing_member_status, :all_members_to_administrators, :recommendations]
+  load_and_authorize_resource only: [:index, :show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :recommendations, :statistics, :demote_administrator, :remove_group_member, :leave, :condition_for_changing_member_status, :all_members_to_administrators, :recommendations, :synchronize_courses]
   
   NUMBER_OF_SHOWN_RECOMMENDATIONS = 2
   NUMBER_OF_SHOWN_USERS = 10
@@ -50,6 +50,10 @@ class GroupsController < ApplicationController
     @sorted_group_users = sort_by_name(@group.users - admins)
     @sorted_group_admins = sort_by_name(admins)
     @group_members = @group.users - [current_user]
+  end
+
+  def statistics
+
   end
 
   # POST /groups
@@ -174,6 +178,11 @@ class GroupsController < ApplicationController
         format.json { render json: e.to_json, status: :unprocessable_entity }
       end
     end
+  end
+
+  def synchronize_courses
+    OpenHPIUserWorker.perform_async @group.users
+    OpenSAPUserWorker.perform_async @group.users
   end
 
   # DELETE /groups/1

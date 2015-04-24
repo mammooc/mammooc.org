@@ -6,7 +6,6 @@ Rails.application.routes.draw do
   post'api_connection/send_user_request'
   get 'api_connection/update_user'
   get 'api_connection/update_all_users'
-  get 'api_connection/synchronize_courses_for_user' => 'api_connection#synchronize_courses_for_user'
 
 
   devise_for :users, :controllers => { :registrations => "users/registrations",
@@ -53,6 +52,8 @@ Rails.application.routes.draw do
   get 'home/index'
   get 'about' => 'static_pages#about'
   get 'dashboard' => 'dashboard#dashboard'
+
+  # Groups
   post 'groups/:id/invite_members' => 'groups#invite_group_members'
   post 'groups/:id/add_administrator' => 'groups#add_administrator'
   post 'groups/:id/demote_administrator' => 'groups#demote_administrator'
@@ -62,7 +63,10 @@ Rails.application.routes.draw do
   get 'groups/join/:token' => 'groups#join'
   get 'groups/:id/members' => 'groups#members'
   get 'groups/:id/recommendations' => 'groups#recommendations'
+  get 'groups/:id/statistics' => 'groups#statistics'
   get 'groups/:id/all_members_to_administrators' => 'groups#all_members_to_administrators'
+  get 'groups/:id/synchronize_courses' => 'groups#synchronize_courses'
+
   get 'impressum' => 'static_pages#impressum'
   get 'recommendations/:id/delete_user_from_recommendation' => 'recommendations#delete_user_from_recommendation'
   get 'recommendations/:id/delete_group_recommendation' => 'recommendations#delete_group_recommendation'
@@ -74,6 +78,9 @@ Rails.application.routes.draw do
   get 'courses/:id' => 'courses#show', as: 'course'
   get 'courses/:id/enroll_course' => 'courses#enroll_course'
   get 'courses/:id/unenroll_course' => 'courses#unenroll_course'
+
+  #Users
+  get 'users/:id/synchronize_courses' => 'users#synchronize_courses'
 
 
   # The priority is based upon order of creation: first created -> highest priority.
