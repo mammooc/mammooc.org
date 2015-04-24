@@ -6,7 +6,7 @@ ready = ->
 $(document).ready(ready)
 
 synchronizeCourse = () ->
-  url = '/users/geilon/synchronize_courses.json'
+  url = '/users/synchronize_courses.json'
   $.ajax
     url: url
     method: 'GET'

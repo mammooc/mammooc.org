@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   get 'api_connection/update_user'
   get 'api_connection/update_all_users'
 
+  # Users
+  get 'users/synchronize_courses' => 'users#synchronize_courses'
 
   devise_for :users, :controllers => { :registrations => "users/registrations",
                                        :sessions => "users/sessions",
@@ -78,9 +80,6 @@ Rails.application.routes.draw do
   get 'courses/:id' => 'courses#show', as: 'course'
   get 'courses/:id/enroll_course' => 'courses#enroll_course'
   get 'courses/:id/unenroll_course' => 'courses#unenroll_course'
-
-  #Users
-  get 'users/:id/synchronize_courses' => 'users#synchronize_courses'
 
 
   # The priority is based upon order of creation: first created -> highest priority.
