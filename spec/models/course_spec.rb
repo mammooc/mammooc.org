@@ -69,7 +69,7 @@ RSpec.describe Course, :type => :model do
     expect{course1.save!}.not_to raise_error
   end
 
-  it "should return the our course id for a given mooc provider and its provider course id" do
+  it "should return our course id for a given mooc provider and its provider course id" do
     course_id = Course.get_course_id_by_mooc_provider_id_and_provider_course_id provider, '123'
     expect(course_id).to eq course1.id
   end

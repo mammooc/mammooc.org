@@ -62,15 +62,18 @@ Rails.application.routes.draw do
   get 'groups/:id/recommendations' => 'groups#recommendations'
   get 'groups/:id/all_members_to_administrators' => 'groups#all_members_to_administrators'
   get 'impressum' => 'static_pages#impressum'
-  get 'recommendations/:id/delete' => 'recommendations#delete'
-  get 'recommendations/:id/delete/:group' => 'recommendations#delete'
+  get 'recommendations/:id/delete_user_from_recommendation' => 'recommendations#delete_user_from_recommendation'
+  get 'recommendations/:id/delete_group_recommendation' => 'recommendations#delete_group_recommendation'
   root :to => 'home#index'
 
   # Courses
   get 'courses' => 'courses#index'
   get 'courses/index'
   get 'courses/:id' => 'courses#show', as: 'course'
-  
+  get 'courses/:id/enroll_course' => 'courses#enroll_course'
+  get 'courses/:id/unenroll_course' => 'courses#unenroll_course'
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

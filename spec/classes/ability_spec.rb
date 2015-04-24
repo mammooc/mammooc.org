@@ -106,9 +106,10 @@ RSpec.describe Ability do
       UserGroup.set_is_admin(group.id, user.id, true)
       group
     }
-    let(:recommendation_of_user) { FactoryGirl.create :recommendation, users: [user] }
-    let(:recommendation_of_group) { FactoryGirl.create :recommendation, groups: [group] }
-    let(:recommendation_of_group_admin) { FactoryGirl.create :recommendation, groups: [group_with_admin] }
+    let(:recommendation_of_user) { FactoryGirl.create :user_recommendation, users: [user] }
+    let(:recommendation_of_another_user) { FactoryGirl.create :user_recommendation, users: [second_user] }
+    let(:recommendation_of_group) { FactoryGirl.create :group_recommendation, group: group }
+    let(:recommendation_of_group_admin) { FactoryGirl.create :group_recommendation, group: group_with_admin }
 
     describe 'create' do
       it { is_expected.to be_able_to(:create, Recommendation.new) }
@@ -118,10 +119,14 @@ RSpec.describe Ability do
       it { is_expected.to be_able_to(:index, Recommendation.new) }
     end
 
-    describe 'delete' do
-      it { is_expected.to be_able_to(:delete, recommendation_of_user) }
-      it { is_expected.to_not be_able_to(:delete, recommendation_of_group)}
-      it { is_expected.to be_able_to(:delete, recommendation_of_group_admin)}
+    describe 'delete_user_from_recommendation' do
+      it { is_expected.to be_able_to(:delete_user_from_recommendation, recommendation_of_user) }
+      it { is_expected.to_not be_able_to(:delete_user_from_recommendation, recommendation_of_another_user) }
+    end
+
+    describe 'delete_group_recommendation' do
+      it { is_expected.to_not be_able_to(:delete_group_recommendation, recommendation_of_group)}
+      it { is_expected.to be_able_to(:delete_group_recommendation, recommendation_of_group_admin)}
     end
 
     describe 'create as user without groups' do

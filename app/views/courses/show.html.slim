@@ -1,47 +1,3 @@
-/ for recommendations
-/h3
-/  = t('courses.recommendations')
-/- @recommendations.each do |recommendation_array|
-/  .comment
-/    .profile-picture
-/      - if recommendation_array[0].user.profile_image_id
-/        img src=recommendation_array[0].user.profile_image_id
-/      - else
-/        img src="/data/default.png"
-/    = link_to recommendation_array[0].user
-/      = "#{recommendation_array[0].user.first_name} #{recommendation_array[0].user.last_name}"
-/
-/    - if recommendation_array[1]
-/      - if recommendation_array[0].is_obligatory
-/        .participation-obligatory
-/          => t('recommendation.group.obligatory')
-/          = link_to recommendation_array[1].name, group_path(recommendation_array[1])
-/      - else
-/        .participation-recommended
-/          => t('recommendation.group.recommended')
-/          = link_to recommendation_array[1].name, group_path(recommendation_array[1])
-/    - else
-/      - if recommendation_array[0].is_obligatory
-/        .participation-obligatory
-/          = t('recommendation.obligatory')
-/      - else
-/        .participation-recommended
-/          = t('recommendation.recommended')
-/
-/    - if recommendation_array[0].text.empty?
-/      - if recommendation_array[1]
-/        - if recommendation_array[0].is_obligatory
-/          =< t('recommendation.group.has_pledged')
-/        - else
-/          =< t('recommendation.group.has_recommended')
-/      - else
-/        - if recommendation_array[0].is_obligatory
-/          =< t('recommendation.has_pledged')
-/        - else
-/          =< t('recommendation.has_recommended')
-/    - else
-/      = "\"#{recommendation_array[0].text}\""
-
 - content_for :title
   = @course.name + ' | mammooc'
 
@@ -49,25 +5,29 @@
 
   .course-infobox
     .wrapper
-      - if @course.imageId
-        = image_tag(@course.imageId)
+      .course-image
+        - if @course.imageId
+          = image_tag(@course.imageId)
       .content
         .title
-          = @course.name
+          = link_to @course.url, target: "_blank"
+            = @course.name
         // TODO : Include Rating (stars + number of ratings)
-        = t('global.by')
-        = @course.course_instructors
+        - if @course.course_instructors
+          = t('global.by')
+          = @course.course_instructors
         p
+        img src="/data/icons/calendar.png" class="pr5" style="height:18px"
         - if @course.start_date && @course.end_date
           - if @course.start_date > Date.today
-            | Kurs beginnt am:
+            => t('courses.starting_soon')
             = @course.start_date.strftime("%d.%m.%Y")
           - elsif @course.start_date == Date.today
-            | Kurs startet heute, jetzt einschreiben!
+            = t('courses.starts_today')
           - elsif @course.start_date < Date.today and @course.end_date < Date.today
-            | Kurs läuft
+            => t('courses.already_running')
           - else
-            | Zeitraum:
+            => t('courses.course_dates')
             = @course.start_date.strftime("%d.%m.%Y") + ' - ' + @course.end_date.strftime("%d.%m.%Y")
         - elsif @course.start_date
           = @course.start_date
@@ -75,28 +35,29 @@
           = t('courses.no_dates_available')
         p
         - if @course.language
-          | Kurssprache:
+          img src="/data/icons/globe.png" class="pr5" style="height:18px"
           = @course.language
       .options
         img src="/data/logo-openSAP.png"
     .subnav
-      = link_to @course.url, target: "_blank"
-        .entry
-          = t('courses.enter_course')
-      = link_to new_bookmark_path
-        .entry
-          = t('courses.remember_course')
-      = link_to '#'
-        .entry
+      a class="entry" href=''
+        = t('courses.remember_course')
+      - if user_signed_in?
+        - if current_user.courses.include? @course
+          a class="entry" href='' id='unenroll-course-link' data-course-id='#{@course.id}'
+            = t('courses.unenroll_course')
+        - else
+          a class="entry" href='' id='enroll-course-link' data-course-id='#{@course.id}'
+            = t('courses.enroll_course')
+      - else
+        a class="entry" href=new_user_session_path
           = t('courses.enroll_course')
       div role="tab" id="courses-subnav-recommend"
-        a data-toggle="collapse" href="#recommend-course" id="recommend-course-link" aria-expanded="false" aria-controls="recommend-course"
-          .entry
-            = t('courses.recommend_course')
+        a class="entry" data-toggle="collapse" href="#recommend-course" id="recommend-course-link" aria-expanded="false" aria-controls="recommend-course"
+          = t('courses.recommend_course')
       div role="tab" id="courses-subnav-rate"
-        a data-toggle="collapse" href="#rate-course" id="rate-course-link" aria-expanded="false" aria-controls="rate-course"
-          .entry
-            = t('courses.rate_course')
+        a class="entry" data-toggle="collapse" href="#rate-course" id="rate-course-link" aria-expanded="false" aria-controls="rate-course"
+          = t('courses.rate_course')
 
     .collapse id="recommend-course" role="tabpanel" aria-labelledby="courses-subnav-recommend"
       .collapse-subnav
@@ -106,23 +67,84 @@
       .collapse-subnav
         = render 'rating'
 
-  - if @course.abstract
-    .panel.panel-default
-      .panel-body
-        = raw @course.abstract
-  - if @course.description
-    h3
-      = t('courses.description')
-    = raw @course.description
-  h3
-    = t('courses.recommendations')
-  | blablabla
-  h3
-    = t('courses.rating')
-    = link_to new_evaluation_path
-      button.btn.btn-default
-        = t('courses.rate_course')
-  | blablabla
+  - if @course.abstract or @course.description
+    .course-details id="course-description"
+      .about
+        .title
+          = t('courses.about')
+        .content
+          - if @course.abstract
+            .hd4
+              = t('courses.abstract')
+            p
+              = raw @course.abstract
+          - if @course.description
+            .hd4
+              = t('courses.description')
+            p
+              = raw @course.description
+        a class="show-more" id="course-description-show-more" style="display: none"
+          = t('global.show_more')
+
+  - if @recommendations.present?
+    .course-details id="course-recommendations"
+      .title
+        = t('courses.recommendations')
+      .content
+        - @recommendations.each_with_index do |recommendation, index|
+          .recommendation-small
+            .user-info
+              = link_to recommendation.author
+                - if recommendation.author.profile_image_id
+                  img src=recommendation.author.profile_image_id
+                - else
+                  img src="/data/default.png"
+              .name
+                = link_to recommendation.author
+                  = "#{recommendation.author.first_name} #{recommendation.author.last_name}"
+                .small
+                  = t('courses.user_belongs_to_group')
+                  | openHPI
+              .pull-right.small
+                // TODO : put label or something nice instead of text
+                - if recommendation.group.present?
+                  - if recommendation.is_obligatory
+                    .participation-obligatory
+                      => t('recommendation.group.obligatory')
+                      = link_to recommendation.group.name, group_path(recommendation.group)
+                  - else
+                    .participation-recommended
+                      => t('recommendation.group.recommended')
+                      = link_to recommendation.group.name, group_path(recommendation.group)
+                - else
+                  - if recommendation.is_obligatory
+                    .participation-obligatory
+                      = t('recommendation.obligatory')
+                  - else
+                    .participation-recommended
+                      = t('recommendation.recommended')
+            .comment
+              - if recommendation.text.empty?
+                - if recommendation.group.present?
+                  - if recommendation.is_obligatory
+                    =< t('recommendation.group.has_pledged')
+                  - else
+                    =< t('recommendation.group.has_recommended')
+                - else
+                  - if recommendation.is_obligatory
+                    =< t('recommendation.has_pledged')
+                  - else
+                    =< t('recommendation.has_recommended')
+              - else
+                = "\"#{recommendation.text}\""
+          - if index < @recommendations.size - 1
+            .gradient-divider
+
+  .course-details
+    .title
+      = t('courses.rating')
+    .content
+      | blablabla
 
 - content_for :sidebar
   = render 'sidebar'

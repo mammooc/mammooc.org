@@ -1,6 +1,12 @@
-class OpenSAPChinaUserWorker < AbstractXikoloUserWorker
+class OpenSAPChinaUserWorker
+  include Sidekiq::Worker
 
-  MOOC_PROVIDER_NAME = 'openSAP China'
-  MOOC_PROVIDER_API_ROOT_LINK = 'https://open.sap.cn/api/'
+  def perform(user_ids=nil)
+    if user_ids.nil?
+      OpenSAPChinaConnector.new.load_user_data
+    else
+      OpenSAPChinaConnector.new.load_user_data User.find(user_ids)
+    end
+  end
 
 end

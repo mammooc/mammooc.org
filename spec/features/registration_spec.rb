@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Users::RegistrationsController, :type => :feature do
+RSpec.describe Users::RegistrationsController, type: :feature do
 
     let(:user) { FactoryGirl.build_stubbed(:user) }
 

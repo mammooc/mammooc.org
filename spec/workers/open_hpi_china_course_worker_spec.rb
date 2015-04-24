@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe OpenHPIChinaCourseWorker do
+RSpec.describe OpenHPIChinaCourseWorker do
 
   let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI China') }
 

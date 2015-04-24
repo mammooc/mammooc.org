@@ -1,3 +1,45 @@
+// How to show recommendations on course detail page
+
+$user-picture-size: 50px;
+
+.recommendation-small {
+  padding-top: 5px;
+
+  .user-info {
+    min-height: $user-picture-size;
+
+    img {
+      width: $user-picture-size;
+      margin-top: -10px;
+      margin-right: 10px;
+    }
+
+    .name {
+      display: inline-block;
+      line-height: 16px;
+      font-weight: 300;
+
+      a {
+        @include link-black-hover-green;
+        font-size: 14px;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .comment {
+
+  }
+
+}
+
+.course-details > .content > .gradient-divider {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+// How to show recommendations on dashboard / group dashboard
+
 .recommendations-wrapper {
 
   .recommendations {
