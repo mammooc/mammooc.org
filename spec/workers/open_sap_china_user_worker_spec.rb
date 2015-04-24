@@ -9,7 +9,7 @@ RSpec.describe OpenSAPChinaUserWorker do
   end
 
   it 'should load all users when no argument is passed' do
-    expect_any_instance_of(OpenSAPChinaConnector).to receive(:load_user_data).with(nil)
+    expect_any_instance_of(OpenSAPChinaConnector).to receive(:load_user_data).with(no_args)
     OpenSAPChinaUserWorker.perform_async
   end
 

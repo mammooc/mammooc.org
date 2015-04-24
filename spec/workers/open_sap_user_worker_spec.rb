@@ -9,7 +9,7 @@ RSpec.describe OpenSAPUserWorker do
   end
 
   it 'should load all users when no argument is passed' do
-    expect_any_instance_of(OpenSAPConnector).to receive(:load_user_data).with(nil)
+    expect_any_instance_of(OpenSAPConnector).to receive(:load_user_data).with(no_args)
     OpenSAPUserWorker.perform_async
   end
 

@@ -3,11 +3,11 @@ require 'rails_helper'
 RSpec.describe "recommendations/index", :type => :view do
   let(:user) { FactoryGirl.create(:user) }
   let(:course) { FactoryGirl.create(:course) }
-  let(:first_recommendation) {FactoryGirl.create(:recommendation, author: user, course: course)}
-  let(:second_recommendation) {FactoryGirl.create(:recommendation, author: user, course: course)}
+  let(:first_recommendation) {FactoryGirl.create(:user_recommendation, author: user, course: course)}
+  let(:second_recommendation) {FactoryGirl.create(:user_recommendation, author: user, course: course)}
 
   before(:each) do
-    @recommendations = [[first_recommendation, nil], [second_recommendation, nil]]
+    @recommendations = [first_recommendation, second_recommendation]
   end
 
   it "renders a list of recommendations" do

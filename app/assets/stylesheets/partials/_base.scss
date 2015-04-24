@@ -17,6 +17,57 @@ html, body {
   display: inline;
 }
 
+/* Headings */
+
+// giant headings for... we will see
+
+.hd1 {
+  font-size: 28px;
+  font-weight: 500;
+}
+
+// big headings, e.g. Course title
+
+.hd2 {
+  font-size: 24px;
+  font-weight: 400;
+}
+
+// Category titles / title of current page, e.g. "My Groups"
+
+.hd3 {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+// headings/titles of page content
+
+.hd4 {
+  display: block;
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.hd5 {
+  display: block;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.hd6 {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Cutomize Bootstrap */
+
+h4,
+.h4 {
+  font-size: 16px;
+  font-weight: 300;
+}
+
 // Customize Bootstrap Modal
 
 .modal-backdrop {

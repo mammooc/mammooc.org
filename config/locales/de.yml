@@ -21,11 +21,15 @@
 
 de:
   global:
-    require_login: Sie müssen eingeloggt sein um auf diese Seite zugreifen zu können.
+    require_login: Du musst eingeloggt sein um auf diese Seite zugreifen zu können.
     close: Schließen
     submit: Absenden
     cancel: Abbrechen
     by: 'von '
+    ajax_failed: Hoppla! Bei der Anforderung ist etwas schief gelaufen. Bitte versuche es erneut.
+    show_more: Mehr anzeigen
+    show_less: Weniger anzeigen
+    show_details: Details anzeigen
 
   navbar:
     mammooc: mammooc
@@ -93,8 +97,8 @@ de:
       recommendations: Empfehlungen
       statistics: Statistiken
     invitation:
-      joined_group: Sie wurden der Gruppe hinzugefügt.
-      already_member: Sie sind schon Mitglied in der Gruppe.
+      joined_group: Du wurdest der Gruppe hinzugefügt.
+      already_member: Du bist schon Mitglied in der Gruppe.
       group_deleted: Gruppe gelöscht.
       link_expired: Link ist abgelaufen.
       link_used: Link wurde bereits verwendet.
@@ -157,7 +161,13 @@ de:
     title: Kursübersicht | mammooc
     heading: Kurse
     no_courses: Keine Kurse verfügbar
-    description: Kursinformationen
+    starting_soon: Kurs beginnt am
+    starts_today: Kurs beginnt heute
+    already_running: Kurs läuft
+    course_dates: 'Zeitraum:'
+    about: Über diesen Kurs
+    abstract: Zusammenfassung
+    description: Kursbeschreibung
     reviews: Rezensionen
     mooc_provider: Kursanbieter
     instructors: Lehrpersonen
@@ -176,13 +186,20 @@ de:
     recommend_course: Kurs empfehlen
     rate_course: Kurs bewerten
     recommendations: Empfehlungen
+    user_belongs_to_group: 'Gruppe: '
+    user_belongs_to_groups: 'Gruppen: '
     rating: Bewertung
     credit_points: Leistungspunkte
-    no_dates_available: Es sind keine Daten vorhanden.
+    no_dates_available: Es wurde kein Zeitraum angegeben
     duration: Dauer
     subtitle_languages: Verfügbare Untertitel
     previous_iteration: Vorheriger Durchlauf
     following_iteration: Nachfolgender Durchlauf
+    enrollment_error: Die Belegung beim MOOC-Anbieter hat leider nicht funktioniert.
+    unenrollment_error: Das Entfernen der Belegung beim MOOC-Anbieter hat leider nicht funktioniert.
+    sidebar:
+      recommended_by: Wurde dir empfohlen von
+      details: Kursdetails
 
   recommendation:
     placeholder: Gib deine persönliche Nachricht hier ein ...
@@ -222,9 +239,9 @@ de:
       taken: ist bereits belegt.
       blank: muss ausgefüllt werden.
       login:
-        reqired: Sie müssen eingeloggt sein.
+        reqired: Du musst eingeloggt sein.
       sign_up:
-        terms_and_conditions_failure: Bitte bestätigen Sie die AGBs von mammooc!
+        terms_and_conditions_failure: Bitte bestätige die AGBs von mammooc!
       user:
         password_too_short: ist zu kurz (Minimum sind %{count} Zeichen).
         password_confirmation: stimmt nicht mit Passwort überein.
@@ -278,7 +295,7 @@ de:
     impressum:
       heading: Impressum
       title: Impressum | mammooc
-      text: Unser Impressum finden Sie aktuell auf der Webseite von openHPI.
+      text: Unser Impressum findest Du aktuell auf der Webseite von openHPI.
       link: Zum Impressum
 
   unauthorized:
@@ -287,9 +304,9 @@ de:
     new:
       recommendation: :unauthorized.create.recommendation
     show:
-      group: Sie haben keinen Zugriff auf diese Gruppe.
+      group: Du hast keinen Zugriff auf diese Gruppe.
     edit:
-      group: Sie können diese Gruppe nicht bearbeiten.
+      group: Du kannst diese Gruppe nicht bearbeiten.
     members:
       group: :unauthorized.show.group
     admins:

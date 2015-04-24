@@ -64,8 +64,8 @@ Rails.application.routes.draw do
   get 'groups/:id/recommendations' => 'groups#recommendations'
   get 'groups/:id/all_members_to_administrators' => 'groups#all_members_to_administrators'
   get 'impressum' => 'static_pages#impressum'
-  get 'recommendations/:id/delete' => 'recommendations#delete'
-  get 'recommendations/:id/delete/:group' => 'recommendations#delete'
+  get 'recommendations/:id/delete_user_from_recommendation' => 'recommendations#delete_user_from_recommendation'
+  get 'recommendations/:id/delete_group_recommendation' => 'recommendations#delete_group_recommendation'
   root :to => 'home#index'
 
   # Courses

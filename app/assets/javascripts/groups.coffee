@@ -18,7 +18,7 @@ $(document).ready(ready)
 
 send_invite = () ->
   group_id = $('#group_id').val()
-  url = '/groups/' + group_id + '/invite_members.json'
+  url = "/groups/#{group_id}/invite_members.json"
   data =
     members : $('#text_area_invite_members').val()
 
@@ -47,7 +47,7 @@ add_administrator = (event) ->
   button = $(event.target)
   group_id = button.data('group_id')
   user_id = button.data('user_id')
-  url = '/groups/' + group_id + '/add_administrator.json'
+  url = "/groups/#{group_id}/add_administrator.json"
   data =
     additional_administrator : user_id
 
@@ -57,6 +57,7 @@ add_administrator = (event) ->
     method: 'POST'
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_add')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       change_style_to_admin(user_id)
   event.preventDefault()
@@ -65,7 +66,7 @@ demote_administrator = (event) ->
   button = $(event.target)
   group_id = button.data('group_id')
   user_id = button.data('user_id')
-  url = '/groups/' + group_id + '/condition_for_changing_member_status.json'
+  url = "/groups/#{group_id}/condition_for_changing_member_status.json"
   data =
     changing_member : user_id
 
@@ -75,6 +76,7 @@ demote_administrator = (event) ->
     method: 'POST'
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_status')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       if data.status == 'last_member' || data.status == 'last_admin'
         $('#notice_demote_last_admin').modal('show')
@@ -83,7 +85,7 @@ demote_administrator = (event) ->
   event.preventDefault()
 
 demote_group_administrator = (group_id, user_id) ->
-  url = '/groups/' + group_id + '/demote_administrator.json'
+  url = "/groups/#{group_id}/demote_administrator.json"
   data =
     demoted_admin : user_id
 
@@ -93,6 +95,7 @@ demote_group_administrator = (group_id, user_id) ->
     method: 'POST'
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_demote')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       change_style_to_member(user_id)
 
@@ -101,7 +104,7 @@ remove_member = (event) ->
   group_id = button.data('group_id')
   user_id = button.data('user_id')
   user_name = button.data('user_name')
-  url = '/groups/' + group_id + '/condition_for_changing_member_status.json'
+  url = "/groups/#{group_id}/condition_for_changing_member_status.json"
   data =
     changing_member : user_id
 
@@ -111,6 +114,7 @@ remove_member = (event) ->
     method: 'POST'
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_status')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       if data.status == 'last_member'
         $('#confirmation_remove_last_member').modal('show')
@@ -129,9 +133,9 @@ remove_group_member = (event) ->
   user_id = $('#remove_member_user_id').val()
   user_name = $('#removing_user_name').text()
   if user_name.trim() == I18n.t('groups.remove_member.yourself')
-    url = '/groups/' + group_id + '/leave.json'
+    url = "/groups/#{group_id}/leave.json"
   else
-    url = '/groups/' + group_id + '/remove_group_member.json'
+    url = "/groups/#{group_id}/remove_group_member.json"
   data =
     removing_member : user_id
 
@@ -141,6 +145,7 @@ remove_group_member = (event) ->
     method: 'POST'
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_remove')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       $('#confirmation_remove_member').modal('hide')
       delete_member_out_of_list(user_id)
@@ -148,13 +153,14 @@ remove_group_member = (event) ->
 delete_group = (event) ->
   button = $(event.target)
   group_id = button.data('group_id')
-  url = '/groups/' + group_id + '.json'
+  url = "/groups/#{group_id}.json"
 
   $.ajax
     url: url
     method: 'DELETE'
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_delete_group')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       $('#confirmation_remove_last_member').modal('hide')
       window.location.replace('/groups')
@@ -164,19 +170,20 @@ remove_last_admin = (event) ->
   button = $(event.target)
   group_id = button.data('group_id')
   user_id = button.data('user_id')
-  url = '/groups/' + group_id + '/all_members_to_administrators.json'
+  url = "/groups/#{group_id}/all_members_to_administrators.json"
 
   $.ajax
     url: url
     method: 'GET'
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_remove_last_admin')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       leave_group(group_id, user_id)
   event.preventDefault()
 
 leave_group = (group_id, user_id) ->
-  url = '/groups/' + group_id + '/remove_group_member.json'
+  url = "/groups/#{group_id}/remove_group_member.json"
   data =
     removing_member : user_id
 
@@ -186,6 +193,7 @@ leave_group = (group_id, user_id) ->
     method: 'POST'
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_leave_group')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       $('#confirmation_remove_last_admin').modal('hide')
       window.location.replace('/groups')

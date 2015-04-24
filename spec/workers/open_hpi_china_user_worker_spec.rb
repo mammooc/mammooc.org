@@ -9,7 +9,7 @@ RSpec.describe OpenHPIChinaUserWorker do
   end
 
   it 'should load all users when no argument is passed' do
-    expect_any_instance_of(OpenHPIChinaConnector).to receive(:load_user_data).with(nil)
+    expect_any_instance_of(OpenHPIChinaConnector).to receive(:load_user_data).with(no_args)
     OpenHPIChinaUserWorker.perform_async
   end
 

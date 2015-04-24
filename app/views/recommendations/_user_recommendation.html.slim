@@ -1,19 +1,15 @@
 .recommendations id='#{id}'
-  - if context_is_group && group
-    span.glyphicon.glyphicon-remove.remove-recommendation-group data-group_id='#{group.id}' data-recommendation_id='#{recommendation.id}'
-  - else
-    - unless group
-      span.glyphicon.glyphicon-remove.remove-recommendation-current-user data-recommendation_id='#{recommendation.id}'
+  span.glyphicon.glyphicon-remove.remove-recommendation-current-user data-recommendation_id='#{recommendation.id}'
   = link_to course_path(recommendation.course)
-    - if group
+    - if recommendation.group
       - if recommendation.is_obligatory
         .participation-obligatory
           => t('recommendation.group.obligatory')
-          = link_to group.name, group_path(group)
+          = link_to recommendation.group.name, group_path(recommendation.group)
       - else
         .participation-recommended
           => t('recommendation.group.recommended')
-          = link_to group.name, group_path(group)
+          = link_to recommendation.group.name, group_path(recommendation.group)
     - else
       - if recommendation.is_obligatory
         .participation-obligatory
@@ -44,7 +40,7 @@
     = link_to recommendation.author
       = "#{recommendation.author.first_name} #{recommendation.author.last_name}"
     - if recommendation.text.empty?
-      - if group
+      - if recommendation.group
         - if recommendation.is_obligatory
           =< t('recommendation.group.has_pledged')
         - else
