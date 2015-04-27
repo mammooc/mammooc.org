@@ -302,9 +302,9 @@ class GroupsController < ApplicationController
     def demote_admin
       UserGroup.set_is_admin(@group.id, demoted_admin, false)
       if User.find(demoted_admin) == current_user
-        @status = 'self'
+        @status = 'demote myself'
       else
-        @status = 'ok'
+        @status = 'demote another member'
       end
     end
 
