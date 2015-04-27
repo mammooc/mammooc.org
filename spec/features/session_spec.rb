@@ -37,4 +37,20 @@ RSpec.describe Users::SessionsController, type: :feature do
     click_link 'nav_sign_out_button'
     expect(page).to have_text(I18n.t('devise.sessions.signed_out'))
   end
+
+  it 'should update course data after sucessful sign in' do
+    expect(UserWorker).to receive(:perform_async).with([user.id])
+    fill_in 'login_email', with: user.email
+    fill_in 'login_password', with: user.password
+    click_button 'submit_sign_in'
+    expect(page).to have_text(I18n.t('devise.sessions.signed_in'))
+  end
+
+  it 'should not update course data after unsuccessful login attempt' do
+    expect(UserWorker).not_to receive(:perform_async).with([user.id])
+    fill_in 'login_email', with: 'wrongemail@example.com'
+    fill_in 'login_password', with: 'wrongpassword'
+    click_button 'submit_sign_in'
+    expect(page).to have_text(I18n.t('devise.failure.not_found_in_database', authentication_keys: 'email'))
+  end
 end
