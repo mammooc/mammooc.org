@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   get 'api_connection/update_all_users'
 
   # Users
-  get 'users/synchronize_courses' => 'users#synchronize_courses'
+  get 'users/:id/synchronize_courses' => 'users#synchronize_courses'
 
   devise_for :users, :controllers => { :registrations => "users/registrations",
                                        :sessions => "users/sessions",

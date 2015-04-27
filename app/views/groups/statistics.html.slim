@@ -1,6 +1,6 @@
 - content_for :title
   = @group.name + ' | mammooc'
 
-- if can? :update_group_user_data, @group
-  button.btn.btn-default id='sync-course-button' data-group_id='#{@group.id}'
-    span.glyphicon.glyphicon-refresh
+- if can? :synchronize_courses, @group
+  button.btn.btn-default id='sync-group-course-button' data-group_id='#{@group.id}'
+    span.glyphicon.glyphicon-refresh data-group_id='#{@group.id}'

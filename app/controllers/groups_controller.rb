@@ -181,8 +181,17 @@ class GroupsController < ApplicationController
   end
 
   def synchronize_courses
-    OpenHPIUserWorker.perform_async @group.users
-    OpenSAPUserWorker.perform_async @group.users
+    OpenHPIUserWorker.perform_async @group.users.pluck(:id)
+    OpenSAPUserWorker.perform_async @group.users.pluck(:id)
+    respond_to do |format|
+      begin
+        format.html { redirect_to dashboard_path }
+        format.json { render :synchronization_result, status: :ok }
+      rescue StandardError => e
+        format.html { redirect_to dashboard_path }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
   end
 
   # DELETE /groups/1

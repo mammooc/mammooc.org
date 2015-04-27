@@ -1,12 +1,14 @@
 
 ready = ->
-  $('#sync-course-button').click(synchronizeCourse)
+  $('#sync-user-course-button').on 'click', (event) -> synchronizeCourse(event)
   return
 
 $(document).ready(ready)
 
-synchronizeCourse = () ->
-  url = '/users/synchronize_courses.json'
+synchronizeCourse = (event) ->
+  button = $(event.target)
+  user_id = button.data('user_id')
+  url = "/users/#{user_id}/synchronize_courses.json"
   $.ajax
     url: url
     method: 'GET'
