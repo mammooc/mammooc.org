@@ -42,7 +42,7 @@ showLess = () ->
   $('#course-description-show-more.show-more').click(showMore)
 
 enrollCourse = (event) ->
-  course_id = $(event.target).data('course-id')
+  course_id = $(event.target).data('course_id')
   url = "/courses/#{course_id}/enroll_course.json"
   $.ajax
     url: url
@@ -61,7 +61,7 @@ enrollCourse = (event) ->
   event.preventDefault()
 
 unenrollCourse = (event) ->
-  course_id = $(event.target).data('course-id')
+  course_id = $(event.target).data('course_id')
   url = "/courses/#{course_id}/unenroll_course.json"
   $.ajax
     url: url

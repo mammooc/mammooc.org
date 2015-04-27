@@ -264,4 +264,27 @@ RSpec.describe GroupsController, type: :feature do
       expect(UserGroup.where(group_id: group.id, user_id: user.id).empty?).to be_truthy
     end
   end
+
+  describe 'update statistics' do
+    it 'should start user workers', js: true do
+      expect(OpenHPIUserWorker).to receive(:perform_async).with(group.users.pluck(:id))
+      expect(OpenSAPUserWorker).to receive(:perform_async).with(group.users.pluck(:id))
+
+      visit "/groups/#{group.id}/statistics"
+      click_button 'sync-group-course-button'
+      wait_for_ajax
+    end
+
+    it 'should not display update button if user has no admin privileges', js: true do
+      click_link "#{user.first_name} #{user.last_name}"
+      click_link I18n.t('navbar.sign_out')
+      visit new_user_session_path
+      fill_in 'login_email', with: second_user.email
+      fill_in 'login_password', with: second_user.password
+      click_button 'submit_sign_in'
+      visit "/groups/#{group.id}/statistics"
+      expect(page).to have_no_selector('sync-group-course-button')
+    end
+  end
+
 end

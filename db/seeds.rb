@@ -7,10 +7,10 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 provider1 = MoocProvider.create(name: 'testProvider')
-MoocProvider.create(name: 'openHPI')
+openHPI = MoocProvider.create(name: 'openHPI')
+openSAP = MoocProvider.create(name: 'openSAP')
 MoocProvider.create(name: 'openHPI China')
 MoocProvider.create(name: 'mooc.house')
-MoocProvider.create(name: 'openSAP')
 MoocProvider.create(name: 'edX')
 MoocProvider.create(name: 'coursera')
 MoocProvider.create(name: 'openSAP China')
@@ -102,3 +102,16 @@ UserGroup.set_is_admin(group3.id, user2.id, true)
 4.times do FactoryGirl.create(:group_recommendation, course: full_course, group: group1, users: group1.users) end
 3.times do FactoryGirl.create(:user_recommendation, course: full_course, users: [user1]) end
 2.times do FactoryGirl.create(:user_recommendation, course: full_course, users: [user2]) end
+
+OpenHPICourseWorker.perform_async
+OpenSAPCourseWorker.perform_async
+EdxCourseWorker.perform_async
+CourseraCourseWorker.perform_async
+
+if ENV['OPEN_HPI_TOKEN'].present?
+  FactoryGirl.create(:mooc_provider_user, user: user1, mooc_provider: openHPI, authentication_token: ENV['OPEN_HPI_TOKEN'])
+end
+
+if ENV['OPEN_SAP_TOKEN'].present?
+  FactoryGirl.create(:mooc_provider_user, user: user1, mooc_provider: openSAP, authentication_token: ENV['OPEN_SAP_TOKEN'])
+end
