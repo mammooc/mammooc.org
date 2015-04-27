@@ -255,4 +255,16 @@ RSpec.describe GroupsController, type: :feature do
       expect(UserGroup.where(group_id: group.id, user_id: user.id).empty?).to be_truthy
     end
   end
+
+  describe 'update statistics' do
+    it 'should start user workers', js: true do
+      expect(OpenHPIUserWorker).to receive(:perform_async).with(group.users.pluck(:id))
+      expect(OpenSAPUserWorker).to receive(:perform_async).with(group.users.pluck(:id))
+
+      visit "/groups/#{group.id}/statistics"
+      click_button 'sync-group-course-button'
+      wait_for_ajax
+    end
+  end
+
 end
