@@ -38,7 +38,7 @@ RSpec.describe Users::SessionsController, type: :feature do
     expect(page).to have_text(I18n.t('devise.sessions.signed_out'))
   end
 
-  it 'should update course data after sucessful sign in' do
+  it 'should update course enrollments after sucessful sign in' do
     expect(UserWorker).to receive(:perform_async).with([user.id])
     fill_in 'login_email', with: user.email
     fill_in 'login_password', with: user.password
@@ -46,7 +46,7 @@ RSpec.describe Users::SessionsController, type: :feature do
     expect(page).to have_text(I18n.t('devise.sessions.signed_in'))
   end
 
-  it 'should not update course data after unsuccessful login attempt' do
+  it 'should not update course enrollments after unsuccessful login attempt' do
     expect(UserWorker).not_to receive(:perform_async).with([user.id])
     fill_in 'login_email', with: 'wrongemail@example.com'
     fill_in 'login_password', with: 'wrongpassword'
