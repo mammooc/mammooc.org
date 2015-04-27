@@ -31,8 +31,8 @@
                 = course.name
               = course.course_instructors
               .provider
-                // TODO : Change to provider logo
-                img src = "data:image/png;base64,#{@image}"
+                img src = "data:image/png;base64,#{@provider_logos[course.mooc_provider.logo_id]}"
+
 
 - content_for :sidebar
     = render 'filter'

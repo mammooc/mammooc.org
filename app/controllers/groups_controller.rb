@@ -31,6 +31,7 @@ class GroupsController < ApplicationController
     sorted_recommendations = @group.recommendations.sort_by { |recommendation| recommendation.created_at}.reverse!
     @recommendations = sorted_recommendations.first(NUMBER_OF_SHOWN_RECOMMENDATIONS)
     @number_of_recommendations = sorted_recommendations.length
+    @provider_logos = AmazonS3.instance.get_provider_logos_hash_for_recommendations(@recommendations)
   end
 
   # GET /groups/new
@@ -44,6 +45,7 @@ class GroupsController < ApplicationController
 
   def recommendations
     @recommendations = @group.recommendations.sort_by { |recommendation| recommendation.created_at}.reverse!
+    @provider_logos = AmazonS3.instance.get_provider_logos_hash_for_recommendations(@recommendations)
   end
 
   def members
