@@ -38,8 +38,9 @@ class AbstractCourseWorker
 
   def evaluate_update_map update_map
     update_map.each do |course_id,updated|
-      if !updated
-        Course.find(course_id).destroy
+      course = Course.find(course_id)
+      if !updated and course.present?
+        course.destroy
       end
     end
   end
