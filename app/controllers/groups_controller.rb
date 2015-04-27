@@ -116,7 +116,7 @@ class GroupsController < ApplicationController
       begin
         demote_admin
         format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
-        format.json { render :show, status: :created, location: @group }
+        format.json { render :demoted_administrator, status: :ok, location: @group }
       rescue StandardError => e
         format.html { redirect_to @group, notice: t('flash.error.groups.update') }
         format.json { render json: e.to_json, status: :unprocessable_entity }
@@ -301,6 +301,11 @@ class GroupsController < ApplicationController
 
     def demote_admin
       UserGroup.set_is_admin(@group.id, demoted_admin, false)
+      if User.find(demoted_admin) == current_user
+        @status = 'demote myself'
+      else
+        @status = 'demote another member'
+      end
     end
 
     def remove_member member_id

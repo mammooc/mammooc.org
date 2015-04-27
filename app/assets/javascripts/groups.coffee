@@ -97,7 +97,10 @@ demote_group_administrator = (group_id, user_id) ->
       console.log('error_demote')
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
-      change_style_to_member(user_id)
+      if data.status == 'demote another member'
+        change_style_to_member(user_id)
+      else if data.status == 'demote myself'
+        location.reload()
 
 remove_member = (event) ->
   button = $(event.target)
