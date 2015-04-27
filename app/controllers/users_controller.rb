@@ -44,11 +44,9 @@ class UsersController < ApplicationController
   end
 
   def synchronize_courses
-    puts current_user
     OpenHPIUserWorker.new.perform [current_user.id]
     OpenSAPUserWorker.new.perform [current_user.id]
     @partial = render_to_string partial: 'dashboard/user_courses', formats: [:html]
-    puts @partial
     respond_to do |format|
       begin
         format.html { redirect_to dashboard_path }

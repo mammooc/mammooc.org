@@ -9,7 +9,6 @@ synchronizeCourse = (event) ->
   button = $(event.target)
   group_id = button.data('group_id')
   url = "/groups/#{group_id}/synchronize_courses.json"
-  console.log(url)
   $.ajax
     url: url
     method: 'GET'
