@@ -8,9 +8,9 @@
 
 provider1 = MoocProvider.create(name: 'testProvider')
 openHPI = MoocProvider.create(name: 'openHPI')
+openSAP = MoocProvider.create(name: 'openSAP')
 MoocProvider.create(name: 'openHPI China')
 MoocProvider.create(name: 'mooc.house')
-openSAP = MoocProvider.create(name: 'openSAP')
 MoocProvider.create(name: 'edX')
 MoocProvider.create(name: 'coursera')
 MoocProvider.create(name: 'openSAP China')
@@ -70,15 +70,15 @@ Claudia; “I enjoyed this course so much. It gave me a chance to expand my hori
 )
 
 
-user1 = User.create(first_name: 'Max', last_name: 'Mustermann', email: 'max@test.com', password: '12345678')
-user2 = User.create(first_name: 'Maxi', last_name: 'Musterfrau', email: 'maxi@test.com', password: '12345678')
+user1 = User.create(first_name: 'Max', last_name: 'Mustermann', email: 'max@example.com', password: '12345678')
+user2 = User.create(first_name: 'Maxi', last_name: 'Musterfrau', email: 'maxi@example.com', password: '12345678')
 
 group1 = Group.create(name: 'Testgruppe1', description: 'blablub')
 
 20.times do |i|
   user = User.create first_name: "Maximus_#{i}",
                       last_name: "Mustermann",
-                      email: "maximus_#{i}@test.com",
+                      email: "maximus_#{i}@example.com",
                       password: "12345678"
   group1.users.push user
 end

@@ -36,7 +36,7 @@ RSpec.describe GroupsController, type: :feature do
     it 'should invite a user to a group', js: true do
       visit "/groups/#{group.id}/members"
       click_on 'btn-invite-members'
-      fill_in 'text_area_invite_members', with: 'max@test.com'
+      fill_in 'text_area_invite_members', with: 'max@example.com'
       click_button I18n.t('global.submit')
       wait_for_ajax
       expect(current_path).to eq("/groups/#{group.id}/members")
@@ -47,11 +47,11 @@ RSpec.describe GroupsController, type: :feature do
     it 'should not invite a user to a group if the email address is misspelled', js: true do
       visit "/groups/#{group.id}/members"
       click_on 'btn-invite-members'
-      fill_in 'text_area_invite_members', with: 'max@testcom'
+      fill_in 'text_area_invite_members', with: 'max@examplecom'
       click_button I18n.t('global.submit')
       wait_for_ajax
       expect(page).to have_content I18n.t('groups.add_members.error')
-      expect(find('#text_area_invite_members').value).to have_content('max@testcom')
+      expect(find('#text_area_invite_members').value).to have_content('max@examplecom')
       expect(current_path).to eq("/groups/#{group.id}/members")
       expect(ActionMailer::Base.deliveries.count).to eq 0
       expect(GroupInvitation.count).to eq 0
@@ -60,11 +60,11 @@ RSpec.describe GroupsController, type: :feature do
     it 'should invite users with valid address and reject these with invalid address', js:true do
       visit "/groups/#{group.id}/members"
       click_on 'btn-invite-members'
-      fill_in 'text_area_invite_members', with: 'max@test.com, max@testcom'
+      fill_in 'text_area_invite_members', with: 'max@example.com, max@examplecom'
       click_button I18n.t('global.submit')
       wait_for_ajax
       expect(page).to have_content I18n.t('groups.add_members.error')
-      expect(find('#text_area_invite_members').value).to have_content('max@testcom')
+      expect(find('#text_area_invite_members').value).to have_content('max@examplecom')
       expect(current_path).to eq("/groups/#{group.id}/members")
       expect(ActionMailer::Base.deliveries.count).to eq 1
       expect(GroupInvitation.count).to eq 1
@@ -73,12 +73,12 @@ RSpec.describe GroupsController, type: :feature do
     it 'should empty the textbox after successfull invite and remove the error', js:true do
       visit "/groups/#{group.id}/members"
       click_on 'btn-invite-members'
-      fill_in 'text_area_invite_members', with: 'max@test.com, max@testcom'
+      fill_in 'text_area_invite_members', with: 'max@example.com, max@examplecom'
       click_button I18n.t('global.submit')
       wait_for_ajax
       expect(page).to have_content I18n.t('groups.add_members.error')
-      expect(find('#text_area_invite_members').value).to have_content('max@testcom')
-      fill_in 'text_area_invite_members', with: 'maxi@test.com'
+      expect(find('#text_area_invite_members').value).to have_content('max@examplecom')
+      fill_in 'text_area_invite_members', with: 'maxi@example.com'
       click_button I18n.t('global.submit')
       wait_for_ajax
       click_on 'btn-invite-members'
@@ -157,6 +157,15 @@ RSpec.describe GroupsController, type: :feature do
       expect(current_admins_of_group.count).to eq(UserGroup.where(group_id: second_group.id, is_admin: true).count)
     end
 
+    it 'should reload page if admin demotes himself', js:true do
+      UserGroup.set_is_admin(group.id, second_user.id, true)
+      visit "/groups/#{group.id}/members"
+      find("#list_member_element_user_#{user.id}").click_on I18n.t('groups.all_members.demote_admin')
+      wait_for_ajax
+      expect(page).to have_no_content I18n.t('groups.all_members.demote_admin')
+      expect(current_path).to eq("/groups/#{group.id}/members")
+      expect(UserGroup.find_by(user_id: user.id, group_id: group.id).is_admin).to eq false
+    end
 
   end
 
