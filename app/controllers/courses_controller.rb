@@ -58,7 +58,7 @@ class CoursesController < ApplicationController
       end
     end
 
-    @provider_logo = AmazonS3.instance.get_provider_logos_hash_for_courses([@course])
+    @provider_logos = AmazonS3.instance.get_provider_logos_hash_for_courses([@course])
 
   end
 

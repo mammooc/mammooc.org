@@ -38,7 +38,7 @@
           img src="/data/icons/globe.png" class="pr5" style="height:18px"
           = @course.language
       .options
-        img src="/data/logo-openSAP.png"
+        img src="data:image/png;base64,#{@provider_logos[@course.mooc_provider.logo_id]}"
     .subnav
       a class="entry" href=''
         = t('courses.remember_course')
