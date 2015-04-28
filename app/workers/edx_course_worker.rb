@@ -81,18 +81,18 @@ class EdxCourseWorker < AbstractCourseWorker
       end
 
       if course_element['course:profed'] && course_element['course:profed'] == "1"
-        course.tracks.push CourseTrack.create(track_type: profed_track_type)
+        course.tracks.push CourseTrack.create!(track_type: profed_track_type)
       else
         course.tracks.push CourseTrack.create(track_type: free_track_type)
         if course_element['course:verified'] && course_element['course:verified'] == "1"
-          course.tracks.push CourseTrack.create(track_type: certificate_track_type)
+          course.tracks.push CourseTrack.create!(track_type: certificate_track_type)
         end
         if course_element['course:xseries'] && course_element['course:xseries'] == "1"
-          course.tracks.push CourseTrack.create(track_type: xseries_track_type)
+          course.tracks.push CourseTrack.create!(track_type: xseries_track_type)
         end
       end
 
-      course.save
+      course.save!
     }
     evaluate_update_map update_map
   end

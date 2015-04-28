@@ -71,12 +71,12 @@ class CourseraCourseWorker < AbstractCourseWorker
         course.requirements = nil
       end
 
-      course.tracks.push(CourseTrack.create(track_type: free_track_type))
+      course.tracks.push(CourseTrack.create!(track_type: free_track_type))
       if session_element["eligibleForCertificates"]
-        course.tracks.push(CourseTrack.create(track_type: certificate_track_type))
+        course.tracks.push(CourseTrack.create!(track_type: certificate_track_type))
       end
       if session_element["eligibleForSignatureTrack"]
-        track = CourseTrack.create(track_type: signature_track_type)
+        track = CourseTrack.create!(track_type: signature_track_type)
         if session_element["signatureTrackPrice"]
           track.costs = session_element["signatureTrackPrice"].to_f
         else
@@ -91,7 +91,7 @@ class CourseraCourseWorker < AbstractCourseWorker
       unless iteration_hash[corresponding_course["id"]]
         iteration_hash[corresponding_course["id"]] = Array.new
       end
-      course.save
+      course.save!
       iteration_hash[corresponding_course["id"]] << course.id
     }
     evaluate_update_map update_map

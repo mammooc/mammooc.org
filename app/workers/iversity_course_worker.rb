@@ -16,6 +16,11 @@ class IversityCourseWorker < AbstractCourseWorker
 
   def handle_response_data response_data
     update_map = create_update_map mooc_provider
+
+    free_track_type = CourseTrackType.find_by(type_of_achievement: 'iversity_record_of_achievement')
+    certificate_track_type = CourseTrackType.find_by(type_of_achievement: 'iversity_certificate')
+    ects_track_type = CourseTrackType.find_by(type_of_achievement: 'iversity_ects')
+
     response_data['courses'].each do |course_element|
       puts course_element['id'].inspect
       course = Course.find_by(provider_course_id: course_element['id'].to_s, mooc_provider_id: mooc_provider.id) || Course.new
@@ -29,21 +34,37 @@ class IversityCourseWorker < AbstractCourseWorker
       course.videoId = course_element['trailer_video']
       course.start_date = course_element['start_date']
       course.end_date = course_element['end_date']
+      course.difficulty = course_element['knowledge_level ']
 
       course_element['plans'].each do |plan|
-        if plan['price'].nil?
-          course.has_free_version = true
-        else
-          course.has_paid_version = true
-          price = plan['price'].split(' ')
-          course.costs = price[0].to_f
-          course.price_currency = price[1]
+        price = plan['price'].split(" ") unless plan['price'].blank?
+        track_attributes = Hash.new
+        case plan['title'].split(/[\s-]/)[0].downcase
+          when 'audit' then track_attributes = {track_type: free_track_type}
+          when 'certificate' then track_attributes = {track_type: certificate_track_type, costs: price[0].to_f, costs_currency: price[1]}
+          when 'ects'
+            track_attributes = {track_type: ects_track_type, costs: price[0].to_f, costs_currency: price[1]}
+            track_attributes.merge!(credit_points: (plan['credits'].split(" "))[0].to_f) unless plan['credits'].blank?
         end
+        course.tracks.push CourseTrack.create!(track_attributes)
       end
 
-      #course.type_of_achievement =
+      course.provider_course_id = course_element['id']
+      course.mooc_provider_id = mooc_provider.id
+      course.categories = course_element['discipline']
+
+      course.course_instructors = ""
+      course_element['instructors'].each_with_index do |instructor, i|
+        course.course_instructors += "#{(i > 0) ? ', ' : ''}#{instructor['name']}"
+      end
+
+      course.description = course_element['description']
+      course.calculated_duration_in_days = (course.end_date - course.start_date).to_i
+      course.provider_given_duration = course_element['duration']
+
+      course.save!
     end
-    puts update_map.inspect
+
     evaluate_update_map update_map
   end
 end

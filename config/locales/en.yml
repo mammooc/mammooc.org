@@ -188,12 +188,14 @@ en:
         costs: Costs
         credit_points: ECTS Points
         achievement_types:
-          record_of_achievement: Record of Achievement
+          openhpi_record_of_achievement: Record of Achievement
+          iversity_record_of_achievement: :courses.tracks.types.achievement_types.openhpi_record_of_achievement
           nothing: Nothing
           certificate: Certificate
-          ects: ECTS points
+          iversity_certificate: :courses.tracks.types.achievement_types.certificate
+          iversity_ects: ECTS points
           coursera_verified_certificate: Verified Certificate
-          edx_verified_certificate: Verified Certificate
+          edx_verified_certificate: :courses.tracks.types.achievement_types.coursera_verified_certificate
           edx_xseries_certificate: edX XSeries Certificate
           edx_profed_certificate: edX Professional Education Certificate
 
