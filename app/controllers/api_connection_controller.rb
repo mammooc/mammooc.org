@@ -19,7 +19,7 @@ class ApiConnectionController < ApplicationController
   end
 
   def update_user
-    UserWorker.perform_async [current_user]
+    UserWorker.perform_async [current_user.id]
     redirect_to api_connection_index_path
   end
 
