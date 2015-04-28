@@ -56,6 +56,27 @@ class AmazonS3
 
   end
 
+  def get_author_profile_images_hash_for_recommendations(recommendations)
+    author_images = {}
+    recommendations.each do |recommendation|
+      unless author_images.has_key?(recommendation.author.profile_image_id)
+        author_images[recommendation.author.profile_image_id] = get_url(recommendation.author.profile_image_id)
+      end
+    end
+
+    return author_images
+
+  end
+
+  def get_user_profile_images_hash_for_users(users, images = {})
+    users.each do |user|
+      unless images.has_key?(user.profile_image_id)
+        images[user.profile_image_id] = get_url(user.profile_image_id)
+      end
+    end
+    return images
+  end
+
   def put_data(key, file, options_hash={})
     object = get_object(key)
 

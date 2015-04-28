@@ -32,6 +32,9 @@ class GroupsController < ApplicationController
     @recommendations = sorted_recommendations.first(NUMBER_OF_SHOWN_RECOMMENDATIONS)
     @number_of_recommendations = sorted_recommendations.length
     @provider_logos = AmazonS3.instance.get_provider_logos_hash_for_recommendations(@recommendations)
+
+    @profile_pictures = AmazonS3.instance.get_author_profile_images_hash_for_recommendations(@recommendations)
+    @profile_pictures = AmazonS3.instance.get_user_profile_images_hash_for_users(@group.users, @profile_pictures)
   end
 
   # GET /groups/new
@@ -46,12 +49,14 @@ class GroupsController < ApplicationController
   def recommendations
     @recommendations = @group.recommendations.sort_by { |recommendation| recommendation.created_at}.reverse!
     @provider_logos = AmazonS3.instance.get_provider_logos_hash_for_recommendations(@recommendations)
+    @profile_pictures = AmazonS3.instance.get_author_profile_images_hash_for_recommendations(@recommendations)
   end
 
   def members
     @sorted_group_users = sort_by_name(@group.users - admins)
     @sorted_group_admins = sort_by_name(admins)
     @group_members = @group.users - [current_user]
+    @profile_pictures = AmazonS3.instance.get_user_profile_images_hash_for_users(@group.users)
   end
 
   def statistics
