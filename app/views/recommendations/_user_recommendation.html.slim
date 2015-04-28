@@ -28,7 +28,7 @@
       // placeholder
       | rating: 5 Stars
       .provider
-        img src= "data:image/png;base64,#{@provider_logos[recommendation.course.mooc_provider.logo_id]}"
+        img src= @provider_logos[recommendation.course.mooc_provider.logo_id]
       = raw recommendation.course.abstract
   .comment
     .profile-picture
