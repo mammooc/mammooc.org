@@ -9,6 +9,7 @@ RSpec.describe "recommendations/index", :type => :view do
   before(:each) do
     @recommendations = [first_recommendation, second_recommendation]
     @provider_logos = {}
+    @profile_pictures = {}
   end
 
   it "renders a list of recommendations" do

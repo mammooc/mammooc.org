@@ -5,6 +5,7 @@ class Group < ActiveRecord::Base
   has_many :recommendations
   has_many :course_requests
   has_many :group_invitations
+  validates :image_id, presence: true
 
   def destroy
     UserGroup.destroy_all(group_id: self.id)

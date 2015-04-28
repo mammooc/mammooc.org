@@ -11,13 +11,13 @@ RSpec.describe "dashboard/dashboard.html.slim", :type => :view do
     assign(:groups, [
                       Group.create!(
                           name: "Name",
-                          imageId: "Image",
+                          image_id: "Image",
                           description: "MyText",
                           primary_statistics: ""
                       ),
                       Group.create!(
                           name: "Name",
-                          imageId: "Image",
+                          image_id: "Image",
                           description: "MyText",
                           primary_statistics: ""
                       )
@@ -32,6 +32,7 @@ RSpec.describe "dashboard/dashboard.html.slim", :type => :view do
     user.courses << second_course
 
     @provider_logos = {}
+    @profile_pictures = {}
   end
 
   it 'renders my enrollments' do

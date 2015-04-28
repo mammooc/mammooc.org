@@ -4,6 +4,7 @@ RSpec.describe "recommendations/_user_recommendation", :type => :view do
   before(:each) do
     @recommendation = FactoryGirl.create(:user_recommendation)
     @provider_logos = {}
+    @profile_pictures = {}
   end
 
   it "renders the recommendation partial" do
