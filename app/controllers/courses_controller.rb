@@ -8,29 +8,6 @@ class CoursesController < ApplicationController
   def index
     @courses = Course.all
     @provider_logos = AmazonS3.instance.get_provider_logos_hash_for_courses(@courses)
-
-=begin
-    image_b64 = Base64.encode64(File.open("/home/rosabraatz/mammooc/public/data/logo_openSAP.png").read)
-    AmazonS3.instance.put_object('logo_openSAP.png', image_b64, {content_type: 'png'})
-
-    image_b64 = Base64.encode64(File.open("/home/rosabraatz/mammooc/public/data/logo_openHPI.png").read)
-    AmazonS3.instance.put_object('logo_openHPI.png', image_b64, {content_type: 'png'})
-
-    image_b64 = Base64.encode64(File.open("/home/rosabraatz/mammooc/public/data/logo_coursera.png").read)
-    AmazonS3.instance.put_object('logo_coursera.png', image_b64, {content_type: 'png'})
-
-    image_b64 = Base64.encode64(File.open("/home/rosabraatz/mammooc/public/data/logo_edx.png").read)
-    AmazonS3.instance.put_object('logo_edx.png', image_b64, {content_type: 'png'})
-
-    image_b64 = Base64.encode64(File.open("/home/rosabraatz/mammooc/public/data/logo_iversity.png").read)
-    AmazonS3.instance.put_object('logo_iversity.png', image_b64, {content_type: 'png'})
-
-    image_b64 = Base64.encode64(File.open("/home/rosabraatz/mammooc/public/data/logo_mooc_house.png").read)
-    AmazonS3.instance.put_object('logo_mooc_house.png', image_b64, {content_type: 'png'})
-
-    image_b64 = Base64.encode64(File.open("/home/rosabraatz/mammooc/public/data/logo_openUNE.png").read)
-    AmazonS3.instance.put_object('logo_openUNE.png', image_b64, {content_type: 'png'})
-=end
   end
 
   # GET /courses/1
@@ -59,7 +36,6 @@ class CoursesController < ApplicationController
     end
 
     @provider_logos = AmazonS3.instance.get_provider_logos_hash_for_courses([@course])
-
   end
 
   def enroll_course

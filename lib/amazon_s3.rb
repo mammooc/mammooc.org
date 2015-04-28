@@ -7,8 +7,7 @@ class AmazonS3
   BUCKET_NAME = 'mammooc'
 
   def initialize
-    s3 = Aws::S3::Resource.new
-    @bucket = s3.bucket(BUCKET_NAME)
+    new_aws_resource
   end
 
   def get_object(key)
@@ -23,7 +22,7 @@ class AmazonS3
     logos = {}
     courses.each do |course|
       unless logos.has_key?(course.mooc_provider.logo_id)
-        logos[course.mooc_provider.logo_id] = AmazonS3.instance.get_data(course.mooc_provider.logo_id)
+        logos[course.mooc_provider.logo_id] = get_data(course.mooc_provider.logo_id)
       end
     end
 
@@ -34,7 +33,7 @@ class AmazonS3
   def get_all_provider_logos_hash
     logos = {}
     MoocProvider.find_each do |provider|
-      logos[provider.logo_id] = AmazonS3.instance.get_data(provider.logo_id)
+      logos[provider.logo_id] = get_data(provider.logo_id)
     end
 
     return logos
@@ -45,7 +44,7 @@ class AmazonS3
     logos = {}
     recommendations.each do |recommendation|
       unless logos.has_key?(recommendation.course.mooc_provider.logo_id)
-        logos[recommendation.course.mooc_provider.logo_id] = AmazonS3.instance.get_data(recommendation.course.mooc_provider.logo_id)
+        logos[recommendation.course.mooc_provider.logo_id] = get_data(recommendation.course.mooc_provider.logo_id)
       end
     end
 
@@ -53,7 +52,7 @@ class AmazonS3
 
   end
 
-  def put_object(key, file, options_hash={})
+  def put_data(key, file, options_hash={})
     object = get_object(key)
 
     unless options_hash.has_key?(:cache_control_time_in_seconds)
@@ -62,5 +61,11 @@ class AmazonS3
 
     object.put(body: file, content_encoding: options_hash[:content_encoding], content_type: options_hash[:content_type], cache_control: "max-age=#{options_hash[:cache_control_time_in_seconds]}")
   end
+
+  private
+    def new_aws_resource
+      s3 = Aws::S3::Resource.new
+      @bucket = s3.bucket(BUCKET_NAME)
+    end
 
 end

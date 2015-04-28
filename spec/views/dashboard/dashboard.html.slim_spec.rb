@@ -30,6 +30,8 @@ RSpec.describe "dashboard/dashboard.html.slim", :type => :view do
     sign_in user
     user.courses << course
     user.courses << second_course
+
+    @provider_logos = {}
   end
 
   it 'renders my enrollments' do
