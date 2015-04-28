@@ -3,7 +3,7 @@ FactoryGirl.define do
   factory :course_track_type do
     title 'Audit'
     description 'You get a Record of Achievement.'
-    type_of_achievement 'record_of_achievement'
+    type_of_achievement 'openhpi_record_of_achievement'
 
     factory :certificate_course_track_type do
       title 'Certificate'
