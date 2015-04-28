@@ -31,6 +31,7 @@ describe CourseraCourseWorker do
   end
 
   it 'should load course attributes into database' do
+    allow(RestClient).to receive(:get).and_return(course_fields)
     coursera_course_worker.handle_response_data json_session_data
     json_session = json_session_data['elements'][0]
     json_course = json_course_data['elements'][0]
