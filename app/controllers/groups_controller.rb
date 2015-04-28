@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  load_and_authorize_resource only: [:index, :show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :recommendations, :demote_administrator, :remove_group_member, :leave, :condition_for_changing_member_status, :all_members_to_administrators, :recommendations]
+  load_and_authorize_resource only: [:index, :show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :recommendations, :statistics, :demote_administrator, :remove_group_member, :leave, :condition_for_changing_member_status, :all_members_to_administrators, :recommendations, :synchronize_courses]
   
   NUMBER_OF_SHOWN_RECOMMENDATIONS = 2
   NUMBER_OF_SHOWN_USERS = 10
@@ -52,6 +52,10 @@ class GroupsController < ApplicationController
     @sorted_group_users = sort_by_name(@group.users - admins)
     @sorted_group_admins = sort_by_name(admins)
     @group_members = @group.users - [current_user]
+  end
+
+  def statistics
+
   end
 
   # POST /groups
@@ -118,7 +122,7 @@ class GroupsController < ApplicationController
       begin
         demote_admin
         format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
-        format.json { render :show, status: :created, location: @group }
+        format.json { render :demoted_administrator, status: :ok, location: @group }
       rescue StandardError => e
         format.html { redirect_to @group, notice: t('flash.error.groups.update') }
         format.json { render json: e.to_json, status: :unprocessable_entity }
@@ -173,6 +177,20 @@ class GroupsController < ApplicationController
         format.json { render :show, status: :created, location: @group }
       rescue StandardError => e
         format.html { redirect_to @group, notice: t('flash.error.groups.update') }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def synchronize_courses
+    OpenHPIUserWorker.perform_async @group.users.pluck(:id)
+    OpenSAPUserWorker.perform_async @group.users.pluck(:id)
+    respond_to do |format|
+      begin
+        format.html { redirect_to dashboard_path }
+        format.json { render :synchronization_result, status: :ok }
+      rescue StandardError => e
+        format.html { redirect_to dashboard_path }
         format.json { render json: e.to_json, status: :unprocessable_entity }
       end
     end
@@ -303,6 +321,11 @@ class GroupsController < ApplicationController
 
     def demote_admin
       UserGroup.set_is_admin(@group.id, demoted_admin, false)
+      if User.find(demoted_admin) == current_user
+        @status = 'demote myself'
+      else
+        @status = 'demote another member'
+      end
     end
 
     def remove_member member_id

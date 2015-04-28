@@ -19,12 +19,12 @@ class ApiConnectionController < ApplicationController
   end
 
   def update_user
-    OpenSAPConnector.new.load_user_data([current_user])
+    UserWorker.perform_async [current_user]
     redirect_to api_connection_index_path
   end
 
   def update_all_users
-    OpenHPIUserWorker.perform_async
+    UserWorker.perform_async
     redirect_to api_connection_index_path
   end
 

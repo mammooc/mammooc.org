@@ -44,10 +44,10 @@
         = t('courses.remember_course')
       - if user_signed_in?
         - if current_user.courses.include? @course
-          a class="entry" href='' id='unenroll-course-link' data-course-id='#{@course.id}'
+          a class="entry" href='' id='unenroll-course-link' data-course_id='#{@course.id}'
             = t('courses.unenroll_course')
         - else
-          a class="entry" href='' id='enroll-course-link' data-course-id='#{@course.id}'
+          a class="entry" href='' id='enroll-course-link' data-course_id='#{@course.id}'
             = t('courses.enroll_course')
       - else
         a class="entry" href=new_user_session_path

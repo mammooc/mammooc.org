@@ -7,10 +7,10 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 provider1 = MoocProvider.create(name: 'testProvider', logo_id: 'logo_openHPI.png')
-MoocProvider.create(name: 'openHPI', logo_id: 'logo_openHPI.png')
+openHPI = MoocProvider.create(name: 'openHPI', logo_id: 'logo_openHPI.png')
 MoocProvider.create(name: 'openHPI China', logo_id: 'logo_openHPI.png')
 MoocProvider.create(name: 'mooc.house', logo_id: 'logo_mooc_house.png')
-MoocProvider.create(name: 'openSAP', logo_id: 'logo_openSAP.png')
+openSAP = MoocProvider.create(name: 'openSAP', logo_id: 'logo_openSAP.png')
 MoocProvider.create(name: 'edX', logo_id: 'logo_edx.png')
 MoocProvider.create(name: 'coursera', logo_id: 'logo_coursera.png')
 MoocProvider.create(name: 'openSAP China', logo_id: 'logo_openSAP.png')
@@ -70,15 +70,15 @@ Claudia; “I enjoyed this course so much. It gave me a chance to expand my hori
 )
 
 
-user1 =User.create(first_name: 'Max', last_name: 'Mustermann', email: 'max@test.com', password: '12345678')
-user2 = User.create(first_name: 'Maxi', last_name: 'Musterfrau', email: 'maxi@test.com', password: '12345678')
+user1 = User.create(first_name: 'Max', last_name: 'Mustermann', email: 'max@example.com', password: '12345678')
+user2 = User.create(first_name: 'Maxi', last_name: 'Musterfrau', email: 'maxi@example.com', password: '12345678')
 
 group1 = Group.create(name: 'Testgruppe1', description: 'blablub')
 
 20.times do |i|
   user = User.create first_name: "Maximus_#{i}",
                       last_name: "Mustermann",
-                      email: "maximus_#{i}@test.com",
+                      email: "maximus_#{i}@example.com",
                       password: "12345678"
   group1.users.push user
 end
@@ -102,3 +102,16 @@ UserGroup.set_is_admin(group3.id, user2.id, true)
 4.times do FactoryGirl.create(:group_recommendation, course: full_course, group: group1, users: group1.users) end
 3.times do FactoryGirl.create(:user_recommendation, course: full_course, users: [user1]) end
 2.times do FactoryGirl.create(:user_recommendation, course: full_course, users: [user2]) end
+
+OpenHPICourseWorker.perform_async
+OpenSAPCourseWorker.perform_async
+EdxCourseWorker.perform_async
+CourseraCourseWorker.perform_async
+
+if ENV['OPEN_HPI_TOKEN'].present?
+  FactoryGirl.create(:mooc_provider_user, user: user1, mooc_provider: openHPI, authentication_token: ENV['OPEN_HPI_TOKEN'])
+end
+
+if ENV['OPEN_SAP_TOKEN'].present?
+  FactoryGirl.create(:mooc_provider_user, user: user1, mooc_provider: openSAP, authentication_token: ENV['OPEN_SAP_TOKEN'])
+end

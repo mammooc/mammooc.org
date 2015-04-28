@@ -13,5 +13,4 @@
     .recommendations-wrapper
       - @recommendations.each_with_index do |recommendation, index|
         = render 'recommendations/user_recommendation', recommendation: recommendation, id: "recommendation_number_#{index}"
-
 = render 'sidebar'
