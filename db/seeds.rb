@@ -70,8 +70,8 @@ Claudia; “I enjoyed this course so much. It gave me a chance to expand my hori
 )
 
 
-user1 = User.create(first_name: 'Max', last_name: 'Mustermann', email: 'max@example.com', password: '12345678')
-user2 = User.create(first_name: 'Maxi', last_name: 'Musterfrau', email: 'maxi@example.com', password: '12345678')
+user1 = User.create(first_name: 'Max', last_name: 'Mustermann', email: 'max@example.com', password: '12345678', profile_image_id: 'profile_picture_default.png')
+user2 = User.create(first_name: 'Maxi', last_name: 'Musterfrau', email: 'maxi@example.com', password: '12345678', profile_image_id: 'profile_picture_default.png')
 
 group1 = Group.create(name: 'Testgruppe1', description: 'blablub')
 
@@ -79,7 +79,8 @@ group1 = Group.create(name: 'Testgruppe1', description: 'blablub')
   user = User.create first_name: "Maximus_#{i}",
                       last_name: "Mustermann",
                       email: "maximus_#{i}@example.com",
-                      password: "12345678"
+                      password: "12345678",
+                      profile_image_id: 'profile_picture_default.png'
   group1.users.push user
 end
 
