@@ -40,6 +40,7 @@ en:
     sign_out: Sign Out
     dashboard: Dashboard
     profile: Profile
+    settings: Settings
     welcome_heading: Welcome to mammooc!
 
   dashboard:

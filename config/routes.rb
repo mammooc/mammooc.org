@@ -7,9 +7,11 @@ Rails.application.routes.draw do
   get 'api_connection/update_user'
   get 'api_connection/update_all_users'
 
+  # skip: [:registrations]
   devise_for :users, :controllers => { :registrations => "users/registrations",
                                        :sessions => "users/sessions",
                                        :passwords => "users/passwords"}
+
   resources :user_assignments
 
   resources :course_assignments
@@ -80,6 +82,8 @@ Rails.application.routes.draw do
 
   # Users
   get 'users/:id/synchronize_courses' => 'users#synchronize_courses'
+  get 'users/:id/settings' => 'users#settings'
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

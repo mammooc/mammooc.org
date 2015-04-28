@@ -43,6 +43,8 @@ nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
               li
                 = link_to t('navbar.profile'), current_user
               li
+                = link_to t('navbar.settings'), "/users/#{current_user.id}/settings"
+              li
                 = link_to t('navbar.sign_out'), destroy_user_session_path, {:method => 'delete', :id =>'nav_sign_out_button'}
         - else
           li class="dropdown"

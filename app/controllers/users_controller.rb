@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :settings]
 
   # GET /users
   # GET /users.json
@@ -56,6 +56,10 @@ class UsersController < ApplicationController
         format.json { render json: e.to_json, status: :unprocessable_entity }
       end
     end
+  end
+
+  def settings
+
   end
 
   private
