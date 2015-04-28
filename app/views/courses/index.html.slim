@@ -31,7 +31,7 @@
                 = course.name
               = course.course_instructors
               .provider
-                img src = "data:image/png;base64,#{@provider_logos[course.mooc_provider.logo_id]}"
+                img src = @provider_logos[course.mooc_provider.logo_id]
 
 
 - content_for :sidebar

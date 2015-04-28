@@ -81,6 +81,7 @@ RSpec.configure do |config|
     allow_any_instance_of(AmazonS3).to receive(:get_data).and_return(Base64.encode64(File.open(Rails.root.join('public', 'data', 'icons', 'courses.png')).read))
     allow_any_instance_of(AmazonS3).to receive(:get_object).and_return(true)
     allow_any_instance_of(AmazonS3).to receive(:put_data).and_return(true)
+    allow_any_instance_of(AmazonS3).to receive(:get_url).and_return('/data/icons/courses.png')
   end
 
   # rspec-expectations config goes here. You can use an alternate

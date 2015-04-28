@@ -22,7 +22,7 @@ class AmazonS3
     logos = {}
     courses.each do |course|
       unless logos.has_key?(course.mooc_provider.logo_id)
-        logos[course.mooc_provider.logo_id] = get_data(course.mooc_provider.logo_id)
+        logos[course.mooc_provider.logo_id] = get_url(course.mooc_provider.logo_id)
       end
     end
 
@@ -30,10 +30,14 @@ class AmazonS3
 
   end
 
+  def get_url(key)
+    @bucket.object(key).presigned_url 'GET'
+  end
+
   def get_all_provider_logos_hash
     logos = {}
     MoocProvider.find_each do |provider|
-      logos[provider.logo_id] = get_data(provider.logo_id)
+      logos[provider.logo_id] = get_url(provider.logo_id)
     end
 
     return logos
@@ -44,7 +48,7 @@ class AmazonS3
     logos = {}
     recommendations.each do |recommendation|
       unless logos.has_key?(recommendation.course.mooc_provider.logo_id)
-        logos[recommendation.course.mooc_provider.logo_id] = get_data(recommendation.course.mooc_provider.logo_id)
+        logos[recommendation.course.mooc_provider.logo_id] = get_url(recommendation.course.mooc_provider.logo_id)
       end
     end
 
