@@ -2,7 +2,7 @@
 worker_processes Integer(ENV["WEB_CONCURRENCY"] || 3)
 
 if ENV['RAILS_ENV'] == 'production'
-  timeout 15
+  timeout 30
 elsif ENV['RAILS_ENV'] == 'development'
   timeout 600
 end

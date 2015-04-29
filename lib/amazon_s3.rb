@@ -91,7 +91,7 @@ class AmazonS3
     object = get_object(key)
 
     unless options_hash.has_key?(:cache_control_time_in_seconds)
-      options_hash[:cache_control_time_in_seconds] = 1296000
+      options_hash[:cache_control_time_in_seconds] = 15.days
     end
 
     object.put(body: file, content_encoding: options_hash[:content_encoding], content_type: options_hash[:content_type], cache_control: "max-age=#{options_hash[:cache_control_time_in_seconds]}", storage_class: 'REDUCED_REDUNDANCY')
