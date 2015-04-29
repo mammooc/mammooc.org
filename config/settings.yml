@@ -11,7 +11,7 @@
 
 # Mailers
 sender_notification_address: mammooc <notifications@mammooc.com>
-default_hostname: mammooc-dev.herokuapp.com
+default_hostname: <%= ENV['SUBDOMAIN'].present? ? "#{ENV['SUBDOMAIN']}.herokuapp.com" : 'localhost' %>
 
 # GroupInvitation
 token_length: 16
