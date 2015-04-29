@@ -115,25 +115,29 @@
         - @course.categories.each do |category|
           span.label.label-default
             = category
-      - @course.tracks.each do |track|
         .gradient-divider
+
+      .hd4.pb5
+        = t('courses.tracks.headline')
+      - @course.tracks.each_with_index do |track, i|
         .hd5.pb5
           = track.track_type.title   
         - if track.track_type.description
-          = track.track_type.description
+          = raw(track.track_type.description)
         
         .hd6.pb5
           = t('courses.tracks.types.type_of_achievement')
         = t("courses.tracks.types.achievement_types.#{track.track_type.type_of_achievement}")
         
         - if track.costs
-          .gradient-divider
-          hd6.pb5
+          .hd6.pb5
             = t('courses.tracks.types.costs')
           = "#{format("%.2f", track.costs)} #{track.costs_currency}"
     
         - if track.credit_points
-          .gradient-divider
           .hd6.pb5
             = t('courses.tracks.types.credit_points')
           = track.credit_points
+
+        - if i != (@course.tracks.count - 1)
+          .gradient-divider

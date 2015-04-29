@@ -11,9 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150421173500) do
+ActiveRecord::Schema.define(version: 20150428152300) do
 
-  # These are extensions that must be enabled in order to support this database                                                                                                                                                                 
+  # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
 
@@ -199,17 +199,23 @@ ActiveRecord::Schema.define(version: 20150421173500) do
 
   create_table "groups", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name"
-    t.string   "imageId"
+    t.string   "image_id"
     t.text     "description"
     t.string   "primary_statistics",              array: true
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
   end
 
-  create_table "groups_recommendations", id: false, force: :cascade do |t|
-    t.uuid "recommendation_id"
-    t.uuid "group_id"
+  create_table "mooc_provider_users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.uuid     "user_id"
+    t.uuid     "mooc_provider_id"
+    t.string   "authentication_token"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
   end
+
+  add_index "mooc_provider_users", ["mooc_provider_id"], name: "index_mooc_provider_users_on_mooc_provider_id", using: :btree
+  add_index "mooc_provider_users", ["user_id"], name: "index_mooc_provider_users_on_user_id", using: :btree
 
   create_table "mooc_providers", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "logo_id"
@@ -221,11 +227,6 @@ ActiveRecord::Schema.define(version: 20150421173500) do
   end
 
   add_index "mooc_providers", ["name"], name: "index_mooc_providers_on_name", unique: true, using: :btree
-
-  create_table "mooc_providers_users", id: false, force: :cascade do |t|
-    t.uuid "mooc_provider_id"
-    t.uuid "user_id"
-  end
 
   create_table "progresses", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.float    "percentage"
@@ -241,15 +242,17 @@ ActiveRecord::Schema.define(version: 20150421173500) do
 
   create_table "recommendations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.boolean  "is_obligatory"
-    t.uuid     "user_id"
     t.uuid     "course_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.text     "text"
+    t.uuid     "author_id"
+    t.uuid     "group_id"
   end
 
+  add_index "recommendations", ["author_id"], name: "index_recommendations_on_author_id", using: :btree
   add_index "recommendations", ["course_id"], name: "index_recommendations_on_course_id", using: :btree
-  add_index "recommendations", ["user_id"], name: "index_recommendations_on_user_id", using: :btree
+  add_index "recommendations", ["group_id"], name: "index_recommendations_on_group_id", using: :btree
 
   create_table "recommendations_users", id: false, force: :cascade do |t|
     t.uuid "recommendation_id"
@@ -335,14 +338,17 @@ ActiveRecord::Schema.define(version: 20150421173500) do
   add_foreign_key "evaluations", "courses"
   add_foreign_key "evaluations", "users"
   add_foreign_key "group_invitations", "groups"
+  add_foreign_key "mooc_provider_users", "mooc_providers"
+  add_foreign_key "mooc_provider_users", "users"
   add_foreign_key "progresses", "courses"
   add_foreign_key "progresses", "users"
   add_foreign_key "recommendations", "courses"
-  add_foreign_key "recommendations", "users"
+  add_foreign_key "recommendations", "groups"
+  add_foreign_key "recommendations", "users", column: "author_id"
   add_foreign_key "statistics", "groups"
   add_foreign_key "user_assignments", "course_assignments"
   add_foreign_key "user_assignments", "courses"
   add_foreign_key "user_assignments", "users"
   add_foreign_key "user_groups", "groups"
   add_foreign_key "user_groups", "users"
-end                                                                                                                                                                                                                                             
+end

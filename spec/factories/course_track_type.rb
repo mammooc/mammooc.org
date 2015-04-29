@@ -14,7 +14,7 @@ FactoryGirl.define do
     factory :ects_course_track_type do
       title 'ECTS'
       description 'You get ECTS points.'
-      type_of_achievement 'ects'
+      type_of_achievement 'iversity_ects'
     end
   end
 end

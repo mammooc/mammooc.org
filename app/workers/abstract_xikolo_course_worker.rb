@@ -38,7 +38,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
       course.open_for_registration = !course_element['locked']
       course.tracks.push(CourseTrack.create!(track_type: course_track_type))
       course.save!
-    }
+    end
     evaluate_update_map update_map
   end
 
