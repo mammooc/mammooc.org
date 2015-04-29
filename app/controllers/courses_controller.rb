@@ -6,8 +6,20 @@ class CoursesController < ApplicationController
   # GET /courses
   # GET /courses.json
   def index
-    @courses = Course.all
+    @filterrific = initialize_filterrific( Course, params[:filterrific]) or return
+
+    @courses = @filterrific.find.page(params[:page])
     @provider_logos = AmazonS3.instance.get_provider_logos_hash_for_courses(@courses)
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
+
+  rescue ActiveRecord::RecordNotFound => e
+    puts "Had to reset filterrific params: #{ e.message }"
+    redirect_to(reset_filterrific_url(format: :html)) and return
+
   end
 
   # GET /courses/1

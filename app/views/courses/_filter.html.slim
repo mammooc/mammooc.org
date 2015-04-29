@@ -1,6 +1,9 @@
 .courses-filter
   .panel.panel-default
-    .panel-heading
-      | What are you looking for?
-    .panel-body
-      | Filter... (coming soon)
+    = form_for_filterrific @filterrific do |f|
+      = f.label 'Course starts after'
+      = f.text_field(:with_start_date_gte, class: 'js-datepicker form control')
+      = f.label 'Course ends before'
+      = f.text_field(:with_end_date_lt, class: 'js-datepicker form control')
+      = link_to 'Reset filters', reset_filterrific_url
+      = render_filterrific_spinner

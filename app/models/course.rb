@@ -1,4 +1,6 @@
 class Course < ActiveRecord::Base
+  filterrific available_filters: %w[with_start_date_gte with_end_date_lt]
+
   belongs_to :mooc_provider
   belongs_to :course_result
   has_many :courses
@@ -17,6 +19,13 @@ class Course < ActiveRecord::Base
   before_save :check_and_update_duration
   after_save :create_and_update_course_connections
   before_destroy :delete_dangling_course_connections
+
+
+  scope :with_start_date_gte, lambda { |reference_time| where('courses.start_date >= ? ', reference_time) } #do I want to include requested date?
+
+  scope :with_end_date_lt, lambda { |reference_time| where('courses.end_date <= ?', reference_time)} #do I want to include requested date?
+
+
 
   def self.get_course_id_by_mooc_provider_id_and_provider_course_id(mooc_provider_id, provider_course_id)
     course = Course.where(provider_course_id: provider_course_id, mooc_provider_id: mooc_provider_id).first
