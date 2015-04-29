@@ -6,15 +6,15 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-provider1 = MoocProvider.create(name: 'testProvider')
-openHPI = MoocProvider.create(name: 'openHPI')
-openSAP = MoocProvider.create(name: 'openSAP')
-MoocProvider.create(name: 'openHPI China')
-MoocProvider.create(name: 'mooc.house')
-MoocProvider.create(name: 'edX')
-MoocProvider.create(name: 'coursera')
-MoocProvider.create(name: 'openSAP China')
-MoocProvider.create(name: 'openUNE')
+provider1 = MoocProvider.create(name: 'testProvider', logo_id: 'logo_openHPI.png')
+openHPI = MoocProvider.create(name: 'openHPI', logo_id: 'logo_openHPI.png')
+MoocProvider.create(name: 'openHPI China', logo_id: 'logo_openHPI.png')
+MoocProvider.create(name: 'mooc.house', logo_id: 'logo_mooc_house.png')
+openSAP = MoocProvider.create(name: 'openSAP', logo_id: 'logo_openSAP.png')
+MoocProvider.create(name: 'edX', logo_id: 'logo_edx.png')
+MoocProvider.create(name: 'coursera', logo_id: 'logo_coursera.png')
+MoocProvider.create(name: 'openSAP China', logo_id: 'logo_openSAP.png')
+MoocProvider.create(name: 'openUNE', logo_id: 'logo_openUNE.png')
 
 minimal_previous_course = Course.create(name: 'Minimal Previous Technologies',
               url: 'https://open.hpi.de/courses/pythonjunior2015',

@@ -7,6 +7,7 @@ class CoursesController < ApplicationController
   # GET /courses.json
   def index
     @courses = Course.all
+    @provider_logos = AmazonS3.instance.get_provider_logos_hash_for_courses(@courses)
   end
 
   # GET /courses/1
@@ -34,6 +35,7 @@ class CoursesController < ApplicationController
       end
     end
 
+    @provider_logos = AmazonS3.instance.get_provider_logos_hash_for_courses([@course])
   end
 
   def enroll_course

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "courses/show", :type => :view do
   let(:user){FactoryGirl.create(:user)}
   before(:each) do
-    moocProvider = MoocProvider.create(name: 'testProvider')
+    moocProvider = MoocProvider.create(name: 'testProvider', logo_id: 'logo_openHPI.png')
     @course = assign(:course, Course.create!(
       :name => "Name",
       :url => "Url",
@@ -29,6 +29,7 @@ RSpec.describe "courses/show", :type => :view do
       :mooc_provider_id => moocProvider.id,
       :has_free_version => true
     ))
+    @provider_logos = {}
   end
 
   it 'render the enroll button when not signed in' do

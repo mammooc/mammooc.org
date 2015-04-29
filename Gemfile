@@ -45,6 +45,9 @@ gem 'cancancan', '~>1.10'
 # HTTP api_connection
 gem 'rest-client'
 
+# amazon S3 connection
+gem 'aws-sdk', '~> 2'
+
 # cron job
 gem 'redis'
 gem 'sidekiq'
