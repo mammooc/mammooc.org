@@ -1,5 +1,10 @@
 .page-header
   h1
     = t('users.settings.heading')
+button.btn.btn-default id='load-account-settings-button' data-user_id='#{current_user.id}'
+  | Account
+button.btn.btn-default id='load-mooc-provider-settings-button' data-user_id='#{current_user.id}'
+  | MOOC Provider
 
-= render 'devise/registrations/edit'
+.settings-container
+  = render partial: 'devise/registrations/edit'

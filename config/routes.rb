@@ -7,10 +7,18 @@ Rails.application.routes.draw do
   get 'api_connection/update_user'
   get 'api_connection/update_all_users'
 
-  # skip: [:registrations]
-  devise_for :users, :controllers => { :registrations => "users/registrations",
+  devise_for :users, skip: [:registrations], :controllers => { :registrations => "users/registrations",
                                        :sessions => "users/sessions",
                                        :passwords => "users/passwords"}
+  as :user do
+    get '/users/cancel' => 'users/registrations#cancel', :as => 'cancel_user_registration'
+    post '/users' => 'users/registrations#create', :as => 'user_registration'
+    get '/users/sign_up' => 'users/registrations#new', :as => 'new_user_registration'
+    patch '/users' => 'users/registrations#update'
+    put '/users' => 'users/registrations#update'
+    delete '/users' => 'users/registrations#destroy'
+  end
+
 
   resources :user_assignments
 
@@ -83,6 +91,8 @@ Rails.application.routes.draw do
   # Users
   get 'users/:id/synchronize_courses' => 'users#synchronize_courses'
   get 'users/:id/settings' => 'users#settings'
+  get 'users/:id/account_settings' => 'users#account_settings'
+  get 'users/:id/mooc_provider_settings' => 'users#mooc_provider_settings'
 
 
   # The priority is based upon order of creation: first created -> highest priority.

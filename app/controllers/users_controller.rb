@@ -58,6 +58,33 @@ class UsersController < ApplicationController
     end
   end
 
+  def account_settings
+    @partial = render_to_string partial: 'devise/registrations/edit', formats: [:html]
+    respond_to do |format|
+      begin
+        format.html { redirect_to dashboard_path }
+        format.json { render :synchronization_result, status: :ok }
+      rescue StandardError => e
+        format.html { redirect_to dashboard_path }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def mooc_provider_settings
+    @partial = render_to_string partial: 'users/mooc_provider_settings', formats: [:html]
+    respond_to do |format|
+      begin
+        format.html { redirect_to dashboard_path }
+        format.json { render :synchronization_result, status: :ok }
+      rescue StandardError => e
+        format.html { redirect_to dashboard_path }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
+
   def settings
 
   end
