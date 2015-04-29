@@ -5,7 +5,8 @@ RSpec.describe Course, :type => :model do
   let!(:course1) { FactoryGirl.create(:course,
                                       mooc_provider_id: provider.id,
                                       start_date: DateTime.new(2015,03,15),
-                                      end_date: DateTime.new(2015,03,17)) }
+                                      end_date: DateTime.new(2015,03,17),
+                                      provider_course_id: "123") }
   let!(:course2) { FactoryGirl.create(:course,
                                       mooc_provider_id: provider.id) }
   let!(:course3) { FactoryGirl.create(:course,
@@ -59,6 +60,16 @@ RSpec.describe Course, :type => :model do
   it "should save data, if it has at least on track" do
     course1.tracks.push(FactoryGirl.create(:course_track))
     expect{course1.save!}.not_to raise_error
+  end
+
+  it "should return our course id for a given mooc provider and its provider course id" do
+    course_id = Course.get_course_id_by_mooc_provider_id_and_provider_course_id provider, '123'
+    expect(course_id).to eq course1.id
+  end
+
+  it "should return nil for an invalid set of mooc provider and its provider course id" do
+    course_id = Course.get_course_id_by_mooc_provider_id_and_provider_course_id provider, '456'
+    expect(course_id).to eq nil
   end
 
 end

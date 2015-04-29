@@ -1,91 +1,139 @@
-/recommendations in sidebar
-  - if @pledged_by.empty?
-    - unless @recommended_by.empty?
-      => t('recommendation.recommended_by')
-      - @recommended_by.each do |user|
-        = link_to user
-          = "#{user.first_name} #{user.last_name}"
-          - unless @recommended_by.last == user
-            = ', '
-  - else
-    => t('recommendation.pledged_by')
-    - @pledged_by.each do |user|
-      = link_to user
-        = "#{user.first_name} #{user.last_name}"
-        - unless @pledged_by.last == user
-          = ', '
+.sidebar
+  .element
+    .content
+      .hd5
+        = link_to @course.url, target: "_blank"
+          => t('courses.enter_course')
+          | &#8594;
 
-- content_for :sidebar
-  h4
-    = t('courses.mooc_provider')
-  = @course.mooc_provider.name
-  - if @course.course_instructors
-    h4
-      = t('courses.instructors')
-    = @course.course_instructors
-      br
-  h4
-    = t('courses.time')
-  - if @course.start_date && @course.end_date
-    = @course.start_date.strftime("%d.%m.%Y") + ' - ' + @course.end_date.strftime("%d.%m.%Y")
-  - elsif @course.start_date
-    = @course.start_date.strftime("%d.%m.%Y")
+  - if @pledged_by.blank?
+    - unless @recommended_by.blank?
+      .element
+        .content
+          .hd5.pb5
+            = t('courses.sidebar.recommended_by')
+          - @recommended_by.each do |user|
+            = link_to user
+              = "#{user.first_name} #{user.last_name}"
+              - unless @recommended_by.last == user
+                = ', '
+        a class="show-button" href="#course-recommendations"
+          = t('global.show_details')
   - else
-    = t('courses.no_dates_available')
-  - if !@course.calculated_duration_in_days && @course.provider_given_duration
-    h4
-      = t('courses.duration')
-    = @course.provider_given_duration
-  - if @course.language
-    h4
-      = t('courses.language')
-    = @course.language
-  - if @course.subtitle_languages
-    h4
-      = t('courses.subtitle_languages')
-    = @course.subtitle_languages
-  - if @course.requirements
-    h4
-      = t('courses.requirements')
-    - @course.requirements.each do |requirement|
-      = raw requirement
-  - if @course.categories
-    h4
-      = t('courses.categories')
-    - @course.categories.each do |category|
-      span.label.label-default
-        = category
-  - if @course.difficulty
-    h4
-      = t('courses.difficulty')
-    = @course.difficulty
-  - if @course.workload
-    h4
-      = t('courses.workload')
-    = @course.workload
-  - if @course.previous_iteration_id
-    h4
-      = t('courses.previous_iteration')
-    = link_to @previous_course_name, course_path(@course.previous_iteration_id)
-  - if @course.following_iteration_id
-    h4
-      = t('courses.following_iteration')
-    = link_to @following_course_name, course_path(@course.following_iteration_id)
-  h4
-    = t('courses.tracks.headline')
-  - @course.tracks.each do |track|
-    h5
-      = track.track_type.title
-    - if track.track_type.description
-      = track.track_type.description
-    h6
-      = t('courses.tracks.types.type_of_achievement')
-    = t("courses.tracks.types.achievement_types.#{track.track_type.type_of_achievement}")
-    - if track.costs
-      h6
-        = t('courses.tracks.types.costs')
-      = "#{format("%.2f", track.costs)} #{track.costs_currency}"
-    - if track.credit_points
-      h6
-        = t('courses.tracks.types.credit_points')
-      = track.credit_points
+    .element
+      .content
+        .hd5.pb5
+          = t('recommendation.pledged_by')
+        - @pledged_by.each do |user|
+          = link_to user
+            = "#{user.first_name} #{user.last_name}"
+            - unless @pledged_by.last == user
+              = ', '
+      a class="show-button" href="#course-recommendations"
+        = t('global.show_details')
+
+
+  .element
+    .content
+      .hd5.pb20
+        = t('courses.sidebar.details')
+
+      .hd6.pb5
+        = t('courses.mooc_provider')
+      = @course.mooc_provider.name
+
+      .gradient-divider
+
+      - if @course.course_instructors
+        .hd6.pb5
+          = t('courses.instructors')
+        = @course.course_instructors
+        .gradient-divider
+
+      .hd6.pb5
+        = t('courses.time')
+      - if @course.start_date && @course.end_date
+        = @course.start_date.strftime("%d.%m.%Y") + ' - ' + @course.end_date.strftime("%d.%m.%Y")
+      - elsif @course.start_date
+        = @course.start_date.strftime("%d.%m.%Y")
+      - else
+        = t('courses.no_dates_available')
+      .gradient-divider
+
+      - if !@course.calculated_duration_in_days && @course.provider_given_duration
+        .hd6.pb5
+          = t('courses.duration')
+        = @course.provider_given_duration
+        .gradient-divider
+
+      - if @course.language
+        .hd6.pb5
+          = t('courses.language')
+        = @course.language
+        .gradient-divider
+
+      - if @course.subtitle_languages
+        .hd6.pb5
+          = t('courses.subtitle_languages')
+        = @course.subtitle_languages
+        .gradient-divider
+
+      - if @course.requirements
+        .hd6.pb5
+          = t('courses.requirements')
+        - @course.requirements.each do |requirement|
+          = raw requirement
+        .gradient-divider
+
+      - if @course.workload
+        .hd6.pb5
+          = t('courses.workload')
+        = @course.workload
+        .gradient-divider
+
+      - if @course.difficulty
+        .hd6.pb5
+          = t('courses.difficulty')
+        = @course.difficulty
+        .gradient-divider
+
+      - if @course.previous_iteration_id
+        .hd6.pb5
+          = t('courses.previous_iteration')
+        = link_to @previous_course_name, course_path(@course.previous_iteration_id)
+        .gradient-divider
+
+      - if @course.following_iteration_id
+        .hd6.pb5
+          = t('courses.following_iteration')
+        = link_to @following_course_name, course_path(@course.following_iteration_id)
+        .gradient-divider
+
+      - if @course.categories
+        .hd6.pb5
+          = t('courses.categories')
+        - @course.categories.each do |category|
+          span.label.label-default
+            = category
+      - @course.tracks.each do |track|
+        .gradient-divider
+        .hd5.pb5
+          = track.track_type.title   
+        - if track.track_type.description
+          = track.track_type.description
+        
+        .hd6.pb5
+          = t('courses.tracks.types.type_of_achievement')
+        = t("courses.tracks.types.achievement_types.#{track.track_type.type_of_achievement}")
+        
+        - if track.costs
+          .gradient-divider
+          hd6.pb5
+            = t('courses.tracks.types.costs')
+          = "#{format("%.2f", track.costs)} #{track.costs_currency}"
+    
+        - if track.credit_points
+          .gradient-divider
+          .hd6.pb5
+            = t('courses.tracks.types.credit_points')
+          = track.credit_points

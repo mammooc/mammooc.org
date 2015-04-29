@@ -1,6 +1,6 @@
 class MoocProvider < ActiveRecord::Base
   has_many :courses
-  has_and_belongs_to_many :users
+  has_many :users, through: :mooc_provider_users
   validates_uniqueness_of :name
-
+  validates :logo_id, presence: true
 end

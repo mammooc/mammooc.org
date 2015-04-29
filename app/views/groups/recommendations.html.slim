@@ -9,5 +9,5 @@ p
   = t('recommendation.group.no_recommendation')
 - else
   .recommendations-wrapper
-    - @recommendations.each do |recommendation_array|
-      = render 'recommendations/recommendation', recommendation: recommendation_array[0], group: recommendation_array[1]
+    - @recommendations.each_with_index do |recommendation, index|
+      = render 'recommendations/group_recommendation', recommendation: recommendation, id: "recommendation_number_#{index}"

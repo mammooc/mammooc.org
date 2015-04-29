@@ -1,12 +1,14 @@
 $group-logo-height: 80px;
-$group-logo-margin-left: 15px;
-$entry-padding-left: 10px;
 
 // Header
+
+$group-logo-margin-left: 15px;
+$entry-padding-left: 10px;
 
 .group-header {
   @include white-box;
   @include box-shadow-light;
+  margin-bottom: 30px;
 
   .wrapper {
     min-height: $group-logo-height;
@@ -31,9 +33,8 @@ $entry-padding-left: 10px;
     }
 
     .title {
+      @extend .hd3;
       padding-top: 15px;
-      font-size: 20px;
-      font-weight: 400;
     }
 
     .invite-member-button {
@@ -58,18 +59,13 @@ $entry-padding-left: 10px;
         font-size: 13px;
 
         a {
-          color: $text-color;
-          text-decoration: none;
-        }
-
-        a:hover {
-          color: $link-color;
+          @include link-black-hover-green;
         }
       }
 
       .active {
         font-weight: bold;
-        border-bottom: 2px solid $link-hover-color;
+        border-bottom: 2px solid $text-color;
       }
     }
   }
@@ -82,6 +78,7 @@ $entry-padding-left: 10px;
   .groups {
     @include white-box;
     @include box-shadow-light;
+    margin-top: 15px;
     margin-bottom: 30px;
     float: left;
 
@@ -102,7 +99,8 @@ $entry-padding-left: 10px;
     }
 
     .groups-info {
-      min-height: $group-logo-height + 20px;
+      position: relative;
+      min-height: $group-logo-height + 60px;
 
       .logo {
         @include white-box;
@@ -123,13 +121,24 @@ $entry-padding-left: 10px;
       }
 
       .name {
-        font-weight: 300;
-        font-size: 18px;
+        @extend .hd4;
         padding: 10px;
       }
     }
   }
 }
+
+.btn-show-group {
+  @extend .show-button;
+  position: absolute;
+  bottom: 0px;
+  text-align: center;
+  font-weight: 500;
+  &:hover {
+  background-color: darken($gray-ultra-light, 2%);
+  }
+}
+
 
 // Members
 
@@ -217,6 +226,7 @@ $members_image_height: 100px;
 // Customize Bootstrap Panel for this special case in Groups Sidebar
 
 .panel-groups-sidebar {
+  background-color: white;
 
   .container-fluid {
     padding: 0px;

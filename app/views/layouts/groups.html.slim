@@ -1,17 +1,17 @@
 - content_for :main
 
   / Pages with Group subnav
-  - if @group and (current_page?("/groups/#{@group.id}") or current_page?("/groups/#{@group.id}/members") or current_page?("/groups/#{@group.id}/recommendations"))
+  - if @group and (current_page?("/groups/#{@group.id}") or current_page?("/groups/#{@group.id}/members") or current_page?("/groups/#{@group.id}/recommendations") or current_page?("/groups/#{@group.id}/statistics"))
     / Group header with subnav
     .row.mt30
       .col-md-12
         = render 'groups/header'
     - if @group and current_page?("/groups/#{@group.id}/members")
-      .row.mt30
+      .row
         .col-md-12
           = yield
     - else
-      .row.mt30
+      .row
         / Content
         .col-md-9
           = yield

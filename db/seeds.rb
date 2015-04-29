@@ -6,15 +6,16 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-provider1 = MoocProvider.create(name: 'openHPI')
-MoocProvider.create(name: 'openHPI China')
-MoocProvider.create(name: 'mooc.house')
-MoocProvider.create(name: 'openSAP')
-MoocProvider.create(name: 'edX')
-MoocProvider.create(name: 'coursera')
-MoocProvider.create(name: 'openSAP China')
-MoocProvider.create(name: 'openUNE')
-MoocProvider.create(name: 'iversity')
+provider1 = MoocProvider.create(name: 'testProvider', logo_id: 'logo_openHPI.png')
+openHPI = MoocProvider.create(name: 'openHPI', logo_id: 'logo_openHPI.png')
+MoocProvider.create(name: 'openHPI China', logo_id: 'logo_openHPI.png')
+MoocProvider.create(name: 'mooc.house', logo_id: 'logo_mooc_house.png')
+openSAP = MoocProvider.create(name: 'openSAP', logo_id: 'logo_openSAP.png')
+MoocProvider.create(name: 'edX', logo_id: 'logo_edx.png')
+MoocProvider.create(name: 'coursera', logo_id: 'logo_coursera.png')
+MoocProvider.create(name: 'openSAP China', logo_id: 'logo_openSAP.png')
+MoocProvider.create(name: 'openUNE', logo_id: 'logo_openUNE.png')
+MoocProvider.create(name: 'iversity', logo_id: 'logo_iversity.png')
 
 openhpi_audit_track_type = CourseTrackType.create(title: 'Audit',
                                          description: 'You get a record of Achievement.',
@@ -53,14 +54,12 @@ minimal_previous_course = Course.create(name: 'Minimal Previous Technologies',
               provider_course_id: 2,
               mooc_provider_id: provider1.id
 )
-minimal_previous_course.tracks.push(CourseTrack.new(track_type: openhpi_audit_track_type))
 
 minimal_following_course = Course.create(name: 'Minimal Following Technologies',
                                         url: 'https://open.hpi.de/courses/pythonjunior2015',
                                         provider_course_id: 2,
                                         mooc_provider_id: provider1.id
 )
-minimal_following_course.tracks.push(CourseTrack.new(track_type: openhpi_audit_track_type))
 
 full_course = Course.create(name: 'Web Technologies',
               url: 'https://open.hpi.de/courses/webtech2015',
@@ -98,16 +97,17 @@ full_course.tracks.push(CourseTrack.new(track_type: certificate_track_type, cost
 full_course.tracks.push(CourseTrack.new(track_type: iversity_ects_track_type, costs: 50.0, costs_currency: '€'))
 
 
-user1 =User.create(first_name: 'Max', last_name: 'Mustermann', email: 'max@test.com', password: '12345678')
-user2 = User.create(first_name: 'Maxi', last_name: 'Musterfrau', email: 'maxi@test.com', password: '12345678')
+user1 = User.create(first_name: 'Max', last_name: 'Mustermann', email: 'max@example.com', password: '12345678', profile_image_id: 'profile_picture_default.png')
+user2 = User.create(first_name: 'Maxi', last_name: 'Musterfrau', email: 'maxi@example.com', password: '12345678', profile_image_id: 'profile_picture_default.png')
 
-group1 = Group.create(name: 'Testgruppe1', description: 'blablub')
+group1 = Group.create(name: 'Testgruppe1', description: 'Testgruppe1 ist die Beste!', image_id: 'group_picture_default.png')
 
 20.times do |i|
   user = User.create first_name: "Maximus_#{i}",
                       last_name: "Mustermann",
-                      email: "maximus_#{i}@test.com",
-                      password: "12345678"
+                      email: "maximus_#{i}@example.com",
+                      password: "12345678",
+                      profile_image_id: 'profile_picture_default.png'
   group1.users.push user
 end
 
@@ -115,17 +115,32 @@ end
 group1.users.push(user1,user2)
 UserGroup.set_is_admin(group1.id, user1.id, true)
 
-group2 = Group.create(name: 'Testgruppe2', description: 'blablub')
+group2 = Group.create(name: 'Testgruppe2', description: 'Testgruppe2 ist auch gut!', image_id: 'group_picture_default.png')
 
 group2.users.push(user2)
 UserGroup.set_is_admin(group2.id, user2.id, true)
 
-group3 = Group.create(name: 'Testgruppe3', description: 'blablub')
+group3 = Group.create(name: 'Testgruppe3', description: 'Testgruppe3 ist eine Enttäuschung...', image_id: 'group_picture_default.png')
 
 group3.users.push(user1, user2)
 
 UserGroup.set_is_admin(group3.id, user1.id, true)
 UserGroup.set_is_admin(group3.id, user2.id, true)
 
-4.times do FactoryGirl.create(:recommendation, users:[user1], course: full_course, groups: [group1, group3]) end
+4.times do FactoryGirl.create(:group_recommendation, course: full_course, group: group1, users: group1.users) end
+3.times do FactoryGirl.create(:user_recommendation, course: full_course, users: [user1]) end
+2.times do FactoryGirl.create(:user_recommendation, course: full_course, users: [user2]) end
 
+OpenHPICourseWorker.perform_async
+OpenSAPCourseWorker.perform_async
+EdxCourseWorker.perform_async
+CourseraCourseWorker.perform_async
+IversityCourseWorker.perform_async
+
+if ENV['OPEN_HPI_TOKEN'].present?
+  FactoryGirl.create(:mooc_provider_user, user: user1, mooc_provider: openHPI, authentication_token: ENV['OPEN_HPI_TOKEN'])
+end
+
+if ENV['OPEN_SAP_TOKEN'].present?
+  FactoryGirl.create(:mooc_provider_user, user: user1, mooc_provider: openSAP, authentication_token: ENV['OPEN_SAP_TOKEN'])
+end

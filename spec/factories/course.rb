@@ -2,7 +2,7 @@ FactoryGirl.define do
 
   factory :course do
     name 'Minimal Technologies'
-    url 'https://test.com/course'
+    url 'https://example.com/course'
     sequence(:provider_course_id ) { |n| "a#{n}" }
     mooc_provider { FactoryGirl.create(:mooc_provider) }
     tracks { [FactoryGirl.create(:course_track)] }

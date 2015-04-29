@@ -1,12 +1,26 @@
 require 'simplecov'
-SimpleCov.start
+SimpleCov.start do
+  add_filter '/spec/'
+  add_filter '/config'
+
+  add_group 'Controllers', 'app/controllers'
+  add_group 'Concerns', 'app/controllers/concerns'
+  add_group 'Helpers', 'app/helpers'
+  add_group 'Mailers', 'app/mailers'
+  add_group 'Models', 'app/models'
+  add_group 'Views', 'app/views'
+  add_group 'Workers', 'app/workers'
+  add_group 'Libraries', 'lib'
+end
 require 'factory_girl_rails'
 require 'devise'
 require 'support/devise_support'
 require 'support/wait_for_ajax'
+require 'support/wait_for_phantom_js'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
 require 'selenium/webdriver'
+require 'sidekiq/testing'
 
 if ENV['HEADLESS_TEST'] == 'true' || ENV['USER'] == 'vagrant'
   require 'headless'
@@ -17,7 +31,7 @@ end
 
 if ENV['PHANTOM_JS'] == 'true'
   Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app)
+    Capybara::Poltergeist::Driver.new(app, :window_size => [1280, 960])
   end
   Capybara.javascript_driver = :poltergeist
 else
@@ -62,8 +76,14 @@ RSpec.configure do |config|
     end
   end
 
-  config.include Devise::TestHelpers, :type => :controller
-  config.include Devise::TestHelpers, :type => :view
+  config.before(:each) do
+    allow_any_instance_of(AmazonS3).to receive(:new_aws_resource).and_return(double('AmazonS3'))
+    allow_any_instance_of(AmazonS3).to receive(:get_data).and_return(Base64.encode64(File.open(Rails.root.join('public', 'data', 'icons', 'courses.png')).read))
+    allow_any_instance_of(AmazonS3).to receive(:get_object).and_return(true)
+    allow_any_instance_of(AmazonS3).to receive(:put_data).and_return(true)
+    allow_any_instance_of(AmazonS3).to receive(:get_url).and_return('/data/icons/courses.png')
+  end
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.

@@ -93,7 +93,7 @@ class CourseraCourseWorker < AbstractCourseWorker
       end
       course.save!
       iteration_hash[corresponding_course["id"]] << course.id
-    }
+    end
     evaluate_update_map update_map
     # multiple iterations
     evaluate_iteration_hash iteration_hash

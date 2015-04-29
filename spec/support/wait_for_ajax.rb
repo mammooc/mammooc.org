@@ -3,8 +3,9 @@
 
 module WaitForAjax
   def wait_for_ajax
+    endtime = Time.now + 15.seconds
     Timeout.timeout(Capybara.default_wait_time) do
-      loop until finished_all_ajax_requests?
+      loop until finished_all_ajax_requests? or Time.now > endtime
     end
     # PhantomJS is much faster, a way too fast...
     if ENV['PHANTOM_JS'] == 'true'
@@ -13,7 +14,7 @@ module WaitForAjax
   end
 
   def finished_all_ajax_requests?
-    page.evaluate_script('jQuery.active').zero? && page.evaluate_script('$.turbo.isReady')
+    page.evaluate_script('jQuery.active').zero?
   end
 end
 

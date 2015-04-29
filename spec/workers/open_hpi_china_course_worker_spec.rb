@@ -1,12 +1,10 @@
 require 'rails_helper'
 
-describe OpenHPIChinaCourseWorker do
+RSpec.describe OpenHPIChinaCourseWorker do
 
   let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI China') }
 
-  let(:open_hpi_china_course_worker){
-    OpenHPIChinaCourseWorker.new
-  }
+  let(:open_hpi_china_course_worker){ OpenHPIChinaCourseWorker.new }
 
   it 'should deliver MOOCProvider' do
     expect(open_hpi_china_course_worker.mooc_provider).to eql mooc_provider

@@ -2,24 +2,14 @@
 
   .row.mt30
     .col-md-12
-      .site-header.mb40
-        .wrapper
-          .logo.pull-left
-            img src="/data/icons/courses.png"
-          .title
-            = t('courses.heading')
-            .options.pull-right
-              / Space for options
+      = yield :header
+
   .row
     / Content
     .col-md-9
-      = yield
+      = yield :content
     / Sidebar
     .col-md-3.mb30
-      - if current_page?(courses_path)
-        .courses-filter
-          = render 'filter'
-      - else
-        = yield :sidebar
+      = yield :sidebar
 
 = render file: 'layouts/application'

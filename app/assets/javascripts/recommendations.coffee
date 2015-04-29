@@ -2,10 +2,45 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+ready = ->
+  $('.remove-recommendation-group').click(delete_group_recommendation)
+  $('.remove-recommendation-current-user').click(delete_user_from_recommendation)
+  return
+
+$(document).ready(ready)
+
+delete_group_recommendation = () ->
+  recommendation_id = $(this).data('recommendation_id')
+  recommendation = $(this).parent()
+
+  $.ajax
+    url: "/recommendations/#{recommendation_id}/delete_group_recommendation"
+    method: 'GET'
+    error: (jqXHR, textStatus, errorThrown) ->
+      console.log('group delete recommendation error')
+      alert(I18n.t('global.ajax_failed'))
+    success: (data, textStatus, jqXHR) ->
+      recommendation.remove()
+
+
+delete_user_from_recommendation = () ->
+  recommendation_id = $(this).data('recommendation_id')
+  recommendation = $(this).parent()
+
+  $.ajax
+    url: "/recommendations/#{recommendation_id}/delete_user_from_recommendation"
+    method: 'GET'
+    error: (jqXHR, textStatus, errorThrown) ->
+      console.log('user delete recommendation error')
+      alert(I18n.t('global.ajax_failed'))
+    success: (data, textStatus, jqXHR) ->
+      recommendation.remove()
+
 group_ids = []
 groups_autocomplete = []
 users_autocomplete = []
 courses_autocomplete = []
+
 
 generate_groups_autocomplete = () ->
   get_my_groups()
@@ -25,6 +60,7 @@ get_my_groups = () ->
     async: false
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('error_get_my_groups')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       console.log('success_get_my_groups')
       for group in data
@@ -37,11 +73,12 @@ generate_users_autocomplete = () ->
   get_my_groups()
   for group_id in group_ids
     $.ajax
-      url: '/groups/' + group_id + '/members.json'
+      url: "/groups/#{group_id}/members.json"
       async: false
       method: 'GET'
       error: (jqXHR, textStatus, errorThrown) ->
         console.log('users error')
+        alert(I18n.t('global.ajax_failed'))
       success: (data, textStatus, jqXHR) ->
         console.log('users success')
         for user in data.group_members
@@ -62,6 +99,7 @@ generate_course_autocomplete = () ->
     method: 'GET'
     error: (jqXHR, textStatus, errorThrown) ->
       console.log('courses error')
+      alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       console.log('courses success')
       for course in data
@@ -83,10 +121,11 @@ generate_course_autocomplete = () ->
   if 'course_id' of params
     course_id = params['course_id']
     $.ajax
-      url: '/courses/' + course_id + '.json'
+      url: "/courses/#{course_id}.json"
       method: 'GET'
       error: (jqXHR, textStatus, errorThrown) ->
         console.log('course id error')
+        alert(I18n.t('global.ajax_failed'))
       success: (data, textStatus, jqXHR) ->
         console.log('course id success')
         course_name = data.name
@@ -94,10 +133,11 @@ generate_course_autocomplete = () ->
   else if 'group_id' of params
     group_id = params['group_id']
     $.ajax
-      url: '/groups/' + group_id + '.json'
+      url: "/groups/#{group_id}.json"
       method: 'GET'
       error: (jqXHR, textStatus, errorThrown) ->
         console.log('group id error')
+        alert(I18n.t('global.ajax_failed'))
       success: (data, textStatus, jqXHR) ->
         console.log('group id success')
         group_name = data.name

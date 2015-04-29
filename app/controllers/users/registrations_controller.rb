@@ -8,7 +8,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def create
       flash['error'] ||= []
-      build_resource(sign_up_params)
+      full_user_params = sign_up_params
+      full_user_params[:profile_image_id] = 'profile_picture_default.png'
+      build_resource(full_user_params)
       resource.save
 
       yield resource if block_given?
@@ -32,7 +34,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         redirect_to new_user_registration_path
       end
 
-      if not user_params.has_key?(:terms_and_conditions_confirmation)
+      unless user_params.has_key?(:terms_and_conditions_confirmation)
         flash['error'] << t('flash.error.sign_up.terms_and_conditions_failure')
       end
   end

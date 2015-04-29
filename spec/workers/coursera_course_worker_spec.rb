@@ -1,13 +1,11 @@
 require 'rails_helper'
 require 'course_worker_spec_helper'
 
-describe CourseraCourseWorker do
+RSpec.describe CourseraCourseWorker do
 
   let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'coursera') }
 
-  let(:coursera_course_worker){
-    CourseraCourseWorker.new
-  }
+  let(:coursera_course_worker){ CourseraCourseWorker.new }
 
   let(:json_session_data) {
     JSON.parse '{"elements":[{"id":90,"signatureTrackPrice":50.5,"courseId":9,"homeLink":"https://class.coursera.org/crypto-2012-002/","active":true,"durationString":"6 weeks","startDay":11,"startMonth":6,"startYear":2012,"eligibleForCertificates":true,"eligibleForSignatureTrack":false,"links":{}},{"id":91,"courseId":9,"homeLink":"https://class.coursera.org/crypto-2012-002/","active":true,"durationString":"6 weeks","startDay":13,"startMonth":6,"startYear":2012,"eligibleForCertificates":true,"eligibleForSignatureTrack":false,"links":{}}],"linked":{}}'
@@ -36,7 +34,7 @@ describe CourseraCourseWorker do
     coursera_course_worker.handle_response_data json_session_data
     json_session = json_session_data['elements'][0]
     json_course = json_course_data['elements'][0]
-    course = Course.find_by(:provider_course_id => json_course['id'].to_s + '|' + json_session['id'].to_s, :mooc_provider_id => mooc_provider.id)
+    course = Course.find_by(provider_course_id: json_course['id'].to_s + '|' + json_session['id'].to_s, mooc_provider_id: mooc_provider.id)
 
     expect(course.name).to eql json_course['name']
     expect(course.provider_course_id).to eql json_course['id'].to_s + '|' + json_session['id'].to_s
@@ -64,11 +62,10 @@ describe CourseraCourseWorker do
     json_course = json_course_data['elements'][0]
     json_session1 = json_session_data['elements'][0]
     json_session2 = json_session_data['elements'][1]
-    course1 = Course.find_by(:provider_course_id => json_course['id'].to_s + '|' + json_session1['id'].to_s, :mooc_provider_id => mooc_provider.id)
-    course2 = Course.find_by(:provider_course_id => json_course['id'].to_s + '|' + json_session2['id'].to_s, :mooc_provider_id => mooc_provider.id)
+    course1 = Course.find_by(provider_course_id: json_course['id'].to_s + '|' + json_session1['id'].to_s, mooc_provider_id: mooc_provider.id)
+    course2 = Course.find_by(provider_course_id: json_course['id'].to_s + '|' + json_session2['id'].to_s, mooc_provider_id: mooc_provider.id)
     expect(course1.following_iteration_id).to eql course2.id
     expect(course2.previous_iteration_id).to eql course1.id
   end
 
 end
-

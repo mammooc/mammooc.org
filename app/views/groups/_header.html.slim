@@ -5,7 +5,7 @@
       .row
         .col-md-12
           .logo
-            img src="/data/group-default.png"
+            img src=@group_picture[@group.image_id]
           .title
             = @group.name
             - if can? :update, @group
@@ -43,8 +43,11 @@
                 a href="/groups/#{@group.id}/recommendations"
                   = t('groups.subnav.recommendations')
           .entry
-            div class=""
-              a href="#"
+            div class=(current_page?("/groups/#{@group.id}/statistics") ? 'active' : '')
+              - if current_page?("/groups/#{@group.id}/statistics")
                 = t('groups.subnav.statistics')
+              -else
+                a href="/groups/#{@group.id}/statistics"
+                  = t('groups.subnav.statistics')
 
 = render 'add_members'
