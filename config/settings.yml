@@ -11,11 +11,11 @@
 
 # Mailers
 sender_notification_address: mammooc <notifications@mammooc.com>
-default_hostname: <%= ENV['SUBDOMAIN'].present? ? "#{ENV['SUBDOMAIN']}.herokuapp.com" : 'localhost' %>
+default_hostname: <%= (ENV['SUBDOMAIN'].present? ? "#{ENV['SUBDOMAIN']}.herokuapp.com" : 'localhost') %>
 
 # GroupInvitation
 token_length: 16
 token_expiry_date: <%= 1.week.from_now.in_time_zone %>
 
 # Heroku Deployment with New Relic
-subdomain: <%= (ENV['SUBDOMAIN'].present? ? ENV['SUBDOMAIN'] : ENV['USER'] ) %>
+subdomain: <%= (ENV['SUBDOMAIN'].present? ? ENV['SUBDOMAIN'] : ENV['USER']) %>
