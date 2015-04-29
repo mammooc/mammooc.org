@@ -22,7 +22,6 @@ class IversityCourseWorker < AbstractCourseWorker
     ects_track_type = CourseTrackType.find_by(type_of_achievement: 'iversity_ects')
 
     response_data['courses'].each do |course_element|
-      puts course_element['id'].inspect
       course = Course.find_by(provider_course_id: course_element['id'].to_s, mooc_provider_id: mooc_provider.id) || Course.new
       update_map[course.id] = true unless course.new_record?
 
@@ -51,7 +50,7 @@ class IversityCourseWorker < AbstractCourseWorker
 
       course.provider_course_id = course_element['id']
       course.mooc_provider_id = mooc_provider.id
-      course.categories = course_element['discipline']
+      course.categories = [course_element['discipline']]
 
       course.course_instructors = ""
       course_element['instructors'].each_with_index do |instructor, i|
