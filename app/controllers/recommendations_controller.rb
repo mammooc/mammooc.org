@@ -18,6 +18,7 @@ class RecommendationsController < ApplicationController
     @recommendations = current_user.recommendations.sort_by { |recommendation| recommendation.created_at}.reverse!
 
     @provider_logos = AmazonS3.instance.get_provider_logos_hash_for_recommendations(@recommendations)
+    @profile_pictures = AmazonS3.instance.get_author_profile_images_hash_for_recommendations(@recommendations)
 
   end
 

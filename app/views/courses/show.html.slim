@@ -95,10 +95,7 @@
           .recommendation-small
             .user-info
               = link_to recommendation.author
-                - if recommendation.author.profile_image_id
-                  img src=recommendation.author.profile_image_id
-                - else
-                  img src="/data/default.png"
+                img src=@profile_pictures[recommendation.author.profile_image_id]
               .name
                 = link_to recommendation.author
                   = "#{recommendation.author.first_name} #{recommendation.author.last_name}"

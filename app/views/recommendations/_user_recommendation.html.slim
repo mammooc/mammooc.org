@@ -32,10 +32,7 @@
       = raw recommendation.course.abstract
   .comment
     .profile-picture
-      - if recommendation.author.profile_image_id
-        img src=recommendation.author.profile_image_id
-      - else
-        img src="/data/default.png"
+      img src = @profile_pictures[recommendation.author.profile_image_id]
     = link_to recommendation.author
       = "#{recommendation.author.first_name} #{recommendation.author.last_name}"
     - if recommendation.text.empty?
