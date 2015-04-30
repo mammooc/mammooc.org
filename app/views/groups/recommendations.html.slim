@@ -1,5 +1,5 @@
 - content_for :title
-  = @group.name + ' | mammooc'
+  = "#{@group.name} | #{t('global.app_name')}"
 
 p
   = link_to new_recommendation_path(group_id: @group.id)

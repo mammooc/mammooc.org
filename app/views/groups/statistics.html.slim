@@ -1,5 +1,5 @@
 - content_for :title
-  = @group.name + ' | mammooc'
+  = "#{@group.name} | #{t('global.app_name')}"
 
 - if can? :synchronize_courses, @group
   button.btn.btn-default id='sync-group-course-button' data-group_id='#{@group.id}'
