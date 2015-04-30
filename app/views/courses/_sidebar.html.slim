@@ -91,24 +91,6 @@
         = @course.workload
         .gradient-divider
 
-      - if @course.type_of_achievement
-        .hd6.pb5
-          = t('courses.achievement')
-        = @course.type_of_achievement
-        .gradient-divider
-
-      - if @course.credit_points
-        .hd6.pb5
-          = t('courses.credit_points')
-        = @course.credit_points
-        .gradient-divider
-
-      - if @course.costs
-        .hd6.pb5
-          = t('courses.costs') + ':'
-        = @course.costs.to_s + @course.price_currency
-        .gradient-divider
-
       - if @course.difficulty
         .hd6.pb5
           = t('courses.difficulty')
@@ -119,7 +101,7 @@
         .hd6.pb5
           = t('courses.previous_iteration')
         = link_to @previous_course_name, course_path(@course.previous_iteration_id)
-        .gradient-divider
+        .gradient-dividerc
 
       - if @course.following_iteration_id
         .hd6.pb5
@@ -133,3 +115,29 @@
         - @course.categories.each do |category|
           span.label.label-default
             = category
+        .gradient-divider
+
+      .hd4.pb5
+        = t('courses.tracks.headline')
+      - @course.tracks.each_with_index do |track, i|
+        .hd5.pb5
+          = track.track_type.title   
+        - if track.track_type.description
+          = raw(track.track_type.description)
+        
+        .hd6.pb5
+          = t('courses.tracks.types.type_of_achievement')
+        = t("courses.tracks.types.achievement_types.#{track.track_type.type_of_achievement}")
+        
+        - if track.costs
+          .hd6.pb5
+            = t('courses.tracks.types.costs')
+          = "#{format("%.2f", track.costs)} #{track.costs_currency}"
+    
+        - if track.credit_points
+          .hd6.pb5
+            = t('courses.tracks.types.credit_points')
+          = track.credit_points
+
+        - if i != (@course.tracks.count - 1)
+          .gradient-divider

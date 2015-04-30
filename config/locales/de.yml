@@ -200,6 +200,23 @@ de:
     sidebar:
       recommended_by: Wurde dir empfohlen von
       details: Kursdetails
+    tracks:
+      headline: Pfade
+      types:
+        type_of_achievement: Art des Abschlusses
+        costs: Kosten
+        credit_points: ECTS-Punkte
+        achievement_types:
+          openhpi_record_of_achievement: Teilnahmebescheinigung
+          iversity_record_of_achievement: :courses.tracks.types.achievement_types.openhpi_record_of_achievement
+          nothing: Nichts
+          certificate: Zertifikat
+          iversity_certificate: :courses.tracks.types.achievement_types.certificate
+          iversity_ects: ECTS-Punkte
+          coursera_verified_certificate: Verifiziertes Zertifikat
+          edx_verified_certificate: :courses.tracks.types.achievement_types.coursera_verified_certificate
+          edx_xseries_certificate: edX XSeries Zertifikat
+          edx_profed_certificate: edX Professional Education Zertifikat
 
   recommendation:
     placeholder: Gib deine persönliche Nachricht hier ein ...

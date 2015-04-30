@@ -4,8 +4,8 @@ FactoryGirl.define do
     name 'Minimal Technologies'
     url 'https://example.com/course'
     sequence(:provider_course_id ) { |n| "a#{n}" }
-    mooc_provider {FactoryGirl.create(:mooc_provider)}
-    has_free_version true
+    mooc_provider { FactoryGirl.create(:mooc_provider) }
+    tracks { [FactoryGirl.create(:course_track)] }
   end
 
   factory :full_course, class: Course do
@@ -29,21 +29,16 @@ Claudia; “I enjoyed this course so much. It gave me a chance to expand my hori
     videoId ''
     start_date DateTime.new(2015,6,1,8)
     end_date DateTime.new(2015,7,20,23,30)
-    costs 10
-    price_currency '€'
-    type_of_achievement 'Certificate'
     categories ['Web','Technologies','Computer Science','#geilon']
     requirements %w[Computer Brain Strength]
     difficulty 'medium'
     workload '4-8 hours a week'
     sequence(:provider_course_id ) { |n| "#{n}" }
-    credit_points 6
     open_for_registration true
     provider_given_duration '6 weeks'
     subtitle_languages 'english, german'
-    mooc_provider {FactoryGirl.create(:mooc_provider)}
-    has_free_version true
-    has_paid_version true
+    mooc_provider { FactoryGirl.create(:mooc_provider) }
+    tracks { [FactoryGirl.create(:course_track), FactoryGirl.create(:certificate_course_track), FactoryGirl.create(:ects_course_track)] }
   end
 
 end
