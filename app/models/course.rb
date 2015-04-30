@@ -11,8 +11,9 @@ class Course < ActiveRecord::Base
   has_many :evaluations
   has_many :course_assignments
   has_many :user_assignments
+  has_many :tracks, class_name: 'CourseTrack', dependent: :destroy
 
-  validate :has_free_version_or_has_paid_version
+  validates :tracks, length: {minimum: 1}
 
   before_save :check_and_update_duration
   after_save :create_and_update_course_connections
@@ -28,12 +29,6 @@ class Course < ActiveRecord::Base
   end
 
   private
-
-  def has_free_version_or_has_paid_version
-    unless self.has_free_version || self.has_paid_version
-      self.errors[:base] << 'A Course needs at least a free or a paid version!'
-    end
-  end
 
   def check_and_update_duration
     if self.end_date && self.start_date

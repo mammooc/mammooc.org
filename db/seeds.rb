@@ -6,32 +6,64 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-open_mammooc = MoocProvider.create(name: 'open_mammooc', logo_id: 'logo_open_mammooc.png')
-openHPI = MoocProvider.create(name: 'openHPI', logo_id: 'logo_openHPI.png')
-MoocProvider.create(name: 'openHPI China', logo_id: 'logo_openHPI.png')
-MoocProvider.create(name: 'mooc.house', logo_id: 'logo_mooc_house.png')
-openSAP = MoocProvider.create(name: 'openSAP', logo_id: 'logo_openSAP.png')
-MoocProvider.create(name: 'edX', logo_id: 'logo_edx.png')
-MoocProvider.create(name: 'coursera', logo_id: 'logo_coursera.png')
-MoocProvider.create(name: 'openSAP China', logo_id: 'logo_openSAP.png')
-MoocProvider.create(name: 'openUNE', logo_id: 'logo_openUNE.png')
+open_mammooc = MoocProvider.create!(name: 'open_mammooc', logo_id: 'logo_open_mammooc.png')
+openHPI = MoocProvider.create!(name: 'openHPI', logo_id: 'logo_openHPI.png')
+MoocProvider.create!(name: 'openHPI China', logo_id: 'logo_openHPI.png')
+MoocProvider.create!(name: 'mooc.house', logo_id: 'logo_mooc_house.png')
+openSAP = MoocProvider.create!(name: 'openSAP', logo_id: 'logo_openSAP.png')
+MoocProvider.create!(name: 'edX', logo_id: 'logo_edx.png')
+MoocProvider.create!(name: 'coursera', logo_id: 'logo_coursera.png')
+MoocProvider.create!(name: 'openSAP China', logo_id: 'logo_openSAP.png')
+MoocProvider.create!(name: 'openUNE', logo_id: 'logo_openUNE.png')
+MoocProvider.create!(name: 'iversity', logo_id: 'logo_iversity.png')
 
-minimal_previous_course = Course.create(name: 'Minimal Previous Technologies',
+openhpi_audit_track_type = CourseTrackType.create!(title: 'Audit',
+                                         description: 'You get a record of Achievement.',
+                                         type_of_achievement: 'openhpi_record_of_achievement')
+iversity_audit_track_type = CourseTrackType.create!(title: 'Audit',
+                                         description: "<ul class='list-none'> <li>All Course Material</li> <li>Course Community</li> <li>Statement of Participation</li> <li>Flexible Upgrade</li> </ul>",
+                                         type_of_achievement: 'iversity_record_of_achievement')
+coursera_audit_track_type = CourseTrackType.create!(title: 'Audit',
+                                                   description: 'You do not receive a participation document.',
+                                                   type_of_achievement: 'nothing')
+certificate_track_type = CourseTrackType.create!(title: 'Certificate',
+                                                 description: 'You get a certificate.',
+                                                 type_of_achievement: 'certificate')
+iversity_certificate_track_type = CourseTrackType.create!(title: 'Certificate',
+                                                 description: "<ul class='list-none'> <li>Course Community</li> <li>Graded Online Exam</li> <li>Graded Online Exam</li> <li>Certificate Supplement</li> </ul>",
+                                                 type_of_achievement: 'iversity_certificate')
+edx_certificate_track_type = CourseTrackType.create!(title: 'Verified Certificate',
+                                                    description: 'Receive a credential signed by the instructor, with the institution logo to verify your achievement and increase your job prospects.',
+                                                    type_of_achievement: 'edx_verified_certificate')
+iversity_ects_track_type = CourseTrackType.create!(title: 'ECTS',
+                                          description: "<ul class='list-none'> <li>Graded Course Project</li> <li>Certificate of Accomplishment</li> <li>Certificate Supplement</li> <li>3 ECTS-Points</li> </ul>",
+                                          type_of_achievement: 'iversity_ects')
+signature_track_type = CourseTrackType.create!(title: 'Signature Track',
+                                              description: 'You get a Verified Certificate issued by Coursera and the participating university.',
+                                              type_of_achievement: 'coursera_verified_certificate')
+edx_xseries_track_type = CourseTrackType.create!(title: 'XSeries',
+                                              description: 'You get an edX XSeries certificate.',
+                                              type_of_achievement: 'edx_xseries_verified_certificate')
+edx_profed_track_type = CourseTrackType.create!(title: 'Professional Education',
+                                              description: 'You get a Professional Education certificate.',
+                                              type_of_achievement: 'edx_profed_certificate')
+
+
+minimal_previous_course = Course.create!(name: 'Minimal Previous Technologies',
               url: 'https://open.hpi.de/courses/pythonjunior2015',
               provider_course_id: 2,
               mooc_provider_id: open_mammooc.id,
-              has_free_version: true
-
+              tracks: [CourseTrack.create!(track_type: openhpi_audit_track_type)]
 )
 
-minimal_following_course = Course.create(name: 'Minimal Following Technologies',
+minimal_following_course = Course.create!(name: 'Minimal Following Technologies',
                                         url: 'https://open.hpi.de/courses/pythonjunior2015',
                                         provider_course_id: 2,
                                         mooc_provider_id: open_mammooc.id,
-                                        has_paid_version: true
+                                        tracks: [CourseTrack.create!(track_type: openhpi_audit_track_type)]
 )
 
-full_course = Course.create(name: 'Web Technologies',
+full_course = Course.create!(name: 'Web Technologies',
               url: 'https://open.hpi.de/courses/webtech2015',
               course_instructors: 'Prof. Dr. Christoph Meinel, Jan Renz',
               abstract: 'WWW, the world wide web or shortly the web - really nothing more than an information  service on the Internet – has changed our world by creating a whole new digital world that is closely intertwined with our real world, making reality what was previously unimaginable: communication across the world in seconds, watching movies on a smartphone, playing games or looking at photos with remote partners in distant continents, shopping or banking from your couch … In our online course on web technologies you will learn how it all works.',
@@ -53,30 +85,27 @@ Claudia; “I enjoyed this course so much. It gave me a chance to expand my hori
               start_date: DateTime.new(2015,6,1,8),
               end_date: DateTime.new(2015,7,20,23,30),
               provider_given_duration: '8 weeks',
-              costs: 10,
-              price_currency: '€',
-              type_of_achievement:'Certificate',
               categories: ['Web','Technologies','Computer Science','#geilon'],
               requirements: %w[Computer Brain Strength],
               difficulty: 'medium',
               workload: '4-6 hours per week',
               provider_course_id: 1,
-              credit_points: 6,
               mooc_provider_id: open_mammooc.id,
               previous_iteration_id: minimal_previous_course.id,
               following_iteration_id: minimal_following_course.id,
-              has_paid_version: true,
-              has_free_version: true
+              tracks: [CourseTrack.create!(track_type: openhpi_audit_track_type),
+                       CourseTrack.create!(track_type: certificate_track_type, costs: 20.0, costs_currency: '€'),
+                       CourseTrack.create!(track_type: iversity_ects_track_type, costs: 50.0, costs_currency: '€')]
 )
 
 
-user1 = User.create(first_name: 'Max', last_name: 'Mustermann', email: 'max@example.com', password: '12345678', profile_image_id: 'profile_picture_default.png')
-user2 = User.create(first_name: 'Maxi', last_name: 'Musterfrau', email: 'maxi@example.com', password: '12345678', profile_image_id: 'profile_picture_default.png')
+user1 = User.create!(first_name: 'Max', last_name: 'Mustermann', email: 'max@example.com', password: '12345678', profile_image_id: 'profile_picture_default.png')
+user2 = User.create!(first_name: 'Maxi', last_name: 'Musterfrau', email: 'maxi@example.com', password: '12345678', profile_image_id: 'profile_picture_default.png')
 
-group1 = Group.create(name: 'Testgruppe1', description: 'Testgruppe1 ist die Beste!', image_id: 'group_picture_default.png')
+group1 = Group.create!(name: 'Testgruppe1', description: 'Testgruppe1 ist die Beste!', image_id: 'group_picture_default.png')
 
 20.times do |i|
-  user = User.create first_name: "Maximus_#{i}",
+  user = User.create! first_name: "Maximus_#{i}",
                       last_name: "Mustermann",
                       email: "maximus_#{i}@example.com",
                       password: "12345678",
@@ -88,12 +117,12 @@ end
 group1.users.push(user1,user2)
 UserGroup.set_is_admin(group1.id, user1.id, true)
 
-group2 = Group.create(name: 'Testgruppe2', description: 'Testgruppe2 ist auch gut!', image_id: 'group_picture_default.png')
+group2 = Group.create!(name: 'Testgruppe2', description: 'Testgruppe2 ist auch gut!', image_id: 'group_picture_default.png')
 
 group2.users.push(user2)
 UserGroup.set_is_admin(group2.id, user2.id, true)
 
-group3 = Group.create(name: 'Testgruppe3', description: 'Testgruppe3 ist eine Enttäuschung...', image_id: 'group_picture_default.png')
+group3 = Group.create!(name: 'Testgruppe3', description: 'Testgruppe3 ist eine Enttäuschung...', image_id: 'group_picture_default.png')
 
 group3.users.push(user1, user2)
 
@@ -108,11 +137,12 @@ OpenHPICourseWorker.perform_async
 OpenSAPCourseWorker.perform_async
 EdxCourseWorker.perform_async
 CourseraCourseWorker.perform_async
+IversityCourseWorker.perform_async
 
 if ENV['OPEN_HPI_TOKEN'].present?
-  FactoryGirl.create(:mooc_provider_user, user: user1, mooc_provider: openHPI, authentication_token: ENV['OPEN_HPI_TOKEN'])
+  FactoryGirl.create!(:mooc_provider_user, user: user1, mooc_provider: openHPI, authentication_token: ENV['OPEN_HPI_TOKEN'])
 end
 
 if ENV['OPEN_SAP_TOKEN'].present?
-  FactoryGirl.create(:mooc_provider_user, user: user1, mooc_provider: openSAP, authentication_token: ENV['OPEN_SAP_TOKEN'])
+  FactoryGirl.create!(:mooc_provider_user, user: user1, mooc_provider: openSAP, authentication_token: ENV['OPEN_SAP_TOKEN'])
 end

@@ -10,6 +10,8 @@ RSpec.describe OpenHPICourseWorker do
     JSON.parse '[{"id":"c1556425-5449-4b05-97b3-42b38a39f6c5","is_enrolled":false,"status":"active","course_code":"pythonjunior2015","categories":[],"language":"de","available_to":"2015-12-07T22:30:00Z","available_from":"2015-11-09T08:00:00Z","name":"Spielend Programmieren lernen 2015!","locked":true,"description":"So einfach war es noch nie die Grundlagen des Programmierens spielerisch zu erlernen. Um am Kurs teilzunehmen, braucht man keine besonderen Vorkenntnisse, nur einen Internetanschluss und einen Rechner. Auf dem Rechner muss keine spezielle Software installiert werden. Notwendig sind nur ein aktueller Browser und eine E-Mail-Adresse, mit der man sich auf openHPI anmelden kann.\r\n\r\nAm Anfang des kostenlosen vierwöchigen Kurses stehen einfache Programmierübungen. Du lernst, eine virtuelle Schildkröte durch deine Programmierung zu steuern. In den darauffolgenden Wochen wirst du mit Schleifen und Funktionen vertraut gemacht, die dir ein grundlegendes Verständnis für die Struktur des Programmierens geben. Bei dem openHPI-Kurs wirst du Lernvideos schauen und im Quiz überprüfen, ob du alles verstanden hast. Direkt im Browser kannst du dann das gelernte Wissen anwenden und drauflos programmieren.\r\n\r\nWenn Du einmal nicht weiter weißt, kannst du im Forum oder den Lerngruppen Unterstützung von anderen Kursteilnehmern finden. Bei erfolgreicher Teilnahme erhältst du nach Kursende ein openHPI-Zeugnis.","lecturer":"Prof. Dr. Martin v. Löwis","visual_url":"https://open.hpi.de/files/fca875a9-d935-4b56-8080-5279b9ef9b54"}]'
   }
 
+  let!(:course_track_type) { FactoryGirl.create :course_track_type, type_of_achievement: 'openhpi_record_of_achievement' }
+
   it 'should deliver MOOCProvider' do
     expect(open_hpi_course_worker.mooc_provider).to eql mooc_provider
   end
@@ -41,8 +43,9 @@ RSpec.describe OpenHPICourseWorker do
     expect(course.description).to eql json_course['description']
     expect(course.course_instructors).to eql json_course['lecturer']
     expect(course.open_for_registration).to eql !json_course['locked']
-    expect(course.has_free_version).to be true
-    expect(course.has_paid_version).to be_falsey
+    expect(course.tracks[0].costs).to be_nil
+    expect(course.tracks[0].credit_points).to be_nil
+    expect(course.tracks[0].track_type.type_of_achievement).to eql course_track_type.type_of_achievement
   end
 end
 
