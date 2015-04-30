@@ -2,8 +2,8 @@
   .panel.panel-default
     = form_for_filterrific @filterrific do |f|
       = f.label 'Course starts after'
-      = f.text_field(:with_start_date_gte, class: 'js-datepicker form control')
-      = f.label 'Course ends before'
-      = f.text_field(:with_end_date_lt, class: 'js-datepicker form control')
+      = f.text_field(:with_start_date_gte, class: 'js-datepicker form control', 'data-provide': 'datepicker')
+      /= f.label 'Course ends before'
+      /= f.text_field(:with_end_date_lt, class: 'js-datepicker form control', 'data-provide': 'datepicker')
       = link_to 'Reset filters', reset_filterrific_url
       = render_filterrific_spinner

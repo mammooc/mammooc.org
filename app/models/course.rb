@@ -25,7 +25,7 @@ class Course < ActiveRecord::Base
 
   scope :with_end_date_lt, lambda { |reference_time| where('courses.end_date <= ?', reference_time)} #do I want to include requested date?
 
-
+  self.per_page = 10
 
   def self.get_course_id_by_mooc_provider_id_and_provider_course_id(mooc_provider_id, provider_course_id)
     course = Course.where(provider_course_id: provider_course_id, mooc_provider_id: mooc_provider_id).first

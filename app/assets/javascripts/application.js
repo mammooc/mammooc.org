@@ -17,7 +17,7 @@
 //= require bootstrap-tokenfield
 //= require i18n
 //= require i18n/translations
-//= require bootstrap-datepicker/core
+//= require bootstrap-datepicker
 //= require filterrific/filterrific-jquery
 //= require_tree .
 
