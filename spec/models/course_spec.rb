@@ -51,21 +51,14 @@ RSpec.describe Course, :type => :model do
     expect(Course.find(wrong_dates_course.id).end_date).to eql nil
   end
 
-  it "should reject data, if has_free_version and has_paid_version are false" do
-    course1.has_free_version = false
-    course1.has_paid_version = false
+  it "should reject data, if it has_no tracks" do
+    course1.tracks = []
     expect{course1.save!}.to raise_error ActiveRecord::RecordInvalid
+    expect{Course.create!}.to raise_error ActiveRecord::RecordInvalid
   end
 
-  it "should reject data, if has_free_version and has_paid_version are nil" do
-    course1.has_free_version = nil
-    course1.has_paid_version = nil
-    expect{course1.save!}.to raise_error ActiveRecord::RecordInvalid
-  end
-
-  it "should save data, if at least one of the fields has_free_version or has_paid_version is true" do
-    course1.has_free_version = true
-    course1.has_paid_version = false
+  it "should save data, if it has at least on track" do
+    course1.tracks.push(FactoryGirl.create(:course_track))
     expect{course1.save!}.not_to raise_error
   end
 

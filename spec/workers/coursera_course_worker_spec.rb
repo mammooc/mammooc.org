@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'course_worker_spec_helper'
 
 RSpec.describe CourseraCourseWorker do
 
@@ -13,6 +14,9 @@ RSpec.describe CourseraCourseWorker do
     '{"elements":[{"id":9,"shortName":"crypto","name":"Cryptography I","language":"en","photo":"https://s3.amazonaws.com/coursera/topics/crypto/large-icon.png","shortDescription":"Learn about the inner workings of cryptographic primitives and how to apply this knowledge in real-world applications!","subtitleLanguagesCsv":"","video":"0t1oCt88XJk","aboutTheCourse":"<p>Cryptography is an indispensable tool for protecting information in computer systems. This course explains the inner workings of cryptographic primitives and how to correctly use them. Students will learn how to reason about the security of cryptographic constructions and how to apply this knowledge to real-world applications. The course begins with a detailed discussion of how two parties who have a shared secret key can communicate securely when a powerful adversary eavesdrops and tampers with traffic. We will examine many deployed protocols and analyze mistakes in existing systems. The second half of the course discusses public-key techniques that let two or more parties generate a shared secret key. We will cover the relevant number theory and discuss public-key encryption and basic key-exchange.&nbsp;Throughout the course students will be exposed to many exciting open problems in the field.</p>\n<p>The course will include written homeworks and programming labs. The course is self-contained, however it will be helpful to have a basic understanding of discrete probability theory.</p><p>A preview of the course, including lectures and homework assignments, is available at this <a href=\"https://class.coursera.org/crypto-preview\" target=\"_blank\">preview site</a>.</p>","targetAudience":1,"instructor":"Dan Boneh, Professor","estimatedClassWorkload":"5-7 hours/week","recommendedBackground":"","links":{}}],"linked":{}}'
   }
   let(:json_course_data) { JSON.parse course_fields }
+  let!(:free_course_track_type) { FactoryGirl.create :course_track_type, type_of_achievement: 'nothing' }
+  let!(:certificate_course_track_type) { FactoryGirl.create :certificate_course_track_type }
+
   it 'should deliver MOOCProvider' do
     expect(coursera_course_worker.mooc_provider).to eql mooc_provider
   end
@@ -48,13 +52,9 @@ RSpec.describe CourseraCourseWorker do
     expect(course.workload).to eql json_course['estimatedClassWorkload']
     expect(course.difficulty).to eql 'Advanced undergraduates or beginning graduates'
     expect(course.requirements).to eql nil
-    expect(course.type_of_achievement).to eql 'Certificate'
-    expect(course.costs).to eql 50.5
-    expect(course.price_currency).to eql '$'
-    expect(course.has_free_version).to be true
-    expect(course.has_paid_version).to be_falsey
-
-
+    expect(course.tracks.count).to eql 2
+    expect(has_achievement_type? course.tracks, :nothing).to be_truthy
+    expect(has_achievement_type? course.tracks, :certificate).to be_truthy
   end
 
   it 'should link iterations in correct order' do

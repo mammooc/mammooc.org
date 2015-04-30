@@ -14,6 +14,12 @@ class EdxCourseWorker < AbstractCourseWorker
 
   def handle_response_data response_data
     update_map = create_update_map mooc_provider
+
+    free_track_type = CourseTrackType.find_by(type_of_achievement: 'nothing')
+    certificate_track_type = CourseTrackType.find_by(type_of_achievement: 'edx_verified_certificate')
+    xseries_track_type = CourseTrackType.find_by(type_of_achievement: 'edx_xseries_verified_certificate')
+    profed_track_type = CourseTrackType.find_by(type_of_achievement: 'edx_profed_certificate')
+
     response_data['value']['items'].each do |course_element|
       course = Course.find_by(provider_course_id: course_element['id'], mooc_provider_id: mooc_provider.id)
       if course.nil?
@@ -74,15 +80,19 @@ class EdxCourseWorker < AbstractCourseWorker
         course.workload = course_element['course:effort']
       end
 
-      course.has_free_version = true
-      if course_element['course:verified'] && course_element['course:verified'] == "1"
-        course.has_paid_version = true
-      elsif course_element['course:profed'] && course_element['course:profed'] == "1"
-        course.has_free_version = false
-        course.has_paid_version = true
+      if course_element['course:profed'] && course_element['course:profed'] == "1"
+        course.tracks.push CourseTrack.create!(track_type: profed_track_type)
+      else
+        course.tracks.push CourseTrack.create(track_type: free_track_type)
+        if course_element['course:verified'] && course_element['course:verified'] == "1"
+          course.tracks.push CourseTrack.create!(track_type: certificate_track_type)
+        end
+        if course_element['course:xseries'] && course_element['course:xseries'] == "1"
+          course.tracks.push CourseTrack.create!(track_type: xseries_track_type)
+        end
       end
 
-      course.save
+      course.save!
     end
     evaluate_update_map update_map
   end
