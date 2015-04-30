@@ -31,7 +31,7 @@ class CourseraCourseWorker < AbstractCourseWorker
     signature_track_type = CourseTrackType.find_by(type_of_achievement: 'coursera_verified_certificate')
 
     response_data["elements"].each do |session_element|
-      course = Course.find_by(:provider_course_id => session_element["courseId"].to_s + '|' + session_element["id"].to_s, :mooc_provider_id => mooc_provider.id)
+      course = Course.find_by(provider_course_id: session_element["courseId"].to_s + '|' + session_element["id"].to_s, mooc_provider_id: mooc_provider.id)
       if course.nil?
         course = Course.new
       else

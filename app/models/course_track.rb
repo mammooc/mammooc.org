@@ -8,10 +8,6 @@ class CourseTrack < ActiveRecord::Base
   private
 
   def costs_completeness
-    if (costs && costs_currency) || (costs.nil? && costs_currency.nil?)
-      return true
-    else
-      return false
-    end
+    (costs && costs_currency) || (costs.nil? && costs_currency.nil?)
   end
 end
