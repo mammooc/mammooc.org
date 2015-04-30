@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "courses/show", :type => :view do
   let(:user){FactoryGirl.create(:user)}
   before(:each) do
-    moocProvider = MoocProvider.create(name: 'testProvider', logo_id: 'logo_openHPI.png')
+    moocProvider = MoocProvider.create(name: 'open_mammooc', logo_id: 'logo_open_mammooc.png')
     @course = assign(:course, Course.create!(
       :name => "Name",
       :url => "Url",
@@ -14,20 +14,16 @@ RSpec.describe "courses/show", :type => :view do
       :imageId => "Image",
       :videoId => "Video",
       :provider_given_duration => "Duration",
-      :costs => "Costs",
-      :price_currency => "€",
-      :type_of_achievement => "Type Of Achievement",
       :categories => "Categories",
       :difficulty => "Difficulty",
       :requirements => "Requirements",
-      :credit_points => 4.0,
       :workload => "Workload",
       :provider_course_id => 1,
       :course_result => nil,
       :start_date => DateTime.new(2015,9,3,9),
       :end_date => DateTime.new(2015,10,3,9),
       :mooc_provider_id => moocProvider.id,
-      :has_free_version => true
+      :tracks => [FactoryGirl.create(:course_track)]
     ))
     @provider_logos = {}
   end

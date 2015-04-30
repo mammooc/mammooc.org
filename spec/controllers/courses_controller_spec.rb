@@ -22,7 +22,7 @@ RSpec.describe CoursesController, :type => :controller do
 
 
   let(:user) { FactoryGirl.create(:user) }
-  let(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'testProvider') }
+  let(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'open_mammooc') }
   let!(:course) { FactoryGirl.create(:course, mooc_provider: mooc_provider) }
   let(:second_mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI') }
   let(:second_course) { FactoryGirl.create(:course, mooc_provider: second_mooc_provider) }
