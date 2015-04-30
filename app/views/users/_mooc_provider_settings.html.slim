@@ -1,9 +1,36 @@
 h2
-  | Mooc Provider Settings
+  | Mooc Provider Connections
 
-.panel.panel-default
-  .panel-heading
-    .provider
-      img src="/data/logo-openSAP.png"
-  .panel-body
-    | Blub
+- @mooc_providers.each_with_index do |provider, index|
+  - if @mooc_provider_connections.include? provider[:id]
+    .panel.panel-success
+      .panel-heading
+        .provider
+          a data-toggle="collapse" href="#collapse#{index}"
+            img src = @provider_logos[provider[:logo_id]]
+      .panel-collapse.collapse id="collapse#{index}"
+        .panel-body
+          .form-group
+            label
+              | Email
+            input.form-control
+          .form-group
+            label
+              | Password
+            input.form-control
+  - else
+    .panel.panel-danger
+      .panel-heading
+        .provider
+          a data-toggle="collapse" href="#collapse#{index}"
+            img src = @provider_logos[provider[:logo_id]]
+      .panel-collapse.collapse id="collapse#{index}"
+        .panel-body
+          .form-group
+            label
+              | Email
+            input.form-control
+          .form-group
+            label
+              | Password
+            input.form-control

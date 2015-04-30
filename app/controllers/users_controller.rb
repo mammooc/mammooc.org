@@ -72,6 +72,10 @@ class UsersController < ApplicationController
   end
 
   def mooc_provider_settings
+    @mooc_providers = MoocProvider.select([:name, :logo_id]).map {|e| {id: e.name, logo_id: e.logo_id} }
+    @provider_logos = AmazonS3.instance.get_all_provider_logos_hash
+    @mooc_provider_connections = current_user.mooc_providers.pluck(:name)
+
     @partial = render_to_string partial: 'users/mooc_provider_settings', formats: [:html]
     respond_to do |format|
       begin
@@ -86,10 +90,17 @@ class UsersController < ApplicationController
 
 
   def settings
-
+    @provider_logos = AmazonS3.instance.get_all_provider_logos_hash
+    puts @provider_logos
   end
 
   private
+    def get_mooc_provider_connections_for_user user
+      User.find
+      connections = {}
+      puts user.mooc_providers
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
