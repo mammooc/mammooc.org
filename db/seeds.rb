@@ -6,7 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-provider1 = MoocProvider.create(name: 'testProvider', logo_id: 'logo_openHPI.png')
+open_mammooc = MoocProvider.create(name: 'open_mammooc', logo_id: 'logo_open_mammooc.png')
 openHPI = MoocProvider.create(name: 'openHPI', logo_id: 'logo_openHPI.png')
 MoocProvider.create(name: 'openHPI China', logo_id: 'logo_openHPI.png')
 MoocProvider.create(name: 'mooc.house', logo_id: 'logo_mooc_house.png')
@@ -19,7 +19,7 @@ MoocProvider.create(name: 'openUNE', logo_id: 'logo_openUNE.png')
 minimal_previous_course = Course.create(name: 'Minimal Previous Technologies',
               url: 'https://open.hpi.de/courses/pythonjunior2015',
               provider_course_id: 2,
-              mooc_provider_id: provider1.id,
+              mooc_provider_id: open_mammooc.id,
               has_free_version: true
 
 )
@@ -27,7 +27,7 @@ minimal_previous_course = Course.create(name: 'Minimal Previous Technologies',
 minimal_following_course = Course.create(name: 'Minimal Following Technologies',
                                         url: 'https://open.hpi.de/courses/pythonjunior2015',
                                         provider_course_id: 2,
-                                        mooc_provider_id: provider1.id,
+                                        mooc_provider_id: open_mammooc.id,
                                         has_paid_version: true
 )
 
@@ -62,7 +62,7 @@ Claudia; “I enjoyed this course so much. It gave me a chance to expand my hori
               workload: '4-6 hours per week',
               provider_course_id: 1,
               credit_points: 6,
-              mooc_provider_id: provider1.id,
+              mooc_provider_id: open_mammooc.id,
               previous_iteration_id: minimal_previous_course.id,
               following_iteration_id: minimal_following_course.id,
               has_paid_version: true,
