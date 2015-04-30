@@ -30,9 +30,10 @@ de:
     show_more: Mehr anzeigen
     show_less: Weniger anzeigen
     show_details: Details anzeigen
+    mammooc: mammooc
 
   navbar:
-    mammooc: mammooc
+    mammooc: :global.mammooc
     home: Home
     courses: Kurse
     about: Über uns
