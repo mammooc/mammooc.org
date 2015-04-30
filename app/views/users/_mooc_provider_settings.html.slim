@@ -6,31 +6,39 @@ h2
     .panel.panel-success
       .panel-heading
         .provider
-          a data-toggle="collapse" href="#collapse#{index}"
+          a data-toggle="collapse" href="#collapse-#{provider[:id].gsub(/[\W]/,"_")}"
             img src = @provider_logos[provider[:logo_id]]
-      .panel-collapse.collapse id="collapse#{index}"
+      .panel-collapse.collapse id="collapse-#{provider[:id].gsub(/[\W]/,"_")}"
         .panel-body
           .form-group
             label
               | Email
-            input.form-control
+            input.form-control type="email" placeholder="Enter email" id="input-email-#{provider[:id]}"
           .form-group
             label
               | Password
-            input.form-control
+            input.form-control type="password" placeholder="Password"
+          .form-group
+            button.btn.btn-default data-mooc_provider="#{provider[:id]}" data-user_id="#{current_user.id}" id="sync-user-mooc_provider-connection-button"
+              | Establish connection
   - else
     .panel.panel-danger
       .panel-heading
         .provider
-          a data-toggle="collapse" href="#collapse#{index}"
+          a data-toggle="collapse" href="#collapse-#{provider[:id].gsub(/[\W]/,"_")}"
             img src = @provider_logos[provider[:logo_id]]
-      .panel-collapse.collapse id="collapse#{index}"
+      .panel-collapse.collapse id="collapse-#{provider[:id].gsub(/[\W]/,"_")}"
         .panel-body
           .form-group
             label
               | Email
-            input.form-control
+            input.form-control type="email" placeholder="Enter email" id="input-email-#{provider[:id]}"
           .form-group
             label
               | Password
-            input.form-control
+            input.form-control type="password" placeholder="Password"
+          .form-group
+            button.btn.btn-default data-mooc_provider="#{provider[:id]}" data-user_id="#{current_user.id}" id="sync-user-mooc_provider-connection-button"
+              | Establish connection
+script type="text/javascript"
+  | bindClickEvents();

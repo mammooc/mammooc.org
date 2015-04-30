@@ -95,12 +95,6 @@ class UsersController < ApplicationController
   end
 
   private
-    def get_mooc_provider_connections_for_user user
-      User.find
-      connections = {}
-      puts user.mooc_providers
-    end
-
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
