@@ -21,6 +21,7 @@
 
 de:
   global:
+    app_name: mammooc
     require_login: Du musst eingeloggt sein um auf diese Seite zugreifen zu können.
     close: Schließen
     submit: Absenden
@@ -30,10 +31,8 @@ de:
     show_more: Mehr anzeigen
     show_less: Weniger anzeigen
     show_details: Details anzeigen
-    mammooc: mammooc
 
   navbar:
-    mammooc: :global.mammooc
     home: Home
     courses: Kurse
     about: Über uns

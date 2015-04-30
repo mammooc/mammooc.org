@@ -21,6 +21,7 @@
 
 en:
   global:
+    app_name: mammooc
     require_login: You must be logged in to access this section
     close: Close
     submit: Submit
@@ -30,10 +31,8 @@ en:
     show_more: Show more
     show_less: Show less
     show_details: Show details
-    mammooc: mammooc
 
   navbar:
-    mammooc: :global.mammooc
     home: Home
     courses: Courses
     about: About us
