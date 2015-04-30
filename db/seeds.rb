@@ -140,9 +140,9 @@ CourseraCourseWorker.perform_async
 IversityCourseWorker.perform_async
 
 if ENV['OPEN_HPI_TOKEN'].present?
-  FactoryGirl.create!(:mooc_provider_user, user: user1, mooc_provider: openHPI, authentication_token: ENV['OPEN_HPI_TOKEN'])
+  FactoryGirl.create(:mooc_provider_user, user: user1, mooc_provider: openHPI, authentication_token: ENV['OPEN_HPI_TOKEN'])
 end
 
 if ENV['OPEN_SAP_TOKEN'].present?
-  FactoryGirl.create!(:mooc_provider_user, user: user1, mooc_provider: openSAP, authentication_token: ENV['OPEN_SAP_TOKEN'])
+  FactoryGirl.create(:mooc_provider_user, user: user1, mooc_provider: openSAP, authentication_token: ENV['OPEN_SAP_TOKEN'])
 end
