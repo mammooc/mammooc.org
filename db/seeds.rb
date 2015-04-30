@@ -6,7 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-provider1 = MoocProvider.create!(name: 'testProvider', logo_id: 'logo_openHPI.png')
+open_mammooc = MoocProvider.create!(name: 'open_mammooc', logo_id: 'logo_open_mammooc.png')
 openHPI = MoocProvider.create!(name: 'openHPI', logo_id: 'logo_openHPI.png')
 MoocProvider.create!(name: 'openHPI China', logo_id: 'logo_openHPI.png')
 MoocProvider.create!(name: 'mooc.house', logo_id: 'logo_mooc_house.png')
@@ -52,14 +52,14 @@ edx_profed_track_type = CourseTrackType.create!(title: 'Professional Education',
 minimal_previous_course = Course.create!(name: 'Minimal Previous Technologies',
               url: 'https://open.hpi.de/courses/pythonjunior2015',
               provider_course_id: 2,
-              mooc_provider_id: provider1.id,
+              mooc_provider_id: open_mammooc.id,
               tracks: [CourseTrack.create!(track_type: openhpi_audit_track_type)]
 )
 
 minimal_following_course = Course.create!(name: 'Minimal Following Technologies',
                                         url: 'https://open.hpi.de/courses/pythonjunior2015',
                                         provider_course_id: 2,
-                                        mooc_provider_id: provider1.id,
+                                        mooc_provider_id: open_mammooc.id,
                                         tracks: [CourseTrack.create!(track_type: openhpi_audit_track_type)]
 )
 
@@ -90,7 +90,7 @@ Claudia; “I enjoyed this course so much. It gave me a chance to expand my hori
               difficulty: 'medium',
               workload: '4-6 hours per week',
               provider_course_id: 1,
-              mooc_provider_id: provider1.id,
+              mooc_provider_id: open_mammooc.id,
               previous_iteration_id: minimal_previous_course.id,
               following_iteration_id: minimal_following_course.id,
               tracks: [CourseTrack.create!(track_type: openhpi_audit_track_type),
@@ -140,9 +140,9 @@ CourseraCourseWorker.perform_async
 IversityCourseWorker.perform_async
 
 if ENV['OPEN_HPI_TOKEN'].present?
-  FactoryGirl.create!(:mooc_provider_user, user: user1, mooc_provider: openHPI, authentication_token: ENV['OPEN_HPI_TOKEN'])
+  FactoryGirl.create(:mooc_provider_user, user: user1, mooc_provider: openHPI, authentication_token: ENV['OPEN_HPI_TOKEN'])
 end
 
 if ENV['OPEN_SAP_TOKEN'].present?
-  FactoryGirl.create!(:mooc_provider_user, user: user1, mooc_provider: openSAP, authentication_token: ENV['OPEN_SAP_TOKEN'])
+  FactoryGirl.create(:mooc_provider_user, user: user1, mooc_provider: openSAP, authentication_token: ENV['OPEN_SAP_TOKEN'])
 end

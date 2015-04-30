@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "courses/show", :type => :view do
   let(:user){FactoryGirl.create(:user)}
   before(:each) do
-    moocProvider = MoocProvider.create(name: 'testProvider', logo_id: 'logo_openHPI.png')
+    moocProvider = MoocProvider.create(name: 'open_mammooc', logo_id: 'logo_open_mammooc.png')
     @course = assign(:course, Course.create!(
       :name => "Name",
       :url => "Url",
