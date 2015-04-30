@@ -79,6 +79,8 @@ en:
     password:
       forgot: Forgot your password?
       reset: Reset my password
+    settings:
+      heading: :navbar.settings
 
   groups:
     title: My Groups | mammooc
