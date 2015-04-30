@@ -4,7 +4,8 @@ RSpec.describe "groups/edit", :type => :view do
   before(:each) do
     @group = assign(:group, Group.create!(
       :name => "MyString",
-      :description => "MyText"
+      :description => "MyText",
+      :image_id => "Image"
     ))
   end
 

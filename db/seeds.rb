@@ -6,15 +6,15 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-provider1 = MoocProvider.create(name: 'testProvider')
-openHPI = MoocProvider.create(name: 'openHPI')
-openSAP = MoocProvider.create(name: 'openSAP')
-MoocProvider.create(name: 'openHPI China')
-MoocProvider.create(name: 'mooc.house')
-MoocProvider.create(name: 'edX')
-MoocProvider.create(name: 'coursera')
-MoocProvider.create(name: 'openSAP China')
-MoocProvider.create(name: 'openUNE')
+provider1 = MoocProvider.create(name: 'testProvider', logo_id: 'logo_openHPI.png')
+openHPI = MoocProvider.create(name: 'openHPI', logo_id: 'logo_openHPI.png')
+MoocProvider.create(name: 'openHPI China', logo_id: 'logo_openHPI.png')
+MoocProvider.create(name: 'mooc.house', logo_id: 'logo_mooc_house.png')
+openSAP = MoocProvider.create(name: 'openSAP', logo_id: 'logo_openSAP.png')
+MoocProvider.create(name: 'edX', logo_id: 'logo_edx.png')
+MoocProvider.create(name: 'coursera', logo_id: 'logo_coursera.png')
+MoocProvider.create(name: 'openSAP China', logo_id: 'logo_openSAP.png')
+MoocProvider.create(name: 'openUNE', logo_id: 'logo_openUNE.png')
 
 minimal_previous_course = Course.create(name: 'Minimal Previous Technologies',
               url: 'https://open.hpi.de/courses/pythonjunior2015',
@@ -70,16 +70,17 @@ Claudia; “I enjoyed this course so much. It gave me a chance to expand my hori
 )
 
 
-user1 = User.create(first_name: 'Max', last_name: 'Mustermann', email: 'max@example.com', password: '12345678')
-user2 = User.create(first_name: 'Maxi', last_name: 'Musterfrau', email: 'maxi@example.com', password: '12345678')
+user1 = User.create(first_name: 'Max', last_name: 'Mustermann', email: 'max@example.com', password: '12345678', profile_image_id: 'profile_picture_default.png')
+user2 = User.create(first_name: 'Maxi', last_name: 'Musterfrau', email: 'maxi@example.com', password: '12345678', profile_image_id: 'profile_picture_default.png')
 
-group1 = Group.create(name: 'Testgruppe1', description: 'blablub')
+group1 = Group.create(name: 'Testgruppe1', description: 'Testgruppe1 ist die Beste!', image_id: 'group_picture_default.png')
 
 20.times do |i|
   user = User.create first_name: "Maximus_#{i}",
                       last_name: "Mustermann",
                       email: "maximus_#{i}@example.com",
-                      password: "12345678"
+                      password: "12345678",
+                      profile_image_id: 'profile_picture_default.png'
   group1.users.push user
 end
 
@@ -87,12 +88,12 @@ end
 group1.users.push(user1,user2)
 UserGroup.set_is_admin(group1.id, user1.id, true)
 
-group2 = Group.create(name: 'Testgruppe2', description: 'blablub')
+group2 = Group.create(name: 'Testgruppe2', description: 'Testgruppe2 ist auch gut!', image_id: 'group_picture_default.png')
 
 group2.users.push(user2)
 UserGroup.set_is_admin(group2.id, user2.id, true)
 
-group3 = Group.create(name: 'Testgruppe3', description: 'blablub')
+group3 = Group.create(name: 'Testgruppe3', description: 'Testgruppe3 ist eine Enttäuschung...', image_id: 'group_picture_default.png')
 
 group3.users.push(user1, user2)
 

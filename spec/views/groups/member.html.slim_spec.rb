@@ -16,6 +16,9 @@ RSpec.describe "groups/members", :type => :view do
 
     @sorted_group_users = group.users - [user]
     @sorted_group_admins = [user]
+
+    @profile_pictures = {}
+    @group_picture = {}
   end
 
   it "show all members of group" do

@@ -45,6 +45,9 @@ gem 'cancancan', '~>1.10'
 # HTTP api_connection
 gem 'rest-client'
 
+# amazon S3 connection
+gem 'aws-sdk', '~> 2'
+
 # cron job
 gem 'redis'
 gem 'sidekiq'
@@ -62,6 +65,8 @@ gem 'i18n-js'
 gem 'http_accept_language'
 
 gem 'rails_config'
+
+gem 'newrelic_rpm'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

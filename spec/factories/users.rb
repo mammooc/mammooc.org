@@ -5,6 +5,7 @@ FactoryGirl.define do
     last_name 'Mustermann'
     sequence(:email) { |n| "max.mustermann#{n}@example.com" }
     password '12345678'
+    profile_image_id 'profile_picture_default.png'
   end
 
   factory :fullUser, class: User do
@@ -13,7 +14,7 @@ FactoryGirl.define do
     email 'maximus.mustermannus@example.com'
     password '12345678'
     gender 'Titan'
-    profile_image_id '42'
+    profile_image_id 'profile_picture_default.png'
     about_me 'Sieh mich an und erstarre!'
   end
 

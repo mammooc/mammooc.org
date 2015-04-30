@@ -7,6 +7,7 @@ class CoursesController < ApplicationController
   # GET /courses.json
   def index
     @courses = Course.all
+    @provider_logos = AmazonS3.instance.get_provider_logos_hash_for_courses(@courses)
   end
 
   # GET /courses/1
@@ -22,6 +23,7 @@ class CoursesController < ApplicationController
     # RECOMMENDATIONS
     if user_signed_in?
       @recommendations = Recommendation.sorted_recommendations_for_course_and_user(@course, current_user)
+      @profile_pictures = AmazonS3.instance.get_author_profile_images_hash_for_recommendations(@recommendations)
       @recommended_by = []
       @pledged_by = []
       @recommendations.each do |recommendation|
@@ -34,6 +36,7 @@ class CoursesController < ApplicationController
       end
     end
 
+    @provider_logos = AmazonS3.instance.get_provider_logos_hash_for_courses([@course])
   end
 
   def enroll_course

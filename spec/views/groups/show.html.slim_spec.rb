@@ -12,6 +12,9 @@ RSpec.describe "groups/show", :type => :view do
     @group = group
     UserGroup.set_is_admin(group.id, user.id, true)
     @recommendations = [recommendation]
+    @provider_logos = {}
+    @group_picture = {}
+    @profile_pictures = {}
     sign_in user
   end
 
