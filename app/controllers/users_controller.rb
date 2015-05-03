@@ -91,7 +91,6 @@ class UsersController < ApplicationController
 
   def settings
     @provider_logos = AmazonS3.instance.get_all_provider_logos_hash
-    puts @provider_logos
   end
 
   private

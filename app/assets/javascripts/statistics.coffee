@@ -54,4 +54,4 @@ synchronizeUserMoocProviderConnection = (event) ->
   event.preventDefault()
 
 @bindClickEvents = () ->
-  $('#sync-user-mooc_provider-connection-button').on 'click', (event) -> synchronizeUserMoocProviderConnection(event)
+  $('button[id="sync-user-mooc_provider-connection-button"]').on 'click', (event) -> synchronizeUserMoocProviderConnection(event)
