@@ -7,9 +7,9 @@ RSpec.describe "Users", :type => :request do
   end
 
   describe "GET /users" do
-    it "works! (now write some real specs)" do
+    it "is not authorized" do
       get users_path
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(302)
     end
   end
 end
