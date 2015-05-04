@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  load_and_authorize_resource only: [:index, :show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :recommendations, :demote_administrator, :remove_group_member, :leave, :condition_for_changing_member_status, :all_members_to_administrators, :recommendations]
+  load_and_authorize_resource only: [:index, :show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :recommendations, :statistics, :demote_administrator, :remove_group_member, :leave, :condition_for_changing_member_status, :all_members_to_administrators, :recommendations, :synchronize_courses]
   
   NUMBER_OF_SHOWN_RECOMMENDATIONS = 2
   NUMBER_OF_SHOWN_USERS = 10
@@ -18,6 +18,7 @@ class GroupsController < ApplicationController
   # GET /groups.json
   def index
     @groups = current_user.groups
+    @groups_pictures = AmazonS3.instance.get_group_images_hash_for_groups @groups
   end
 
   # GET /groups/1
@@ -31,6 +32,12 @@ class GroupsController < ApplicationController
     sorted_recommendations = @group.recommendations.sort_by { |recommendation| recommendation.created_at}.reverse!
     @recommendations = sorted_recommendations.first(NUMBER_OF_SHOWN_RECOMMENDATIONS)
     @number_of_recommendations = sorted_recommendations.length
+    @provider_logos = AmazonS3.instance.get_provider_logos_hash_for_recommendations(@recommendations)
+
+    @profile_pictures = AmazonS3.instance.get_author_profile_images_hash_for_recommendations(@recommendations)
+    @profile_pictures = AmazonS3.instance.get_user_profile_images_hash_for_users(@group.users, @profile_pictures)
+
+    @group_picture = AmazonS3.instance.get_group_images_hash_for_groups [@group]
   end
 
   # GET /groups/new
@@ -44,18 +51,28 @@ class GroupsController < ApplicationController
 
   def recommendations
     @recommendations = @group.recommendations.sort_by { |recommendation| recommendation.created_at}.reverse!
+    @provider_logos = AmazonS3.instance.get_provider_logos_hash_for_recommendations(@recommendations)
+    @profile_pictures = AmazonS3.instance.get_author_profile_images_hash_for_recommendations(@recommendations)
+    @group_picture = AmazonS3.instance.get_group_images_hash_for_groups [@group]
   end
 
   def members
     @sorted_group_users = sort_by_name(@group.users - admins)
     @sorted_group_admins = sort_by_name(admins)
     @group_members = @group.users - [current_user]
+    @profile_pictures = AmazonS3.instance.get_user_profile_images_hash_for_users(@group.users)
+    @group_picture = AmazonS3.instance.get_group_images_hash_for_groups [@group]
+  end
+
+  def statistics
+    @group_picture = AmazonS3.instance.get_group_images_hash_for_groups [@group]
   end
 
   # POST /groups
   # POST /groups.json
   def create
     @group = Group.new(group_params)
+    @group.image_id = 'group_picture_default.png'
     respond_to do |format|
       if @group.save
         @group.users.push(current_user)
@@ -116,7 +133,7 @@ class GroupsController < ApplicationController
       begin
         demote_admin
         format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
-        format.json { render :show, status: :created, location: @group }
+        format.json { render :demoted_administrator, status: :ok, location: @group }
       rescue StandardError => e
         format.html { redirect_to @group, notice: t('flash.error.groups.update') }
         format.json { render json: e.to_json, status: :unprocessable_entity }
@@ -171,6 +188,20 @@ class GroupsController < ApplicationController
         format.json { render :show, status: :created, location: @group }
       rescue StandardError => e
         format.html { redirect_to @group, notice: t('flash.error.groups.update') }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def synchronize_courses
+    OpenHPIUserWorker.perform_async @group.users.pluck(:id)
+    OpenSAPUserWorker.perform_async @group.users.pluck(:id)
+    respond_to do |format|
+      begin
+        format.html { redirect_to dashboard_path }
+        format.json { render :synchronization_result, status: :ok }
+      rescue StandardError => e
+        format.html { redirect_to dashboard_path }
         format.json { render json: e.to_json, status: :unprocessable_entity }
       end
     end
@@ -239,7 +270,7 @@ class GroupsController < ApplicationController
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
-      params.require(:group).permit(:name, :imageId, :description, :primary_statistics)
+      params.require(:group).permit(:name, :image_id, :description, :primary_statistics)
     end
 
     def invited_members
@@ -301,6 +332,11 @@ class GroupsController < ApplicationController
 
     def demote_admin
       UserGroup.set_is_admin(@group.id, demoted_admin, false)
+      if User.find(demoted_admin) == current_user
+        @status = 'demote myself'
+      else
+        @status = 'demote another member'
+      end
     end
 
     def remove_member member_id

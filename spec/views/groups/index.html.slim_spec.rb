@@ -6,13 +6,13 @@ RSpec.describe "groups/index", :type => :view do
     [
         Group.create!(
             name: "Name",
-            imageId: "Image",
+            image_id: "Image",
             description: "MyText",
             primary_statistics: ""
         ),
         Group.create!(
             name: "Name",
-            imageId: "Image",
+            image_id: "Image",
             description: "MyText",
             primary_statistics: ""
         )
@@ -21,6 +21,7 @@ RSpec.describe "groups/index", :type => :view do
 
   before(:each) do
     @groups = groups
+    @groups_pictures = {}
     sign_in user
   end
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe OpenUNECourseWorker do
+RSpec.describe OpenUNECourseWorker do
 
   let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openUNE') }
 

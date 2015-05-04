@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150421094231) do
+ActiveRecord::Schema.define(version: 20150428152300) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,6 +108,23 @@ ActiveRecord::Schema.define(version: 20150421094231) do
     t.datetime "updated_at",    null: false
   end
 
+  create_table "course_track_types", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.string "type_of_achievement", null: false
+    t.string "title",               null: false
+    t.text   "description"
+  end
+
+  create_table "course_tracks", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.float  "costs"
+    t.string "costs_currency"
+    t.uuid   "course_track_type_id"
+    t.uuid   "course_id"
+    t.float  "credit_points"
+  end
+
+  add_index "course_tracks", ["course_id"], name: "index_course_tracks_on_course_id", using: :btree
+  add_index "course_tracks", ["course_track_type_id"], name: "index_course_tracks_on_course_track_type_id", using: :btree
+
   create_table "courses", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name",                        null: false
     t.string   "url",                         null: false
@@ -117,16 +134,12 @@ ActiveRecord::Schema.define(version: 20150421094231) do
     t.string   "videoId"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.float    "costs"
-    t.string   "type_of_achievement"
     t.string   "difficulty"
     t.string   "provider_course_id",          null: false
     t.uuid     "mooc_provider_id",            null: false
     t.uuid     "course_result_id"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
-    t.float    "credit_points"
-    t.string   "price_currency"
     t.string   "categories",                               array: true
     t.string   "requirements",                             array: true
     t.string   "course_instructors"
@@ -138,8 +151,6 @@ ActiveRecord::Schema.define(version: 20150421094231) do
     t.string   "subtitle_languages"
     t.integer  "calculated_duration_in_days"
     t.string   "provider_given_duration"
-    t.boolean  "has_paid_version"
-    t.boolean  "has_free_version"
   end
 
   add_index "courses", ["course_result_id"], name: "index_courses_on_course_result_id", using: :btree
@@ -188,7 +199,7 @@ ActiveRecord::Schema.define(version: 20150421094231) do
 
   create_table "groups", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name"
-    t.string   "imageId"
+    t.string   "image_id"
     t.text     "description"
     t.string   "primary_statistics",              array: true
     t.datetime "created_at",         null: false
@@ -319,6 +330,8 @@ ActiveRecord::Schema.define(version: 20150421094231) do
   add_foreign_key "course_requests", "courses"
   add_foreign_key "course_requests", "groups"
   add_foreign_key "course_requests", "users"
+  add_foreign_key "course_tracks", "course_track_types"
+  add_foreign_key "course_tracks", "courses"
   add_foreign_key "courses", "course_results"
   add_foreign_key "courses", "mooc_providers"
   add_foreign_key "emails", "users"

@@ -1,5 +1,5 @@
 - content_for :title
-  = @course.name + ' | mammooc'
+  = "#{@course.name} | #{t('global.app_name')}"
 
 - content_for :content
 
@@ -38,12 +38,20 @@
           img src="/data/icons/globe.png" class="pr5" style="height:18px"
           = @course.language
       .options
-        img src="/data/logo-openSAP.png"
+        img src=@provider_logos[@course.mooc_provider.logo_id]
     .subnav
       a class="entry" href=''
         = t('courses.remember_course')
-      a class="entry" href=''
-        = t('courses.enroll_course')
+      - if user_signed_in?
+        - if current_user.courses.include? @course
+          a class="entry" href='' id='unenroll-course-link' data-course_id='#{@course.id}'
+            = t('courses.unenroll_course')
+        - else
+          a class="entry" href='' id='enroll-course-link' data-course_id='#{@course.id}'
+            = t('courses.enroll_course')
+      - else
+        a class="entry" href=new_user_session_path
+          = t('courses.enroll_course')
       div role="tab" id="courses-subnav-recommend"
         a class="entry" data-toggle="collapse" href="#recommend-course" id="recommend-course-link" aria-expanded="false" aria-controls="recommend-course"
           = t('courses.recommend_course')
@@ -87,10 +95,7 @@
           .recommendation-small
             .user-info
               = link_to recommendation.author
-                - if recommendation.author.profile_image_id
-                  img src=recommendation.author.profile_image_id
-                - else
-                  img src="/data/default.png"
+                img src=@profile_pictures[recommendation.author.profile_image_id]
               .name
                 = link_to recommendation.author
                   = "#{recommendation.author.first_name} #{recommendation.author.last_name}"

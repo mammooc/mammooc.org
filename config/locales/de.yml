@@ -21,17 +21,18 @@
 
 de:
   global:
-    require_login: Sie müssen eingeloggt sein um auf diese Seite zugreifen zu können.
+    app_name: mammooc
+    require_login: Du musst eingeloggt sein um auf diese Seite zugreifen zu können.
     close: Schließen
     submit: Absenden
     cancel: Abbrechen
     by: 'von '
+    ajax_failed: Hoppla! Bei der Anforderung ist etwas schief gelaufen. Bitte versuche es erneut.
     show_more: Mehr anzeigen
     show_less: Weniger anzeigen
     show_details: Details anzeigen
 
   navbar:
-    mammooc: mammooc
     home: Home
     courses: Kurse
     about: Über uns
@@ -96,8 +97,8 @@ de:
       recommendations: Empfehlungen
       statistics: Statistiken
     invitation:
-      joined_group: Sie wurden der Gruppe hinzugefügt.
-      already_member: Sie sind schon Mitglied in der Gruppe.
+      joined_group: Du wurdest der Gruppe hinzugefügt.
+      already_member: Du bist schon Mitglied in der Gruppe.
       group_deleted: Gruppe gelöscht.
       link_expired: Link ist abgelaufen.
       link_used: Link wurde bereits verwendet.
@@ -180,7 +181,8 @@ de:
     workload: Arbeitsaufwand
     enter_course: Zum Kurs
     remember_course: Kurs merken
-    enroll_course: Kurs als belegt markieren
+    enroll_course: Kurs belegen
+    unenroll_course: Kursbelegung entfernen
     recommend_course: Kurs empfehlen
     rate_course: Kurs bewerten
     recommendations: Empfehlungen
@@ -193,9 +195,28 @@ de:
     subtitle_languages: Verfügbare Untertitel
     previous_iteration: Vorheriger Durchlauf
     following_iteration: Nachfolgender Durchlauf
+    enrollment_error: Die Belegung beim MOOC-Anbieter hat leider nicht funktioniert.
+    unenrollment_error: Das Entfernen der Belegung beim MOOC-Anbieter hat leider nicht funktioniert.
     sidebar:
-          recommended_by: Wurde dir empfohlen von
-          details: Kursdetails
+      recommended_by: Wurde dir empfohlen von
+      details: Kursdetails
+    tracks:
+      headline: Pfade
+      types:
+        type_of_achievement: Art des Abschlusses
+        costs: Kosten
+        credit_points: ECTS-Punkte
+        achievement_types:
+          openhpi_record_of_achievement: Teilnahmebescheinigung
+          iversity_record_of_achievement: :courses.tracks.types.achievement_types.openhpi_record_of_achievement
+          nothing: Nichts
+          certificate: Zertifikat
+          iversity_certificate: :courses.tracks.types.achievement_types.certificate
+          iversity_ects: ECTS-Punkte
+          coursera_verified_certificate: Verifiziertes Zertifikat
+          edx_verified_certificate: :courses.tracks.types.achievement_types.coursera_verified_certificate
+          edx_xseries_certificate: edX XSeries Zertifikat
+          edx_profed_certificate: edX Professional Education Zertifikat
 
   recommendation:
     placeholder: Gib deine persönliche Nachricht hier ein ...
@@ -235,9 +256,9 @@ de:
       taken: ist bereits belegt.
       blank: muss ausgefüllt werden.
       login:
-        reqired: Sie müssen eingeloggt sein.
+        reqired: Du musst eingeloggt sein.
       sign_up:
-        terms_and_conditions_failure: Bitte bestätigen Sie die AGBs von mammooc!
+        terms_and_conditions_failure: Bitte bestätige die AGBs von mammooc!
       user:
         password_too_short: ist zu kurz (Minimum sind %{count} Zeichen).
         password_confirmation: stimmt nicht mit Passwort überein.
@@ -291,7 +312,7 @@ de:
     impressum:
       heading: Impressum
       title: Impressum | mammooc
-      text: Unser Impressum finden Sie aktuell auf der Webseite von openHPI.
+      text: Unser Impressum findest Du aktuell auf der Webseite von openHPI.
       link: Zum Impressum
 
   unauthorized:
@@ -300,9 +321,9 @@ de:
     new:
       recommendation: :unauthorized.create.recommendation
     show:
-      group: Sie haben keinen Zugriff auf diese Gruppe.
+      group: Du hast keinen Zugriff auf diese Gruppe.
     edit:
-      group: Sie können diese Gruppe nicht bearbeiten.
+      group: Du kannst diese Gruppe nicht bearbeiten.
     members:
       group: :unauthorized.show.group
     admins:

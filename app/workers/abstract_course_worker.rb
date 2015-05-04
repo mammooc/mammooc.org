@@ -9,8 +9,8 @@ class AbstractCourseWorker
   def load_courses
     begin
       response_data = get_course_data
-    rescue SocketError, RestClient::ResourceNotFound => e
-      logger.error e.class.to_s + ": " + e.message
+    rescue SocketError, RestClient::ResourceNotFound, RestClient::SSLCertificateNotVerified => e
+      Rails.logger.error "#{e.class.to_s}: #{e.message}"
     else
       handle_response_data response_data
     end
@@ -38,8 +38,9 @@ class AbstractCourseWorker
 
   def evaluate_update_map update_map
     update_map.each do |course_id,updated|
-      if !updated
-        Course.find(course_id).destroy
+      course = Course.find(course_id)
+      if !updated and course.present?
+        course.destroy
       end
     end
   end

@@ -15,6 +15,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
 
   def handle_response_data response_data
     update_map = create_update_map mooc_provider
+    course_track_type = CourseTrackType.find_by(type_of_achievement: 'openhpi_record_of_achievement')
 
     response_data.each do |course_element|
       course = Course.find_by(provider_course_id: course_element['id'], mooc_provider_id: mooc_provider.id)
@@ -35,9 +36,8 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
       course.description = course_element['description']
       course.course_instructors = course_element['lecturer']
       course.open_for_registration = !course_element['locked']
-      course.has_free_version = true
-
-      course.save
+      course.tracks.push(CourseTrack.create!(track_type: course_track_type))
+      course.save!
     end
     evaluate_update_map update_map
   end

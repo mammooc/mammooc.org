@@ -1,7 +1,6 @@
 require 'rails_helper'
-require 'sidekiq/testing'
 
-describe AbstractCourseWorker do
+RSpec.describe AbstractCourseWorker do
 
   before(:all) do
     @mooc_provider = FactoryGirl.create(:mooc_provider)

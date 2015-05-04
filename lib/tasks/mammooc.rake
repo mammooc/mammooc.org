@@ -11,8 +11,8 @@ namespace :mammooc do
   end
 
   task update_user_data: :environment do
-    OpenHPIUserWorker.perform_async nil
-    OpenSAPUserWorker.perform_async nil
+    OpenHPIUserWorker.perform_async
+    OpenSAPUserWorker.perform_async
     # OpenUNEUserWorker.perform_async
     # MoocHouseUserWorker.perform_async
     # OpenSAPChinaUserWorker.perform_async

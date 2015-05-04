@@ -21,17 +21,18 @@
 
 en:
   global:
+    app_name: mammooc
     require_login: You must be logged in to access this section
     close: Close
     submit: Submit
     cancel: Cancel
     by: 'by '
+    ajax_failed: Sorry, something went wrong. Please try again.
     show_more: Show more
     show_less: Show less
     show_details: Show details
 
   navbar:
-    mammooc: mammooc
     home: Home
     courses: Courses
     about: About us
@@ -180,7 +181,8 @@ en:
     workload: Workload
     enter_course: Enter Course
     remember_course: Remember Course
-    enroll_course: Mark course as booked
+    enroll_course: Enroll me for this Course
+    unenroll_course: Unenroll me for this Course
     recommend_course: Recommend Course
     rate_course: Rate Course
     recommendations: Recommendations
@@ -193,9 +195,28 @@ en:
     subtitle_languages: Available Subtitles
     previous_iteration: Previous Iteration
     following_iteration: Following Iteration
+    enrollment_error: Sorry, the enrollment for this course has failed.
+    unenrollment_error: Sorry, the unenrollment for this course has failed.
     sidebar:
       recommended_by: Recommended to you by
       details: Course Details
+    tracks:
+      headline: Tracks
+      types:
+        type_of_achievement: Type of achievement
+        costs: Costs
+        credit_points: ECTS Points
+        achievement_types:
+          openhpi_record_of_achievement: Record of Achievement
+          iversity_record_of_achievement: :courses.tracks.types.achievement_types.openhpi_record_of_achievement
+          nothing: Nothing
+          certificate: Certificate
+          iversity_certificate: :courses.tracks.types.achievement_types.certificate
+          iversity_ects: ECTS points
+          coursera_verified_certificate: Verified Certificate
+          edx_verified_certificate: :courses.tracks.types.achievement_types.coursera_verified_certificate
+          edx_xseries_certificate: edX XSeries Certificate
+          edx_profed_certificate: edX Professional Education Certificate
 
   recommendation:
     placeholder: Enter your personal message here ...
