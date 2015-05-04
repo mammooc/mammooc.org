@@ -93,6 +93,8 @@ Rails.application.routes.draw do
   get 'users/:id/settings' => 'users#settings'
   get 'users/:id/account_settings' => 'users#account_settings'
   get 'users/:id/mooc_provider_settings' => 'users#mooc_provider_settings'
+  get 'users/:id/set_mooc_provider_connection' => 'users#set_mooc_provider_connection'
+  get 'users/:id/revoke_mooc_provider_connection' => 'users#revoke_mooc_provider_connection'
 
 
   # The priority is based upon order of creation: first created -> highest priority.

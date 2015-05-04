@@ -5,7 +5,8 @@ class AbstractMoocProviderConnector
   def initialize_connection user, credentials
     begin
       send_connection_request user, credentials
-    rescue RestClient::InternalServerError => e
+    rescue RestClient::InternalServerError, RestClient::Unauthorized,
+            RestClient::BadGateway, RestClient::ResourceNotFound, RestClient::BadRequest => e
       Rails.logger.error "#{e.class.to_s}: #{e.message}"
       return false
     else
