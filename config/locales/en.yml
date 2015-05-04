@@ -88,7 +88,7 @@ en:
       password_confirmation_info: (we need your current password to confirm your changes)
       cancel_account: Cancel my account
       update_account: Update
-      pending_mail_confirmation: Currently waiting confirmation for:
+      pending_mail_confirmation: 'Currently waiting confirmation for:'
 
   groups:
     title: My Groups | mammooc

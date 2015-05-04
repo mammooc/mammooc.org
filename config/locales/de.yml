@@ -88,7 +88,7 @@ de:
       password_confirmation_info: (aktuelles Passwort eingeben, um Änderungen zu bestätigen)
       cancel_account: Account löschen
       update_account: Aktualisieren
-      pending_mail_confirmation: Warte auf Bestätigung für:
+      pending_mail_confirmation: 'Warte auf Bestätigung für:'
 
   groups:
     title: Meine Gruppen | mammooc
