@@ -1,50 +1,115 @@
 .recommendations id='#{id}'
-  span.glyphicon.glyphicon-remove.remove-recommendation-current-user data-recommendation_id='#{recommendation.id}'
-  = link_to course_path(recommendation.course)
-    - if recommendation.group
-      - if recommendation.is_obligatory
-        .participation-obligatory
-          => t('recommendation.group.obligatory')
-          = link_to recommendation.group.name, group_path(recommendation.group)
-      - else
-        .participation-recommended
-          => t('recommendation.group.recommended')
-          = link_to recommendation.group.name, group_path(recommendation.group)
-    - else
-      - if recommendation.is_obligatory
-        .participation-obligatory
-          = t('recommendation.obligatory')
-      - else
-        .participation-recommended
-          = t('recommendation.recommended')
-    .course-image
-      - if recommendation.course.imageId
-        = image_tag(recommendation.course.imageId)
-      - else
-        img src="/data/icons/courses-list-std.png"
-    .course-info
-      .name
-        = recommendation.course.name
-      // placeholder
-      | rating: 5 Stars
-      .provider
-        img src= @provider_logos[recommendation.course.mooc_provider.logo_id]
-      = raw recommendation.course.abstract
-  .comment
-    .profile-picture
+  .profile-picture
+    = link_to recommendation.author
       img src = @profile_pictures[recommendation.author.profile_image_id]
+  .recommendations-box
     = link_to recommendation.author
       = "#{recommendation.author.first_name} #{recommendation.author.last_name}"
-    - if recommendation.text.empty?
-      - if recommendation.group
-        - if recommendation.is_obligatory
-          =< t('recommendation.group.has_pledged')
-        - else
-          =< t('recommendation.group.has_recommended')
+    - if recommendation.group
+      - if recommendation.is_obligatory
+        =< t('recommendation.group.has_pledged')
       - else
-        - if recommendation.is_obligatory
-          =< t('recommendation.has_pledged')
-        - else
-          =< t('recommendation.has_recommended')
+        =< t('recommendation.group.has_recommended')
     - else
-      = ": \"#{recommendation.text}\""
+      - if recommendation.is_obligatory
+        =< t('recommendation.has_pledged')
+      - else
+        =< t('recommendation.has_recommended')
+      br
+    .small
+      = I18n.l recommendation.created_at, format: '%d. %B %Y'
+    .gradient-divider
+    = "#{recommendation.text}"
+    .course
+      .picture
+        - if recommendation.course.imageId
+          = image_tag(recommendation.course.imageId)
+        - else
+          img src="/data/icons/courses-list-std.png"
+      .info
+        .hd4.mt5
+          = recommendation.course.name
+        = recommendation.course.mooc_provider.name
+        br
+
+        - if recommendation.course.start_date && recommendation.course.end_date
+          - if recommendation.course.start_date > Date.today
+            => t('courses.starting_soon')
+            = I18n.l recommendation.course.start_date, format: '%d. %B %Y'
+          - elsif recommendation.course.start_date == Date.today
+            = t('courses.starts_today')
+          - elsif recommendation.course.start_date < Date.today and recommendation.course.end_date < Date.today
+            => t('courses.already_running')
+          - else
+            => t('courses.course_dates')
+            = (I18n.l recommendation.course.start_date, format: '%d. %B %Y') + ' - ' + (I18n.l recommendation.course.end_date, format: '%d. %B %Y')
+        - elsif recommendation.course.start_date
+          = recommendation.course.start_date
+        - else
+          = t('courses.no_dates_available')
+        .description.mt10
+          - if recommendation.course.abstract
+            = raw recommendation.course.abstract
+    = link_to course_path(recommendation.course)
+      button type='button' class='btn btn-gray btn-xs mr5'
+        = 'Details ansehen'
+    = link_to '#'
+      button type='button' class='btn btn-gray btn-xs mr5'
+        = 'Vormerken'
+    = link_to '#'
+      button type='button' class='btn btn-gray btn-xs mr5'
+        = 'Belegen'
+    button type='button' class='btn btn-gray btn-xs mr5 remove-recommendation-current-user' data-recommendation_id='#{recommendation.id}'
+      = 'Empfehlung ignorieren'
+
+
+
+/span.glyphicon.glyphicon-remove.remove-recommendation-current-user data-recommendation_id='#{recommendation.id}'
+/= link_to course_path(recommendation.course)
+/  - if recommendation.group
+/    - if recommendation.is_obligatory
+/      .participation-obligatory
+/        => t('recommendation.group.obligatory')
+/        = link_to recommendation.group.name, group_path(recommendation.group)
+/    - else
+/      .participation-recommended
+/        => t('recommendation.group.recommended')
+/        = link_to recommendation.group.name, group_path(recommendation.group)
+/  - else
+/    - if recommendation.is_obligatory
+/      .participation-obligatory
+/        = t('recommendation.obligatory')
+/    - else
+/      .participation-recommended
+/        = t('recommendation.recommended')
+/  .course-image
+/    - if recommendation.course.imageId
+/      = image_tag(recommendation.course.imageId)
+/    - else
+/      img src="/data/icons/courses-list-std.png"
+/  .course-info
+/    .name
+/      = recommendation.course.name
+/    // placeholder
+/    | rating: 5 Stars
+/    .provider
+/      img src= @provider_logos[recommendation.course.mooc_provider.logo_id]
+/    = raw recommendation.course.abstract
+/.comment
+/  .profile-picture
+/    img src = @profile_pictures[recommendation.author.profile_image_id]
+/  = link_to recommendation.author
+/    = "#{recommendation.author.first_name} #{recommendation.author.last_name}"
+/  - if recommendation.text.empty?
+/    - if recommendation.group
+/      - if recommendation.is_obligatory
+/        =< t('recommendation.group.has_pledged')
+/      - else
+/        =< t('recommendation.group.has_recommended')
+/    - else
+/      - if recommendation.is_obligatory
+/        =< t('recommendation.has_pledged')
+/      - else
+/        =< t('recommendation.has_recommended')
+/  - else
+/    = ": \"#{recommendation.text}\""
