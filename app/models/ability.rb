@@ -12,7 +12,6 @@ class Ability
     end
 
     #Recommendations
-
     can [:index], Recommendation
 
     can [:create], Recommendation do
@@ -27,5 +26,8 @@ class Ability
       UserGroup.where(user_id: user.id, group_id: recommendation.group.id, is_admin: true).any?
     end
 
+    #Users
+    cannot [:create, :show, :index, :update, :destroy], User
+    can [:show, :update, :destroy], User, id: user.id
   end
 end

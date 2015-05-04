@@ -136,4 +136,31 @@ RSpec.describe Ability do
 
   end
 
+  describe 'Users' do
+    let(:user) { FactoryGirl.create :user }
+    let(:another_user) { FactoryGirl.create :user }
+    describe 'create' do
+      it { is_expected.to_not be_able_to(:create, User) }
+    end
+
+    describe 'index' do
+      it { is_expected.to_not be_able_to(:index, User) }
+    end
+
+    describe 'show' do
+      it { is_expected.to be_able_to(:show, user) }
+      it { is_expected.to_not be_able_to(:show, another_user) }
+    end
+
+    describe 'update' do
+      it { is_expected.to be_able_to(:update, user) }
+      it { is_expected.to_not be_able_to(:update, another_user) }
+    end
+
+    describe 'destroy' do
+      it { is_expected.to be_able_to(:destroy, user) }
+      it { is_expected.to_not be_able_to(:destroy, another_user) }
+    end
+  end
+
   end
