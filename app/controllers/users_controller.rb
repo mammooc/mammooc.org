@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  load_and_authorize_resource only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource only: [:index, :show, :edit, :update, :update, :destroy]
 
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    #@users = User.all
   end
 
   # GET /users/1
