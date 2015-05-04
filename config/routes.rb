@@ -1,15 +1,14 @@
+# -*- encoding : utf-8 -*-
 Rails.application.routes.draw do
-
-
   get 'api_connection/index'
   get 'api_connection/send_request'
-  post'api_connection/send_user_request'
+  post 'api_connection/send_user_request'
   get 'api_connection/update_user'
   get 'api_connection/update_all_users'
 
-  devise_for :users, :controllers => { :registrations => "users/registrations",
-                                       :sessions => "users/sessions",
-                                       :passwords => "users/passwords"}
+  devise_for :users, controllers: {registrations: 'users/registrations',
+                                   sessions: 'users/sessions',
+                                   passwords: 'users/passwords'}
   resources :user_assignments
 
   resources :course_assignments
@@ -69,7 +68,7 @@ Rails.application.routes.draw do
   get 'impressum' => 'static_pages#impressum'
   get 'recommendations/:id/delete_user_from_recommendation' => 'recommendations#delete_user_from_recommendation'
   get 'recommendations/:id/delete_group_recommendation' => 'recommendations#delete_group_recommendation'
-  root :to => 'home#index'
+  root to: 'home#index'
 
   # Courses
   get 'courses' => 'courses#index'

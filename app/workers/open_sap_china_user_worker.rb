@@ -1,12 +1,12 @@
+# -*- encoding : utf-8 -*-
 class OpenSAPChinaUserWorker
   include Sidekiq::Worker
 
-  def perform(user_ids=nil)
+  def perform(user_ids = nil)
     if user_ids.nil?
       OpenSAPChinaConnector.new.load_user_data
     else
       OpenSAPChinaConnector.new.load_user_data User.find(user_ids)
     end
   end
-
 end

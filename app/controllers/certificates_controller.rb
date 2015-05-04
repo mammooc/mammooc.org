@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CertificatesController < ApplicationController
   before_action :set_certificate, only: [:show, :edit, :update, :destroy]
 
@@ -62,13 +63,14 @@ class CertificatesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_certificate
-      @certificate = Certificate.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def certificate_params
-      params.require(:certificate).permit(:title, :file_id, :completion_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_certificate
+    @certificate = Certificate.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def certificate_params
+    params.require(:certificate).permit(:title, :file_id, :completion_id)
+  end
 end

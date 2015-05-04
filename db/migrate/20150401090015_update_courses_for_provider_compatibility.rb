@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class UpdateCoursesForProviderCompatibility < ActiveRecord::Migration
   def change
     change_column(:courses, :start_date, :datetime, null: true)
@@ -13,7 +14,5 @@ class UpdateCoursesForProviderCompatibility < ActiveRecord::Migration
     remove_column(:courses, :duration, :integer)
     add_column(:courses, :calculated_duration_in_days, :integer)
     add_column(:courses, :provider_given_duration, :string)
-
-
   end
 end

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Course < ActiveRecord::Base
   belongs_to :mooc_provider
   belongs_to :course_result
@@ -20,7 +21,7 @@ class Course < ActiveRecord::Base
   before_destroy :delete_dangling_course_connections
 
   def self.get_course_id_by_mooc_provider_id_and_provider_course_id(mooc_provider_id, provider_course_id)
-    course = Course.where(provider_course_id: provider_course_id, mooc_provider_id: mooc_provider_id).first
+    course = Course.find_by(provider_course_id: provider_course_id, mooc_provider_id: mooc_provider_id)
     if course.present?
       return course.id
     else
@@ -31,20 +32,19 @@ class Course < ActiveRecord::Base
   private
 
   def check_and_update_duration
-    if self.end_date && self.start_date
-      if start_date_is_before_end_date
-        if self.calculated_duration_in_days != (self.end_date.to_date - self.start_date.to_date).to_i
-          self.calculated_duration_in_days = (self.end_date.to_date - self.start_date.to_date).to_i
-          self.save
-        end
-      else
-        self.end_date = nil
+    return unless end_date && start_date
+    if start_date_is_before_end_date
+      if calculated_duration_in_days != (end_date.to_date - start_date.to_date).to_i
+        self.calculated_duration_in_days = (end_date.to_date - start_date.to_date).to_i
+        save
       end
+    else
+      self.end_date = nil
     end
   end
 
   def start_date_is_before_end_date
-    self.start_date <= self.end_date ? (return true) : (return false)
+    start_date <= end_date ? (return true) : (return false)
   end
 
   def delete_dangling_course_connections
@@ -53,23 +53,19 @@ class Course < ActiveRecord::Base
   end
 
   def check_and_delete_previous_course_connection
-    if self.previous_iteration_id
-      previous_course = Course.find(self.previous_iteration_id)
-      if previous_course.following_iteration_id == self.id
-        previous_course.following_iteration_id = nil
-        previous_course.save
-      end
-    end
+    return unless previous_iteration_id
+    previous_course = Course.find(previous_iteration_id)
+    return unless previous_course.following_iteration_id == id
+    previous_course.following_iteration_id = nil
+    previous_course.save
   end
 
   def check_and_delete_following_course_connection
-    if self.following_iteration_id
-      following_course = Course.find(self.following_iteration_id)
-      if following_course.previous_iteration_id == self.id
-        following_course.previous_iteration_id = nil
-        following_course.save
-      end
-    end
+    return unless following_iteration_id
+    following_course = Course.find(following_iteration_id)
+    return unless following_course.previous_iteration_id == id
+    following_course.previous_iteration_id = nil
+    following_course.save
   end
 
   def create_and_update_course_connections
@@ -78,23 +74,18 @@ class Course < ActiveRecord::Base
   end
 
   def check_and_update_previous_course_connection
-    if self.previous_iteration_id
-      previous_course = Course.find(self.previous_iteration_id)
-      if previous_course.following_iteration_id != self.id
-        previous_course.following_iteration_id = self.id
-        previous_course.save
-      end
-    end
+    return unless previous_iteration_id
+    previous_course = Course.find(previous_iteration_id)
+    return unless previous_course.following_iteration_id != id
+    previous_course.following_iteration_id = id
+    previous_course.save
   end
 
   def check_and_update_following_course_connection
-    if self.following_iteration_id
-      following_course = Course.find(self.following_iteration_id)
-      if following_course.previous_iteration_id != self.id
-        following_course.previous_iteration_id = self.id
-        following_course.save
-      end
-    end
+    return unless following_iteration_id
+    following_course = Course.find(following_iteration_id)
+    return unless following_course.previous_iteration_id != id
+    following_course.previous_iteration_id = id
+    following_course.save
   end
-
 end

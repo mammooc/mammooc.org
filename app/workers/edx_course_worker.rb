@@ -1,5 +1,5 @@
+# -*- encoding : utf-8 -*-
 class EdxCourseWorker < AbstractCourseWorker
-
   MOOC_PROVIDER_NAME = 'edX'
   MOOC_PROVIDER_API_LINK = 'http://pipes.yahoo.com/pipes/pipe.run?_id=74859f52b084a75005251ae7a119f371&_render=json'
 
@@ -7,12 +7,12 @@ class EdxCourseWorker < AbstractCourseWorker
     MoocProvider.find_by_name(self.class::MOOC_PROVIDER_NAME)
   end
 
-  def get_course_data
+  def course_data
     response = RestClient.get(self.class::MOOC_PROVIDER_API_LINK)
     JSON.parse response
   end
 
-  def handle_response_data response_data
+  def handle_response_data(response_data)
     update_map = create_update_map mooc_provider
 
     free_track_type = CourseTrackType.find_by(type_of_achievement: 'nothing')
@@ -49,9 +49,9 @@ class EdxCourseWorker < AbstractCourseWorker
       if course_element['course:staff']
         if course_element['course:staff'].class == Array
           course_element['course:staff'].each_with_index do |staff_member, index|
-            temp = temp + staff_member
-            if !(index == course_element['course:staff'].size - 1)
-              temp = temp + ', '
+            temp += staff_member
+            unless (index == course_element['course:staff'].size - 1)
+              temp += ', '
             end
           end
         elsif course_element['course:staff'].class == String
@@ -62,7 +62,7 @@ class EdxCourseWorker < AbstractCourseWorker
 
       course.requirements = nil
       if course_element['course:prerequisites']
-        if !course_element['course:prerequisites'].empty?
+        unless course_element['course:prerequisites'].empty?
           course.requirements = [course_element['course:prerequisites']]
         end
       end
@@ -80,14 +80,14 @@ class EdxCourseWorker < AbstractCourseWorker
         course.workload = course_element['course:effort']
       end
 
-      if course_element['course:profed'] && course_element['course:profed'] == "1"
+      if course_element['course:profed'] && course_element['course:profed'] == '1'
         course.tracks.push CourseTrack.create!(track_type: profed_track_type)
       else
         course.tracks.push CourseTrack.create(track_type: free_track_type)
-        if course_element['course:verified'] && course_element['course:verified'] == "1"
+        if course_element['course:verified'] && course_element['course:verified'] == '1'
           course.tracks.push CourseTrack.create!(track_type: certificate_track_type)
         end
-        if course_element['course:xseries'] && course_element['course:xseries'] == "1"
+        if course_element['course:xseries'] && course_element['course:xseries'] == '1'
           course.tracks.push CourseTrack.create!(track_type: xseries_track_type)
         end
       end
@@ -96,5 +96,4 @@ class EdxCourseWorker < AbstractCourseWorker
     end
     evaluate_update_map update_map
   end
-
 end

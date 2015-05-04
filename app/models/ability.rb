@@ -1,8 +1,9 @@
+# -*- encoding : utf-8 -*-
 class Ability
   include CanCan::Ability
 
   def initialize(user)
-    #Groups
+    # Groups
     can [:create, :join], Group
     can [:read, :members, :admins, :leave, :condition_for_changing_member_status, :recommendations, :statistics], Group do |group|
       user.groups.include? group
@@ -11,7 +12,7 @@ class Ability
       UserGroup.where(user_id: user.id, group_id: group.id, is_admin: true).any?
     end
 
-    #Recommendations
+    # Recommendations
 
     can [:index], Recommendation
 
@@ -26,6 +27,5 @@ class Ability
     can [:delete_group_recommendation], Recommendation do |recommendation|
       UserGroup.where(user_id: user.id, group_id: recommendation.group.id, is_admin: true).any?
     end
-
   end
 end
