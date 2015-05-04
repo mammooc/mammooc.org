@@ -22,9 +22,9 @@ class Course < ActiveRecord::Base
   before_destroy :delete_dangling_course_connections
 
   #possible errors because some courses don't have start/end-dates set.
-  scope :with_start_date_gte, lambda { |reference_time| where('courses.start_date IS NOT NULL AND (courses.start_date >= ?) ', reference_time) }  #do I want to include requested date?
+  scope :with_start_date_gte, lambda { |reference_time| where('courses.start_date IS NOT NULL AND (courses.start_date >= ?) ', DateTime.parse(reference_time).strftime('%Y-%m-%d %H:%M:%S.%6N')) }  #do I want to include requested date?
 
-  scope :with_end_date_lt, lambda { |reference_time| where('courses.end_date <= ?', reference_time)} #do I want to include requested date?
+  scope :with_end_date_lt, lambda { |reference_time| where('courses.start_date IS NOT NULL AND (courses.start_date >= ?) ', DateTime.parse(reference_time).strftime('%Y-%m-%d %H:%M:%S.%6N'))} #do I want to include requested date?
 
   self.per_page = 10
 
