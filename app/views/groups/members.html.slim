@@ -1,5 +1,5 @@
 - content_for :title
-  = @group.name + ' | mammooc'
+  = "#{@group.name} | #{t('global.app_name')}"
 
 .members-wrapper
   - @sorted_group_admins.each do |user|

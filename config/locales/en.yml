@@ -21,6 +21,7 @@
 
 en:
   global:
+    app_name: mammooc
     require_login: You must be logged in to access this section
     close: Close
     submit: Submit
@@ -32,7 +33,6 @@ en:
     show_details: Show details
 
   navbar:
-    mammooc: mammooc
     home: Home
     courses: Courses
     about: About us
@@ -203,7 +203,24 @@ en:
     sidebar:
       recommended_by: Recommended to you by
       details: Course Details
-      
+    tracks:
+      headline: Tracks
+      types:
+        type_of_achievement: Type of achievement
+        costs: Costs
+        credit_points: ECTS Points
+        achievement_types:
+          openhpi_record_of_achievement: Record of Achievement
+          iversity_record_of_achievement: :courses.tracks.types.achievement_types.openhpi_record_of_achievement
+          nothing: Nothing
+          certificate: Certificate
+          iversity_certificate: :courses.tracks.types.achievement_types.certificate
+          iversity_ects: ECTS points
+          coursera_verified_certificate: Verified Certificate
+          edx_verified_certificate: :courses.tracks.types.achievement_types.coursera_verified_certificate
+          edx_xseries_certificate: edX XSeries Certificate
+          edx_profed_certificate: edX Professional Education Certificate
+
   recommendation:
     placeholder: Enter your personal message here ...
     new: New recommendation
