@@ -1,10 +1,6 @@
-h2
-  | Edit 
-  /= resource_name.to_s.humanize
 = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
-  = devise_error_messages!
   .form-group
-    = f.label :email
+    = f.label :email, t('users.settings.email')
     br
     = f.email_field :email, :class => 'form-control', autofocus: true
   - if devise_mapping.confirmable? && resource.pending_reconfirmation?
@@ -12,25 +8,24 @@ h2
       | Currently waiting confirmation for: 
       = resource.unconfirmed_email
   .form-group
-    = f.label :password
+    = f.label :password, t('users.settings.password')
     i
-      | (leave blank if you don't want to change it)
+      = t('users.settings.password_info')
     br
     = f.password_field :password, :class => 'form-control', autocomplete: "off"
   .form-group
-    = f.label :password_confirmation
+    = f.label :password_confirmation, t('users.settings.password_confirmation')
     br
     = f.password_field :password_confirmation, :class => 'form-control', autocomplete: "off"
   .form-group
-    = f.label :current_password
+    = f.label :current_password, t('users.settings.password')
     i
-      | (we need your current password to confirm your changes)
+      = t('users.settings.password_confirmation_info')
     br
     = f.password_field :current_password, :class => 'form-control', autocomplete: "off"
   .actions
-    = f.submit "Update", :class => 'btn btn-primary'
+    = f.submit t('users.settings.update_account'), :class => 'btn btn-primary'
 h3
-  | Cancel my account
+  = t('users.settings.cancel_account')
 p
-  | Unhappy? 
-  = button_to "Cancel my account", registration_path(resource_name), :class => "btn btn-primary", data: { confirm: "Are you sure?" },  method: :delete
+  = button_to t('users.settings.cancel_account'), registration_path(resource_name), :class => "btn btn-primary", data: { confirm: "Are you sure?" },  method: :delete

@@ -81,7 +81,14 @@ de:
       reset: Neues Passwort anfordern
     settings:
       heading: :navbar.settings
-
+      email: :users.sign_in_up.email
+      password: :users.sign_in_up.password
+      password_info: (Feld freilassen, wenn Passwort nicht geändert werden soll)
+      password_confirmation: :users.sign_in_up.password_confirmation
+      password_confirmation_info: (aktuelles Passwort eingeben, um Änderungen zu bestätigen)
+      cancel_account: Account löschen
+      update_account: Aktualisieren
+      pending_mail_confirmation: Warte auf Bestätigung für:
 
   groups:
     title: Meine Gruppen | mammooc
