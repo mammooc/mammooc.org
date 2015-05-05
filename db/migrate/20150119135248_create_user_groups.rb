@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateUserGroups < ActiveRecord::Migration
   def change
     create_table :user_groups, id: :uuid do |t|

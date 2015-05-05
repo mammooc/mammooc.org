@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class StatisticsController < ApplicationController
   before_action :set_statistic, only: [:show, :edit, :update, :destroy]
 
@@ -62,13 +63,14 @@ class StatisticsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_statistic
-      @statistic = Statistic.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def statistic_params
-      params.require(:statistic).permit(:name, :result, :group_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_statistic
+    @statistic = Statistic.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def statistic_params
+    params.require(:statistic).permit(:name, :result, :group_id)
+  end
 end

@@ -1,9 +1,9 @@
+# -*- encoding : utf-8 -*-
 FactoryGirl.define do
-
   factory :course do
     name 'Minimal Technologies'
     url 'https://example.com/course'
-    sequence(:provider_course_id ) { |n| "a#{n}" }
+    sequence(:provider_course_id) {|n| "a#{n}" }
     mooc_provider { FactoryGirl.create(:mooc_provider) }
     tracks { [FactoryGirl.create(:course_track)] }
   end
@@ -27,18 +27,17 @@ Claudia; “I enjoyed this course so much. It gave me a chance to expand my hori
     language 'English'
     imageId 'https://open.hpi.de/files/45ce8877-d21b-4389-9032-c6525b4724d0'
     videoId ''
-    start_date DateTime.new(2015,6,1,8)
-    end_date DateTime.new(2015,7,20,23,30)
-    categories ['Web','Technologies','Computer Science','#geilon']
-    requirements %w[Computer Brain Strength]
+    start_date Time.zone.local(2015, 6, 1, 8)
+    end_date Time.zone.local(2015, 7, 20, 23, 30)
+    categories ['Web', 'Technologies', 'Computer Science', '#geilon']
+    requirements %w(Computer Brain Strength)
     difficulty 'medium'
     workload '4-8 hours a week'
-    sequence(:provider_course_id ) { |n| "#{n}" }
+    sequence(:provider_course_id) {|n| "#{n}" }
     open_for_registration true
     provider_given_duration '6 weeks'
     subtitle_languages 'english, german'
     mooc_provider { FactoryGirl.create(:mooc_provider) }
     tracks { [FactoryGirl.create(:course_track), FactoryGirl.create(:certificate_course_track), FactoryGirl.create(:ects_course_track)] }
   end
-
 end

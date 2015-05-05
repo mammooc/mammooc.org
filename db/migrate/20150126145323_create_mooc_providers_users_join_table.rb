@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateMoocProvidersUsersJoinTable < ActiveRecord::Migration
   def change
     create_table :mooc_providers_users, id: false do |t|

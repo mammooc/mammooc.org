@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateRecommendationsGroupsJoinTable < ActiveRecord::Migration
   def change
     create_table :groups_recommendations, id: false do |t|

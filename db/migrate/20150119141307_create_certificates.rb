@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateCertificates < ActiveRecord::Migration
   def change
     create_table :certificates, id: :uuid do |t|

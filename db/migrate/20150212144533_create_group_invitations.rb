@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateGroupInvitations < ActiveRecord::Migration
   def change
     create_table :group_invitations do |t|

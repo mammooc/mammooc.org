@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CourseResultsController < ApplicationController
   before_action :set_course_result, only: [:show, :edit, :update, :destroy]
 
@@ -62,13 +63,14 @@ class CourseResultsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_course_result
-      @course_result = CourseResult.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def course_result_params
-      params.require(:course_result).permit(:maximum_score, :average_score, :best_score)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_course_result
+    @course_result = CourseResult.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def course_result_params
+    params.require(:course_result).permit(:maximum_score, :average_score, :best_score)
+  end
 end

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateApprovals < ActiveRecord::Migration
   def change
     create_table :approvals, id: :uuid do |t|

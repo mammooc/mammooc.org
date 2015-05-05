@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class EvaluationsController < ApplicationController
   before_action :set_evaluation, only: [:show, :edit, :update, :destroy]
 
@@ -37,11 +38,12 @@ class EvaluationsController < ApplicationController
   end
 
   private
-    def set_evaluation
-      @evaluation = Evaluation.find(params[:id])
-    end
 
-    def evaluation_params
-      params.require(:evaluation).permit(:title, :rating, :is_verified, :description, :date, :user_id, :course_id)
-    end
+  def set_evaluation
+    @evaluation = Evaluation.find(params[:id])
+  end
+
+  def evaluation_params
+    params.require(:evaluation).permit(:title, :rating, :is_verified, :description, :date, :user_id, :course_id)
+  end
 end

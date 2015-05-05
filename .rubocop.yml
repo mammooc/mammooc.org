@@ -1,0 +1,83 @@
+require: rubocop-rspec
+
+AllCops:
+  Include:
+    - '**/*.gemspec'
+    - '**/Rakefile'
+  Exclude:
+    - 'vendor/**'
+    - 'db/schema.rb'
+  RunRailsCops: true
+
+Style/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+Style/BracesAroundHashParameters:
+  EnforcedStyle: context_dependent
+
+Style/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+
+Style/RaiseArgs:
+  EnforcedStyle: compact
+
+Style/Documentation:
+  Enabled: false
+
+Style/SpaceInsideBlockBraces:
+  EnforcedStyle: space
+  EnforcedStyleForEmptyBraces: no_space
+  SpaceBeforeBlockParameters: false
+
+Style/SignalException:
+  EnforcedStyle: only_raise
+
+Style/CaseIndentation:
+  IndentWhenRelativeTo: end
+  SupportedStyles:
+    - case
+    - end
+  IndentOneStep: true
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+
+Style/Semicolon:
+  Exclude:
+    - '**/*_spec.rb'
+
+Style/RescueModifier:
+  Exclude:
+    - '**/*_spec.rb'
+
+Style/RegexpLiteral:
+  AllowInnerSlashes: true
+
+Style/ClassAndModuleChildren:
+  Exclude:
+   - 'config/application.rb'
+
+Metrics/LineLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ClassLength:
+  Max: 300
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Max: 25
+
+Metrics/PerceivedComplexity:
+  Max: 25
+
+Rails/HasAndBelongsToMany:
+  Enabled: false
+
+RSpec/DescribeClass:
+ Exclude:
+   - 'spec/views/**/*'
