@@ -5,13 +5,13 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable
   validates :first_name, :last_name, :profile_image_id, presence: true
-  has_many :emails
-  has_many :user_groups
+  has_many :emails, dependent: :destroy
+  has_many :user_groups, dependent: :destroy
   has_many :groups, through: :user_groups
   has_many :recommendations
   has_and_belongs_to_many :recommendations
   has_many :comments
-  has_many :mooc_provider_users
+  has_many :mooc_provider_users, dependent: :destroy
   has_many :mooc_providers, through: :mooc_provider_users
   has_many :completions
   has_and_belongs_to_many :courses

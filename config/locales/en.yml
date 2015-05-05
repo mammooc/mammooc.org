@@ -40,6 +40,7 @@ en:
     sign_out: Sign Out
     dashboard: Dashboard
     profile: Profile
+    settings: Settings
     welcome_heading: Welcome to mammooc!
 
   dashboard:
@@ -78,6 +79,16 @@ en:
     password:
       forgot: Forgot your password?
       reset: Reset my password
+    settings:
+      heading: :navbar.settings
+      email: :users.sign_in_up.email
+      password: :users.sign_in_up.password
+      password_info: (leave blank if you don't want to change it)
+      password_confirmation: :users.sign_in_up.password_confirmation
+      password_confirmation_info: (we need your current password to confirm your changes)
+      cancel_account: Cancel my account
+      update_account: Update
+      pending_mail_confirmation: 'Currently waiting confirmation for:'
 
   groups:
     title: My Groups | mammooc

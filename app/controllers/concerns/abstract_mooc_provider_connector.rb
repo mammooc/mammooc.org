@@ -15,7 +15,8 @@ class AbstractMoocProviderConnector
     return unless connection_to_mooc_provider? user
     begin
       send_enrollment_for_course user, course
-    rescue RestClient::InternalServerError => e
+    rescue RestClient::InternalServerError, RestClient::BadGateway,
+           RestClient::ResourceNotFound, RestClient::BadRequest => e
       Rails.logger.error "#{e.class}: #{e.message}"
       return false
     rescue RestClient::Unauthorized => e

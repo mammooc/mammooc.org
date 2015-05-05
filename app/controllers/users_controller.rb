@@ -1,5 +1,8 @@
 # -*- encoding : utf-8 -*-
 class UsersController < ApplicationController
+  include ConnectorMapper
+  before_action :set_provider_logos, only: [:settings, :mooc_provider_settings]
+
   load_and_authorize_resource only: [:show, :edit, :update, :destroy]
 
   rescue_from CanCan::AccessDenied do |exception|
@@ -63,7 +66,79 @@ class UsersController < ApplicationController
     end
   end
 
+  def account_settings
+    @partial = render_to_string partial: 'devise/registrations/edit', formats: [:html]
+    respond_to do |format|
+      begin
+        format.html { redirect_to dashboard_path }
+        format.json { render :synchronization_result, status: :ok }
+      rescue StandardError => e
+        format.html { redirect_to dashboard_path }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def mooc_provider_settings
+    @mooc_providers = MoocProvider.select([:id, :logo_id]).map {|e| {id: e.id, logo_id: e.logo_id} }
+    @mooc_provider_connections = current_user.mooc_providers.pluck(:mooc_provider_id)
+
+    @partial = render_to_string partial: 'users/mooc_provider_settings', formats: [:html]
+    respond_to do |format|
+      begin
+        format.html { redirect_to dashboard_path }
+        format.json { render :synchronization_result, status: :ok }
+      rescue StandardError => e
+        format.html { redirect_to dashboard_path }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def settings
+  end
+
+  def set_mooc_provider_connection
+    @got_connection = false
+    mooc_provider = MoocProvider.find_by_id(params[:mooc_provider])
+    if mooc_provider.present?
+      provider_connector = get_connector_by_mooc_provider mooc_provider
+      if provider_connector.present?
+        @got_connection = provider_connector.initialize_connection(
+          current_user, email: params[:email], password: params[:password])
+      end
+    end
+    respond_to do |format|
+      begin
+        format.html { redirect_to dashboard_path }
+        format.json { render :rename_mooc_provider_connection_result, status: :ok }
+      rescue StandardError => e
+        format.html { redirect_to dashboard_path }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def revoke_mooc_provider_connection
+    @revoked_connection = true
+    connections = MoocProviderUser.where(user_id: current_user.id, mooc_provider_id: params[:mooc_provider])
+    connections.destroy_all
+    respond_to do |format|
+      begin
+        format.html { redirect_to dashboard_path }
+        format.json { render :revoke_mooc_provider_connection_result, status: :ok }
+      rescue StandardError => e
+        format.html { redirect_to dashboard_path }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
+
+  def set_provider_logos
+    @provider_logos = AmazonS3.instance.get_all_provider_logos_hash
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_user
