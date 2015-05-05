@@ -172,6 +172,7 @@ en:
     mooc_provider: MOOC Provider
     instructors: Instructors
     time: Time
+    starting_time: Starting Time
     language: Language
     requirements: Requirements
     achievement: Type of Achievement

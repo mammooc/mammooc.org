@@ -172,6 +172,7 @@ de:
     mooc_provider: Kursanbieter
     instructors: Lehrpersonen
     time: Zeitraum
+    starting_time: Startdatum
     language: Sprache
     requirements: Voraussetzungen
     achievement: Abschluss
