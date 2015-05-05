@@ -129,6 +129,16 @@ $course-img-height: 250px;
   font-weight: 400;
 }
 
+/* Sidebar */
+
+.sidebar > .element.recommended {
+  border-top: 3px solid $mammooc;
+}
+
+.sidebar > .element.pledged {
+  border-top: 3px solid $brand-warning;
+}
+
 /* Course listing */
 
 .courses-wrapper {

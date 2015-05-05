@@ -1,37 +1,27 @@
 .sidebar
   .element
     .content
-      .hd5
+      .hd5.link-black-hover-green
         = link_to @course.url, target: "_blank"
           => t('courses.enter_course')
           | &#8594;
 
   - if @pledged_by.blank?
     - unless @recommended_by.blank?
-      .element
+      .element.recommended
         .content
-          .hd5.pb5
-            = t('courses.sidebar.recommended_by')
-          - @recommended_by.each do |user|
-            = link_to user
-              = "#{user.first_name} #{user.last_name}"
-              - unless @recommended_by.last == user
-                = ', '
-        a class="show-button" href="#course-recommendations"
-          = t('global.show_details')
-  - else
-    .element
-      .content
-        .hd5.pb5
-          = t('recommendation.pledged_by')
-        - @pledged_by.each do |user|
-          = link_to user
-            = "#{user.first_name} #{user.last_name}"
-            - unless @pledged_by.last == user
-              = ', '
-      a class="show-button" href="#course-recommendations"
-        = t('global.show_details')
+          .hd5
+            => t('courses.sidebar.recommended')
+            span.small-link
+              | &#183;&nbsp;
+              a href="#course-recommendations"
+                = t('global.show_details')
 
+  - else
+    .element.pledged
+      .content
+        .hd5
+          = t('courses.sidebar.pledged')
 
   .element
     .content
@@ -101,7 +91,7 @@
         .hd6.pb5
           = t('courses.previous_iteration')
         = link_to @previous_course_name, course_path(@course.previous_iteration_id)
-        .gradient-dividerc
+        .gradient-divider
 
       - if @course.following_iteration_id
         .hd6.pb5

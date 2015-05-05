@@ -198,7 +198,8 @@ en:
     enrollment_error: Sorry, the enrollment for this course has failed.
     unenrollment_error: Sorry, the unenrollment for this course has failed.
     sidebar:
-      recommended_by: Recommended to you by
+      recommended: Someone recommended this course to you
+      pledged: Someone wants to see you doing this course
       details: Course Details
     tracks:
       headline: Tracks

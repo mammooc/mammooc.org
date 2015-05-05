@@ -198,7 +198,8 @@ de:
     enrollment_error: Die Belegung beim MOOC-Anbieter hat leider nicht funktioniert.
     unenrollment_error: Das Entfernen der Belegung beim MOOC-Anbieter hat leider nicht funktioniert.
     sidebar:
-      recommended_by: Wurde dir empfohlen von
+      recommended: Dieser Kurs wurde dir empfohlen
+      pledged: Dieser Kurs wurde dir vorgeschrieben
       details: Kursdetails
     tracks:
       headline: Pfade
