@@ -12,7 +12,6 @@ class Ability
     end
 
     #Recommendations
-
     can [:index], Recommendation
 
     can [:create], Recommendation do
@@ -27,5 +26,15 @@ class Ability
       UserGroup.where(user_id: user.id, group_id: recommendation.group.id, is_admin: true).any?
     end
 
+    #Users
+    cannot [:create, :show, :update, :destroy], User
+    can [:show, :update, :destroy], User do |checked_user|
+      user_is_able = checked_user.id == user.id
+      user.groups.each do |group|
+        user_is_able = true if group.users.include? checked_user
+        break if user_is_able
+      end
+      user_is_able
+    end
   end
 end

@@ -1,10 +1,14 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource only: [:show, :edit, :update, :destroy]
 
-  # GET /users
-  # GET /users.json
-  def index
-    @users = User.all
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      format.html { redirect_to root_path, alert: t("unauthorized.#{exception.action}.user") }
+      format.json do
+        error = {message: exception.message, action: exception.action, subject: exception.subject.id}
+        render json: error.to_json, status: :unauthorized
+      end
+    end
   end
 
   # GET /users/1
