@@ -37,17 +37,10 @@ RSpec.describe UsersController, type: :controller do
   let(:valid_session) { {} }
 
   let(:user) { FactoryGirl.create(:user) }
+  let(:another_user) { FactoryGirl.create :user }
 
   before(:each) do
     sign_in user
-  end
-
-  describe 'GET index' do
-    it 'assigns all users as @users' do
-      user = User.create! valid_attributes
-      get :index, {}, valid_session
-      expect(assigns(:users)).to eq([user])
-    end
   end
 
   describe 'GET show' do
@@ -56,6 +49,17 @@ RSpec.describe UsersController, type: :controller do
       get :show, {id: user.to_param}, valid_session
       expect(assigns(:user)).to eq(user)
     end
+
+    context 'without authorization' do
+      before(:each) { get :show, {id: another_user.id} }
+      it 'redirects to root path' do
+        expect(response).to redirect_to(root_path)
+      end
+
+      it 'shows an alert message' do
+        expect(flash[:alert]).to eq I18n.t('unauthorized.show.user')
+      end
+    end
   end
 
   describe 'GET edit' do
@@ -63,6 +67,17 @@ RSpec.describe UsersController, type: :controller do
       user = User.create! valid_attributes
       get :edit, {id: user.to_param}, valid_session
       expect(assigns(:user)).to eq(user)
+    end
+
+    context 'without authorization' do
+      before(:each) { get :edit, id: another_user.id }
+      it 'redirects to root path' do
+        expect(response).to redirect_to(root_path)
+      end
+
+      it 'shows an alert message' do
+        expect(flash[:alert]).to eq I18n.t('unauthorized.edit.user')
+      end
     end
   end
 
@@ -105,6 +120,17 @@ RSpec.describe UsersController, type: :controller do
         expect(response).to render_template('edit')
       end
     end
+
+    context 'without authorization' do
+      before(:each) { put :update, { id: another_user.id, name: 'Another'} }
+      it 'redirects to root path' do
+        expect(response).to redirect_to(root_path)
+      end
+
+      it 'shows an alert message' do
+        expect(flash[:alert]).to eq I18n.t('unauthorized.update.user')
+      end
+    end
   end
 
   describe 'DELETE destroy' do
@@ -119,6 +145,17 @@ RSpec.describe UsersController, type: :controller do
       user = User.create! valid_attributes
       delete :destroy, {id: user.to_param}, valid_session
       expect(response).to redirect_to(users_url)
+    end
+
+    context 'without authorization' do
+      before(:each) { delete :destroy, { id: another_user.id} }
+      it 'redirects to root path' do
+        expect(response).to redirect_to(root_path)
+      end
+
+      it 'shows an alert message' do
+        expect(flash[:alert]).to eq I18n.t('unauthorized.destroy.user')
+      end
     end
   end
 end

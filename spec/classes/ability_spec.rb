@@ -135,4 +135,33 @@ RSpec.describe Ability do
       it { is_expected.to_not be_able_to(:create, Recommendation.new) }
     end
   end
+
+  describe 'Users' do
+    let(:user) { FactoryGirl.create :user }
+    let(:another_user) { FactoryGirl.create :user }
+    describe 'create' do
+      it { is_expected.to_not be_able_to(:create, User) }
+    end
+
+    describe 'show' do
+      it { is_expected.to be_able_to(:show, user) }
+      it { is_expected.to_not be_able_to(:show, another_user) }
+
+      context 'in user\'s groups' do
+        let!(:group) { FactoryGirl.create :group, users: [user, another_user] }
+
+        it { is_expected.to be_able_to(:show, another_user) }
+      end
+    end
+
+    describe 'update' do
+      it { is_expected.to be_able_to(:update, user) }
+      it { is_expected.to_not be_able_to(:update, another_user) }
+    end
+
+    describe 'destroy' do
+      it { is_expected.to be_able_to(:destroy, user) }
+      it { is_expected.to_not be_able_to(:destroy, another_user) }
+    end
+  end
 end
