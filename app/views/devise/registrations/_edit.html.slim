@@ -5,7 +5,7 @@
     = f.email_field :email, :class => 'form-control', autofocus: true
   - if devise_mapping.confirmable? && resource.pending_reconfirmation?
     div
-      | Currently waiting confirmation for: 
+      = t('users.settings.pending_mail_confirmation')
       = resource.unconfirmed_email
   .form-group
     = f.label :password, t('users.settings.password')

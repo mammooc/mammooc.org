@@ -2,7 +2,7 @@
 ready = ->
   $('#load-account-settings-button').on 'click', (event) -> loadAccountSettings(event)
   $('#load-mooc-provider-settings-button').on 'click', (event) -> loadMoocProviderSettings(event)
-  $('#sync-user-mooc_provider-connection-button'). on 'click', (event) -> synchronizeUserMoocProviderConnection(event)
+  $('#sync-user-mooc_provider-connection-button').on 'click', (event) -> synchronizeUserMoocProviderConnection(event)
   return
 
 $(document).ready(ready)
