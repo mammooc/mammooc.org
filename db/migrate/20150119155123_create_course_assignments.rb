@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateCourseAssignments < ActiveRecord::Migration
   def change
     create_table :course_assignments, id: :uuid  do |t|

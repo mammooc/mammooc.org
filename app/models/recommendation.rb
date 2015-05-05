@@ -1,5 +1,6 @@
+# -*- encoding : utf-8 -*-
 class Recommendation < ActiveRecord::Base
-  belongs_to :author, class_name: "User"
+  belongs_to :author, class_name: 'User'
   belongs_to :course
   belongs_to :group
   has_many :comments
@@ -19,8 +20,6 @@ class Recommendation < ActiveRecord::Base
       end
     end
 
-    course_recommendations.sort_by { |recommendation| recommendation.created_at}.reverse!
+    course_recommendations.sort_by(&:created_at).reverse!
   end
-
 end
-

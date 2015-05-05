@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class ApprovalsController < ApplicationController
   before_action :set_approval, only: [:show, :edit, :update, :destroy]
 
@@ -62,13 +63,14 @@ class ApprovalsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_approval
-      @approval = Approval.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def approval_params
-      params.require(:approval).permit(:date, :is_approved, :description, :user_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_approval
+    @approval = Approval.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def approval_params
+    params.require(:approval).permit(:date, :is_approved, :description, :user_id)
+  end
 end

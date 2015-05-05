@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CourseAssignmentsController < ApplicationController
   before_action :set_course_assignment, only: [:show, :edit, :update, :destroy]
 
@@ -37,11 +38,12 @@ class CourseAssignmentsController < ApplicationController
   end
 
   private
-    def set_course_assignment
-      @course_assignment = CourseAssignment.find(params[:id])
-    end
 
-    def course_assignment_params
-      params.require(:course_assignment).permit(:name, :deadline, :maximum_score, :average_score, :course_id)
-    end
+  def set_course_assignment
+    @course_assignment = CourseAssignment.find(params[:id])
+  end
+
+  def course_assignment_params
+    params.require(:course_assignment).permit(:name, :deadline, :maximum_score, :average_score, :course_id)
+  end
 end

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
@@ -25,8 +26,8 @@ module MAMMOOC
     config.assets.initialize_on_precompile = true
 
     # Load the files in lib
-    config.autoload_paths  += %W(#{config.root}/lib)
-    config.autoload_paths  += %W(#{config.root}/lib/**/)
+    config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += %W(#{config.root}/lib/**/)
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
@@ -43,6 +44,6 @@ module MAMMOOC
       g.test_framework :rspec
     end
 
-    config.action_mailer.default_url_options = {:host => Settings.default_hostname}
+    config.action_mailer.default_url_options = {host: Settings.default_hostname}
   end
 end

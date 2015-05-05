@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateCompletions < ActiveRecord::Migration
   def change
     create_table :completions, id: :uuid do |t|

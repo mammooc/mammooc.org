@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateRecommendations < ActiveRecord::Migration
   def change
     create_table :recommendations, id: :uuid do |t|

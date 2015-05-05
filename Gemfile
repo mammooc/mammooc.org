@@ -1,7 +1,7 @@
+# encoding: utf-8
 source 'https://rubygems.org'
 
 ruby '2.2.0'
-
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
@@ -34,7 +34,6 @@ gem 'passenger'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-
 
 # authentication
 gem 'devise'
@@ -96,7 +95,9 @@ group :development, :test do
   gem 'headless'
   gem 'poltergeist'
 
-  gem 'simplecov', :require => false
+  gem 'simplecov', require: false
+  gem 'rubocop', require: false
+  gem 'rubocop-rspec', require: false
 
   gem 'quiet_assets'
 end

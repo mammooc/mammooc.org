@@ -1,3 +1,4 @@
+# encoding: utf-8
 namespace :mammooc do
   task update_course_data: :environment do
     OpenHPICourseWorker.perform_async
@@ -8,6 +9,7 @@ namespace :mammooc do
     # OpenSAPChinaCourseWorker.perform_async
     # OpenHPIChinaCourseWorker.perform_async
     EdxCourseWorker.perform_async
+    IversityCourseWorker.perform_async
   end
 
   task update_user_data: :environment do
@@ -18,5 +20,4 @@ namespace :mammooc do
     # OpenSAPChinaUserWorker.perform_async
     # OpenHPIChinaUserWorker.perform_async
   end
-
 end

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CompletionsController < ApplicationController
   before_action :set_completion, only: [:show, :edit, :update, :destroy]
 
@@ -62,13 +63,14 @@ class CompletionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_completion
-      @completion = Completion.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def completion_params
-      params.require(:completion).permit(:position_in_course, :points, :permissions, :date, :user_id, :course_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_completion
+    @completion = Completion.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def completion_params
+    params.require(:completion).permit(:position_in_course, :points, :permissions, :date, :user_id, :course_id)
+  end
 end

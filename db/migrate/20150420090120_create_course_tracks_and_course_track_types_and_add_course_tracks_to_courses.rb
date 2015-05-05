@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateCourseTracksAndCourseTrackTypesAndAddCourseTracksToCourses < ActiveRecord::Migration
   def change
     create_table :course_track_types, id: :uuid do |t|

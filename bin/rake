@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby
+# encoding: utf-8
 begin
-  load File.expand_path("../spring", __FILE__)
-rescue LoadError
+  load File.expand_path('../spring', __FILE__)
+rescue LoadError => error
+  STDERR.puts error
 end
 require_relative '../config/boot'
 require 'rake'

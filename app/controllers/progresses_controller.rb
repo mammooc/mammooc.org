@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class ProgressesController < ApplicationController
   before_action :set_progress, only: [:show, :edit, :update, :destroy]
 
@@ -62,13 +63,14 @@ class ProgressesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_progress
-      @progress = Progress.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def progress_params
-      params.require(:progress).permit(:percentage, :permissions, :course_id, :user_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_progress
+    @progress = Progress.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def progress_params
+    params.require(:progress).permit(:percentage, :permissions, :course_id, :user_id)
+  end
 end
