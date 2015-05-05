@@ -1,10 +1,11 @@
+# -*- encoding : utf-8 -*-
 class CreateProgresses < ActiveRecord::Migration
   def change
     create_table :progresses, id: :uuid do |t|
       t.float :percentage
       t.string :permissions, array: true
-      t.references :course, type:'uuid', index: true
-      t.references :user, type:'uuid', index: true
+      t.references :course, type: 'uuid', index: true
+      t.references :user, type: 'uuid', index: true
 
       t.timestamps null: false
     end

@@ -1,5 +1,5 @@
+# -*- encoding : utf-8 -*-
 FactoryGirl.define do
-
   factory :course_track do
     association :track_type, factory: :course_track_type
 

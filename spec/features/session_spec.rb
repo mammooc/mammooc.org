@@ -1,35 +1,35 @@
+# -*- encoding : utf-8 -*-
 require 'rails_helper'
 
-RSpec.describe Users::SessionsController, type: :feature do
-
+RSpec.describe 'Users::Session', type: :feature do
   let(:user) { FactoryGirl.create(:user) }
 
   before(:each) do
     visit new_user_session_path
   end
 
-  it 'should work with valid input' do
+  it 'works with valid input' do
     fill_in 'login_email', with: user.email
     fill_in 'login_password', with: user.password
     click_button 'submit_sign_in'
     expect(page).to have_text(I18n.t('devise.sessions.signed_in'))
   end
 
-  it 'should not work if password is wrong' do
+  it 'does not work if password is wrong' do
     fill_in 'login_email', with: user.email
     fill_in 'login_password', with: 'wrongpassword'
     click_button 'submit_sign_in'
     expect(page).to have_text(I18n.t('devise.failure.invalid', authentication_keys: 'email'))
   end
 
-  it 'should not work if password is wrong' do
+  it 'does not work if password is wrong' do
     fill_in 'login_email', with: 'wrongemail@example.com'
     fill_in 'login_password', with: 'wrongpassword'
     click_button 'submit_sign_in'
     expect(page).to have_text(I18n.t('devise.failure.not_found_in_database', authentication_keys: 'email'))
   end
 
-  it 'should logout if logout button clicked' do
+  it 'logouts if logout button clicked' do
     fill_in 'login_email', with: user.email
     fill_in 'login_password', with: user.password
     click_button 'submit_sign_in'
@@ -38,7 +38,7 @@ RSpec.describe Users::SessionsController, type: :feature do
     expect(page).to have_text(I18n.t('devise.sessions.signed_out'))
   end
 
-  it 'should update course enrollments after sucessful sign in' do
+  it 'updates course enrollments after sucessful sign in' do
     expect(UserWorker).to receive(:perform_async).with([user.id])
     fill_in 'login_email', with: user.email
     fill_in 'login_password', with: user.password
@@ -46,7 +46,7 @@ RSpec.describe Users::SessionsController, type: :feature do
     expect(page).to have_text(I18n.t('devise.sessions.signed_in'))
   end
 
-  it 'should not update course enrollments after unsuccessful login attempt' do
+  it 'does not update course enrollments after unsuccessful login attempt' do
     expect(UserWorker).not_to receive(:perform_async).with([user.id])
     fill_in 'login_email', with: 'wrongemail@example.com'
     fill_in 'login_password', with: 'wrongpassword'

@@ -329,12 +329,15 @@ de:
   unauthorized:
     create:
       recommendation: Du musst Mitglied einer Gruppe sein, um eine Empfehlung zu erstellen.
+      user: Du kannst keinen neuen Nutzer erstellen.
     new:
       recommendation: :unauthorized.create.recommendation
     show:
       group: Du hast keinen Zugriff auf diese Gruppe.
+      user: Du hast keinen Zugriff auf diesen Nutzer.
     edit:
       group: Du kannst diese Gruppe nicht bearbeiten.
+      user: Du kannst diesen Nutzer nicht bearbeiten.
     members:
       group: :unauthorized.show.group
     admins:
@@ -345,8 +348,10 @@ de:
       group: :unauthorized.show.group
     update:
       group: :unauthorized.edit.group
+      user: :unauthorized.edit.user
     destroy:
       group: :unauthorized.edit.group
+      user: Du kannst diesen Nutzer nicht löschen.
     invite_group_members:
       group: :unauthorized.edit.group
     add_administrator:
@@ -363,3 +368,4 @@ de:
       group: :unauthorized.show.group
     index:
       recommendations: Du bist nicht berechtigt auf Empfehlungen zuzugreifen.
+      users: Du bist nicht berechtigt auf Nutzer zuzugreifen.

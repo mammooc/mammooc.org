@@ -1,12 +1,18 @@
+# -*- encoding : utf-8 -*-
 class UsersController < ApplicationController
   include ConnectorMapper
-
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :settings]
   before_action :set_provider_logos, only: [:settings, :mooc_provider_settings]
-  # GET /users
-  # GET /users.json
-  def index
-    @users = User.all
+
+  load_and_authorize_resource only: [:show, :edit, :update, :destroy]
+
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      format.html { redirect_to root_path, alert: t("unauthorized.#{exception.action}.user") }
+      format.json do
+        error = {message: exception.message, action: exception.action, subject: exception.subject.id}
+        render json: error.to_json, status: :unauthorized
+      end
+    end
   end
 
   # GET /users/1
@@ -99,7 +105,7 @@ class UsersController < ApplicationController
       provider_connector = get_connector_by_mooc_provider mooc_provider
       if provider_connector.present?
         @got_connection = provider_connector.initialize_connection(
-                            current_user,{email: params[:email], password: params[:password]})
+          current_user, email: params[:email], password: params[:password])
       end
     end
     respond_to do |format|
@@ -129,17 +135,18 @@ class UsersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
 
-    def set_provider_logos
-      @provider_logos = AmazonS3.instance.get_all_provider_logos_hash
-    end
+  def set_provider_logos
+    @provider_logos = AmazonS3.instance.get_all_provider_logos_hash
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def user_params
-      params.require(:user).permit(:first_name, :last_name, :title, :password, :profile_image_id, :about_me) #:email_settings,
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def user_params
+    params.require(:user).permit(:first_name, :last_name, :title, :password, :profile_image_id, :about_me) #:email_settings,
+  end
 end

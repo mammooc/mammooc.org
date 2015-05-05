@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateUserAssignments < ActiveRecord::Migration
   def change
     create_table :user_assignments, id: :uuid do |t|

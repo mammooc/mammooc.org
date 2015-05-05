@@ -1,25 +1,25 @@
+# -*- encoding : utf-8 -*-
 require 'rails_helper'
 
-RSpec.describe "statistics/new", :type => :view do
+RSpec.describe 'statistics/new', type: :view do
   before(:each) do
     assign(:statistic, Statistic.new(
-      :name => "MyString",
-      :result => "MyText",
-      :group => nil
+                         name: 'MyString',
+                         result: 'MyText',
+                         group: nil
     ))
   end
 
-  it "renders new statistic form" do
+  it 'renders new statistic form' do
     pending
     render
 
-    assert_select "form[action=?][method=?]", statistics_path, "post" do
+    assert_select 'form[action=?][method=?]', statistics_path, 'post' do
+      assert_select 'input#statistic_name[name=?]', 'statistic[name]'
 
-      assert_select "input#statistic_name[name=?]", "statistic[name]"
+      assert_select 'textarea#statistic_result[name=?]', 'statistic[result]'
 
-      assert_select "textarea#statistic_result[name=?]", "statistic[result]"
-
-      assert_select "input#statistic_group_id[name=?]", "statistic[group_id]"
+      assert_select 'input#statistic_group_id[name=?]', 'statistic[group_id]'
     end
   end
 end

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CoursesController < ApplicationController
   before_action :set_course, only: [:show, :enroll_course, :unenroll_course]
   skip_before_action :require_login, only: [:index, :show]
@@ -7,7 +8,7 @@ class CoursesController < ApplicationController
   # GET /courses.json
   def index
     @courses = Course.all
-    @provider_logos = AmazonS3.instance.get_provider_logos_hash_for_courses(@courses)
+    @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(@courses)
   end
 
   # GET /courses/1
@@ -23,7 +24,7 @@ class CoursesController < ApplicationController
     # RECOMMENDATIONS
     if user_signed_in?
       @recommendations = Recommendation.sorted_recommendations_for_course_and_user(@course, current_user)
-      @profile_pictures = AmazonS3.instance.get_author_profile_images_hash_for_recommendations(@recommendations)
+      @profile_pictures = AmazonS3.instance.author_profile_images_hash_for_recommendations(@recommendations)
       @recommended_by = []
       @pledged_by = []
       @recommendations.each do |recommendation|
@@ -36,7 +37,7 @@ class CoursesController < ApplicationController
       end
     end
 
-    @provider_logos = AmazonS3.instance.get_provider_logos_hash_for_courses([@course])
+    @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses([@course])
   end
 
   def enroll_course
@@ -66,41 +67,42 @@ class CoursesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_course
-      @course = Course.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def course_params
-      params.require(:course).permit(:name, :url, :course_instructor, :abstract, :language, :imageId, :videoId, :start_date, :end_date, :duration, :costs, :type_of_achievement, :categories, :difficulty, :requirements, :workload, :provider_course_id, :mooc_provider_id, :course_result_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_course
+    @course = Course.find(params[:id])
+  end
 
-    def create_enrollment
-      provider_connector = get_connector_by_mooc_provider @course.mooc_provider
-      if provider_connector.present?
-        @has_enrolled = provider_connector.enroll_user_for_course current_user, @course
-        if @has_enrolled
-          provider_worker = get_worker_by_mooc_provider @course.mooc_provider
-          provider_worker.perform_async([current_user.id])
-        end
-      else
-        # We didn't implement a provider_connector for this mooc_provider
-        @has_enrolled = false
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def course_params
+    params.require(:course).permit(:name, :url, :course_instructor, :abstract, :language, :imageId, :videoId, :start_date, :end_date, :duration, :costs, :type_of_achievement, :categories, :difficulty, :requirements, :workload, :provider_course_id, :mooc_provider_id, :course_result_id)
+  end
+
+  def create_enrollment
+    provider_connector = get_connector_by_mooc_provider @course.mooc_provider
+    if provider_connector.present?
+      @has_enrolled = provider_connector.enroll_user_for_course current_user, @course
+      if @has_enrolled
+        provider_worker = get_worker_by_mooc_provider @course.mooc_provider
+        provider_worker.perform_async([current_user.id])
       end
+    else
+      # We didn't implement a provider_connector for this mooc_provider
+      @has_enrolled = false
     end
+  end
 
-    def destroy_enrollment
-      provider_connector = get_connector_by_mooc_provider @course.mooc_provider
-      if provider_connector.present?
-        @has_unenrolled = provider_connector.unenroll_user_for_course current_user, @course
-        if @has_unenrolled
-          provider_worker = get_worker_by_mooc_provider @course.mooc_provider
-          provider_worker.perform_async([current_user.id])
-        end
-      else
-        # We didn't implement a provider_connector for this mooc_provider
-        @has_unenrolled = false
+  def destroy_enrollment
+    provider_connector = get_connector_by_mooc_provider @course.mooc_provider
+    if provider_connector.present?
+      @has_unenrolled = provider_connector.unenroll_user_for_course current_user, @course
+      if @has_unenrolled
+        provider_worker = get_worker_by_mooc_provider @course.mooc_provider
+        provider_worker.perform_async([current_user.id])
       end
+    else
+      # We didn't implement a provider_connector for this mooc_provider
+      @has_unenrolled = false
     end
+  end
 end

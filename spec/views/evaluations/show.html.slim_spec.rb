@@ -1,18 +1,19 @@
+# -*- encoding : utf-8 -*-
 require 'rails_helper'
 
-RSpec.describe "evaluations/show", :type => :view do
+RSpec.describe 'evaluations/show', type: :view do
   before(:each) do
     @evaluation = assign(:evaluation, Evaluation.create!(
-      :title => "Title",
-      :rating => 1.5,
-      :is_verified => false,
-      :description => "MyText",
-      :user => nil,
-      :course => nil
+                                        title: 'Title',
+                                        rating: 1.5,
+                                        is_verified: false,
+                                        description: 'MyText',
+                                        user: nil,
+                                        course: nil
     ))
   end
 
-  it "renders attributes in <p>" do
+  it 'renders attributes in <p>' do
     render
     expect(rendered).to match(/Title/)
     expect(rendered).to match(/1.5/)
