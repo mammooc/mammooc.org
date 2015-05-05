@@ -59,8 +59,9 @@
     = link_to '#'
       button type='button' class='btn btn-gray btn-xs mr5'
         = 'Belegen'
-    button type='button' class='btn btn-gray btn-xs mr5 remove-recommendation-current-user' data-recommendation_id='#{recommendation.id}'
-      = 'Empfehlung ignorieren'
+    .button-right
+      button type='button' class='btn btn-gray btn-xs mr5 remove-recommendation-current-user' data-recommendation_id='#{recommendation.id}'
+        = 'Empfehlung ignorieren'
 
 
 

@@ -11,7 +11,7 @@ $(document).ready(ready)
 
 delete_group_recommendation = () ->
   recommendation_id = $(this).data('recommendation_id')
-  recommendation = $(this).parent()
+  recommendation = $(this).closest('.recommendations')
 
   $.ajax
     url: "/recommendations/#{recommendation_id}/delete_group_recommendation"
@@ -25,7 +25,7 @@ delete_group_recommendation = () ->
 
 delete_user_from_recommendation = () ->
   recommendation_id = $(this).data('recommendation_id')
-  recommendation = $(this).parent().parent()
+  recommendation = $(this).closest('.recommendations')
 
   $.ajax
     url: "/recommendations/#{recommendation_id}/delete_user_from_recommendation"
