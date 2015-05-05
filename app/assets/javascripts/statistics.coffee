@@ -50,7 +50,6 @@ synchronizeUserMoocProviderConnection = (event) ->
       console.log('error_synchronize')
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
-      console.log(data.status)
       if data.status == true
         $("#panel-#{mooc_provider}").removeClass("panel-default")
         $("#panel-#{mooc_provider}").removeClass("panel-danger")
