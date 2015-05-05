@@ -43,25 +43,6 @@ RSpec.describe UsersController, :type => :controller do
     sign_in user
   end
 
-  describe "GET index" do
-    it "assigns all users as @users" do
-      user = User.create! valid_attributes
-      get :index, {}, valid_session
-      expect(assigns(:users)).to eq([user])
-    end
-
-    context 'without authorization' do
-      before(:each) { get :index }
-      it 'redirects to root path' do
-        expect(response).to redirect_to(root_path)
-      end
-
-      it 'shows an alert message' do
-        expect(flash[:alert]).to eq I18n.t('unauthorized.index.user')
-      end
-    end
-  end
-
   describe "GET show" do
     it "assigns the requested user as @user" do
       user = User.create! valid_attributes
