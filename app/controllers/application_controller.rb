@@ -4,8 +4,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  before_action :require_login
-  before_action :set_language
+  before_action :require_login, :set_language
 
   def after_sign_in_path_for(resource)
     sign_in_url = new_user_session_url

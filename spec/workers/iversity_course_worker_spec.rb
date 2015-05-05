@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 require 'rails_helper'
-require 'helpers/course_worker_spec_helper'
+require 'support/course_worker_spec_helper'
 
 describe IversityCourseWorker do
   let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'iversity') }
