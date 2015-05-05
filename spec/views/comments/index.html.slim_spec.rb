@@ -1,26 +1,27 @@
+# -*- encoding : utf-8 -*-
 require 'rails_helper'
 
-RSpec.describe "comments/index", :type => :view do
+RSpec.describe 'comments/index', type: :view do
   before(:each) do
     assign(:comments, [
       Comment.create!(
-        :content => "MyText",
-        :user => nil,
-        :recommendation => nil
+        content: 'MyText',
+        user: nil,
+        recommendation: nil
       ),
       Comment.create!(
-        :content => "MyText",
-        :user => nil,
-        :recommendation => nil
+        content: 'MyText',
+        user: nil,
+        recommendation: nil
       )
     ])
   end
 
-  it "renders a list of comments" do
+  it 'renders a list of comments' do
     pending
     render
-    assert_select "tr>td", :text => "MyText".to_s, :count => 2
-    assert_select "tr>td", :text => nil.to_s, :count => 2
-    assert_select "tr>td", :text => nil.to_s, :count => 2
+    assert_select 'tr>td', text: 'MyText'.to_s, count: 2
+    assert_select 'tr>td', text: nil.to_s, count: 2
+    assert_select 'tr>td', text: nil.to_s, count: 2
   end
 end

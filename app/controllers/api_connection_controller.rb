@@ -1,7 +1,6 @@
+# -*- encoding : utf-8 -*-
 class ApiConnectionController < ApplicationController
-
   def index
-
   end
 
   def send_request
@@ -14,8 +13,8 @@ class ApiConnectionController < ApplicationController
   end
 
   def send_user_request
-    OpenSAPConnector.new.initialize_connection(current_user, {email: params[:email], password: params[:password]})
-    OpenHPIConnector.new.initialize_connection(current_user, {email: params[:email], password: params[:password]})
+    OpenSAPConnector.new.initialize_connection(current_user, email: params[:email], password: params[:password])
+    OpenHPIConnector.new.initialize_connection(current_user, email: params[:email], password: params[:password])
     redirect_to api_connection_index_path
   end
 
@@ -28,5 +27,4 @@ class ApiConnectionController < ApplicationController
     UserWorker.perform_async
     redirect_to api_connection_index_path
   end
-
 end

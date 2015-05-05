@@ -40,6 +40,7 @@ de:
     sign_out: Ausloggen
     dashboard: Dashboard
     profile: Profil
+    settings: Einstellungen
     welcome_heading: Willkommen bei mammooc!
 
   dashboard:
@@ -78,6 +79,16 @@ de:
     password:
       forgot: Passwort vergessen?
       reset: Neues Passwort anfordern
+    settings:
+      heading: :navbar.settings
+      email: :users.sign_in_up.email
+      password: :users.sign_in_up.password
+      password_info: (Feld freilassen, wenn Passwort nicht geändert werden soll)
+      password_confirmation: :users.sign_in_up.password_confirmation
+      password_confirmation_info: (aktuelles Passwort eingeben, um Änderungen zu bestätigen)
+      cancel_account: Account löschen
+      update_account: Aktualisieren
+      pending_mail_confirmation: 'Warte auf Bestätigung für:'
 
   groups:
     title: Meine Gruppen | mammooc
@@ -172,6 +183,7 @@ de:
     mooc_provider: Kursanbieter
     instructors: Lehrpersonen
     time: Zeitraum
+    starting_time: Startdatum
     language: Sprache
     requirements: Voraussetzungen
     achievement: Abschluss
@@ -328,12 +340,15 @@ de:
   unauthorized:
     create:
       recommendation: Du musst Mitglied einer Gruppe sein, um eine Empfehlung zu erstellen.
+      user: Du kannst keinen neuen Nutzer erstellen.
     new:
       recommendation: :unauthorized.create.recommendation
     show:
       group: Du hast keinen Zugriff auf diese Gruppe.
+      user: Du hast keinen Zugriff auf diesen Nutzer.
     edit:
       group: Du kannst diese Gruppe nicht bearbeiten.
+      user: Du kannst diesen Nutzer nicht bearbeiten.
     members:
       group: :unauthorized.show.group
     admins:
@@ -344,8 +359,10 @@ de:
       group: :unauthorized.show.group
     update:
       group: :unauthorized.edit.group
+      user: :unauthorized.edit.user
     destroy:
       group: :unauthorized.edit.group
+      user: Du kannst diesen Nutzer nicht löschen.
     invite_group_members:
       group: :unauthorized.edit.group
     add_administrator:
@@ -362,3 +379,4 @@ de:
       group: :unauthorized.show.group
     index:
       recommendations: Du bist nicht berechtigt auf Empfehlungen zuzugreifen.
+      users: Du bist nicht berechtigt auf Nutzer zuzugreifen.

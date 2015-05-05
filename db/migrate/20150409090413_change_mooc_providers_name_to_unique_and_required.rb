@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class ChangeMoocProvidersNameToUniqueAndRequired < ActiveRecord::Migration
   def change
     add_index :mooc_providers, :name, unique: true

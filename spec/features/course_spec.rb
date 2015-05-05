@@ -1,12 +1,12 @@
+# -*- encoding : utf-8 -*-
 require 'rails_helper'
 
-RSpec.describe CoursesController, type: :feature do
-
+RSpec.describe 'Course', type: :feature do
   self.use_transactional_fixtures = false
 
-  let(:mooc_provider){FactoryGirl.create(:mooc_provider, name:'openHPI')}
+  let(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI') }
   let(:user) { FactoryGirl.create(:user) }
-  let!(:course) { FactoryGirl.create(:full_course, mooc_provider: mooc_provider)}
+  let!(:course) { FactoryGirl.create(:full_course, mooc_provider: mooc_provider) }
 
   before(:each) do
     visit new_user_session_path
@@ -25,15 +25,14 @@ RSpec.describe CoursesController, type: :feature do
     DatabaseCleaner.strategy = :transaction
   end
 
-
   describe 'display form to recommend or rate an existing course' do
-    it 'should not display the collapsible items', js: true do
+    it 'does not display the collapsible items', js: true do
       visit "/courses/#{course.id}"
       expect(page).to have_no_selector('#recommend-course')
       expect(page).to have_no_selector('#rate-course')
     end
 
-    it 'should only display the recommendation view upon click', js: true do
+    it 'onlies display the recommendation view upon click', js: true do
       visit "/courses/#{course.id}"
       click_link('recommend-course-link')
       wait_for_phantom_js
@@ -45,7 +44,7 @@ RSpec.describe CoursesController, type: :feature do
       expect(page).to have_no_selector('#rate-course')
     end
 
-    it 'should only display the rating view upon click', js: true do
+    it 'onlies display the rating view upon click', js: true do
       visit "/courses/#{course.id}"
       click_link('rate-course-link')
       wait_for_phantom_js
@@ -57,7 +56,7 @@ RSpec.describe CoursesController, type: :feature do
       expect(page).to have_no_selector('#rate-course')
     end
 
-    it 'should toggle between rating and recommendations view upon click', js: true do
+    it 'toggles between rating and recommendations view upon click', js: true do
       visit "/courses/#{course.id}"
       click_link('rate-course-link')
       wait_for_phantom_js
@@ -77,7 +76,7 @@ RSpec.describe CoursesController, type: :feature do
       expect(page).to have_no_selector('#rate-course')
     end
 
-    it 'should toggle the enrollment button upon click', js: true do
+    it 'toggles the enrollment button upon click', js: true do
       allow_any_instance_of(OpenHPIConnector).to receive(:enroll_user_for_course).and_return(true)
       visit "/courses/#{course.id}"
       click_link('enroll-course-link')
@@ -86,7 +85,7 @@ RSpec.describe CoursesController, type: :feature do
       expect(page).to have_selector('#unenroll-course-link')
     end
 
-    it 'should toggle the unenrollment button upon click', js: true do
+    it 'toggles the unenrollment button upon click', js: true do
       user.courses << course
       allow_any_instance_of(OpenHPIConnector).to receive(:unenroll_user_for_course).and_return(true)
       visit "/courses/#{course.id}"
@@ -98,7 +97,7 @@ RSpec.describe CoursesController, type: :feature do
   end
 
   describe 'display the option to collapse long course descriptions' do
-    it 'should display a button', js: true do
+    it 'displays a button', js: true do
       visit "/courses/#{course.id}"
       expect(page).to have_selector('#course-description')
       expect(page).to have_content I18n.t('global.show_more')
@@ -106,5 +105,4 @@ RSpec.describe CoursesController, type: :feature do
       expect(page).to have_content I18n.t('global.show_less')
     end
   end
-  
 end

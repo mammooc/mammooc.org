@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class UpdateColumnsOfCourses < ActiveRecord::Migration
   def change
     remove_column(:courses, :workload, :string)
@@ -21,7 +22,7 @@ class UpdateColumnsOfCourses < ActiveRecord::Migration
 
     add_column(:courses, :description, :text)
     change_column(:courses, :credit_points, :float)
-    change_column(:courses, :duration, "integer USING CAST(duration AS integer)")
-    change_column(:courses, :costs, "float USING CAST(costs AS float)")
+    change_column(:courses, :duration, 'integer USING CAST(duration AS integer)')
+    change_column(:courses, :costs, 'float USING CAST(costs AS float)')
   end
 end

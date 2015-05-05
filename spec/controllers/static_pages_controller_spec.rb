@@ -1,5 +1,5 @@
+# -*- encoding : utf-8 -*-
 require 'rails_helper'
 
-RSpec.describe StaticPagesController, :type => :controller do
-
+RSpec.describe StaticPagesController, type: :controller do
 end

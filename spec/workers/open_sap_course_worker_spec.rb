@@ -1,17 +1,16 @@
+# -*- encoding : utf-8 -*-
 require 'rails_helper'
 
 RSpec.describe OpenSAPCourseWorker do
-
   let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openSAP') }
 
-  let(:open_sap_course_worker){ OpenSAPCourseWorker.new }
+  let(:open_sap_course_worker) { described_class.new }
 
-  it 'should deliver MOOCProvider' do
+  it 'delivers MOOCProvider' do
     expect(open_sap_course_worker.mooc_provider).to eql mooc_provider
   end
 
-  it 'should get an API response' do
-    expect(open_sap_course_worker.get_course_data).not_to be_nil
+  it 'gets an API response' do
+    expect(open_sap_course_worker.course_data).not_to be_nil
   end
-
 end
