@@ -49,8 +49,7 @@ $user-picture-size: 50px;
   }
 
   .recommendations-box {
-    @include white-box;
-    @include box-shadow-light;
+    @extend .content-box;
     margin-bottom: 15px;
     padding: 10px;
     width: auto;
