@@ -148,7 +148,7 @@ RSpec.describe Ability do
       it { is_expected.to_not be_able_to(:show, another_user) }
 
       context 'in user\'s groups' do
-        let(:group) { FactoryGirl.create :group, users: [user, another_user] }
+        let!(:group) { FactoryGirl.create :group, users: [user, another_user] }
 
         it { is_expected.to be_able_to(:show, another_user) }
       end
