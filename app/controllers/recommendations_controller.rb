@@ -1,9 +1,10 @@
+# -*- encoding : utf-8 -*-
 class RecommendationsController < ApplicationController
   load_and_authorize_resource only: [:create, :delete_user_from_recommendation, :delete_group_recommendation, :index, :new]
 
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
-      request.env["HTTP_REFERER"] ||= dashboard_path
+      request.env['HTTP_REFERER'] ||= dashboard_path
       format.html { redirect_to :back, alert: t("unauthorized.#{exception.action}.recommendation") }
       format.json do
         error = {message: exception.message, action: exception.action, subject: exception.subject.id}
@@ -15,11 +16,10 @@ class RecommendationsController < ApplicationController
   # GET /recommendations
   # GET /recommendations.json
   def index
-    @recommendations = current_user.recommendations.sort_by { |recommendation| recommendation.created_at}.reverse!
+    @recommendations = current_user.recommendations.sort_by(&:created_at).reverse!
 
-    @provider_logos = AmazonS3.instance.get_provider_logos_hash_for_recommendations(@recommendations)
-    @profile_pictures = AmazonS3.instance.get_author_profile_images_hash_for_recommendations(@recommendations)
-
+    @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
+    @profile_pictures = AmazonS3.instance.author_profile_images_hash_for_recommendations(@recommendations)
   end
 
   # GET /recommendations/new
@@ -35,34 +35,31 @@ class RecommendationsController < ApplicationController
     user_ids = params[:recommendation][:related_user_ids].split(', ')
     group_ids = params[:recommendation][:related_group_ids].split(', ')
 
-
-    user_ids.each do | user_id |
+    user_ids.each do |user_id|
       recommendation = Recommendation.new(recommendation_params)
       recommendation.author = current_user
       recommendation.users.push(User.find(user_id))
       recommendation.save!
     end
 
-    group_ids.each do | group_id |
+    group_ids.each do |group_id|
       recommendation = Recommendation.new(recommendation_params)
       recommendation.author = current_user
       recommendation.group = Group.find(group_id)
-      recommendation.group.users.each do | user |
+      recommendation.group.users.each do |user|
         recommendation.users.push(user)
       end
       recommendation.save!
     end
 
     respond_to do |format|
-        format.html { redirect_to session.delete(:return_to), notice: t('recommendation.successfully_created') }
+      format.html { redirect_to session.delete(:return_to), notice: t('recommendation.successfully_created') }
     end
 
-  rescue ActiveRecord::RecordNotSaved => error
+  rescue ActiveRecord::RecordNotSaved
     flash[:error] = t('recommendation.creation_error')
     redirect_to root_path
-
   end
-
 
   def delete_user_from_recommendation
     @recommendation.users -= [current_user]
@@ -83,13 +80,14 @@ class RecommendationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_recommendation
-      @recommendation = Recommendation.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def recommendation_params
-      params.require(:recommendation).permit(:is_obligatory, :group_id, :course_id, :text)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_recommendation
+    @recommendation = Recommendation.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def recommendation_params
+    params.require(:recommendation).permit(:is_obligatory, :group_id, :course_id, :text)
+  end
 end

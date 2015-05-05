@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class BookmarksController < ApplicationController
   before_action :set_bookmark, only: [:show, :edit, :update, :destroy]
 
@@ -37,11 +38,12 @@ class BookmarksController < ApplicationController
   end
 
   private
-    def set_bookmark
-      @bookmark = Bookmark.find(params[:id])
-    end
 
-    def bookmark_params
-      params.require(:bookmark).permit(:user_id, :course_id)
-    end
+  def set_bookmark
+    @bookmark = Bookmark.find(params[:id])
+  end
+
+  def bookmark_params
+    params.require(:bookmark).permit(:user_id, :course_id)
+  end
 end

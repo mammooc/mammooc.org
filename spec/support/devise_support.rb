@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # This support package contains modules for authenticaiting
 # devise users for request specs.
 

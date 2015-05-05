@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CourseTrackType < ActiveRecord::Base
   has_many :course_tracks
 

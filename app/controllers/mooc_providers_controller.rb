@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class MoocProvidersController < ApplicationController
   before_action :set_mooc_provider, only: [:show, :edit, :update, :destroy]
 
@@ -62,13 +63,14 @@ class MoocProvidersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_mooc_provider
-      @mooc_provider = MoocProvider.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def mooc_provider_params
-      params.require(:mooc_provider).permit(:logo_id, :name, :url, :description)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_mooc_provider
+    @mooc_provider = MoocProvider.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def mooc_provider_params
+    params.require(:mooc_provider).permit(:logo_id, :name, :url, :description)
+  end
 end
