@@ -73,16 +73,16 @@ class CourseraCourseWorker < AbstractCourseWorker
 
       free_track = CourseTrack.find_by(course_id: course.id, track_type: free_track_type) || CourseTrack.create!(track_type: free_track_type)
       course.tracks.push(free_track)
-      if session_element["eligibleForCertificates"]
+      if session_element['eligibleForCertificates']
         certificate_track = CourseTrack.find_by(course_id: course.id, track_type: certificate_track_type) || CourseTrack.create!(track_type: certificate_track_type)
         course.tracks.push(certificate_track)
       end
-      if session_element["eligibleForSignatureTrack"]
+      if session_element['eligibleForSignatureTrack']
         signature_track = CourseTrack.find_by(course_id: course.id, track_type: signature_track_type) || CourseTrack.create!(track_type: signature_track_type)
-        if session_element["signatureTrackPrice"]
-          signature_track.costs = session_element["signatureTrackPrice"].to_f
+        if session_element['signatureTrackPrice']
+          signature_track.costs = session_element['signatureTrackPrice'].to_f
         else
-          signature_track.costs = session_element["signatureTrackRegularPrice"].to_f
+          signature_track.costs = session_element['signatureTrackRegularPrice'].to_f
         end
         signature_track.costs_currency = '$'
         signature_track.save!
