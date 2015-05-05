@@ -2,7 +2,8 @@
 # encoding: utf-8
 begin
   load File.expand_path('../spring', __FILE__)
-rescue LoadError
+rescue LoadError => error
+  Rails.logger.error error
 end
 require_relative '../config/boot'
 require 'rake'
