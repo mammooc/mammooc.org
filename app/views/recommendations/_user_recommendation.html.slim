@@ -35,7 +35,7 @@
       img src = @profile_pictures[recommendation.author.profile_image_id]
     = link_to recommendation.author
       = "#{recommendation.author.first_name} #{recommendation.author.last_name}"
-    - if recommendation.text.empty?
+    - if recommendation.text.blank?
       - if recommendation.group
         - if recommendation.is_obligatory
           =< t('recommendation.group.has_pledged')

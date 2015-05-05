@@ -31,6 +31,21 @@ en:
     show_more: Show more
     show_less: Show less
     show_details: Show details
+  language:
+    english: English
+    german: German
+    french: French
+    spanish: Spanish
+    arabic: Arabic
+    italian: Italian
+    chinese: Chinese
+    portuguese: Portuguese
+    russian: Russian
+    swedish: Swedisch
+    hebrew: Hebrew
+
+
+
 
   navbar:
     home: Home

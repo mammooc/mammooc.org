@@ -1,5 +1,5 @@
 class Course < ActiveRecord::Base
-  filterrific available_filters: %w[with_start_date_gte with_end_date_lt]
+  filterrific available_filters: %w[with_start_date_gte with_end_date_lt with_language]
 
   belongs_to :mooc_provider
   belongs_to :course_result
@@ -25,6 +25,25 @@ class Course < ActiveRecord::Base
   scope :with_start_date_gte, lambda { |reference_time| where('courses.start_date IS NOT NULL AND (courses.start_date >= ?) ', DateTime.parse(reference_time).strftime('%Y-%m-%d %H:%M:%S.%6N')) }
 
   scope :with_end_date_lt, lambda { |reference_time| where('courses.end_date IS NOT NULL AND (courses.end_date <= ?) ', DateTime.parse(reference_time).strftime('%Y-%m-%d %H:%M:%S.%6N'))}
+
+  scope :with_language, lambda { |reference_language| where('courses.language IS NOT NULL AND (courses.language = ? OR courses.language LIKE ?)', reference_language, "#{reference_language}-%") }
+
+  def self.options_for_languages
+
+    [[I18n.t('language.english'), 'en'],
+     [I18n.t('language.german'), 'de'],
+     [I18n.t('language.spanish'), 'es'],
+     [I18n.t('language.french'), 'fr'],
+     [I18n.t('language.chinese'), 'zh'],
+     [I18n.t('language.portuguese'), 'pt'],
+     [I18n.t('language.russian'), 'ru'],
+     [I18n.t('language.swedish'), 'sv'],
+     [I18n.t('language.hebrew'), 'he'],
+     [I18n.t('language.italian'), 'it'],
+     [I18n.t('language.arabic'), 'ar'],
+    ]
+
+  end
 
   self.per_page = 10
 

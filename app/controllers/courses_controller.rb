@@ -6,7 +6,7 @@ class CoursesController < ApplicationController
   # GET /courses
   # GET /courses.json
   def index
-    @filterrific = initialize_filterrific( Course, params[:filterrific]) or return
+    @filterrific = initialize_filterrific( Course, params[:filterrific], select_options: {with_language: Course.options_for_languages}) or return
 
     @courses = @filterrific.find.page(params[:page])
     @provider_logos = AmazonS3.instance.get_provider_logos_hash_for_courses(@courses)
