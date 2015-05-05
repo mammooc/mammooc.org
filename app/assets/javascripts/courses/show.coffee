@@ -1,7 +1,7 @@
 ready = ->
-  $('.collapse').collapse({toggle: false})
-  $('.collapse').on('show.bs.collapse', addActiveClass)
-  $('.collapse').on('hidden.bs.collapse', removeActiveClass)
+  $('.course-infobox .collapse').collapse({toggle: false})
+  $('.course-infobox .collapse').on('show.bs.collapse', addActiveClass)
+  $('.course-infobox .collapse').on('hidden.bs.collapse', removeActiveClass)
   $('#recommend-course-link').click(toggleAccordion)
   $('#rate-course-link').click(toggleAccordion)
   $('#enroll-course-link').on 'click', (event) -> enrollCourse(event)
@@ -25,7 +25,7 @@ addActiveClass = (event) ->
   $('#' + targetId).addClass('entry-active')
 
 toggleAccordion = (event) ->
-  $('.collapse').collapse('hide')
+  $('.course-infobox .collapse').collapse('hide')
 
 showMore = () ->
   $('#course-description-show-more').parent().css('max-height', 'none')

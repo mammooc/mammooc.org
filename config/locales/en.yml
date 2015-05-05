@@ -204,7 +204,7 @@ en:
     tracks:
       headline: Tracks
       types:
-        type_of_achievement: Type of achievement
+        type_of_achievement: Type of Achievement
         costs: Costs
         credit_points: ECTS Points
         achievement_types:
