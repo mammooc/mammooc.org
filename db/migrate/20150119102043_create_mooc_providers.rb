@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateMoocProviders < ActiveRecord::Migration
   def change
     create_table :mooc_providers, id: :uuid do |t|

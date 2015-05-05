@@ -1,5 +1,5 @@
+# -*- encoding : utf-8 -*-
 FactoryGirl.define do
-
   factory :course_track_type do
     title 'Audit'
     description 'You get a Record of Achievement.'

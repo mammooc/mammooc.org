@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class UserGroupsController < ApplicationController
   before_action :set_user_group, only: [:show, :edit, :update, :destroy]
 
@@ -62,13 +63,14 @@ class UserGroupsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user_group
-      @user_group = UserGroup.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def user_group_params
-      params.require(:user_group).permit(:is_admin, :user_id, :group_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user_group
+    @user_group = UserGroup.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def user_group_params
+    params.require(:user_group).permit(:is_admin, :user_id, :group_id)
+  end
 end

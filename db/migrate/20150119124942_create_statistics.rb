@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateStatistics < ActiveRecord::Migration
   def change
     create_table :statistics, id: :uuid do |t|

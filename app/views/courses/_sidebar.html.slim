@@ -40,13 +40,17 @@
         = @course.course_instructors
         .gradient-divider
 
-      .hd6.pb5
-        = t('courses.time')
       - if @course.start_date && @course.end_date
+        .hd6.pb5
+          = t('courses.time')
         = @course.start_date.strftime("%d.%m.%Y") + ' - ' + @course.end_date.strftime("%d.%m.%Y")
       - elsif @course.start_date
+        .hd6.pb5
+          = t('courses.starting_time')
         = @course.start_date.strftime("%d.%m.%Y")
       - else
+        .hd6.pb5
+          = t('courses.time')
         = t('courses.no_dates_available')
       .gradient-divider
 

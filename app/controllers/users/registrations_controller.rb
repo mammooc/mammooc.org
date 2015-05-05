@@ -1,12 +1,13 @@
+# -*- encoding : utf-8 -*-
 require 'devise_helper'
 
-class Users::RegistrationsController < Devise::RegistrationsController
+module Users
+  class RegistrationsController < Devise::RegistrationsController
+    def new
+      super
+    end
 
-  def new
-     super
-  end
-
-  def create
+    def create
       flash['error'] ||= []
       full_user_params = sign_up_params
       full_user_params[:profile_image_id] = 'profile_picture_default.png'
@@ -14,7 +15,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       resource.save
 
       yield resource if block_given?
-      if resource.persisted?  && user_params.has_key?(:terms_and_conditions_confirmation)
+      if resource.persisted? && user_params.key?(:terms_and_conditions_confirmation)
         if resource.active_for_authentication?
           set_flash_message :notice, :signed_up if is_flashing_format?
           sign_up(resource_name, resource)
@@ -34,22 +35,22 @@ class Users::RegistrationsController < Devise::RegistrationsController
         redirect_to new_user_registration_path
       end
 
-      unless user_params.has_key?(:terms_and_conditions_confirmation)
-        flash['error'] << t('flash.error.sign_up.terms_and_conditions_failure')
-      end
-  end
+      return if user_params.key?(:terms_and_conditions_confirmation)
+      flash['error'] << t('flash.error.sign_up.terms_and_conditions_failure')
+    end
 
-  protected
-  def after_sign_up_path_for(resource)
-    after_sign_in_path_for(resource)
-  end
+    protected
 
-  def after_update_path_for(resource)
-    after_sign_in_path_for(resource)
-  end
+    def after_sign_up_path_for(resource)
+      after_sign_in_path_for(resource)
+    end
 
+    def after_update_path_for(resource)
+      after_sign_in_path_for(resource)
+    end
 
-  private
+    private
+
     def sign_up_params
       params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
     end
@@ -58,9 +59,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
       params.permit(:terms_and_conditions_confirmation)
     end
 
-
     def add_resource
       @resource = session[:resource]
     end
-
+  end
 end

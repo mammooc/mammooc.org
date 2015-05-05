@@ -1,19 +1,20 @@
+# -*- encoding : utf-8 -*-
 require 'rails_helper'
 require 'cancan/matchers'
 
 RSpec.describe Ability do
-  subject(:ability) { Ability.new(user) }
+  subject(:ability) { described_class.new(user) }
   let(:user) { nil }
 
   describe 'Groups' do
-    let (:user) { FactoryGirl.create :user }
+    let(:user) { FactoryGirl.create :user }
     let(:group_without_user) { FactoryGirl.create :group }
     let(:group_with_user) { FactoryGirl.create :group, users: [user] }
-    let(:group_with_admin) {
+    let(:group_with_admin) do
       group = FactoryGirl.create :group, users: [user]
       UserGroup.set_is_admin(group.id, user.id, true)
       group
-    }
+    end
 
     describe 'read' do
       it { is_expected.to be_able_to(:read, group_with_user) }
@@ -100,12 +101,12 @@ RSpec.describe Ability do
     let!(:user) { FactoryGirl.create :user }
     let!(:second_user) { FactoryGirl.create :user }
     let!(:third_user) { FactoryGirl.create :user }
-    let!(:group) { FactoryGirl.create :group, users:[second_user]}
-    let!(:group_with_admin) {
+    let!(:group) { FactoryGirl.create :group, users: [second_user] }
+    let!(:group_with_admin) do
       group = FactoryGirl.create :group, users: [user]
       UserGroup.set_is_admin(group.id, user.id, true)
       group
-    }
+    end
     let(:recommendation_of_user) { FactoryGirl.create :user_recommendation, users: [user] }
     let(:recommendation_of_another_user) { FactoryGirl.create :user_recommendation, users: [second_user] }
     let(:recommendation_of_group) { FactoryGirl.create :group_recommendation, group: group }
@@ -125,15 +126,42 @@ RSpec.describe Ability do
     end
 
     describe 'delete_group_recommendation' do
-      it { is_expected.to_not be_able_to(:delete_group_recommendation, recommendation_of_group)}
-      it { is_expected.to be_able_to(:delete_group_recommendation, recommendation_of_group_admin)}
+      it { is_expected.to_not be_able_to(:delete_group_recommendation, recommendation_of_group) }
+      it { is_expected.to be_able_to(:delete_group_recommendation, recommendation_of_group_admin) }
     end
 
     describe 'create as user without groups' do
-      subject(:ability) { Ability.new(third_user) }
+      subject(:ability) { described_class.new(third_user) }
       it { is_expected.to_not be_able_to(:create, Recommendation.new) }
     end
-
   end
 
+  describe 'Users' do
+    let(:user) { FactoryGirl.create :user }
+    let(:another_user) { FactoryGirl.create :user }
+    describe 'create' do
+      it { is_expected.to_not be_able_to(:create, User) }
+    end
+
+    describe 'show' do
+      it { is_expected.to be_able_to(:show, user) }
+      it { is_expected.to_not be_able_to(:show, another_user) }
+
+      context 'in user\'s groups' do
+        let!(:group) { FactoryGirl.create :group, users: [user, another_user] }
+
+        it { is_expected.to be_able_to(:show, another_user) }
+      end
+    end
+
+    describe 'update' do
+      it { is_expected.to be_able_to(:update, user) }
+      it { is_expected.to_not be_able_to(:update, another_user) }
+    end
+
+    describe 'destroy' do
+      it { is_expected.to be_able_to(:destroy, user) }
+      it { is_expected.to_not be_able_to(:destroy, another_user) }
+    end
   end
+end
