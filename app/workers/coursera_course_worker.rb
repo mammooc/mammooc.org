@@ -71,20 +71,22 @@ class CourseraCourseWorker < AbstractCourseWorker
         course.requirements = nil
       end
 
-      course.tracks.push(CourseTrack.create!(track_type: free_track_type))
+      free_track = CourseTrack.find_by(course_id: course.id, track_type: free_track_type) || CourseTrack.create!(track_type: free_track_type)
+      course.tracks.push(free_track)
       if session_element['eligibleForCertificates']
-        course.tracks.push(CourseTrack.create!(track_type: certificate_track_type))
+        certificate_track = CourseTrack.find_by(course_id: course.id, track_type: certificate_track_type) || CourseTrack.create!(track_type: certificate_track_type)
+        course.tracks.push(certificate_track)
       end
       if session_element['eligibleForSignatureTrack']
-        track = CourseTrack.create!(track_type: signature_track_type)
+        signature_track = CourseTrack.find_by(course_id: course.id, track_type: signature_track_type) || CourseTrack.create!(track_type: signature_track_type)
         if session_element['signatureTrackPrice']
-          track.costs = session_element['signatureTrackPrice'].to_f
+          signature_track.costs = session_element['signatureTrackPrice'].to_f
         else
-          track.costs = session_element['signatureTrackRegularPrice'].to_f
+          signature_track.costs = session_element['signatureTrackRegularPrice'].to_f
         end
-        track.costs_currency = '$'
-        track.save!
-        course.tracks.push(track)
+        signature_track.costs_currency = '$'
+        signature_track.save!
+        course.tracks.push(signature_track)
       end
 
       # multiple iterations
