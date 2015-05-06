@@ -139,11 +139,11 @@ case Rails.env
     2.times { FactoryGirl.create(:user_recommendation, course: full_course, users: [user2]) }
 
     if ENV['OPEN_HPI_TOKEN'].present?
-      FactoryGirl.create(:mooc_provider_user, user: user1, mooc_provider: open_hpi, access_token: ENV['OPEN_HPI_TOKEN'])
+      FactoryGirl.create(:naive_mooc_provider_user, user: user1, mooc_provider: open_hpi, access_token: ENV['OPEN_HPI_TOKEN'])
     end
 
     if ENV['OPEN_SAP_TOKEN'].present?
-      FactoryGirl.create(:mooc_provider_user, user: user1, mooc_provider: open_sap, access_token: ENV['OPEN_SAP_TOKEN'])
+      FactoryGirl.create(:naive_mooc_provider_user, user: user1, mooc_provider: open_sap, access_token: ENV['OPEN_SAP_TOKEN'])
     end
 end
 
