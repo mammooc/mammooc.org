@@ -229,6 +229,8 @@ en:
           edx_verified_certificate: :courses.tracks.types.achievement_types.coursera_verified_certificate
           edx_xseries_certificate: edX XSeries Certificate
           edx_profed_certificate: edX Professional Education Certificate
+          udacity_nothing: Nothing
+          udacity_verified_certificate: Verified Certificate
 
   recommendation:
     placeholder: Enter your personal message here ...
