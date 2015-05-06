@@ -5,7 +5,7 @@ require 'oauth2'
 class AbstractMoocProviderConnector
   def initialize_connection(user, credentials)
     send_connection_request user, credentials
-  rescue RestClient::InternalServerError => e
+  rescue RestClient::InternalServerError, RestClient::Unauthorized => e
     Rails.logger.error "#{e.class}: #{e.message}"
     return false
   else
@@ -51,9 +51,11 @@ class AbstractMoocProviderConnector
         fetch_user_data user if connection_to_mooc_provider? user
       end
     else
+      result = true
       users.each do |user|
-        fetch_user_data user if connection_to_mooc_provider? user
+        result &= fetch_user_data user if connection_to_mooc_provider? user
       end
+      return result
     end
   end
 
@@ -63,6 +65,11 @@ class AbstractMoocProviderConnector
 
   def oauth_link
     raise NotImplementedError
+  end
+
+  def destroy_connection(user)
+    return unless connection_to_mooc_provider? user
+    MoocProviderUser.find_by(user: user, mooc_provider: mooc_provider).destroy
   end
 
   private
@@ -87,8 +94,14 @@ class AbstractMoocProviderConnector
     response_data = get_enrollments_for_user user
   rescue SocketError, RestClient::ResourceNotFound, RestClient::SSLCertificateNotVerified => e
     Rails.logger.error "#{e.class}: #{e.message}"
+    return false
+  rescue RestClient::Unauthorized => e
+    # This would be the case, when the user's authorization token is invalid
+    Rails.logger.error "#{e.class}: #{e.message}"
+    return false
   else
     handle_enrollments_response response_data, user
+    return true
   end
 
   def get_access_token(user)
@@ -100,16 +113,16 @@ class AbstractMoocProviderConnector
       if connection.access_token_valid_until > Time.zone.now
         connection.access_token
       else
-        #         if connection.refresh_token.present?
-        #           # TODO: refresh_access_token(user)
-        #         else
-        #           # TODO: get new access_token with user redirection
-        #         end
-        nil
+        refresh_access_token(user) if connection.refresh_token.present?
+        return nil
       end
     else
-      nil
+      return nil
     end
+  end
+
+  def refresh_access_token(_user)
+    raise NotImplementedError
   end
 
   def mooc_provider_user_connection(user)

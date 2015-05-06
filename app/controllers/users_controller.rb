@@ -52,9 +52,14 @@ class UsersController < ApplicationController
   end
 
   def synchronize_courses
-    OpenHPIUserWorker.new.perform [current_user.id]
-    OpenSAPUserWorker.new.perform [current_user.id]
-    CourseraUserWorker.new.perform [current_user.id]
+    @synchronization_state = {}
+    @synchronization_state[:open_hpi] = OpenHPIUserWorker.new.perform [current_user.id]
+    @synchronization_state[:open_sap] = OpenSAPUserWorker.new.perform [current_user.id]
+    if CourseraUserWorker.new.perform [current_user.id]
+      @synchronization_state[:coursera] = true
+    else
+      @synchronization_state[:coursera] = CourseraConnector.new.oauth_link(synchronize_courses_path(current_user), masked_authenticity_token(session))
+    end
     @partial = render_to_string partial: 'dashboard/user_courses', formats: [:html]
     respond_to do |format|
       begin
@@ -72,7 +77,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       begin
         format.html { redirect_to dashboard_path }
-        format.json { render :synchronization_result, status: :ok }
+        format.json { render :settings, status: :ok }
       rescue StandardError => e
         format.html { redirect_to dashboard_path }
         format.json { render json: e.to_json, status: :unprocessable_entity }
@@ -87,7 +92,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       begin
         format.html { redirect_to dashboard_path }
-        format.json { render :synchronization_result, status: :ok }
+        format.json { render :settings, status: :ok }
       rescue StandardError => e
         format.html { redirect_to dashboard_path }
         format.json { render json: e.to_json, status: :unprocessable_entity }
@@ -101,21 +106,21 @@ class UsersController < ApplicationController
 
   def oauth_callback
     code = params[:code]
-    state = params[:state].split(/_/)
+    state = params[:state].split(/~/)
     mooc_provider = MoocProvider.find_by_name(state.first)
-    csrf_token = state.second
-
-    unless valid_authenticity_token?(session, csrf_token)
-      if logger && log_warning_on_csrf_failure
-        logger.warn "Can't verify CSRF token authenticity"
-      end
-      handle_unverified_request
-    end
+    destination_path = state.second
+    csrf_token = state.third
 
     provider_connector = get_connector_by_mooc_provider mooc_provider
     return unless provider_connector.present? && mooc_provider.api_support_state == 'oauth'
-    provider_connector.initialize_connection(current_user, code: code)
-    redirect_to user_settings_path(current_user)
+    if params[:error].present? || !valid_authenticity_token?(session, csrf_token)
+      flash['error'] ||= []
+      flash['error'] << "#{t('users.synchronization.oauth_error')}"
+      provider_connector.destroy_connection(current_user)
+    elsif code.present?
+      provider_connector.initialize_connection(current_user, code: code)
+    end
+    redirect_to destination_path
   end
 
   def set_mooc_provider_connection
@@ -141,8 +146,13 @@ class UsersController < ApplicationController
 
   def revoke_mooc_provider_connection
     @revoked_connection = true
-    connections = MoocProviderUser.where(user_id: current_user.id, mooc_provider_id: params[:mooc_provider])
-    connections.destroy_all
+    mooc_provider = MoocProvider.find_by_id(params[:mooc_provider])
+    if mooc_provider.present?
+      provider_connector = get_connector_by_mooc_provider mooc_provider
+      if provider_connector.present?
+        provider_connector.destroy_connection(current_user)
+      end
+    end
     respond_to do |format|
       begin
         format.html { redirect_to dashboard_path }
@@ -160,7 +170,7 @@ class UsersController < ApplicationController
     @mooc_providers = MoocProvider.all.map do |mooc_provider|
       provider_connector = get_connector_by_mooc_provider mooc_provider
       if provider_connector.present? && mooc_provider.api_support_state == 'oauth'
-        oauth_link = provider_connector.oauth_link(masked_authenticity_token(session))
+        oauth_link = provider_connector.oauth_link(user_settings_path(current_user), masked_authenticity_token(session))
       end
       {id: mooc_provider.id,
        logo_id: mooc_provider.logo_id,

@@ -86,7 +86,7 @@ Rails.application.routes.draw do
   get 'courses/:id/unenroll_course' => 'courses#unenroll_course'
 
   # Users
-  get 'users/:id/synchronize_courses' => 'users#synchronize_courses'
+  get 'users/:id/synchronize_courses' => 'users#synchronize_courses', as: 'synchronize_courses'
   get 'users/:id/settings' => 'users#settings', as: 'user_settings'
   get 'users/:id/account_settings' => 'users#account_settings'
   get 'users/:id/mooc_provider_settings' => 'users#mooc_provider_settings'

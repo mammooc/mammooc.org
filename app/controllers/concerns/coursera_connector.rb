@@ -14,10 +14,10 @@ class CourseraConnector < AbstractMoocProviderConnector
   ENROLLMENTS_API = 'users/v1/me/enrollments'
   COURSES_API = 'catalog.v1/courses'
 
-  def oauth_link(csrf_token)
+  def oauth_link(destination, csrf_token)
     response_type = 'code'
     scope = 'view_profile'
-    state = "coursera_#{csrf_token}"
+    state = "coursera~#{destination}~#{csrf_token}"
     oauth_client.auth_code.authorize_url(response_type: response_type, scope: scope, state: state, redirect_uri: REDIRECT_URI)
   end
 

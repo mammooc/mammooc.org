@@ -89,6 +89,8 @@ en:
       cancel_account: Cancel my account
       update_account: Update
       pending_mail_confirmation: 'Currently waiting confirmation for:'
+    synchronization:
+      oauth_error: Sorry! We were unable to establish a connection to your account. Please check your settings and try again.
 
   groups:
     title: My Groups | mammooc

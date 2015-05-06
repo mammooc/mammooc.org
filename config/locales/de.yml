@@ -89,6 +89,8 @@ de:
       cancel_account: Account löschen
       update_account: Aktualisieren
       pending_mail_confirmation: 'Warte auf Bestätigung für:'
+    synchronization:
+      oauth_error: Fehler! Wir konnten keine Verbindung zu Deinem Account herstellen. Bitte überprüfe deine Einstellungen und versuche es erneut.
 
   groups:
     title: Meine Gruppen | mammooc
