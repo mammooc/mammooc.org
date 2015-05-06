@@ -226,6 +226,26 @@ $course-img-height: 250px;
       font-size: 12px;
       font-weight: 300;
 
+      .course-name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        line-height: 20px;
+        max-height: 60px;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+      }
+
+      .course-instructors {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        line-height: 18px;
+        max-height: 54px;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+      }
+
       .provider {
         position: absolute;
         bottom: 10px;
