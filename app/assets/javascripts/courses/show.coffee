@@ -1,4 +1,5 @@
 ready = ->
+  $.setAjaxPagination()
   $('.course-infobox .collapse').collapse({toggle: false})
   $('.course-infobox .collapse').on('show.bs.collapse', addActiveClass)
   $('.course-infobox .collapse').on('hidden.bs.collapse', removeActiveClass)
@@ -78,3 +79,12 @@ unenrollCourse = (event) ->
       else
         alert(I18n.t('courses.unenrollment_error'))
   event.preventDefault()
+
+$.setAjaxPagination = ->
+  $('.pagination a').click (event) ->
+    event.preventDefault()
+    loading = $ '<div id="loading" style="display: none;">'
+    $('.other_images').prepend loading
+    loading.fadeIn()
+    $.ajax type: 'GET', url: $(@).attr('href'), dataType: 'script', success: (-> loading.fadeOut -> loading.remove())
+    false
