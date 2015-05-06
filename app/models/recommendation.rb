@@ -20,6 +20,6 @@ class Recommendation < ActiveRecord::Base
       end
     end
 
-    course_recommendations.sort_by(&:created_at).reverse!
+    course_recommendations.uniq.sort_by(&:created_at).reverse!
   end
 end
