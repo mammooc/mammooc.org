@@ -63,7 +63,7 @@ class AbstractMoocProviderConnector
     user.mooc_providers.where(id: mooc_provider).present?
   end
 
-  def oauth_link(destination, csrf_token)
+  def oauth_link(_destination, _csrf_token)
     raise NotImplementedError
   end
 

@@ -169,7 +169,7 @@ GEM
     powerpack (0.1.1)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
-    rack (1.6.0)
+    rack (1.6.1)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.1)
