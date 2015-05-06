@@ -81,7 +81,9 @@ en:
       reset: Reset my password
     settings:
       heading: :navbar.settings
+      mooc_provider_connection: MOOC Provider Connection
       email: :users.sign_in_up.email
+      enter_mail: Enter email
       password: :users.sign_in_up.password
       password_info: (leave blank if you don't want to change it)
       password_confirmation: :users.sign_in_up.password_confirmation
@@ -91,6 +93,8 @@ en:
       pending_mail_confirmation: 'Currently waiting confirmation for:'
     synchronization:
       oauth_error: Sorry! We were unable to establish a connection to your account. Please check your settings and try again.
+      revoke_provider_connection: Revoke connection
+      establish_provider_connection: Establish connection
 
   groups:
     title: My Groups | mammooc
