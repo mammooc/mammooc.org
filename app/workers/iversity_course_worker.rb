@@ -60,7 +60,6 @@ class IversityCourseWorker < AbstractCourseWorker
       end
 
       course.description = course_element['description']
-      course.calculated_duration_in_days = (course.end_date - course.start_date).to_i
       course.provider_given_duration = course_element['duration']
 
       course.save!
