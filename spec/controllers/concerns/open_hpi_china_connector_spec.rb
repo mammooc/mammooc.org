@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe OpenHPIChinaConnector do
-  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI China') }
+  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI China', api_support_state: 'nil') }
   let!(:user) { FactoryGirl.create(:user) }
 
   let(:open_hpi_china_connector) { described_class.new }
@@ -14,7 +14,7 @@ RSpec.describe OpenHPIChinaConnector do
   it 'gets an API response' do
     pending
     connection = MoocProviderUser.new
-    connection.authentication_token = '1234567890abcdef'
+    connection.access_token = '1234567890abcdef'
     connection.user_id = user.id
     connection.mooc_provider_id = mooc_provider.id
     connection.save

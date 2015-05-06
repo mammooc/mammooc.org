@@ -3,15 +3,15 @@
 
 # seeds for all environments
 
-open_hpi = MoocProvider.create!(name: 'openHPI', logo_id: 'logo_openHPI.png')
-MoocProvider.create!(name: 'openHPI China', logo_id: 'logo_openHPI.png')
-MoocProvider.create!(name: 'mooc.house', logo_id: 'logo_mooc_house.png')
-open_sap = MoocProvider.create!(name: 'openSAP', logo_id: 'logo_openSAP.png')
-MoocProvider.create!(name: 'edX', logo_id: 'logo_edx.png')
-MoocProvider.create!(name: 'coursera', logo_id: 'logo_coursera.png')
-MoocProvider.create!(name: 'openSAP China', logo_id: 'logo_openSAP.png')
-MoocProvider.create!(name: 'openUNE', logo_id: 'logo_openUNE.png')
-MoocProvider.create!(name: 'iversity', logo_id: 'logo_iversity.png')
+open_hpi = MoocProvider.create!(name: 'openHPI', logo_id: 'logo_openHPI.png', api_support_state: :naive)
+MoocProvider.create!(name: 'openHPI China', logo_id: 'logo_openHPI.png', api_support_state: :nil)
+MoocProvider.create!(name: 'mooc.house', logo_id: 'logo_mooc_house.png', api_support_state: :nil)
+open_sap = MoocProvider.create!(name: 'openSAP', logo_id: 'logo_openSAP.png', api_support_state: :naive)
+MoocProvider.create!(name: 'edX', logo_id: 'logo_edx.png', api_support_state: :nil)
+MoocProvider.create!(name: 'coursera', logo_id: 'logo_coursera.png', api_support_state: :oauth)
+MoocProvider.create!(name: 'openSAP China', logo_id: 'logo_openSAP.png', api_support_state: :nil)
+MoocProvider.create!(name: 'openUNE', logo_id: 'logo_openUNE.png', api_support_state: :nil)
+MoocProvider.create!(name: 'iversity', logo_id: 'logo_iversity.png', api_support_state: :nil)
 
 openhpi_audit_track_type = CourseTrackType.create!(title: 'Audit',
                                                    description: 'You get a record of Achievement.',
@@ -54,7 +54,7 @@ IversityCourseWorker.perform_async
 
 case Rails.env
   when 'development'
-    open_mammooc = MoocProvider.create!(name: 'open_mammooc', logo_id: 'logo_open_mammooc.png')
+    open_mammooc = MoocProvider.create!(name: 'open_mammooc', logo_id: 'logo_open_mammooc.png', api_support_state: :nil)
 
     minimal_previous_course = Course.create!(name: 'Minimal Previous Technologies',
                                              url: 'https://open.hpi.de/courses/pythonjunior2015',
@@ -139,11 +139,11 @@ case Rails.env
     2.times { FactoryGirl.create(:user_recommendation, course: full_course, users: [user2]) }
 
     if ENV['OPEN_HPI_TOKEN'].present?
-      FactoryGirl.create(:mooc_provider_user, user: user1, mooc_provider: open_hpi, authentication_token: ENV['OPEN_HPI_TOKEN'])
+      FactoryGirl.create(:mooc_provider_user, user: user1, mooc_provider: open_hpi, access_token: ENV['OPEN_HPI_TOKEN'])
     end
 
     if ENV['OPEN_SAP_TOKEN'].present?
-      FactoryGirl.create(:mooc_provider_user, user: user1, mooc_provider: open_sap, authentication_token: ENV['OPEN_SAP_TOKEN'])
+      FactoryGirl.create(:mooc_provider_user, user: user1, mooc_provider: open_sap, access_token: ENV['OPEN_SAP_TOKEN'])
     end
 end
 

@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 require 'rest_client'
+require 'oauth2'
 
 class AbstractMoocProviderConnector
   def initialize_connection(user, credentials)
@@ -60,6 +61,10 @@ class AbstractMoocProviderConnector
     user.mooc_providers.where(id: mooc_provider).present?
   end
 
+  def oauth_link
+    raise NotImplementedError
+  end
+
   private
 
   def mooc_provider
@@ -86,9 +91,36 @@ class AbstractMoocProviderConnector
     handle_enrollments_response response_data, user
   end
 
-  def get_authentication_token(user)
+  def get_access_token(user)
     connection = MoocProviderUser.find_by(user_id: user, mooc_provider_id: mooc_provider)
-    connection.present? ? connection.authentication_token : nil
+    return unless connection.present?
+    if connection.mooc_provider.api_support_state == 'naive'
+      connection.access_token
+    elsif connection.mooc_provider.api_support_state == 'oauth'
+      if connection.access_token_valid_until > Time.zone.now
+        connection.access_token
+      else
+        #         if connection.refresh_token.present?
+        #           # TODO: refresh_access_token(user)
+        #         else
+        #           # TODO: get new access_token with user redirection
+        #         end
+        nil
+      end
+    else
+      nil
+    end
+  end
+
+  def mooc_provider_user_connection(user)
+    if connection_to_mooc_provider? user
+      connection = MoocProviderUser.find_by(user_id: user, mooc_provider_id: mooc_provider)
+    else
+      connection = MoocProviderUser.new
+      connection.user_id = user.id
+      connection.mooc_provider_id = mooc_provider.id
+    end
+    connection
   end
 
   def get_enrollments_for_user(_user)

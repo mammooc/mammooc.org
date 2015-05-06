@@ -54,6 +54,7 @@ class UsersController < ApplicationController
   def synchronize_courses
     OpenHPIUserWorker.new.perform [current_user.id]
     OpenSAPUserWorker.new.perform [current_user.id]
+    CourseraUserWorker.new.perform [current_user.id]
     @partial = render_to_string partial: 'dashboard/user_courses', formats: [:html]
     respond_to do |format|
       begin
@@ -80,8 +81,7 @@ class UsersController < ApplicationController
   end
 
   def mooc_provider_settings
-    @mooc_providers = MoocProvider.select([:id, :logo_id]).map {|e| {id: e.id, logo_id: e.logo_id} }
-    @mooc_provider_connections = current_user.mooc_providers.pluck(:mooc_provider_id)
+    prepare_mooc_provider_settings
 
     @partial = render_to_string partial: 'users/mooc_provider_settings', formats: [:html]
     respond_to do |format|
@@ -96,6 +96,26 @@ class UsersController < ApplicationController
   end
 
   def settings
+    prepare_mooc_provider_settings
+  end
+
+  def oauth_callback
+    code = params[:code]
+    state = params[:state].split(/_/)
+    mooc_provider = MoocProvider.find_by_name(state.first)
+    csrf_token = state.second
+
+    unless valid_authenticity_token?(session, csrf_token)
+      if logger && log_warning_on_csrf_failure
+        logger.warn "Can't verify CSRF token authenticity"
+      end
+      handle_unverified_request
+    end
+
+    provider_connector = get_connector_by_mooc_provider mooc_provider
+    return unless provider_connector.present? && mooc_provider.api_support_state == 'oauth'
+    provider_connector.initialize_connection(current_user, code: code)
+    redirect_to user_settings_path(current_user)
   end
 
   def set_mooc_provider_connection
@@ -136,8 +156,22 @@ class UsersController < ApplicationController
 
   private
 
+  def prepare_mooc_provider_settings
+    @mooc_providers = MoocProvider.all.map do |mooc_provider|
+      provider_connector = get_connector_by_mooc_provider mooc_provider
+      if provider_connector.present? && mooc_provider.api_support_state == 'oauth'
+        oauth_link = provider_connector.oauth_link(masked_authenticity_token(session))
+      end
+      {id: mooc_provider.id,
+       logo_id: mooc_provider.logo_id,
+       api_support_state: mooc_provider.api_support_state,
+       oauth_link: oauth_link}
+    end
+    @mooc_provider_connections = current_user.mooc_providers.pluck(:mooc_provider_id)
+  end
+
   def set_provider_logos
-    @provider_logos = AmazonS3.instance.get_all_provider_logos_hash
+    @provider_logos = AmazonS3.instance.all_provider_logos_hash
   end
 
   # Use callbacks to share common setup or constraints between actions.

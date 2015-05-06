@@ -2,7 +2,6 @@
 Rails.application.routes.draw do
   get 'api_connection/index'
   get 'api_connection/send_request'
-  post 'api_connection/send_user_request'
   get 'api_connection/update_user'
   get 'api_connection/update_all_users'
 
@@ -88,11 +87,14 @@ Rails.application.routes.draw do
 
   # Users
   get 'users/:id/synchronize_courses' => 'users#synchronize_courses'
-  get 'users/:id/settings' => 'users#settings'
+  get 'users/:id/settings' => 'users#settings', as: 'user_settings'
   get 'users/:id/account_settings' => 'users#account_settings'
   get 'users/:id/mooc_provider_settings' => 'users#mooc_provider_settings'
   get 'users/:id/set_mooc_provider_connection' => 'users#set_mooc_provider_connection'
   get 'users/:id/revoke_mooc_provider_connection' => 'users#revoke_mooc_provider_connection'
+
+  # OAuth
+  get 'oauth/callback' => 'users#oauth_callback'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

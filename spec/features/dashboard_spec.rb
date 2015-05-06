@@ -30,7 +30,7 @@ RSpec.describe 'Dashboard', type: :feature do
 
   describe 'display enrolled courses' do
     it 'shows newly enrolled course after synchronization request', js: true do
-      FactoryGirl.create(:mooc_provider_user, user: user, mooc_provider: mooc_provider, authentication_token: '123')
+      FactoryGirl.create(:mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
       allow_any_instance_of(OpenHPIConnector).to receive(:get_enrollments_for_user).and_return(json_enrollment_data)
 
       visit '/dashboard'
@@ -41,7 +41,7 @@ RSpec.describe 'Dashboard', type: :feature do
     end
 
     it 'removes a currently enrolled course after synchronization request', js: true do
-      FactoryGirl.create(:mooc_provider_user, user: user, mooc_provider: mooc_provider, authentication_token: '123')
+      FactoryGirl.create(:mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
       allow_any_instance_of(OpenHPIConnector).to receive(:get_enrollments_for_user).and_return(JSON.parse '{}')
       user.courses << course
 

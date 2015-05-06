@@ -9,6 +9,8 @@
 
 # See https://github.com/railsconfig/rails_config for more details
 
+root_url: <%= (ENV['SUBDOMAIN'].present? ? "https://#{ENV['SUBDOMAIN']}.herokuapp.com" : 'http://localhost:3000') %>
+
 # Mailers
 default_hostname: <%= (ENV['SUBDOMAIN'].present? ? "#{ENV['SUBDOMAIN']}.herokuapp.com" : 'localhost') %>
 sender_notification_address: mammooc <notifications@<%= (ENV['SUBDOMAIN'].present? ? "#{ENV['SUBDOMAIN']}.herokuapp.com" : 'localhost') %>>

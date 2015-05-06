@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe OpenHPIConnector do
-  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI') }
+  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI', api_support_state: 'naive') }
   let!(:course) { FactoryGirl.create(:full_course, provider_course_id: '0c6c5ad1-a770-4f16-81c3-536169f3cbd3', mooc_provider_id: mooc_provider.id) }
   let!(:second_course) { FactoryGirl.create(:full_course, provider_course_id: 'bccf2ca2-429c-4cd0-9f63-caaccf85727a', mooc_provider_id: mooc_provider.id) }
   let!(:user) { FactoryGirl.create(:user) }
@@ -23,12 +23,12 @@ RSpec.describe OpenHPIConnector do
   end
 
   it 'gets an API response' do
-    FactoryGirl.create(:mooc_provider_user, user: user, mooc_provider: mooc_provider, authentication_token: '123')
+    FactoryGirl.create(:mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
     expect { open_hpi_connector.send(:get_enrollments_for_user, user) }.to raise_error RestClient::InternalServerError
   end
 
   it 'returns parsed response for enrolled courses' do
-    FactoryGirl.create(:mooc_provider_user, user: user, mooc_provider: mooc_provider, authentication_token: '123')
+    FactoryGirl.create(:mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
     allow(RestClient).to receive(:get).and_return(enrollment_data)
     expect(open_hpi_connector.send(:get_enrollments_for_user, user)).to eql json_enrollment_data
   end
@@ -81,12 +81,12 @@ RSpec.describe OpenHPIConnector do
   end
 
   it 'returns nil when user has no connection to mooc provider' do
-    expect(open_hpi_connector.send(:get_authentication_token, user)).to eql nil
+    expect(open_hpi_connector.send(:get_access_token, user)).to eql nil
   end
 
-  it 'returns authentication_token when user has connection to mooc provider' do
-    FactoryGirl.create(:mooc_provider_user, user: user, mooc_provider: mooc_provider, authentication_token: '123')
-    expect(open_hpi_connector.send(:get_authentication_token, user)).to eql '123'
+  it 'returns access_token when user has connection to mooc provider' do
+    FactoryGirl.create(:mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
+    expect(open_hpi_connector.send(:get_access_token, user)).to eql '123'
   end
 
   it 'returns false when user has no conncetion to mooc provider' do
@@ -127,7 +127,7 @@ RSpec.describe OpenHPIConnector do
   end
 
   it 'loads specified user data for a given user' do
-    FactoryGirl.create(:mooc_provider_user, user: user, mooc_provider: mooc_provider, authentication_token: '123')
+    FactoryGirl.create(:mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
     allow(RestClient).to receive(:get).and_return(enrollment_data)
     expect { open_hpi_connector.load_user_data([user]) }.not_to raise_error
     expect(user.courses.count).to eql 2
@@ -135,8 +135,8 @@ RSpec.describe OpenHPIConnector do
 
   it 'loads specified user data for all users' do
     second_user = FactoryGirl.create(:user)
-    FactoryGirl.create(:mooc_provider_user, user: user, mooc_provider: mooc_provider, authentication_token: '123')
-    FactoryGirl.create(:mooc_provider_user, user: second_user, mooc_provider: mooc_provider, authentication_token: '123')
+    FactoryGirl.create(:mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
+    FactoryGirl.create(:mooc_provider_user, user: second_user, mooc_provider: mooc_provider, access_token: '123')
     allow(RestClient).to receive(:get).and_return(enrollment_data)
     expect { open_hpi_connector.load_user_data }.not_to raise_error
     expect(user.courses.count).to eql 2
