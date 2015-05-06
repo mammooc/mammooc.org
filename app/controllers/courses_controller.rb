@@ -7,7 +7,7 @@ class CoursesController < ApplicationController
   # GET /courses
   # GET /courses.json
   def index
-    @filterrific = initialize_filterrific(Course, params[:filterrific], select_options: {with_language: Course.options_for_languages}) || return
+    @filterrific = initialize_filterrific(Course, params[:filterrific], select_options: {with_language: Course.options_for_languages, with_mooc_provider_id: MoocProvider.options_for_select, with_subtitle_languages: Course.options_for_subtitle_languages, duration_filter_options: Course.options_for_duration, start_filter_options: Course.options_for_start, options_for_costs: Course.options_for_costs}) || return
 
     @courses = @filterrific.find.page(params[:page])
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(@courses)

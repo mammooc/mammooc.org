@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class Course < ActiveRecord::Base
-  filterrific available_filters: %w(with_start_date_gte with_end_date_lt with_language)
+  filterrific available_filters: %w(with_start_date_gte with_end_date_lt with_language with_mooc_provider_id with_subtitle_languages duration_filter_options start_filter_options with_tracks)
 
   belongs_to :mooc_provider
   belongs_to :course_result
@@ -22,12 +22,98 @@ class Course < ActiveRecord::Base
   after_save :create_and_update_course_connections
   before_destroy :delete_dangling_course_connections
 
-  # possible errors because some courses don't have start/end-dates set.
   scope :with_start_date_gte, ->(reference_time) { where('courses.start_date IS NOT NULL AND (courses.start_date >= ?) ', Time.zone.parse(reference_time).strftime('%Y-%m-%d %H:%M:%S.%6N')) }
 
   scope :with_end_date_lt, ->(reference_time) { where('courses.end_date IS NOT NULL AND (courses.end_date <= ?) ', Time.zone.parse(reference_time).strftime('%Y-%m-%d %H:%M:%S.%6N')) }
 
   scope :with_language, ->(reference_language) { where('courses.language IS NOT NULL AND (courses.language = ? OR courses.language LIKE ?)', reference_language, "#{reference_language}-%") }
+
+  scope :with_mooc_provider_id, ->(reference_mooc_provider_id) { where(mooc_provider_id: [*reference_mooc_provider_id]) }
+
+  scope :with_subtitle_languages, ->(reference_subtitle_languages) { where('courses.subtitle_languages LIKE ? OR courses.subtitle_languages LIKE ?', "#{reference_subtitle_languages}%", "%,#{reference_subtitle_languages}%") }
+
+  scope :with_tracks, -> (reference_track_options) do
+    case reference_track_options[:costs]
+
+      when 'free'
+        (where('course_tracks.costs IS NOT NULL AND course_tracks.costs = 0')).joins(:tracks)
+      when 'range1'
+        (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 30.0')).joins(:tracks)
+      when 'range2'
+        (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 60.0 AND course_tracks.costs > 30.0')).joins(:tracks)
+      when 'range3'
+        (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 90.0 AND course_tracks.costs > 60.0')).joins(:tracks)
+      when 'range4'
+        (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 150.0 AND course_tracks.costs > 90.0')).joins(:tracks)
+      when 'range5'
+        (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 200.0 AND course_tracks.costs > 150.0')).joins(:tracks)
+      when 'range6'
+        (where('course_tracks.costs IS NOT NULL AND course_tracks.costs > 200.0')).joins(:tracks)
+
+    end
+  end
+
+  scope :start_filter_options, ->(reference_start_options) do
+    case reference_start_options.to_s
+      when 'now'
+        where('courses.start_date IS NOT NULL AND courses.start_date < ? AND (courses.calculated_duration_in_days IS NOT NULL AND ((DATE ? - courses.calculated_duration_in_days) <  courses.start_date))', Time.zone.now, Date.today)
+      when 'past'
+        where('(courses.calculated_duration_in_days IS NOT NULL AND ((DATE ? - courses.calculated_duration_in_days) >  courses.start_date))  OR (courses.end_date IS NOT NULL AND ? > courses.end_date)', Time.zone.now, Time.zone.now)
+      when 'soon'
+        where('courses.start_date > ? AND courses.start_date <= ?', Time.zone.now, (Time.zone.now + 2.weeks))
+      when 'future'
+        where('courses.start_date > ?', (Time.zone.now + 2.weeks))
+    end
+  end
+
+  SHORT_DURATION = 28 # 4 weeks
+  SHORT_MEDIUM_DURATION = 42 # 6 weeks
+  MEDIUM_DURATION = 56 # 8 weeks
+  MEDIUM_LONG_DURATION = 84 # 12 weeks
+
+  scope :duration_filter_options, ->(reference_duration_option) do
+    case reference_duration_option.to_s
+      when 'short'
+        where('courses.calculated_duration_in_days <= ?', SHORT_DURATION)
+      when 'short-medium'
+        where('courses.calculated_duration_in_days > ? AND courses.calculated_duration_in_days <= ?', SHORT_DURATION, SHORT_MEDIUM_DURATION)
+      when 'medium'
+        where('courses.calculated_duration_in_days > ? AND courses.calculated_duration_in_days <= ?', SHORT_MEDIUM_DURATION, MEDIUM_DURATION)
+      when 'medium-long'
+        where('courses.calculated_duration_in_days > ? AND courses.calculated_duration_in_days <= ?', MEDIUM_DURATION, MEDIUM_LONG_DURATION)
+      when 'long'
+        where('courses.calculated_duration_in_days > ?', MEDIUM_LONG_DURATION)
+    end
+
+  end
+
+  def self.options_for_costs
+    [[I18n.t('courses.filter.costs.free'), 'free'],
+     [I18n.t('courses.filter.costs.range1'), 'range1'],
+     [I18n.t('courses.filter.costs.range2'), 'range2'],
+     [I18n.t('courses.filter.costs.range3'), 'range3'],
+     [I18n.t('courses.filter.costs.range4'), 'range4'],
+     [I18n.t('courses.filter.costs.range5'), 'range5'],
+     [I18n.t('courses.filter.costs.range6'), 'range6'],
+    ]
+  end
+
+  def self.options_for_start
+    [[I18n.t('courses.filter.start.now'), 'now'],
+     [I18n.t('courses.filter.start.past'), 'past'],
+     [I18n.t('courses.filter.start.soon'), 'soon'],
+     [I18n.t('courses.filter.start.future'), 'future'],
+    ]
+
+  end
+
+  def self.options_for_duration
+    [[I18n.t('courses.filter.duration.short'), 'short' ],
+     [I18n.t('courses.filter.duration.short_medium'), 'short-medium' ],
+     [I18n.t('courses.filter.duration.medium'), 'medium'],
+     [I18n.t('courses.filter.duration.medium_long'), 'medium-long'],
+     [I18n.t('courses.filter.duration.long'), 'long']]
+  end
 
   def self.options_for_languages
     [[I18n.t('language.english'), 'en'],
@@ -37,11 +123,34 @@ class Course < ActiveRecord::Base
      [I18n.t('language.chinese'), 'zh'],
      [I18n.t('language.portuguese'), 'pt'],
      [I18n.t('language.russian'), 'ru'],
-     [I18n.t('language.swedish'), 'sv'],
      [I18n.t('language.hebrew'), 'he'],
      [I18n.t('language.italian'), 'it'],
-     [I18n.t('language.arabic'), 'ar']
-    ]
+     [I18n.t('language.arabic'), 'ar']]
+  end
+
+  def self.options_for_subtitle_languages
+    [[I18n.t('language.english'), 'en'],
+     [I18n.t('language.german'), 'de'],
+     [I18n.t('language.spanish'), 'es'],
+     [I18n.t('language.french'), 'fr'],
+     [I18n.t('language.chinese'), 'zh'],
+     [I18n.t('language.portuguese'), 'pt'],
+     [I18n.t('language.russian'), 'ru'],
+     [I18n.t('language.italian'), 'it'],
+     [I18n.t('language.arabic'), 'ar'],
+     [I18n.t('language.romanian'), 'ro'],
+     [I18n.t('language.greek'), 'el'],
+     [I18n.t('language.filipino'), 'fil'],
+     [I18n.t('language.ukrainian'), 'uk'],
+     [I18n.t('language.vietnamese'), 'vi'],
+     [I18n.t('language.turkish'), 'tr'],
+     [I18n.t('language.lithuanian'), 'lt'],
+     [I18n.t('language.kazakh'), 'kk'],
+     [I18n.t('language.serbian'), 'sr'],
+     [I18n.t('language.korean'), 'ko'],
+     [I18n.t('language.japanese'), 'ja'],
+     [I18n.t('language.dutch'), 'nl'],
+     [I18n.t('language.indonesian'), 'id']]
   end
 
   self.per_page = 10

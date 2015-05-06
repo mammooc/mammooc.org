@@ -31,6 +31,7 @@ en:
     show_more: Show more
     show_less: Show less
     show_details: Show details
+
   language:
     english: English
     german: German
@@ -43,9 +44,19 @@ en:
     russian: Russian
     swedish: Swedisch
     hebrew: Hebrew
-
-
-
+    romanian: Romanian
+    greek: Griechisch
+    filipino: Filipino
+    ukrainian: Ukrainian
+    vietnamese: Vietnamese
+    turkish: Turkish
+    lithuanian: Lithuanian
+    kazakh: Kazakh
+    serbian: Serbian
+    korean: Korean
+    japanese: Japanese
+    dutch: Dutch
+    indonesian: Indonesian
 
   navbar:
     home: Home
@@ -244,6 +255,27 @@ en:
           edx_verified_certificate: :courses.tracks.types.achievement_types.coursera_verified_certificate
           edx_xseries_certificate: edX XSeries Certificate
           edx_profed_certificate: edX Professional Education Certificate
+    filter:
+      all: All
+      duration:
+        short: shorter than 5 weeks
+        short_medium: 5 till 6 weeks
+        medium: 7 till 8 weeks
+        medium_long: 9 till 12 weeks
+        long: more than 12 weeks
+      start:
+        now: currently active
+        past: already fnished
+        soon: starts during next two weeks
+        future: starts in the future
+      costs:
+        free: free
+        range1: '< 30'
+        range2: 30-60
+        range3: 60-90
+        range4: 90-150
+        range5: 150-200
+        range6: '> 200'
 
   recommendation:
     placeholder: Enter your personal message here ...
