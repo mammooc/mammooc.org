@@ -23,7 +23,7 @@ class CoursesController < ApplicationController
 
     # RECOMMENDATIONS
     if user_signed_in?
-      @recommendations = Recommendation.sorted_recommendations_for_course_and_user(@course, current_user)
+      @recommendations = Recommendation.sorted_recommendations_for_course_and_user(@course, current_user, [current_user])
       @profile_pictures = AmazonS3.instance.author_profile_images_hash_for_recommendations(@recommendations)
       @recommended_by = []
       @pledged_by = []

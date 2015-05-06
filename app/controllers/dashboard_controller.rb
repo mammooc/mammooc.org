@@ -3,7 +3,7 @@ class DashboardController < ApplicationController
   NUMBER_OF_SHOWN_RECOMMENDATIONS = 2
 
   def dashboard
-    all_my_sorted_recommendations = current_user.recommendations.sort_by(&:created_at).reverse!
+    all_my_sorted_recommendations = Recommendation.filter_users(current_user.recommendations, [current_user]).sort_by(&:created_at).reverse!
     @recommendations = all_my_sorted_recommendations.first(NUMBER_OF_SHOWN_RECOMMENDATIONS)
     @number_of_recommendations = all_my_sorted_recommendations.length
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
