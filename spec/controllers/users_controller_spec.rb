@@ -170,7 +170,7 @@ RSpec.describe UsersController, type: :controller do
         expect(mooc_provider[:logo_id]).to eql MoocProvider.all[index].logo_id
         expect(mooc_provider[:api_support_state]).to eql MoocProvider.all[index].api_support_state
         if MoocProvider.all[index].name == 'coursera'
-          oauth_link = CourseraConnector.new.oauth_link(user_settings_path(user), 'my_csrf_token')
+          oauth_link = CourseraConnector.new.oauth_link("#{user_settings_path(user)}?subsite=mooc_provider", 'my_csrf_token')
           expect(mooc_provider[:oauth_link]).to eql oauth_link
         end
       end
