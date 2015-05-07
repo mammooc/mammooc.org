@@ -8,6 +8,8 @@ class DashboardController < ApplicationController
     @number_of_recommendations = all_my_sorted_recommendations.length
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
     @profile_pictures = AmazonS3.instance.author_profile_images_hash_for_recommendations(@recommendations)
+    @rating_picture = AmazonS3.instance.get_url('five_stars.png')
+
     respond_to do |format|
       format.html {}
       format.json { render :dashboard, status: :ok }

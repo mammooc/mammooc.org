@@ -47,9 +47,11 @@ RSpec.describe OpenHPICourseWorker do
     expect(course.description).to eql json_course['description']
     expect(course.course_instructors).to eql json_course['lecturer']
     expect(course.open_for_registration).to eql !json_course['locked']
-    expect(course.tracks[0].costs).to be_nil
+    expect(course.tracks[0].costs).to eql 0.0
     expect(course.tracks[0].credit_points).to be_nil
     expect(course.tracks[0].track_type.type_of_achievement).to eql course_track_type.type_of_achievement
+    expect(course.tracks[0].costs).to eql 0.0
+    expect(course.tracks[0].costs_currency).to eql "\xe2\x82\xac"
   end
 
   it 'loads courses on perform' do

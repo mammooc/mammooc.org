@@ -31,6 +31,7 @@ de:
     show_more: Mehr anzeigen
     show_less: Weniger anzeigen
     show_details: Details anzeigen
+    date_format_month: '%-d. %B %Y'
 
   navbar:
     home: Home
@@ -247,10 +248,14 @@ de:
     related_course: Kurs
     related_users: Nutzer
     related_groups: Gruppen
-    obligatory: verpflichtend für dich
-    recommended: empfohlen für dich
+    obligatory: verpflichtend
+    recommended: empfohlen
+    obligatory_for: verpflichtend für dich
+    recommended_for: empfohlen für dich
     your_recommendations: Deine Empfehlungen
     your_recommendations_with_quantity: Deine Empfehlungen (%{number})
+    for_you: an dich
+    for_group: an die Gruppe
     has_pledged: hat dir diesen Kurs vorgeschrieben.
     has_recommended: hat dir diesen Kurs empfohlen.
     pledged_by: vorgeschrieben von
@@ -261,12 +266,18 @@ de:
     successfully_destroyed: Empfehlung erfolgreich gelöscht.
     creation_error: Fehler beim Erstellen.
     update_error: Fehler beim Bearbeiten.
+
+    button:
+      ignore: Empfehlung ignorieren
+      course_details: Details ansehen
     group:
+      no_recommendation: Diese Gruppe hat leider momentan keine Empfehlungen.
       has_pledged: hat diesen Kurs vorgeschrieben.
       has_recommended: hat diesen Kurs empfohlen.
-      no_recommendation: Diese Gruppe hat leider momentan keine Empfehlungen.
-      obligatory: verpflichtend für
-      recommended: empfohlen für
+      obligatory_for: verpflichtend für
+      recommended_for: empfohlen für
+    course:
+      already_enrolled: Du belegst den Kurs bereits.
 
   flash:
     #success:

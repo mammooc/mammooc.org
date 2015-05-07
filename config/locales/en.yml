@@ -31,6 +31,7 @@ en:
     show_more: Show more
     show_less: Show less
     show_details: Show details
+    date_format_month: '%B %-d, %Y'
 
   navbar:
     home: Home
@@ -247,12 +248,16 @@ en:
     related_course: course
     related_users: users
     related_groups: groups
-    obligatory: mandatory for you
-    recommended: recommended to you
+    obligatory: mandatory
+    recommended: recommended
+    obligatory_for: mandatory for you
+    recommended_for: recommended to you
     your_recommendations: Your Recommendations
     your_recommendations_with_quantity: Your Recommendations (%{number})
+    for_you: to you
+    for_group: to group
     has_pledged: expects you to enroll in this course.
-    has_recommended: has recommmended this course to you.
+    has_recommended: has recommended this course to you.
     pledged_by: participation made mandatory by
     recommended_by: recommended by
     no_recommendation: You don't have any recommendations right now.
@@ -261,12 +266,19 @@ en:
     successfully_destroyed: Recommendation was successfully destroyed.
     creation_error: Error on creation.
     update_error: Error on update.
+
+    button:
+      ignore: Ignore recommendation
+      course_details: View details
     group:
-      has_pledged:  expects enrollment in this course.
-      has_recommended: has recommmended this course.
       no_recommendation: This group doesn't have any recommendations right now.
-      obligatory: mandatory for
-      recommended: recommended to
+      has_pledged: expects enrollment in this course.
+      has_recommended: has recommended this course.
+      obligatory_for: mandatory for
+      recommended_for: recommended to
+    course:
+      already_enrolled: You are already enrolled for this course.
+
 
   flash:
     #success:
