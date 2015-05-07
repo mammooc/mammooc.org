@@ -43,7 +43,7 @@ RSpec.describe EdxCourseWorker do
     expect(course.course_instructors).to include json_course['course:staff'][0]
     expect(course.tracks.count).to eql 1
     expect(course.tracks[0].track_type.type_of_achievement).to eql free_course_track_type.type_of_achievement
-    expect(course.tracks[0].costs).to be_nil
+    expect(course.tracks[0].costs).to 0.0
     expect(course.tracks[0].credit_points).to be_nil
   end
 end

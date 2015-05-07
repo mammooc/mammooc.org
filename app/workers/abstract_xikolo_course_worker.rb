@@ -36,7 +36,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
       course.description = course_element['description']
       course.course_instructors = course_element['lecturer']
       course.open_for_registration = !course_element['locked']
-      track = CourseTrack.find_by(course_id: course.id, track_type: course_track_type) || CourseTrack.create!(track_type: course_track_type, costs: 0.0, costs_currency: '€')
+      track = CourseTrack.find_by(course_id: course.id, track_type: course_track_type) || CourseTrack.create!(track_type: course_track_type, costs: 0.0, costs_currency: '\0x20AC')
       course.tracks.push(track)
       course.save!
     end
