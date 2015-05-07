@@ -31,6 +31,7 @@ de:
     show_more: Mehr anzeigen
     show_less: Weniger anzeigen
     show_details: Details anzeigen
+    date_format_month: '%-d. %B %Y'
 
   navbar:
     home: Home
