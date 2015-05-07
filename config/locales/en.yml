@@ -221,7 +221,7 @@ en:
         achievement_types:
           openhpi_record_of_achievement: Record of Achievement
           iversity_record_of_achievement: :courses.tracks.types.achievement_types.openhpi_record_of_achievement
-          nothing: Nothing
+          nothing: No certificate
           certificate: Certificate
           iversity_certificate: :courses.tracks.types.achievement_types.certificate
           iversity_ects: ECTS points
@@ -229,6 +229,8 @@ en:
           edx_verified_certificate: :courses.tracks.types.achievement_types.coursera_verified_certificate
           edx_xseries_certificate: edX XSeries Certificate
           edx_profed_certificate: edX Professional Education Certificate
+          udacity_nothing: No certificate
+          udacity_verified_certificate: Verified Certificate
 
   recommendation:
     placeholder: Enter your personal message here ...
