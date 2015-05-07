@@ -12,6 +12,7 @@ MoocProvider.create!(name: 'coursera', logo_id: 'logo_coursera.png', api_support
 MoocProvider.create!(name: 'openSAP China', logo_id: 'logo_openSAP.png', api_support_state: :nil)
 MoocProvider.create!(name: 'openUNE', logo_id: 'logo_openUNE.png', api_support_state: :nil)
 MoocProvider.create!(name: 'iversity', logo_id: 'logo_iversity.png', api_support_state: :nil)
+MoocProvider.create!(name: 'Udacity', logo_id: 'logo_udacity.png', api_support_state: :nil)
 
 openhpi_audit_track_type = CourseTrackType.create!(title: 'Audit',
                                                    description: 'You get a record of Achievement.',
@@ -22,6 +23,9 @@ iversity_audit_track_type = CourseTrackType.create!(title: 'Audit',
 coursera_audit_track_type = CourseTrackType.create!(title: 'Audit',
                                                     description: 'You do not receive a participation document.',
                                                     type_of_achievement: 'nothing')
+udacity_audit_track_type = CourseTrackType.create!(title: 'Free',
+                                                    description: 'You get instructor videos and learning by doing exercises.',
+                                                    type_of_achievement: 'udacity_nothing')
 certificate_track_type = CourseTrackType.create!(title: 'Certificate',
                                                  description: 'You get a certificate.',
                                                  type_of_achievement: 'certificate')
@@ -31,6 +35,9 @@ iversity_certificate_track_type = CourseTrackType.create!(title: 'Certificate',
 edx_certificate_track_type = CourseTrackType.create!(title: 'Verified Certificate',
                                                      description: 'Receive a credential signed by the instructor, with the institution logo to verify your achievement and increase your job prospects.',
                                                      type_of_achievement: 'edx_verified_certificate')
+udacity_certificate_track_type = CourseTrackType.create!(title: 'Full Course',
+                                                         description: 'You get instructor videos, learning by doing exercises, help from coaches and a verified certificate',
+                                                         type_of_achievement: 'udacity_verified_certificate')
 iversity_ects_track_type = CourseTrackType.create!(title: 'ECTS',
                                                    description: "<ul class='list-none'> <li>Graded Course Project</li> <li>Certificate of Accomplishment</li> <li>Certificate Supplement</li> <li>3 ECTS-Points</li> </ul>",
                                                    type_of_achievement: 'iversity_ects')
@@ -49,6 +56,7 @@ OpenSAPCourseWorker.perform_async
 EdxCourseWorker.perform_async
 CourseraCourseWorker.perform_async
 IversityCourseWorker.perform_async
+UdacityCourseWorker.perform_async
 
 # specific seeds for different environments
 
