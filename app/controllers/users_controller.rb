@@ -110,16 +110,25 @@ class UsersController < ApplicationController
     mooc_provider = MoocProvider.find_by_name(state.first)
     destination_path = state.second
     csrf_token = state.third
+    flash['error'] ||= []
+
+    return oauth_error_and_redirect(destination_path) if mooc_provider.blank?
 
     provider_connector = get_connector_by_mooc_provider mooc_provider
-    return unless provider_connector.present? && mooc_provider.api_support_state == 'oauth'
+
+    return oauth_error_and_redirect(destination_path) if provider_connector.blank? && mooc_provider.api_support_state != 'oauth'
+
     if params[:error].present? || !valid_authenticity_token?(session, csrf_token)
-      flash['error'] ||= []
-      flash['error'] << "#{t('users.synchronization.oauth_error')}"
       provider_connector.destroy_connection(current_user)
+      return oauth_error_and_redirect(destination_path)
     elsif code.present?
       provider_connector.initialize_connection(current_user, code: code)
+      redirect_to destination_path
     end
+  end
+
+  def oauth_error_and_redirect(destination_path)
+    flash['error'] << "#{t('users.synchronization.oauth_error')}"
     redirect_to destination_path
   end
 

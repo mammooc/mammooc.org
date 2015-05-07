@@ -177,4 +177,43 @@ RSpec.describe UsersController, type: :controller do
       expect(assigns(:mooc_provider_connections)).to eql user.mooc_providers.pluck(:mooc_provider_id)
     end
   end
+
+  describe 'GET oauth_callback' do
+    it 'handles a positive response' do
+      allow_any_instance_of(ActionController::RequestForgeryProtection).to receive(:valid_authenticity_token?).and_return(true)
+      expect_any_instance_of(CourseraConnector).to receive(:initialize_connection).with(user, code: 'abc123').and_return(true)
+      get :oauth_callback, code: 'abc123', state: 'coursera~/dashboard~my_csrf_token'
+      expect(response).to redirect_to(dashboard_path)
+    end
+
+    it 'handles a negative response' do
+      allow_any_instance_of(ActionController::RequestForgeryProtection).to receive(:valid_authenticity_token?).and_return(true)
+      expect_any_instance_of(CourseraConnector).to receive(:destroy_connection).with(user).and_return(true)
+      get :oauth_callback, error: 'access_denied', state: 'coursera~/dashboard~my_csrf_token'
+      expect(response).to redirect_to(dashboard_path)
+      expect(flash[:error]).to include(I18n.t('users.synchronization.oauth_error'))
+    end
+
+    it 'handles unknown mooc provider' do
+      expect_any_instance_of(ConnectorMapper).not_to receive(:get_connector_by_mooc_provider)
+      get :oauth_callback, code: 'abc123', state: 'unknown~/dashboard~my_csrf_token'
+      expect(response).to redirect_to(dashboard_path)
+      expect(flash[:error]).to include(I18n.t('users.synchronization.oauth_error'))
+    end
+
+    it 'handles mooc provider which does not support oauth' do
+      expect_any_instance_of(ConnectorMapper).to receive(:get_connector_by_mooc_provider)
+      get :oauth_callback, code: 'abc123', state: 'openHPI~/dashboard~my_csrf_token'
+      expect(response).to redirect_to(dashboard_path)
+      expect(flash[:error]).to include(I18n.t('users.synchronization.oauth_error'))
+    end
+
+    it 'handles invalid csrf token' do
+      allow_any_instance_of(ActionController::RequestForgeryProtection).to receive(:valid_authenticity_token?).and_return(false)
+      expect_any_instance_of(ConnectorMapper).to receive(:get_connector_by_mooc_provider).and_return(CourseraConnector.new)
+      get :oauth_callback, code: 'abc123', state: 'coursera~/dashboard~my_invalid_csrf_token'
+      expect(response).to redirect_to(dashboard_path)
+      expect(flash[:error]).to include(I18n.t('users.synchronization.oauth_error'))
+    end
+  end
 end
