@@ -24,8 +24,7 @@
                 = t('recommendation.obligatory_course_for_you')
               - else
                 = t('recommendation.recommended_course_to_you')
-        = I18n.l recommendation.created_at, format: '%-d. %B %Y'
-          // TODO : in English change format to month day, year
+        = I18n.l recommendation.created_at, format: t('global.date_format_month')
     - if recommendation.text
       .comment
         = "\"#{recommendation.text}\""

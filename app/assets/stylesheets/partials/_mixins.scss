@@ -62,3 +62,17 @@ Use mixins within any other stylesheet with the "@include name" method.
     cursor: pointer;
   }
 }
+
+.do-not-show-link {
+  a {
+    color: $text-color;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+      color: $text-color;
+      text-decoration: inherit;
+      cursor: inherit;
+    }
+  }
+}
