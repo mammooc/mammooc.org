@@ -46,7 +46,8 @@ class IversityCourseWorker < AbstractCourseWorker
             track_attributes = {track_type: ects_track_type, costs: price[0].to_f, costs_currency: price[1]}
             track_attributes.merge!(credit_points: (plan['credits'].split(' '))[0].to_f) unless plan['credits'].blank?
         end
-        course.tracks.push CourseTrack.create!(track_attributes)
+        track = CourseTrack.find_by(course_id: course.id, track_type: track_attributes[:track_type]) || CourseTrack.create!(track_attributes)
+        course.tracks.push track
       end
 
       course.provider_course_id = course_element['id']
@@ -59,7 +60,6 @@ class IversityCourseWorker < AbstractCourseWorker
       end
 
       course.description = course_element['description']
-      course.calculated_duration_in_days = (course.end_date - course.start_date).to_i
       course.provider_given_duration = course_element['duration']
 
       course.save!

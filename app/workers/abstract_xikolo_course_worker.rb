@@ -36,7 +36,8 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
       course.description = course_element['description']
       course.course_instructors = course_element['lecturer']
       course.open_for_registration = !course_element['locked']
-      course.tracks.push(CourseTrack.create!(track_type: course_track_type))
+      track = CourseTrack.find_by(course_id: course.id, track_type: course_track_type) || CourseTrack.create!(track_type: course_track_type)
+      course.tracks.push(track)
       course.save!
     end
     evaluate_update_map update_map

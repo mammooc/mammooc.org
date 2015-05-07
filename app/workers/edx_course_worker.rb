@@ -21,7 +21,7 @@ class EdxCourseWorker < AbstractCourseWorker
     profed_track_type = CourseTrackType.find_by(type_of_achievement: 'edx_profed_certificate')
 
     response_data['value']['items'].each do |course_element|
-      course = Course.find_by(provider_course_id: course_element['id'], mooc_provider_id: mooc_provider.id)
+      course = Course.find_by(provider_course_id: course_element['course:id'], mooc_provider_id: mooc_provider.id)
       if course.nil?
         course = Course.new
       else
@@ -81,14 +81,18 @@ class EdxCourseWorker < AbstractCourseWorker
       end
 
       if course_element['course:profed'] && course_element['course:profed'] == '1'
-        course.tracks.push CourseTrack.create!(track_type: profed_track_type)
+        profed_track = CourseTrack.find_by(course_id: course.id, track_type: profed_track_type) || CourseTrack.create!(track_type: profed_track_type)
+        course.tracks.push profed_track
       else
-        course.tracks.push CourseTrack.create(track_type: free_track_type)
+        free_track = CourseTrack.find_by(course_id: course.id, track_type: free_track_type) || CourseTrack.create!(track_type: free_track_type)
+        course.tracks.push free_track
         if course_element['course:verified'] && course_element['course:verified'] == '1'
-          course.tracks.push CourseTrack.create!(track_type: certificate_track_type)
+          certificate_track = CourseTrack.find_by(course_id: course.id, track_type: certificate_track_type) || CourseTrack.create!(track_type: certificate_track_type)
+          course.tracks.push certificate_track
         end
         if course_element['course:xseries'] && course_element['course:xseries'] == '1'
-          course.tracks.push CourseTrack.create!(track_type: xseries_track_type)
+          xseries_track = CourseTrack.find_by(course_id: course.id, track_type: xseries_track_type) || CourseTrack.create!(track_type: xseries_track_type)
+          course.tracks.push xseries_track
         end
       end
 

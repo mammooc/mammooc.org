@@ -17,10 +17,7 @@ synchronizeCourse = (event) ->
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       for mooc_provider, result of data.synchronization_state
-        console.log('TEXT')
-        console.log(result)
         if result != true
-          console.log(result)
           window.location.replace(result)
       $("div.user-courses-container").html(data.partial)
   event.preventDefault()

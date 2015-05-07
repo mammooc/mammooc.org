@@ -63,12 +63,12 @@ class AbstractMoocProviderConnector
     user.mooc_providers.where(id: mooc_provider).present?
   end
 
-  def oauth_link
+  def oauth_link(_destination, _csrf_token)
     raise NotImplementedError
   end
 
   def destroy_connection(user)
-    return unless connection_to_mooc_provider? user
+    return false unless connection_to_mooc_provider? user
     MoocProviderUser.find_by(user: user, mooc_provider: mooc_provider).destroy
   end
 
