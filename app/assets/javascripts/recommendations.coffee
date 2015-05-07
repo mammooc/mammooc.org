@@ -21,6 +21,7 @@ delete_group_recommendation = () ->
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       recommendation.remove()
+  return false
 
 
 delete_user_from_recommendation = () ->
@@ -35,6 +36,7 @@ delete_user_from_recommendation = () ->
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       recommendation.remove()
+  return false
 
 group_ids = []
 groups_autocomplete = []

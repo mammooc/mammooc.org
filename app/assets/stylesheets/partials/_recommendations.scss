@@ -37,6 +37,28 @@ $user-picture-size: 50px;
 
 .recommendations {
   width: 100%;
+  padding-bottom: 10px;
+  position: relative;
+
+  .classification {
+    position: absolute;
+    top: -10px;
+    right: 30px;
+    border: 1px solid #ddd;
+    color: white;
+    font-weight: bold;
+    padding: 3px 8px;
+  }
+
+  .label-recommended {
+    @extend .classification;
+    background-color: $mammooc;
+  }
+
+  .label-obligatory {
+    @extend .classification;
+    background-color: $brand-warning;
+  }
 
   .profile-picture {
     margin-right: 10px;
@@ -55,10 +77,19 @@ $user-picture-size: 50px;
     width: auto;
     overflow: hidden;
 
+    .message {
+      display: block;
+
+      a {
+        @include link-black-hover-green;
+        font-weight: bold;
+      }
+    }
+
     .course {
       border: 1px solid #ddd;
       padding: 10px;
-      margin: 10px;
+      margin: 10px 0px;
       height: 170px;
 
       .picture {
@@ -74,6 +105,7 @@ $user-picture-size: 50px;
           line-height: 18px;
         }
       }
+
       .description {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -83,9 +115,6 @@ $user-picture-size: 50px;
         -webkit-line-clamp: 3; /* number of lines to show */
         -webkit-box-orient: vertical;
       }
-    }
-    .button-right {
-      float: right;
     }
   }
 }
