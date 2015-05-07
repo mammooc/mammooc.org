@@ -46,5 +46,7 @@ RSpec.describe OpenHPICourseWorker do
     expect(course.tracks[0].costs).to be_nil
     expect(course.tracks[0].credit_points).to be_nil
     expect(course.tracks[0].track_type.type_of_achievement).to eql course_track_type.type_of_achievement
+    expect(course.tracks[0].costs).to eql 0.0
+    expect(course.tracks[0].costs_currency).to eql '€'
   end
 end
