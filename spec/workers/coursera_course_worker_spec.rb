@@ -95,16 +95,16 @@ RSpec.describe CourseraCourseWorker do
     allow(RestClient).to receive(:get).and_return(course_fields)
     coursera_course_worker.handle_response_data json_session_data
     course = Course.find_by(provider_course_id: json_course['id'].to_s + '|' + json_session['id'].to_s, mooc_provider_id: mooc_provider.id)
-    expect(course.tracks[2].track_type.type_of_achievement).to eql free_course_track_type.type_of_achievement
-    expect(course.tracks[2].costs).to be_nil
-    expect(course.tracks[2].credit_points).to be_nil
+    expect(course.tracks[0].track_type.type_of_achievement).to eql free_course_track_type.type_of_achievement
+    expect(course.tracks[0].costs).to be_nil
+    expect(course.tracks[0].credit_points).to be_nil
     expect(course.tracks[1].track_type.type_of_achievement).to eql certificate_course_track_type.type_of_achievement
     expect(course.tracks[1].costs).to be_nil
     expect(course.tracks[1].credit_points).to be_nil
-    expect(course.tracks[0].track_type.type_of_achievement).to eql signature_course_track_type.type_of_achievement
-    expect(course.tracks[0].costs).to eql 100.0
-    expect(course.tracks[0].costs_currency).to eql '$'
-    expect(course.tracks[0].credit_points).to be_nil
+    expect(course.tracks[2].track_type.type_of_achievement).to eql signature_course_track_type.type_of_achievement
+    expect(course.tracks[2].costs).to eql 100.0
+    expect(course.tracks[2].costs_currency).to eql '$'
+    expect(course.tracks[2].credit_points).to be_nil
   end
 
   it 'creates a signature course track type with price' do
@@ -116,16 +116,16 @@ RSpec.describe CourseraCourseWorker do
     allow(RestClient).to receive(:get).and_return(course_fields)
     coursera_course_worker.handle_response_data json_session_data
     course = Course.find_by(provider_course_id: json_course['id'].to_s + '|' + json_session['id'].to_s, mooc_provider_id: mooc_provider.id)
-    expect(course.tracks[2].track_type.type_of_achievement).to eql free_course_track_type.type_of_achievement
-    expect(course.tracks[2].costs).to be_nil
-    expect(course.tracks[2].credit_points).to be_nil
+    expect(course.tracks[0].track_type.type_of_achievement).to eql free_course_track_type.type_of_achievement
+    expect(course.tracks[0].costs).to be_nil
+    expect(course.tracks[0].credit_points).to be_nil
     expect(course.tracks[1].track_type.type_of_achievement).to eql certificate_course_track_type.type_of_achievement
     expect(course.tracks[1].costs).to be_nil
     expect(course.tracks[1].credit_points).to be_nil
-    expect(course.tracks[0].track_type.type_of_achievement).to eql signature_course_track_type.type_of_achievement
-    expect(course.tracks[0].costs).to eql 50.0
-    expect(course.tracks[0].costs_currency).to eql '$'
-    expect(course.tracks[0].credit_points).to be_nil
+    expect(course.tracks[2].track_type.type_of_achievement).to eql signature_course_track_type.type_of_achievement
+    expect(course.tracks[2].costs).to eql 50.0
+    expect(course.tracks[2].costs_currency).to eql '$'
+    expect(course.tracks[2].credit_points).to be_nil
   end
 
   it 'sets the targetAudience to Basic Undergraduate' do
@@ -169,6 +169,10 @@ RSpec.describe CourseraCourseWorker do
     allow(RestClient).to receive(:get).and_return(json_course_data.to_json)
     expect { coursera_course_worker.handle_response_data json_session_data }.to change { Course.count }.by(2)
     course = Course.find_by(provider_course_id: json_course['id'].to_s + '|' + json_session0['id'].to_s, mooc_provider_id: mooc_provider.id)
-    expect(course.id).to be > course.previous_iteration_id
+    if course.following_iteration_id
+      expect(course.id).to be < course.following_iteration_id
+    elsif course.previous_iteration_id
+      expect(course.id).to be > course.previous_iteration_id
+    end
   end
 end
