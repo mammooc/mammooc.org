@@ -272,6 +272,9 @@ en:
         successfully_created: Group was successfully created.
         successfully_updated: Group was successfully updated.
         successfully_destroyed: Group was successfully destroyed.
+      users:
+        successfully_updated: User was successfully updated.
+        successfully_destroyed: User was successfully destroyed.
     error:
       taken: has already been taken.
       blank: has to be filled in.

@@ -20,24 +20,12 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe UsersController, type: :controller do
-  # This should return the minimal set of attributes required to create a valid
-  # User. As you add validations to User, be sure to
-  # adjust the attributes here as well.
-  let(:valid_attributes) do
-    skip('Add a hash of attributes valid for your model')
-  end
-
-  let(:invalid_attributes) do
-    skip('Add a hash of attributes invalid for your model')
-  end
-
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # UsersController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
-
-  let(:user) { FactoryGirl.create(:user) }
+  let!(:user) { FactoryGirl.create(:user) }
   let(:another_user) { FactoryGirl.create :user }
+
+  let!(:open_hpi) { FactoryGirl.create(:mooc_provider, name: 'openHPI', api_support_state: :naive) }
+  let!(:open_sap) { FactoryGirl.create(:mooc_provider, name: 'openSAP', api_support_state: :naive) }
+  let!(:coursera) { FactoryGirl.create(:mooc_provider, name: 'coursera', api_support_state: :oauth) }
 
   before(:each) do
     sign_in user
@@ -45,8 +33,7 @@ RSpec.describe UsersController, type: :controller do
 
   describe 'GET show' do
     it 'assigns the requested user as @user' do
-      user = User.create! valid_attributes
-      get :show, {id: user.to_param}, valid_session
+      get :show, id: user.to_param
       expect(assigns(:user)).to eq(user)
     end
 
@@ -64,8 +51,7 @@ RSpec.describe UsersController, type: :controller do
 
   describe 'GET edit' do
     it 'assigns the requested user as @user' do
-      user = User.create! valid_attributes
-      get :edit, {id: user.to_param}, valid_session
+      get :edit, id: user.to_param
       expect(assigns(:user)).to eq(user)
     end
 
@@ -83,41 +69,24 @@ RSpec.describe UsersController, type: :controller do
 
   describe 'PUT update' do
     describe 'with valid params' do
-      let(:new_attributes) do
-        skip('Add a hash of attributes valid for your model')
-      end
+      let(:new_attributes) { {first_name: 'Maxim', last_name: 'Mustergender'} }
 
       it 'updates the requested user' do
-        user = User.create! valid_attributes
-        put :update, {id: user.to_param, user: new_attributes}, valid_session
+        put :update, id: user.to_param, user: new_attributes
         user.reload
-        skip('Add assertions for updated state')
+        expect(user.first_name).to eq('Maxim')
+        expect(user.last_name).to eq('Mustergender')
+        expect(flash[:notice]).to eq I18n.t('flash.notice.users.successfully_updated')
       end
 
       it 'assigns the requested user as @user' do
-        user = User.create! valid_attributes
-        put :update, {id: user.to_param, user: valid_attributes}, valid_session
+        put :update, id: user.to_param, user: FactoryGirl.attributes_for(:user)
         expect(assigns(:user)).to eq(user)
       end
 
       it 'redirects to the user' do
-        user = User.create! valid_attributes
-        put :update, {id: user.to_param, user: valid_attributes}, valid_session
+        put :update, id: user.to_param, user: FactoryGirl.attributes_for(:user)
         expect(response).to redirect_to(user)
-      end
-    end
-
-    describe 'with invalid params' do
-      it 'assigns the user as @user' do
-        user = User.create! valid_attributes
-        put :update, {id: user.to_param, user: invalid_attributes}, valid_session
-        expect(assigns(:user)).to eq(user)
-      end
-
-      it "re-renders the 'edit' template" do
-        user = User.create! valid_attributes
-        put :update, {id: user.to_param, user: invalid_attributes}, valid_session
-        expect(response).to render_template('edit')
       end
     end
 
@@ -135,16 +104,20 @@ RSpec.describe UsersController, type: :controller do
 
   describe 'DELETE destroy' do
     it 'destroys the requested user' do
-      user = User.create! valid_attributes
-      expect do
-        delete :destroy, {id: user.to_param}, valid_session
-      end.to change(User, :count).by(-1)
+      expect { delete :destroy, id: user.to_param }.to change { User.count }.by(-1)
     end
 
-    it 'redirects to the users list' do
-      user = User.create! valid_attributes
-      delete :destroy, {id: user.to_param}, valid_session
+    it 'deletes group memberships when deleting a user' do
+      created_group = FactoryGirl.create(:group, users: [user])
+      group = Group.find(created_group.id)
+      delete :destroy, id: user.to_param
+      expect(group.users).not_to include(user)
+    end
+
+    it 'redirects to the users list and shows a flash message' do
+      delete :destroy, id: user.to_param
       expect(response).to redirect_to(users_url)
+      expect(flash[:notice]).to eq I18n.t('flash.notice.users.successfully_destroyed')
     end
 
     context 'without authorization' do
@@ -156,6 +129,52 @@ RSpec.describe UsersController, type: :controller do
       it 'shows an alert message' do
         expect(flash[:alert]).to eq I18n.t('unauthorized.destroy.user')
       end
+    end
+  end
+
+  describe 'GET synchronize_courses' do
+    render_views
+    let(:json) { JSON.parse(response.body) }
+
+    let!(:open_hpi_connection) { FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: open_hpi) }
+    let!(:open_sap_connection) { FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: open_sap) }
+    let!(:coursera_connection) { FactoryGirl.create(:oauth_mooc_provider_user, user: user, mooc_provider: coursera) }
+
+    it 'synchronizes all available user data and redirects to the dashboard_path' do
+      expect_any_instance_of(OpenHPIUserWorker).to receive(:perform).with([user.id])
+      expect_any_instance_of(OpenSAPUserWorker).to receive(:perform).with([user.id])
+      expect_any_instance_of(CourseraUserWorker).to receive(:perform).with([user.id])
+      get :synchronize_courses, id: user.to_param
+      expect(response).to redirect_to(dashboard_path)
+    end
+
+    it 'synchronizes all available user data and renders a partial as JSON' do
+      expect_any_instance_of(OpenHPIUserWorker).to receive(:perform).with([user.id]).and_return(true)
+      expect_any_instance_of(OpenSAPUserWorker).to receive(:perform).with([user.id]).and_return(true)
+      expect_any_instance_of(CourseraUserWorker).to receive(:perform).with([user.id]).and_return(true)
+      get :synchronize_courses, format: :json, id: user.to_param
+      expect(assigns(:synchronization_state)[:open_hpi]).to eql true
+      expect(assigns(:synchronization_state)[:open_sap]).to eql true
+      expect(assigns(:synchronization_state)[:coursera]).to eql true
+      expected_json = JSON.parse '{"partial":"No courses available","synchronization_state":{"open_hpi":true,"open_sap":true,"coursera":true}}'
+      expect(json).to eql expected_json
+    end
+  end
+
+  describe 'GET settings' do
+    it 'prepares settings page' do
+      allow_any_instance_of(ActionController::RequestForgeryProtection).to receive(:masked_authenticity_token).and_return('my_csrf_token')
+      get :settings, id: user
+      assigns(:mooc_providers).each_with_index do |mooc_provider, index|
+        expect(mooc_provider[:id]).to eql MoocProvider.all[index].id
+        expect(mooc_provider[:logo_id]).to eql MoocProvider.all[index].logo_id
+        expect(mooc_provider[:api_support_state]).to eql MoocProvider.all[index].api_support_state
+        if MoocProvider.all[index].name == 'coursera'
+          oauth_link = CourseraConnector.new.oauth_link(user_settings_path(user), 'my_csrf_token')
+          expect(mooc_provider[:oauth_link]).to eql oauth_link
+        end
+      end
+      expect(assigns(:mooc_provider_connections)).to eql user.mooc_providers.pluck(:mooc_provider_id)
     end
   end
 end

@@ -29,7 +29,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.html { redirect_to @user, notice: t('flash.notice.users.successfully_updated') }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
@@ -46,7 +46,7 @@ class UsersController < ApplicationController
     end
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      format.html { redirect_to users_url, notice: t('flash.notice.users.successfully_destroyed') }
       format.json { head :no_content }
     end
   end
@@ -131,6 +131,7 @@ class UsersController < ApplicationController
       if provider_connector.present?
         @got_connection = provider_connector.initialize_connection(
           current_user, email: params[:email], password: params[:password])
+        provider_connector.load_user_data([current_user])
       end
     end
     respond_to do |format|
