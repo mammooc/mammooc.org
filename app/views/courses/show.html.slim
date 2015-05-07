@@ -107,21 +107,21 @@
                 - if recommendation.group.present?
                   - if recommendation.is_obligatory
                     .participation-obligatory
-                      => t('recommendation.group.obligatory')
+                      => t('recommendation.group.obligatory_for')
                       = link_to recommendation.group.name, group_path(recommendation.group)
                   - else
                     .participation-recommended
-                      => t('recommendation.group.recommended')
+                      => t('recommendation.group.recommended_for')
                       = link_to recommendation.group.name, group_path(recommendation.group)
                 - else
                   - if recommendation.is_obligatory
                     .participation-obligatory
-                      = t('recommendation.obligatory')
+                      = t('recommendation.obligatory_for')
                   - else
                     .participation-recommended
-                      = t('recommendation.recommended')
+                      = t('recommendation.recommended_for')
             .comment
-              - if recommendation.text.empty?
+              - if recommendation.text.blank?
                 - if recommendation.group.present?
                   - if recommendation.is_obligatory
                     =< t('recommendation.group.has_pledged')

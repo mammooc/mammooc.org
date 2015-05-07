@@ -11,7 +11,7 @@ $(document).ready(ready)
 
 delete_group_recommendation = () ->
   recommendation_id = $(this).data('recommendation_id')
-  recommendation = $(this).parent()
+  recommendation = $(this).closest('.recommendations')
 
   $.ajax
     url: "/recommendations/#{recommendation_id}/delete_group_recommendation"
@@ -21,11 +21,12 @@ delete_group_recommendation = () ->
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       recommendation.remove()
+  return false
 
 
 delete_user_from_recommendation = () ->
   recommendation_id = $(this).data('recommendation_id')
-  recommendation = $(this).parent()
+  recommendation = $(this).closest('.recommendations')
 
   $.ajax
     url: "/recommendations/#{recommendation_id}/delete_user_from_recommendation"
@@ -35,6 +36,7 @@ delete_user_from_recommendation = () ->
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       recommendation.remove()
+  return false
 
 group_ids = []
 groups_autocomplete = []
