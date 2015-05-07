@@ -70,6 +70,7 @@ en:
       characters_minimum: characters minimum
       password: Password
       password_confirmation: Re-enter password
+      current_password: Current Password
       terms_and_conditions_confirmation: I confirm to mammooc's terms and conditions.
       remember_me: Keep me logged in
       sign_in_link: Already signed up? Click here to log in.
@@ -85,9 +86,11 @@ en:
       email: :users.sign_in_up.email
       enter_mail: Enter email
       password: :users.sign_in_up.password
-      password_info: (leave blank if you don't want to change it)
       password_confirmation: :users.sign_in_up.password_confirmation
       password_confirmation_info: (we need your current password to confirm your changes)
+      new_password: New Password
+      new_password_confirmation: Confirm new Password
+      new_password_info: (leave blank if you don't want to change it)
       cancel_account: Cancel my account
       update_account: Update
       pending_mail_confirmation: 'Currently waiting confirmation for:'

@@ -70,6 +70,7 @@ de:
       characters_minimum: Zeichen minimum
       password: Passwort
       password_confirmation: Passwort-Bestätigung
+      current_password: Aktuelles Passwort
       terms_and_conditions_confirmation: Ich bestätige die AGBs.
       remember_me: Angemeldet bleiben
       sign_in_link: Bereits registriert? Hier geht's zum Login.
@@ -85,9 +86,11 @@ de:
       email: :users.sign_in_up.email
       enter_mail: Email eingeben
       password: :users.sign_in_up.password
-      password_info: (Feld freilassen, wenn Passwort nicht geändert werden soll)
       password_confirmation: :users.sign_in_up.password_confirmation
       password_confirmation_info: (aktuelles Passwort eingeben, um Änderungen zu bestätigen)
+      new_password: Neues Passwort
+      new_password_confirmation: Bestätige neues Passwort
+      new_password_info: (Feld freilassen, wenn Passwort nicht geändert werden soll)
       cancel_account: Account löschen
       update_account: Aktualisieren
       pending_mail_confirmation: 'Warte auf Bestätigung für:'
