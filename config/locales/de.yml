@@ -31,6 +31,7 @@ de:
     show_more: Mehr anzeigen
     show_less: Weniger anzeigen
     show_details: Details anzeigen
+    date_format_month: '%-d. %B %Y'
 
   navbar:
     home: Home
@@ -222,7 +223,7 @@ de:
         achievement_types:
           openhpi_record_of_achievement: Teilnahmebescheinigung
           iversity_record_of_achievement: :courses.tracks.types.achievement_types.openhpi_record_of_achievement
-          nothing: Nichts
+          nothing: Kein Zertifikat
           certificate: Zertifikat
           iversity_certificate: :courses.tracks.types.achievement_types.certificate
           iversity_ects: ECTS-Punkte
@@ -230,6 +231,8 @@ de:
           edx_verified_certificate: :courses.tracks.types.achievement_types.coursera_verified_certificate
           edx_xseries_certificate: edX XSeries Zertifikat
           edx_profed_certificate: edX Professional Education Zertifikat
+          udacity_nothing: Kein Zertifikat
+          udacity_verified_certificate: Verifiziertes Zertifikat
 
   recommendation:
     placeholder: Gib deine persönliche Nachricht hier ein ...
@@ -237,12 +240,16 @@ de:
     related_course: Kurs
     related_users: Nutzer
     related_groups: Gruppen
-    obligatory: verpflichtend für dich
     obligatory_course_for_you: hat diesen Kurs für dich als verpflichtend markiert
-    recommended: empfohlen für dich
     recommended_course_to_you: hat dir diesen Kurs empfohlen
+    obligatory: verpflichtend
+    recommended: empfohlen
+    obligatory_for: verpflichtend für dich
+    recommended_for: empfohlen für dich
     your_recommendations: Deine Empfehlungen
     your_recommendations_with_quantity: Deine Empfehlungen (%{number})
+    for_you: an dich
+    for_group: an die Gruppe
     has_pledged: hat dir diesen Kurs vorgeschrieben.
     has_recommended: hat dir diesen Kurs empfohlen.
     pledged_by: vorgeschrieben von
@@ -253,11 +260,16 @@ de:
     successfully_destroyed: Empfehlung erfolgreich gelöscht.
     creation_error: Fehler beim Erstellen.
     update_error: Fehler beim Bearbeiten.
+
+    button:
+      ignore: Empfehlung ignorieren
+      course_details: Details ansehen
     group:
+      no_recommendation: Diese Gruppe hat leider momentan keine Empfehlungen.
       has_pledged: hat diesen Kurs vorgeschrieben.
       has_recommended: hat diesen Kurs empfohlen.
-      no_recommendation: Diese Gruppe hat leider momentan keine Empfehlungen.
-      obligatory: verpflichtend für
+      obligatory_for: verpflichtend für
+      recommended_for: empfohlen für
       obligatory_course_for: hat diesen Kurs als verpflichtend markiert für
       recommended_course_to: hat diesen Kurs empfohlen für
 

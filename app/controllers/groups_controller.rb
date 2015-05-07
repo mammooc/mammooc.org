@@ -39,6 +39,7 @@ class GroupsController < ApplicationController
     @profile_pictures = AmazonS3.instance.user_profile_images_hash_for_users(@group.users, @profile_pictures)
 
     @group_picture = AmazonS3.instance.group_images_hash_for_groups [@group]
+    @rating_picture = AmazonS3.instance.get_url('five_stars.png')
   end
 
   # GET /groups/new
@@ -55,6 +56,7 @@ class GroupsController < ApplicationController
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
     @profile_pictures = AmazonS3.instance.author_profile_images_hash_for_recommendations(@recommendations)
     @group_picture = AmazonS3.instance.group_images_hash_for_groups [@group]
+    @rating_picture = AmazonS3.instance.get_url('five_stars.png')
   end
 
   def members

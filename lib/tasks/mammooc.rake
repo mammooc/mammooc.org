@@ -10,6 +10,7 @@ namespace :mammooc do
     # OpenHPIChinaCourseWorker.perform_async
     EdxCourseWorker.perform_async
     IversityCourseWorker.perform_async
+    UdacityCourseWorker.perform_async
   end
 
   task update_user_data: :environment do
