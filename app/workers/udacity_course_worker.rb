@@ -16,7 +16,7 @@ class UdacityCourseWorker < AbstractCourseWorker
   end
 
   def handle_response_data(response_data)
-   update_map = create_update_map mooc_provider
+    update_map = create_update_map mooc_provider
 
     free_track_type = CourseTrackType.find_by(type_of_achievement: 'udacity_nothing')
     certificate_track_type = CourseTrackType.find_by(type_of_achievement: 'udacity_verified_certificate')

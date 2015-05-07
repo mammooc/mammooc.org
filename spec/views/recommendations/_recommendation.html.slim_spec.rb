@@ -2,8 +2,8 @@
 require 'rails_helper'
 
 RSpec.describe 'recommendations/_recommendation', type: :view do
-  let(:user) { FactoryGirl.create(:user)}
-  let!(:recommendation) { assign(:recommendation, FactoryGirl.create(:user_recommendation, users:[user])) }
+  let(:user) { FactoryGirl.create(:user) }
+  let!(:recommendation) { assign(:recommendation, FactoryGirl.create(:user_recommendation, users: [user])) }
   let!(:provider_logos) { assign(:provider_logos, {}) }
   let!(:profile_pictures) { assign(:profile_pictures, {}) }
 

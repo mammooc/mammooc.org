@@ -24,8 +24,8 @@ coursera_audit_track_type = CourseTrackType.create!(title: 'Audit',
                                                     description: 'You do not receive a participation document.',
                                                     type_of_achievement: 'nothing')
 udacity_audit_track_type = CourseTrackType.create!(title: 'Free',
-                                                    description: 'You get instructor videos and learning by doing exercises.',
-                                                    type_of_achievement: 'udacity_nothing')
+                                                   description: 'You get instructor videos and learning by doing exercises.',
+                                                   type_of_achievement: 'udacity_nothing')
 certificate_track_type = CourseTrackType.create!(title: 'Certificate',
                                                  description: 'You get a certificate.',
                                                  type_of_achievement: 'certificate')
