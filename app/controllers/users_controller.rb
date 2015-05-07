@@ -102,6 +102,7 @@ class UsersController < ApplicationController
 
   def settings
     prepare_mooc_provider_settings
+    puts @subsite = params['subsite']
   end
 
   def oauth_callback
@@ -133,10 +134,13 @@ class UsersController < ApplicationController
           current_user, email: params[:email], password: params[:password])
       end
     end
+    set_provider_logos
+    prepare_mooc_provider_settings
+    @partial = render_to_string partial: 'users/mooc_provider_settings', formats: [:html]
     respond_to do |format|
       begin
         format.html { redirect_to dashboard_path }
-        format.json { render :rename_mooc_provider_connection_result, status: :ok }
+        format.json { render :set_mooc_provider_connection_result, status: :ok }
       rescue StandardError => e
         format.html { redirect_to dashboard_path }
         format.json { render json: e.to_json, status: :unprocessable_entity }
@@ -153,6 +157,9 @@ class UsersController < ApplicationController
         provider_connector.destroy_connection(current_user)
       end
     end
+    set_provider_logos
+    prepare_mooc_provider_settings
+    @partial = render_to_string partial: 'users/mooc_provider_settings', formats: [:html]
     respond_to do |format|
       begin
         format.html { redirect_to dashboard_path }
@@ -170,7 +177,7 @@ class UsersController < ApplicationController
     @mooc_providers = MoocProvider.all.map do |mooc_provider|
       provider_connector = get_connector_by_mooc_provider mooc_provider
       if provider_connector.present? && mooc_provider.api_support_state == 'oauth'
-        oauth_link = provider_connector.oauth_link(user_settings_path(current_user), masked_authenticity_token(session))
+        oauth_link = provider_connector.oauth_link(user_settings_path(current_user)+'?subsite=mooc_provider', masked_authenticity_token(session))
       end
       {id: mooc_provider.id,
        logo_id: mooc_provider.logo_id,

@@ -18,6 +18,7 @@ loadAccountSettings = (event) ->
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       $("div.settings-container").html(data.partial)
+      window.history.pushState({id: 'set_account_subsite'}, '', 'settings?subsite=account');
   event.preventDefault()
 
 loadMoocProviderSettings = (event) ->
@@ -32,6 +33,7 @@ loadMoocProviderSettings = (event) ->
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       $("div.settings-container").html(data.partial)
+      window.history.pushState({id: 'set_mooc_provider_subsite'}, '', 'settings?subsite=mooc_provider');
   event.preventDefault()
 
 synchronizeNaiveUserMoocProviderConnection = (event) ->
@@ -50,10 +52,11 @@ synchronizeNaiveUserMoocProviderConnection = (event) ->
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       if data.status == true
-        $("#panel-#{mooc_provider}").removeClass("panel-default")
-        $("#panel-#{mooc_provider}").removeClass("panel-danger")
-        $("#panel-#{mooc_provider}").addClass("panel-success")
-        $("#div-error-#{mooc_provider}").text("")
+        $("div.settings-container").html(data.partial)
+#        $("#panel-#{mooc_provider}").removeClass("panel-default")
+#        $("#panel-#{mooc_provider}").removeClass("panel-danger")
+#        $("#panel-#{mooc_provider}").addClass("panel-success")
+#        $("#div-error-#{mooc_provider}").text("")
       else
         $("#div-error-#{mooc_provider}").text("Error!")
   event.preventDefault()
@@ -72,10 +75,11 @@ revokeNaiveUserMoocProviderConnection = (event) ->
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       if data.status == true
-        $("#panel-#{mooc_provider}").removeClass("panel-success")
-        $("#panel-#{mooc_provider}").removeClass("panel-danger")
-        $("#panel-#{mooc_provider}").addClass("panel-default")
-        $("#div-error-#{mooc_provider}").text("")
+        $("div.settings-container").html(data.partial)
+#        $("#panel-#{mooc_provider}").removeClass("panel-success")
+#        $("#panel-#{mooc_provider}").removeClass("panel-danger")
+#        $("#panel-#{mooc_provider}").addClass("panel-default")
+#        $("#div-error-#{mooc_provider}").text("")
       else
         $("#div-error-#{mooc_provider}").text("Error!")
   event.preventDefault()

@@ -2,21 +2,22 @@
   .form-group
     = f.label :email, t('users.settings.email')
     br
-    = f.email_field :email, :class => 'form-control', autofocus: true
+    = f.email_field :email, :class => 'form-control', autofocus: true, value: "#{current_user.email}"
   - if devise_mapping.confirmable? && resource.pending_reconfirmation?
     div
       = t('users.settings.pending_mail_confirmation')
       = resource.unconfirmed_email
   .form-group
-    = f.label :password, t('users.settings.password')
+    = f.label :password, t('users.settings.new_password')
     i
-      = t('users.settings.password_info')
+      = t('users.settings.new_password_info')
     br
     = f.password_field :password, :class => 'form-control', autocomplete: "off"
   .form-group
-    = f.label :password_confirmation, t('users.settings.password_confirmation')
+    = f.label :password_confirmation, t('users.settings.new_password_confirmation')
     br
     = f.password_field :password_confirmation, :class => 'form-control', autocomplete: "off"
+  br
   .form-group
     = f.label :current_password, t('users.settings.password')
     i
