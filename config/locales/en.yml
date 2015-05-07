@@ -238,7 +238,9 @@ en:
     related_users: users
     related_groups: groups
     obligatory: mandatory for you
+    obligatory_course_for_you: made this course mandatory for you
     recommended: recommended to you
+    recommended_course_to_you: recommended this course to you
     your_recommendations: Your Recommendations
     your_recommendations_with_quantity: Your Recommendations (%{number})
     has_pledged: expects you to enroll in this course.
@@ -257,6 +259,8 @@ en:
       no_recommendation: This group doesn't have any recommendations right now.
       obligatory: mandatory for
       recommended: recommended to
+      obligatory_course_for: made this course mandatory for
+      recommended_course_to: recommended this course to
 
   flash:
     #success:

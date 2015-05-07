@@ -238,7 +238,9 @@ de:
     related_users: Nutzer
     related_groups: Gruppen
     obligatory: verpflichtend für dich
+    obligatory_course_for_you: hat diesen Kurs für dich als verpflichtend markiert
     recommended: empfohlen für dich
+    recommended_course_to_you: hat dir diesen Kurs empfohlen
     your_recommendations: Deine Empfehlungen
     your_recommendations_with_quantity: Deine Empfehlungen (%{number})
     has_pledged: hat dir diesen Kurs vorgeschrieben.
@@ -256,7 +258,8 @@ de:
       has_recommended: hat diesen Kurs empfohlen.
       no_recommendation: Diese Gruppe hat leider momentan keine Empfehlungen.
       obligatory: verpflichtend für
-      recommended: empfohlen für
+      obligatory_course_for: hat diesen Kurs als verpflichtend markiert für
+      recommended_course_to: hat diesen Kurs empfohlen für
 
   flash:
     #success:

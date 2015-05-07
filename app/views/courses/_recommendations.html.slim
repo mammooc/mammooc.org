@@ -3,60 +3,31 @@
     .user-info
       = link_to recommendation.author
         img src=@profile_pictures[recommendation.author.profile_image_id]
-      .name
-        = link_to recommendation.author
-          = "#{recommendation.author.first_name} #{recommendation.author.last_name}"
-        - if recommendation.group.present?
-          - if recommendation.is_obligatory
-            .participation-obligatory
-              => t('recommendation.group.obligatory')
-              = link_to recommendation.group.name, group_path(recommendation.group)
-          - else
-            .participation-recommended
-              => t('recommendation.group.recommended')
-              = link_to recommendation.group.name, group_path(recommendation.group)
-        - else
-          - if recommendation.is_obligatory
-            .participation-obligatory
-              = t('recommendation.obligatory')
-          - else
-            .participation-recommended
-              = t('recommendation.recommended')
-
-        .small
-          = t('courses.user_belongs_to_group')
-          | openHPI
-      .pull-right.small
-        // TODO : put label or something nice instead of text
-        - if recommendation.group.present?
-          - if recommendation.is_obligatory
-            .participation-obligatory
-              => t('recommendation.group.obligatory')
-              = link_to recommendation.group.name, group_path(recommendation.group)
-          - else
-            .participation-recommended
-              => t('recommendation.group.recommended')
-              = link_to recommendation.group.name, group_path(recommendation.group)
-        - else
-          - if recommendation.is_obligatory
-            .participation-obligatory
-              = t('recommendation.obligatory')
-          - else
-            .participation-recommended
-              = t('recommendation.recommended')
-    .comment
-      - if recommendation.text.empty?
-        - if recommendation.group.present?
-          - if recommendation.is_obligatory
-            =< t('recommendation.group.has_pledged')
-          - else
-            =< t('recommendation.group.has_recommended')
-        - else
-          - if recommendation.is_obligatory
-            =< t('recommendation.has_pledged')
-          - else
-            =< t('recommendation.has_recommended')
-      - else
+        .name
+          .author
+            = link_to recommendation.author
+              => "#{recommendation.author.first_name} #{recommendation.author.last_name}"
+            - if recommendation.author.groups.size > 0
+              | (
+              = (recommendation.author.groups.to_a.collect {|g| g.name}).join(', ')
+              | )
+          .to-whom
+            - if recommendation.group.present?
+              - if recommendation.is_obligatory
+                => t('recommendation.group.obligatory_course_for')
+                = link_to recommendation.group.name, group_path(recommendation.group)
+              - else
+                => t('recommendation.group.recommended_course_to')
+                = link_to recommendation.group.name, group_path(recommendation.group)
+            - else
+              - if recommendation.is_obligatory
+                = t('recommendation.obligatory_course_for_you')
+              - else
+                = t('recommendation.recommended_course_to_you')
+        = I18n.l recommendation.created_at, format: '%-d. %B %Y'
+          // TODO : in English change format to month day, year
+    - if recommendation.text
+      .comment
         = "\"#{recommendation.text}\""
   - if index < @recommendations.size - 1
     .gradient-divider
