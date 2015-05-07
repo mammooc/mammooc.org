@@ -76,7 +76,7 @@ RSpec.describe EdxCourseWorker do
       case course_track.track_type
         when free_course_track_type then
           expect(course_track.track_type.type_of_achievement).to eql free_course_track_type.type_of_achievement
-          expect(course_track.costs).to be_nil
+          expect(course_track.costs).to eql 0.0
           expect(course_track.credit_points).to be_nil
         when certificate_course_track_type then
           expect(course_track.track_type.type_of_achievement).to eql certificate_course_track_type.type_of_achievement
@@ -95,7 +95,7 @@ RSpec.describe EdxCourseWorker do
       case course_track.track_type
         when free_course_track_type then
           expect(course_track.track_type.type_of_achievement).to eql free_course_track_type.type_of_achievement
-          expect(course_track.costs).to be_nil
+          expect(course_track.costs).to eql 0.0
           expect(course_track.credit_points).to be_nil
         when xseries_course_track_type then
           expect(course_track.track_type.type_of_achievement).to eql xseries_course_track_type.type_of_achievement
