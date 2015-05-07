@@ -94,6 +94,7 @@ en:
       cancel_account: Cancel my account
       update_account: Update
       pending_mail_confirmation: 'Currently waiting confirmation for:'
+      still_admin_in_group_error: Account could not be deleted, since you are still an administrator in a group.
     synchronization:
       oauth_error: Sorry! We were unable to establish a connection to your account. Please check your settings and try again.
       revoke_provider_connection: Revoke connection
