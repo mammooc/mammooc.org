@@ -47,7 +47,7 @@ RSpec.describe EdxCourseWorker do
     expect(course.course_instructors).to include json_course['course:staff'][0]
     expect(course.tracks.count).to eql 1
     expect(course.tracks[0].track_type.type_of_achievement).to eql free_course_track_type.type_of_achievement
-    expect(course.tracks[0].costs).to be_nil
+    expect(course.tracks[0].costs).to eql 0.0
     expect(course.tracks[0].credit_points).to be_nil
   end
 
@@ -72,12 +72,18 @@ RSpec.describe EdxCourseWorker do
     json_course['course:verified'] = '1'
     edx_course_worker.handle_response_data json_course_data
     course = Course.find_by(provider_course_id: json_course['course:id'], mooc_provider_id: mooc_provider.id)
-    expect(course.tracks[0].track_type.type_of_achievement).to eql free_course_track_type.type_of_achievement
-    expect(course.tracks[0].costs).to be_nil
-    expect(course.tracks[0].credit_points).to be_nil
-    expect(course.tracks[1].track_type.type_of_achievement).to eql certificate_course_track_type.type_of_achievement
-    expect(course.tracks[1].costs).to be_nil
-    expect(course.tracks[1].credit_points).to be_nil
+    (course.tracks).each do |course_track|
+      case course_track.track_type
+        when free_course_track_type then
+          expect(course_track.track_type.type_of_achievement).to eql free_course_track_type.type_of_achievement
+          expect(course_track.costs).to eql 0.0
+          expect(course_track.credit_points).to be_nil
+        when certificate_course_track_type then
+          expect(course_track.track_type.type_of_achievement).to eql certificate_course_track_type.type_of_achievement
+          expect(course_track.costs).to be_nil
+          expect(course_track.credit_points).to be_nil
+      end
+    end
   end
 
   it 'creates a xseries course track type' do
@@ -85,12 +91,18 @@ RSpec.describe EdxCourseWorker do
     json_course['course:xseries'] = '1'
     edx_course_worker.handle_response_data json_course_data
     course = Course.find_by(provider_course_id: json_course['course:id'], mooc_provider_id: mooc_provider.id)
-    expect(course.tracks[0].track_type.type_of_achievement).to eql free_course_track_type.type_of_achievement
-    expect(course.tracks[0].costs).to be_nil
-    expect(course.tracks[0].credit_points).to be_nil
-    expect(course.tracks[1].track_type.type_of_achievement).to eql xseries_course_track_type.type_of_achievement
-    expect(course.tracks[1].costs).to be_nil
-    expect(course.tracks[1].credit_points).to be_nil
+    (course.tracks).each do |course_track|
+      case course_track.track_type
+        when free_course_track_type then
+          expect(course_track.track_type.type_of_achievement).to eql free_course_track_type.type_of_achievement
+          expect(course_track.costs).to eql 0.0
+          expect(course_track.credit_points).to be_nil
+        when xseries_course_track_type then
+          expect(course_track.track_type.type_of_achievement).to eql xseries_course_track_type.type_of_achievement
+          expect(course_track.costs).to be_nil
+          expect(course_track.credit_points).to be_nil
+      end
+    end
   end
 
   it 'creates a profed course track type' do

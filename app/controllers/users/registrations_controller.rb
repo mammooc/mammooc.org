@@ -40,7 +40,6 @@ module Users
     end
 
     def update
-      puts 'blub'
       flash['error'] ||= []
 
       self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
@@ -50,8 +49,11 @@ module Users
       yield resource if block_given?
       if resource_updated
         if is_flashing_format?
-          flash_key = update_needs_confirmation?(resource, prev_unconfirmed_email) ?
-              :update_needs_confirmation : :updated
+          if update_needs_confirmation?(resource, prev_unconfirmed_email)
+            flash_key = :update_needs_confirmation
+          else
+            flash_key = :updated
+          end
           set_flash_message :notice, flash_key
         end
         sign_in resource_name, resource, bypass: true
@@ -59,11 +61,9 @@ module Users
         resource.errors.each do |key, value|
           flash['error'] << "#{t('users.sign_in_up.' + key.to_s)} #{value}"
         end
-        puts 'resource_not_updated'
         clean_up_passwords resource
       end
       redirect_to "/users/#{current_user.id}/settings?subsite=account"
-
     end
 
     def destroy

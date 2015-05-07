@@ -14,6 +14,7 @@ RSpec.describe 'recommendations/index', type: :view do
   end
 
   it 'renders a list of recommendations' do
+    sign_in user
     render
     expect(rendered).to match(/#{first_recommendation.course.name}/)
     expect(rendered).to match(/#{second_recommendation.course.name}/)

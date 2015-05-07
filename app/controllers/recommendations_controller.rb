@@ -20,6 +20,7 @@ class RecommendationsController < ApplicationController
 
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
     @profile_pictures = AmazonS3.instance.author_profile_images_hash_for_recommendations(@recommendations)
+    @rating_picture = AmazonS3.instance.get_url('five_stars.png')
   end
 
   # GET /recommendations/new
@@ -67,15 +68,14 @@ class RecommendationsController < ApplicationController
       @recommendation.destroy
     end
     respond_to do |format|
-      format.html { redirect_to recommendations_path, notice: t('recommendation.successfully_destroyed') }
+      format.html { redirect_to :back, notice: t('recommendation.successfully_destroyed') }
     end
   end
 
   def delete_group_recommendation
-    group_id = @recommendation.group.id
     @recommendation.destroy
     respond_to do |format|
-      format.html { redirect_to "/groups/#{group_id}/recommendations", notice: t('recommendation.successfully_destroyed') }
+      format.html { redirect_to :back, notice: t('recommendation.successfully_destroyed') }
     end
   end
 
