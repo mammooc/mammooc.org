@@ -279,6 +279,16 @@ de:
         range4: 90-150
         range5: 150-200
         range6: '> 200'
+      labels:
+        starts_after: Kurs beginnt nach dem
+        ends_before: Kurs endet vor dem
+        language: Sprache
+        provider: MOOC-Anbieter
+        subtitle_language: Untertitel
+        duration: Dauer
+        start_categories: Zeitstatus
+        costs: Preis
+        certificate: Art des Zertifikats
 
   recommendation:
     placeholder: Gib deine persönliche Nachricht hier ein ...

@@ -1,6 +1,13 @@
 # -*- encoding : utf-8 -*-
 class Course < ActiveRecord::Base
-  filterrific available_filters: %w(with_start_date_gte with_end_date_lt with_language with_mooc_provider_id with_subtitle_languages duration_filter_options start_filter_options with_tracks)
+  filterrific available_filters: [:with_start_date_gte,
+                                  :with_end_date_lt,
+                                  :with_language,
+                                  :with_mooc_provider_id,
+                                  :with_subtitle_languages,
+                                  :duration_filter_options,
+                                  :start_filter_options,
+                                  :with_tracks]
 
   belongs_to :mooc_provider
   belongs_to :course_result
