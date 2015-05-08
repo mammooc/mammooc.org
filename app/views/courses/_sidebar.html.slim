@@ -21,7 +21,11 @@
     .element.pledged
       .content
         .hd5
-          = t('courses.sidebar.pledged')
+          => t('courses.sidebar.pledged')
+          span.small-link
+            | &#183;&nbsp;
+            a href="#course-recommendations"
+              = t('global.show_details')
 
   .element
     .content.details
@@ -166,6 +170,3 @@
                       = t('courses.tracks.types.credit_points')
                     .pb10
                     = track.credit_points
-
-                  - if i != (@course.tracks.count - 1)
-

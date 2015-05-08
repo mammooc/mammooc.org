@@ -272,6 +272,8 @@ de:
       recommended_for: empfohlen für
       obligatory_course_for: hat diesen Kurs als verpflichtend markiert für
       recommended_course_to: hat diesen Kurs empfohlen für
+    course:
+      already_enrolled: Du belegst diesen Kurs bereits.
 
   flash:
     #success:

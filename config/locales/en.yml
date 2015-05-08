@@ -265,15 +265,13 @@ en:
       ignore: Ignore recommendation
       course_details: View details
     group:
+      no_recommendation: This group doesn't have any recommendations right now.
       has_pledged:  expects enrollment in this course.
       has_recommended: has recommmended this course.
-      no_recommendation: This group doesn't have any recommendations right now.
-      obligatory: mandatory for
-      recommended: recommended to
-      obligatory_course_for: made this course mandatory for
-      recommended_course_to: recommended this course to
       obligatory_for: mandatory for
       recommended_for: recommended to
+      obligatory_course_for: made this course mandatory for
+      recommended_course_to: recommended this course to
     course:
       already_enrolled: You are already enrolled for this course.
 
