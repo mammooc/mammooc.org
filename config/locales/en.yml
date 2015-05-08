@@ -221,12 +221,13 @@ en:
     enrollment_error: Sorry, the enrollment for this course has failed.
     unenrollment_error: Sorry, the unenrollment for this course has failed.
     sidebar:
-      recommended_by: Recommended to you by
+      recommended: Someone recommended this course to you
+      pledged: Someone wants to see you doing this course
       details: Course Details
     tracks:
       headline: Tracks
       types:
-        type_of_achievement: Type of achievement
+        type_of_achievement: Type of Achievement
         costs: Costs
         credit_points: ECTS Points
         achievement_types:
@@ -253,6 +254,8 @@ en:
     recommended: recommended
     obligatory_for: mandatory for you
     recommended_for: recommended to you
+    obligatory_course_for_you: made this course mandatory for you
+    recommended_course_to_you: recommended this course to you
     your_recommendations: Your Recommendations
     your_recommendations_with_quantity: Your Recommendations (%{number})
     for_you: to you
@@ -273,13 +276,14 @@ en:
       course_details: View details
     group:
       no_recommendation: This group doesn't have any recommendations right now.
-      has_pledged: expects enrollment in this course.
-      has_recommended: has recommended this course.
+      has_pledged:  expects enrollment in this course.
+      has_recommended: has recommmended this course.
       obligatory_for: mandatory for
       recommended_for: recommended to
+      obligatory_course_for: made this course mandatory for
+      recommended_course_to: recommended this course to
     course:
       already_enrolled: You are already enrolled for this course.
-
 
   flash:
     #success:
