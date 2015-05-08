@@ -4,7 +4,7 @@
       = f.label t('courses.filter.labels.starts_after')
       = f.text_field(:with_start_date_gte, class: 'js-datepicker form control', 'data-provide': "datepicker", 'data-date-format': 'dd.mm.yyyy', 'data-date-orientation':"top")
       = f.label t('courses.filter.labels.ends_before')
-      = f.text_field(:with_end_date_lt, class: 'js-datepicker form control', 'data-provide': "datepicker", 'data-date-format': 'dd.mm.yyyy', 'data-date-orientation':"top")
+      = f.text_field(:with_end_date_lte, class: 'js-datepicker form control', 'data-provide': "datepicker", 'data-date-format': 'dd.mm.yyyy', 'data-date-orientation':"top")
       br
       = f.label t('courses.filter.labels.language')
       = f.select(:with_language, @filterrific.select_options[:with_language], {include_blank: t('courses.filter.all')})
