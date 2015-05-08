@@ -40,7 +40,7 @@ class IversityCourseWorker < AbstractCourseWorker
         price = plan['price'].split(' ') unless plan['price'].blank?
         track_attributes = {}
         case plan['title'].split(/[\s-]/)[0].downcase
-          when 'audit' then track_attributes = {track_type: free_track_type}
+          when 'audit' then track_attributes = {track_type: free_track_type, costs: 0.0, costs_currency: "\xe2\x82\xac"}
           when 'certificate' then track_attributes = {track_type: certificate_track_type, costs: price[0].to_f, costs_currency: price[1]}
           when 'ects'
             track_attributes = {track_type: ects_track_type, costs: price[0].to_f, costs_currency: price[1]}
@@ -60,7 +60,6 @@ class IversityCourseWorker < AbstractCourseWorker
       end
 
       course.description = course_element['description']
-      course.calculated_duration_in_days = (course.end_date - course.start_date).to_i
       course.provider_given_duration = course_element['duration']
 
       course.save!
