@@ -8,9 +8,7 @@
             = link_to recommendation.author
               => "#{recommendation.author.first_name} #{recommendation.author.last_name}"
             - if recommendation.author.groups.size > 0
-              | (
-              = (recommendation.author.groups.to_a.collect {|g| g.name}).join(', ')
-              | )
+              = "(#{(recommendation.author.groups.to_a.collect {|g| g.name}).join(', ')})"
           .to-whom
             - if recommendation.group.present?
               - if recommendation.is_obligatory

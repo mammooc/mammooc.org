@@ -143,10 +143,10 @@
           = t('courses.tracks.headline')
         .panel-group id="track-accordion" role="tablist" aria-multiselectable="true"
           - @course.tracks.each_with_index do |track, i|
-            .panel.panel-default
-              .panel-heading role="tab" id="heading#{i}"
-                .panel-title
-                  a data-toggle="collapse" data-parent="#track-accordion" href="#collapse#{i}" aria-expanded="true" aria-controls="collapse#{i}"
+            .panel.panel-default.do-not-show-link
+              a data-toggle="collapse" data-parent="#track-accordion" href="#collapse#{i}" aria-expanded="true" aria-controls="collapse#{i}"
+                .panel-heading role="tab" id="heading#{i}"
+                  .panel-title
                     = track.track_type.title
                     span.pull-right.glyphicon.glyphicon-chevron-down aria-hidden="true"
               div class=(["panel-collapse", "collapse", i == 0 ? "in" : nil].compact.join(' ')) id="collapse#{i}" role="tabpanel" aria-labelledby="heading#{i}"
