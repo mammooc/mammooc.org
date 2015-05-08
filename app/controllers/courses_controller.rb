@@ -21,6 +21,8 @@ class CoursesController < ApplicationController
       @following_course_name = Course.find(@course.following_iteration_id).name
     end
 
+    @recommendation = Recommendation.new(course: @course)
+
     # RECOMMENDATIONS
     if user_signed_in?
       recommendations = Recommendation.sorted_recommendations_for_course_and_user(@course, current_user, [current_user])
