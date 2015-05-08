@@ -22,15 +22,29 @@ class Course < ActiveRecord::Base
   after_save :create_and_update_course_connections
   before_destroy :delete_dangling_course_connections
 
-  scope :with_start_date_gte, ->(reference_time) { where('courses.start_date IS NOT NULL AND (courses.start_date >= ?) ', Time.zone.parse(reference_time).strftime('%Y-%m-%d %H:%M:%S.%6N')) }
+  scope :with_start_date_gte, ->(reference_time) do
+    where('courses.start_date IS NOT NULL AND (courses.start_date >= ?) ',
+          Time.zone.parse(reference_time).strftime('%Y-%m-%d %H:%M:%S.%6N'))
+  end
 
-  scope :with_end_date_lt, ->(reference_time) { where('courses.end_date IS NOT NULL AND (courses.end_date <= ?) ', Time.zone.parse(reference_time).strftime('%Y-%m-%d %H:%M:%S.%6N')) }
+  scope :with_end_date_lt, ->(reference_time) do
+    where('courses.end_date IS NOT NULL AND (courses.end_date <= ?) ',
+          Time.zone.parse(reference_time).strftime('%Y-%m-%d %H:%M:%S.%6N'))
+  end
 
-  scope :with_language, ->(reference_language) { where('courses.language IS NOT NULL AND (courses.language = ? OR courses.language LIKE ?)', reference_language, "#{reference_language}-%") }
+  scope :with_language, ->(reference_language) do
+    where('courses.language IS NOT NULL AND (courses.language LIKE ? OR courses.language LIKE ?)',
+          "#{reference_language}%", "%,#{reference_language}%")
+  end
 
-  scope :with_mooc_provider_id, ->(reference_mooc_provider_id) { where(mooc_provider_id: [*reference_mooc_provider_id]) }
+  scope :with_mooc_provider_id, ->(reference_mooc_provider_id) do
+    where(mooc_provider_id: [*reference_mooc_provider_id])
+  end
 
-  scope :with_subtitle_languages, ->(reference_subtitle_languages) { where('courses.subtitle_languages LIKE ? OR courses.subtitle_languages LIKE ?', "#{reference_subtitle_languages}%", "%,#{reference_subtitle_languages}%") }
+  scope :with_subtitle_languages, ->(reference_subtitle_languages) do
+    where('courses.subtitle_languages LIKE ? OR courses.subtitle_languages LIKE ?',
+          "#{reference_subtitle_languages}%", "%,#{reference_subtitle_languages}%")
+  end
 
   scope :with_tracks, -> (reference_track_options) do
     if reference_track_options[:costs].present? && reference_track_options[:certificate].blank?
