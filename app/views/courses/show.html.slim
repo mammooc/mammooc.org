@@ -91,51 +91,8 @@
       .title
         = t('courses.recommendations')
       .content
-        - @recommendations.each_with_index do |recommendation, index|
-          .recommendation-small
-            .user-info
-              = link_to recommendation.author
-                img src=@profile_pictures[recommendation.author.profile_image_id]
-              .name
-                = link_to recommendation.author
-                  = "#{recommendation.author.first_name} #{recommendation.author.last_name}"
-                .small
-                  = t('courses.user_belongs_to_group')
-                  | openHPI
-              .pull-right.small
-                // TODO : put label or something nice instead of text
-                - if recommendation.group.present?
-                  - if recommendation.is_obligatory
-                    .participation-obligatory
-                      => t('recommendation.group.obligatory_for')
-                      = link_to recommendation.group.name, group_path(recommendation.group)
-                  - else
-                    .participation-recommended
-                      => t('recommendation.group.recommended_for')
-                      = link_to recommendation.group.name, group_path(recommendation.group)
-                - else
-                  - if recommendation.is_obligatory
-                    .participation-obligatory
-                      = t('recommendation.obligatory_for')
-                  - else
-                    .participation-recommended
-                      = t('recommendation.recommended_for')
-            .comment
-              - if recommendation.text.blank?
-                - if recommendation.group.present?
-                  - if recommendation.is_obligatory
-                    =< t('recommendation.group.has_pledged')
-                  - else
-                    =< t('recommendation.group.has_recommended')
-                - else
-                  - if recommendation.is_obligatory
-                    =< t('recommendation.has_pledged')
-                  - else
-                    =< t('recommendation.has_recommended')
-              - else
-                = "\"#{recommendation.text}\""
-          - if index < @recommendations.size - 1
-            .gradient-divider
+        div id="recommendation-list"
+          = render 'recommendations'
 
   .course-details
     .title

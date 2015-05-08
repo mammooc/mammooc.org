@@ -211,7 +211,8 @@ de:
     enrollment_error: Die Belegung beim MOOC-Anbieter hat leider nicht funktioniert.
     unenrollment_error: Das Entfernen der Belegung beim MOOC-Anbieter hat leider nicht funktioniert.
     sidebar:
-      recommended_by: Wurde dir empfohlen von
+      recommended: Dieser Kurs wurde dir empfohlen
+      pledged: Dieser Kurs wurde dir vorgeschrieben
       details: Kursdetails
     tracks:
       headline: Pfade
@@ -239,6 +240,8 @@ de:
     related_course: Kurs
     related_users: Nutzer
     related_groups: Gruppen
+    obligatory_course_for_you: hat diesen Kurs für dich als verpflichtend markiert
+    recommended_course_to_you: hat dir diesen Kurs empfohlen
     obligatory: verpflichtend
     recommended: empfohlen
     obligatory_for: verpflichtend für dich
@@ -267,8 +270,10 @@ de:
       has_recommended: hat diesen Kurs empfohlen.
       obligatory_for: verpflichtend für
       recommended_for: empfohlen für
+      obligatory_course_for: hat diesen Kurs als verpflichtend markiert für
+      recommended_course_to: hat diesen Kurs empfohlen für
     course:
-      already_enrolled: Du belegst den Kurs bereits.
+      already_enrolled: Du belegst diesen Kurs bereits.
 
   flash:
     #success:
