@@ -70,6 +70,7 @@ class AbstractMoocProviderConnector
   def destroy_connection(user)
     return false unless connection_to_mooc_provider? user
     MoocProviderUser.find_by(user: user, mooc_provider: mooc_provider).destroy
+    true
   end
 
   private

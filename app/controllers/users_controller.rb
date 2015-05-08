@@ -163,7 +163,7 @@ class UsersController < ApplicationController
     if mooc_provider.present?
       provider_connector = get_connector_by_mooc_provider mooc_provider
       if provider_connector.present?
-        provider_connector.destroy_connection(current_user)
+        @revoked_connection = provider_connector.destroy_connection(current_user)
       end
     end
     set_provider_logos

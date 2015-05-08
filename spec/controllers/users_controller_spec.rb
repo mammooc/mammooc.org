@@ -26,6 +26,7 @@ RSpec.describe UsersController, type: :controller do
   let!(:open_hpi) { FactoryGirl.create(:mooc_provider, name: 'openHPI', api_support_state: :naive) }
   let!(:open_sap) { FactoryGirl.create(:mooc_provider, name: 'openSAP', api_support_state: :naive) }
   let!(:coursera) { FactoryGirl.create(:mooc_provider, name: 'coursera', api_support_state: :oauth) }
+  let!(:other_mooc_provider) { FactoryGirl.create(:mooc_provider) }
 
   before(:each) do
     sign_in user
@@ -214,6 +215,234 @@ RSpec.describe UsersController, type: :controller do
       get :oauth_callback, code: 'abc123', state: 'coursera~/dashboard~my_invalid_csrf_token'
       expect(response).to redirect_to(dashboard_path)
       expect(flash[:error]).to include(I18n.t('users.synchronization.oauth_error'))
+    end
+  end
+
+  describe 'GET set_mooc_provider_connection' do
+    render_views
+    let(:json) { JSON.parse(response.body) }
+    let(:email_address) { 'user@example.com' }
+    let(:password) { 'p@ssw0rd' }
+
+    it 'handles unknown mooc provider and redirects to the dashboard path' do
+      expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:initialize_connection)
+      expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:load_user_data).with([user.id])
+      get :set_mooc_provider_connection, id: user.to_param, email: email_address, password: password, mooc_provider: 'unknown'
+      expect(assigns(:got_connection)).to eql false
+      expect(response).to redirect_to(dashboard_path)
+    end
+
+    it 'handles unknown mooc provider and renders a partial as JSON' do
+      expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:initialize_connection)
+      expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:load_user_data).with([user.id])
+      get :set_mooc_provider_connection, format: :json, id: user.to_param, email: email_address, password: password, mooc_provider: 'unknown'
+      expect(assigns(:got_connection)).to eql false
+      expect(json).to include 'partial'
+      expect(json['status']).to eql false
+    end
+
+    it 'handles unknown mooc provider connector and redirects to the dashboard path' do
+      expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:initialize_connection)
+      expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:load_user_data).with([user.id])
+      get :set_mooc_provider_connection, id: user.to_param, email: email_address, password: password, mooc_provider: other_mooc_provider.to_param
+      expect(assigns(:got_connection)).to eql false
+      expect(response).to redirect_to(dashboard_path)
+    end
+
+    it 'handles unknown mooc provider connector and renders a partial as JSON' do
+      expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:initialize_connection)
+      expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:load_user_data).with([user.id])
+      get :set_mooc_provider_connection, format: :json, id: user.to_param, email: email_address, password: password, mooc_provider: other_mooc_provider.to_param
+      expect(assigns(:got_connection)).to eql false
+      expect(json).to include 'partial'
+      expect(json['status']).to eql false
+    end
+
+    context 'openHPI' do
+      it 'initializes a new connection to a naive mooc provider and redirects to the dashboard path' do
+        expect_any_instance_of(OpenHPIConnector).to receive(:initialize_connection).with(user, email: email_address, password: password).and_return(true)
+        get :set_mooc_provider_connection, id: user.to_param, email: email_address, password: password, mooc_provider: open_hpi.to_param
+        expect(assigns(:got_connection)).to eql true
+        expect(response).to redirect_to(dashboard_path)
+      end
+
+      it 'initializes a new connection to a naive mooc provider and renders a partial as JSON' do
+        expect_any_instance_of(OpenHPIConnector).to receive(:initialize_connection).with(user, email: email_address, password: password).and_return(true)
+        get :set_mooc_provider_connection, format: :json, id: user.to_param, email: email_address, password: password, mooc_provider: open_hpi.to_param
+        expect(assigns(:got_connection)).to eql true
+        expect(json).to include 'partial'
+        expect(json['status']).to eql true
+      end
+
+      it 'does not initialize a new connection to a naive mooc provider and redirects to the dashboard path' do
+        expect_any_instance_of(OpenHPIConnector).to receive(:initialize_connection).with(user, email: email_address, password: password).and_return(false)
+        get :set_mooc_provider_connection, id: user.to_param, email: email_address, password: password, mooc_provider: open_hpi.to_param
+        expect(assigns(:got_connection)).to eql false
+        expect(response).to redirect_to(dashboard_path)
+      end
+
+      it 'does not initialize a new connection to a naive mooc provider and renders a partial as JSON' do
+        expect_any_instance_of(OpenHPIConnector).to receive(:initialize_connection).with(user, email: email_address, password: password).and_return(false)
+        get :set_mooc_provider_connection, format: :json, id: user.to_param, email: email_address, password: password, mooc_provider: open_hpi.to_param
+        expect(assigns(:got_connection)).to eql false
+        expect(json).to include 'partial'
+        expect(json['status']).to eql false
+      end
+    end
+
+    context 'openSAP' do
+      it 'initializes a new connection to a naive mooc provider and redirects to the dashboard path' do
+        expect_any_instance_of(OpenSAPConnector).to receive(:initialize_connection).with(user, email: email_address, password: password).and_return(true)
+        get :set_mooc_provider_connection, id: user.to_param, email: email_address, password: password, mooc_provider: open_sap.to_param
+        expect(assigns(:got_connection)).to eql true
+        expect(response).to redirect_to(dashboard_path)
+      end
+
+      it 'initializes a new connection to a naive mooc provider and renders a partial as JSON' do
+        expect_any_instance_of(OpenSAPConnector).to receive(:initialize_connection).with(user, email: email_address, password: password).and_return(true)
+        get :set_mooc_provider_connection, format: :json, id: user.to_param, email: email_address, password: password, mooc_provider: open_sap.to_param
+        expect(assigns(:got_connection)).to eql true
+        expect(json).to include 'partial'
+        expect(json['status']).to eql true
+      end
+
+      it 'does not initialize a new connection to a naive mooc provider and redirects to the dashboard path' do
+        expect_any_instance_of(OpenSAPConnector).to receive(:initialize_connection).with(user, email: email_address, password: password).and_return(false)
+        get :set_mooc_provider_connection, id: user.to_param, email: email_address, password: password, mooc_provider: open_sap.to_param
+        expect(assigns(:got_connection)).to eql false
+        expect(response).to redirect_to(dashboard_path)
+      end
+
+      it 'does not initialize a new connection to a naive mooc provider and renders a partial as JSON' do
+        expect_any_instance_of(OpenSAPConnector).to receive(:initialize_connection).with(user, email: email_address, password: password).and_return(false)
+        get :set_mooc_provider_connection, format: :json, id: user.to_param, email: email_address, password: password, mooc_provider: open_sap.to_param
+        expect(assigns(:got_connection)).to eql false
+        expect(json).to include 'partial'
+        expect(json['status']).to eql false
+      end
+    end
+  end
+
+  describe 'GET revoke_mooc_provider_connection' do
+    render_views
+    let(:json) { JSON.parse(response.body) }
+
+    it 'handles unknown mooc provider and redirects to the dashboard path' do
+      expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:destroy_connection).with(user.id)
+      get :revoke_mooc_provider_connection, id: user.to_param, mooc_provider: 'unknown'
+      expect(assigns(:revoked_connection)).to eql true
+      expect(response).to redirect_to(dashboard_path)
+    end
+
+    it 'handles unknown mooc provider and renders a partial as JSON' do
+      expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:destroy_connection)
+      get :revoke_mooc_provider_connection, format: :json, id: user.to_param, mooc_provider: 'unknown'
+      expect(assigns(:revoked_connection)).to eql true
+      expect(json).to include 'partial'
+      expect(json['status']).to eql true
+    end
+
+    it 'handles unknown mooc provider connector and redirects to the dashboard path' do
+      expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:destroy_connection)
+      get :revoke_mooc_provider_connection, id: user.to_param, mooc_provider: other_mooc_provider.to_param
+      expect(assigns(:revoked_connection)).to eql true
+      expect(response).to redirect_to(dashboard_path)
+    end
+
+    it 'handles unknown mooc provider connector and renders a partial as JSON' do
+      expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:destroy_connection)
+      get :revoke_mooc_provider_connection, format: :json, id: user.to_param, mooc_provider: other_mooc_provider.to_param
+      expect(assigns(:revoked_connection)).to eql true
+      expect(json).to include 'partial'
+      expect(json['status']).to eql true
+    end
+
+    context 'openHPI' do
+      it 'destroys a connection to a naive mooc provider and redirects to the dashboard path' do
+        expect_any_instance_of(OpenHPIConnector).to receive(:destroy_connection).with(user).and_return(true)
+        get :revoke_mooc_provider_connection, id: user.to_param, mooc_provider: open_hpi.to_param
+        expect(assigns(:revoked_connection)).to eql true
+        expect(response).to redirect_to(dashboard_path)
+      end
+
+      it 'destroys a connection to a naive mooc provider and renders a partial as JSON' do
+        expect_any_instance_of(OpenHPIConnector).to receive(:destroy_connection).with(user).and_return(true)
+        get :revoke_mooc_provider_connection, format: :json, id: user.to_param, mooc_provider: open_hpi.to_param
+        expect(assigns(:revoked_connection)).to eql true
+        expect(json).to include 'partial'
+        expect(json['status']).to eql true
+      end
+
+      it 'does not try to destroy a connection which is not present (any more) to a naive mooc provider and redirects to the dashboard path' do
+        expect_any_instance_of(OpenHPIConnector).to receive(:destroy_connection).with(user).and_return(false)
+        get :revoke_mooc_provider_connection, id: user.to_param, mooc_provider: open_hpi.to_param
+        expect(assigns(:revoked_connection)).to eql false
+        expect(response).to redirect_to(dashboard_path)
+      end
+
+      it 'does not try to destroy a connection which is not present (any more) to a naive mooc provider and renders a partial as JSON' do
+        expect_any_instance_of(OpenHPIConnector).to receive(:destroy_connection).with(user).and_return(false)
+        get :revoke_mooc_provider_connection, format: :json, id: user.to_param, mooc_provider: open_hpi.to_param
+        expect(assigns(:revoked_connection)).to eql false
+        expect(json).to include 'partial'
+        expect(json['status']).to eql false
+      end
+
+      it 'does not try to destroy a connection twice' do
+        FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: open_hpi)
+        get :revoke_mooc_provider_connection, format: :json, id: user.to_param, mooc_provider: open_hpi.to_param
+        expect(assigns(:revoked_connection)).to eql true
+        expect(json).to include 'partial'
+        expect(json['status']).to eql true
+        get :revoke_mooc_provider_connection, format: :json, id: user.to_param, mooc_provider: open_hpi.to_param
+        expect(assigns(:revoked_connection)).to eql false
+        expect(JSON.parse response.body).to include 'partial'
+        expect((JSON.parse response.body)['status']).to eql false
+      end
+    end
+
+    context 'openSAP' do
+      it 'initializes a new connection to a naive mooc provider and redirects to the dashboard path' do
+        expect_any_instance_of(OpenSAPConnector).to receive(:destroy_connection).with(user).and_return(true)
+        get :revoke_mooc_provider_connection, id: user.to_param, mooc_provider: open_sap.to_param
+        expect(assigns(:revoked_connection)).to eql true
+        expect(response).to redirect_to(dashboard_path)
+      end
+
+      it 'initializes a new connection to a naive mooc provider and renders a partial as JSON' do
+        expect_any_instance_of(OpenSAPConnector).to receive(:destroy_connection).with(user).and_return(true)
+        get :revoke_mooc_provider_connection, format: :json, id: user.to_param, mooc_provider: open_sap.to_param
+        expect(assigns(:revoked_connection)).to eql true
+        expect(json).to include 'partial'
+        expect(json['status']).to eql true
+      end
+
+      it 'does not try to destroy a connection which is not present (any more) to a naive mooc provider and redirects to the dashboard path' do
+        expect_any_instance_of(OpenSAPConnector).to receive(:destroy_connection).with(user).and_return(false)
+        get :revoke_mooc_provider_connection, id: user.to_param, mooc_provider: open_sap.to_param
+        expect(assigns(:revoked_connection)).to eql false
+        expect(response).to redirect_to(dashboard_path)
+      end
+
+      it 'does not try to destroy a connection which is not present (any more) to a naive mooc provider and renders a partial as JSON' do
+        expect_any_instance_of(OpenSAPConnector).to receive(:destroy_connection).with(user).and_return(false)
+        get :revoke_mooc_provider_connection, format: :json, id: user.to_param, mooc_provider: open_sap.to_param
+        expect(assigns(:revoked_connection)).to eql false
+        expect(json).to include 'partial'
+        expect(json['status']).to eql false
+      end
+
+      it 'does not try to destroy a connection twice' do
+        FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: open_sap)
+        get :revoke_mooc_provider_connection, format: :json, id: user.to_param, mooc_provider: open_sap.to_param
+        expect(assigns(:revoked_connection)).to eql true
+        expect(json).to include 'partial'
+        expect(json['status']).to eql true
+        get :revoke_mooc_provider_connection, format: :json, id: user.to_param, mooc_provider: open_sap.to_param
+        expect(assigns(:revoked_connection)).to eql false
+        expect(JSON.parse response.body).to include 'partial'
+        expect((JSON.parse response.body)['status']).to eql false
+      end
     end
   end
 end

@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
   before_destroy :handle_group_memberships, prepend: true
 
   def handle_group_memberships
-    self.groups.each { |group|
+    groups.each do |group|
       if group.users.count > 1
         if UserGroup.find_by(group: group, user: self).is_admin
           if UserGroup.where(group: group, is_admin: true).count > 1
@@ -34,6 +34,6 @@ class User < ActiveRecord::Base
       else
         group.destroy
       end
-    }
+    end
   end
 end
