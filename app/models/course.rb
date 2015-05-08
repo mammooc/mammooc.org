@@ -33,23 +33,42 @@ class Course < ActiveRecord::Base
   scope :with_subtitle_languages, ->(reference_subtitle_languages) { where('courses.subtitle_languages LIKE ? OR courses.subtitle_languages LIKE ?', "#{reference_subtitle_languages}%", "%,#{reference_subtitle_languages}%") }
 
   scope :with_tracks, -> (reference_track_options) do
-    case reference_track_options[:costs]
-
-      when 'free'
-        (where('course_tracks.costs IS NOT NULL AND course_tracks.costs = 0')).joins(:tracks)
-      when 'range1'
-        (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 30.0')).joins(:tracks)
-      when 'range2'
-        (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 60.0 AND course_tracks.costs > 30.0')).joins(:tracks)
-      when 'range3'
-        (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 90.0 AND course_tracks.costs > 60.0')).joins(:tracks)
-      when 'range4'
-        (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 150.0 AND course_tracks.costs > 90.0')).joins(:tracks)
-      when 'range5'
-        (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 200.0 AND course_tracks.costs > 150.0')).joins(:tracks)
-      when 'range6'
-        (where('course_tracks.costs IS NOT NULL AND course_tracks.costs > 200.0')).joins(:tracks)
-
+    if reference_track_options[:costs].present? && reference_track_options[:certificate].blank?
+      case reference_track_options[:costs]
+        when 'free'
+          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs = 0')).joins(:tracks)
+        when 'range1'
+          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 30.0')).joins(:tracks)
+        when 'range2'
+          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 60.0 AND course_tracks.costs > 30.0')).joins(:tracks)
+        when 'range3'
+          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 90.0 AND course_tracks.costs > 60.0')).joins(:tracks)
+        when 'range4'
+          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 150.0 AND course_tracks.costs > 90.0')).joins(:tracks)
+        when 'range5'
+          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 200.0 AND course_tracks.costs > 150.0')).joins(:tracks)
+        when 'range6'
+          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs > 200.0')).joins(:tracks)
+      end
+    elsif reference_track_options[:costs].blank? && reference_track_options[:certificate].present?
+      where('course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks)
+    elsif reference_track_options[:costs].present? && reference_track_options[:certificate].present?
+      case reference_track_options[:costs]
+        when 'free'
+          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs = 0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)
+        when 'range1'
+          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 30.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)
+        when 'range2'
+          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 60.0 AND course_tracks.costs > 30.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)
+        when 'range3'
+          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 90.0 AND course_tracks.costs > 60.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)
+        when 'range4'
+          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 150.0 AND course_tracks.costs > 90.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)
+        when 'range5'
+          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 200.0 AND course_tracks.costs > 150.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)
+        when 'range6'
+          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs > 200.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)
+      end
     end
   end
 
@@ -104,7 +123,6 @@ class Course < ActiveRecord::Base
      [I18n.t('courses.filter.start.soon'), 'soon'],
      [I18n.t('courses.filter.start.future'), 'future'],
     ]
-
   end
 
   def self.options_for_duration
