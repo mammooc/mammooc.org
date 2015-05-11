@@ -378,7 +378,7 @@ RSpec.describe Course, type: :model do
 
       context 'only costs' do
 
-        let(:free_track) { FactoryGirl.create(:free_course)}
+        let(:free_track) { FactoryGirl.create(:free_course_track)}
         let(:track1) { FactoryGirl.create(:certificate_course_track, costs: 20.0) }
         let(:track2) { FactoryGirl.create(:certificate_course_track, costs: 40.0) }
         let(:track3) { FactoryGirl.create(:certificate_course_track, costs: 70.0) }
