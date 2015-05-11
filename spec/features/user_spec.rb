@@ -43,7 +43,7 @@ RSpec.describe 'User', type: :feature do
       expect(page).to have_content I18n.t('users.settings.cancel_account')
     end
 
-    it 'get error when trying to delete account but still admin in group', js:true do
+    it 'get error when trying to delete account but still admin in group', js: true do
       click_link "#{user.first_name} #{user.last_name}"
       click_link I18n.t('navbar.settings')
       click_button 'load-account-settings-button'
@@ -53,6 +53,5 @@ RSpec.describe 'User', type: :feature do
       wait_for_ajax
       expect(page).to have_content I18n.t('users.settings.still_admin_in_group_error')
     end
-
   end
 end

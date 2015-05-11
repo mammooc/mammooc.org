@@ -280,6 +280,4 @@ RSpec.describe 'Group', type: :feature do
       expect(page).to have_no_selector('sync-group-course-button')
     end
   end
-
-
 end
