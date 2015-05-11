@@ -300,9 +300,7 @@ RSpec.describe 'Group', type: :feature do
       click_link "#{user.first_name} #{user.last_name}"
       click_link I18n.t('navbar.settings')
       click_button 'load-account-settings-button'
-      accept_alert do
-        click_button I18n.t('users.settings.cancel_account')
-      end
+      click_button I18n.t('users.settings.cancel_account')
       wait_for_ajax
       expect(page).to have_content I18n.t('users.settings.still_admin_in_group_error')
     end
