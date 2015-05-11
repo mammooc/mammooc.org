@@ -6,6 +6,15 @@ RSpec.describe 'Users::Session', type: :feature do
 
   before(:each) do
     visit new_user_session_path
+    ActionMailer::Base.deliveries.clear
+  end
+
+  before(:all) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  after(:all) do
+    DatabaseCleaner.strategy = :transaction
   end
 
   it 'works with valid input' do

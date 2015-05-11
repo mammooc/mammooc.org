@@ -2,6 +2,18 @@
 require 'rails_helper'
 
 RSpec.describe 'Application', type: :feature do
+  before(:each) do
+    ActionMailer::Base.deliveries.clear
+  end
+
+  before(:all) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  after(:all) do
+    DatabaseCleaner.strategy = :transaction
+  end
+
   describe 'GET any URL without being signed in' do
     let(:user) { FactoryGirl.create(:user) }
 
