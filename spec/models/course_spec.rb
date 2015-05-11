@@ -463,8 +463,8 @@ RSpec.describe Course, type: :model do
         let(:track_type2) {FactoryGirl.create(:course_track_type)}
 
 
-        let(:free_track1) { FactoryGirl.create(:free_course, track_type: track_type1)}
-        let(:free_track2) { FactoryGirl.create(:free_course, track_type: track_type2)}
+        let(:free_track1) { FactoryGirl.create(:free_course_track, track_type: track_type1)}
+        let(:free_track2) { FactoryGirl.create(:free_course_track, track_type: track_type2)}
 
         let(:track1_range1) { FactoryGirl.create(:certificate_course_track, costs: 20.0, track_type: track_type1) }
         let(:track2_range1) { FactoryGirl.create(:certificate_course_track, costs: 20.0, track_type: track_type2) }
