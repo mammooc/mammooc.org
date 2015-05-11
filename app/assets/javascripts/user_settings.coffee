@@ -53,10 +53,6 @@ synchronizeNaiveUserMoocProviderConnection = (event) ->
     success: (data, textStatus, jqXHR) ->
       if data.status == true
         $("div.settings-container").html(data.partial)
-#        $("#panel-#{mooc_provider}").removeClass("panel-default")
-#        $("#panel-#{mooc_provider}").removeClass("panel-danger")
-#        $("#panel-#{mooc_provider}").addClass("panel-success")
-#        $("#div-error-#{mooc_provider}").text("")
       else
         $("#div-error-#{mooc_provider}").text("Error!")
   event.preventDefault()
@@ -76,14 +72,12 @@ revokeNaiveUserMoocProviderConnection = (event) ->
     success: (data, textStatus, jqXHR) ->
       if data.status == true
         $("div.settings-container").html(data.partial)
-#        $("#panel-#{mooc_provider}").removeClass("panel-success")
-#        $("#panel-#{mooc_provider}").removeClass("panel-danger")
-#        $("#panel-#{mooc_provider}").addClass("panel-default")
-#        $("#div-error-#{mooc_provider}").text("")
       else
         $("#div-error-#{mooc_provider}").text("Error!")
   event.preventDefault()
 
 @bindClickEvents = () ->
-  $('button[id="sync-naive-user-mooc_provider-connection-button"]').on 'click', (event) -> synchronizeNaiveUserMoocProviderConnection(event)
-  $('button[id="revoke-naive-user-mooc_provider-connection-button"]').on 'click', (event) -> revokeNaiveUserMoocProviderConnection(event)
+  $('button[id="sync-naive-user-mooc_provider-connection-button"]').on 'click', (event) ->
+    synchronizeNaiveUserMoocProviderConnection(event)
+  $('button[id="revoke-naive-user-mooc_provider-connection-button"]').on 'click', (event) ->
+    revokeNaiveUserMoocProviderConnection(event)
