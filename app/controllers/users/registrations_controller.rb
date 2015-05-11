@@ -63,7 +63,7 @@ module Users
         end
         clean_up_passwords resource
       end
-      redirect_to "/users/#{current_user.id}/settings?subsite=account"
+      redirect_to "#{user_settings_path(current_user.id)}?subsite=account"
     end
 
     def destroy
@@ -75,7 +75,7 @@ module Users
       else
         flash['error'] ||= []
         flash['error'] << "#{t('users.settings.still_admin_in_group_error')}"
-        redirect_to "/users/#{current_user.id}/settings?subsite=account"
+        redirect_to "#{user_settings_path(current_user.id)}?subsite=account"
       end
     end
 

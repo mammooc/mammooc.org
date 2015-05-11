@@ -280,4 +280,33 @@ RSpec.describe 'Group', type: :feature do
       expect(page).to have_no_selector('sync-group-course-button')
     end
   end
+
+  describe 'show settings' do
+    it 'navigate to account settings page', js: true do
+      click_link "#{user.first_name} #{user.last_name}"
+      click_link I18n.t('navbar.settings')
+      wait_for_ajax
+      uri = URI.parse(current_url)
+      expect("#{uri.path}?#{uri.query}").to eq("#{user_settings_path(user.id)}?subsite=mooc_provider")
+      expect(page).to have_content I18n.t('users.settings.mooc_provider_connection')
+      click_button 'load-account-settings-button'
+      wait_for_ajax
+      uri = URI.parse(current_url)
+      expect("#{uri.path}?#{uri.query}").to eq("#{user_settings_path(user.id)}?subsite=account")
+      expect(page).to have_content I18n.t('users.settings.cancel_account')
+    end
+
+    it 'get error when trying to delete account but still admin in group', js:true do
+      click_link "#{user.first_name} #{user.last_name}"
+      click_link I18n.t('navbar.settings')
+      click_button 'load-account-settings-button'
+      accept_alert do
+        click_button I18n.t('users.settings.cancel_account')
+      end
+      wait_for_ajax
+      expect(page).to have_content I18n.t('users.settings.still_admin_in_group_error')
+    end
+
+  end
+
 end
