@@ -2,7 +2,20 @@
 require 'rails_helper'
 
 RSpec.describe 'Users::Session', type: :feature do
+  self.use_transactional_fixtures = false
   let(:user) { FactoryGirl.create(:user) }
+
+  before(:each) do
+    ActionMailer::Base.deliveries.clear
+  end
+
+  before(:all) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  after(:all) do
+    DatabaseCleaner.strategy = :transaction
+  end
 
   before(:each) do
     visit new_user_session_path

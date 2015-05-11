@@ -143,8 +143,8 @@ RSpec.describe 'Course', type: :feature do
 
     it 'filters courses for all filter criteria', js:true do
       visit courses_path
-      fill_in 'filterrific_with_start_date_gte', with: Date.today
-      fill_in 'filterrific_with_end_date_lte', with: Date.today + 3.weeks
+      fill_in 'filterrific_with_start_date_gte', with: (Date.today).strftime('%d.%m.%Y')
+      fill_in 'filterrific_with_end_date_lte', with: (Date.today + 3.weeks).strftime('%d.%m.%Y')
       select I18n.t('language.english'), from: 'filterrific_with_language'
       select openHPI.name, from: 'filterrific_with_mooc_provider_id'
       select I18n.t('language.english'), from: 'filterrific_with_subtitle_languages'
