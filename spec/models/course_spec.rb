@@ -84,31 +84,31 @@ RSpec.describe Course, type: :model do
   end
 
   describe 'options for different attributes' do
-    it 'should return an array of options for costs' do
+    it 'returns an array of options for costs' do
       options = described_class.options_for_costs
       expect(options).to be_a Array
       expect(options).to include([I18n.t('courses.filter.costs.free'), 'free'])
     end
 
-    it 'should return an array of options for start categories' do
+    it 'returs an array of options for start categories' do
       options = described_class.options_for_start
       expect(options).to be_a Array
       expect(options).to include([I18n.t('courses.filter.start.now'), 'now'])
     end
 
-    it 'should return an array of options for duration' do
+    it 'returns an array of options for duration' do
       options = described_class.options_for_duration
       expect(options).to be_a Array
       expect(options).to include([I18n.t('courses.filter.duration.short'), 'short'])
     end
 
-    it 'should return an array of options for languages' do
+    it 'returns an array of options for languages' do
       options = described_class.options_for_languages
       expect(options).to be_a Array
       expect(options).to include([I18n.t('language.english'), 'en'])
     end
 
-    it 'should return an array of options for subtitle_languages' do
+    it 'returns an array of options for subtitle_languages' do
       options = described_class.options_for_subtitle_languages
       expect(options).to be_a Array
       expect(options).to include([I18n.t('language.english'), 'en'])
@@ -122,15 +122,15 @@ RSpec.describe Course, type: :model do
       let!(:correct_course) { FactoryGirl.create(:course, start_date: DateTime.parse(test_date)) }
       let!(:correct_course2) { FactoryGirl.create(:course, start_date: DateTime.parse(test_date) + 1.week) }
 
-      it 'should return courses that start at or after defined date' do
-        result = Course.with_start_date_gte(test_date)
+      it 'returns courses that start at or after defined date' do
+        result = described_class.with_start_date_gte(test_date)
         expect(result).to match([correct_course, correct_course2])
       end
 
-      it 'should ignore courses without start_date' do
+      it 'ignores courses without start_date' do
         wrong_course.start_date = nil
         wrong_course.save
-        result = Course.with_start_date_gte(test_date)
+        result = described_class.with_start_date_gte(test_date)
         expect(result).to match([correct_course, correct_course2])
       end
     end
@@ -141,15 +141,15 @@ RSpec.describe Course, type: :model do
       let!(:correct_course) { FactoryGirl.create(:course, end_date: DateTime.parse(test_date)) }
       let!(:correct_course2) { FactoryGirl.create(:course, end_date: DateTime.parse(test_date) - 1.week) }
 
-      it 'should return courses that end at or before defined date' do
-        result = Course.with_end_date_lte(test_date)
+      it 'returns courses that end at or before defined date' do
+        result = described_class.with_end_date_lte(test_date)
         expect(result).to match([correct_course, correct_course2])
       end
 
-      it 'should ignore courses without end_date' do
+      it 'ignores courses without end_date' do
         wrong_course.end_date = nil
         wrong_course.save
-        result = Course.with_end_date_lte(test_date)
+        result = described_class.with_end_date_lte(test_date)
         expect(result).to match([correct_course, correct_course2])
       end
     end
@@ -160,43 +160,43 @@ RSpec.describe Course, type: :model do
       let!(:correct_course) { FactoryGirl.create(:course, language: test_language) }
       let!(:correct_course2) { FactoryGirl.create(:course, language: test_language) }
 
-      it 'should return courses that have only the test language set as language' do
-        result = Course.with_language(test_language)
+      it 'returns courses that have only the test language set as language' do
+        result = described_class.with_language(test_language)
         expect(result).to match([correct_course, correct_course2])
       end
 
-      it 'should ignore courses without language' do
+      it 'ignores courses without language' do
         wrong_course.language = nil
         wrong_course.save
-        result = Course.with_language(test_language)
+        result = described_class.with_language(test_language)
         expect(result).to match([correct_course, correct_course2])
       end
 
-      it 'should work with languages that define a region' do
+      it 'works with languages that define a region' do
         correct_course.language = "#{test_language}-gb"
         correct_course.save
-        result = Course.with_language(test_language)
+        result = described_class.with_language(test_language)
         expect(result).to match([correct_course2, correct_course])
       end
 
-      it 'should work with the search language being one of the later languages' do
+      it 'works with the search language being one of the later languages' do
         correct_course.language = "zh,#{test_language}"
         correct_course.save
-        result = Course.with_language(test_language)
+        result = described_class.with_language(test_language)
         expect(result).to match([correct_course2, correct_course])
       end
 
-      it 'should work with the search language being the first of many languages' do
+      it 'works with the search language being the first of many languages' do
         correct_course.language = "#{test_language},zh"
         correct_course.save
-        result = Course.with_language(test_language)
+        result = described_class.with_language(test_language)
         expect(result).to match([correct_course2, correct_course])
       end
 
-      it 'should work with multiple languages that include regions' do
+      it 'works with multiple languages that include regions' do
         correct_course.language = "de,#{test_language}-gb,zh"
         correct_course.save
-        result = Course.with_language(test_language)
+        result = described_class.with_language(test_language)
         expect(result).to match([correct_course2, correct_course])
       end
     end
@@ -209,8 +209,8 @@ RSpec.describe Course, type: :model do
       let!(:correct_course) { FactoryGirl.create(:course, mooc_provider: correct_provider) }
       let!(:wrong_course2) { FactoryGirl.create(:course, mooc_provider: wrong_provider2) }
 
-      it 'should return courses of the correct provider' do
-        result = Course.with_mooc_provider_id(correct_provider.id)
+      it 'returns courses of the correct provider' do
+        result = described_class.with_mooc_provider_id(correct_provider.id)
         expect(result).to match([correct_course])
       end
     end
@@ -221,43 +221,43 @@ RSpec.describe Course, type: :model do
       let!(:correct_course) { FactoryGirl.create(:course, subtitle_languages: test_language) }
       let!(:correct_course2) { FactoryGirl.create(:course, subtitle_languages: test_language) }
 
-      it 'should return courses that have only the test subtitle_language set as subtitle_language' do
-        result = Course.with_subtitle_languages(test_language)
+      it 'returns courses that have only the test subtitle_language set as subtitle_language' do
+        result = described_class.with_subtitle_languages(test_language)
         expect(result).to match([correct_course, correct_course2])
       end
 
-      it 'should ignore courses without subtitle_language' do
+      it 'ignores courses without subtitle_language' do
         wrong_course.subtitle_languages = nil
         wrong_course.save
-        result = Course.with_subtitle_languages(test_language)
+        result = described_class.with_subtitle_languages(test_language)
         expect(result).to match([correct_course, correct_course2])
       end
 
-      it 'should work with subtitle_languages that define a region' do
+      it 'works with subtitle_languages that define a region' do
         correct_course.subtitle_languages = "#{test_language}-gb"
         correct_course.save
-        result = Course.with_subtitle_languages(test_language)
+        result = described_class.with_subtitle_languages(test_language)
         expect(result).to match([correct_course2, correct_course])
       end
 
-      it 'should work with the search subtitle_language being one of the later subtitle_languages' do
+      it 'works with the search subtitle_language being one of the later subtitle_languages' do
         correct_course.subtitle_languages = "zh,#{test_language}"
         correct_course.save
-        result = Course.with_subtitle_languages(test_language)
+        result = described_class.with_subtitle_languages(test_language)
         expect(result).to match([correct_course2, correct_course])
       end
 
-      it 'should work with the search subtitle_language being the first of many subtitle_languages' do
+      it 'works with the search subtitle_language being the first of many subtitle_languages' do
         correct_course.subtitle_languages = "#{test_language},zh"
         correct_course.save
-        result = Course.with_subtitle_languages(test_language)
+        result = described_class.with_subtitle_languages(test_language)
         expect(result).to match([correct_course2, correct_course])
       end
 
-      it 'should work with multiple subtitle_languages that include regions' do
+      it 'works with multiple subtitle_languages that include regions' do
         correct_course.subtitle_languages = "de,#{test_language}-gb,zh"
         correct_course.save
-        result = Course.with_subtitle_languages(test_language)
+        result = described_class.with_subtitle_languages(test_language)
         expect(result).to match([correct_course2, correct_course])
       end
     end
@@ -272,23 +272,23 @@ RSpec.describe Course, type: :model do
       let!(:without_end_course) { FactoryGirl.create(:course, start_date: DateTime.parse(current_date), end_date: nil) }
       let!(:without_dates_course) { FactoryGirl.create(:course, start_date: nil, end_date: nil) }
 
-      it 'should return the courses that are currently running' do
-        result = Course.start_filter_options('now')
+      it 'returns the courses that are currently running' do
+        result = described_class.start_filter_options('now')
         expect(result).to match([current_course])
       end
 
-      it 'should return the courses that were running in the past' do
-        result = Course.start_filter_options('past')
+      it 'returns the courses that were running in the past' do
+        result = described_class.start_filter_options('past')
         expect(result).to match([past_course])
       end
 
-      it 'should return the courses that starts soon' do
-        result = Course.start_filter_options('soon')
+      it 'returns the courses that starts soon' do
+        result = described_class.start_filter_options('soon')
         expect(result).to match([soon_course])
       end
 
-      it 'should return the courses that starts in the future' do
-        result = Course.start_filter_options('future')
+      it 'returns the courses that starts in the future' do
+        result = described_class.start_filter_options('future')
         expect(result).to match([future_course])
       end
 
@@ -304,23 +304,23 @@ RSpec.describe Course, type: :model do
           future_course.save
         end
 
-        it 'should return the courses that are currently running ' do
-          result = Course.start_filter_options('now')
+        it 'returns the courses that are currently running ' do
+          result = described_class.start_filter_options('now')
           expect(result).to match([current_course])
         end
 
-        it 'should return the courses that were running in the past' do
-          result = Course.start_filter_options('past')
+        it 'returns the courses that were running in the past' do
+          result = described_class.start_filter_options('past')
           expect(result).to match([past_course])
         end
 
-        it 'should return the courses that starts soon' do
-          result = Course.start_filter_options('soon')
+        it 'returns the courses that starts soon' do
+          result = described_class.start_filter_options('soon')
           expect(result).to match([soon_course])
         end
 
-        it 'should return the courses that starts in the future' do
-          result = Course.start_filter_options('future')
+        it 'returns the courses that starts in the future' do
+          result = described_class.start_filter_options('future')
           expect(result).to match([future_course])
         end
       end
@@ -335,28 +335,28 @@ RSpec.describe Course, type: :model do
       let!(:long_course) { FactoryGirl.create(:course, start_date: DateTime.parse(current_date), end_date: DateTime.parse(current_date) + 13.weeks) }
       let!(:course_without_duration) { FactoryGirl.create(:course, start_date: nil, end_date: nil) }
 
-      it 'should return short course' do
-        result = Course.duration_filter_options('short')
+      it 'returns short course' do
+        result = described_class.duration_filter_options('short')
         expect(result).to match([short_course])
       end
 
-      it 'should return short-medium course' do
-        result = Course.duration_filter_options('short-medium')
+      it 'returns short-medium course' do
+        result = described_class.duration_filter_options('short-medium')
         expect(result).to match([short_medium_course])
       end
 
-      it 'should return medium course' do
-        result = Course.duration_filter_options('medium')
+      it 'returns medium course' do
+        result = described_class.duration_filter_options('medium')
         expect(result).to match([medium_course])
       end
 
-      it 'should return medium-long course' do
-        result = Course.duration_filter_options('medium-long')
+      it 'returns medium-long course' do
+        result = described_class.duration_filter_options('medium-long')
         expect(result).to match([medium_long_course])
       end
 
-      it 'should return long course' do
-        result = Course.duration_filter_options('long')
+      it 'returns long course' do
+        result = described_class.duration_filter_options('long')
         expect(result).to match([long_course])
       end
     end
@@ -382,45 +382,45 @@ RSpec.describe Course, type: :model do
         let!(:course_range6) { FactoryGirl.create(:course, tracks: [track6]) }
         let!(:course_undefined_costs) { FactoryGirl.create(:course) }
 
-        it 'should return free course' do
+        it 'returns free course' do
           track_options[:costs] = 'free'
-          result = Course.with_tracks(track_options)
+          result = described_class.with_tracks(track_options)
           expect(result).to match([free_course])
         end
 
-        it 'should return course where costs match first range' do
+        it 'returns course where costs match first range' do
           track_options[:costs] = 'range1'
-          result = Course.with_tracks(track_options)
+          result = described_class.with_tracks(track_options)
           expect(result).to match([course_range1])
         end
 
-        it 'should return course where costs match second range' do
+        it 'returns course where costs match second range' do
           track_options[:costs] = 'range2'
-          result = Course.with_tracks(track_options)
+          result = described_class.with_tracks(track_options)
           expect(result).to match([course_range2])
         end
 
-        it 'should return course where costs match third range' do
+        it 'returns course where costs match third range' do
           track_options[:costs] = 'range3'
-          result = Course.with_tracks(track_options)
+          result = described_class.with_tracks(track_options)
           expect(result).to match([course_range3])
         end
 
-        it 'should return course where costs match fourth range' do
+        it 'returns course where costs match fourth range' do
           track_options[:costs] = 'range4'
-          result = Course.with_tracks(track_options)
+          result = described_class.with_tracks(track_options)
           expect(result).to match([course_range4])
         end
 
-        it 'should return course where costs match fifth range' do
+        it 'returns course where costs match fifth range' do
           track_options[:costs] = 'range5'
-          result = Course.with_tracks(track_options)
+          result = described_class.with_tracks(track_options)
           expect(result).to match([course_range5])
         end
 
-        it 'should return course where costs match sixth range' do
+        it 'returns course where costs match sixth range' do
           track_options[:costs] = 'range6'
-          result = Course.with_tracks(track_options)
+          result = described_class.with_tracks(track_options)
           expect(result).to match([course_range6])
         end
       end
@@ -435,9 +435,9 @@ RSpec.describe Course, type: :model do
         let!(:course1) { FactoryGirl.create(:course, tracks: [track1]) }
         let!(:course2) { FactoryGirl.create(:course, tracks: [track2]) }
 
-        it 'should return course with defined certificate' do
+        it 'returns course with defined certificate' do
           track_options[:certificate] = track_type1.id
-          result = Course.with_tracks(track_options)
+          result = described_class.with_tracks(track_options)
           expect(result).to match([course1])
         end
       end
@@ -490,52 +490,52 @@ RSpec.describe Course, type: :model do
 
         let!(:course_undefined_costs) { FactoryGirl.create(:course) }
 
-        it 'should return free courses with defined certificate' do
+        it 'returns free courses with defined certificate' do
           track_options[:costs] = 'free'
           track_options[:certificate] = track_type1.id
-          result = Course.with_tracks(track_options)
+          result = described_class.with_tracks(track_options)
           expect(result).to match([free1_course])
         end
 
-        it 'should return courses with defined certificate course where costs match first range' do
+        it 'returns courses with defined certificate course where costs match first range' do
           track_options[:costs] = 'range1'
           track_options[:certificate] = track_type1.id
-          result = Course.with_tracks(track_options)
+          result = described_class.with_tracks(track_options)
           expect(result).to match([course1_range1])
         end
 
-        it 'should return courses with defined certificate course where costs match second range' do
+        it 'returns courses with defined certificate course where costs match second range' do
           track_options[:costs] = 'range2'
           track_options[:certificate] = track_type1.id
-          result = Course.with_tracks(track_options)
+          result = described_class.with_tracks(track_options)
           expect(result).to match([course1_range2])
         end
 
-        it 'should return courses with defined certificate course where costs match third range' do
+        it 'returns courses with defined certificate course where costs match third range' do
           track_options[:costs] = 'range3'
           track_options[:certificate] = track_type1.id
-          result = Course.with_tracks(track_options)
+          result = described_class.with_tracks(track_options)
           expect(result).to match([course1_range3])
         end
 
-        it 'should return courses with defined certificate course where costs match fourth range' do
+        it 'returns courses with defined certificate course where costs match fourth range' do
           track_options[:costs] = 'range4'
           track_options[:certificate] = track_type1.id
-          result = Course.with_tracks(track_options)
+          result = described_class.with_tracks(track_options)
           expect(result).to match([course1_range4])
         end
 
-        it 'should return courses with defined certificate course where costs match fifth range' do
+        it 'returns courses with defined certificate course where costs match fifth range' do
           track_options[:costs] = 'range5'
           track_options[:certificate] = track_type1.id
-          result = Course.with_tracks(track_options)
+          result = described_class.with_tracks(track_options)
           expect(result).to match([course1_range5])
         end
 
-        it 'should return courses with defined certificate course where costs match sixth range' do
+        it 'returns courses with defined certificate course where costs match sixth range' do
           track_options[:costs] = 'range6'
           track_options[:certificate] = track_type1.id
-          result = Course.with_tracks(track_options)
+          result = described_class.with_tracks(track_options)
           expect(result).to match([course1_range6])
         end
       end

@@ -96,7 +96,7 @@ class Course < ActiveRecord::Base
   scope :start_filter_options, ->(reference_start_options) do
     case reference_start_options.to_s
       when 'now'
-        where('courses.start_date IS NOT NULL AND courses.start_date < ? AND (courses.calculated_duration_in_days IS NOT NULL AND ((DATE ? - courses.calculated_duration_in_days) <  courses.start_date))', Time.zone.now, Date.today)
+        where('courses.start_date IS NOT NULL AND courses.start_date < ? AND (courses.calculated_duration_in_days IS NOT NULL AND ((DATE ? - courses.calculated_duration_in_days) <  courses.start_date))', Time.zone.now, Time.zone.today)
       when 'past'
         where('(courses.calculated_duration_in_days IS NOT NULL AND ((DATE ? - courses.calculated_duration_in_days) >  courses.start_date))  OR (courses.end_date IS NOT NULL AND ? > courses.end_date)', Time.zone.now, Time.zone.now)
       when 'soon'

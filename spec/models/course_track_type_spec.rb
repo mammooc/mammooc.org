@@ -2,7 +2,6 @@
 require 'rails_helper'
 
 RSpec.describe CourseTrackType, type: :model do
-
   describe 'options for select course track type' do
     let!(:track_type1) { FactoryGirl.create(:course_track_type) }
     let!(:track_type2) { FactoryGirl.create(:course_track_type) }
