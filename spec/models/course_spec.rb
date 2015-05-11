@@ -2,29 +2,28 @@
 require 'rails_helper'
 
 RSpec.describe Course, type: :model do
-
   describe 'saving a course' do
     let!(:provider) { FactoryGirl.create(:mooc_provider) }
     let!(:course1) do
       FactoryGirl.create(:course,
-                         mooc_provider_id: provider.id,
-                         start_date: Time.zone.local(2015, 03, 15),
-                         end_date: Time.zone.local(2015, 03, 17),
-                         provider_course_id: '123')
+        mooc_provider_id: provider.id,
+        start_date: Time.zone.local(2015, 03, 15),
+        end_date: Time.zone.local(2015, 03, 17),
+        provider_course_id: '123')
     end
     let!(:course2) do
       FactoryGirl.create(:course,
-                         mooc_provider_id: provider.id)
+        mooc_provider_id: provider.id)
     end
     let!(:course3) do
       FactoryGirl.create(:course,
-                         mooc_provider_id: provider.id)
+        mooc_provider_id: provider.id)
     end
     let!(:wrong_dates_course) do
       FactoryGirl.create(:course,
-                         mooc_provider_id: provider.id,
-                         start_date: Time.zone.local(2015, 10, 15),
-                         end_date: Time.zone.local(2015, 03, 17))
+        mooc_provider_id: provider.id,
+        start_date: Time.zone.local(2015, 10, 15),
+        end_date: Time.zone.local(2015, 03, 17))
     end
 
     it 'sets duration after creation' do
@@ -85,7 +84,6 @@ RSpec.describe Course, type: :model do
   end
 
   describe 'options for different attributes' do
-
     it 'should return an array of options for costs' do
       options = described_class.options_for_costs
       expect(options).to be_a Array
@@ -101,7 +99,7 @@ RSpec.describe Course, type: :model do
     it 'should return an array of options for duration' do
       options = described_class.options_for_duration
       expect(options).to be_a Array
-      expect(options).to include([I18n.t('courses.filter.duration.short'), 'short' ])
+      expect(options).to include([I18n.t('courses.filter.duration.short'), 'short'])
     end
 
     it 'should return an array of options for languages' do
@@ -115,13 +113,11 @@ RSpec.describe Course, type: :model do
       expect(options).to be_a Array
       expect(options).to include([I18n.t('language.english'), 'en'])
     end
-
   end
 
   describe 'scopes for filtering' do
-
     context 'with_start_date_gte' do
-      let(:test_date) {'05.04.2015'}
+      let(:test_date) { '05.04.2015' }
       let!(:wrong_course) { FactoryGirl.create(:course, start_date: DateTime.parse(test_date) - 1.day) }
       let!(:correct_course) { FactoryGirl.create(:course, start_date: DateTime.parse(test_date)) }
       let!(:correct_course2) { FactoryGirl.create(:course, start_date: DateTime.parse(test_date) + 1.week) }
@@ -137,12 +133,10 @@ RSpec.describe Course, type: :model do
         result = Course.with_start_date_gte(test_date)
         expect(result).to match([correct_course, correct_course2])
       end
-
     end
 
-
     context 'with_end_date_gte' do
-      let(:test_date) {'05.04.2015'}
+      let(:test_date) { '05.04.2015' }
       let!(:wrong_course) { FactoryGirl.create(:course, end_date: DateTime.parse(test_date) + 1.day) }
       let!(:correct_course) { FactoryGirl.create(:course, end_date: DateTime.parse(test_date)) }
       let!(:correct_course2) { FactoryGirl.create(:course, end_date: DateTime.parse(test_date) - 1.week) }
@@ -158,12 +152,11 @@ RSpec.describe Course, type: :model do
         result = Course.with_end_date_lte(test_date)
         expect(result).to match([correct_course, correct_course2])
       end
-
     end
 
     context 'with_language' do
-      let(:test_language) {'en'}
-      let!(:wrong_course) { FactoryGirl.create(:course, language:'ru') }
+      let(:test_language) { 'en' }
+      let!(:wrong_course) { FactoryGirl.create(:course, language: 'ru') }
       let!(:correct_course) { FactoryGirl.create(:course, language: test_language) }
       let!(:correct_course2) { FactoryGirl.create(:course, language: test_language) }
 
@@ -206,13 +199,12 @@ RSpec.describe Course, type: :model do
         result = Course.with_language(test_language)
         expect(result).to match([correct_course2, correct_course])
       end
-
     end
 
     context 'with_end_date_gte' do
-      let!(:wrong_provider) {FactoryGirl.create(:mooc_provider)}
-      let!(:correct_provider) {FactoryGirl.create(:mooc_provider)}
-      let!(:wrong_provider2) {FactoryGirl.create(:mooc_provider)}
+      let!(:wrong_provider) { FactoryGirl.create(:mooc_provider) }
+      let!(:correct_provider) { FactoryGirl.create(:mooc_provider) }
+      let!(:wrong_provider2) { FactoryGirl.create(:mooc_provider) }
       let!(:wrong_course) { FactoryGirl.create(:course, mooc_provider: wrong_provider) }
       let!(:correct_course) { FactoryGirl.create(:course, mooc_provider: correct_provider) }
       let!(:wrong_course2) { FactoryGirl.create(:course, mooc_provider: wrong_provider2) }
@@ -221,12 +213,11 @@ RSpec.describe Course, type: :model do
         result = Course.with_mooc_provider_id(correct_provider.id)
         expect(result).to match([correct_course])
       end
-
     end
 
     context 'with_subtitle_language' do
-      let(:test_language) {'en'}
-      let!(:wrong_course) { FactoryGirl.create(:course, subtitle_languages:'ru') }
+      let(:test_language) { 'en' }
+      let!(:wrong_course) { FactoryGirl.create(:course, subtitle_languages: 'ru') }
       let!(:correct_course) { FactoryGirl.create(:course, subtitle_languages: test_language) }
       let!(:correct_course2) { FactoryGirl.create(:course, subtitle_languages: test_language) }
 
@@ -269,11 +260,9 @@ RSpec.describe Course, type: :model do
         result = Course.with_subtitle_languages(test_language)
         expect(result).to match([correct_course2, correct_course])
       end
-
     end
 
     context 'start_filter_options' do
-
       let(:current_date) { Time.zone.now.strftime('%d.%m.%Y').to_s }
       let!(:current_course) { FactoryGirl.create(:course, start_date: DateTime.parse(current_date), end_date: DateTime.parse(current_date) + 2.weeks) }
       let!(:past_course) { FactoryGirl.create(:course, start_date: DateTime.parse(current_date) - 4.weeks, end_date: DateTime.parse(current_date) - 2.weeks) }
@@ -373,12 +362,10 @@ RSpec.describe Course, type: :model do
     end
 
     context 'with_tracks' do
-
       let(:track_options) { {costs: nil, certificate: nil} }
 
       context 'only costs' do
-
-        let(:free_track) { FactoryGirl.create(:free_course_track)}
+        let(:free_track) { FactoryGirl.create(:free_course_track) }
         let(:track1) { FactoryGirl.create(:certificate_course_track, costs: 20.0) }
         let(:track2) { FactoryGirl.create(:certificate_course_track, costs: 40.0) }
         let(:track3) { FactoryGirl.create(:certificate_course_track, costs: 70.0) }
@@ -386,13 +373,13 @@ RSpec.describe Course, type: :model do
         let(:track5) { FactoryGirl.create(:certificate_course_track, costs: 160.0) }
         let(:track6) { FactoryGirl.create(:certificate_course_track, costs: 210.0) }
 
-        let!(:free_course) { FactoryGirl.create(:course, tracks:[free_track]) }
-        let!(:course_range1) { FactoryGirl.create(:course, tracks:[track1]) }
-        let!(:course_range2) { FactoryGirl.create(:course, tracks:[track2]) }
-        let!(:course_range3) { FactoryGirl.create(:course, tracks:[track3]) }
-        let!(:course_range4) { FactoryGirl.create(:course, tracks:[track4]) }
-        let!(:course_range5) { FactoryGirl.create(:course, tracks:[track5]) }
-        let!(:course_range6) { FactoryGirl.create(:course, tracks:[track6]) }
+        let!(:free_course) { FactoryGirl.create(:course, tracks: [free_track]) }
+        let!(:course_range1) { FactoryGirl.create(:course, tracks: [track1]) }
+        let!(:course_range2) { FactoryGirl.create(:course, tracks: [track2]) }
+        let!(:course_range3) { FactoryGirl.create(:course, tracks: [track3]) }
+        let!(:course_range4) { FactoryGirl.create(:course, tracks: [track4]) }
+        let!(:course_range5) { FactoryGirl.create(:course, tracks: [track5]) }
+        let!(:course_range6) { FactoryGirl.create(:course, tracks: [track6]) }
         let!(:course_undefined_costs) { FactoryGirl.create(:course) }
 
         it 'should return free course' do
@@ -431,7 +418,6 @@ RSpec.describe Course, type: :model do
           expect(result).to match([course_range5])
         end
 
-
         it 'should return course where costs match sixth range' do
           track_options[:costs] = 'range6'
           result = Course.with_tracks(track_options)
@@ -440,9 +426,8 @@ RSpec.describe Course, type: :model do
       end
 
       context 'only certificate' do
-
-        let(:track_type1) {FactoryGirl.create(:course_track_type)}
-        let(:track_type2) {FactoryGirl.create(:course_track_type)}
+        let(:track_type1) { FactoryGirl.create(:course_track_type) }
+        let(:track_type2) { FactoryGirl.create(:course_track_type) }
 
         let(:track1) { FactoryGirl.create(:certificate_course_track, track_type: track_type1) }
         let(:track2) { FactoryGirl.create(:certificate_course_track, track_type: track_type2) }
@@ -458,13 +443,11 @@ RSpec.describe Course, type: :model do
       end
 
       context 'costs and certificate' do
+        let(:track_type1) { FactoryGirl.create(:course_track_type) }
+        let(:track_type2) { FactoryGirl.create(:course_track_type) }
 
-        let(:track_type1) {FactoryGirl.create(:course_track_type)}
-        let(:track_type2) {FactoryGirl.create(:course_track_type)}
-
-
-        let(:free_track1) { FactoryGirl.create(:free_course_track, track_type: track_type1)}
-        let(:free_track2) { FactoryGirl.create(:free_course_track, track_type: track_type2)}
+        let(:free_track1) { FactoryGirl.create(:free_course_track, track_type: track_type1) }
+        let(:free_track2) { FactoryGirl.create(:free_course_track, track_type: track_type2) }
 
         let(:track1_range1) { FactoryGirl.create(:certificate_course_track, costs: 20.0, track_type: track_type1) }
         let(:track2_range1) { FactoryGirl.create(:certificate_course_track, costs: 20.0, track_type: track_type2) }
@@ -484,27 +467,26 @@ RSpec.describe Course, type: :model do
         let(:track1_range6) { FactoryGirl.create(:certificate_course_track, costs: 210.0, track_type: track_type1) }
         let(:track2_range6) { FactoryGirl.create(:certificate_course_track, costs: 210.0, track_type: track_type2) }
 
+        let!(:free1_course) { FactoryGirl.create(:course, tracks: [free_track1]) }
+        let!(:free2_course) { FactoryGirl.create(:course, tracks: [free_track2]) }
 
-        let!(:free1_course) { FactoryGirl.create(:course, tracks:[free_track1]) }
-        let!(:free2_course) { FactoryGirl.create(:course, tracks:[free_track2]) }
+        let!(:course1_range1) { FactoryGirl.create(:course, tracks: [track1_range1]) }
+        let!(:course2_range1) { FactoryGirl.create(:course, tracks: [track2_range1]) }
 
-        let!(:course1_range1) { FactoryGirl.create(:course, tracks:[track1_range1]) }
-        let!(:course2_range1) { FactoryGirl.create(:course, tracks:[track2_range1]) }
+        let!(:course1_range2) { FactoryGirl.create(:course, tracks: [track1_range2]) }
+        let!(:course2_range2) { FactoryGirl.create(:course, tracks: [track2_range2]) }
 
-        let!(:course1_range2) { FactoryGirl.create(:course, tracks:[track1_range2]) }
-        let!(:course2_range2) { FactoryGirl.create(:course, tracks:[track2_range2]) }
+        let!(:course1_range3) { FactoryGirl.create(:course, tracks: [track1_range3]) }
+        let!(:course2_range3) { FactoryGirl.create(:course, tracks: [track2_range3]) }
 
-        let!(:course1_range3) { FactoryGirl.create(:course, tracks:[track1_range3]) }
-        let!(:course2_range3) { FactoryGirl.create(:course, tracks:[track2_range3]) }
+        let!(:course1_range4) { FactoryGirl.create(:course, tracks: [track1_range4]) }
+        let!(:course2_range4) { FactoryGirl.create(:course, tracks: [track2_range4]) }
 
-        let!(:course1_range4) { FactoryGirl.create(:course, tracks:[track1_range4]) }
-        let!(:course2_range4) { FactoryGirl.create(:course, tracks:[track2_range4]) }
+        let!(:course1_range5) { FactoryGirl.create(:course, tracks: [track1_range5]) }
+        let!(:course2_range5) { FactoryGirl.create(:course, tracks: [track2_range5]) }
 
-        let!(:course1_range5) { FactoryGirl.create(:course, tracks:[track1_range5]) }
-        let!(:course2_range5) { FactoryGirl.create(:course, tracks:[track2_range5]) }
-
-        let!(:course1_range6) { FactoryGirl.create(:course, tracks:[track1_range6]) }
-        let!(:course2_range6) { FactoryGirl.create(:course, tracks:[track2_range6]) }
+        let!(:course1_range6) { FactoryGirl.create(:course, tracks: [track1_range6]) }
+        let!(:course2_range6) { FactoryGirl.create(:course, tracks: [track2_range6]) }
 
         let!(:course_undefined_costs) { FactoryGirl.create(:course) }
 
@@ -556,12 +538,7 @@ RSpec.describe Course, type: :model do
           result = Course.with_tracks(track_options)
           expect(result).to match([course1_range6])
         end
-
-
       end
-
     end
-
   end
-
 end

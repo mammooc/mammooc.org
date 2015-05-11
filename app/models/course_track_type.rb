@@ -5,7 +5,6 @@ class CourseTrackType < ActiveRecord::Base
   validates :title, :type_of_achievement, presence: true
 
   def self.options_for_select
-    order('LOWER(title)').map { |track_type| [track_type.title, track_type.id] }
+    order('LOWER(title)').map {|track_type| [track_type.title, track_type.id] }
   end
-
 end

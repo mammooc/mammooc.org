@@ -21,6 +21,5 @@ FactoryGirl.define do
       costs_currency '\u20AC'
       association :track_type, factory: :course_track_type
     end
-
   end
 end

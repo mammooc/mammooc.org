@@ -111,23 +111,22 @@ RSpec.describe 'Course', type: :feature do
   end
 
   describe 'filter course page' do
-
     let(:nice_track_type) { FactoryGirl.create(:course_track_type, title: 'Nice course track') }
     let(:wrong_track_type) { FactoryGirl.create(:course_track_type, title: 'Wrong course track') }
 
-    let(:free_track) { FactoryGirl.create(:free_course_track, track_type: nice_track_type)}
-    let(:expensive_track) { FactoryGirl.create(:course_track, costs: 60.0 , track_type: wrong_track_type)}
+    let(:free_track) { FactoryGirl.create(:free_course_track, track_type: nice_track_type) }
+    let(:expensive_track) { FactoryGirl.create(:course_track, costs: 60.0, track_type: wrong_track_type) }
     let(:expensive_certificate_track) { FactoryGirl.create(:certificate_course_track, costs: 50.0, track_type: nice_track_type) }
     let(:free_track_with_wrong_type) { FactoryGirl.create(:free_course_track, track_type: wrong_track_type) }
-    let(:free_track_2) { FactoryGirl.create(:free_course_track, track_type: nice_track_type)}
-    let(:free_track_3) { FactoryGirl.create(:free_course_track, track_type: nice_track_type)}
-    let(:expensive_track_2) { FactoryGirl.create(:course_track, costs: 60.0 , track_type: wrong_track_type)}
-    let(:expensive_track_3) { FactoryGirl.create(:course_track, costs: 60.0 , track_type: wrong_track_type)}
+    let(:free_track_2) { FactoryGirl.create(:free_course_track, track_type: nice_track_type) }
+    let(:free_track_3) { FactoryGirl.create(:free_course_track, track_type: nice_track_type) }
+    let(:expensive_track_2) { FactoryGirl.create(:course_track, costs: 60.0, track_type: wrong_track_type) }
+    let(:expensive_track_3) { FactoryGirl.create(:course_track, costs: 60.0, track_type: wrong_track_type) }
 
-    let(:openHPI) { FactoryGirl.create(:mooc_provider, name: 'openHPI')}
-    let!(:course) { FactoryGirl.create(:course, name: 'Course that matches all criteria', start_date: Time.now, end_date: Time.now+2.weeks, language: 'en', mooc_provider: openHPI, subtitle_languages: 'en', calculated_duration_in_days: 28, tracks: [free_track] ) }
-    let!(:course_starts_before) { FactoryGirl.create(:course, name: 'Course starts before', start_date: Time.now-2.weeks) }
-    let!(:course_ends_after) { FactoryGirl.create(:course, name: 'Course ends after', end_date: Time.now+3.weeks) }
+    let(:openHPI) { FactoryGirl.create(:mooc_provider, name: 'openHPI') }
+    let!(:course) { FactoryGirl.create(:course, name: 'Course that matches all criteria', start_date: Time.now, end_date: Time.now + 2.weeks, language: 'en', mooc_provider: openHPI, subtitle_languages: 'en', calculated_duration_in_days: 28, tracks: [free_track]) }
+    let!(:course_starts_before) { FactoryGirl.create(:course, name: 'Course starts before', start_date: Time.now - 2.weeks) }
+    let!(:course_ends_after) { FactoryGirl.create(:course, name: 'Course ends after', end_date: Time.now + 3.weeks) }
     let!(:course_german) { FactoryGirl.create(:course, name: 'Course german', language: 'de') }
     let(:openSAP) { FactoryGirl.create(:mooc_provider, name: 'openSAP') }
     let!(:course_openSAP) { FactoryGirl.create(:course, name: 'Course from openSAP', mooc_provider: openSAP) }
@@ -136,15 +135,15 @@ RSpec.describe 'Course', type: :feature do
     let!(:course_expensive) { FactoryGirl.create(:course, name: 'Expensive Course', tracks: [expensive_track]) }
     let!(:course_expensive_certificate) { FactoryGirl.create(:course, name: 'Expensive Certificate Course', tracks: [expensive_certificate_track]) }
     let!(:course_free) { FactoryGirl.create(:course, name: 'Free but wrong Course', tracks: [free_track_with_wrong_type]) }
-    let!(:right_course) { FactoryGirl.create(:course, name: 'Course that matches all criteria too', start_date: Time.now, end_date: Time.now+2.weeks, language: 'en', mooc_provider: openHPI, subtitle_languages: 'en', calculated_duration_in_days: 28, tracks: [free_track_2] ) }
-    let!(:course_wrong_attributes_1) { FactoryGirl.create(:course, name: 'Course that does not match all criteria 1', start_date: Time.now, end_date: Time.now+2.weeks, language: 'zh', mooc_provider: openHPI, subtitle_languages: 'de', calculated_duration_in_days: 28, tracks: [free_track_3] ) }
-    let!(:course_wrong_attributes_2) { FactoryGirl.create(:course, name: 'Course that does not match all criteria 2', start_date: Time.now - 1.day, end_date: Time.now+2.weeks, language: 'en', mooc_provider: openSAP, subtitle_languages: 'en', calculated_duration_in_days: 28, tracks: [expensive_track_2] ) }
-    let!(:course_wrong_attributes_3) { FactoryGirl.create(:course, name: 'Course that does not match all criteria 3', start_date: Time.now, end_date: Time.now+2.weeks, language: 'en', mooc_provider: openHPI, subtitle_languages: 'en', calculated_duration_in_days: 35, tracks: [expensive_track_3] ) }
+    let!(:right_course) { FactoryGirl.create(:course, name: 'Course that matches all criteria too', start_date: Time.now, end_date: Time.now + 2.weeks, language: 'en', mooc_provider: openHPI, subtitle_languages: 'en', calculated_duration_in_days: 28, tracks: [free_track_2]) }
+    let!(:course_wrong_attributes_1) { FactoryGirl.create(:course, name: 'Course that does not match all criteria 1', start_date: Time.now, end_date: Time.now + 2.weeks, language: 'zh', mooc_provider: openHPI, subtitle_languages: 'de', calculated_duration_in_days: 28, tracks: [free_track_3]) }
+    let!(:course_wrong_attributes_2) { FactoryGirl.create(:course, name: 'Course that does not match all criteria 2', start_date: Time.now - 1.day, end_date: Time.now + 2.weeks, language: 'en', mooc_provider: openSAP, subtitle_languages: 'en', calculated_duration_in_days: 28, tracks: [expensive_track_2]) }
+    let!(:course_wrong_attributes_3) { FactoryGirl.create(:course, name: 'Course that does not match all criteria 3', start_date: Time.now, end_date: Time.now + 2.weeks, language: 'en', mooc_provider: openHPI, subtitle_languages: 'en', calculated_duration_in_days: 35, tracks: [expensive_track_3]) }
 
-    it 'filters courses for all filter criteria', js:true do
+    it 'filters courses for all filter criteria', js: true do
       visit courses_path
       expect(page).to have_content course.name
-      fill_in "filterrific_with_start_date_gte", with: (Date.today).strftime('%d.%m.%Y')
+      fill_in 'filterrific_with_start_date_gte', with: (Date.today).strftime('%d.%m.%Y')
       fill_in 'filterrific_with_end_date_lte', with: (Date.today + 3.weeks).strftime('%d.%m.%Y')
       select I18n.t('language.english'), from: 'filterrific_with_language'
       select openHPI.name, from: 'filterrific_with_mooc_provider_id'
@@ -169,7 +168,5 @@ RSpec.describe 'Course', type: :feature do
       expect(page).not_to have_content course_wrong_attributes_3.name
       expect(page).to have_content right_course.name
     end
-
   end
-
 end

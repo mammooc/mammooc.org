@@ -6,6 +6,6 @@ class MoocProvider < ActiveRecord::Base
   validates :logo_id, presence: true
 
   def self.options_for_select
-    order('LOWER(name)').map { |provider| [provider.name, provider.id] }
+    order('LOWER(name)').map {|provider| [provider.name, provider.id] }
   end
 end

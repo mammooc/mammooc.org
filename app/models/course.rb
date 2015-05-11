@@ -31,17 +31,17 @@ class Course < ActiveRecord::Base
 
   scope :with_start_date_gte, ->(reference_time) do
     where('courses.start_date IS NOT NULL AND (courses.start_date >= ?) ',
-          Time.zone.parse(reference_time).strftime('%Y-%m-%d %H:%M:%S.%6N'))
+      Time.zone.parse(reference_time).strftime('%Y-%m-%d %H:%M:%S.%6N'))
   end
 
   scope :with_end_date_lte, ->(reference_time) do
     where('courses.end_date IS NOT NULL AND (courses.end_date <= ?) ',
-          Time.zone.parse(reference_time).strftime('%Y-%m-%d %H:%M:%S.%6N'))
+      Time.zone.parse(reference_time).strftime('%Y-%m-%d %H:%M:%S.%6N'))
   end
 
   scope :with_language, ->(reference_language) do
     where('courses.language IS NOT NULL AND (courses.language LIKE ? OR courses.language LIKE ?)',
-          "#{reference_language}%", "%,#{reference_language}%")
+      "#{reference_language}%", "%,#{reference_language}%")
   end
 
   scope :with_mooc_provider_id, ->(reference_mooc_provider_id) do
@@ -50,7 +50,7 @@ class Course < ActiveRecord::Base
 
   scope :with_subtitle_languages, ->(reference_subtitle_languages) do
     where('courses.subtitle_languages LIKE ? OR courses.subtitle_languages LIKE ?',
-          "#{reference_subtitle_languages}%", "%,#{reference_subtitle_languages}%")
+      "#{reference_subtitle_languages}%", "%,#{reference_subtitle_languages}%")
   end
 
   scope :with_tracks, -> (reference_track_options) do
@@ -124,7 +124,6 @@ class Course < ActiveRecord::Base
       when 'long'
         where('courses.calculated_duration_in_days > ?', MEDIUM_LONG_DURATION)
     end
-
   end
 
   def self.options_for_costs
@@ -134,7 +133,7 @@ class Course < ActiveRecord::Base
      [I18n.t('courses.filter.costs.range3'), 'range3'],
      [I18n.t('courses.filter.costs.range4'), 'range4'],
      [I18n.t('courses.filter.costs.range5'), 'range5'],
-     [I18n.t('courses.filter.costs.range6'), 'range6'],
+     [I18n.t('courses.filter.costs.range6'), 'range6']
     ]
   end
 
@@ -142,13 +141,13 @@ class Course < ActiveRecord::Base
     [[I18n.t('courses.filter.start.now'), 'now'],
      [I18n.t('courses.filter.start.past'), 'past'],
      [I18n.t('courses.filter.start.soon'), 'soon'],
-     [I18n.t('courses.filter.start.future'), 'future'],
+     [I18n.t('courses.filter.start.future'), 'future']
     ]
   end
 
   def self.options_for_duration
-    [[I18n.t('courses.filter.duration.short'), 'short' ],
-     [I18n.t('courses.filter.duration.short_medium'), 'short-medium' ],
+    [[I18n.t('courses.filter.duration.short'), 'short'],
+     [I18n.t('courses.filter.duration.short_medium'), 'short-medium'],
      [I18n.t('courses.filter.duration.medium'), 'medium'],
      [I18n.t('courses.filter.duration.medium_long'), 'medium-long'],
      [I18n.t('courses.filter.duration.long'), 'long']]
