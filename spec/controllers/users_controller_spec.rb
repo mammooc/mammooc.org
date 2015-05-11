@@ -445,4 +445,48 @@ RSpec.describe UsersController, type: :controller do
       end
     end
   end
+
+  describe 'GET account_settings' do
+    it 'does not prepare mooc_provider_settings' do
+      expect_any_instance_of(described_class).not_to receive(:prepare_mooc_provider_settings)
+      get :account_settings, id: user.to_param
+    end
+
+    context 'views' do
+      render_views
+      let(:json) { JSON.parse(response.body) }
+
+      it 'redirects to the dashboard' do
+        get :account_settings, id: user.to_param
+        expect(response).to redirect_to dashboard_path
+      end
+
+      it 'renders a JSON with the partial' do
+        get :account_settings, id: user.to_param, format: :json
+        expect(json).to include 'partial'
+      end
+    end
+  end
+
+  describe 'GET mooc_provider_settings' do
+    it 'prepares mooc_provider_settings' do
+      expect_any_instance_of(described_class).to receive(:prepare_mooc_provider_settings)
+      get :mooc_provider_settings, id: user.to_param
+    end
+
+    context 'views' do
+      render_views
+      let(:json) { JSON.parse(response.body) }
+
+      it 'redirects to the dashboard' do
+        get :mooc_provider_settings, id: user.to_param
+        expect(response).to redirect_to dashboard_path
+      end
+
+      it 'renders a JSON with the partial' do
+        get :mooc_provider_settings, id: user.to_param, format: :json
+        expect(json).to include 'partial'
+      end
+    end
+  end
 end

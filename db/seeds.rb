@@ -73,7 +73,7 @@ case Rails.env
 
     minimal_following_course = Course.create!(name: 'Minimal Following Technologies',
                                               url: 'https://open.hpi.de/courses/pythonjunior2015',
-                                              provider_course_id: 2,
+                                              provider_course_id: 3,
                                               mooc_provider_id: open_mammooc.id,
                                               tracks: [CourseTrack.create!(track_type: openhpi_audit_track_type)]
                                              )
