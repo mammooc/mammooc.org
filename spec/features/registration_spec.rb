@@ -2,6 +2,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Users::Registration', type: :feature do
+  self.use_transactional_fixtures = false
+
   let(:user) { FactoryGirl.build_stubbed(:user) }
 
   before(:each) do
