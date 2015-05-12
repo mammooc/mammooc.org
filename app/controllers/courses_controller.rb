@@ -7,7 +7,6 @@ class CoursesController < ApplicationController
   # GET /courses
   # GET /courses.json
   def index
-
     @filterrific = initialize_filterrific(Course, params[:filterrific],
       select_options: {with_language: Course.options_for_languages,
                        with_mooc_provider_id: MoocProvider.options_for_select,
