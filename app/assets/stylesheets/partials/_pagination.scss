@@ -19,8 +19,8 @@
 }
 
 .rec-pagination .current {
-  background-color: $gray-light;
-  border: 1px solid $gray-light;
+  background-color: $gray;
+  border: 1px solid $gray;
   color: white;
   text-decoration: none;
   font-style: normal;
@@ -34,7 +34,7 @@
 
 .rec-pagination a:hover:not(.previous_page):not(.next_page),
 .rec-pagination a:focus:not(.previous_page):not(.next_page) {
-  background-color: $gray-light;
+  background-color: $gray;
   color: white;
   text-decoration: none;
   font-style: normal;
