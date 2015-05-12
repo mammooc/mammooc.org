@@ -1,4 +1,11 @@
+#recommendation-list {
+  position: relative;
+}
+
 .rec-pagination {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
   text-align: center;
   padding-top: 20px;
 }
