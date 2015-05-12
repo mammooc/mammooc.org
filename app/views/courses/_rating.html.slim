@@ -1,1 +1,33 @@
-| Here comes the rating form.
+h4
+  = "#{current_user.first_name}, wie fandest du den Kurs?"
+form.form-horizontal
+  .form-group
+    label.col-sm-3 for="rating-input"
+      | Gesamtbewertung
+    .col-sm-9
+      input.rating type='hidden' value="" data-start="0" data-stop="5" id="rating-input"
+  .form-group
+    label.col-sm-3 for="rating-textarea"
+      | Zusätzliche Anmerkungen
+    .col-sm-9
+      textarea.form-control id="rating-textarea" rows="5" placeholder="Hilf anderen Nutzern diesen Kurs besser einzuschätzen!"
+  .form-group
+    label.col-sm-3
+      | In welchem Verhältnis stehst du zum Kurs?
+    .col-sm-9
+      select.form-control id="course-status-selector"
+        option
+          | Abgebrochen
+        option
+          | Gerade belegt
+        option
+          | Abgeschlossen
+  .form-group
+    .col-sm-3
+    .col-sm-9
+      button.btn.btn-primary id="submit-rating-button" data-course_id="#{@course.id}" data-user_id="#{current_user.id}"
+        | Bewertung abschicken
+      .checkbox
+        label
+          input type="checkbox" id="rate-anonymously-checkbox" value=""
+          | Gib meine Bewertung anonym ab

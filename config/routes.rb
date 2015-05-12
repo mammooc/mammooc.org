@@ -85,6 +85,7 @@ Rails.application.routes.draw do
   get 'courses/:id' => 'courses#show', as: 'course'
   get 'courses/:id/enroll_course' => 'courses#enroll_course'
   get 'courses/:id/unenroll_course' => 'courses#unenroll_course'
+  get 'courses/:id/send_evaluation' => 'courses#send_evaluation'
 
   # Users
   get 'users/:id/synchronize_courses' => 'users#synchronize_courses'
@@ -93,6 +94,8 @@ Rails.application.routes.draw do
   get 'users/:id/mooc_provider_settings' => 'users#mooc_provider_settings'
   get 'users/:id/set_mooc_provider_connection' => 'users#set_mooc_provider_connection'
   get 'users/:id/revoke_mooc_provider_connection' => 'users#revoke_mooc_provider_connection'
+
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
