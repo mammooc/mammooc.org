@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable, :omniauthable
   validates :first_name, :last_name, :profile_image_id, presence: true
-  has_many :emails, dependent: :destroy
+  has_many :emails, class_name: 'UserEmail', dependent: :destroy
   has_many :user_groups, dependent: :destroy
   has_many :groups, through: :user_groups
   has_many :recommendations
@@ -26,6 +26,12 @@ class User < ActiveRecord::Base
   has_many :user_assignments
   has_many :user_identities, dependent: :destroy
   before_destroy :handle_group_memberships, prepend: true
+
+  def primary_email
+    primary_email_object = self.emails.find_by(is_primary: true)
+    return unless primary_email_object.present?
+    primary_email_object.address
+  end
 
   def handle_group_memberships
     groups.each do |group|

@@ -3,7 +3,7 @@ require 'rails_helper'
 
 RSpec.describe 'emails/index', type: :view do
   before(:each) do
-    assign(:emails, [
+    assign(:user_emails, [
       Email.create!(
         address: 'Address',
         is_primary: false,

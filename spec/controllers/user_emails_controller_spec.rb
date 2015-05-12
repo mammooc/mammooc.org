@@ -19,7 +19,7 @@ require 'rails_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-RSpec.describe EmailsController, type: :controller do
+RSpec.describe UserEmailsController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # Email. As you add validations to Email, be sure to
   # adjust the attributes here as well.
@@ -46,7 +46,7 @@ RSpec.describe EmailsController, type: :controller do
     it 'assigns all emails as @emails' do
       email = Email.create! valid_attributes
       get :index, {}, valid_session
-      expect(assigns(:emails)).to eq([email])
+      expect(assigns(:user_emails)).to eq([email])
     end
   end
 

@@ -50,7 +50,7 @@ Rails.application.routes.draw do
 
   resources :mooc_providers
 
-  resources :emails
+  resources :user_emails
 
   resources :users, except: [:new, :create, :index]
 
