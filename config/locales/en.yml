@@ -33,6 +33,10 @@ en:
     show_details: Show details
     date_format_month: '%B %-d, %Y'
 
+  will_paginate:
+    previous_label: '&#171; Previous'
+    next_label: 'Next &#187;'
+
   navbar:
     home: Home
     courses: Courses

@@ -81,7 +81,7 @@ unenrollCourse = (event) ->
   event.preventDefault()
 
 $.setAjaxPagination = ->
-  $('.pagination a').click (event) ->
+  $('.rec-pagination a').click (event) ->
     event.preventDefault()
     loading = $ '<div id="loading" style="display: none;">'
     $('.other_images').prepend loading

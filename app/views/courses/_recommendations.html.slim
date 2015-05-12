@@ -28,4 +28,4 @@
         = "\"#{recommendation.text}\""
   - if index < @recommendations.size - 1
     .gradient-divider
-= will_paginate @recommendations
+= will_paginate @recommendations, class: 'rec-pagination'

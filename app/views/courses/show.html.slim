@@ -89,7 +89,8 @@
   - if @recommendations.present?
     .course-details id="course-recommendations"
       .title
-        = t('courses.recommendations')
+        => t('courses.recommendations')
+        = "(#{@recommendations_total})"
       .content
         div id="recommendation-list"
           = render 'recommendations'

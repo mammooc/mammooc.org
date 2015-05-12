@@ -1,0 +1,45 @@
+.rec-pagination {
+  text-align: center;
+  padding-top: 20px;
+}
+
+.rec-pagination a, .rec-pagination em {
+  padding: 2px 5px;
+}
+.rec-pagination .disabled {
+  color: #aaaaaa;
+}
+
+.rec-pagination a:not(.next_page) {
+  background-color: $gray-lighter;
+  border: 1px solid $gray-lighter;
+  color: $text-color;
+  text-decoration: none;
+}
+
+.rec-pagination a:hover, .rec-pagination a:focus, .rec-pagination .current {
+  background-color: $gray-light;
+  border: 1px solid $gray-light;
+  color: white;
+  text-decoration: none;
+  font-style: normal;
+}
+
+.rec-pagination .current {
+  font-weight: bold;
+}
+
+.rec-pagination .previous_page, .rec-pagination .next_page {
+  border-width: 2px;
+  color: $text-color;
+}
+
+.rec-pagination .previous_page {
+  margin-right: 20px;
+  float: left;
+}
+
+.rec-pagination .next_page {
+  margin-left: 20px;
+  float: right;
+}
