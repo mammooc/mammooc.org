@@ -7,7 +7,8 @@ Rails.application.routes.draw do
 
   devise_for :users, skip: [:registrations], controllers: {registrations: 'users/registrations',
                                                            sessions: 'users/sessions',
-                                                           passwords: 'users/passwords'}
+                                                           passwords: 'users/passwords',
+                                                           omniauth_callbacks: 'users/omniauth_callbacks'}
   as :user do
     get '/users/cancel' => 'users/registrations#cancel', :as => 'cancel_user_registration'
     post '/users' => 'users/registrations#create', :as => 'user_registration'
@@ -92,6 +93,7 @@ Rails.application.routes.draw do
   get 'users/:id/mooc_provider_settings' => 'users#mooc_provider_settings'
   get 'users/:id/set_mooc_provider_connection' => 'users#set_mooc_provider_connection'
   get 'users/:id/revoke_mooc_provider_connection' => 'users#revoke_mooc_provider_connection'
+  match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
 
   # OAuth
   get 'oauth/callback' => 'users#oauth_callback'

@@ -39,6 +39,7 @@ module MAMMOOC
       Devise::UnlocksController.skip_before_action :require_login
       Devise::ConfirmationsController.skip_before_action :require_login
       Devise::RegistrationsController.skip_before_action :require_login
+      Devise::OmniauthCallbacksController.skip_before_action :require_login
     end
 
     config.generators do |g|

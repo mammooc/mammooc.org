@@ -37,6 +37,8 @@ gem 'passenger'
 
 # authentication
 gem 'devise'
+gem 'omniauth'
+gem 'omniauth-facebook'
 
 # authorization
 gem 'cancancan', '~>1.10'
