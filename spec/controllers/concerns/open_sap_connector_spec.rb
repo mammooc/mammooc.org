@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe OpenSAPConnector do
-  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openSAP') }
+  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openSAP', api_support_state: 'naive') }
   let!(:user) { FactoryGirl.create(:user) }
 
   let(:open_sap_connector) { described_class.new }
@@ -13,7 +13,7 @@ RSpec.describe OpenSAPConnector do
 
   it 'gets an API response' do
     connection = MoocProviderUser.new
-    connection.authentication_token = '1234567890abcdef'
+    connection.access_token = '1234567890abcdef'
     connection.user_id = user.id
     connection.mooc_provider_id = mooc_provider.id
     connection.save

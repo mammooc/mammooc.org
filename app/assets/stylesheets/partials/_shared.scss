@@ -31,8 +31,11 @@
     margin-bottom: 15px;
     .content {
       padding: 10px;
-      a { @include link-black-hover-green; }
     }
+  }
+
+  .small-link {
+    font-size: 12px;
   }
 }
 

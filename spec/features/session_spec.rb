@@ -3,9 +3,11 @@ require 'rails_helper'
 
 RSpec.describe 'Users::Session', type: :feature do
   self.use_transactional_fixtures = false
+
   let(:user) { FactoryGirl.create(:user) }
 
   before(:each) do
+    visit new_user_session_path
     ActionMailer::Base.deliveries.clear
   end
 
@@ -15,10 +17,6 @@ RSpec.describe 'Users::Session', type: :feature do
 
   after(:all) do
     DatabaseCleaner.strategy = :transaction
-  end
-
-  before(:each) do
-    visit new_user_session_path
   end
 
   it 'works with valid input' do

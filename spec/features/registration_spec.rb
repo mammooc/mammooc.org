@@ -3,9 +3,11 @@ require 'rails_helper'
 
 RSpec.describe 'Users::Registration', type: :feature do
   self.use_transactional_fixtures = false
+
   let(:user) { FactoryGirl.build_stubbed(:user) }
 
   before(:each) do
+    visit new_user_registration_path
     ActionMailer::Base.deliveries.clear
   end
 
@@ -15,10 +17,6 @@ RSpec.describe 'Users::Registration', type: :feature do
 
   after(:all) do
     DatabaseCleaner.strategy = :transaction
-  end
-
-  before(:each) do
-    visit new_user_registration_path
   end
 
   it 'works with valid input' do

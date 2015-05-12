@@ -13,8 +13,9 @@
             - else
               img src="/data/icons/courses-list-std.png"
           .course-info
-            .hd6
+            .hd6.course-name
               = course.name
-            = course.course_instructors
+            .course-instructors
+              = course.course_instructors
             .provider
               img src = @provider_logos[course.mooc_provider.logo_id]

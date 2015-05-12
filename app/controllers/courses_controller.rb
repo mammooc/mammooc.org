@@ -42,7 +42,9 @@ class CoursesController < ApplicationController
 
     # RECOMMENDATIONS
     if user_signed_in?
-      @recommendations = Recommendation.sorted_recommendations_for_course_and_user(@course, current_user)
+      recommendations = Recommendation.sorted_recommendations_for_course_and_user(@course, current_user, [current_user])
+      params[:page] ||= 1
+      @recommendations = recommendations.paginate(page: params[:page], per_page: 5)
       @profile_pictures = AmazonS3.instance.author_profile_images_hash_for_recommendations(@recommendations)
       @recommended_by = []
       @pledged_by = []
@@ -109,10 +111,14 @@ class CoursesController < ApplicationController
   def create_enrollment
     provider_connector = get_connector_by_mooc_provider @course.mooc_provider
     if provider_connector.present?
-      @has_enrolled = provider_connector.enroll_user_for_course current_user, @course
-      if @has_enrolled
-        provider_worker = get_worker_by_mooc_provider @course.mooc_provider
-        provider_worker.perform_async([current_user.id])
+      begin
+        @has_enrolled = provider_connector.enroll_user_for_course current_user, @course
+        if @has_enrolled
+          provider_worker = get_worker_by_mooc_provider @course.mooc_provider
+          provider_worker.perform_async([current_user.id])
+        end
+      rescue NotImplementedError
+        @has_enrolled = false
       end
     else
       # We didn't implement a provider_connector for this mooc_provider
@@ -123,10 +129,14 @@ class CoursesController < ApplicationController
   def destroy_enrollment
     provider_connector = get_connector_by_mooc_provider @course.mooc_provider
     if provider_connector.present?
-      @has_unenrolled = provider_connector.unenroll_user_for_course current_user, @course
-      if @has_unenrolled
-        provider_worker = get_worker_by_mooc_provider @course.mooc_provider
-        provider_worker.perform_async([current_user.id])
+      begin
+        @has_unenrolled = provider_connector.unenroll_user_for_course current_user, @course
+        if @has_unenrolled
+          provider_worker = get_worker_by_mooc_provider @course.mooc_provider
+          provider_worker.perform_async([current_user.id])
+        end
+      rescue NotImplementedError
+        @has_unenrolled = false
       end
     else
       # We didn't implement a provider_connector for this mooc_provider

@@ -5,8 +5,10 @@ RSpec.describe CoursesController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'open_mammooc') }
   let!(:course) { FactoryGirl.create(:course, mooc_provider: mooc_provider) }
-  let(:second_mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI') }
-  let(:second_course) { FactoryGirl.create(:course, mooc_provider: second_mooc_provider) }
+  let!(:second_mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI') }
+  let!(:second_course) { FactoryGirl.create(:course, mooc_provider: second_mooc_provider) }
+  let!(:third_mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'coursera') }
+  let!(:third_course) { FactoryGirl.create(:course, mooc_provider: third_mooc_provider) }
 
   before(:each) do
     sign_in user
@@ -31,7 +33,7 @@ RSpec.describe CoursesController, type: :controller do
 
     it 'assigns all courses as @courses' do
       get :index, {}
-      expect(assigns(:courses)).to eq([course])
+      expect(assigns(:courses)).to eq([course, second_course, third_course])
     end
 
     it 'filters the courses after given parameters in URL' do
@@ -60,6 +62,12 @@ RSpec.describe CoursesController, type: :controller do
       expect(assigns(:has_enrolled)).to eq false
     end
 
+    it 'assigns false as @has_enrolled if a provider connector is present but does not support to create enrollments' do
+      FactoryGirl.create(:oauth_mooc_provider_user, user: user, mooc_provider: third_mooc_provider)
+      get :enroll_course, id: third_course.to_param
+      expect(assigns(:has_enrolled)).to eq false
+    end
+
     it 'assigns nil as @has_enrolled if a connector is present but user has no connection' do
       get :enroll_course, id: second_course.to_param
       expect(assigns(:has_enrolled)).to eq nil
@@ -75,6 +83,12 @@ RSpec.describe CoursesController, type: :controller do
   describe 'GET unenroll_course' do
     it 'assigns false as @has_unenrolled if no provider connector is present' do
       get :unenroll_course, id: course.to_param
+      expect(assigns(:has_unenrolled)).to eq false
+    end
+
+    it 'assigns false as @has_unenrolled if a provider connector is present but does not support to delete enrollments' do
+      FactoryGirl.create(:oauth_mooc_provider_user, user: user, mooc_provider: third_mooc_provider)
+      get :unenroll_course, id: third_course.to_param
       expect(assigns(:has_unenrolled)).to eq false
     end
 

@@ -48,11 +48,13 @@ RSpec.describe AbstractMoocProviderConnector do
 
   it 'throws exceptions when trying to call abstract methods' do
     expect { abstract_mooc_provider_connector.send(:mooc_provider) }.to raise_error NameError
+    expect { abstract_mooc_provider_connector.send(:refresh_access_token, user) }.to raise_error NotImplementedError
     expect { abstract_mooc_provider_connector.send(:get_enrollments_for_user, user) }.to raise_error NotImplementedError
     expect { abstract_mooc_provider_connector.send(:handle_enrollments_response, 'test', user) }.to raise_error NotImplementedError
     expect { abstract_mooc_provider_connector.send(:send_connection_request, user, 'test') }.to raise_error NotImplementedError
     expect { abstract_mooc_provider_connector.send(:send_enrollment_for_course, user, '123') }.to raise_error NotImplementedError
     expect { abstract_mooc_provider_connector.send(:send_unenrollment_for_course, user, '123') }.to raise_error NotImplementedError
+    expect { abstract_mooc_provider_connector.oauth_link 'destination', 'csrf_token' }.to raise_error NotImplementedError
   end
 
   it 'handles internet connection error' do

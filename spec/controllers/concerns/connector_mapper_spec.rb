@@ -22,6 +22,8 @@ RSpec.describe ConnectorMapper do
     expect((get_connector_by_mooc_provider mooc_provider).class).to eql MoocHouseConnector
     mooc_provider.name = 'openUNE'
     expect((get_connector_by_mooc_provider mooc_provider).class).to eql OpenUNEConnector
+    mooc_provider.name = 'coursera'
+    expect((get_connector_by_mooc_provider mooc_provider).class).to eql CourseraConnector
   end
 
   it 'returns no worker for unknown mooc_provider' do
@@ -41,5 +43,7 @@ RSpec.describe ConnectorMapper do
     expect(get_worker_by_mooc_provider mooc_provider).to eql MoocHouseUserWorker
     mooc_provider.name = 'openUNE'
     expect(get_worker_by_mooc_provider mooc_provider).to eql OpenUNEUserWorker
+    mooc_provider.name = 'coursera'
+    expect(get_worker_by_mooc_provider mooc_provider).to eql CourseraUserWorker
   end
 end

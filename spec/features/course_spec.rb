@@ -33,7 +33,7 @@ RSpec.describe 'Course', type: :feature do
       expect(page).to have_no_selector('#rate-course')
     end
 
-    it 'onlies display the recommendation view upon click', js: true do
+    it 'displays only the recommendation view upon click', js: true do
       visit "/courses/#{course.id}"
       click_link('recommend-course-link')
       wait_for_phantom_js
@@ -45,7 +45,7 @@ RSpec.describe 'Course', type: :feature do
       expect(page).to have_no_selector('#rate-course')
     end
 
-    it 'onlies display the rating view upon click', js: true do
+    it 'displays only the rating view upon click', js: true do
       visit "/courses/#{course.id}"
       click_link('rate-course-link')
       wait_for_phantom_js
