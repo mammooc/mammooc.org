@@ -7,7 +7,7 @@ RSpec.describe CourseTrackType, type: :model do
     let!(:track_type2) { FactoryGirl.create(:course_track_type) }
     let!(:track_type3) { FactoryGirl.create(:course_track_type) }
 
-    it 'should return array of name and id' do
+    it 'returns array of name and id' do
       options = described_class.options_for_select
       expect(options).to match_array([[track_type1.title, track_type1.id], [track_type2.title, track_type2.id], [track_type3.title, track_type3.id]])
     end

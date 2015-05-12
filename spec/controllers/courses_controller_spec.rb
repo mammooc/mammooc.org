@@ -15,7 +15,6 @@ RSpec.describe CoursesController, type: :controller do
   end
 
   describe 'Get get_filter_options' do
-
     render_views
 
     it 'responds with valid json' do
@@ -24,12 +23,10 @@ RSpec.describe CoursesController, type: :controller do
       get :get_filter_options, format: :json
       expect(JSON.parse(response.body)['filter_options']).to eql (expected_response)
     end
-
   end
 
   describe 'GET index' do
-    let(:course2) { FactoryGirl.create(:course, language: 'en', calculated_duration_in_days: 20 ) }
-
+    let(:course2) { FactoryGirl.create(:course, language: 'en', calculated_duration_in_days: 20) }
 
     it 'assigns all courses as @courses' do
       get :index, {}
@@ -38,13 +35,13 @@ RSpec.describe CoursesController, type: :controller do
 
     it 'filters the courses after given parameters in URL' do
       course2
-      get :index, {filterrific: {with_language: 'en', duration_filter_options: 'short'}}
+      get :index, filterrific: {with_language: 'en', duration_filter_options: 'short'}
       expect(assigns(:courses)).to eq([course2])
     end
 
     it 'filters courses out after given parameters in URL' do
       course2
-      get :index, {filterrific: {with_language: 'de', duration_filter_options: 'short'}}
+      get :index, filterrific: {with_language: 'de', duration_filter_options: 'short'}
       expect(assigns(:courses)).to eq([])
     end
   end
