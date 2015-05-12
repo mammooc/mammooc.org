@@ -83,6 +83,8 @@ en:
       reset: Reset my password
     settings:
       heading: :navbar.settings
+      mooc_provider: MOOC Provider
+      account: Account
       mooc_provider_connection: MOOC Provider Connection
       email: :users.sign_in_up.email
       enter_mail: Enter email

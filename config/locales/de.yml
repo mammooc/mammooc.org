@@ -83,6 +83,8 @@ de:
       reset: Neues Passwort anfordern
     settings:
       heading: :navbar.settings
+      mooc_provider: MOOC-Provider
+      account: Account
       mooc_provider_connection: Verbindungen mit MOOC-Providern
       email: :users.sign_in_up.email
       enter_mail: E-Mail eingeben
