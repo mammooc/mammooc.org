@@ -3,21 +3,15 @@
   padding-top: 20px;
 }
 
-.rec-pagination a, .rec-pagination em {
-  padding: 2px 5px;
+.rec-pagination a, .rec-pagination em, .rec-pagination .disabled {
+  padding: 2px 6px;
 }
+
 .rec-pagination .disabled {
   color: #aaaaaa;
 }
 
-.rec-pagination a:not(.next_page) {
-  background-color: $gray-lighter;
-  border: 1px solid $gray-lighter;
-  color: $text-color;
-  text-decoration: none;
-}
-
-.rec-pagination a:hover, .rec-pagination a:focus, .rec-pagination .current {
+.rec-pagination .current {
   background-color: $gray-light;
   border: 1px solid $gray-light;
   color: white;
@@ -25,13 +19,23 @@
   font-style: normal;
 }
 
-.rec-pagination .current {
-  font-weight: bold;
+.rec-pagination a:not(.previous_page):not(.next_page) {
+  background-color: $gray-lighter;
+  color: $text-color;
+  text-decoration: none;
 }
 
-.rec-pagination .previous_page, .rec-pagination .next_page {
-  border-width: 2px;
+.rec-pagination a:hover:not(.previous_page):not(.next_page),
+.rec-pagination a:focus:not(.previous_page):not(.next_page) {
+  background-color: $gray-light;
+  color: white;
+  text-decoration: none;
+  font-style: normal;
+}
+
+.rec-pagination a.previous_page, .rec-pagination a.next_page {
   color: $text-color;
+  &:hover { text-decoration: underline; }
 }
 
 .rec-pagination .previous_page {
