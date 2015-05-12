@@ -21,4 +21,8 @@ class User < ActiveRecord::Base
   has_many :bookmarks
   has_many :evaluations
   has_many :user_assignments
+
+  def common_groups_with_user(other_user)
+    (other_user.groups.to_a.collect {|g| self.groups.include?(g) ? g : nil}).compact()
+  end
 end
