@@ -479,19 +479,19 @@ RSpec.describe GroupsController, type: :controller do
     it "returns 'last_admin' if the member is the last admin (but there are still other members)" do
       UserGroup.set_is_admin(group.id, user.id, true)
       post :condition_for_changing_member_status, format: :json, id: group.id, changing_member: user.id
-      expect(response.body).to have_content('last_admin')
+      expect(json).to have_content('last_admin')
     end
 
     it "returns 'last_member' if the member is the last member" do
       UserGroup.set_is_admin(second_group.id, user.id, true)
       post :condition_for_changing_member_status, format: :json, id: second_group.id, changing_member: user.id
-      expect(response.body).to have_content('last_member')
+      expect(json).to have_content('last_member')
     end
 
     it "returns 'ok' if there are no restrictions to remove the member" do
       UserGroup.set_is_admin(group.id, user.id, true)
       post :condition_for_changing_member_status, format: :json, id: group.id, changing_member: second_user.id
-      expect(response.body).to have_content('ok')
+      expect(json).to have_content('ok')
     end
   end
 
@@ -543,8 +543,8 @@ RSpec.describe GroupsController, type: :controller do
 
     it 'returns JSON with all members exclude the current user' do
       get :members, format: :json, id: group.id
-      expect(response.body).to have_content(second_user.id)
-      expect(response.body).not_to have_content(user.id)
+      expect(json).to have_content(second_user.id)
+      expect(json).not_to have_content(user.id)
     end
 
     context 'without authorization' do

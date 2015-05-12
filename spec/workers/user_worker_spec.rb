@@ -15,6 +15,7 @@ RSpec.describe UserWorker do
     expect(OpenSAPChinaUserWorker).to receive(:perform_async).with(nil)
     expect(OpenUNEUserWorker).to receive(:perform_async).with(nil)
     expect(MoocHouseUserWorker).to receive(:perform_async).with(nil)
+    expect(CourseraUserWorker).to receive(:perform_async).with(nil)
     described_class.perform_async
   end
 
@@ -25,6 +26,7 @@ RSpec.describe UserWorker do
     expect(OpenSAPChinaUserWorker).to receive(:perform_async).with([user.id])
     expect(OpenUNEUserWorker).to receive(:perform_async).with([user.id])
     expect(MoocHouseUserWorker).to receive(:perform_async).with([user.id])
+    expect(CourseraUserWorker).to receive(:perform_async).with([user.id])
     described_class.perform_async [user.id]
   end
 end

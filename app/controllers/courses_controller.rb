@@ -83,10 +83,14 @@ class CoursesController < ApplicationController
   def create_enrollment
     provider_connector = get_connector_by_mooc_provider @course.mooc_provider
     if provider_connector.present?
-      @has_enrolled = provider_connector.enroll_user_for_course current_user, @course
-      if @has_enrolled
-        provider_worker = get_worker_by_mooc_provider @course.mooc_provider
-        provider_worker.perform_async([current_user.id])
+      begin
+        @has_enrolled = provider_connector.enroll_user_for_course current_user, @course
+        if @has_enrolled
+          provider_worker = get_worker_by_mooc_provider @course.mooc_provider
+          provider_worker.perform_async([current_user.id])
+        end
+      rescue NotImplementedError
+        @has_enrolled = false
       end
     else
       # We didn't implement a provider_connector for this mooc_provider
@@ -97,10 +101,14 @@ class CoursesController < ApplicationController
   def destroy_enrollment
     provider_connector = get_connector_by_mooc_provider @course.mooc_provider
     if provider_connector.present?
-      @has_unenrolled = provider_connector.unenroll_user_for_course current_user, @course
-      if @has_unenrolled
-        provider_worker = get_worker_by_mooc_provider @course.mooc_provider
-        provider_worker.perform_async([current_user.id])
+      begin
+        @has_unenrolled = provider_connector.unenroll_user_for_course current_user, @course
+        if @has_unenrolled
+          provider_worker = get_worker_by_mooc_provider @course.mooc_provider
+          provider_worker.perform_async([current_user.id])
+        end
+      rescue NotImplementedError
+        @has_unenrolled = false
       end
     else
       # We didn't implement a provider_connector for this mooc_provider

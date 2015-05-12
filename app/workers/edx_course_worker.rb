@@ -21,7 +21,7 @@ class EdxCourseWorker < AbstractCourseWorker
     profed_track_type = CourseTrackType.find_by(type_of_achievement: 'edx_profed_certificate')
 
     response_data['value']['items'].each do |course_element|
-      course = Course.find_by(provider_course_id: course_element['id'], mooc_provider_id: mooc_provider.id)
+      course = Course.find_by(provider_course_id: course_element['course:id'], mooc_provider_id: mooc_provider.id)
       if course.nil?
         course = Course.new
       else
