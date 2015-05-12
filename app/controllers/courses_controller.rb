@@ -7,6 +7,7 @@ class CoursesController < ApplicationController
   # GET /courses
   # GET /courses.json
   def index
+
     @filterrific = initialize_filterrific(Course, params[:filterrific],
       select_options: {with_language: Course.options_for_languages,
                        with_mooc_provider_id: MoocProvider.options_for_select,
@@ -84,6 +85,15 @@ class CoursesController < ApplicationController
       end
     end
   end
+
+  def get_filter_options
+    @filter_options = session['courses#index'].to_query('filterrific')
+
+    respond_to do |format|
+      format.json { render :filter_options }
+    end
+  end
+
 
   private
 
