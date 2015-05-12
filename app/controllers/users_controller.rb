@@ -29,7 +29,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.html { redirect_to @user, notice: t('flash.notice.users.successfully_updated') }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
@@ -46,14 +46,20 @@ class UsersController < ApplicationController
     end
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      format.html { redirect_to users_url, notice: t('flash.notice.users.successfully_destroyed') }
       format.json { head :no_content }
     end
   end
 
   def synchronize_courses
-    OpenHPIUserWorker.new.perform [current_user.id]
-    OpenSAPUserWorker.new.perform [current_user.id]
+    @synchronization_state = {}
+    @synchronization_state[:open_hpi] = OpenHPIUserWorker.new.perform [current_user.id]
+    @synchronization_state[:open_sap] = OpenSAPUserWorker.new.perform [current_user.id]
+    if CourseraUserWorker.new.perform [current_user.id]
+      @synchronization_state[:coursera] = true
+    else
+      @synchronization_state[:coursera] = CourseraConnector.new.oauth_link(synchronize_courses_path(current_user), masked_authenticity_token(session))
+    end
     @partial = render_to_string partial: 'dashboard/user_courses', formats: [:html]
     respond_to do |format|
       begin
@@ -71,7 +77,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       begin
         format.html { redirect_to dashboard_path }
-        format.json { render :synchronization_result, status: :ok }
+        format.json { render :settings, status: :ok }
       rescue StandardError => e
         format.html { redirect_to dashboard_path }
         format.json { render json: e.to_json, status: :unprocessable_entity }
@@ -80,14 +86,13 @@ class UsersController < ApplicationController
   end
 
   def mooc_provider_settings
-    @mooc_providers = MoocProvider.select([:id, :logo_id]).map {|e| {id: e.id, logo_id: e.logo_id} }
-    @mooc_provider_connections = current_user.mooc_providers.pluck(:mooc_provider_id)
+    prepare_mooc_provider_settings
 
     @partial = render_to_string partial: 'users/mooc_provider_settings', formats: [:html]
     respond_to do |format|
       begin
         format.html { redirect_to dashboard_path }
-        format.json { render :synchronization_result, status: :ok }
+        format.json { render :settings, status: :ok }
       rescue StandardError => e
         format.html { redirect_to dashboard_path }
         format.json { render json: e.to_json, status: :unprocessable_entity }
@@ -96,6 +101,36 @@ class UsersController < ApplicationController
   end
 
   def settings
+    prepare_mooc_provider_settings
+    @subsite = params['subsite']
+  end
+
+  def oauth_callback
+    code = params[:code]
+    state = params[:state].split(/~/)
+    mooc_provider = MoocProvider.find_by_name(state.first)
+    destination_path = state.second
+    csrf_token = state.third
+    flash['error'] ||= []
+
+    return oauth_error_and_redirect(destination_path) if mooc_provider.blank?
+
+    provider_connector = get_connector_by_mooc_provider mooc_provider
+
+    return oauth_error_and_redirect(destination_path) if provider_connector.blank? && mooc_provider.api_support_state != 'oauth'
+
+    if params[:error].present? || !valid_authenticity_token?(session, csrf_token)
+      provider_connector.destroy_connection(current_user)
+      return oauth_error_and_redirect(destination_path)
+    elsif code.present?
+      provider_connector.initialize_connection(current_user, code: code)
+      redirect_to destination_path
+    end
+  end
+
+  def oauth_error_and_redirect(destination_path)
+    flash['error'] << "#{t('users.synchronization.oauth_error')}"
+    redirect_to destination_path
   end
 
   def set_mooc_provider_connection
@@ -106,12 +141,16 @@ class UsersController < ApplicationController
       if provider_connector.present?
         @got_connection = provider_connector.initialize_connection(
           current_user, email: params[:email], password: params[:password])
+        provider_connector.load_user_data([current_user])
       end
     end
+    set_provider_logos
+    prepare_mooc_provider_settings
+    @partial = render_to_string partial: 'users/mooc_provider_settings', formats: [:html]
     respond_to do |format|
       begin
         format.html { redirect_to dashboard_path }
-        format.json { render :rename_mooc_provider_connection_result, status: :ok }
+        format.json { render :set_mooc_provider_connection_result, status: :ok }
       rescue StandardError => e
         format.html { redirect_to dashboard_path }
         format.json { render json: e.to_json, status: :unprocessable_entity }
@@ -121,8 +160,16 @@ class UsersController < ApplicationController
 
   def revoke_mooc_provider_connection
     @revoked_connection = true
-    connections = MoocProviderUser.where(user_id: current_user.id, mooc_provider_id: params[:mooc_provider])
-    connections.destroy_all
+    mooc_provider = MoocProvider.find_by_id(params[:mooc_provider])
+    if mooc_provider.present?
+      provider_connector = get_connector_by_mooc_provider mooc_provider
+      if provider_connector.present?
+        @revoked_connection = provider_connector.destroy_connection(current_user)
+      end
+    end
+    set_provider_logos
+    prepare_mooc_provider_settings
+    @partial = render_to_string partial: 'users/mooc_provider_settings', formats: [:html]
     respond_to do |format|
       begin
         format.html { redirect_to dashboard_path }
@@ -136,13 +183,22 @@ class UsersController < ApplicationController
 
   private
 
-  def set_provider_logos
-    @provider_logos = AmazonS3.instance.get_all_provider_logos_hash
+  def prepare_mooc_provider_settings
+    @mooc_providers = MoocProvider.all.map do |mooc_provider|
+      provider_connector = get_connector_by_mooc_provider mooc_provider
+      if provider_connector.present? && mooc_provider.api_support_state == 'oauth'
+        oauth_link = provider_connector.oauth_link("#{user_settings_path(current_user)}?subsite=mooc_provider", masked_authenticity_token(session))
+      end
+      {id: mooc_provider.id,
+       logo_id: mooc_provider.logo_id,
+       api_support_state: mooc_provider.api_support_state,
+       oauth_link: oauth_link}
+    end
+    @mooc_provider_connections = current_user.mooc_providers.pluck(:mooc_provider_id)
   end
 
-  # Use callbacks to share common setup or constraints between actions.
-  def set_user
-    @user = User.find(params[:id])
+  def set_provider_logos
+    @provider_logos = AmazonS3.instance.all_provider_logos_hash
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

@@ -25,6 +25,6 @@ class Recommendation < ActiveRecord::Base
   end
 
   def self.filter_users(recommendations, filter_users)
-    recommendations.reject { |r| filter_users.include? r.author }
+    recommendations.reject {|r| filter_users.include? r.author }
   end
 end
