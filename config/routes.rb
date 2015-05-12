@@ -79,12 +79,12 @@ Rails.application.routes.draw do
   root to: 'home#index'
 
   # Courses
+  post 'courses/:id/send_evaluation' => 'courses#send_evaluation'
   get 'courses' => 'courses#index'
   get 'courses/index'
   get 'courses/:id' => 'courses#show', as: 'course'
   get 'courses/:id/enroll_course' => 'courses#enroll_course'
   get 'courses/:id/unenroll_course' => 'courses#unenroll_course'
-  get 'courses/:id/send_evaluation' => 'courses#send_evaluation'
 
   # Users
   get 'users/:id/synchronize_courses' => 'users#synchronize_courses', as: 'synchronize_courses'

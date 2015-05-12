@@ -69,6 +69,9 @@ class CoursesController < ApplicationController
   end
 
   def send_evaluation
+    if params[:rating] > 0
+
+    end
     respond_to do |format|
       begin
         format.html { redirect_to dashboard_path }

@@ -1,5 +1,5 @@
 h4
-  = "#{current_user.first_name}, wie fandest du den Kurs?"
+  = 'Kursbewertung'
 form.form-horizontal
   .form-group
     label.col-sm-3 for="rating-input"
@@ -15,13 +15,24 @@ form.form-horizontal
     label.col-sm-3
       | In welchem Verhältnis stehst du zum Kurs?
     .col-sm-9
-      select.form-control id="course-status-selector"
-        option
-          | Abgebrochen
-        option
-          | Gerade belegt
-        option
-          | Abgeschlossen
+      .btn-group data-toggle="buttons"
+        label.btn.btn-default
+          input type="radio"
+            | Abgebrochen
+        label.btn.btn-default
+          input type="radio"
+            | Gerade belegt
+        label.btn.btn-default
+          input type="radio"
+            | Abgeschlossen
+      /select.form-control id="course-status-selector"
+      /  option data-hidden="true"
+      /  option
+      /    | Abgebrochen
+      /  option
+      /    | Gerade belegt
+      /  option
+      /    | Abgeschlossen
   .form-group
     .col-sm-3
     .col-sm-9
