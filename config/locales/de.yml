@@ -22,7 +22,7 @@
 de:
   global:
     app_name: mammooc
-    require_login: Du musst eingeloggt sein um auf diese Seite zugreifen zu können.
+    require_login: Du musst eingeloggt sein, um auf diese Seite zugreifen zu können.
     close: Schließen
     submit: Absenden
     cancel: Abbrechen

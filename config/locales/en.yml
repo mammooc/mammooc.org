@@ -22,7 +22,7 @@
 en:
   global:
     app_name: mammooc
-    require_login: You must be logged in to access this section
+    require_login: You must be logged in to access this section.
     close: Close
     submit: Submit
     cancel: Cancel
