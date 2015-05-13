@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class CoursesController < ApplicationController
-  before_action :set_course, only: [:show, :enroll_course, :unenroll_course]
+  before_action :set_course, only: [:show, :enroll_course, :unenroll_course, :send_evaluation]
   skip_before_action :require_login, only: [:index, :show]
   include ConnectorMapper
 
@@ -37,9 +37,14 @@ class CoursesController < ApplicationController
           @recommended_by.push(recommendation.author)
         end
       end
+
+      @has_rated_course = current_user.evaluations.where(course_id: @course.id).present?
+    else
+      @has_rated_course = false
     end
 
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses([@course])
+
   end
 
   def enroll_course
@@ -69,8 +74,29 @@ class CoursesController < ApplicationController
   end
 
   def send_evaluation
-    if params[:rating] > 0
-
+    rating = params[:rating].to_i
+    course_status = params[:course_status].to_i
+    @errors ||= []
+    unless ranking_valid? rating
+      @errors << 'Junge, gib ein ordentliches Ranking ein!'
+    end
+    unless course_status_valid? course_status
+      @errors << 'Junge, gib einen ordentlichen Kursstatus ein!'
+    end
+    if current_user.evaluations.where(course_id: @course.id).present?
+      @errors << 'Junge, du hast bereits ne Bewertung abgegeben!'
+    end
+    if @errors.empty?
+      Evaluation.create(rating: rating,
+                        description: params[:rating_textarea],
+                        course_status: course_status,
+                        rated_anonymously: params[:rate_anonymously],
+                        date: Time.zone.now,
+                        user_id: current_user.id,
+                        course_id: @course.id)
+      @saved_evaluation_successfuly = true
+    else
+      @saved_evaluation_successfuly = false
     end
     respond_to do |format|
       begin
@@ -86,6 +112,14 @@ class CoursesController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
+  def ranking_valid? rating
+    return rating == 1 || rating == 2 || rating == 3 || rating == 4 || rating == 5
+  end
+
+  def course_status_valid? course_status
+    return course_status == 1 || course_status == 2 || course_status == 3
+  end
+
   def set_course
     @course = Course.find(params[:id])
   end

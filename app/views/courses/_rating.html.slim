@@ -15,14 +15,14 @@ form.form-horizontal
     label.col-sm-3
       | In welchem Verhältnis stehst du zum Kurs?
     .col-sm-9
-      .btn-group data-toggle="buttons"
-        label.btn.btn-default
+      .btn-group.btn-group-sm data-toggle="buttons" id="course-status-selector"
+        label.btn.btn-default data-value="1"
           input type="radio"
             | Abgebrochen
-        label.btn.btn-default
+        label.btn.btn-default data-value="2"
           input type="radio"
             | Gerade belegt
-        label.btn.btn-default
+        label.btn.btn-default data-value="3"
           input type="radio"
             | Abgeschlossen
       /select.form-control id="course-status-selector"
@@ -36,7 +36,7 @@ form.form-horizontal
   .form-group
     .col-sm-3
     .col-sm-9
-      button.btn.btn-primary id="submit-rating-button" data-course_id="#{@course.id}" data-user_id="#{current_user.id}"
+      button.btn.btn-primary id="submit-rating-button" data-course_id="#{@course.id}"
         | Bewertung abschicken
       .checkbox
         label

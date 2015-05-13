@@ -6,14 +6,16 @@ $(document).ready(ready)
 
 sendCourseReview = (event) ->
   button = $(event.target)
-  user_id = button.data('user_id')
   course_id = button.data('course_id')
   if typeof $("#rating-input").rating('rate') is 'object'
     rating_input = 0
   else
     rating_input = $("#rating-input").rating('rate')
   rating_textarea = $("#rating-textarea").val()
-  course_status = $("#course-status-selector").val()
+  if typeof $("#course-status-selector .active").data("value") is 'undefined'
+    course_status = 0
+  else
+    course_status = $("#course-status-selector .active").data("value")
   rate_anonymously = $("#rate-anonymously-checkbox").is(':checked')
   data =
     rating : rating_input
