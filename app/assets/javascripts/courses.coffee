@@ -5,7 +5,7 @@
 @set_filter_options_to_param = () ->
   if location.pathname == '/courses'
     $.ajax
-      url: 'courses/get_filter_options.json'
+      url: 'courses/filter_options.json'
       method: 'GET'
       error: (jqXHR, textStatus, errorThrown) ->
         alert(I18n.t('global.ajax_failed'))

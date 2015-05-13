@@ -20,8 +20,8 @@ RSpec.describe CoursesController, type: :controller do
     it 'responds with valid json' do
       session['courses#index'] = {with_language: 'en', duration_filter_options: 'short'}
       expected_response = {with_language: 'en', duration_filter_options: 'short'}.to_query('filterrific')
-      get :get_filter_options, format: :json
-      expect(JSON.parse(response.body)['filter_options']).to eql (expected_response)
+      get :filter_options, format: :json
+      expect(JSON.parse(response.body)['filter_options']).to eql expected_response
     end
   end
 

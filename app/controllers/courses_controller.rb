@@ -87,7 +87,7 @@ class CoursesController < ApplicationController
     end
   end
 
-  def get_filter_options
+  def filter_options
     @filter_options = session['courses#index'].to_query('filterrific')
 
     respond_to do |format|

@@ -141,6 +141,7 @@ RSpec.describe 'Course', type: :feature do
     let!(:course_wrong_attributes_3) { FactoryGirl.create(:course, name: 'Course that does not match all criteria 3', start_date: Time.zone.now, end_date: Time.zone.now + 2.weeks, language: 'en', mooc_provider: openHPI, subtitle_languages: 'en', calculated_duration_in_days: 35, tracks: [expensive_track_3]) }
 
     it 'filters courses for all filter criteria', js: true do
+      #TODO: delete after mobile optimization
       unless ENV['PHANTOM_JS'] == 'true'
         page.driver.browser.manage.window.resize_to(1024, 768)
       end

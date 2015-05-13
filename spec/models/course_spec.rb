@@ -118,9 +118,9 @@ RSpec.describe Course, type: :model do
   describe 'scopes for filtering' do
     context 'with_start_date_gte' do
       let(:test_date) { '05.04.2015' }
-      let!(:wrong_course) { FactoryGirl.create(:course, start_date: DateTime.parse(test_date) - 1.day) }
-      let!(:correct_course) { FactoryGirl.create(:course, start_date: DateTime.parse(test_date)) }
-      let!(:correct_course2) { FactoryGirl.create(:course, start_date: DateTime.parse(test_date) + 1.week) }
+      let!(:wrong_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(test_date) - 1.day) }
+      let!(:correct_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(test_date)) }
+      let!(:correct_course2) { FactoryGirl.create(:course, start_date: Time.zone.parse(test_date) + 1.week) }
 
       it 'returns courses that start at or after defined date' do
         result = described_class.with_start_date_gte(test_date)
@@ -137,9 +137,9 @@ RSpec.describe Course, type: :model do
 
     context 'with_end_date_gte' do
       let(:test_date) { '05.04.2015' }
-      let!(:wrong_course) { FactoryGirl.create(:course, end_date: DateTime.parse(test_date) + 1.day) }
-      let!(:correct_course) { FactoryGirl.create(:course, end_date: DateTime.parse(test_date)) }
-      let!(:correct_course2) { FactoryGirl.create(:course, end_date: DateTime.parse(test_date) - 1.week) }
+      let!(:wrong_course) { FactoryGirl.create(:course, end_date: Time.zone.parse(test_date) + 1.day) }
+      let!(:correct_course) { FactoryGirl.create(:course, end_date: Time.zone.parse(test_date)) }
+      let!(:correct_course2) { FactoryGirl.create(:course, end_date: Time.zone.parse(test_date) - 1.week) }
 
       it 'returns courses that end at or before defined date' do
         result = described_class.with_end_date_lte(test_date)
@@ -264,12 +264,12 @@ RSpec.describe Course, type: :model do
 
     context 'start_filter_options' do
       let(:current_date) { Time.zone.now.strftime('%d.%m.%Y').to_s }
-      let!(:current_course) { FactoryGirl.create(:course, start_date: DateTime.parse(current_date), end_date: DateTime.parse(current_date) + 2.weeks) }
-      let!(:past_course) { FactoryGirl.create(:course, start_date: DateTime.parse(current_date) - 4.weeks, end_date: DateTime.parse(current_date) - 2.weeks) }
-      let!(:soon_course) { FactoryGirl.create(:course, start_date: DateTime.parse(current_date) + 1.weeks, end_date: DateTime.parse(current_date) + 3.weeks) }
-      let!(:future_course) { FactoryGirl.create(:course, start_date: DateTime.parse(current_date) + 4.weeks, end_date: DateTime.parse(current_date) + 6.weeks) }
-      let!(:without_start_course) { FactoryGirl.create(:course, start_date: nil, end_date: DateTime.parse(current_date) + 3.weeks) }
-      let!(:without_end_course) { FactoryGirl.create(:course, start_date: DateTime.parse(current_date), end_date: nil) }
+      let!(:current_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date), end_date: Time.zone.parse(current_date) + 2.weeks) }
+      let!(:past_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date) - 4.weeks, end_date: Time.zone.parse(current_date) - 2.weeks) }
+      let!(:soon_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date) + 1.weeks, end_date: Time.zone.parse(current_date) + 3.weeks) }
+      let!(:future_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date) + 4.weeks, end_date: Time.zone.parse(current_date) + 6.weeks) }
+      let!(:without_start_course) { FactoryGirl.create(:course, start_date: nil, end_date: Time.zone.parse(current_date) + 3.weeks) }
+      let!(:without_end_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date), end_date: nil) }
       let!(:without_dates_course) { FactoryGirl.create(:course, start_date: nil, end_date: nil) }
 
       it 'returns the courses that are currently running' do
@@ -293,7 +293,7 @@ RSpec.describe Course, type: :model do
       end
 
       context 'courses without end_date but with duration' do
-        before (:each) do
+        before(:each) do
           current_course.end_date = nil
           past_course.end_date = nil
           soon_course.end_date = nil
@@ -328,11 +328,11 @@ RSpec.describe Course, type: :model do
 
     context 'duration_filter_options' do
       let(:current_date) { Time.zone.now.strftime('%d.%m.%Y').to_s }
-      let!(:short_course) { FactoryGirl.create(:course, start_date: DateTime.parse(current_date), end_date: DateTime.parse(current_date) + 2.weeks) }
-      let!(:short_medium_course) { FactoryGirl.create(:course, start_date: DateTime.parse(current_date), end_date: DateTime.parse(current_date) + 5.weeks) }
-      let!(:medium_course) { FactoryGirl.create(:course, start_date: DateTime.parse(current_date), end_date: DateTime.parse(current_date) + 7.weeks) }
-      let!(:medium_long_course) { FactoryGirl.create(:course, start_date: DateTime.parse(current_date), end_date: DateTime.parse(current_date) + 11.weeks) }
-      let!(:long_course) { FactoryGirl.create(:course, start_date: DateTime.parse(current_date), end_date: DateTime.parse(current_date) + 13.weeks) }
+      let!(:short_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date), end_date: Time.zone.parse(current_date) + 2.weeks) }
+      let!(:short_medium_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date), end_date: Time.zone.parse(current_date) + 5.weeks) }
+      let!(:medium_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date), end_date: Time.zone.parse(current_date) + 7.weeks) }
+      let!(:medium_long_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date), end_date: Time.zone.parse(current_date) + 11.weeks) }
+      let!(:long_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date), end_date: Time.zone.parse(current_date) + 13.weeks) }
       let!(:course_without_duration) { FactoryGirl.create(:course, start_date: nil, end_date: nil) }
 
       it 'returns short course' do

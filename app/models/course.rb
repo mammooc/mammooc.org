@@ -1,4 +1,6 @@
 # -*- encoding : utf-8 -*-
+# rubocop:disable Style/Lambda
+
 class Course < ActiveRecord::Base
   filterrific available_filters: [:with_start_date_gte,
                                   :with_end_date_lte,
@@ -262,3 +264,5 @@ class Course < ActiveRecord::Base
     following_course.save
   end
 end
+
+# rubocop:enable Style/Lambda
