@@ -18,21 +18,22 @@
           = @course.course_instructors
         p
         img src="/data/icons/calendar.png" class="pr5" style="height:18px"
-        - if @course.start_date && @course.end_date
+        - if @course.start_date
+          - if @course.end_date
+            - if @course.start_date < Date.today and Date.today < @course.end_date
+              = t('courses.already_running')
           - if @course.start_date > Date.today
             => t('courses.starting_soon')
-            = @course.start_date.strftime("%d.%m.%Y")
+            = I18n.l @course.start_date, format: t('global.date_format_month')
           - elsif @course.start_date == Date.today
             = t('courses.starts_today')
-          - elsif @course.start_date < Date.today and @course.end_date < Date.today
-            => t('courses.already_running')
           - else
             => t('courses.course_dates')
-            = @course.start_date.strftime("%d.%m.%Y") + ' - ' + @course.end_date.strftime("%d.%m.%Y")
-        - elsif @course.start_date
-          = @course.start_date
+            = I18n.l @course.start_date, format: t('global.date_format_month') + ' - '
+            = I18n.l @course.end_date, format: t('global.date_format_month')
         - else
           = t('courses.no_dates_available')
+
         p
         - if @course.language
           img src="/data/icons/globe.png" class="pr5" style="height:18px"
@@ -61,7 +62,7 @@
 
     .collapse id="recommend-course" role="tabpanel" aria-labelledby="courses-subnav-recommend"
       .collapse-subnav
-        = render 'recommendation'
+        = render 'recommendations/form'
 
     .collapse id="rate-course" role="tabpanel" aria-labelledby="courses-subnav-rate"
       .collapse-subnav
@@ -89,7 +90,8 @@
   - if @recommendations.present?
     .course-details id="course-recommendations"
       .title
-        = t('courses.recommendations')
+        => t('courses.recommendations')
+        = "(#{@recommendations_total})"
       .content
         div id="recommendation-list"
           = render 'recommendations'

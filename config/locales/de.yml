@@ -22,7 +22,7 @@
 de:
   global:
     app_name: mammooc
-    require_login: Du musst eingeloggt sein um auf diese Seite zugreifen zu können.
+    require_login: Du musst eingeloggt sein, um auf diese Seite zugreifen zu können.
     close: Schließen
     submit: Absenden
     cancel: Abbrechen
@@ -32,6 +32,10 @@ de:
     show_less: Weniger anzeigen
     show_details: Details anzeigen
     date_format_month: '%-d. %B %Y'
+
+  will_paginate:
+    previous_label: '&#171; Vorherige'
+    next_label: 'Nächste &#187;'
 
   language:
       english: Englisch
