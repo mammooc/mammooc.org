@@ -75,6 +75,7 @@ en:
       characters_minimum: characters minimum
       password: Password
       password_confirmation: Re-enter password
+      current_password: Current Password
       terms_and_conditions_confirmation: I confirm to mammooc's terms and conditions.
       remember_me: Keep me logged in
       sign_in_link: Already signed up? Click here to log in.
@@ -86,14 +87,25 @@ en:
       reset: Reset my password
     settings:
       heading: :navbar.settings
+      mooc_provider: MOOC Provider
+      account: Account
+      mooc_provider_connection: MOOC Provider Connection
       email: :users.sign_in_up.email
+      enter_mail: Enter email
       password: :users.sign_in_up.password
-      password_info: (leave blank if you don't want to change it)
       password_confirmation: :users.sign_in_up.password_confirmation
       password_confirmation_info: (we need your current password to confirm your changes)
+      new_password: New Password
+      new_password_confirmation: Confirm new Password
+      new_password_info: (leave blank if you don't want to change it)
       cancel_account: Cancel my account
       update_account: Update
       pending_mail_confirmation: 'Currently waiting confirmation for:'
+      still_admin_in_group_error: Account could not be deleted, since you are still an administrator in a group.
+    synchronization:
+      oauth_error: Sorry! We were unable to establish a connection to your account. Please check your settings and try again.
+      revoke_provider_connection: Revoke connection
+      establish_provider_connection: Establish connection
 
   groups:
     title: My Groups | mammooc
@@ -286,6 +298,9 @@ en:
         successfully_created: Group was successfully created.
         successfully_updated: Group was successfully updated.
         successfully_destroyed: Group was successfully destroyed.
+      users:
+        successfully_updated: User was successfully updated.
+        successfully_destroyed: User was successfully destroyed.
     error:
       taken: has already been taken.
       blank: has to be filled in.

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150428152300) do
+ActiveRecord::Schema.define(version: 20150506085100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -209,21 +209,25 @@ ActiveRecord::Schema.define(version: 20150428152300) do
   create_table "mooc_provider_users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "user_id"
     t.uuid     "mooc_provider_id"
-    t.string   "authentication_token"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "refresh_token"
+    t.string   "access_token"
+    t.datetime "access_token_valid_until"
   end
 
   add_index "mooc_provider_users", ["mooc_provider_id"], name: "index_mooc_provider_users_on_mooc_provider_id", using: :btree
+  add_index "mooc_provider_users", ["user_id", "mooc_provider_id"], name: "index_mooc_provider_users_on_user_id_and_mooc_provider_id", unique: true, using: :btree
   add_index "mooc_provider_users", ["user_id"], name: "index_mooc_provider_users_on_user_id", using: :btree
 
   create_table "mooc_providers", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "logo_id"
-    t.string   "name",        null: false
+    t.string   "name",              null: false
     t.string   "url"
     t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "api_support_state"
   end
 
   add_index "mooc_providers", ["name"], name: "index_mooc_providers_on_name", unique: true, using: :btree

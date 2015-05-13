@@ -20,5 +20,6 @@ namespace :mammooc do
     # MoocHouseUserWorker.perform_async
     # OpenSAPChinaUserWorker.perform_async
     # OpenHPIChinaUserWorker.perform_async
+    CourseraUserWorker.perform_async
   end
 end

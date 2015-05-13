@@ -2,7 +2,7 @@
   h3
     = t('dashboard.my_current_courses')
     button.btn.btn-default id='sync-user-course-button' data-user_id='#{current_user.id}'
-      span.glyphicon.glyphicon-refresh
+      span.glyphicon.glyphicon-refresh data-user_id='#{current_user.id}'
   .user-courses-container
     = render partial: 'dashboard/user_courses'
   h3
