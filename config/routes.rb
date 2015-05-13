@@ -81,6 +81,7 @@ Rails.application.routes.draw do
   # Courses
   get 'courses' => 'courses#index'
   get 'courses/index'
+  get 'courses/filter_options' => 'courses#filter_options'
   get 'courses/:id' => 'courses#show', as: 'course'
   get 'courses/:id/enroll_course' => 'courses#enroll_course'
   get 'courses/:id/unenroll_course' => 'courses#unenroll_course'

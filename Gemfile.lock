@@ -54,6 +54,8 @@ GEM
     bcrypt (3.1.10)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bootstrap-datepicker-rails (1.4.0)
+      railties (>= 3.0)
     bootstrap-generators (3.3.4)
       railties (>= 3.1.0)
     bootstrap-sass (3.3.4.1)
@@ -111,6 +113,8 @@ GEM
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.8)
+    filterrific (2.0.5)
+      rails (>= 3.1.0)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
     headless (2.1.0)
@@ -319,6 +323,7 @@ PLATFORMS
 
 DEPENDENCIES
   aws-sdk (~> 2)
+  bootstrap-datepicker-rails
   bootstrap-generators
   bootstrap-sass
   bootstrap_tokenfield_rails
@@ -330,6 +335,7 @@ DEPENDENCIES
   database_cleaner
   devise
   factory_girl_rails
+  filterrific
   headless
   http_accept_language
   i18n-js
@@ -359,4 +365,5 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   web-console (~> 2.0)
   whenever
+  will_paginate
   will_paginate-bootstrap

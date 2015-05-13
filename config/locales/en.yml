@@ -37,6 +37,32 @@ en:
     previous_label: '&#171; Previous'
     next_label: 'Next &#187;'
 
+  language:
+    english: English
+    german: German
+    french: French
+    spanish: Spanish
+    arabic: Arabic
+    italian: Italian
+    chinese: Chinese
+    portuguese: Portuguese
+    russian: Russian
+    swedish: Swedisch
+    hebrew: Hebrew
+    romanian: Romanian
+    greek: Griechisch
+    filipino: Filipino
+    ukrainian: Ukrainian
+    vietnamese: Vietnamese
+    turkish: Turkish
+    lithuanian: Lithuanian
+    kazakh: Kazakh
+    serbian: Serbian
+    korean: Korean
+    japanese: Japanese
+    dutch: Dutch
+    indonesian: Indonesian
+
   navbar:
     home: Home
     courses: Courses
@@ -249,6 +275,37 @@ en:
           edx_profed_certificate: edX Professional Education Certificate
           udacity_nothing: No certificate
           udacity_verified_certificate: Verified Certificate
+    filter:
+      all: All
+      duration:
+        short: shorter than 5 weeks
+        short_medium: 5 till 6 weeks
+        medium: 7 till 8 weeks
+        medium_long: 9 till 12 weeks
+        long: more than 12 weeks
+      start:
+        now: currently active
+        past: already fnished
+        soon: starts during next two weeks
+        future: starts in the future
+      costs:
+        free: free
+        range1: '< 30'
+        range2: 30-60
+        range3: 60-90
+        range4: 90-150
+        range5: 150-200
+        range6: '> 200'
+      labels:
+        starts_after: Course starts after
+        ends_before: Course ends before
+        language: Language
+        provider: Platform
+        subtitle_language: Subtitles
+        duration: Duration
+        start_categories: Time Status
+        costs: Price
+        certificate: Type of Certificate
 
   recommendation:
     placeholder: Enter your personal message here ...
