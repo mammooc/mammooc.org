@@ -2,9 +2,9 @@ h2
   = t('users.sign_in_up.sign_in_process')
 = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
     .form-group
-      = f.label :email, t('users.sign_in_up.email')
+      = f.label :primary_email, t('users.sign_in_up.email')
       br
-      = f.email_field :email, autofocus: true, :class => 'form-control', :id => 'login_email'
+      = f.email_field :primary_email, autofocus: true, :class => 'form-control', :id => 'login_email'
     .form-group
       = f.label :password, t('users.sign_in_up.password')
       br
