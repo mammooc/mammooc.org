@@ -13,6 +13,10 @@ ready = ->
   if content_height > ($('#course-description').height() - title_height)
     $('#course-description-show-more.show-more').show()
                                                 .click(showMore)
+  if $('#recommendation-list .rec-pagination').length
+    recommendations_height = $('#recommendation-list').outerHeight()
+    pagination_height = 40;
+    $('#recommendation-list').css('height', recommendations_height + pagination_height)
   return
 
 $(document).ready(ready)
@@ -81,7 +85,7 @@ unenrollCourse = (event) ->
   event.preventDefault()
 
 $.setAjaxPagination = ->
-  $('.pagination a').click (event) ->
+  $('.rec-pagination a').click (event) ->
     event.preventDefault()
     loading = $ '<div id="loading" style="display: none;">'
     $('.other_images').prepend loading

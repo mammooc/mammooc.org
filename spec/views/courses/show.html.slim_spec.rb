@@ -29,6 +29,10 @@ RSpec.describe 'courses/show', type: :view do
   end
   let!(:provider_logos) { assign(:provider_logos, {}) }
 
+  before(:each) do
+    @recommendation = Recommendation.new
+  end
+
   it 'render the enroll button when not signed in' do
     render
     expect(view.content_for(:content)).to match(t('courses.enroll_course'))
