@@ -296,7 +296,7 @@ en:
         starts_after: Course starts after
         ends_before: Course ends before
         language: Language
-        provider: MOOC-Provider
+        provider: Platform
         subtitle_language: Subtitles
         duration: Duration
         start_categories: Time Status
