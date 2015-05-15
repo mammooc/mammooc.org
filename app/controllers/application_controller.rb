@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  before_action :require_login, :set_language #, :ensure_signup_complete
+  before_action :require_login, :set_language # , :ensure_signup_complete
 
   def after_sign_in_path_for(resource)
     sign_in_url = new_user_session_url
@@ -21,9 +21,8 @@ class ApplicationController < ActionController::Base
 
     # Redirect to the 'finish_signup' page if the user
     # email hasn't been verified yet
-    if current_user && !current_user.email_verified?
-      redirect_to finish_signup_path(current_user)
-    end
+    return unless current_user && !current_user.email_verified?
+    redirect_to finish_signup_path(current_user)
   end
 
   private

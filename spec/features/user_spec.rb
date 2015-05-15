@@ -47,8 +47,12 @@ RSpec.describe 'User', type: :feature do
       click_link "#{user.first_name} #{user.last_name}"
       click_link I18n.t('navbar.settings')
       click_button 'load-account-settings-button'
-      accept_alert do
+      if ENV['PHANTOM_JS'] == 'true'
         click_button I18n.t('users.settings.cancel_account')
+      else
+        accept_alert do
+          click_button I18n.t('users.settings.cancel_account')
+        end
       end
       wait_for_ajax
       expect(page).to have_content I18n.t('users.settings.still_admin_in_group_error')

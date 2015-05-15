@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 FactoryGirl.define do
-
   factory :user do
     sequence(:first_name) {|n| "Max_#{n}" }
     last_name 'Mustermann'

@@ -46,7 +46,7 @@ class CoursesController < ApplicationController
     # RECOMMENDATIONS
     if user_signed_in?
       recommendations = Recommendation.sorted_recommendations_for_course_and_user(@course, current_user, [current_user])
-      @recommendations_total = recommendations.size()
+      @recommendations_total = recommendations.size
       params[:page] ||= 1
       @recommendations = recommendations.paginate(page: params[:page], per_page: 3)
       @profile_pictures = AmazonS3.instance.author_profile_images_hash_for_recommendations(@recommendations)

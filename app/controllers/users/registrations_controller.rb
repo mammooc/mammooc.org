@@ -40,7 +40,7 @@ module Users
           UserEmail.destroy_all(user_id: nil)
           resource.destroy
         rescue ActiveRecord::RecordInvalid => error
-         exception += error.to_s
+          exception += error.to_s
         end
         resource.errors.each do |key, value|
           flash['error'] << "#{t('users.sign_in_up.' + key.to_s)} #{value}"
