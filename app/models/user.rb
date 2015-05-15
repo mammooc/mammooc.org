@@ -1,8 +1,5 @@
 # -*- encoding : utf-8 -*-
 class User < ActiveRecord::Base
-
-  OMNIAUTH_EMAIL_PREFIX =
-
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :omniauthable and :encryptable
   devise :database_authenticatable, :registerable,
@@ -28,6 +25,24 @@ class User < ActiveRecord::Base
   before_destroy :handle_group_memberships, prepend: true
   after_commit :save_primary_email, on: :create
 
+  def handle_group_memberships
+    groups.each do |group|
+      if group.users.count > 1
+        if UserGroup.find_by(group: group, user: self).is_admin
+          if UserGroup.where(group: group, is_admin: true).count == 1
+            return false
+          end
+        end
+      else
+        group.destroy
+      end
+    end
+  end
+  
+  def common_groups_with_user(other_user)
+    (other_user.groups.to_a.collect {|g| self.groups.include?(g) ? g : nil}).compact()
+  end
+  
   # Disable email for devise - we will check this later
   def email_required?
     false
@@ -64,20 +79,6 @@ class User < ActiveRecord::Base
       raise Exception
     end
     @primary_email_object.save!
-  end
-
-  def handle_group_memberships
-    groups.each do |group|
-      if group.users.count > 1
-        if UserGroup.find_by(group: group, user: self).is_admin
-          if UserGroup.where(group: group, is_admin: true).count == 1
-            return false
-          end
-        end
-      else
-        group.destroy
-      end
-    end
   end
 
   def self.find_by_primary_email(email_address)
@@ -142,4 +143,5 @@ class User < ActiveRecord::Base
     end
     user
   end
+
 end

@@ -1,0 +1,56 @@
+#recommendation-list {
+  position: relative;
+}
+
+.rec-pagination {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding-top: 20px;
+}
+
+.rec-pagination a, .rec-pagination em, .rec-pagination .disabled {
+  padding: 2px 6px;
+}
+
+.rec-pagination .disabled {
+  color: #aaaaaa;
+}
+
+.rec-pagination .current {
+  background-color: $gray;
+  border: 1px solid $gray;
+  color: white;
+  text-decoration: none;
+  font-style: normal;
+}
+
+.rec-pagination a:not(.previous_page):not(.next_page) {
+  background-color: $gray-lighter;
+  color: $text-color;
+  text-decoration: none;
+}
+
+.rec-pagination a:hover:not(.previous_page):not(.next_page),
+.rec-pagination a:focus:not(.previous_page):not(.next_page) {
+  background-color: $gray;
+  color: white;
+  text-decoration: none;
+  font-style: normal;
+}
+
+.rec-pagination a.previous_page, .rec-pagination a.next_page {
+  color: $text-color;
+  &:hover { text-decoration: underline; }
+}
+
+.rec-pagination .previous_page {
+  margin-right: 20px;
+  float: left;
+}
+
+.rec-pagination .next_page {
+  margin-left: 20px;
+  float: right;
+}

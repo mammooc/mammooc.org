@@ -96,7 +96,7 @@ RSpec.describe CourseraConnector do
   it 'returns a valid link if required' do
     client_id = 'abc'
     stub_const('CourseraConnector::OAUTH_CLIENT_ID', client_id)
-    stub_const('CourseraConnector::OAUTH_SECRET_KEY', 's€cr€t')
+    stub_const('CourseraConnector::OAUTH_SECRET_KEY', '5€cr€t')
     redirect_uri = CGI.escape(CourseraConnector::REDIRECT_URI)
     oauth_client = coursera_connector.send(:oauth_client)
     destination = '/own/path'

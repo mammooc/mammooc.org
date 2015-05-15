@@ -1,5 +1,10 @@
 /* Course detail page */
 
+#course-sidebar .label  {
+  display: inline-block;
+  margin-right: 2px;
+}
+
 $course-img-height: 250px;
 
 .course-infobox {
@@ -242,7 +247,7 @@ $course-img-height: 250px;
         display: -webkit-box;
         line-height: 18px;
         max-height: 54px;
-        -webkit-line-clamp: 3;
+        -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
       }
 

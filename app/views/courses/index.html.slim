@@ -10,30 +10,9 @@
         = t('courses.heading')
 
 - content_for :content
-
-  - if @courses.empty?
-    .panel.panel-default
-      .panel-body
-        = t('courses.no_courses')
-
-  - else
-    .courses-wrapper
-      - @courses.each do |course|
-        .courses
-          = link_to course
-            .course-image
-              - if course.imageId
-                = image_tag(course.imageId)
-              - else
-                img src="/data/icons/courses-list-std.png"
-            .course-info
-              .hd6.course-name
-                = course.name
-              .course-instructors
-                = course.course_instructors
-              .provider
-                img src = @provider_logos[course.mooc_provider.logo_id]
+  div id='filterrific_results'
+    = render 'courses_list'
 
 
 - content_for :sidebar
-    = render 'filter'
+  = render 'filter'

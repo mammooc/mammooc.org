@@ -543,7 +543,7 @@ RSpec.describe GroupsController, type: :controller do
 
     it 'returns JSON with all members exclude the current user' do
       get :members, format: :json, id: group.id
-      expect(response.body).to have_content(second_user.id)
+      expect(json).to have_content(second_user.id)
       expect(json).not_to have_content(user.id)
     end
 
