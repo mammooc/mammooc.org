@@ -4,8 +4,8 @@ h2
   /= devise_error_messages!
   .form-group
     .field
-      = f.label :email
-      = f.email_field :email, :class => 'form-control',  autofocus: true
+      = f.label :primary_email
+      = f.email_field :primary_email, :class => 'form-control',  autofocus: true
   .actions
     = f.submit t('users.password.reset'), :class => 'btn btn-primary'
 = render "devise/shared/links"

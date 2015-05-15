@@ -13,7 +13,7 @@ RSpec.describe 'User', type: :feature do
     UserGroup.set_is_admin(group.id, user.id, true)
 
     visit new_user_session_path
-    fill_in 'login_email', with: user.email
+    fill_in 'login_email', with: user.primary_email
     fill_in 'login_password', with: user.password
     click_button 'submit_sign_in'
 

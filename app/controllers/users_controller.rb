@@ -2,7 +2,6 @@
 class UsersController < ApplicationController
   include ConnectorMapper
   before_action :set_provider_logos, only: [:settings, :mooc_provider_settings]
-  before_action :set_user
   load_and_authorize_resource only: [:show, :edit, :update, :destroy]
 
   rescue_from CanCan::AccessDenied do |exception|
@@ -210,10 +209,6 @@ class UsersController < ApplicationController
        oauth_link: oauth_link}
     end
     @mooc_provider_connections = current_user.mooc_providers.pluck(:mooc_provider_id)
-  end
-
-  def set_user
-    @user = User.find(params[:id])
   end
 
   def set_provider_logos

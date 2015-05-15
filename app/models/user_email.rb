@@ -10,10 +10,17 @@ class UserEmail < ActiveRecord::Base
 
 
   belongs_to :user
-  validates_uniqueness_of :address, scope: :user_id
-  validates_uniqueness_of :is_primary, scope: :user_id
-  validates :address, presence:   true,
+  validate :one_primary_address_per_user
+  validates :address,
+            presence:   true,
             uniqueness: {case_sensitive: false},
             format:     {with: EMAIL}
   # validates_presence_of :is_verified
+
+  private
+
+  def one_primary_address_per_user
+    # TODO: check!
+    true
+  end
 end

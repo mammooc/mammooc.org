@@ -46,6 +46,6 @@ module MAMMOOC
       g.test_framework :rspec
     end
 
-    config.action_mailer.default_url_options = {host: Settings.default_hostname}
+    config.action_mailer.default_url_options = {host: Settings.root_url}
   end
 end

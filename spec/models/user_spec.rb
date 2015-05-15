@@ -53,6 +53,6 @@ RSpec.describe User, type: :model do
   end
 
   it 'requires email' do
-    expect(FactoryGirl.build_stubbed(:user, email: '')).not_to be_valid
+    expect(FactoryGirl.build_stubbed(:user, primary_email: '')).not_to be_valid
   end
 end

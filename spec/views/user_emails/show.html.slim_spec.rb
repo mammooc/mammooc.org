@@ -1,12 +1,13 @@
 # -*- encoding : utf-8 -*-
 require 'rails_helper'
 
-RSpec.describe 'emails/show', type: :view do
+RSpec.describe 'user_emails/show', type: :view do
   before(:each) do
-    @email = assign(:email, Email.create!(
-                              address: 'Address',
+    @email = assign(:email, UserEmail.create!(
+                              address: 'valid@example.com',
                               is_primary: false,
-                              user: nil
+                              user: nil,
+                              is_verified: false
     ))
   end
 

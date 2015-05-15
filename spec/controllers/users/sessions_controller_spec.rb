@@ -13,11 +13,11 @@ RSpec.describe Users::SessionsController, type: :controller do
   end
 
   it 'works with valid sign_in data' do
-    post :create, user: {email: user.email, password: user.password}
+    post :create, user: {primary_email: user.primary_email, password: user.password}
     expect(subject.signed_in?).to be_truthy
   end
   it 'does not work without valid terms and conditions' do
-    post :create, user: {email: 'nosuchuser@example.com', password: '123456789'}
+    post :create, user: {primary_email: 'nosuchuser@example.com', password: '123456789'}
     expect(subject.signed_in?).to be_falsey
   end
 end

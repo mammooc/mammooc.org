@@ -9,10 +9,15 @@ module Users
 
     def create
       flash['error'] ||= []
+      exception = ''
       full_user_params = sign_up_params
       full_user_params[:profile_image_id] = 'profile_picture_default.png'
       build_resource(full_user_params)
-      resource.save
+      begin
+        resource.save
+      rescue ActiveRecord::RecordInvalid => error
+        exception += error.to_s
+      end
 
       yield resource if block_given?
       if resource.persisted? && user_params.key?(:terms_and_conditions_confirmation)
@@ -26,17 +31,33 @@ module Users
           respond_with resource, location: after_inactive_sign_up_path_for(resource)
         end
       else
-        clean_up_passwords resource
-        session[:resource] = resource
-        resource.destroy
+        session_infos = {}
+        session_infos[:first_name] = sign_up_params[:first_name]
+        session_infos[:last_name] = sign_up_params[:last_name]
+        session_infos[:primary_email] = sign_up_params[:primary_email]
+        session[:resource] = session_infos
+        begin
+          UserEmail.destroy_all(user_id: nil)
+          resource.destroy
+        rescue ActiveRecord::RecordInvalid => error
+         exception += error.to_s
+        end
         resource.errors.each do |key, value|
           flash['error'] << "#{t('users.sign_in_up.' + key.to_s)} #{value}"
         end
         redirect_to new_user_registration_path
       end
 
-      return if user_params.key?(:terms_and_conditions_confirmation)
-      flash['error'] << t('flash.error.sign_up.terms_and_conditions_failure')
+      unless user_params.key?(:terms_and_conditions_confirmation)
+        flash['error'] << t('flash.error.sign_up.terms_and_conditions_failure')
+      end
+
+      return unless exception.present?
+      if exception.to_s.include?('Address is invalid')
+        flash['error'] << t('devise.registrations.email.invalid')
+      else
+        flash['error'] << t('devise.registrations.email.taken')
+      end
     end
 
     def update

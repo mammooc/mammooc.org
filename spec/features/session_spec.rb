@@ -20,14 +20,14 @@ RSpec.describe 'Users::Session', type: :feature do
   end
 
   it 'works with valid input' do
-    fill_in 'login_email', with: user.email
+    fill_in 'login_email', with: user.primary_email
     fill_in 'login_password', with: user.password
     click_button 'submit_sign_in'
     expect(page).to have_text(I18n.t('devise.sessions.signed_in'))
   end
 
   it 'does not work if password is wrong' do
-    fill_in 'login_email', with: user.email
+    fill_in 'login_email', with: user.primary_email
     fill_in 'login_password', with: 'wrongpassword'
     click_button 'submit_sign_in'
     expect(page).to have_text(I18n.t('devise.failure.invalid', authentication_keys: 'email'))
@@ -41,7 +41,7 @@ RSpec.describe 'Users::Session', type: :feature do
   end
 
   it 'logouts if logout button clicked' do
-    fill_in 'login_email', with: user.email
+    fill_in 'login_email', with: user.primary_email
     fill_in 'login_password', with: user.password
     click_button 'submit_sign_in'
     expect(page).to have_text(I18n.t('devise.sessions.signed_in'))
@@ -51,7 +51,7 @@ RSpec.describe 'Users::Session', type: :feature do
 
   it 'updates course enrollments after sucessful sign in' do
     expect(UserWorker).to receive(:perform_async).with([user.id])
-    fill_in 'login_email', with: user.email
+    fill_in 'login_email', with: user.primary_email
     fill_in 'login_password', with: user.password
     click_button 'submit_sign_in'
     expect(page).to have_text(I18n.t('devise.sessions.signed_in'))

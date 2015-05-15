@@ -1,14 +1,14 @@
-= form_for(@email, :html => { :class => "form-horizontal", :role => "form" }) do |f|
-  - if @email.errors.any?
+= form_for(@user_email, :html => { :class => "form-horizontal", :role => "form" }) do |f|
+  - if @user_email.errors.any?
     .alert.alert-danger.alert-dismissable role="alert"
       button.close type="button" data-dismiss="alert"
         span aria-hidden="true"
           | &times;
         span.sr-only
           | Close
-      h4= "#{pluralize(@email.errors.count,"error")} prohibited this email from being saved:"
+      h4= "#{pluralize(@user_email.errors.count,"error")} prohibited this email from being saved:"
       ul
-        - @email.errors.full_messages.each do |msg|
+        - @user_email.errors.full_messages.each do |msg|
           li= msg
   .form-group
     = f.label :address, :class => "col-sm-2 control-label"

@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   OMNIAUTH_EMAIL_PREFIX =
 
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable, :validatable
+  # :confirmable, :lockable, :timeoutable, :omniauthable and :encryptable
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable, :omniauthable
   validates :first_name, :last_name, :profile_image_id, presence: true
@@ -28,6 +28,7 @@ class User < ActiveRecord::Base
   before_destroy :handle_group_memberships, prepend: true
   after_commit :save_primary_email, on: :create
 
+  # Disable email for devise - we will check this later
   def email_required?
     false
   end
@@ -36,6 +37,7 @@ class User < ActiveRecord::Base
     false
   end
 
+  # Access the primary_email more easily. This is required for devise
   def primary_email
     primary_email_object = emails.find_by(is_primary: true)
     return unless primary_email_object.present?
@@ -48,13 +50,14 @@ class User < ActiveRecord::Base
       @primary_email_object.address = primary_email_address
     else
       @primary_email_object = UserEmail.new
-      @primary_email_object.address = primary_email_address
+      @primary_email_object.address = primary_email_address.strip.downcase
       @primary_email_object.is_primary = true
       @primary_email_object.is_verified = false
     end
   end
 
   def save_primary_email
+    return unless @primary_email_object.present?
     if @primary_email_object.user.blank?
       @primary_email_object.user = self
     elsif @primary_email_object.user != self
@@ -78,19 +81,16 @@ class User < ActiveRecord::Base
   end
 
   def self.find_by_primary_email(email_address)
-    primary_email_object = UserEmail.find_by(address: email_address, is_primary: true)
+    primary_email_object = UserEmail.find_by(address: email_address.strip.downcase, is_primary: true)
     return unless primary_email_object.present?
     primary_email_object.user
   end
 
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
-    puts conditions
-    email = conditions.delete(:primary_email)
-    puts conditions
-
-    if email
-      User.find_by_primary_email(email)
+    email_address = conditions.delete(:primary_email)
+    if email_address.present?
+      User.find_by_primary_email(email_address)
     else
       super(warden_conditions)
     end

@@ -15,7 +15,7 @@ RSpec.describe AbstractMoocProviderConnector do
   let(:mooc_provider) { FactoryGirl.create(:mooc_provider) }
   let(:course) { FactoryGirl.create(:full_course, mooc_provider_id: mooc_provider.id) }
   let(:second_course) { FactoryGirl.create(:full_course, mooc_provider_id: mooc_provider.id) }
-  let(:user) { FactoryGirl.create(:user)  }
+  let(:user) { FactoryGirl.create(:user) }
 
   before(:each) do
     user.courses << course
