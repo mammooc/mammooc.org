@@ -43,4 +43,7 @@ Rails.application.configure do
 
   # mail configurations
   ActionMailer::Base.delivery_method = :test
+
+  # Disable SSL for the test suite
+  config.force_ssl = false
 end
