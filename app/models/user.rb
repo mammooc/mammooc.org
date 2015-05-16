@@ -69,6 +69,8 @@ class User < ActiveRecord::Base
       @primary_email_object.is_primary = true
       @primary_email_object.is_verified = false
     end
+    return if @primary_email_object.user.blank?
+    @primary_email_object.save!
   end
 
   def save_primary_email
