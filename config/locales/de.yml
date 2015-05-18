@@ -84,6 +84,7 @@ de:
     no_courses: :courses.no_courses
     recommendations: :recommendation.your_recommendations
     recommendations_with_quantity: :recommendation.your_recommendations_with_quantity
+    search_course: Kurse finden
 
   home:
     welcome_heading: Willkommen bei mammooc!
