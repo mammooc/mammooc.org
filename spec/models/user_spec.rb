@@ -191,7 +191,7 @@ RSpec.describe User, type: :model do
       another_user = FactoryGirl.create(:user, primary_email: 'test2@example.com')
       user_email = FactoryGirl.build(:user_email, user: another_user, address: 'test@example.com')
       user.instance_variable_set(:@primary_email_object, user_email)
-      expect { user.save_primary_email }.to raise_error
+      expect { user.send(:save_primary_email) }.to raise_error
       expect(described_class.find_by_primary_email('test2@example.com')).to eql another_user
       expect(described_class.find_by_primary_email('test@example.com')).to be_nil
     end
