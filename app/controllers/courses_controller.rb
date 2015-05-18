@@ -21,6 +21,8 @@ class CoursesController < ApplicationController
       @following_course_name = Course.find(@course.following_iteration_id).name
     end
 
+    @subtitle_languages = (@course.subtitle_languages.blank?) ? nil : @course.subtitle_languages.split(',')
+
     # RECOMMENDATIONS
     if user_signed_in?
       @recommendations = Recommendation.sorted_recommendations_for_course_and_user(@course, current_user)

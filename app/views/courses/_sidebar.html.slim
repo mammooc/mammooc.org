@@ -73,13 +73,15 @@
       - if @course.language
         .hd6.pb5
           = t('courses.language')
-        = @course.language
+        = t("courses.languages.#{@course.language}")
         .gradient-divider
 
-      - if @course.subtitle_languages
+      - if @subtitle_languages
         .hd6.pb5
           = t('courses.subtitle_languages')
-        = @course.subtitle_languages
+        - @subtitle_languages.each_with_index do |lang, i|
+          = t("courses.languages.#{lang}")
+          = ', ' unless i == (@subtitle_languages.size - 1)
         .gradient-divider
 
       - if @course.requirements
