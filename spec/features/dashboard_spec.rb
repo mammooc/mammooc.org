@@ -28,7 +28,7 @@ RSpec.describe 'Dashboard', type: :feature do
     let(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI') }
     let!(:course) { FactoryGirl.create(:full_course, mooc_provider: mooc_provider, provider_course_id: '12345') }
     let(:json_enrollment_data) do
-      JSON.parse "[{\"id\":\"dfcfdf0f-e0ad-4887-abfa-83cc233c291f\",\"course_id\":\"12345\"}]"
+      JSON.parse '[{"id":"dfcfdf0f-e0ad-4887-abfa-83cc233c291f","course_id":"12345"}]'
     end
 
     it 'shows newly enrolled course after synchronization request', js: true do
