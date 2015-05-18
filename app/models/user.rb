@@ -73,16 +73,6 @@ class User < ActiveRecord::Base
     @primary_email_object.save!
   end
 
-  def save_primary_email
-    return unless @primary_email_object.present?
-    if @primary_email_object.user.blank?
-      @primary_email_object.user = self
-    elsif @primary_email_object.user != self
-      raise Exception
-    end
-    @primary_email_object.save!
-  end
-
   def self.find_by_primary_email(email_address)
     primary_email_object = UserEmail.find_by(address: email_address.strip.downcase, is_primary: true)
     return unless primary_email_object.present?
@@ -143,5 +133,17 @@ class User < ActiveRecord::Base
       identity.save!
     end
     user
+  end
+
+  private
+
+  def save_primary_email
+    return unless @primary_email_object.present?
+    if @primary_email_object.user.blank?
+      @primary_email_object.user = self
+    elsif @primary_email_object.user != self
+      raise ActiveRecord::RecordNotSaved('The provided user does not belongs to the email address')
+    end
+    @primary_email_object.save!
   end
 end

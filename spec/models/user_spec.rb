@@ -132,7 +132,7 @@ RSpec.describe User, type: :model do
       user.password = user_data.password
       user.profile_image_id = user_data.profile_image_id
       expect { user.save! }.not_to raise_error
-      expect { user.save_primary_email }.not_to raise_error
+      expect { user.send(:save_primary_email) }.not_to raise_error
       expect(user.instance_variable_get(:@primary_email_object)).to eql UserEmail.find_by_user_id(user)
       expect(user.primary_email).to eql user_data.primary_email
     end
@@ -175,14 +175,14 @@ RSpec.describe User, type: :model do
     it 'returns without saving if @primary_email_object is undefined' do
       user = FactoryGirl.create(:user, primary_email: 'test@example.com')
       user.instance_variable_set(:@primary_email_object, nil)
-      expect(user.save_primary_email).to be_nil
+      expect(user.send(:save_primary_email)).to be_nil
     end
 
     it 'sets the user if necessary' do
       user = FactoryGirl.build(:user, primary_email: 'test@example.com')
       user_email = FactoryGirl.build(:user_email, user: nil, address: 'test@example.com')
       user.instance_variable_set(:@primary_email_object, user_email)
-      expect(user.save_primary_email).to be true
+      expect(user.send(:save_primary_email)).to be true
       expect(described_class.find_by_primary_email('test@example.com')).to eql user
     end
 

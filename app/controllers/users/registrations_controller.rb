@@ -20,7 +20,7 @@ module Users
       end
 
       yield resource if block_given?
-      if resource.persisted? && user_params.key?(:terms_and_conditions_confirmation)
+      if resource.persisted? && user_params.key?(:terms_and_conditions_confirmation) && exception.blank?
         if resource.active_for_authentication?
           set_flash_message :notice, :signed_up if is_flashing_format?
           sign_up(resource_name, resource)
@@ -37,8 +37,8 @@ module Users
         session_infos[:primary_email] = sign_up_params[:primary_email]
         session[:resource] = session_infos
         begin
-          UserEmail.destroy_all(user_id: nil)
           resource.destroy
+          UserEmail.destroy_all(user_id: nil)
         rescue ActiveRecord::RecordInvalid => error
           exception += error.to_s
         end
