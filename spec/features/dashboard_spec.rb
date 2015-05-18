@@ -56,7 +56,6 @@ RSpec.describe 'Dashboard', type: :feature do
   end
 
   describe 'search for courses' do
-
     let!(:first_matching_course) { FactoryGirl.create(:course, name: 'Web Technologies') }
     let!(:second_matching_course) { FactoryGirl.create(:course, name: 'Webmaster') }
     let!(:not_matching_course) { FactoryGirl.create(:course, name: 'Ruby course') }
@@ -77,5 +76,4 @@ RSpec.describe 'Dashboard', type: :feature do
       expect(page).not_to have_content(not_matching_course.name)
     end
   end
-
 end

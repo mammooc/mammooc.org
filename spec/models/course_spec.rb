@@ -116,9 +116,7 @@ RSpec.describe Course, type: :model do
   end
 
   describe 'scopes for filtering' do
-
     context 'search query' do
-
       let!(:course_match_name) { FactoryGirl.create(:course, name: 'Web Technologies') }
       let!(:course_not_match_name) { FactoryGirl.create(:course, name: 'Wob Technochicks') }
       let!(:course_match_instructors) { FactoryGirl.create(:course, name: 'Java course', course_instructors: 'Jan Renz, Thomas Staubitz') }
@@ -167,7 +165,6 @@ RSpec.describe Course, type: :model do
       it 'treats upper and lowercase equally' do
         result = described_class.search_query('JAN')
         expect(result).to match([course_match_instructors])
-
       end
     end
 

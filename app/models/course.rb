@@ -37,17 +37,19 @@ class Course < ActiveRecord::Base
 
     terms = query.mb_chars.downcase.to_s.split(/\s+/)
 
+    # rubocop:disable Style/BlockDelimiters
     terms = terms.map { |e|
       e.prepend('%')
       (e.gsub('*', '%') + '%').gsub(/%+/, '%')
     }
+    # rubocop:enable Style/BlockDelimiters
 
     num_or_conds = 2
     where(
-        terms.map { |term|
-          "(LOWER(courses.name) LIKE ?) OR (LOWER(COALESCE(courses.course_instructors, '')) LIKE ?)"
-        }.join(' AND '),
-        *terms.map { |e| [e] * num_or_conds }.flatten
+      terms.map do |_term|
+        "(LOWER(courses.name) LIKE ?) OR (LOWER(COALESCE(courses.course_instructors, '')) LIKE ?)"
+      end.join(' AND '),
+      *terms.map {|e| [e] * num_or_conds }.flatten
     )
   end
 
