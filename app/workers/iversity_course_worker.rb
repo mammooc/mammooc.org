@@ -29,7 +29,11 @@ class IversityCourseWorker < AbstractCourseWorker
       course.name = course_element['title']
       course.url = course_element['url']
       course.abstract = course_element['subtitle']
-      course.language = course_element['language']
+      case course_element['language']
+        when 'German' then course.language = 'de'
+        when 'English' then course.language = 'en'
+        when %w(en es) then course.language = 'en,es'
+      end
       course.imageId = course_element['image']
       course.videoId = course_element['trailer_video']
       course.start_date = course_element['start_date']
