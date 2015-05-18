@@ -65,10 +65,12 @@
 
     .collapse id="rate-course" role="tabpanel" aria-labelledby="courses-subnav-rate"
       .collapse-subnav
-        - unless @has_rated_course
+        .rating-form
           = render 'rating'
-        - else
-          = render 'already_rated'
+          /- unless @has_rated_course
+          /  = render 'rating'
+          /- else
+          /  = render 'already_rated'
 
   - if @course.abstract or @course.description
     .course-details id="course-description"

@@ -1,44 +1,62 @@
 h4
   = 'Kursbewertung'
+-if @evaluation
+  - has_rated_course=true
+  p
+    = "Hallo #{current_user.first_name}, du hast diesen Kurs bereits bewertet. Vielen Dank für dein Feedback!"
+
+-else
+  - has_rated_course=false
 form.form-horizontal
   .form-group
     label.col-sm-3 for="rating-input"
       | Gesamtbewertung
     .col-sm-9
-      input.rating type='hidden' value="" data-start="0" data-stop="5" id="rating-input"
+      - if has_rated_course
+        input.rating type='hidden' value="#{@evaluation.rating}" data-start="0" data-stop="5" id="rating-input"
+      - else
+        input.rating type='hidden' value="" data-start="0" data-stop="5" id="rating-input"
   .form-group
     label.col-sm-3 for="rating-textarea"
       | Zusätzliche Anmerkungen
     .col-sm-9
       textarea.form-control id="rating-textarea" rows="5" placeholder="Hilf anderen Nutzern diesen Kurs besser einzuschätzen!"
+        - if has_rated_course
+          = @evaluation.description
   .form-group
     label.col-sm-3
       | In welchem Verhältnis stehst du zum Kurs?
     .col-sm-9
       .btn-group.btn-group-sm data-toggle="buttons" id="course-status-selector"
-        label.btn.btn-default data-value="1"
+        label.btn.btn-default data-value="1" id="option1"
           input type="radio"
             | Abgebrochen
-        label.btn.btn-default data-value="2"
+        label.btn.btn-default data-value="2" id="option2"
           input type="radio"
             | Gerade belegt
-        label.btn.btn-default data-value="3"
+        label.btn.btn-default data-value="3" id="option3"
           input type="radio"
             | Abgeschlossen
-      /select.form-control id="course-status-selector"
-      /  option data-hidden="true"
-      /  option
-      /    | Abgebrochen
-      /  option
-      /    | Gerade belegt
-      /  option
-      /    | Abgeschlossen
+      - if has_rated_course
+        script type="text/javascript"
+          | var d = document.getElementById("option#{@evaluation.course_status}");
+          | d.className = d.className + " active";
   .form-group
     .col-sm-3
     .col-sm-9
       button.btn.btn-primary id="submit-rating-button" data-course_id="#{@course.id}"
-        | Bewertung abschicken
+        - unless has_rated_course
+          | Bewertung abschicken
+        - else
+          | Bewertung aktualisieren
       .checkbox
         label
           input type="checkbox" id="rate-anonymously-checkbox" value=""
+          - if has_rated_course
+            script type="text/javascript"
+              | $('#rate-anonymously-checkbox').prop('checked', #{@evaluation.rated_anonymously});
           | Gib meine Bewertung anonym ab
+  .form-group
+    .col-sm-3
+    .col-sm-9
+      .invitation-error.text-danger

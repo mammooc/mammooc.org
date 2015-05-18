@@ -31,5 +31,11 @@ sendCourseReview = (event) ->
       console.log('error_synchronize')
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
-      console.log('success')
+      if data.status == true
+        console.log('success')
+        $('div.rating-form').html('Danke für deine Bewertung!')
+      else if data.status == false
+        console.log('no success')
+        console.log(data.error_text)
+        $('.invitation-error').text(data.error_text)
   event.preventDefault()

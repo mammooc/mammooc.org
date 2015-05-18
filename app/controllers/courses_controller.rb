@@ -37,10 +37,7 @@ class CoursesController < ApplicationController
           @recommended_by.push(recommendation.author)
         end
       end
-
-      @has_rated_course = current_user.evaluations.where(course_id: @course.id).present?
-    else
-      @has_rated_course = false
+      @evaluation = current_user.evaluations.find_by(course_id: @course.id)
     end
 
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses([@course])
@@ -78,22 +75,21 @@ class CoursesController < ApplicationController
     course_status = params[:course_status].to_i
     @errors ||= []
     unless ranking_valid? rating
-      @errors << 'Junge, gib ein ordentliches Ranking ein!'
+      @errors << 'Die Gesamtbewertung muss angegeben werden'
     end
     unless course_status_valid? course_status
-      @errors << 'Junge, gib einen ordentlichen Kursstatus ein!'
-    end
-    if current_user.evaluations.where(course_id: @course.id).present?
-      @errors << 'Junge, du hast bereits ne Bewertung abgegeben!'
+      @errors << 'Dein Kursstatus muss angegeben werden'
     end
     if @errors.empty?
-      Evaluation.create(rating: rating,
-                        description: params[:rating_textarea],
-                        course_status: course_status,
-                        rated_anonymously: params[:rate_anonymously],
-                        date: Time.zone.now,
-                        user_id: current_user.id,
-                        course_id: @course.id)
+      @evaluation = Evaluation.find_or_initialize_by(user_id: current_user.id, course_id: @course.id)
+      @evaluation.rating = rating
+      @evaluation.description = params[:rating_textarea]
+      @evaluation.course_status = course_status
+      @evaluation.rated_anonymously = params[:rate_anonymously]
+      @evaluation.date = Time.zone.now
+      @evaluation.user_id = current_user.id
+      @evaluation.course_id = @course.id
+      @evaluation.save
       @saved_evaluation_successfuly = true
     else
       @saved_evaluation_successfuly = false
