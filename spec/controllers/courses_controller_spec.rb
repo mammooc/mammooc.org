@@ -14,7 +14,7 @@ RSpec.describe CoursesController, type: :controller do
     sign_in user
   end
 
-  describe 'Get get_filter_options' do
+  describe 'GET filter_options' do
     render_views
 
     it 'responds with valid json' do
@@ -23,6 +23,20 @@ RSpec.describe CoursesController, type: :controller do
       get :filter_options, format: :json
       expect(JSON.parse(response.body)['filter_options']).to eql expected_response
     end
+  end
+
+  describe 'GET search' do
+
+    it 'set session variable "courses#index" to the given param' do
+      get :search, {query: 'web'}
+      expect(session['courses#index']).to eq({"search_query"=>'web', "with_tracks"=>{"costs"=>"", "certificate"=>""}})
+    end
+
+    it 'redirects to courses_path' do
+      get :search, {query: 'web'}
+      expect(response).to redirect_to courses_path
+    end
+
   end
 
   describe 'GET index' do

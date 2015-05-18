@@ -6,9 +6,9 @@ h2
     .row
       .col-lg-6
         .input-group
-          = text_field_tag :q, nil, placeholder: t('dashboard.search_course'), class: 'form-control'
+          = text_field_tag :query, nil, placeholder: t('dashboard.search_course'), class: 'form-control'
           span.input-group-btn
-            = button_tag(type: 'submit', class: 'btn btn-default')
+            = button_tag(type: 'submit', class: 'btn btn-default', id: 'submit-search-dashboard')
               span.glyphicon.glyphicon-search
 
 h2
