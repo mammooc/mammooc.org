@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
     (other_user.groups.to_a.collect {|group| groups.include?(group) ? group : nil }).compact
   end
 
-  # Disable email for devise - we will check this later
+  # Disable email for devise - we will check with validations within the UserEmail model
   def email_required?
     false
   end
