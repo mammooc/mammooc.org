@@ -1,6 +1,8 @@
 .courses-filter
   .panel.panel-default
     = form_for_filterrific @filterrific do |f|
+      = f.label 'Search'
+      = f.text_field :search_query, class: 'filterrific-periodically-observed form-control'
       = f.label t('courses.filter.labels.starts_after')
       = f.text_field(:with_start_date_gte, class: 'js-datepicker form control', 'data-provide': "datepicker", 'data-date-format': 'dd.mm.yyyy', 'data-date-orientation':"top")
       = f.label t('courses.filter.labels.ends_before')
