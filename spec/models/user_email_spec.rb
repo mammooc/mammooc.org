@@ -76,7 +76,8 @@ RSpec.describe UserEmail, type: :model do
           email.send(:validate_destroy)
         end
       end.to raise_error
-      expect(described_class.find_by(email.attributes).attributes).to eql email.attributes
+      restored_email = described_class.find_by(email.attributes.except('created_at', 'updated_at'))
+      expect(restored_email.attributes.except('created_at', 'updated_at')).to eql email.attributes.except('created_at', 'updated_at')
     end
 
     it 'is allowed to delete the primary address if another one is made primary' do

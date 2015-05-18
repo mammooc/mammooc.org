@@ -40,7 +40,7 @@ class UserEmail < ActiveRecord::Base
     return unless is_primary
     return if UserEmail.where(user_id: user, is_primary: true).size == 1
     return if User.where(id: user).blank?
-    UserEmail.new(attributes).save!
+    UserEmail.new(attributes.except('created_at', 'updated_at')).save!
     raise ActiveRecord::RecordNotDestroyed('There must be exactly one primary address for a user')
   end
 end
