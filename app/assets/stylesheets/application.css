@@ -6,6 +6,7 @@ If you need to create new partials, please import them in partials.scss.
 
 *= require jquery-ui
 *= require bootstrap-tokenfield
+*= require bootstrap-datepicker3
 *= require_self
 *= require partials
 */

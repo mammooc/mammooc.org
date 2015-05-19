@@ -71,7 +71,7 @@ class CourseraCourseWorker < AbstractCourseWorker
         course.requirements = nil
       end
 
-      free_track = CourseTrack.find_by(course_id: course.id, track_type: free_track_type) || CourseTrack.create!(track_type: free_track_type)
+      free_track = CourseTrack.find_by(course_id: course.id, track_type: free_track_type) || CourseTrack.create!(track_type: free_track_type, costs: 0.0, costs_currency: '$')
       course.tracks.push(free_track)
       if session_element['eligibleForCertificates']
         certificate_track = CourseTrack.find_by(course_id: course.id, track_type: certificate_track_type) || CourseTrack.create!(track_type: certificate_track_type)

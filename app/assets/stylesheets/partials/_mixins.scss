@@ -41,6 +41,18 @@ Use mixins within any other stylesheet with the "@include name" method.
 
 // Links
 
+.link-black-hover-green {
+  a {
+    color: $text-color;
+    text-decoration: none;
+    &:hover {
+      color: $link-color;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  }
+}
+
 @mixin link-black-hover-green {
   color: $text-color;
   text-decoration: none;
@@ -48,5 +60,19 @@ Use mixins within any other stylesheet with the "@include name" method.
     color: $link-color;
     text-decoration: none;
     cursor: pointer;
+  }
+}
+
+.do-not-show-link {
+  a {
+    color: $text-color;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+      color: $text-color;
+      text-decoration: inherit;
+      cursor: inherit;
+    }
   }
 }

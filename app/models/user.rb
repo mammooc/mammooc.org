@@ -21,4 +21,26 @@ class User < ActiveRecord::Base
   has_many :bookmarks
   has_many :evaluations
   has_many :user_assignments
+  before_destroy :handle_group_memberships, prepend: true
+
+  def handle_group_memberships
+    groups.each do |group|
+      if group.users.count > 1
+        if UserGroup.find_by(group: group, user: self).is_admin
+          if UserGroup.where(group: group, is_admin: true).count == 1
+            return false
+          end
+        end
+      else
+        group.destroy
+      end
+    end
+  end
+
+
+  def common_groups_with_user(other_user)
+    (other_user.groups.to_a.collect {|g| self.groups.include?(g) ? g : nil}).compact()
+  end
+
 end
+

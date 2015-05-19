@@ -55,6 +55,7 @@ gem 'whenever'
 gem 'bootstrap-sass'
 
 gem 'bootstrap_tokenfield_rails'
+gem 'bootstrap-datepicker-rails'
 
 gem 'factory_girl_rails'
 
@@ -66,6 +67,13 @@ gem 'http_accept_language'
 gem 'rails_config'
 
 gem 'newrelic_rpm'
+
+# for filtering, searching and sorting
+gem 'filterrific'
+gem 'will_paginate'
+gem 'will_paginate-bootstrap'
+
+gem 'oauth2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

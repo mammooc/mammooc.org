@@ -7,8 +7,28 @@ class CoursesController < ApplicationController
   # GET /courses
   # GET /courses.json
   def index
-    @courses = Course.all
+    @filterrific = initialize_filterrific(Course, params[:filterrific],
+      select_options: {with_language: Course.options_for_languages,
+                       with_mooc_provider_id: MoocProvider.options_for_select,
+                       with_subtitle_languages: Course.options_for_subtitle_languages,
+                       duration_filter_options: Course.options_for_duration,
+                       start_filter_options: Course.options_for_start,
+                       options_for_costs: Course.options_for_costs,
+                       options_for_certificate: CourseTrackType.options_for_select
+      }) || return
+
+    @courses = @filterrific.find.page(params[:page])
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(@courses)
+
+    respond_to do |format|
+      format.html
+      format.js
+      format.json
+    end
+
+  rescue ActiveRecord::RecordNotFound => e
+    Rails.logger "Had to reset filterrific params: #{ e.message }"
+    redirect_to(reset_filterrific_url(format: :html)) && return
   end
 
   # GET /courses/1
@@ -22,10 +42,15 @@ class CoursesController < ApplicationController
     end
 
     @subtitle_languages = (@course.subtitle_languages.blank?) ? nil : @course.subtitle_languages.split(',')
+    
+    @recommendation = Recommendation.new(course: @course)
 
     # RECOMMENDATIONS
     if user_signed_in?
-      @recommendations = Recommendation.sorted_recommendations_for_course_and_user(@course, current_user)
+      recommendations = Recommendation.sorted_recommendations_for_course_and_user(@course, current_user, [current_user])
+      @recommendations_total = recommendations.size()
+      params[:page] ||= 1
+      @recommendations = recommendations.paginate(page: params[:page], per_page: 3)
       @profile_pictures = AmazonS3.instance.author_profile_images_hash_for_recommendations(@recommendations)
       @recommended_by = []
       @pledged_by = []
@@ -68,6 +93,14 @@ class CoursesController < ApplicationController
     end
   end
 
+  def filter_options
+    @filter_options = session['courses#index'].to_query('filterrific')
+
+    respond_to do |format|
+      format.json { render :filter_options }
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -83,10 +116,14 @@ class CoursesController < ApplicationController
   def create_enrollment
     provider_connector = get_connector_by_mooc_provider @course.mooc_provider
     if provider_connector.present?
-      @has_enrolled = provider_connector.enroll_user_for_course current_user, @course
-      if @has_enrolled
-        provider_worker = get_worker_by_mooc_provider @course.mooc_provider
-        provider_worker.perform_async([current_user.id])
+      begin
+        @has_enrolled = provider_connector.enroll_user_for_course current_user, @course
+        if @has_enrolled
+          provider_worker = get_worker_by_mooc_provider @course.mooc_provider
+          provider_worker.perform_async([current_user.id])
+        end
+      rescue NotImplementedError
+        @has_enrolled = false
       end
     else
       # We didn't implement a provider_connector for this mooc_provider
@@ -97,10 +134,14 @@ class CoursesController < ApplicationController
   def destroy_enrollment
     provider_connector = get_connector_by_mooc_provider @course.mooc_provider
     if provider_connector.present?
-      @has_unenrolled = provider_connector.unenroll_user_for_course current_user, @course
-      if @has_unenrolled
-        provider_worker = get_worker_by_mooc_provider @course.mooc_provider
-        provider_worker.perform_async([current_user.id])
+      begin
+        @has_unenrolled = provider_connector.unenroll_user_for_course current_user, @course
+        if @has_unenrolled
+          provider_worker = get_worker_by_mooc_provider @course.mooc_provider
+          provider_worker.perform_async([current_user.id])
+        end
+      rescue NotImplementedError
+        @has_unenrolled = false
       end
     else
       # We didn't implement a provider_connector for this mooc_provider

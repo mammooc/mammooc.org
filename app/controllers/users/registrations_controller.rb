@@ -39,6 +39,46 @@ module Users
       flash['error'] << t('flash.error.sign_up.terms_and_conditions_failure')
     end
 
+    def update
+      flash['error'] ||= []
+
+      self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+      prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
+
+      resource_updated = update_resource(resource, account_update_params)
+      yield resource if block_given?
+      if resource_updated
+        if is_flashing_format?
+          if update_needs_confirmation?(resource, prev_unconfirmed_email)
+            flash_key = :update_needs_confirmation
+          else
+            flash_key = :updated
+          end
+          set_flash_message :notice, flash_key
+        end
+        sign_in resource_name, resource, bypass: true
+      else
+        resource.errors.each do |key, value|
+          flash['error'] << "#{t('users.sign_in_up.' + key.to_s)} #{value}"
+        end
+        clean_up_passwords resource
+      end
+      redirect_to "#{user_settings_path(current_user.id)}?subsite=account"
+    end
+
+    def destroy
+      if resource.destroy
+        Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
+        set_flash_message :notice, :destroyed if is_flashing_format?
+        yield resource if block_given?
+        respond_with_navigational(resource) { redirect_to after_sign_out_path_for(resource_name) }
+      else
+        flash['error'] ||= []
+        flash['error'] << "#{t('users.settings.still_admin_in_group_error')}"
+        redirect_to "#{user_settings_path(current_user.id)}?subsite=account"
+      end
+    end
+
     protected
 
     def after_sign_up_path_for(resource)

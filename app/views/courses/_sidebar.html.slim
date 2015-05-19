@@ -1,40 +1,34 @@
-.sidebar
+.sidebar id="course-sidebar"
   .element
     .content
-      .hd5
+      .hd5.link-black-hover-green
         = link_to @course.url, target: "_blank"
           => t('courses.enter_course')
           | &#8594;
 
   - if @pledged_by.blank?
     - unless @recommended_by.blank?
-      .element
+      .element.recommended
         .content
-          .hd5.pb5
-            = t('courses.sidebar.recommended_by')
-          - @recommended_by.each do |user|
-            = link_to user
-              = "#{user.first_name} #{user.last_name}"
-              - unless @recommended_by.last == user
-                = ', '
-        a class="show-button" href="#course-recommendations"
-          = t('global.show_details')
-  - else
-    .element
-      .content
-        .hd5.pb5
-          = t('recommendation.pledged_by')
-        - @pledged_by.each do |user|
-          = link_to user
-            = "#{user.first_name} #{user.last_name}"
-            - unless @pledged_by.last == user
-              = ', '
-      a class="show-button" href="#course-recommendations"
-        = t('global.show_details')
+          .hd5
+            => t('courses.sidebar.recommended')
+            span.small-link
+              | &#183;&nbsp;
+              a href="#course-recommendations"
+                = t('global.show_details')
 
+  - else
+    .element.pledged
+      .content
+        .hd5
+          => t('courses.sidebar.pledged')
+          span.small-link
+            | &#183;&nbsp;
+            a href="#course-recommendations"
+              = t('global.show_details')
 
   .element
-    .content
+    .content.details
       .hd5.pb20
         = t('courses.sidebar.details')
 
@@ -107,7 +101,7 @@
         .hd6.pb5
           = t('courses.previous_iteration')
         = link_to @previous_course_name, course_path(@course.previous_iteration_id)
-        .gradient-dividerc
+        .gradient-divider
 
       - if @course.following_iteration_id
         .hd6.pb5
@@ -123,27 +117,58 @@
             = category
         .gradient-divider
 
-      .hd4.pb5
-        = t('courses.tracks.headline')
-      - @course.tracks.each_with_index do |track, i|
-        .hd5.pb5
-          = track.track_type.title   
-        - if track.track_type.description
-          = raw(track.track_type.description)
-        
-        .hd6.pb5
-          = t('courses.tracks.types.type_of_achievement')
-        = t("courses.tracks.types.achievement_types.#{track.track_type.type_of_achievement}")
-        
-        - if track.costs
+      - if @course.tracks.size == 1
+        - if @course.tracks[0].track_type.type_of_achievement
+          .hd6.pb5
+            = t('courses.tracks.types.type_of_achievement')
+          = t("courses.tracks.types.achievement_types.#{@course.tracks[0].track_type.type_of_achievement}")
+          .gradient-divider
+
+        - if @course.tracks[0].costs
           .hd6.pb5
             = t('courses.tracks.types.costs')
-          = "#{format("%.2f", track.costs)} #{track.costs_currency}"
-    
-        - if track.credit_points
+          = "#{format("%.2f", @course.tracks[0].costs)} #{@course.tracks[0].costs_currency}"
+          .gradient-divider
+
+        - if @course.tracks[0].credit_points
           .hd6.pb5
             = t('courses.tracks.types.credit_points')
-          = track.credit_points
-
-        - if i != (@course.tracks.count - 1)
+          = @course.tracks[0].credit_points
           .gradient-divider
+
+      .override-divider
+
+  - if @course.tracks.size > 1
+    .element
+      .content.tracks
+        .hd4.pb10
+          = t('courses.tracks.headline')
+        .panel-group id="track-accordion" role="tablist" aria-multiselectable="true"
+          - @course.tracks.each_with_index do |track, i|
+            .panel.panel-default.do-not-show-link
+              a data-toggle="collapse" data-parent="#track-accordion" href="#collapse#{i}" aria-expanded="true" aria-controls="collapse#{i}"
+                .panel-heading role="tab" id="heading#{i}"
+                  .panel-title
+                    = track.track_type.title
+                    span.pull-right.glyphicon.glyphicon-chevron-down aria-hidden="true"
+              div class=(["panel-collapse", "collapse", i == 0 ? "in" : nil].compact.join(' ')) id="collapse#{i}" role="tabpanel" aria-labelledby="heading#{i}"
+                .panel-body
+                  - if track.track_type.description
+                    .pb15
+                      = raw(track.track_type.description)
+                  .hd6.pb5
+                    = t('courses.tracks.types.type_of_achievement')
+                  .pb10
+                    = t("courses.tracks.types.achievement_types.#{track.track_type.type_of_achievement}")
+
+                  - if track.costs
+                    .hd6.pb5
+                      = t('courses.tracks.types.costs')
+                    .pb10
+                      = "#{format("%.2f", track.costs)} #{track.costs_currency}"
+
+                  - if track.credit_points
+                    .hd6.pb5
+                      = t('courses.tracks.types.credit_points')
+                    .pb10
+                    = track.credit_points

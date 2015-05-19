@@ -9,5 +9,6 @@ class UserWorker
     OpenHPIChinaUserWorker.perform_async user_ids
     OpenSAPChinaUserWorker.perform_async user_ids
     OpenUNEUserWorker.perform_async user_ids
+    CourseraUserWorker.perform_async user_ids
   end
 end

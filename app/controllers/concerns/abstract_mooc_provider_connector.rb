@@ -1,10 +1,11 @@
 # -*- encoding : utf-8 -*-
 require 'rest_client'
+require 'oauth2'
 
 class AbstractMoocProviderConnector
   def initialize_connection(user, credentials)
     send_connection_request user, credentials
-  rescue RestClient::InternalServerError => e
+  rescue RestClient::InternalServerError, RestClient::Unauthorized, RestClient::BadRequest  => e
     Rails.logger.error "#{e.class}: #{e.message}"
     return false
   else
@@ -50,14 +51,26 @@ class AbstractMoocProviderConnector
         fetch_user_data user if connection_to_mooc_provider? user
       end
     else
+      result = true
       users.each do |user|
-        fetch_user_data user if connection_to_mooc_provider? user
+        result &= fetch_user_data user if connection_to_mooc_provider? user
       end
+      return result
     end
   end
 
   def connection_to_mooc_provider?(user)
     user.mooc_providers.where(id: mooc_provider).present?
+  end
+
+  def oauth_link(_destination, _csrf_token)
+    raise NotImplementedError
+  end
+
+  def destroy_connection(user)
+    return false unless connection_to_mooc_provider? user
+    MoocProviderUser.find_by(user: user, mooc_provider: mooc_provider).destroy
+    true
   end
 
   private
@@ -82,13 +95,46 @@ class AbstractMoocProviderConnector
     response_data = get_enrollments_for_user user
   rescue SocketError, RestClient::ResourceNotFound, RestClient::SSLCertificateNotVerified => e
     Rails.logger.error "#{e.class}: #{e.message}"
+    return false
+  rescue RestClient::Unauthorized => e
+    # This would be the case, when the user's authorization token is invalid
+    Rails.logger.error "#{e.class}: #{e.message}"
+    return false
   else
     handle_enrollments_response response_data, user
+    return true
   end
 
-  def get_authentication_token(user)
+  def get_access_token(user)
     connection = MoocProviderUser.find_by(user_id: user, mooc_provider_id: mooc_provider)
-    connection.present? ? connection.authentication_token : nil
+    return unless connection.present?
+    if connection.mooc_provider.api_support_state == 'naive'
+      connection.access_token
+    elsif connection.mooc_provider.api_support_state == 'oauth'
+      if connection.access_token_valid_until > Time.zone.now
+        connection.access_token
+      else
+        refresh_access_token(user) if connection.refresh_token.present?
+        return nil
+      end
+    else
+      return nil
+    end
+  end
+
+  def refresh_access_token(_user)
+    raise NotImplementedError
+  end
+
+  def mooc_provider_user_connection(user)
+    if connection_to_mooc_provider? user
+      connection = MoocProviderUser.find_by(user_id: user, mooc_provider_id: mooc_provider)
+    else
+      connection = MoocProviderUser.new
+      connection.user_id = user.id
+      connection.mooc_provider_id = mooc_provider.id
+    end
+    connection
   end
 
   def get_enrollments_for_user(_user)
