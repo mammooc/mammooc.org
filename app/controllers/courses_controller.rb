@@ -100,7 +100,7 @@ class CoursesController < ApplicationController
   end
 
   def search
-    session['courses#index'] = {'search_query' => params[:query], 'with_tracks' => {'costs' => '', 'certificate' => ''}}
+    session['courses#index'] = {'search_query': params[:query], 'with_tracks': {'costs': '', 'certificate': ''}}
     redirect_to courses_path
   end
 
