@@ -104,8 +104,7 @@ class CourseraCourseWorker < AbstractCourseWorker
 end
 
 def parse_provider_given_duration(provider_given_duration)
-  duration = provider_given_duration.split(' ')[0].to_i
-  duration *= 7
+  provider_given_duration.split(' ')[0].to_i * 7
 end
 
 def evaluate_iteration_hash(iteration_hash)
