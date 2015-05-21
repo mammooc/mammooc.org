@@ -56,6 +56,7 @@ RSpec.describe OpenHPIConnector do
 
   it 'returns false when trying to enroll and user has mooc provider connection but something went wrong' do
     user.mooc_providers << mooc_provider
+    allow(RestClient).to receive(:post).and_raise RestClient::Unauthorized
     expect(open_hpi_connector.enroll_user_for_course user, course).to eql false
   end
 
@@ -71,6 +72,7 @@ RSpec.describe OpenHPIConnector do
 
   it 'returns false when trying to unenroll and user has mooc provider connection but something went wrong' do
     user.mooc_providers << mooc_provider
+    allow(RestClient).to receive(:delete).and_raise RestClient::Unauthorized
     expect(open_hpi_connector.unenroll_user_for_course user, course).to eql false
   end
 

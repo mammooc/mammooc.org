@@ -84,6 +84,7 @@ de:
     no_courses: :courses.no_courses
     recommendations: :recommendation.your_recommendations
     recommendations_with_quantity: :recommendation.your_recommendations_with_quantity
+    search_course: Kurse finden
 
   home:
     welcome_heading: Willkommen bei mammooc!
@@ -306,6 +307,13 @@ de:
         start_categories: Zeitstatus
         costs: Preis
         certificate: Art des Zertifikats
+        sort: Sortieren nach
+      sort:
+        start_date_asc: Startdatum - neuestes zuerst
+        duration_desc: Dauer - absteigend
+        duration_asc: Dauer - aufsteigend
+        name_desc: Titel (z-a)
+        name_asc: Titel (a-z)
     languages:
       ar: Arabisch
       cn: Chinesisch

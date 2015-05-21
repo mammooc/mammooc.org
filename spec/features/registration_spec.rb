@@ -22,22 +22,22 @@ RSpec.describe 'Users::Registration', type: :feature do
   it 'works with valid input' do
     fill_in 'user_first_name', with: user.first_name
     fill_in 'user_last_name', with: user.last_name
-    fill_in 'registration_email', with: user.email
+    fill_in 'registration_email', with: user.primary_email
     fill_in 'registration_password', with: user.password
     fill_in 'registration_password_confirmation', with: user.password
     check 'terms_and_conditions_confirmation'
     click_button 'submit_sign_up'
     expect(page).to have_text(I18n.t('devise.registrations.signed_up'))
-    expect(User.find_by_email(user.email)).to_not be_nil
+    expect(User.find_by_primary_email(user.primary_email)).to_not be_nil
   end
 
   it 'does not work if email already taken' do
-    FactoryGirl.create(:user, email: user.email)
-    fill_in 'user_first_name', with: user.first_name
-    fill_in 'user_last_name', with: user.last_name
-    fill_in 'registration_email', with: user.email
-    fill_in 'registration_password', with: user.password
-    fill_in 'registration_password_confirmation', with: user.password
+    existing_user = FactoryGirl.create(:user)
+    fill_in 'user_first_name', with: existing_user.first_name
+    fill_in 'user_last_name', with: existing_user.last_name
+    fill_in 'registration_email', with: existing_user.primary_email
+    fill_in 'registration_password', with: existing_user.password
+    fill_in 'registration_password_confirmation', with: existing_user.password
     check 'terms_and_conditions_confirmation'
     click_button 'submit_sign_up'
     expect(page).to have_text(I18n.t('users.sign_in_up.email') + ' ' + I18n.t('flash.error.taken'))
@@ -46,7 +46,7 @@ RSpec.describe 'Users::Registration', type: :feature do
   it 'does not work if not agreed to terms and conditions' do
     fill_in 'user_first_name', with: user.first_name
     fill_in 'user_last_name', with: user.last_name
-    fill_in 'registration_email', with: user.email
+    fill_in 'registration_email', with: user.primary_email
     fill_in 'registration_password', with: user.password
     fill_in 'registration_password_confirmation', with: user.password
     click_button 'submit_sign_up'
@@ -56,7 +56,7 @@ RSpec.describe 'Users::Registration', type: :feature do
   it 'does not work with a password that is too short' do
     fill_in 'user_first_name', with: user.first_name
     fill_in 'user_last_name', with: user.last_name
-    fill_in 'registration_email', with: user.email
+    fill_in 'registration_email', with: user.primary_email
     fill_in 'registration_password', with: '123'
     fill_in 'registration_password_confirmation', with: '123'
     click_button 'submit_sign_up'
@@ -66,7 +66,7 @@ RSpec.describe 'Users::Registration', type: :feature do
   it 'does not work with two different password inputs' do
     fill_in 'user_first_name', with: user.first_name
     fill_in 'user_last_name', with: user.last_name
-    fill_in 'registration_email', with: user.email
+    fill_in 'registration_email', with: user.primary_email
     fill_in 'registration_password', with: user.password
     fill_in 'registration_password_confirmation', with: '123456789'
     click_button 'submit_sign_up'
@@ -75,7 +75,7 @@ RSpec.describe 'Users::Registration', type: :feature do
 
   it 'does not work without first_name' do
     fill_in 'user_last_name', with: user.last_name
-    fill_in 'registration_email', with: user.email
+    fill_in 'registration_email', with: user.primary_email
     fill_in 'registration_password', with: user.password
     fill_in 'registration_password_confirmation', with: user.password
     click_button 'submit_sign_up'

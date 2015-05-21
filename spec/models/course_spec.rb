@@ -116,6 +116,89 @@ RSpec.describe Course, type: :model do
   end
 
   describe 'scopes for filtering' do
+    context 'sorted_by' do
+      let!(:course_one) { FactoryGirl.create(:course, name: 'AAA', calculated_duration_in_days: 800, start_date: Time.zone.parse('03.04.2012')) }
+      let!(:course_two) { FactoryGirl.create(:course, name: 'ZZZ', calculated_duration_in_days: 60, start_date: Time.zone.parse('03.04.2015')) }
+      let!(:course_three) { FactoryGirl.create(:course, name: 'CCC', calculated_duration_in_days: 80, start_date: Time.zone.parse('03.04.2016')) }
+
+      it 'sorts for name asc' do
+        result = described_class.sorted_by('name_asc')
+        expect(result).to match([course_one, course_three, course_two])
+      end
+
+      it 'sorts for name desc' do
+        result = described_class.sorted_by('name_desc')
+        expect(result).to match([course_two, course_three, course_one])
+      end
+
+      it 'sorts for duration asc' do
+        result = described_class.sorted_by('duration_asc')
+        expect(result).to match([course_two, course_three, course_one])
+      end
+
+      it 'sorts for duration desc' do
+        result = described_class.sorted_by('duration_desc')
+        expect(result).to match([course_one, course_three, course_two])
+      end
+
+      it 'sorts for start_date' do
+        result = described_class.sorted_by('start_date_asc')
+        expect(result).to match([course_one, course_two, course_three])
+      end
+    end
+
+    context 'search query' do
+      let!(:course_match_name) { FactoryGirl.create(:course, name: 'Web Technologies') }
+      let!(:course_not_match_name) { FactoryGirl.create(:course, name: 'Wob Technochicks') }
+      let!(:course_match_instructors) { FactoryGirl.create(:course, name: 'Java course', course_instructors: 'Jan Renz, Thomas Staubitz') }
+      let!(:course_not_match_instructors) { FactoryGirl.create(:course, name: 'Ruby course', course_instructors: 'Prof. Dr. Christoph Meinel, Erwin Abitz') }
+
+      it 'finds the course with the specified name' do
+        result = described_class.search_query(course_match_name.name)
+        expect(result).to match([course_match_name])
+      end
+
+      it 'finds courses with the specified course instructor' do
+        result = described_class.search_query(course_match_instructors.course_instructors)
+        expect(result).to match([course_match_instructors])
+      end
+
+      it 'finds courses where query match first part of course name' do
+        result = described_class.search_query('We')
+        expect(result).to match([course_match_name])
+      end
+
+      it 'finds courses where query match last part of course name' do
+        result = described_class.search_query('gies')
+        expect(result).to match([course_match_name])
+      end
+
+      it 'finds courses where query match middle part of course name' do
+        result = described_class.search_query('Techno')
+        expect(result).to match([course_match_name, course_not_match_name])
+      end
+
+      it 'finds courses where query match first part of course instructors' do
+        result = described_class.search_query('Jan')
+        expect(result).to match([course_match_instructors])
+      end
+
+      it 'finds courses where query match last part of course instructors' do
+        result = described_class.search_query('bitz')
+        expect(result).to match([course_match_instructors, course_not_match_instructors])
+      end
+
+      it 'finds courses where query match middle part of course instructors' do
+        result = described_class.search_query('Chris')
+        expect(result).to match([course_not_match_instructors])
+      end
+
+      it 'treats upper and lowercase equally' do
+        result = described_class.search_query('JAN')
+        expect(result).to match([course_match_instructors])
+      end
+    end
+
     context 'with_start_date_gte' do
       let(:test_date) { '05.04.2015' }
       let!(:wrong_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(test_date) - 1.day) }

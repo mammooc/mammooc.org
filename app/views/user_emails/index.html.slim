@@ -1,5 +1,5 @@
 .page-header
-  = link_to new_email_path, :class => 'btn btn-primary' do 
+  = link_to new_user_email_path, :class => 'btn btn-primary' do
     span.glyphicon.glyphicon-plus
     |  New Email
   h1
@@ -19,7 +19,7 @@
         th
         th
     tbody
-      - @emails.each do | email |
+      - @user_emails.each do | email |
         tr
           td
             = email.address
@@ -30,6 +30,6 @@
           td
             = link_to 'Show', email
           td
-            = link_to 'Edit', edit_email_path(email) 
+            = link_to 'Edit', edit_user_email_path(email)
           td
             = link_to 'Destroy', email, method: :delete, data: { confirm: 'Are you sure?' } 

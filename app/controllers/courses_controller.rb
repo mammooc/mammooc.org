@@ -14,7 +14,8 @@ class CoursesController < ApplicationController
                        duration_filter_options: Course.options_for_duration,
                        start_filter_options: Course.options_for_start,
                        options_for_costs: Course.options_for_costs,
-                       options_for_certificate: CourseTrackType.options_for_select
+                       options_for_certificate: CourseTrackType.options_for_select,
+                       options_for_sorted_by: Course.options_for_sorted_by
       }) || return
 
     @courses = @filterrific.find.page(params[:page])
@@ -49,7 +50,7 @@ class CoursesController < ApplicationController
     # RECOMMENDATIONS
     if user_signed_in?
       recommendations = Recommendation.sorted_recommendations_for_course_and_user(@course, current_user, [current_user])
-      @recommendations_total = recommendations.size()
+      @recommendations_total = recommendations.size
       params[:page] ||= 1
       @recommendations = recommendations.paginate(page: params[:page], per_page: 3)
       @profile_pictures = AmazonS3.instance.author_profile_images_hash_for_recommendations(@recommendations)
@@ -100,6 +101,11 @@ class CoursesController < ApplicationController
     respond_to do |format|
       format.json { render :filter_options }
     end
+  end
+
+  def search
+    session['courses#index'] = {'search_query': params[:query], 'with_tracks': {'costs': '', 'certificate': ''}}
+    redirect_to courses_path
   end
 
   private

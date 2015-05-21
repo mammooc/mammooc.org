@@ -2,7 +2,6 @@
 class UsersController < ApplicationController
   include ConnectorMapper
   before_action :set_provider_logos, only: [:settings, :mooc_provider_settings]
-
   load_and_authorize_resource only: [:show, :edit, :update, :destroy]
 
   rescue_from CanCan::AccessDenied do |exception|
@@ -22,6 +21,19 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+  end
+
+  # GET/PATCH /users/:id/finish_signup
+  def finish_signup
+    # authorize! :update, @user
+    return unless request.patch? && params[:user] # && params[:user][:email]
+    if @user.update(user_params)
+      @user.skip_reconfirmation!
+      sign_in(@user, bypass: true)
+      redirect_to @user, notice: 'Your profile was successfully updated.'
+    else
+      @show_errors = true
+    end
   end
 
   # PATCH/PUT /users/1
@@ -203,6 +215,6 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :title, :password, :profile_image_id, :about_me) #:email_settings,
+    params.require(:user).permit(:first_name, :last_name, :primary_email, :title, :password, :profile_image_id, :about_me) #:email_settings,
   end
 end
