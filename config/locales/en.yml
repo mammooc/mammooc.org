@@ -307,33 +307,33 @@ en:
         costs: Price
         certificate: Type of Certificate
     languages:
-      ar: arabic
-      cn: chinese
-      de: german
-      el: greek
-      en: english
-      es: spanish
-      fil: philippine languages
-      fr: french
-      he: hebrew
-      id: indonesian
-      it: italian
-      ja: japanese
-      kk: kazakh
-      ko: korean
-      lt: lithuanian
-      nl: dutch
-      pt: portuguese
-      pt-br: portuguese (Brasil)
-      ro: romanian
-      ru: russian
-      sr: serbian
-      tr: turkish
-      uk: ukrainian
-      vi: vietnamese
-      zh: chinese
-      zh-cn: chinese (China)
-      zh-tw: chinese (Taiwan)
+      ar: Arabic
+      cn: Chinese
+      de: German
+      el: Greek
+      en: English
+      es: Spanish
+      fil: Philippine languages
+      fr: French
+      he: Hebrew
+      id: Indonesian
+      it: Italian
+      ja: Japanese
+      kk: Kazakh
+      ko: Korean
+      lt: Lithuanian
+      nl: Dutch
+      pt: Portuguese
+      pt-br: Portuguese (Brasil)
+      ro: Romanian
+      ru: Russian
+      sr: Serbian
+      tr: Turkish
+      uk: Ukrainian
+      vi: Vietnamese
+      zh: Chinese
+      zh-cn: Chinese (China)
+      zh-tw: Chinese (Taiwan)
 
   recommendation:
     placeholder: Enter your personal message here ...

@@ -307,33 +307,33 @@ de:
         costs: Preis
         certificate: Art des Zertifikats
     languages:
-      ar: arabisch
-      cn: chinesisch
-      de: deutsch
-      el: griechisch
-      en: englisch
-      es: spanisch
-      fil: philippinisch
-      fr: französisch
-      he: hebräisch
-      id: indonesisch
-      it: italienisch
-      ja: japanaisch
-      kk: kasachisch
-      ko: koreanisch
-      lt: litauisch
-      nl: niederländisch
-      pt: portugiesisch
-      pt-br: portugiesisch (Brasilien)
-      ro: rumänisch
-      ru: russisch
-      sr: serbisch
-      tr: türkisch
-      uk: ukrainisch
-      vi: vietnamesisch
-      zh: chinesisch
-      zh-cn: chinesisch (China)
-      zh-tw: chinesisch (Taiwan)
+      ar: Arabisch
+      cn: Chinesisch
+      de: Deutsch
+      el: Griechisch
+      en: Englisch
+      es: Spanisch
+      fil: Philippinisch
+      fr: Französisch
+      he: Hebräisch
+      id: Indonesisch
+      it: Italienisch
+      ja: Japanaisch
+      kk: Kasachisch
+      ko: Koreanisch
+      lt: Litauisch
+      nl: Niederländisch
+      pt: Portugiesisch
+      pt-br: Portugiesisch (Brasilien)
+      ro: Rumänisch
+      ru: Russisch
+      sr: Serbisch
+      tr: Türkisch
+      uk: Ukrainisch
+      vi: Vietnamesisch
+      zh: Chinesisch
+      zh-cn: Chinesisch (China)
+      zh-tw: Chinesisch (Taiwan)
 
   recommendation:
     placeholder: Gib deine persönliche Nachricht hier ein ...
