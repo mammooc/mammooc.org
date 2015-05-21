@@ -149,7 +149,6 @@ case Rails.env
     FactoryGirl.create(:group_recommendation, course: full_course, group: group1, users: group1.users, author: user2)
     FactoryGirl.create(:user_recommendation, course: full_course, users: [user1], author: user2)
 
-
     if ENV['OPEN_HPI_TOKEN'].present?
       FactoryGirl.create(:naive_mooc_provider_user, user: user1, mooc_provider: open_hpi, access_token: ENV['OPEN_HPI_TOKEN'])
     end

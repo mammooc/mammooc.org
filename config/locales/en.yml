@@ -84,6 +84,7 @@ en:
     no_courses: :courses.no_courses
     recommendations: :recommendation.your_recommendations
     recommendations_with_quantity: :recommendation.your_recommendations_with_quantity
+    search_course: Search for courses
 
   home:
     welcome_heading: Welcome to mammooc!

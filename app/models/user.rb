@@ -37,10 +37,7 @@ class User < ActiveRecord::Base
     end
   end
 
-
   def common_groups_with_user(other_user)
-    (other_user.groups.to_a.collect {|g| self.groups.include?(g) ? g : nil}).compact()
+    (other_user.groups.to_a.collect {|g| groups.include?(g) ? g : nil }).compact
   end
-
 end
-

@@ -9,7 +9,8 @@ class Course < ActiveRecord::Base
                                   :with_subtitle_languages,
                                   :duration_filter_options,
                                   :start_filter_options,
-                                  :with_tracks]
+                                  :with_tracks,
+                                  :search_query]
 
   belongs_to :mooc_provider
   belongs_to :course_result
@@ -30,6 +31,27 @@ class Course < ActiveRecord::Base
   before_save :check_and_update_duration
   after_save :create_and_update_course_connections
   before_destroy :delete_dangling_course_connections
+
+  scope :search_query, ->(query) do
+    return nil  if query.blank?
+
+    terms = query.mb_chars.downcase.to_s.split(/\s+/)
+
+    # rubocop:disable Style/BlockDelimiters
+    terms = terms.map { |e|
+      e.prepend('%')
+      (e.gsub('*', '%') + '%').gsub(/%+/, '%')
+    }
+    # rubocop:enable Style/BlockDelimiters
+
+    num_or_conds = 2
+    where(
+      terms.map do |_term|
+        "(LOWER(courses.name) LIKE ?) OR (LOWER(COALESCE(courses.course_instructors, '')) LIKE ?)"
+      end.join(' AND '),
+      *terms.map {|e| [e] * num_or_conds }.flatten
+    )
+  end
 
   scope :with_start_date_gte, ->(reference_time) do
     where('courses.start_date IS NOT NULL AND (courses.start_date >= ?) ',
