@@ -40,7 +40,7 @@ class User < ActiveRecord::Base
   end
 
   def common_groups_with_user(other_user)
-    (other_user.groups.to_a.collect {|group| groups.include?(group) ? group : nil }).compact
+    (other_user.groups.to_a.collect {|group| groups.include?(g) ? group : nil }).compact
   end
 
   # Disable email for devise - we will check with validations within the UserEmail model

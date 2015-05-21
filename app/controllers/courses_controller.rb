@@ -99,6 +99,11 @@ class CoursesController < ApplicationController
     end
   end
 
+  def search
+    session['courses#index'] = {'search_query': params[:query], 'with_tracks': {'costs': '', 'certificate': ''}}
+    redirect_to courses_path
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
