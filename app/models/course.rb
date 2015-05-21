@@ -5,15 +5,15 @@ class Course < ActiveRecord::Base
   filterrific(
     default_filter_params: {sorted_by: 'name_asc'},
     available_filters: [:with_start_date_gte,
-                                  :with_end_date_lte,
-                                  :with_language,
-                                  :with_mooc_provider_id,
-                                  :with_subtitle_languages,
-                                  :duration_filter_options,
-                                  :start_filter_options,
-                                  :with_tracks,
-                                  :search_query,
-                                  :sorted_by]
+                        :with_end_date_lte,
+                        :with_language,
+                        :with_mooc_provider_id,
+                        :with_subtitle_languages,
+                        :duration_filter_options,
+                        :start_filter_options,
+                        :with_tracks,
+                        :search_query,
+                        :sorted_by]
   )
 
   belongs_to :mooc_provider
@@ -39,14 +39,14 @@ class Course < ActiveRecord::Base
   scope :sorted_by, ->(sort_option) do
     direction = (sort_option =~ /desc$/) ? 'desc' : 'asc'
     case sort_option.to_s
-    when /^name_/
-      order("LOWER(courses.name) #{direction}")
-    when /^start_date_/
-      order("courses.start_date #{direction}")
-    when /^duration_/
-      order("courses.calculated_duration_in_days #{direction}")
-    else
-      raise(ArgumentError, "Invalid sort option: #{ sort_option.inspect }")
+      when /^name_/
+        order("LOWER(courses.name) #{direction}")
+      when /^start_date_/
+        order("courses.start_date #{direction}")
+      when /^duration_/
+        order("courses.calculated_duration_in_days #{direction}")
+      else
+        raise ArgumentError.new "Invalid sort option: #{ sort_option.inspect }"
     end
   end
 
