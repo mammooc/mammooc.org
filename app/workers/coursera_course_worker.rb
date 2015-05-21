@@ -43,7 +43,8 @@ class CourseraCourseWorker < AbstractCourseWorker
 
       course.name = corresponding_course['name']
       course.provider_course_id = session_element['courseId'].to_s + '|' + session_element['id'].to_s
-      course.provider_given_duration = session_element['durationString']
+      course.provider_given_duration = session_element['durationString'] unless session_element['durationString'] == ''
+      course.calculated_duration_in_days = parse_provider_given_duration session_element['durationString'] unless session_element['durationString'] == ''
       course.mooc_provider_id = mooc_provider.id
       course.url = COURSE_LINK_BODY + corresponding_course['shortName']
       course.language = corresponding_course['language']
@@ -100,6 +101,11 @@ class CourseraCourseWorker < AbstractCourseWorker
     # multiple iterations
     evaluate_iteration_hash iteration_hash
   end
+end
+
+def parse_provider_given_duration(provider_given_duration)
+  duration = provider_given_duration.split(' ')[0].to_i
+  duration *= 7
 end
 
 def evaluate_iteration_hash(iteration_hash)
