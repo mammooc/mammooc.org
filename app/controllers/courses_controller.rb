@@ -14,7 +14,8 @@ class CoursesController < ApplicationController
                        duration_filter_options: Course.options_for_duration,
                        start_filter_options: Course.options_for_start,
                        options_for_costs: Course.options_for_costs,
-                       options_for_certificate: CourseTrackType.options_for_select
+                       options_for_certificate: CourseTrackType.options_for_select,
+                       options_for_sorted_by: Course.options_for_sorted_by
       }) || return
 
     @courses = @filterrific.find.page(params[:page])
