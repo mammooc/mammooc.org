@@ -88,8 +88,10 @@ RSpec.describe UserEmail, type: :model do
         described_class.transaction do
           email2.is_primary = true
           email1.destroy!
+          email2.save!
         end
       end.not_to raise_error
+      expect(email2.reload.is_primary).to be true
       expect(email2).to be_valid
       expect(email1.destroyed?).to be true
     end

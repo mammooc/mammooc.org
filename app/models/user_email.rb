@@ -17,6 +17,8 @@ class UserEmail < ActiveRecord::Base
 
   after_commit :validate_destroy, on: [:destroy]
 
+  # Please note: If you're deleting one address and change another one in a transaction, you must first destroy and update or create others afterwards!
+
   private
 
   def one_primary_address_per_user
