@@ -27,12 +27,16 @@
             = I18n.l @course.start_date, format: t('global.date_format_month')
           - elsif @course.start_date == Date.today
             = t('courses.starts_today')
-          - else
+          - elsif @course.end_date
             => t('courses.course_dates')
             = I18n.l @course.start_date, format: t('global.date_format_month') + ' - '
             = I18n.l @course.end_date, format: t('global.date_format_month')
+          - else
+            => t('courses.starting_time')
+            = I18n.l @course.start_date, format: t('global.date_format_month')
         - else
           = t('courses.no_dates_available')
+
 
         p
         - if @course.language
