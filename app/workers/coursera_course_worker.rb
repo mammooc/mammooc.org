@@ -41,7 +41,7 @@ class CourseraCourseWorker < AbstractCourseWorker
       # find course corresponding to the session
       corresponding_course = parsed_course_data['elements'].find {|json_course| json_course['id'] == session_element['courseId'] }
 
-      course.name = corresponding_course['name']
+      course.name = corresponding_course['name'].strip
       course.provider_course_id = session_element['courseId'].to_s + '|' + session_element['id'].to_s
       course.provider_given_duration = session_element['durationString'] unless session_element['durationString'] == ''
       course.calculated_duration_in_days = parse_provider_given_duration session_element['durationString'] unless session_element['durationString'] == ''

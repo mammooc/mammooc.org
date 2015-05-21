@@ -28,7 +28,7 @@ class EdxCourseWorker < AbstractCourseWorker
         update_map[course.id] = true
       end
 
-      course.name = course_element['title']
+      course.name = course_element['title'].strip
       course.provider_course_id = course_element['course:id']
       course.mooc_provider_id = mooc_provider.id
       course.url = course_element['link']

@@ -26,7 +26,7 @@ class IversityCourseWorker < AbstractCourseWorker
       course = Course.find_by(provider_course_id: course_element['id'].to_s, mooc_provider_id: mooc_provider.id) || Course.new
       update_map[course.id] = true unless course.new_record?
 
-      course.name = course_element['title']
+      course.name = course_element['title'].strip
       course.url = course_element['url']
       course.abstract = course_element['subtitle']
       course.language = course_element['language']
