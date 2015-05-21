@@ -41,6 +41,9 @@ de:
       signed_up_but_unconfirmed: "Sie haben sich erfolgreich registriert. Wir konnten Sie noch nicht anmelden, da Ihr Account noch nicht bestätigt ist. Sie erhalten in Kürze eine E-Mail mit der Anleitung, wie Sie Ihren Account freischalten können."
       update_needs_confirmation: "Ihre Daten wurden aktualisiert, aber Sie müssen Ihre neue E-Mail-Adresse bestätigen. Sie erhalten in wenigen Minuten eine E-Mail, mit der Sie die Änderung Ihrer E-Mail-Adresse abschliessen können."
       updated: "Ihre Daten wurden aktualisiert."
+      email:
+        invalid: "E-Mail-Adresse ist ungültig."
+        taken: "E-Mail-Adresse ist bereits belegt."
     sessions:
       signed_in: "Erfolgreich angemeldet."
       signed_out: "Erfolgreich abgemeldet."

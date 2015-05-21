@@ -295,20 +295,13 @@ class GroupsController < ApplicationController
     params[:changing_member]
   end
 
-  LCHARS    = /\w+\p{L}\p{N}\-\!\/#\$%&'*+=?^`{|}~}/
-  LOCAL     = /[#{LCHARS.source}]+(\.[#{LCHARS.source}]+)*/
-  DCHARS    = /A-z\d/
-  SUBDOMAIN = /[#{DCHARS.source}]+(\-+[#{DCHARS.source}]+)*/
-  DOMAIN    = /#{SUBDOMAIN.source}(\.#{SUBDOMAIN.source})*\.[#{DCHARS.source}]{2,}/
-  EMAIL     = /\A#{LOCAL.source}@#{DOMAIN.source}\z/i
-
   def invite_members
     @error_emails ||= []
     return if invited_members.blank?
     emails = invited_members.split(/[^[:alpha:]]\s+|\s+|;\s*|,\s*/)
     expiry_date = Settings.token_expiry_date
     emails.each do |email_address|
-      if email_address == EMAIL.match(email_address).to_s
+      if email_address == UserEmail::EMAIL.match(email_address).to_s
         token = SecureRandom.urlsafe_base64(Settings.token_length)
         until GroupInvitation.find_by_token(token).nil?
           token = SecureRandom.urlsafe_base64(Settings.token_length)

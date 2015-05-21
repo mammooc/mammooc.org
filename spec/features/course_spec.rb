@@ -8,7 +8,7 @@ RSpec.describe 'Course', type: :feature do
 
   before(:each) do
     visit new_user_session_path
-    fill_in 'login_email', with: user.email
+    fill_in 'login_email', with: user.primary_email
     fill_in 'login_password', with: user.password
     click_button 'submit_sign_in'
 

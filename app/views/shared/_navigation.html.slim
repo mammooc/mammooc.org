@@ -56,8 +56,8 @@ nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
                 .col-md-12.login-form
                   = form_for(:user, url: session_path(:user)) do |f|
                     .field
-                      = f.label :email, t('users.sign_in_up.email')
-                      = f.email_field :email, autofocus: true, :class => 'form-control'
+                      = f.label :primary_email, t('users.sign_in_up.email')
+                      = f.email_field :primary_email, autofocus: true, :class => 'form-control'
                     .field
                       = f.label :password, t('users.sign_in_up.password')
                       = f.password_field :password, autocomplete: "off", :class => 'form-control'

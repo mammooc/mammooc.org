@@ -10,9 +10,9 @@ h2
     br
     = f.text_field :last_name, :class => 'form-control', :value => session.has_key?(:resource) ? session[:resource]['last_name'] : ''
   .form-group
-    = f.label :email, t('users.sign_in_up.email')
+    = f.label :primary_email, t('users.sign_in_up.email')
     br
-    = f.email_field :email,  :class => 'form-control', :value => session.has_key?(:resource) ? session[:resource]['email'] : '', :id => 'registration_email'
+    = f.email_field :primary_email,  :class => 'form-control', :value => session.has_key?(:resource) ? session[:resource]['primary_email'] : '', :id => 'registration_email'
   .form-group
     = f.label :password, t('users.sign_in_up.password')
     - if @validatable

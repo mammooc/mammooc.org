@@ -26,7 +26,7 @@ RSpec.describe 'Application', type: :feature do
 
     it 'redirects to original URL after sign in' do
       visit groups_path
-      fill_in 'login_email', with: user.email
+      fill_in 'login_email', with: user.primary_email
       fill_in 'login_password', with: user.password
       click_button 'submit_sign_in'
       expect(current_path).to eq(groups_path)
@@ -47,7 +47,7 @@ RSpec.describe 'Application', type: :feature do
 
     it 'redirects to root after visiting sign in page' do
       visit new_user_session_path
-      fill_in 'login_email', with: user.email
+      fill_in 'login_email', with: user.primary_email
       fill_in 'login_password', with: user.password
       click_button 'submit_sign_in'
       expect(current_path).to eq(dashboard_path)
