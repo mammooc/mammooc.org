@@ -307,6 +307,14 @@ en:
         start_categories: Time Status
         costs: Price
         certificate: Type of Certificate
+        sort: Sorted by
+      sort:
+        start_date_asc: Start date newest first
+        duration_desc: Duration decending
+        duration_asc: Duration ascending
+        name_desc: Title (z-a)
+        name_asc: Title (a-z)
+
 
   recommendation:
     placeholder: Enter your personal message here ...

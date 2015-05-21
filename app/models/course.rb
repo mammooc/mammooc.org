@@ -2,15 +2,19 @@
 # rubocop:disable Style/Lambda
 
 class Course < ActiveRecord::Base
-  filterrific available_filters: [:with_start_date_gte,
-                                  :with_end_date_lte,
-                                  :with_language,
-                                  :with_mooc_provider_id,
-                                  :with_subtitle_languages,
-                                  :duration_filter_options,
-                                  :start_filter_options,
-                                  :with_tracks,
-                                  :search_query]
+  filterrific(
+    default_filter_params: {sorted_by: 'name_asc'},
+    available_filters: [:with_start_date_gte,
+                        :with_end_date_lte,
+                        :with_language,
+                        :with_mooc_provider_id,
+                        :with_subtitle_languages,
+                        :duration_filter_options,
+                        :start_filter_options,
+                        :with_tracks,
+                        :search_query,
+                        :sorted_by]
+  )
 
   belongs_to :mooc_provider
   belongs_to :course_result
@@ -31,6 +35,20 @@ class Course < ActiveRecord::Base
   before_save :check_and_update_duration
   after_save :create_and_update_course_connections
   before_destroy :delete_dangling_course_connections
+
+  scope :sorted_by, ->(sort_option) do
+    direction = (sort_option =~ /desc$/) ? 'desc' : 'asc'
+    case sort_option.to_s
+      when /^name_/
+        order("LOWER(courses.name) #{direction}")
+      when /^start_date_/
+        order("courses.start_date #{direction}")
+      when /^duration_/
+        order("courses.calculated_duration_in_days #{direction}")
+      else
+        raise ArgumentError.new "Invalid sort option: #{ sort_option.inspect }"
+    end
+  end
 
   scope :search_query, ->(query) do
     return nil  if query.blank?
@@ -213,6 +231,14 @@ class Course < ActiveRecord::Base
      [I18n.t('language.japanese'), 'ja'],
      [I18n.t('language.dutch'), 'nl'],
      [I18n.t('language.indonesian'), 'id']]
+  end
+
+  def self.options_for_sorted_by
+    [[I18n.t('courses.filter.sort.start_date_asc'), 'start_date_asc'],
+     [I18n.t('courses.filter.sort.duration_desc'), 'duration_desc'],
+     [I18n.t('courses.filter.sort.duration_asc'), 'duration_asc'],
+     [I18n.t('courses.filter.sort.name_desc'), 'name_desc'],
+     [I18n.t('courses.filter.sort.name_asc'), 'name_asc']]
   end
 
   self.per_page = 10
