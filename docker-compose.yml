@@ -4,6 +4,8 @@ db:
     - "5432"
 redis:
   image: redis
+  ports:
+    - "6379"
 web:
   build: .
   environment:
