@@ -8,8 +8,9 @@ web:
   build: .
   environment:
     - RAILS_ENV=production
+    - RACK_ENV=production
     - SECRET_KEY_BASE=somesceretkebasehere4jklfnfrnjkrge
-  command: bundle exec rails s -e production -p 3000 -b '0.0.0.0'
+  command: foreman start
   volumes:
     - .:/myapp
   ports:
