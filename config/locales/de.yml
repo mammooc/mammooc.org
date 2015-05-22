@@ -314,6 +314,34 @@ de:
         duration_asc: Dauer - aufsteigend
         name_desc: Titel (z-a)
         name_asc: Titel (a-z)
+    languages:
+      ar: Arabisch
+      cn: Chinesisch
+      de: Deutsch
+      el: Griechisch
+      en: Englisch
+      es: Spanisch
+      fil: Philippinisch
+      fr: Französisch
+      he: Hebräisch
+      id: Indonesisch
+      it: Italienisch
+      ja: Japanaisch
+      kk: Kasachisch
+      ko: Koreanisch
+      lt: Litauisch
+      nl: Niederländisch
+      pt: Portugiesisch
+      pt-br: Portugiesisch (Brasilien)
+      ro: Rumänisch
+      ru: Russisch
+      sr: Serbisch
+      tr: Türkisch
+      uk: Ukrainisch
+      vi: Vietnamesisch
+      zh: Chinesisch
+      zh-cn: Chinesisch (China)
+      zh-tw: Chinesisch (Taiwan)
 
   recommendation:
     placeholder: Gib deine persönliche Nachricht hier ein ...
