@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   has_many :bookmarks
   has_many :evaluations
   has_many :user_assignments
-  has_many :user_identities, dependent: :destroy
+  has_many :identities, class_name: 'UserIdentity', dependent: :destroy
   before_destroy :handle_group_memberships, prepend: true
   after_commit :save_primary_email, on: :create
 

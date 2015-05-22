@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     put '/users' => 'users/registrations#update'
     delete '/users' => 'users/registrations#destroy'
     match '/users/finish_signup' => 'users/registrations#finish_signup', via: [:get, :patch], :as => :finish_signup
+    get '/users/deauth/:provider' => 'users/omniauth_callbacks#deauthorize', as: :omniauth_deauthorize
   end
 
   resources :user_assignments
