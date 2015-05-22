@@ -69,3 +69,7 @@ nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
                   = link_to t('users.sign_in_up.forgot_password'), new_password_path(:user)
                   br
                   = link_to t('users.sign_in_up.sign_up_dropdown'), new_registration_path(:user)
+                  - if devise_mapping.omniauthable?
+                    - resource_class.omniauth_providers.each do |provider|
+                      br
+                      = link_to t('users.sign_in_up.omniauth', provider: provider.to_s.titleize), omniauth_authorize_path(resource_name, provider)

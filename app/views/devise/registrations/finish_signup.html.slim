@@ -1,0 +1,28 @@
+.page-header
+  h1
+    | Finish signup
+  = form_for(resource, as: resource_name, url: finish_signup_path, html: { class: 'form-horizontal', role: 'form', method: :patch}) do |f|
+    .form-group
+      = f.label :primary_mail, t('users.settings.email'), class: 'col-sm-2 control-label'
+      .col-sm-10
+        = f.text_field :primary_email, autofocus: true, value: session.has_key?(:resource) ? session[:resource]['primary_email'] : '', class: 'form-control', placeholder: 'Example: email@me.com'
+    .form-group
+      .col-sm-offset-2.col-sm-10
+        | Please provide a password as fallback method.
+    .form-group
+      = f.label :password, t('users.sign_in_up.password'), class: 'col-sm-2 control-label'
+      .col-sm-10
+        = f.password_field :password, class: 'form-control', autocomplete: 'off'
+    .form-group
+      = f.label :password_confirmation, t('users.sign_in_up.password_confirmation'), class: 'col-sm-2 control-label'
+      .col-sm-10
+        = f.password_field :password_confirmation, class: 'form-control', autocomplete: 'off'
+    .form-group
+      .col-sm-offset-2.col-sm-10
+        .checkbox
+          = label_tag :terms_and_conditions_confirmation
+            = check_box_tag :terms_and_conditions_confirmation, '' , session.has_key?(:resource) ? session[:resource]['terms_and_conditions'] : false, class: 'form-control'
+            = t('users.sign_in_up.terms_and_conditions_confirmation')
+    .form-group
+      .col-sm-offset-2.col-sm-10
+        = f.submit class: 'btn btn-primary'

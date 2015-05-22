@@ -96,6 +96,7 @@ de:
       sign_in: Einloggen
       sign_up: Registrieren
       sign_in_process: Anmeldung
+      finish_sign_up: Anmeldung vervollständigen
       first_name: Vorname
       last_name: Nachname
       email: E-Mail-Adresse
@@ -109,6 +110,8 @@ de:
       sign_up_link: Noch nicht registriert? Hier geht's zur Registrierung.
       sign_up_dropdown: Noch nicht registriert? Hier geht's zur Registrierung.
       forgot_password: Passwort vergessen?
+      omniauth: Mit %{provider} anmelden
+      password_fallback: Please prover a password as fallback method
     password:
       forgot: Passwort vergessen?
       reset: Neues Passwort anfordern
