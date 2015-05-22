@@ -64,16 +64,20 @@
         = @course.provider_given_duration
         .gradient-divider
 
-      - if @course.language
+      - if @course_languages
         .hd6.pb5
           = t('courses.language')
-        = @course.language
+        - @course_languages.each_with_index do |lang, i|
+          = t("courses.languages.#{lang}")
+          = ', ' unless i == (@course_languages.size - 1)
         .gradient-divider
 
-      - if @course.subtitle_languages
+      - if @subtitle_languages
         .hd6.pb5
           = t('courses.subtitle_languages')
-        = @course.subtitle_languages
+        - @subtitle_languages.each_with_index do |lang, i|
+          = t("courses.languages.#{lang}")
+          = ', ' unless i == (@subtitle_languages.size - 1)
         .gradient-divider
 
       - if @course.requirements

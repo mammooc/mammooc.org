@@ -25,7 +25,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
         update_map[course.id] = true
       end
 
-      course.name = course_element['name']
+      course.name = course_element['name'].strip
       course.provider_course_id = course_element['id']
       course.mooc_provider_id = mooc_provider.id
       course.url = self.class::COURSE_LINK_BODY + course_element['course_code']
