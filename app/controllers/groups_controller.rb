@@ -1,6 +1,7 @@
+# -*- encoding : utf-8 -*-
 class GroupsController < ApplicationController
-  load_and_authorize_resource only: [:index, :show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :recommendations, :demote_administrator, :remove_group_member, :leave, :condition_for_changing_member_status, :all_members_to_administrators, :recommendations]
-  
+  load_and_authorize_resource only: [:index, :show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :recommendations, :statistics, :demote_administrator, :remove_group_member, :leave, :condition_for_changing_member_status, :all_members_to_administrators, :recommendations, :synchronize_courses]
+
   NUMBER_OF_SHOWN_RECOMMENDATIONS = 2
   NUMBER_OF_SHOWN_USERS = 10
 
@@ -18,6 +19,7 @@ class GroupsController < ApplicationController
   # GET /groups.json
   def index
     @groups = current_user.groups
+    @groups_pictures = AmazonS3.instance.group_images_hash_for_groups @groups
   end
 
   # GET /groups/1
@@ -28,9 +30,16 @@ class GroupsController < ApplicationController
     @group_admins = admins.size > NUMBER_OF_SHOWN_USERS ? sort_by_name(admins) : admins.shuffle
 
     # RECOMMENDATIONS
-    sorted_recommendations = @group.recommendations.sort_by { |recommendation| recommendation.created_at}.reverse!
+    sorted_recommendations = @group.recommendations.sort_by(&:created_at).reverse!
     @recommendations = sorted_recommendations.first(NUMBER_OF_SHOWN_RECOMMENDATIONS)
     @number_of_recommendations = sorted_recommendations.length
+    @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
+
+    @profile_pictures = AmazonS3.instance.author_profile_images_hash_for_recommendations(@recommendations)
+    @profile_pictures = AmazonS3.instance.user_profile_images_hash_for_users(@group.users, @profile_pictures)
+
+    @group_picture = AmazonS3.instance.group_images_hash_for_groups [@group]
+    @rating_picture = AmazonS3.instance.get_url('five_stars.png')
   end
 
   # GET /groups/new
@@ -43,19 +52,30 @@ class GroupsController < ApplicationController
   end
 
   def recommendations
-    @recommendations = @group.recommendations.sort_by { |recommendation| recommendation.created_at}.reverse!
+    @recommendations = @group.recommendations.sort_by(&:created_at).reverse!
+    @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
+    @profile_pictures = AmazonS3.instance.author_profile_images_hash_for_recommendations(@recommendations)
+    @group_picture = AmazonS3.instance.group_images_hash_for_groups [@group]
+    @rating_picture = AmazonS3.instance.get_url('five_stars.png')
   end
 
   def members
     @sorted_group_users = sort_by_name(@group.users - admins)
     @sorted_group_admins = sort_by_name(admins)
     @group_members = @group.users - [current_user]
+    @profile_pictures = AmazonS3.instance.user_profile_images_hash_for_users(@group.users)
+    @group_picture = AmazonS3.instance.group_images_hash_for_groups [@group]
+  end
+
+  def statistics
+    @group_picture = AmazonS3.instance.group_images_hash_for_groups [@group]
   end
 
   # POST /groups
   # POST /groups.json
   def create
     @group = Group.new(group_params)
+    @group.image_id = 'group_picture_default.png'
     respond_to do |format|
       if @group.save
         @group.users.push(current_user)
@@ -116,7 +136,7 @@ class GroupsController < ApplicationController
       begin
         demote_admin
         format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
-        format.json { render :show, status: :created, location: @group }
+        format.json { render :demoted_administrator, status: :ok, location: @group }
       rescue StandardError => e
         format.html { redirect_to @group, notice: t('flash.error.groups.update') }
         format.json { render json: e.to_json, status: :unprocessable_entity }
@@ -176,6 +196,20 @@ class GroupsController < ApplicationController
     end
   end
 
+  def synchronize_courses
+    OpenHPIUserWorker.perform_async @group.users.pluck(:id)
+    OpenSAPUserWorker.perform_async @group.users.pluck(:id)
+    respond_to do |format|
+      begin
+        format.html { redirect_to dashboard_path }
+        format.json { render :synchronization_result, status: :ok }
+      rescue StandardError => e
+        format.html { redirect_to dashboard_path }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # DELETE /groups/1
   # DELETE /groups/1.json
   def destroy
@@ -187,18 +221,18 @@ class GroupsController < ApplicationController
   end
 
   def admins
-    admin_ids = UserGroup.where(group_id: @group.id, is_admin: true).collect{|user_groups| user_groups.user_id}
-    admins = Array.new
+    admin_ids = UserGroup.where(group_id: @group.id, is_admin: true).collect(&:user_id)
+    admins = []
     admin_ids.each do |admin_id|
       admins.push(User.find(admin_id))
     end
-    return admins
+    admins
   end
 
   def join
     group_invitation = GroupInvitation.find_by_token!(params[:token])
 
-    if group_invitation.expiry_date <= Time.now.in_time_zone
+    if group_invitation.expiry_date <= Time.zone.now.in_time_zone
       flash[:error] = t('groups.invitation.link_expired')
       redirect_to root_path
       return
@@ -229,95 +263,92 @@ class GroupsController < ApplicationController
 
     redirect_to group_path(group)
 
-
-  rescue ActiveRecord::RecordNotFound => error
+  rescue ActiveRecord::RecordNotFound
     flash[:error] = t('groups.invitation.link_invalid')
     redirect_to root_path
-
   end
 
   private
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def group_params
-      params.require(:group).permit(:name, :imageId, :description, :primary_statistics)
-    end
 
-    def invited_members
-      params[:members]
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def group_params
+    params.require(:group).permit(:name, :image_id, :description, :primary_statistics)
+  end
 
-    def additional_admin
-      params[:additional_administrator]
-    end
+  def invited_members
+    params[:members]
+  end
 
-    def demoted_admin
-      params[:demoted_admin]
-    end
+  def additional_admin
+    params[:additional_administrator]
+  end
 
-    def removing_member
-      params[:removing_member]
-    end
+  def demoted_admin
+    params[:demoted_admin]
+  end
 
-    def changing_member
-      params[:changing_member]
-    end
+  def removing_member
+    params[:removing_member]
+  end
 
-    LCHARS    = /\w+\p{L}\p{N}\-\!\/#\$%&'*+=?^`{|}~/
-    LOCAL     = /[#{LCHARS.source}]+(\.[#{LCHARS.source}]+)*/
-    DCHARS    = /A-z\d/
-    SUBDOMAIN = /[#{DCHARS.source}]+(\-+[#{DCHARS.source}]+)*/
-    DOMAIN    = /#{SUBDOMAIN.source}(\.#{SUBDOMAIN.source})*\.[#{DCHARS.source}]{2,}/
-    EMAIL     = /\A#{LOCAL.source}@#{DOMAIN.source}\z/i
+  def changing_member
+    params[:changing_member]
+  end
 
-    def invite_members
-      @error_emails ||= []
-      return if invited_members.blank?
-      emails = invited_members.split(/[^[:alpha:]]\s+|\s+|;\s*|,\s*/)
-      expiry_date = Settings.token_expiry_date
-      emails.each do |email_address|
-        if email_address == EMAIL.match(email_address).to_s
+  def invite_members
+    @error_emails ||= []
+    return if invited_members.blank?
+    emails = invited_members.split(/[^[:alpha:]]\s+|\s+|;\s*|,\s*/)
+    expiry_date = Settings.token_expiry_date
+    emails.each do |email_address|
+      if email_address == UserEmail::EMAIL.match(email_address).to_s
+        token = SecureRandom.urlsafe_base64(Settings.token_length)
+        until GroupInvitation.find_by_token(token).nil?
           token = SecureRandom.urlsafe_base64(Settings.token_length)
-          until GroupInvitation.find_by_token(token).nil? do
-            token = SecureRandom.urlsafe_base64(Settings.token_length)
-          end
-          link = root_url + 'groups/join/' + token
-          GroupInvitation.create(token: token, group_id: @group.id, expiry_date: expiry_date)
-          UserMailer.group_invitation_mail(email_address, link, @group, current_user, root_url).deliver_later
-        else
-          @error_emails << email_address
         end
-      end
-    end
-
-    def add_admin
-      UserGroup.set_is_admin(@group.id, additional_admin, true)
-    end
-
-    def all_members_to_admins
-      @group.users.each do |user|
-        UserGroup.set_is_admin(@group.id, user.id, true)
-      end
-    end
-
-    def demote_admin
-      UserGroup.set_is_admin(@group.id, demoted_admin, false)
-    end
-
-    def remove_member member_id
-      UserGroup.find_by(group_id: @group.id, user_id: member_id).destroy
-    end
-
-    def condition_for_changing_member
-      if @group.users.count == 1
-        @status = 'last_member'
-      elsif admins.count == 1 && admins.include?(User.find(changing_member))
-        @status = 'last_admin'
+        link = root_url + 'groups/join/' + token
+        GroupInvitation.create(token: token, group_id: @group.id, expiry_date: expiry_date)
+        UserMailer.group_invitation_mail(email_address, link, @group, current_user, root_url).deliver_later
       else
-        @status = 'ok'
+        @error_emails << email_address
       end
     end
+  end
 
-    def sort_by_name members
-      members.sort_by{ |m| [m.last_name, m.first_name] }
+  def add_admin
+    UserGroup.set_is_admin(@group.id, additional_admin, true)
+  end
+
+  def all_members_to_admins
+    @group.users.each do |user|
+      UserGroup.set_is_admin(@group.id, user.id, true)
     end
+  end
+
+  def demote_admin
+    UserGroup.set_is_admin(@group.id, demoted_admin, false)
+    if User.find(demoted_admin) == current_user
+      @status = 'demote myself'
+    else
+      @status = 'demote another member'
+    end
+  end
+
+  def remove_member(member_id)
+    UserGroup.find_by(group_id: @group.id, user_id: member_id).destroy
+  end
+
+  def condition_for_changing_member
+    if @group.users.count == 1
+      @status = 'last_member'
+    elsif admins.count == 1 && admins.include?(User.find(changing_member))
+      @status = 'last_admin'
+    else
+      @status = 'ok'
+    end
+  end
+
+  def sort_by_name(members)
+    members.sort_by {|m| [m.last_name, m.first_name] }
+  end
 end

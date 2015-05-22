@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
@@ -8,6 +9,7 @@ Bundler.require(*Rails.groups)
 
 module MAMMOOC
   class Application < Rails::Application
+    GC::Profiler.enable
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -25,7 +27,8 @@ module MAMMOOC
     config.assets.initialize_on_precompile = true
 
     # Load the files in lib
-    config.autoload_paths  = %W(#{config.root}/lib)
+    config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += %W(#{config.root}/lib/**/)
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
@@ -36,14 +39,16 @@ module MAMMOOC
       Devise::UnlocksController.skip_before_action :require_login
       Devise::ConfirmationsController.skip_before_action :require_login
       Devise::RegistrationsController.skip_before_action :require_login
+      Devise::OmniauthCallbacksController.skip_before_action :require_login
     end
 
-    config.generators do |g|
-      g.test_framework :rspec
+    config.generators do |generator|
+      generator.test_framework :rspec
     end
 
-    config.serve_static_files = true
+    config.action_mailer.default_url_options = {host: Settings.root_url}
 
-    config.action_mailer.default_url_options = {:host => Settings.default_hostname}
+    # Force SSL for all connections
+    config.force_ssl = true
   end
 end

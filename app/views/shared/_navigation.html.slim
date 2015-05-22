@@ -8,9 +8,9 @@ nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
         span.icon-bar
         span.icon-bar
       - if user_signed_in?
-        = link_to t('navbar.mammooc'), dashboard_path, :class => "navbar-brand"
+        = link_to t('global.app_name'), dashboard_path, :class => "navbar-brand"
       - else
-        = link_to t('navbar.mammooc'), home_index_path, :class => "navbar-brand"
+        = link_to t('global.app_name'), home_index_path, :class => "navbar-brand"
     .collapse.navbar-collapse id="navbar"
       ul.nav.navbar-nav.navbar-right
         li class=('active' if current_page?(home_index_path) || current_page?(root_path))
@@ -43,6 +43,8 @@ nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
               li
                 = link_to t('navbar.profile'), current_user
               li
+                = link_to t('navbar.settings'), "#{user_settings_path(current_user.id)}?subsite=mooc_provider"
+              li
                 = link_to t('navbar.sign_out'), destroy_user_session_path, {:method => 'delete', :id =>'nav_sign_out_button'}
         - else
           li class="dropdown"
@@ -54,8 +56,8 @@ nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
                 .col-md-12.login-form
                   = form_for(:user, url: session_path(:user)) do |f|
                     .field
-                      = f.label :email, t('users.sign_in_up.email')
-                      = f.email_field :email, autofocus: true, :class => 'form-control'
+                      = f.label :primary_email, t('users.sign_in_up.email')
+                      = f.email_field :primary_email, autofocus: true, :class => 'form-control'
                     .field
                       = f.label :password, t('users.sign_in_up.password')
                       = f.password_field :password, autocomplete: "off", :class => 'form-control'

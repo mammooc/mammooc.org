@@ -1,0 +1,46 @@
+h2
+  = t('users.settings.mooc_provider_connection')
+
+- @mooc_providers.each_with_index do |provider, index|
+  - unless provider[:api_support_state] == 'nil'
+    - if @mooc_provider_connections.include? provider[:id]
+      .panel.panel-success id="panel-#{provider[:id]}"
+        .panel-heading
+          .provider
+            a data-toggle="collapse" href="#collapse-#{provider[:id]}"
+              img src = @provider_logos[provider[:logo_id]]
+        .panel-collapse.collapse id="collapse-#{provider[:id]}"
+          .panel-body
+            .form-group
+              button.btn.btn-default data-mooc_provider="#{provider[:id]}" data-user_id="#{current_user.id}" id="revoke-naive-user-mooc_provider-connection-button"
+                = t('users.synchronization.revoke_provider_connection')
+            .error-messages id="div-error-#{provider[:id]}"
+    - else
+      .panel.panel-default id="panel-#{provider[:id]}"
+        .panel-heading
+          .provider
+            a data-toggle="collapse" href="#collapse-#{provider[:id]}"
+              img src = @provider_logos[provider[:logo_id]]
+        .panel-collapse.collapse id="collapse-#{provider[:id]}"
+          .panel-body
+            - if provider[:api_support_state] == 'naive'
+              .form-group
+                label
+                  = t('users.settings.email')
+                input.form-control type="email" placeholder="#{t('users.settings.enter_mail')}" id="input-email-#{provider[:id]}"
+              .form-group
+                label
+                  = t('users.settings.password')
+                input.form-control type="password" placeholder="#{t('users.settings.password')}" id="input-password-#{provider[:id]}"
+              .form-group
+                button.btn.btn-default data-mooc_provider="#{provider[:id]}" data-user_id="#{current_user.id}" id="sync-naive-user-mooc_provider-connection-button"
+                  = t('users.synchronization.establish_provider_connection')
+              .error-messages id="div-error-#{provider[:id]}"
+            - elsif provider[:api_support_state] == 'oauth'
+              .form-group
+                a href="#{provider[:oauth_link]}"
+                  button.btn.btn-default data-mooc_provider="#{provider[:id]}" data-user_id="#{current_user.id}" id="sync-oauth-user-mooc_provider-connection-button"
+                    = t('users.synchronization.establish_provider_connection')
+
+script type="text/javascript"
+  | bindClickEvents();

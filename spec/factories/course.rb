@@ -1,11 +1,11 @@
+# -*- encoding : utf-8 -*-
 FactoryGirl.define do
-
   factory :course do
     name 'Minimal Technologies'
-    url 'https://test.com/course'
-    sequence(:provider_course_id ) { |n| "a#{n}" }
-    mooc_provider {FactoryGirl.create(:mooc_provider)}
-    has_free_version true
+    url 'https://example.com/course'
+    sequence(:provider_course_id) {|n| "a#{n}" }
+    mooc_provider { FactoryGirl.create(:mooc_provider) }
+    tracks { [FactoryGirl.create(:course_track)] }
   end
 
   factory :full_course, class: Course do
@@ -24,26 +24,20 @@ Ralf: “The concept is great and methodically and didactically well thought out
 Kerstin: “I have to honestly say that I am impressed by what you’ve accomplished here. The course was totally professional and the tasks were set up so that it was possible to learn a lot. It was important for me to get an overview of the technologies and relationships between them. The class was taught really well and it was fun too.”
 
 Claudia; “I enjoyed this course so much. It gave me a chance to expand my horizons in web technologies a great deal. I really liked the practical homework exercises, especially the calculation task in Week 5. I’m already looking forward to the next course. Keep up the good work!”'
-    language 'English'
+    language 'en'
     imageId 'https://open.hpi.de/files/45ce8877-d21b-4389-9032-c6525b4724d0'
     videoId ''
-    start_date DateTime.new(2015,6,1,8)
-    end_date DateTime.new(2015,7,20,23,30)
-    costs 10
-    price_currency '€'
-    type_of_achievement 'Certificate'
-    categories ['Web','Technologies','Computer Science','#geilon']
-    requirements %w[Computer Brain Strength]
+    start_date Time.zone.local(2015, 6, 1, 8)
+    end_date Time.zone.local(2015, 7, 20, 23, 30)
+    categories ['Web', 'Technologies', 'Computer Science', '#geilon']
+    requirements %w(Computer Brain Strength)
     difficulty 'medium'
     workload '4-8 hours a week'
-    sequence(:provider_course_id ) { |n| "#{n}" }
-    credit_points 6
+    sequence(:provider_course_id) {|n| "#{n}" }
     open_for_registration true
     provider_given_duration '6 weeks'
-    subtitle_languages 'english, german'
-    mooc_provider {FactoryGirl.create(:mooc_provider)}
-    has_free_version true
-    has_paid_version true
+    subtitle_languages 'en,de'
+    mooc_provider { FactoryGirl.create(:mooc_provider) }
+    tracks { [FactoryGirl.create(:course_track), FactoryGirl.create(:certificate_course_track), FactoryGirl.create(:ects_course_track)] }
   end
-
 end

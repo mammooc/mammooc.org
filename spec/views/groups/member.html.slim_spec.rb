@@ -1,7 +1,7 @@
+# -*- encoding : utf-8 -*-
 require 'rails_helper'
 
-RSpec.describe "groups/members", :type => :view do
-
+RSpec.describe 'groups/members', type: :view do
   let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
   let(:user) { FactoryGirl.create(:user) }
   let(:second_user) { FactoryGirl.create(:user) }
@@ -16,9 +16,12 @@ RSpec.describe "groups/members", :type => :view do
 
     @sorted_group_users = group.users - [user]
     @sorted_group_admins = [user]
+
+    @profile_pictures = {}
+    @group_picture = {}
   end
 
-  it "show all members of group" do
+  it 'show all members of group' do
     render
     group.users.each do |user|
       expect(rendered).to have_content user.first_name

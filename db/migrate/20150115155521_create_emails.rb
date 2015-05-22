@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateEmails < ActiveRecord::Migration
   def change
     create_table :emails, id: :uuid do |t|

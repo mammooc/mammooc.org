@@ -1,6 +1,37 @@
 .courses-filter
   .panel.panel-default
-    .panel-heading
-      | What are you looking for?
-    .panel-body
-      | Filter... (coming soon)
+    = form_for_filterrific @filterrific do |f|
+      = f.label 'Search'
+      = f.text_field :search_query, class: 'filterrific-periodically-observed form-control'
+      = f.label t('courses.filter.labels.starts_after')
+      = f.text_field(:with_start_date_gte, class: 'js-datepicker form control', 'data-provide': "datepicker", 'data-date-format': 'dd.mm.yyyy', 'data-date-orientation':"top")
+      = f.label t('courses.filter.labels.ends_before')
+      = f.text_field(:with_end_date_lte, class: 'js-datepicker form control', 'data-provide': "datepicker", 'data-date-format': 'dd.mm.yyyy', 'data-date-orientation':"top")
+      br
+      = f.label t('courses.filter.labels.language')
+      = f.select(:with_language, @filterrific.select_options[:with_language], {include_blank: t('courses.filter.all')})
+      br
+      = f.label t('courses.filter.labels.provider')
+      = f.select(:with_mooc_provider_id, @filterrific.select_options[:with_mooc_provider_id], {include_blank: t('courses.filter.all')})
+      br
+      = f.label t('courses.filter.labels.subtitle_language')
+      = f.select(:with_subtitle_languages, @filterrific.select_options[:with_subtitle_languages], {include_blank: t('courses.filter.all')})
+      br
+      = f.label t('courses.filter.labels.duration')
+      = f.select(:duration_filter_options, @filterrific.select_options[:duration_filter_options], {include_blank: t('courses.filter.all')})
+      br
+      = f.label t('courses.filter.labels.start_categories')
+      = f.select(:start_filter_options, @filterrific.select_options[:start_filter_options], {include_blank: t('courses.filter.all')})
+      br
+      = f.fields_for :with_tracks, OpenStruct.new(@filterrific.with_tracks) do |with_tracks_fields|
+        = with_tracks_fields.label t('courses.filter.labels.costs')
+        = with_tracks_fields.select(:costs, @filterrific.select_options[:options_for_costs], {include_blank: t('courses.filter.all')})
+        br
+        = with_tracks_fields.label t('courses.filter.labels.certificate')
+        = with_tracks_fields.select(:certificate, @filterrific.select_options[:options_for_certificate], {include_blank: t('courses.filter.all')})
+      br
+      =f.label t('courses.filter.labels.sort')
+      =f.select(:sorted_by, @filterrific.select_options[:options_for_sorted_by])
+      br
+      = link_to 'Reset filters', reset_filterrific_url
+      = render_filterrific_spinner

@@ -1,1 +1,2 @@
-json.extract! @group, :id, :name, :imageId, :description, :primary_statistics, :created_at, :updated_at
+# encoding: utf-8
+json.extract! @group, :id, :name, :image_id, :description, :primary_statistics, :created_at, :updated_at

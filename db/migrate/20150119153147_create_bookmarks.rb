@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateBookmarks < ActiveRecord::Migration
   def change
     create_table :bookmarks, id: :uuid do |t|

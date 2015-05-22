@@ -1,6 +1,8 @@
-module ConnectorMapper extend ActiveSupport::Concern
+# -*- encoding : utf-8 -*-
+module ConnectorMapper
+  extend ActiveSupport::Concern
 
-  def get_connector_by_mooc_provider mooc_provider
+  def get_connector_by_mooc_provider(mooc_provider)
     case mooc_provider.name
       when 'openHPI'
         return OpenHPIConnector.new
@@ -14,12 +16,14 @@ module ConnectorMapper extend ActiveSupport::Concern
         return MoocHouseConnector.new
       when 'openUNE'
         return OpenUNEConnector.new
+      when 'coursera'
+        return CourseraConnector.new
       else
         return nil
     end
   end
 
-  def get_worker_by_mooc_provider mooc_provider
+  def get_worker_by_mooc_provider(mooc_provider)
     case mooc_provider.name
       when 'openHPI'
         return OpenHPIUserWorker
@@ -33,9 +37,10 @@ module ConnectorMapper extend ActiveSupport::Concern
         return MoocHouseUserWorker
       when 'openUNE'
         return OpenUNEUserWorker
+      when 'coursera'
+        return CourseraUserWorker
       else
         return nil
     end
   end
-
 end

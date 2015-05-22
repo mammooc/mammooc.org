@@ -30,6 +30,9 @@
 # Ignore code coverage files
 /coverage
 
+# Ignore RuboCop report
+rubocop.html
+
 # Ignore locale config files
 /config/settings.local.yml
 /config/settings/*.local.yml
@@ -40,3 +43,6 @@
 
 # Ignore auto-generated assets
 /public/assets
+
+# Ignore ssl certificates
+/ssl

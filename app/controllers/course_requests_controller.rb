@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CourseRequestsController < ApplicationController
   before_action :set_course_request, only: [:show, :edit, :update, :destroy]
 
@@ -62,13 +63,14 @@ class CourseRequestsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_course_request
-      @course_request = CourseRequest.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def course_request_params
-      params.require(:course_request).permit(:date, :description, :course_id, :user_id, :group_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_course_request
+    @course_request = CourseRequest.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def course_request_params
+    params.require(:course_request).permit(:date, :description, :course_id, :user_id, :group_id)
+  end
 end

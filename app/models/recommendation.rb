@@ -1,11 +1,12 @@
+# -*- encoding : utf-8 -*-
 class Recommendation < ActiveRecord::Base
-  belongs_to :author, class_name: "User"
+  belongs_to :author, class_name: 'User'
   belongs_to :course
   belongs_to :group
   has_many :comments
   has_and_belongs_to_many :users
 
-  def self.sorted_recommendations_for_course_and_user(course, user)
+  def self.sorted_recommendations_for_course_and_user(course, user, filter_users = [])
     course_recommendations = []
     recommendations_of_user = user.recommendations
 
@@ -19,8 +20,11 @@ class Recommendation < ActiveRecord::Base
       end
     end
 
-    course_recommendations.sort_by { |recommendation| recommendation.created_at}.reverse!
+    course_recommendations = self.filter_users(course_recommendations, filter_users)
+    course_recommendations.uniq.sort_by(&:created_at).reverse!
   end
 
+  def self.filter_users(recommendations, filter_users)
+    recommendations.reject {|r| filter_users.include? r.author }
+  end
 end
-

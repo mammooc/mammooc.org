@@ -1,7 +1,7 @@
+# encoding: utf-8
 source 'https://rubygems.org'
 
 ruby '2.2.0'
-
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
@@ -29,21 +29,25 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
-# Use Unicorn as the app server
-gem 'unicorn'
+# Use Phusion Passenger 5 as the app server
+gem 'passenger'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-
 # authentication
 gem 'devise'
+gem 'omniauth'
+gem 'omniauth-facebook'
 
 # authorization
 gem 'cancancan', '~>1.10'
 
 # HTTP api_connection
 gem 'rest-client'
+
+# amazon S3 connection
+gem 'aws-sdk', '~> 2'
 
 # cron job
 gem 'redis'
@@ -53,6 +57,7 @@ gem 'whenever'
 gem 'bootstrap-sass'
 
 gem 'bootstrap_tokenfield_rails'
+gem 'bootstrap-datepicker-rails'
 
 gem 'factory_girl_rails'
 
@@ -62,6 +67,15 @@ gem 'i18n-js'
 gem 'http_accept_language'
 
 gem 'rails_config'
+
+gem 'newrelic_rpm'
+
+# for filtering, searching and sorting
+gem 'filterrific'
+gem 'will_paginate'
+gem 'will_paginate-bootstrap'
+
+gem 'oauth2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -85,5 +99,9 @@ group :development, :test do
   gem 'headless'
   gem 'poltergeist'
 
-  gem 'simplecov', :require => false
+  gem 'simplecov', require: false
+  gem 'rubocop', require: false
+  gem 'rubocop-rspec', require: false
+
+  gem 'quiet_assets'
 end

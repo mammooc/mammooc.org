@@ -1,5 +1,5 @@
 - content_for :title
-  = @group.name + ' | mammooc'
+  = "#{@group.name} | #{t('global.app_name')}"
 
 p
   = link_to new_recommendation_path(group_id: @group.id)
@@ -10,4 +10,4 @@ p
 - else
   .recommendations-wrapper
     - @recommendations.each_with_index do |recommendation, index|
-      = render 'recommendations/group_recommendation', recommendation: recommendation, id: "recommendation_number_#{index}"
+      = render 'recommendations/recommendation', recommendation: recommendation, id: "recommendation_number_#{index}", group_context: true

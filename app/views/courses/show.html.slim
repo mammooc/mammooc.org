@@ -1,5 +1,5 @@
 - content_for :title
-  = @course.name + ' | mammooc'
+  = "#{@course.name} | #{t('global.app_name')}"
 
 - content_for :content
 
@@ -18,36 +18,41 @@
           = @course.course_instructors
         p
         img src="/data/icons/calendar.png" class="pr5" style="height:18px"
-        - if @course.start_date && @course.end_date
+        - if @course.start_date
+          - if @course.end_date
+            - if @course.start_date < Date.today and Date.today < @course.end_date
+              = t('courses.already_running')
           - if @course.start_date > Date.today
             => t('courses.starting_soon')
-            = @course.start_date.strftime("%d.%m.%Y")
+            = I18n.l @course.start_date, format: t('global.date_format_month')
           - elsif @course.start_date == Date.today
             = t('courses.starts_today')
-          - elsif @course.start_date < Date.today and @course.end_date < Date.today
-            => t('courses.already_running')
-          - else
+          - elsif @course.end_date
             => t('courses.course_dates')
-            = @course.start_date.strftime("%d.%m.%Y") + ' - ' + @course.end_date.strftime("%d.%m.%Y")
-        - elsif @course.start_date
-          = @course.start_date
+            = I18n.l @course.start_date, format: t('global.date_format_month') + ' - '
+            = I18n.l @course.end_date, format: t('global.date_format_month')
+          - else
+            => t('courses.starting_time')
+            = I18n.l @course.start_date, format: t('global.date_format_month')
         - else
           = t('courses.no_dates_available')
+
+
         p
         - if @course.language
           img src="/data/icons/globe.png" class="pr5" style="height:18px"
           = @course.language
       .options
-        img src="/data/logo-openSAP.png"
+        img src=@provider_logos[@course.mooc_provider.logo_id]
     .subnav
       a class="entry" href=''
         = t('courses.remember_course')
       - if user_signed_in?
         - if current_user.courses.include? @course
-          a class="entry" href='' id='unenroll-course-link' data-course-id='#{@course.id}'
+          a class="entry" href='' id='unenroll-course-link' data-course_id='#{@course.id}'
             = t('courses.unenroll_course')
         - else
-          a class="entry" href='' id='enroll-course-link' data-course-id='#{@course.id}'
+          a class="entry" href='' id='enroll-course-link' data-course_id='#{@course.id}'
             = t('courses.enroll_course')
       - else
         a class="entry" href=new_user_session_path
@@ -61,7 +66,7 @@
 
     .collapse id="recommend-course" role="tabpanel" aria-labelledby="courses-subnav-recommend"
       .collapse-subnav
-        = render 'recommendation'
+        = render 'recommendations/form'
 
     .collapse id="rate-course" role="tabpanel" aria-labelledby="courses-subnav-rate"
       .collapse-subnav
@@ -89,56 +94,11 @@
   - if @recommendations.present?
     .course-details id="course-recommendations"
       .title
-        = t('courses.recommendations')
+        => t('courses.recommendations')
+        = "(#{@recommendations_total})"
       .content
-        - @recommendations.each_with_index do |recommendation, index|
-          .recommendation-small
-            .user-info
-              = link_to recommendation.author
-                - if recommendation.author.profile_image_id
-                  img src=recommendation.author.profile_image_id
-                - else
-                  img src="/data/default.png"
-              .name
-                = link_to recommendation.author
-                  = "#{recommendation.author.first_name} #{recommendation.author.last_name}"
-                .small
-                  = t('courses.user_belongs_to_group')
-                  | openHPI
-              .pull-right.small
-                // TODO : put label or something nice instead of text
-                - if recommendation.group.present?
-                  - if recommendation.is_obligatory
-                    .participation-obligatory
-                      => t('recommendation.group.obligatory')
-                      = link_to recommendation.group.name, group_path(recommendation.group)
-                  - else
-                    .participation-recommended
-                      => t('recommendation.group.recommended')
-                      = link_to recommendation.group.name, group_path(recommendation.group)
-                - else
-                  - if recommendation.is_obligatory
-                    .participation-obligatory
-                      = t('recommendation.obligatory')
-                  - else
-                    .participation-recommended
-                      = t('recommendation.recommended')
-            .comment
-              - if recommendation.text.empty?
-                - if recommendation.group.present?
-                  - if recommendation.is_obligatory
-                    =< t('recommendation.group.has_pledged')
-                  - else
-                    =< t('recommendation.group.has_recommended')
-                - else
-                  - if recommendation.is_obligatory
-                    =< t('recommendation.has_pledged')
-                  - else
-                    =< t('recommendation.has_recommended')
-              - else
-                = "\"#{recommendation.text}\""
-          - if index < @recommendations.size - 1
-            .gradient-divider
+        div id="recommendation-list"
+          = render 'recommendations'
 
   .course-details
     .title

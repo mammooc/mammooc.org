@@ -1,35 +1,38 @@
+# -*- encoding : utf-8 -*-
 require 'rails_helper'
 
-RSpec.describe "dashboard/dashboard.html.slim", :type => :view do
-
+RSpec.describe 'dashboard/dashboard.html.slim', type: :view do
   let(:user) { FactoryGirl.create(:user) }
   let(:course) { FactoryGirl.create(:full_course) }
   let(:second_course) { FactoryGirl.create(:full_course) }
-  let(:recommendation) { FactoryGirl.create(:user_recommendation)}
+  let(:recommendation) { FactoryGirl.create(:user_recommendation) }
 
   before(:each) do
     assign(:groups, [
-                      Group.create!(
-                          name: "Name",
-                          imageId: "Image",
-                          description: "MyText",
-                          primary_statistics: ""
-                      ),
-                      Group.create!(
-                          name: "Name",
-                          imageId: "Image",
-                          description: "MyText",
-                          primary_statistics: ""
-                      )
-                  ])
+      Group.create!(
+        name: 'Name',
+        image_id: 'Image',
+        description: 'MyText',
+        primary_statistics: ''
+      ),
+      Group.create!(
+        name: 'Name',
+        image_id: 'Image',
+        description: 'MyText',
+        primary_statistics: ''
+      )
+    ])
     assign(:courses, [
-                      FactoryGirl.create(:full_course),
-                      FactoryGirl.create(:full_course)
-                   ])
+      FactoryGirl.create(:full_course),
+      FactoryGirl.create(:full_course)
+    ])
     @recommendations = [recommendation]
     sign_in user
     user.courses << course
     user.courses << second_course
+
+    @provider_logos = {}
+    @profile_pictures = {}
   end
 
   it 'renders my enrollments' do
@@ -39,9 +42,9 @@ RSpec.describe "dashboard/dashboard.html.slim", :type => :view do
 
   it 'renders a list of groups' do
     render
-    assert rendered, text: "Name".to_s, count: 2
-    assert rendered, text: "Image".to_s, count: 2
-    assert rendered, text: "MyText".to_s, count: 2
-    assert rendered, text: "".to_s, count: 2
+    assert rendered, text: 'Name'.to_s, count: 2
+    assert rendered, text: 'Image'.to_s, count: 2
+    assert rendered, text: 'MyText'.to_s, count: 2
+    assert rendered, text: ''.to_s, count: 2
   end
 end

@@ -21,7 +21,8 @@
 
 en:
   global:
-    require_login: You must be logged in to access this section
+    app_name: mammooc
+    require_login: You must be logged in to access this section.
     close: Close
     submit: Submit
     cancel: Cancel
@@ -30,9 +31,39 @@ en:
     show_more: Show more
     show_less: Show less
     show_details: Show details
+    date_format_month: '%B %-d, %Y'
+
+  will_paginate:
+    previous_label: '&#171; Previous'
+    next_label: 'Next &#187;'
+
+  language:
+    english: English
+    german: German
+    french: French
+    spanish: Spanish
+    arabic: Arabic
+    italian: Italian
+    chinese: Chinese
+    portuguese: Portuguese
+    russian: Russian
+    swedish: Swedisch
+    hebrew: Hebrew
+    romanian: Romanian
+    greek: Griechisch
+    filipino: Filipino
+    ukrainian: Ukrainian
+    vietnamese: Vietnamese
+    turkish: Turkish
+    lithuanian: Lithuanian
+    kazakh: Kazakh
+    serbian: Serbian
+    korean: Korean
+    japanese: Japanese
+    dutch: Dutch
+    indonesian: Indonesian
 
   navbar:
-    mammooc: mammooc
     home: Home
     courses: Courses
     about: About us
@@ -40,6 +71,7 @@ en:
     sign_out: Sign Out
     dashboard: Dashboard
     profile: Profile
+    settings: Settings
     welcome_heading: Welcome to mammooc!
 
   dashboard:
@@ -52,6 +84,7 @@ en:
     no_courses: :courses.no_courses
     recommendations: :recommendation.your_recommendations
     recommendations_with_quantity: :recommendation.your_recommendations_with_quantity
+    search_course: Search for courses
 
   home:
     welcome_heading: Welcome to mammooc!
@@ -69,6 +102,7 @@ en:
       characters_minimum: characters minimum
       password: Password
       password_confirmation: Re-enter password
+      current_password: Current Password
       terms_and_conditions_confirmation: I confirm to mammooc's terms and conditions.
       remember_me: Keep me logged in
       sign_in_link: Already signed up? Click here to log in.
@@ -78,6 +112,27 @@ en:
     password:
       forgot: Forgot your password?
       reset: Reset my password
+    settings:
+      heading: :navbar.settings
+      mooc_provider: MOOC Provider
+      account: Account
+      mooc_provider_connection: MOOC Provider Connection
+      email: :users.sign_in_up.email
+      enter_mail: Enter email
+      password: :users.sign_in_up.password
+      password_confirmation: :users.sign_in_up.password_confirmation
+      password_confirmation_info: (we need your current password to confirm your changes)
+      new_password: New Password
+      new_password_confirmation: Confirm new Password
+      new_password_info: (leave blank if you don't want to change it)
+      cancel_account: Cancel my account
+      update_account: Update
+      pending_mail_confirmation: 'Currently waiting confirmation for:'
+      still_admin_in_group_error: Account could not be deleted, since you are still an administrator in a group.
+    synchronization:
+      oauth_error: Sorry! We were unable to establish a connection to your account. Please check your settings and try again.
+      revoke_provider_connection: Revoke connection
+      establish_provider_connection: Establish connection
 
   groups:
     title: My Groups | mammooc
@@ -172,6 +227,7 @@ en:
     mooc_provider: MOOC Provider
     instructors: Instructors
     time: Time
+    starting_time: Starting Time
     language: Language
     requirements: Requirements
     achievement: Type of Achievement
@@ -198,21 +254,114 @@ en:
     enrollment_error: Sorry, the enrollment for this course has failed.
     unenrollment_error: Sorry, the unenrollment for this course has failed.
     sidebar:
-      recommended_by: Recommended to you by
+      recommended: Someone recommended this course to you
+      pledged: Someone wants to see you doing this course
       details: Course Details
-      
+    tracks:
+      headline: Tracks
+      types:
+        type_of_achievement: Type of Achievement
+        costs: Costs
+        credit_points: ECTS Points
+        achievement_types:
+          openhpi_record_of_achievement: Record of Achievement
+          iversity_record_of_achievement: :courses.tracks.types.achievement_types.openhpi_record_of_achievement
+          nothing: No certificate
+          certificate: Certificate
+          iversity_certificate: :courses.tracks.types.achievement_types.certificate
+          iversity_ects: ECTS points
+          coursera_verified_certificate: Verified Certificate
+          edx_verified_certificate: :courses.tracks.types.achievement_types.coursera_verified_certificate
+          edx_xseries_certificate: edX XSeries Certificate
+          edx_profed_certificate: edX Professional Education Certificate
+          udacity_nothing: No certificate
+          udacity_verified_certificate: Verified Certificate
+    filter:
+      all: All
+      duration:
+        short: shorter than 5 weeks
+        short_medium: 5 till 6 weeks
+        medium: 7 till 8 weeks
+        medium_long: 9 till 12 weeks
+        long: more than 12 weeks
+      start:
+        now: currently active
+        past: already fnished
+        soon: starts during next two weeks
+        future: starts in the future
+      costs:
+        free: free
+        range1: '< 30'
+        range2: 30-60
+        range3: 60-90
+        range4: 90-150
+        range5: 150-200
+        range6: '> 200'
+      labels:
+        starts_after: Course starts after
+        ends_before: Course ends before
+        language: Language
+        provider: Platform
+        subtitle_language: Subtitles
+        duration: Duration
+        start_categories: Time Status
+        costs: Price
+        certificate: Type of Certificate
+        sort: Sorted by
+      sort:
+        start_date_asc: Start date newest first
+        duration_desc: Duration decending
+        duration_asc: Duration ascending
+        name_desc: Title (z-a)
+        name_asc: Title (a-z)
+
+    languages:
+      ar: Arabic
+      cn: Chinese
+      de: German
+      el: Greek
+      en: English
+      es: Spanish
+      fil: Philippine languages
+      fr: French
+      he: Hebrew
+      id: Indonesian
+      it: Italian
+      ja: Japanese
+      kk: Kazakh
+      ko: Korean
+      lt: Lithuanian
+      nl: Dutch
+      pt: Portuguese
+      pt-br: Portuguese (Brasil)
+      ro: Romanian
+      ru: Russian
+      sr: Serbian
+      tr: Turkish
+      uk: Ukrainian
+      vi: Vietnamese
+      zh: Chinese
+      zh-cn: Chinese (China)
+      zh-tw: Chinese (Taiwan)
+
   recommendation:
     placeholder: Enter your personal message here ...
     new: New recommendation
     related_course: course
     related_users: users
     related_groups: groups
-    obligatory: mandatory for you
-    recommended: recommended to you
+    obligatory: mandatory
+    recommended: recommended
+    obligatory_for: mandatory for you
+    recommended_for: recommended to you
+    obligatory_course_for_you: made this course mandatory for you
+    recommended_course_to_you: recommended this course to you
     your_recommendations: Your Recommendations
     your_recommendations_with_quantity: Your Recommendations (%{number})
+    for_you: to you
+    for_group: to group
     has_pledged: expects you to enroll in this course.
-    has_recommended: has recommmended this course to you.
+    has_recommended: has recommended this course to you.
     pledged_by: participation made mandatory by
     recommended_by: recommended by
     no_recommendation: You don't have any recommendations right now.
@@ -221,12 +370,20 @@ en:
     successfully_destroyed: Recommendation was successfully destroyed.
     creation_error: Error on creation.
     update_error: Error on update.
+
+    button:
+      ignore: Ignore recommendation
+      course_details: View details
     group:
+      no_recommendation: This group doesn't have any recommendations right now.
       has_pledged:  expects enrollment in this course.
       has_recommended: has recommmended this course.
-      no_recommendation: This group doesn't have any recommendations right now.
-      obligatory: mandatory for
-      recommended: recommended to
+      obligatory_for: mandatory for
+      recommended_for: recommended to
+      obligatory_course_for: made this course mandatory for
+      recommended_course_to: recommended this course to
+    course:
+      already_enrolled: You are already enrolled for this course.
 
   flash:
     #success:
@@ -235,6 +392,9 @@ en:
         successfully_created: Group was successfully created.
         successfully_updated: Group was successfully updated.
         successfully_destroyed: Group was successfully destroyed.
+      users:
+        successfully_updated: User was successfully updated.
+        successfully_destroyed: User was successfully destroyed.
     error:
       taken: has already been taken.
       blank: has to be filled in.
@@ -301,12 +461,15 @@ en:
   unauthorized:
     create:
       recommendation: You need to be member of a group to create a recommendation.
+      user: You are not able to create a new user.
     new:
       recommendation: :unauthorized.create.recommendation
     show:
       group: You do not have access to this group.
+      user: You do not have access to this user.
     edit:
       group: You are not able to edit this group.
+      user: You are not able to edit this user.
     members:
       group: :unauthorized.show.group
     admins:
@@ -317,8 +480,10 @@ en:
       group: :unauthorized.show.group
     update:
       group: :unauthorized.edit.group
+      user: :unauthorized.edit.user
     destroy:
       group: :unauthorized.edit.group
+      user: You are not able to destroy this user.
     invite_group_members:
       group: :unauthorized.edit.group
     add_administrator:
@@ -335,3 +500,4 @@ en:
       group: :unauthorized.show.group
     index:
       recommendations: You are not allowed to access any recommendations.
+      user: You are not allowed to access any users.

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150421094231) do
+ActiveRecord::Schema.define(version: 20150512135352) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,6 +108,23 @@ ActiveRecord::Schema.define(version: 20150421094231) do
     t.datetime "updated_at",    null: false
   end
 
+  create_table "course_track_types", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.string "type_of_achievement", null: false
+    t.string "title",               null: false
+    t.text   "description"
+  end
+
+  create_table "course_tracks", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.float  "costs"
+    t.string "costs_currency"
+    t.uuid   "course_track_type_id"
+    t.uuid   "course_id"
+    t.float  "credit_points"
+  end
+
+  add_index "course_tracks", ["course_id"], name: "index_course_tracks_on_course_id", using: :btree
+  add_index "course_tracks", ["course_track_type_id"], name: "index_course_tracks_on_course_track_type_id", using: :btree
+
   create_table "courses", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name",                        null: false
     t.string   "url",                         null: false
@@ -117,16 +134,12 @@ ActiveRecord::Schema.define(version: 20150421094231) do
     t.string   "videoId"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.float    "costs"
-    t.string   "type_of_achievement"
     t.string   "difficulty"
     t.string   "provider_course_id",          null: false
     t.uuid     "mooc_provider_id",            null: false
     t.uuid     "course_result_id"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
-    t.float    "credit_points"
-    t.string   "price_currency"
     t.string   "categories",                               array: true
     t.string   "requirements",                             array: true
     t.string   "course_instructors"
@@ -138,8 +151,6 @@ ActiveRecord::Schema.define(version: 20150421094231) do
     t.string   "subtitle_languages"
     t.integer  "calculated_duration_in_days"
     t.string   "provider_given_duration"
-    t.boolean  "has_paid_version"
-    t.boolean  "has_free_version"
   end
 
   add_index "courses", ["course_result_id"], name: "index_courses_on_course_result_id", using: :btree
@@ -149,16 +160,6 @@ ActiveRecord::Schema.define(version: 20150421094231) do
     t.uuid "course_id"
     t.uuid "user_id"
   end
-
-  create_table "emails", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.string   "address"
-    t.boolean  "is_primary"
-    t.uuid     "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "emails", ["user_id"], name: "index_emails_on_user_id", using: :btree
 
   create_table "evaluations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "title"
@@ -188,7 +189,7 @@ ActiveRecord::Schema.define(version: 20150421094231) do
 
   create_table "groups", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name"
-    t.string   "imageId"
+    t.string   "image_id"
     t.text     "description"
     t.string   "primary_statistics",              array: true
     t.datetime "created_at",         null: false
@@ -198,21 +199,25 @@ ActiveRecord::Schema.define(version: 20150421094231) do
   create_table "mooc_provider_users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "user_id"
     t.uuid     "mooc_provider_id"
-    t.string   "authentication_token"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "refresh_token"
+    t.string   "access_token"
+    t.datetime "access_token_valid_until"
   end
 
   add_index "mooc_provider_users", ["mooc_provider_id"], name: "index_mooc_provider_users_on_mooc_provider_id", using: :btree
+  add_index "mooc_provider_users", ["user_id", "mooc_provider_id"], name: "index_mooc_provider_users_on_user_id_and_mooc_provider_id", unique: true, using: :btree
   add_index "mooc_provider_users", ["user_id"], name: "index_mooc_provider_users_on_user_id", using: :btree
 
   create_table "mooc_providers", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "logo_id"
-    t.string   "name",        null: false
+    t.string   "name",              null: false
     t.string   "url"
     t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "api_support_state"
   end
 
   add_index "mooc_providers", ["name"], name: "index_mooc_providers_on_name", unique: true, using: :btree
@@ -272,6 +277,17 @@ ActiveRecord::Schema.define(version: 20150421094231) do
   add_index "user_assignments", ["course_id"], name: "index_user_assignments_on_course_id", using: :btree
   add_index "user_assignments", ["user_id"], name: "index_user_assignments_on_user_id", using: :btree
 
+  create_table "user_emails", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.string   "address"
+    t.boolean  "is_primary"
+    t.uuid     "user_id"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.boolean  "is_verified", default: false, null: false
+  end
+
+  add_index "user_emails", ["user_id"], name: "index_user_emails_on_user_id", using: :btree
+
   create_table "user_groups", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.boolean  "is_admin",   default: false
     t.uuid     "user_id"
@@ -283,6 +299,16 @@ ActiveRecord::Schema.define(version: 20150421094231) do
   add_index "user_groups", ["group_id"], name: "index_user_groups_on_group_id", using: :btree
   add_index "user_groups", ["user_id"], name: "index_user_groups_on_user_id", using: :btree
 
+  create_table "user_identities", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.uuid     "user_id"
+    t.string   "omniauth_provider"
+    t.string   "provider_user_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "user_identities", ["user_id"], name: "index_user_identities_on_user_id", using: :btree
+
   create_table "users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "first_name"
     t.string   "last_name"
@@ -290,21 +316,20 @@ ActiveRecord::Schema.define(version: 20150421094231) do
     t.string   "profile_image_id"
     t.json     "email_settings"
     t.text     "about_me"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
+    t.boolean  "password_autogenerated", default: false, null: false
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "approvals", "users"
@@ -319,9 +344,10 @@ ActiveRecord::Schema.define(version: 20150421094231) do
   add_foreign_key "course_requests", "courses"
   add_foreign_key "course_requests", "groups"
   add_foreign_key "course_requests", "users"
+  add_foreign_key "course_tracks", "course_track_types"
+  add_foreign_key "course_tracks", "courses"
   add_foreign_key "courses", "course_results"
   add_foreign_key "courses", "mooc_providers"
-  add_foreign_key "emails", "users"
   add_foreign_key "evaluations", "courses"
   add_foreign_key "evaluations", "users"
   add_foreign_key "group_invitations", "groups"
@@ -336,6 +362,8 @@ ActiveRecord::Schema.define(version: 20150421094231) do
   add_foreign_key "user_assignments", "course_assignments"
   add_foreign_key "user_assignments", "courses"
   add_foreign_key "user_assignments", "users"
+  add_foreign_key "user_emails", "users"
   add_foreign_key "user_groups", "groups"
   add_foreign_key "user_groups", "users"
+  add_foreign_key "user_identities", "users"
 end

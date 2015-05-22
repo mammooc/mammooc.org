@@ -1,17 +1,15 @@
 - content_for :title
-  = @group.name + ' | mammooc'
+  = "#{@group.name} | #{t('global.app_name')}"
 
 .panel.panel-default
   .panel-body
     = @group.description
 
-.panel.panel-default
-  .panel-body
-    h2
-      = t('groups.current_recommendations', complete_number: @number_of_recommendations, shown_number: @recommendations.length)
-    - if @number_of_recommendations == 0
-      = t('recommendation.group.no_recommendation')
-    - else
-      .recommendations-wrapper
-        - @recommendations.each_with_index do |recommendation, index|
-          = render 'recommendations/group_recommendation', recommendation: recommendation, id: "recommendation_number_#{index}"
+h2
+  = t('groups.current_recommendations', complete_number: @number_of_recommendations, shown_number: @recommendations.length)
+- if @number_of_recommendations == 0
+  = t('recommendation.group.no_recommendation')
+- else
+  .recommendations-wrapper
+    - @recommendations.each_with_index do |recommendation, index|
+      = render 'recommendations/recommendation', recommendation: recommendation, id: "recommendation_number_#{index}", group_context:true

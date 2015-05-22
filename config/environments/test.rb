@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -42,4 +43,7 @@ Rails.application.configure do
 
   # mail configurations
   ActionMailer::Base.delivery_method = :test
+
+  # Disable SSL for the test suite
+  config.force_ssl = false
 end

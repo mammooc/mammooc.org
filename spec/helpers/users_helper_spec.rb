@@ -1,15 +1,16 @@
+# -*- encoding : utf-8 -*-
 require 'rails_helper'
 
-# Specs in this file have access to a helper object that includes
-# the UsersHelper. For example:
-#
-# describe UsersHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       expect(helper.concat_strings("this","that")).to eq("this that")
-#     end
-#   end
-# end
-RSpec.describe UsersHelper, :type => :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+RSpec.describe UsersHelper, type: :helper do
+  it 'returns :user for resource_name' do
+    expect(resource_name).to eql :user
+  end
+
+  it 'returns @resource for a resource' do
+    expect(resource.attributes).to eq User.new.attributes
+  end
+
+  it 'returns a devise_mapping if required' do
+    expect(devise_mapping).to eql Devise.mappings[:user]
+  end
 end

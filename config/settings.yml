@@ -9,10 +9,14 @@
 
 # See https://github.com/railsconfig/rails_config for more details
 
+root_url: <%= (ENV['SUBDOMAIN'].present? ? "https://#{ENV['SUBDOMAIN']}.herokuapp.com" : 'https://localhost:3000') %>
+
 # Mailers
-sender_notification_address: mammooc <notifications@mammooc.com>
-default_hostname: mammooc-dev.herokuapp.com
+sender_notification_address: mammooc <notifications@<%= (ENV['SUBDOMAIN'].present? ? "#{ENV['SUBDOMAIN']}.herokuapp.com" : 'mammooc.org') %>>
 
 # GroupInvitation
 token_length: 16
 token_expiry_date: <%= 1.week.from_now.in_time_zone %>
+
+# Heroku Deployment with New Relic
+subdomain: <%= (ENV['SUBDOMAIN'].present? ? ENV['SUBDOMAIN'] : ENV['USER']) %>
