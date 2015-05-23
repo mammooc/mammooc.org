@@ -99,17 +99,13 @@ class User < ActiveRecord::Base
     # can be cleaned up at a later date.
     user = signed_in_resource ? signed_in_resource : identity.user
 
+    email = auth.info.email
+
     # Create the user if needed
     if user.nil?
-
-      # Get the existing user by email if the provider gives us a verified email.
-      # If no verified email was provided we assign a temporary email and ask the
-      # user to verify it on the next step via UsersController.finish_signup
-
-      email = auth.info.email
       user = User.find_by_primary_email(email) if email
 
-      # Create the user if it's a new registration
+      # We can't find a user with this email, so let's create
       if user.nil?
         first_name = auth.extra.raw_info.middle_name ? "#{auth.info.first_name} #{auth.extra.raw_info.middle_name}" : auth.info.first_name
         user = User.new(
@@ -122,10 +118,15 @@ class User < ActiveRecord::Base
         )
         user.save!
       end
-
-      email_is_verified = auth.info.email && (auth.info.verified || auth.info.verified_email)
-      UserEmail.find_by_address(user.primary_email).is_verified = true if email_is_verified
+    else
+      # existing user - do we have the email address?
+      if email && !user.emails.include?(email)
+        UserEmail.create!(user: user, address: email, is_primary: false)
+      end
     end
+
+    email_is_verified = email && (auth.info.verified || auth.info.verified_email)
+    UserEmail.find_by_address(email).is_verified = true if email_is_verified
 
     # Associate the identity with the user if needed
     if identity.user != user
