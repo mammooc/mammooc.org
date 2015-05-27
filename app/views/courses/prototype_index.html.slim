@@ -30,7 +30,29 @@
       | Kosten (aufsteigend)
 
   div id='filterrific_results' style="padding-top: 20px"
-    = render 'courses_list'
+    .courses-wrapper
+      .courses
+        = link_to 'prototype_webtech1'
+          .course-image
+            img src="/data/icons/courses-list-std.png"
+          .course-info
+            .hd6.course-name
+              | Web Technologies
+            .course-instructors
+              | von Prof. Dr. Christoph Meinel
+            .provider
+              //img für Provider einfügen
+      .courses
+        = link_to ''
+          .course-image
+            img src="/data/icons/courses-list-std.png"
+          .course-info
+            .hd6.course-name
+              | Semantic Web Technologies
+            .course-instructors
+              | von Dr. Harald Sack
+            .provider
+              //img für Provider einfügen
 
 - content_for :sidebar
-  = render 'filter'
+  = render 'prototype_filter'

@@ -1,1 +1,18 @@
-| Here comes the rating form.
+| Wie viele Sterne möchtest du diesem Kurs geben?
+select.form-control
+  option
+    | 5
+  option
+    | 4
+  option
+    | 3
+  option
+    | 2
+  option
+    | 1
+br
+| Bitte sag uns, was du über diesen Kurs denkst:
+textarea.form-control rows="3"
+br
+button.btn.btn-default type="submit" onClick="alert('Erfolgreich Bewertung abgegeben')"
+  | Bewertung abgeben

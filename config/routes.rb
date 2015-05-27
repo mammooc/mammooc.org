@@ -53,6 +53,11 @@ Rails.application.routes.draw do
 
   resources :users, except: [:new, :create, :index]
 
+  ### Prototype
+  get 'courses/prototype_index' => 'courses#prototype_index'
+  get 'courses/prototype_webtech1' => 'courses#prototype_webtech1'
+  ###
+
   get 'dashboard/dashboard'
 
   get 'home/index'

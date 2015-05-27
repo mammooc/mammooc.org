@@ -1,0 +1,98 @@
+- content_for :title
+  = "#{t('global.app_name')}"
+
+- content_for :content
+
+  .course-infobox
+    .wrapper
+      .course-image
+        img src="/data/icons/courses-list-std.png"
+      .content
+        .title
+          = link_to ''
+            | Web Technologies
+        // TODO : Include Rating (stars + number of ratings)
+        = t('global.by')
+        | Prof. Dr. Matthias Müller
+        p
+        img src="/data/icons/calendar.png" class="pr5" style="height:18px"
+        | Kurs beginnt am 17. Juni 2015
+
+        p
+        img src="/data/icons/globe.png" class="pr5" style="height:18px"
+        | Deutsch
+      .options
+        // Provider Logo
+    .subnav
+      a class="entry" href='' onClick="alert('Kurs zu Vormerkungen hinzugefügt')"
+        = t('courses.remember_course')
+      a class="entry" href='' id='enroll-course-link' onClick="alert('Kurs zu Belegungen hinzugefügt')"
+        = t('courses.enroll_course')
+      div role="tab" id="courses-subnav-recommend"
+        a class="entry" data-toggle="collapse" href="#recommend-course" id="recommend-course-link" aria-expanded="false" aria-controls="recommend-course"
+          = t('courses.recommend_course')
+      div role="tab" id="courses-subnav-rate"
+        a class="entry" data-toggle="collapse" href="#rate-course" id="rate-course-link" aria-expanded="false" aria-controls="rate-course"
+          = t('courses.rate_course')
+
+    .collapse id="recommend-course" role="tabpanel" aria-labelledby="courses-subnav-recommend"
+      .collapse-subnav
+        = render 'recommendations/prototype_form'
+
+    .collapse id="rate-course" role="tabpanel" aria-labelledby="courses-subnav-rate"
+      .collapse-subnav
+        = render 'rating'
+
+  - if true
+    .course-details id="course-description"
+      .about
+        .title
+          = t('courses.about')
+        .content
+          - if true
+            .hd4
+              = t('courses.description')
+            p
+              | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin finibus, elit sit amet pharetra laoreet, orci tortor rhoncus ipsum, convallis sagittis nisi metus nec nunc. Nam faucibus quis lorem ut euismod. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque ac rutrum urna. Suspendisse sit amet rhoncus ipsum. Donec convallis mi id eros malesuada feugiat. Vestibulum sit amet odio vulputate, mattis ante fermentum, dignissim nisl. Cras sollicitudin posuere dolor in congue. Sed sed lectus ex. Cras consectetur rhoncus nunc, sit amet hendrerit nibh tempus nec. Nunc mauris dui, vestibulum porttitor dictum non, consequat sit amet justo. Mauris ultricies augue diam, a pretium felis blandit eget. Nunc at venenatis ante.
+
+                Sed mollis at magna convallis mattis. Vivamus sapien orci, consequat ut nulla nec, convallis aliquet libero. Pellentesque imperdiet odio sed nisi blandit, eget pellentesque eros condimentum. Sed sodales lobortis metus ut efficitur. Etiam sodales suscipit arcu, id vulputate enim auctor fringilla. Pellentesque non blandit sem, eu venenatis nisl. Nullam posuere tortor volutpat molestie sagittis. Fusce ac justo eget nulla vulputate luctus. Curabitur rutrum, eros ac varius venenatis, mauris justo auctor nibh, vel consequat erat ex quis orci. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+
+                Suspendisse vel enim eget felis porta mollis. Maecenas ut posuere metus, sit amet pretium turpis. Aenean ultricies eget elit in mollis. Suspendisse risus augue, molestie ut odio quis, maximus elementum tellus. Nam malesuada lectus turpis, sed hendrerit augue cursus vitae. Pellentesque auctor sapien vitae efficitur pretium. Etiam fermentum justo at purus sodales tristique. Etiam maximus nisl vitae pulvinar commodo. Ut sem lectus, tincidunt ac urna id, faucibus ultricies massa. Cras ligula mi, scelerisque at neque luctus, dignissim bibendum erat. Nam fermentum vel tellus ut pharetra. Pellentesque hendrerit sem vel dui eleifend euismod. Donec nec bibendum purus.
+
+                Nulla eget fermentum diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Curabitur rhoncus posuere purus dictum varius. Etiam gravida egestas nibh eu mattis. Cras malesuada, ligula tristique placerat tempor, ex nunc rutrum purus, et finibus nunc metus ac urna. Integer sodales sagittis mi ac gravida. Nam bibendum ante ut est aliquam, quis pulvinar velit facilisis. Praesent feugiat metus est, a commodo elit pharetra a. Sed maximus dignissim libero, quis rutrum felis viverra ornare. Ut dictum massa ex, quis laoreet augue consectetur sed. Etiam blandit blandit elit, at tincidunt sem venenatis et. Donec nunc magna, tempor vel est ac, commodo consectetur nibh. Curabitur velit augue, blandit in tempor ut, maximus at odio. Integer eget mauris rutrum, rhoncus magna eget, laoreet risus. Quisque vitae mauris laoreet, lobortis nisi sed, dapibus leo.
+        a class="show-more" id="course-description-show-more" style="display: none"
+          = t('global.show_more')
+
+  - if true
+    .course-details id="course-recommendations"
+      .title
+        => t('courses.recommendations')
+        | (132)
+      .content
+        div id="recommendation-list"
+          .recommendation-small
+            .user-info
+              = link_to ''
+                img src=''
+                .name
+                .author
+                  = link_to ''
+                    | Vorname Nachname
+                    br
+                    | Gemeinsame Gruppen:
+                  .to-whom
+                    => t('recommendation.group.recommended_course_to')
+                    | Gruppe XY
+                | Datum
+            .comment
+              | Kommentar
+          .gradient-divider
+
+  .course-details
+    .title
+      = t('courses.rating')
+    .content
+      | blablabla
+
+/- content_for :sidebar
+/  = render 'sidebar'

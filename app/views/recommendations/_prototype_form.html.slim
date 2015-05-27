@@ -1,0 +1,19 @@
+form.form-horizontal
+  .form-group
+    label.col-sm-2.control-label
+      = t('recommendation.related_groups')
+    .col-sm-10
+      input.form-control
+  .form-group
+    label.col-sm-2.control-label
+      = t('recommendation.related_users')
+    .col-sm-10
+      input.form-control
+  .form-group
+    label.col-sm-2.control-label
+      | Optional: Text
+    .col-sm-10
+      textarea.form-control rows="3"
+  br
+  button.btn.btn-default onClick="alert('Kurs erfolgreich empfohlen')"
+    | Empfehlen
