@@ -36,6 +36,27 @@ class Course < ActiveRecord::Base
   after_save :create_and_update_course_connections
   before_destroy :delete_dangling_course_connections
 
+  #scope  :order_by_relevance, -> { order(order_relevance) }
+
+  def self.order_relevance
+    if self.name == 'Intro to Java Programming'
+      return 1
+    elsif self.name == 'ABAP Development for SAP HANA'
+      return 2
+    else
+      return 3
+    end
+    # if courses.start_date == Date.today
+    #   return 1
+    # elsif courses.start_date > Date.today && Date.today + 2.weeks
+    #   return 2
+    # elsif courses.start_date > Date.today
+    #   return 3
+    # else
+    #   return 4
+    # end
+  end
+
   scope :sorted_by, ->(sort_option) do
     direction = (sort_option =~ /desc$/) ? 'desc' : 'asc'
     case sort_option.to_s
@@ -45,10 +66,15 @@ class Course < ActiveRecord::Base
         order("courses.start_date #{direction}")
       when /^duration_/
         order("courses.calculated_duration_in_days #{direction}")
+      when /^relevance_/
+        order("CASE WHEN start_date IS NULL THEN 5 WHEN start_date = to_timestamp(#{Time.zone.now.strftime('%Y-%m-%d')}) THEN 1 WHEN start_date > to_timestamp(#{Time.zone.now.strftime('%Y-%m-%d')}) THEN 2 WHEN start_date < to_timestamp(#{Time.zone.now.strftime('%Y-%m-%d')}) THEN 3 END")
+        #order("CASE WHEN start_date = to_timestamp(#{Time.zone.now.strftime('%Y-%m-%d')}) THEN 1 WHEN start_date < to_timestamp(#{Time.zone.now.strftime('%Y-%m-%d')}) AND end_date IS NOT NULL AND end_date > to_timestamp(#{Time.zone.now.strftime('%Y-%m-%d')}) THEN 2 WHEN start_date > to_timestamp(#{Time.zone.now.strftime('%Y-%m-%d')}) AND start_date < to_timestamp(#{(Time.zone.now + 2.weeks).strftime('%Y-%m-%d')}) THEN 3 WHEN start_date IS NULL THEN 5 ELSE 4 END")
       else
         raise ArgumentError.new "Invalid sort option: #{ sort_option.inspect }"
     end
   end
+
+
 
   scope :search_query, ->(query) do
     return nil  if query.blank?
@@ -238,7 +264,8 @@ class Course < ActiveRecord::Base
      [I18n.t('courses.filter.sort.duration_desc'), 'duration_desc'],
      [I18n.t('courses.filter.sort.duration_asc'), 'duration_asc'],
      [I18n.t('courses.filter.sort.name_desc'), 'name_desc'],
-     [I18n.t('courses.filter.sort.name_asc'), 'name_asc']]
+     [I18n.t('courses.filter.sort.name_asc'), 'name_asc'],
+     [I18n.t('courses.filter.sort.relevance'), 'relevance_asc']]
   end
 
   self.per_page = 10
