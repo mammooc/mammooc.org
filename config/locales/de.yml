@@ -314,6 +314,7 @@ de:
         duration_asc: Dauer - aufsteigend
         name_desc: Titel (z-a)
         name_asc: Titel (a-z)
+        relevance: Relevanz
     languages:
       ar: Arabisch
       cn: Chinesisch

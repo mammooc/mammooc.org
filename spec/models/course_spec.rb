@@ -117,34 +117,44 @@ RSpec.describe Course, type: :model do
 
   describe 'scopes for filtering' do
     context 'sorted_by' do
-      let!(:course_one) { FactoryGirl.create(:course, name: 'AAA', calculated_duration_in_days: 800, start_date: Time.zone.parse('03.04.2012')) }
-      let!(:course_two) { FactoryGirl.create(:course, name: 'ZZZ', calculated_duration_in_days: 60, start_date: Time.zone.parse('03.04.2015')) }
-      let!(:course_three) { FactoryGirl.create(:course, name: 'CCC', calculated_duration_in_days: 80, start_date: Time.zone.parse('03.04.2016')) }
+
+      let!(:course_today) { FactoryGirl.create(:course, name: 'AAA', calculated_duration_in_days: 800, start_date: Time.zone.now) }
+      let!(:course_soon) { FactoryGirl.create(:course, name: 'ZZZ', calculated_duration_in_days: 60, start_date: Time.zone.now + 1.weeks) }
+      let!(:course_current) { FactoryGirl.create(:course, name: 'CCC', start_date: Time.zone.now - 1.weeks, end_date: Time.zone.now + 1.weeks) } #calculated_duration_in_days will be 14
+      let!(:course_past) { FactoryGirl.create(:course, name: 'BBB', start_date: Time.zone.now - 4.weeks, end_date: Time.zone.now - 1.weeks) } #calculated_duration_in_days will be 21
+      let!(:course_without_dates) { FactoryGirl.create(:course, name: 'FFF', start_date: nil, end_date: nil) }
+
 
       it 'sorts for name asc' do
         result = described_class.sorted_by('name_asc')
-        expect(result).to match([course_one, course_three, course_two])
+        expect(result).to match([course_today, course_past, course_current, course_without_dates, course_soon])
       end
 
       it 'sorts for name desc' do
         result = described_class.sorted_by('name_desc')
-        expect(result).to match([course_two, course_three, course_one])
+        expect(result).to match([course_soon, course_without_dates, course_current, course_past, course_today])
       end
 
       it 'sorts for duration asc' do
         result = described_class.sorted_by('duration_asc')
-        expect(result).to match([course_two, course_three, course_one])
+        expect(result).to match([course_current, course_past, course_soon, course_today, course_without_dates])
       end
 
       it 'sorts for duration desc' do
         result = described_class.sorted_by('duration_desc')
-        expect(result).to match([course_one, course_three, course_two])
+        expect(result).to match([course_today, course_soon, course_past, course_current, course_without_dates])
       end
 
       it 'sorts for start_date' do
         result = described_class.sorted_by('start_date_asc')
-        expect(result).to match([course_one, course_two, course_three])
+        expect(result).to match([course_past, course_current, course_today, course_soon, course_without_dates])
       end
+
+      it 'show courses starts today first' do
+        result = described_class.sorted_by('relevance_asc')
+        expect(result).to match([course_today, course_soon, course_current, course_past, course_without_dates])
+      end
+
     end
 
     context 'search query' do
