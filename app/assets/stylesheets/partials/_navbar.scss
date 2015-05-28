@@ -6,6 +6,14 @@
   margin-bottom: 0px !important;
 }
 
+/* Brand Logo */
+
+nav .navbar-header img {
+  width: 150px;
+  margin-right: 15px;
+  margin-top: -4px;
+}
+
 /* Special class on .container surrounding .navbar, used for positioning it into place. */
 .navbar-wrapper {
   position: absolute;

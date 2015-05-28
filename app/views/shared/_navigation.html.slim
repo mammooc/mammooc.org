@@ -8,9 +8,11 @@ nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
         span.icon-bar
         span.icon-bar
       - if user_signed_in?
-        = link_to t('global.app_name'), dashboard_path, :class => "navbar-brand"
+        = link_to dashboard_path, :class => "navbar-brand"
+          = image_tag("mammooc-logo.png")
       - else
-        = link_to t('global.app_name'), home_index_path, :class => "navbar-brand"
+        = link_to home_index_path, :class => "navbar-brand"
+          = image_tag("mammooc-logo.png")
     .collapse.navbar-collapse id="navbar"
       ul.nav.navbar-nav.navbar-right
         li class=('active' if current_page?(home_index_path) || current_page?(root_path))
