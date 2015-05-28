@@ -117,13 +117,11 @@ RSpec.describe Course, type: :model do
 
   describe 'scopes for filtering' do
     context 'sorted_by' do
-
       let!(:course_today) { FactoryGirl.create(:course, name: 'AAA', calculated_duration_in_days: 800, start_date: Time.zone.now) }
       let!(:course_soon) { FactoryGirl.create(:course, name: 'ZZZ', calculated_duration_in_days: 60, start_date: Time.zone.now + 1.weeks) }
-      let!(:course_current) { FactoryGirl.create(:course, name: 'CCC', start_date: Time.zone.now - 1.weeks, end_date: Time.zone.now + 1.weeks) } #calculated_duration_in_days will be 14
-      let!(:course_past) { FactoryGirl.create(:course, name: 'BBB', start_date: Time.zone.now - 4.weeks, end_date: Time.zone.now - 1.weeks) } #calculated_duration_in_days will be 21
+      let!(:course_current) { FactoryGirl.create(:course, name: 'CCC', start_date: Time.zone.now - 1.weeks, end_date: Time.zone.now + 1.weeks) } # calculated_duration_in_days will be 14
+      let!(:course_past) { FactoryGirl.create(:course, name: 'BBB', start_date: Time.zone.now - 4.weeks, end_date: Time.zone.now - 1.weeks) } # calculated_duration_in_days will be 21
       let!(:course_without_dates) { FactoryGirl.create(:course, name: 'FFF', start_date: nil, end_date: nil) }
-
 
       it 'sorts for name asc' do
         result = described_class.sorted_by('name_asc')
@@ -154,7 +152,6 @@ RSpec.describe Course, type: :model do
         result = described_class.sorted_by('relevance_asc')
         expect(result).to match([course_today, course_soon, course_current, course_past, course_without_dates])
       end
-
     end
 
     context 'search query' do

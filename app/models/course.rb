@@ -58,8 +58,6 @@ class Course < ActiveRecord::Base
     end
   end
 
-
-
   scope :search_query, ->(query) do
     return nil  if query.blank?
 
