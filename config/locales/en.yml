@@ -323,6 +323,7 @@ en:
         duration_asc: Duration ascending
         name_desc: Title (z-a)
         name_asc: Title (a-z)
+        relevance: Relevance
 
     languages:
       ar: Arabic
