@@ -36,27 +36,6 @@ class Course < ActiveRecord::Base
   after_save :create_and_update_course_connections
   before_destroy :delete_dangling_course_connections
 
-  #scope  :order_by_relevance, -> { order(order_relevance) }
-
-  def self.order_relevance
-    if self.name == 'Intro to Java Programming'
-      return 1
-    elsif self.name == 'ABAP Development for SAP HANA'
-      return 2
-    else
-      return 3
-    end
-    # if courses.start_date == Date.today
-    #   return 1
-    # elsif courses.start_date > Date.today && Date.today + 2.weeks
-    #   return 2
-    # elsif courses.start_date > Date.today
-    #   return 3
-    # else
-    #   return 4
-    # end
-  end
-
   scope :sorted_by, ->(sort_option) do
     direction = (sort_option =~ /desc$/) ? 'desc' : 'asc'
     case sort_option.to_s
