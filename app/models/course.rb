@@ -44,7 +44,7 @@ class Course < ActiveRecord::Base
       when /^start_date_/
         order("courses.start_date #{direction}")
       when /^duration_/
-        order("courses.calculated_duration_in_days #{direction}")
+        order("courses.calculated_duration_in_days IS NULL, courses.calculated_duration_in_days #{direction}")
       when /^relevance_/
         order("CASE
                 WHEN start_date = to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 1
