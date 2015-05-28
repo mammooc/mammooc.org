@@ -3,7 +3,7 @@
 
 class Course < ActiveRecord::Base
   filterrific(
-    default_filter_params: {sorted_by: 'name_asc'},
+    default_filter_params: {sorted_by: 'relevance_asc'},
     available_filters: [:with_start_date_gte,
                         :with_end_date_lte,
                         :with_language,
@@ -67,8 +67,13 @@ class Course < ActiveRecord::Base
       when /^duration_/
         order("courses.calculated_duration_in_days #{direction}")
       when /^relevance_/
-        order("CASE WHEN start_date IS NULL THEN 5 WHEN start_date = to_timestamp(#{Time.zone.now.strftime('%Y-%m-%d')}) THEN 1 WHEN start_date > to_timestamp(#{Time.zone.now.strftime('%Y-%m-%d')}) THEN 2 WHEN start_date < to_timestamp(#{Time.zone.now.strftime('%Y-%m-%d')}) THEN 3 END")
-        #order("CASE WHEN start_date = to_timestamp(#{Time.zone.now.strftime('%Y-%m-%d')}) THEN 1 WHEN start_date < to_timestamp(#{Time.zone.now.strftime('%Y-%m-%d')}) AND end_date IS NOT NULL AND end_date > to_timestamp(#{Time.zone.now.strftime('%Y-%m-%d')}) THEN 2 WHEN start_date > to_timestamp(#{Time.zone.now.strftime('%Y-%m-%d')}) AND start_date < to_timestamp(#{(Time.zone.now + 2.weeks).strftime('%Y-%m-%d')}) THEN 3 WHEN start_date IS NULL THEN 5 ELSE 4 END")
+        order("CASE
+                WHEN start_date = to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 1
+                WHEN start_date > to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') AND start_date < to_timestamp('#{(Time.zone.now + 2.weeks).strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 2
+                WHEN start_date < to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') AND end_date IS NOT NULL AND end_date > to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 3
+                WHEN start_date IS NULL THEN 5
+                ELSE 4
+              END")
       else
         raise ArgumentError.new "Invalid sort option: #{ sort_option.inspect }"
     end
