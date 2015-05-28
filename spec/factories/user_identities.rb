@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :user_identity do
-    user nil
-    omniauth_provider 'MyString'
-    provider_user_id 'MyString'
+    user
+    omniauth_provider 'open_provider'
+    sequence(:provider_user_id) {|n| "User_#{n}" }
   end
 end
