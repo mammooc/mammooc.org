@@ -42,6 +42,9 @@ class CoursesController < ApplicationController
       @following_course_name = Course.find(@course.following_iteration_id).name
     end
 
+    @course_languages = (@course.language.blank?) ? nil : @course.language.split(',')
+    @subtitle_languages = (@course.subtitle_languages.blank?) ? nil : @course.subtitle_languages.split(',')
+
     @recommendation = Recommendation.new(course: @course)
 
     # RECOMMENDATIONS

@@ -24,7 +24,7 @@ Ralf: “The concept is great and methodically and didactically well thought out
 Kerstin: “I have to honestly say that I am impressed by what you’ve accomplished here. The course was totally professional and the tasks were set up so that it was possible to learn a lot. It was important for me to get an overview of the technologies and relationships between them. The class was taught really well and it was fun too.”
 
 Claudia; “I enjoyed this course so much. It gave me a chance to expand my horizons in web technologies a great deal. I really liked the practical homework exercises, especially the calculation task in Week 5. I’m already looking forward to the next course. Keep up the good work!”'
-    language 'English'
+    language 'en'
     imageId 'https://open.hpi.de/files/45ce8877-d21b-4389-9032-c6525b4724d0'
     videoId ''
     start_date Time.zone.local(2015, 6, 1, 8)
@@ -36,7 +36,7 @@ Claudia; “I enjoyed this course so much. It gave me a chance to expand my hori
     sequence(:provider_course_id) {|n| "#{n}" }
     open_for_registration true
     provider_given_duration '6 weeks'
-    subtitle_languages 'english, german'
+    subtitle_languages 'en,de'
     mooc_provider { FactoryGirl.create(:mooc_provider) }
     tracks { [FactoryGirl.create(:course_track), FactoryGirl.create(:certificate_course_track), FactoryGirl.create(:ects_course_track)] }
   end

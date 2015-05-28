@@ -11,7 +11,7 @@ RSpec.describe 'courses/show', type: :view do
                       course_instructors: 'Course Instructor',
                       abstract: 'MyAbstract',
                       description: 'MyDescription',
-                      language: 'Language',
+                      language: 'en',
                       imageId: 'Image',
                       videoId: 'Video',
                       provider_given_duration: 'Duration',
