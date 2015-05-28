@@ -27,6 +27,12 @@ class BookmarksController < ApplicationController
     respond_with(@bookmark)
   end
 
+  def delete
+    delete_bookmark = Bookmark.find_by(user_id: params[:user_id], course_id: params[:course_id])
+    delete_bookmark.destroy
+    respond_with(delete_bookmark)
+  end
+
   def update
     @bookmark.update(bookmark_params)
     respond_with(@bookmark)

@@ -88,6 +88,9 @@ Rails.application.routes.draw do
   get 'courses/:id/enroll_course' => 'courses#enroll_course'
   get 'courses/:id/unenroll_course' => 'courses#unenroll_course'
 
+  #Bookmarks
+  post 'bookmarks/delete' => 'bookmarks#delete'
+
   # Users
   get 'users/:id/synchronize_courses' => 'users#synchronize_courses', as: 'synchronize_courses'
   get 'users/:id/settings' => 'users#settings', as: 'user_settings'

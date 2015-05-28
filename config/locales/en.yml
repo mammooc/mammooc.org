@@ -236,7 +236,8 @@ en:
     difficulty: Difficulty
     workload: Workload
     enter_course: Enter Course
-    remember_course: Remember Course
+    remember_course: Bookmark Course
+    delete_remember_course: Delete Course from bookmarks
     enroll_course: Enroll me for this Course
     unenroll_course: Unenroll me for this Course
     recommend_course: Recommend Course

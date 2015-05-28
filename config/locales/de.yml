@@ -237,6 +237,7 @@ de:
     workload: Arbeitsaufwand
     enter_course: Zum Kurs
     remember_course: Kurs merken
+    delete_remember_course: Kurs aus gemerkten Kursen entfernen
     enroll_course: Kurs belegen
     unenroll_course: Kursbelegung entfernen
     recommend_course: Kurs empfehlen
