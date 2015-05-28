@@ -66,11 +66,12 @@ de:
   navbar:
     home: Home
     courses: Kurse
-    about: Über uns
+    about: Über mammooc
     impressum: Impressum
     sign_out: Ausloggen
     dashboard: Dashboard
     profile: Profil
+    groups: Meine Gruppen
     settings: Einstellungen
     welcome_heading: Willkommen bei mammooc!
 

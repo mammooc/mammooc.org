@@ -14,28 +14,35 @@ nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
         = link_to home_index_path, :class => "navbar-brand"
           = image_tag("mammooc-logo.png")
     .collapse.navbar-collapse id="navbar"
+      .navbar-form.navbar-left
+        = form_tag({controller: "courses", action: "search"}, method: "get") do
+          .input-group
+            = text_field_tag :query, nil, placeholder: t('dashboard.search_course'), class: 'form-control'
+            span.input-group-btn
+              = button_tag(type: 'submit', class: 'btn btn-default', id: 'submit-search-dashboard')
+                span.glyphicon.glyphicon-search
       ul.nav.navbar-nav.navbar-right
-        li class=('active' if current_page?(home_index_path) || current_page?(root_path))
-          = link_to t('navbar.home'), home_index_path
-        li class=('active' if current_page?(courses_path) || current_page?(courses_index_path))
-          = link_to t('navbar.courses'), courses_path
         li class=('active' if current_page?(about_path))
           = link_to t('navbar.about'), about_path
-        li class=('active' if current_page?(impressum_path))
-          = link_to t('navbar.impressum'), impressum_path
-        li class="dropdown"
-          a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-expanded="false"
-            = I18n.locale.upcase
-            span.caret
-          ul.dropdown-menu role="menu"
-            - (I18n.available_locales - [I18n.locale]).each do |l|
-              li
-                a href="#{request.fullpath.split('?')[0]}?language=#{l}"
-                  = language_names[l]
-
-        - if user_signed_in?
+        li class=('active' if current_page?(courses_path) || current_page?(courses_index_path))
+          = link_to t('navbar.courses'), courses_path
+        /TODO : Create a footer for that (like openHPI)
+        /li class=('active' if current_page?(impressum_path))
+        /  = link_to t('navbar.impressum'), impressum_path
+        - if not user_signed_in?
           li class="dropdown"
+            a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-expanded="false"
+              = I18n.locale.upcase
+              span.caret
+            ul.dropdown-menu role="menu"
+              - (I18n.available_locales - [I18n.locale]).each do |l|
+                li
+                  a href="#{request.fullpath.split('?')[0]}?language=#{l}"
+                    = language_names[l]
+        - if user_signed_in?
+          li.dropdown
             a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
+              img src = @user_picture class="user-img"
               = current_user.first_name + ' '
               = current_user.last_name
               span class="caret"
@@ -44,6 +51,8 @@ nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
                 = link_to t('navbar.dashboard'), dashboard_path
               li
                 = link_to t('navbar.profile'), current_user
+              li
+                = link_to t('navbar.groups'), groups_path
               li
                 = link_to t('navbar.settings'), "#{user_settings_path(current_user.id)}?subsite=mooc_provider"
               li

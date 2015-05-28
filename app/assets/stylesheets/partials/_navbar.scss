@@ -14,6 +14,14 @@ nav .navbar-header img {
   margin-top: -4px;
 }
 
+/* Profile Image */
+
+.nav .user-img {
+  max-width: 20px;
+  max-height: 20px;
+  margin-right: 10px;
+}
+
 /* Special class on .container surrounding .navbar, used for positioning it into place. */
 .navbar-wrapper {
   position: absolute;
