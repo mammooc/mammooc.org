@@ -30,19 +30,27 @@
                 img src = @rating_picture style='height:25px; width:auto'
             = recommendation.course.mooc_provider.name
             br
-            - if recommendation.course.start_date
-              - if recommendation.course.end_date
-                - if recommendation.course.start_date < Date.today and Date.today < recommendation.course.end_date
+            - if @course.start_date
+              - if @course.end_date
+                - if @course.start_date < Date.today and Date.today < @course.end_date
                   = t('courses.already_running')
-              - if recommendation.course.start_date > Date.today
+                - elsif @course.start_date > Date.today
+                  => t('courses.starting_soon')
+                  = I18n.l @course.start_date, format: t('global.date_format_month')
+                - elsif @course.start_date == Date.today
+                  = t('courses.starts_today')
+                - else
+                  => t('courses.course_dates')
+                  = I18n.l @course.start_date, format: t('global.date_format_month') + ' - '
+                  = I18n.l @course.end_date, format: t('global.date_format_month')
+              - elsif @course.start_date > Date.today
                 => t('courses.starting_soon')
-                = I18n.l recommendation.course.start_date, format: t('global.date_format_month')
-              - elsif recommendation.course.start_date == Date.today
+                = I18n.l @course.start_date, format: t('global.date_format_month')
+              - elsif @course.start_date == Date.today
                 = t('courses.starts_today')
               - else
-                => t('courses.course_dates')
-                = I18n.l recommendation.course.start_date, format: t('global.date_format_month') + ' - '
-                = I18n.l recommendation.course.end_date, format: t('global.date_format_month')
+                => t('courses.starting_time')
+                = I18n.l @course.start_date, format: t('global.date_format_month')
             - else
               = t('courses.no_dates_available')
 
