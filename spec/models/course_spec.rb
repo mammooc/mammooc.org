@@ -142,7 +142,7 @@ RSpec.describe Course, type: :model do
 
       it 'sorts for duration desc' do
         result = described_class.sorted_by('duration_desc')
-        expect(result).to match([course_without_dates, course_today,  course_soon, course_past, course_current])
+        expect(result).to match([course_today, course_soon, course_past, course_current, course_without_dates])
       end
 
       it 'sorts for start_date' do
