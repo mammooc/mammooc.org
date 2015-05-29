@@ -9,10 +9,10 @@ nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
         span.icon-bar
       - if user_signed_in?
         = link_to dashboard_path, :class => "navbar-brand"
-          = image_tag("mammooc-logo.png")
+          = image_tag("mammooc-logo-weiss.png")
       - else
         = link_to home_index_path, :class => "navbar-brand"
-          = image_tag("mammooc-logo.png")
+          = image_tag("mammooc-logo-weiss.png")
     .collapse.navbar-collapse id="navbar"
       .navbar-form.navbar-left
         = form_tag({controller: "courses", action: "search"}, method: "get") do
