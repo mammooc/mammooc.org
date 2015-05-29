@@ -85,6 +85,9 @@ de:
     recommendations: :recommendation.your_recommendations
     recommendations_with_quantity: :recommendation.your_recommendations_with_quantity
     search_course: Kurse finden
+    bookmarks: Vorgemerkte Kurse
+    no_bookmarks: Du hast leider derzeit keine Vormerkungen.
+    course_starts_at: beginnt am
 
   home:
     welcome_heading: Willkommen bei mammooc!

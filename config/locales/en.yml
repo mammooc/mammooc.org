@@ -85,6 +85,9 @@ en:
     recommendations: :recommendation.your_recommendations
     recommendations_with_quantity: :recommendation.your_recommendations_with_quantity
     search_course: Search for courses
+    bookmarks: Bookmarked Courses
+    no_bookmarks: You don't have any bookmarked courses right now.
+    course_starts_at: starts at
 
   home:
     welcome_heading: Welcome to mammooc!

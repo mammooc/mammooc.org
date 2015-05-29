@@ -12,6 +12,20 @@ h2
               span.glyphicon.glyphicon-search
 
 h2
+  = t('dashboard.bookmarks')
+- if @bookmarked_courses.blank?
+  = t('dashboard.no_bookmarks')
+- else
+  - @bookmarked_courses.each do |bookmarked_course|
+    = link_to bookmarked_course.name, course_path(bookmarked_course.id)
+    - unless bookmarked_course.start_date.blank?
+      | ,
+      =< t('dashboard.course_starts_at')
+      =< I18n.l bookmarked_course.start_date, format: t('global.date_format_month')
+    - unless bookmarked_course == @bookmarked_courses.last
+      br
+
+h2
   = link_to recommendations_path
     - if @number_of_recommendations == 0
       = t('dashboard.recommendations')
@@ -23,4 +37,5 @@ h2
   .recommendations-wrapper
     - @recommendations.each_with_index do |recommendation, index|
       = render 'recommendations/recommendation', recommendation: recommendation, id: "recommendation_number_#{index}", group_context: false
+
 = render 'sidebar'
