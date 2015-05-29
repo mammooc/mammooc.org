@@ -166,7 +166,6 @@ RSpec.describe 'Course', type: :feature do
       select I18n.t('courses.filter.sort.name_desc'), from: 'filterrific_sorted_by'
       check 'filterrific_bookmarked'
       wait_for_ajax
-      save_screenshot '/home/rosabraatz/Bilder/screenshot.png'
       expect(page).to have_content course.name
       expect(page).not_to have_content course_starts_before.name
       expect(page).not_to have_content course_ends_after.name
