@@ -7,4 +7,12 @@ class UserMailer < ApplicationMailer
     @root_url = root_url
     mail(to: email_adress, subject: "You were invited to join a group on #{t('global.app_name')}")
   end
+
+  def reminder_for_bookmarked_course(email_adress, user, course)
+    @course = course
+    @user = user
+
+    mail(to: email_adress, subject: 'A bookmarked course starts soon')
+  end
+
 end
