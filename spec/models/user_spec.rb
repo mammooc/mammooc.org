@@ -82,6 +82,14 @@ RSpec.describe User, type: :model do
       user = FactoryGirl.build_stubbed(:user, primary_email: 'test@example.com')
       user.primary_email = primary_email
     end
+
+    it 'allows to users to be created without a primary email' do
+      user1 = FactoryGirl.create(:user)
+      user2 = FactoryGirl.create(:user)
+      expect(user1).to be_valid
+      expect(user2).to be_valid
+      expect(user1.primary_email).not_to eql user2.primary_email
+    end
   end
 
   describe 'common_groups_with_user(other_user)' do
