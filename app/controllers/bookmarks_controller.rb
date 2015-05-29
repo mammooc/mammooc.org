@@ -5,7 +5,12 @@ class BookmarksController < ApplicationController
   respond_to :html
 
   def index
-    @bookmarks = Bookmark.all
+    bookmarks = current_user.bookmarks
+    @bookmarked_courses = []
+    bookmarks.each do |bookmark|
+      @bookmarked_courses.push bookmark.course
+    end
+    @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(@bookmarked_courses)
     respond_with(@bookmarks)
   end
 

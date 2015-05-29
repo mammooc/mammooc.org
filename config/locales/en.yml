@@ -85,14 +85,18 @@ en:
     recommendations: :recommendation.your_recommendations
     recommendations_with_quantity: :recommendation.your_recommendations_with_quantity
     search_course: Search for courses
-    bookmarks: Bookmarked Courses
-    no_bookmarks: You don't have any bookmarked courses right now.
+    bookmarks: :bookmarks.my_bookmarks
+    no_bookmarks: :bookmarks.no_bookmarks
     course_starts_at: starts at
 
   home:
     welcome_heading: Welcome to mammooc!
     welcome_title: "mammooc: Sign up today!"
     hello: Hello
+
+  bookmarks:
+    my_bookmarks: My Bookmarked Courses
+    no_bookmarks: You don't have any bookmarked courses right now.
 
   users:
     sign_in_up:
@@ -319,7 +323,6 @@ en:
         name_desc: Title (z-a)
         name_asc: Title (a-z)
         relevance: Relevance
-
     languages:
       ar: Arabic
       cn: Chinese

@@ -12,7 +12,8 @@ h2
               span.glyphicon.glyphicon-search
 
 h2
-  = t('dashboard.bookmarks')
+  = link_to bookmarks_path
+    = t('dashboard.bookmarks')
 - if @bookmarked_courses.blank?
   = t('dashboard.no_bookmarks')
 - else
