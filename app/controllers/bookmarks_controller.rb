@@ -30,7 +30,7 @@ class BookmarksController < ApplicationController
   def delete
     delete_bookmark = Bookmark.find_by(user_id: params[:user_id], course_id: params[:course_id])
     delete_bookmark.destroy
-    respond_with(delete_bookmark)
+    redirect_to bookmarks_path
   end
 
   def update
