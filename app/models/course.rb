@@ -13,7 +13,8 @@ class Course < ActiveRecord::Base
                         :start_filter_options,
                         :with_tracks,
                         :search_query,
-                        :sorted_by]
+                        :sorted_by,
+                        :bookmarked]
   )
 
   belongs_to :mooc_provider
@@ -57,8 +58,6 @@ class Course < ActiveRecord::Base
         raise ArgumentError.new "Invalid sort option: #{ sort_option.inspect }"
     end
   end
-
-
 
   scope :search_query, ->(query) do
     return nil  if query.blank?
@@ -177,6 +176,14 @@ class Course < ActiveRecord::Base
         where('courses.calculated_duration_in_days > ?', MEDIUM_LONG_DURATION)
     end
   end
+
+  scope :bookmarked, ->(user_id) do
+    user = User.find(user_id)
+    course_ids = []
+    user.bookmarks.each { |bookmark| course_ids.push(bookmark.course.id) }
+    where(id: course_ids)
+  end
+
 
   def self.options_for_costs
     [[I18n.t('courses.filter.costs.free'), 'free'],

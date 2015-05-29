@@ -316,6 +316,7 @@ de:
         costs: Preis
         certificate: Art des Zertifikats
         sort: Sortieren nach
+        bookmarked: Zeige nur meine vorgemerkten Kurse
       sort:
         start_date_asc: Startdatum - neuestes zuerst
         duration_desc: Dauer - absteigend

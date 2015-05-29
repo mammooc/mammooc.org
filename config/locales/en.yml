@@ -316,6 +316,7 @@ en:
         costs: Price
         certificate: Type of Certificate
         sort: Sorted by
+        bookmarked: Only show my bookmarked courses
       sort:
         start_date_asc: Start date newest first
         duration_desc: Duration decending
