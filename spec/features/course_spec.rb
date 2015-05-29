@@ -140,6 +140,12 @@ RSpec.describe 'Course', type: :feature do
     let!(:course_wrong_attributes_2) { FactoryGirl.create(:course, name: 'Course that does not match all criteria 2', start_date: Time.zone.now - 1.day, end_date: Time.zone.now + 2.weeks, language: 'en', mooc_provider: open_sap, subtitle_languages: 'en', calculated_duration_in_days: 28, tracks: [expensive_track_2]) }
     let!(:course_wrong_attributes_3) { FactoryGirl.create(:course, name: 'Course that does not match all criteria 3', start_date: Time.zone.now, end_date: Time.zone.now + 2.weeks, language: 'en', mooc_provider: open_hpi, subtitle_languages: 'en', calculated_duration_in_days: 35, tracks: [expensive_track_3]) }
 
+    let(:second_user) {FactoryGirl.create(:user) }
+    let!(:bookmark1) { FactoryGirl.create(:bookmark, user: user, course: course) }
+    let!(:bookmark2) { FactoryGirl.create(:bookmark, user: user, course: right_course) }
+    let!(:bookmark3) { FactoryGirl.create(:bookmark, user: user, course: course_free) }
+    let!(:bookmark4) { FactoryGirl.create(:bookmark, user: second_user, course: course) }
+
     it 'filters courses for all filter criteria', js: true do
       # TODO: delete after mobile optimization
       unless ENV['PHANTOM_JS'] == 'true'
@@ -158,7 +164,9 @@ RSpec.describe 'Course', type: :feature do
       select I18n.t('courses.filter.costs.free'), from: 'filterrific_with_tracks_costs'
       select nice_track_type.title, from: 'filterrific_with_tracks_certificate'
       select I18n.t('courses.filter.sort.name_desc'), from: 'filterrific_sorted_by'
+      check 'filterrific_bookmarked'
       wait_for_ajax
+      save_screenshot '/home/rosabraatz/Bilder/screenshot.png'
       expect(page).to have_content course.name
       expect(page).not_to have_content course_starts_before.name
       expect(page).not_to have_content course_ends_after.name

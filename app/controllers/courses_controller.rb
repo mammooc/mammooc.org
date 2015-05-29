@@ -28,7 +28,7 @@ class CoursesController < ApplicationController
     end
 
   rescue ActiveRecord::RecordNotFound => e
-    Rails.logger "Had to reset filterrific params: #{ e.message }"
+    Rails.logger.info "Had to reset filterrific params: #{ e.message }"
     redirect_to(reset_filterrific_url(format: :html)) && return
   end
 

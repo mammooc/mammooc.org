@@ -633,5 +633,24 @@ RSpec.describe Course, type: :model do
         end
       end
     end
+
+    context 'my bookmarked courses' do
+      let(:user) { FactoryGirl.create(:user) }
+      let(:second_user) { FactoryGirl.create(:user) }
+      let(:not_bookmarked_course) { FactoryGirl.create(:course) }
+      let(:bookmarked_course) { FactoryGirl.create(:course) }
+      let!(:bookmark) { FactoryGirl.create(:bookmark, user: user, course: bookmarked_course) }
+
+      it 'returns only bookmarked courses' do
+        result = described_class.bookmarked(user.id)
+        expect(result).to match([bookmarked_course])
+      end
+
+      it 'returns nothing if there are no bookmarked courses' do
+        result = described_class.bookmarked(second_user.id)
+        expect(result).to match([])
+      end
+
+    end
   end
 end
