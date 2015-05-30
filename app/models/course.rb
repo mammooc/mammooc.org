@@ -178,6 +178,7 @@ class Course < ActiveRecord::Base
   end
 
   scope :bookmarked, ->(user_id) do
+    return nil if user_id == '0'
     user = User.find(user_id)
     course_ids = []
     user.bookmarks.each { |bookmark| course_ids.push(bookmark.course.id) }
