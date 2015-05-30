@@ -16,7 +16,7 @@ RSpec.describe BookmarksController, type: :controller do
     it 'assigns all bookmarks as @bookmarks' do
       bookmark = Bookmark.create! valid_attributes
       get :index
-      expect(assigns(:bookmarks)).to eq([bookmark])
+      expect(assigns(:bookmarked_courses)).to eq([bookmark.course])
     end
   end
 
