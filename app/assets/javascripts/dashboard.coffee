@@ -1,7 +1,7 @@
 
 ready = ->
   $('#sync-user-course-button').on 'click', (event) -> synchronizeCourse(event)
-  $('#delete_bookmark_on_dashboard').on 'click', (event) -> deleteBookmarkOnDashboard(event)
+  $('.delete_bookmark_on_dashboard').on 'click', (event) -> deleteBookmarkOnDashboard(event)
   return
 
 $(document).ready(ready)

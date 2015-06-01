@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 ready = ->
-  $('#delete_bookmark_from_bookmark_list').on 'click', (event) -> deleteBookmarkFromList(event)
+  $('.delete_bookmark_from_bookmark_list').on 'click', (event) -> deleteBookmarkFromList(event)
   return
 
 $(document).ready(ready)
