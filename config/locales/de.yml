@@ -97,6 +97,7 @@ de:
   bookmarks:
     my_bookmarks: Meine Vorgemerkten Kurse
     no_bookmarks: Du hast leider derzeit keine Vormerkungen.
+    bookmarked: vorgemerkt
 
   users:
     sign_in_up:

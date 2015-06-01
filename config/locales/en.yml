@@ -97,6 +97,7 @@ en:
   bookmarks:
     my_bookmarks: My Bookmarked Courses
     no_bookmarks: You don't have any bookmarked courses right now.
+    bookmarked: bookmarked
 
   users:
     sign_in_up:

@@ -17,5 +17,9 @@
               = course.name
             .course-instructors
               = course.course_instructors
+            - if @my_bookmarked_courses.include? course
+              //TODO: put in class
+              span.glyphicon.glyphicon-bookmark style='padding-left: 0px'
+              = t('bookmarks.bookmarked')
             .provider
               img src = @provider_logos[course.mooc_provider.logo_id]

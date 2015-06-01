@@ -46,6 +46,11 @@
         - if @course.language
           img src="/data/icons/globe.png" class="pr5" style="height:18px"
           = @course.language
+        p
+        - if @bookmarked
+          //TODO: put in class
+          span.glyphicon.glyphicon-bookmark style='padding-left: 0px'
+          = t('bookmarks.bookmarked')
       .options
         img src=@provider_logos[@course.mooc_provider.logo_id]
     .subnav
