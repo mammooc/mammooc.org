@@ -103,4 +103,28 @@ RSpec.describe 'Course', type: :feature do
     end
   end
 
+  describe 'delete bookmark on dashboard' do
+    let(:course) { FactoryGirl.create(:course) }
+    let(:second_course) { FactoryGirl.create(:course, name: 'Kurs 2') }
+    let!(:bookmark) { FactoryGirl.create(:bookmark, course: course, user: user) }
+    let!(:second_bookmark) { FactoryGirl.create(:bookmark, course: second_course, user: user) }
+
+    it 'deletes bookmark', js:true do
+      visit dashboard_dashboard_path
+      first('#delete_bookmark_on_dashboard').click
+      wait_for_ajax
+      expect(Bookmark.count).to eq 1
+    end
+
+    it 'hides only deleted bookmark entry', js:true do
+      visit dashboard_dashboard_path
+      first('#delete_bookmark_on_dashboard').click
+      wait_for_ajax
+      expect(page).to have_content(I18n.t('dashboard.bookmarks'))
+      expect(page).to have_content second_bookmark.course.name
+      expect(page).not_to have_content bookmark.course.name
+    end
+
+  end
+
 end
