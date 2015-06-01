@@ -1,7 +1,7 @@
 
 ready = ->
   $('#sync-user-course-button').on 'click', (event) -> synchronizeCourse(event)
-  $('#delete_bookmark_on_dashboard').on 'click', (event) -> deleteBookmark(event)
+  $('#delete_bookmark_on_dashboard').on 'click', (event) -> deleteBookmarkOnDashboard(event)
   return
 
 $(document).ready(ready)
@@ -23,7 +23,7 @@ synchronizeCourse = (event) ->
       $("div.user-courses-container").html(data.partial)
   event.preventDefault()
 
-deleteBookmark = (event) ->
+deleteBookmarkOnDashboard = (event) ->
   entry = $(event.target).parent()
   current_course_id = entry.data('course_id')
   current_user_id = entry.data('user_id')

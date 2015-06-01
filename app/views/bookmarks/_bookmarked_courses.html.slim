@@ -5,18 +5,21 @@
 - else
   .courses-wrapper
     - @bookmarked_courses.each do |course|
-      .courses
-        = link_to course
-          .course-image
-            - if course.imageId
-              = image_tag(course.imageId)
-            - else
-              img src="/data/icons/courses-list-std.png"
-          .course-info
-            .hd6.course-name
-              = course.name
-            - if course.start_date.present?
-              => t('dashboard.course_starts_at')
-              =< I18n.l course.start_date, format: t('global.date_format_month')
-            .provider
-              img src = @provider_logos[course.mooc_provider.logo_id]
+      .bookmark
+        a href= '' id='delete_bookmark_from_bookmark_list' data-course_id='#{course.id}' data-user_id='#{current_user.id}'
+          span.glyphicon.glyphicon-remove
+        .courses
+          = link_to course
+            .course-image
+              - if course.imageId
+                = image_tag(course.imageId)
+              - else
+                img src="/data/icons/courses-list-std.png"
+            .course-info
+              .hd6.course-name
+                = course.name
+              - if course.start_date.present?
+                => t('dashboard.course_starts_at')
+                =< I18n.l course.start_date, format: t('global.date_format_month')
+              .provider
+                img src = @provider_logos[course.mooc_provider.logo_id]
