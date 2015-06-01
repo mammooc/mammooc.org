@@ -40,7 +40,7 @@ RSpec.describe BookmarksController, type: :controller do
   describe 'GET delete' do
     it 'should destroy the bookmark of specified user and course' do
       FactoryGirl.create(:bookmark, user: user, course: course)
-      expect { get :delete, {user_id: user.id, course_id: course.id} }.to change(Bookmark, :count).by(-1)
+      expect { post :delete, {user_id: user.id, course_id: course.id} }.to change(Bookmark, :count).by(-1)
     end
   end
 
