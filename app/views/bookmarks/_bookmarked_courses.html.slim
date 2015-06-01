@@ -15,7 +15,8 @@
           .course-info
             .hd6.course-name
               = course.name
-            .course-instructors
-              = course.course_instructors
+            - if course.start_date.present?
+              => t('dashboard.course_starts_at')
+              =< I18n.l course.start_date, format: t('global.date_format_month')
             .provider
               img src = @provider_logos[course.mooc_provider.logo_id]

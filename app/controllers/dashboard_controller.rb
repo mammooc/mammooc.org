@@ -12,10 +12,7 @@ class DashboardController < ApplicationController
     @rating_picture = AmazonS3.instance.get_url('five_stars.png')
 
     #Bookmarks
-    @bookmarked_courses = []
-    current_user.bookmarks.each do |bookmark|
-      @bookmarked_courses.push bookmark.course
-    end
+    @bookmarks = current_user.bookmarks
 
     respond_to do |format|
       format.html {}

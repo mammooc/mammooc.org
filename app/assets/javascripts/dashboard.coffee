@@ -1,6 +1,7 @@
 
 ready = ->
   $('#sync-user-course-button').on 'click', (event) -> synchronizeCourse(event)
+  $('#delete_bookmark_on_dashboard').on 'click', (event) -> deleteBookmark(event)
   return
 
 $(document).ready(ready)
@@ -20,4 +21,24 @@ synchronizeCourse = (event) ->
         if result != true
           window.location.replace(result)
       $("div.user-courses-container").html(data.partial)
+  event.preventDefault()
+
+deleteBookmark = (event) ->
+  entry = $(event.target).parent()
+  current_course_id = entry.data('course_id')
+  current_user_id = entry.data('user_id')
+  url = "/bookmarks/delete"
+  data =
+    course_id: current_course_id
+    user_id: current_user_id
+
+  $.ajax
+    url: url
+    data: data
+    method: 'POST'
+    error: (jqXHR, textStatus, errorThrown) ->
+      console.log('error delete bookmark')
+      alert(I18n.t('global.ajax_failed'))
+    success: (data, textStatus, jqXHR) ->
+      entry.parent().hide()
   event.preventDefault()

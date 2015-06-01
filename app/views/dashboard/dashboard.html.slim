@@ -14,16 +14,18 @@ h2
 h2
   = link_to bookmarks_path
     = t('dashboard.bookmarks')
-- if @bookmarked_courses.blank?
+- if @bookmarks.blank?
   = t('dashboard.no_bookmarks')
 - else
-  - @bookmarked_courses.each do |bookmarked_course|
-    = link_to bookmarked_course.name, course_path(bookmarked_course.id)
-    - unless bookmarked_course.start_date.blank?
-      | ,
-      =< t('dashboard.course_starts_at')
-      =< I18n.l bookmarked_course.start_date, format: t('global.date_format_month')
-    - unless bookmarked_course == @bookmarked_courses.last
+  - @bookmarks.each do |bookmark|
+    .bookmark
+      = link_to bookmark.course.name, course_path(bookmark.course.id)
+      - unless bookmark.course.start_date.blank?
+        | ,
+        =< t('dashboard.course_starts_at')
+        =< I18n.l bookmark.course.start_date, format: t('global.date_format_month')
+      a href= '' id='delete_bookmark_on_dashboard' data-course_id='#{bookmark.course.id}' data-user_id='#{current_user.id}'
+        span.glyphicon.glyphicon-remove
       br
 
 h2
