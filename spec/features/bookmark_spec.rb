@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'rails_helper'
 
-RSpec.describe 'Course', type: :feature do
+RSpec.describe 'Bookmark', type: :feature do
   self.use_transactional_fixtures = false
 
   let(:user) { FactoryGirl.create(:user) }
@@ -111,14 +111,14 @@ RSpec.describe 'Course', type: :feature do
 
     it 'deletes bookmark', js:true do
       visit dashboard_dashboard_path
-      first('#delete_bookmark_on_dashboard').click
+      first('.delete_bookmark_on_dashboard').click
       wait_for_ajax
       expect(Bookmark.count).to eq 1
     end
 
     it 'hides only deleted bookmark entry', js:true do
       visit dashboard_dashboard_path
-      first('#delete_bookmark_on_dashboard').click
+      first('.delete_bookmark_on_dashboard').click
       wait_for_ajax
       expect(page).to have_content(I18n.t('dashboard.bookmarks'))
       expect(page).to have_content second_bookmark.course.name
@@ -134,14 +134,14 @@ RSpec.describe 'Course', type: :feature do
 
     it 'deletes bookmark', js:true do
       visit bookmarks_path
-      first('#delete_bookmark_from_bookmark_list').click
+      first('.delete_bookmark_from_bookmark_list').click
       wait_for_ajax
       expect(Bookmark.count).to eq 1
     end
 
     it 'hides only deleted bookmark entry', js:true do
       visit bookmarks_path
-      first('#delete_bookmark_from_bookmark_list').click
+      first('.delete_bookmark_from_bookmark_list').click
       wait_for_ajax
       expect(page).to have_content(I18n.t('dashboard.bookmarks'))
       expect(page).to have_content second_bookmark.course.name
