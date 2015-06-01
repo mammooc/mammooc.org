@@ -2,23 +2,23 @@
 require 'rails_helper'
 
 RSpec.describe 'bookmarks/index', type: :view do
+  let(:user) { FactoryGirl.create(:user) }
+  let(:course) { FactoryGirl.create(:course, start_date: Date.today) }
+  let(:second_course) { FactoryGirl.create(:course, start_date: Date.tomorrow, name: 'second course') }
+  let!(:bookmark) { FactoryGirl.create(:bookmark, user: user, course: course) }
+  let!(:second_bookmark) { FactoryGirl.create(:bookmark, user: user, course: second_course) }
+
   before(:each) do
-    assign(:bookmarks, [
-      Bookmark.create!(
-        user: nil,
-        course: nil
-      ),
-      Bookmark.create!(
-        user: nil,
-        course: nil
-      )
-    ])
+    @bookmarked_courses = [course, second_course]
+    @provider_logos = {}
+    sign_in user
   end
 
   it 'renders a list of bookmarks' do
-    pending
     render
-    assert_select 'tr>td', text: nil.to_s, count: 2
-    assert_select 'tr>td', text: nil.to_s, count: 2
+    assert rendered, text: course.name , count: 1
+    assert rendered, text: course.start_date.strftime(t('global.date_format_month')).to_s, count: 1
+    assert rendered, text: second_course.name , count: 1
+    assert rendered, text: second_course.start_date.strftime(t('global.date_format_month')).to_s, count: 1
   end
 end
