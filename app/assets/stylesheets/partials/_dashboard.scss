@@ -1,0 +1,66 @@
+.dashboard-top {
+  @extend .content-box;
+  height: 90px;
+  margin-bottom: 15px;
+
+  .user-visual {
+    float: left;
+    width: 50%;
+    height: 90px;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+
+    @media(max-width: 768px) {
+      width: 100%;
+    }
+
+    img {
+      float: left;
+      height: 50px;
+      width: 50px;
+      margin-right: 10px;
+    }
+
+    .name {
+      vertical-align: top;
+    }
+  }
+
+  .user-info {
+    float: left;
+    width: 50%;
+    max-height: 70px;
+    padding: 20px;
+    line-height: 24px;
+    overflow: hidden;
+  }
+}
+
+.dashboard-actions {
+  @extend .content-box;
+  height: 40px;
+  margin-bottom: 30px;
+
+  &:last-child {
+    border-right: 0px;
+  }
+
+  .box {
+    float: left;
+    border-right: 1px solid #ddd;
+    width: 33.3%;
+    height: 100%;
+    text-align: center;
+    padding: 10px;
+    line-height: 20px;
+
+    &:hover {
+      background-color: $gray-ultra-light;
+    }
+  }
+
+  .outer-box {
+    @extend .box;
+    border-right: 0px;
+  }
+}

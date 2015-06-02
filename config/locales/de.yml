@@ -74,6 +74,7 @@ de:
     groups: Meine Gruppen
     settings: Einstellungen
     welcome_heading: Willkommen bei mammooc!
+    search_course: Kurse finden
 
   dashboard:
     hi: Hi %{name}
@@ -83,9 +84,11 @@ de:
     new_group: Gruppe erstellen
     edit_group: Gruppe bearbeiten
     no_courses: :courses.no_courses
-    recommendations: :recommendation.your_recommendations
-    recommendations_with_quantity: :recommendation.your_recommendations_with_quantity
-    search_course: Kurse finden
+    number_of_recommendations: Du hast %{number} Empfehlungen
+    number_of_activities: Es gibt 2 neue Aktivitäten in deinen Gruppen
+    complete_profile: Vervollständige dein Profil
+    manage_groups: Verwalte deine Gruppen
+    search_courses: Finde Kurse, die zur dir passen
 
   home:
     welcome_heading: Willkommen bei mammooc!
