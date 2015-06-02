@@ -67,7 +67,6 @@ en:
     home: Home
     courses: Courses
     about: About mammooc
-    impressum: Legal Notice
     sign_out: Sign Out
     dashboard: Dashboard
     profile: My Profile
@@ -76,8 +75,15 @@ en:
     welcome_heading: Welcome to mammooc!
     search_course: Search for courses
 
+  footer:
+    title: More information
+    about: About mammooc
+    about_text: "mammooc is a student's project developed at the German Hasso Plattner Institute, Potsdam."
+    hpi: Hasso Plattner Institute
+    imprint: Imprint
+
   dashboard:
-    hi: Hi %{name}
+    title: Dashboard
     my_groups: :groups.my_groups
     my_current_courses: My Current Courses
     no_groups: :groups.no_groups
@@ -457,11 +463,6 @@ en:
       text_1: We are six students of the HPI, working on mammooc as the last phase of our bachelors-degree.
       text_2: We are continuously trying to provide you with the best experience! You have feedback, questions, wishes or anything else to say about mammooc? We’d be glad to hear from you!
       text_3: Write us at
-    impressum:
-      heading: Legal Notice
-      title: Legal Notice | mammooc
-      text: Currently you can find our legal notice on the openHPI website.
-      link: To legal notice
 
   unauthorized:
     create:

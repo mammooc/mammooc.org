@@ -1,16 +1,31 @@
 /* GLOBAL STYLES
 -------------------------------------------------- */
 
-/* Padding below the footer and lighter body text */
-
-body {
-  padding-bottom: 40px;
-  color: #5a5a5a;
-}
-
 html, body {
+  height: 100%;
   width: auto !important;
   overflow-x: hidden !important;
+}
+
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  margin-bottom: auto !important;
+}
+
+#footer {
+  min-height: 100px;
+  background-color: #222;
+  color: white;
+  padding: 20px;
+
+  a {
+    color: white;
+
+    &:hover {
+      color: $mammooc;
+    }
+  }
 }
 
 .field_with_errors {

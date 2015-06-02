@@ -67,7 +67,6 @@ de:
     home: Home
     courses: Kurse
     about: Über mammooc
-    impressum: Impressum
     sign_out: Ausloggen
     dashboard: Dashboard
     profile: Mein Profil
@@ -76,8 +75,15 @@ de:
     welcome_heading: Willkommen bei mammooc!
     search_course: Kurse finden
 
+  footer:
+    title: More information
+    about: About mammooc
+    about_text: "mammooc ist ein Projekt, das von sechs Bachelorstudenten des Hasso-Plattner-Instituts entwickelt worden ist. mammooc bietet die Möglichkeit, persönliche Lernerfolge zu sammeln und zu teilen. Nutzer können Online-Lernkurse, so genannte MOOCs, vormerken, belegen und empfehlen. Über Gruppen verbinden sie sich mit anderen."
+    hpi: Hasso-Plattner-Institut
+    imprint: Impressum
+
   dashboard:
-    hi: Hi %{name}
+    title: Dashboard
     my_groups: :groups.my_groups
     my_current_courses: Meine aktuellen Kurse
     no_groups: :groups.no_groups
@@ -456,11 +462,6 @@ de:
       text_1: Wir sind 6 Studenten des HPI, die als Abschlussprojekt unseres Bachelorstudiums mammooc entwickeln.
       text_2: Wir bemühen uns euch stets die bestmögliche Erfahrung zu bieten. Daher freuen wir uns immer über Feedback, Fragen, Wünsche und sonstige Kommentare!
       text_3: Schreibt uns einfach an
-    impressum:
-      heading: Impressum
-      title: Impressum | mammooc
-      text: Unser Impressum findest Du aktuell auf der Webseite von openHPI.
-      link: Zum Impressum
 
   unauthorized:
     create:
