@@ -143,6 +143,12 @@ en:
       oauth_error: Sorry! We were unable to establish a connection to your account. Please check your settings and try again.
       revoke_provider_connection: Revoke connection
       establish_provider_connection: Establish connection
+    profile:
+      title: Your Profile
+      about_me: "About me:"
+      groups: Groups
+      current_courses: Enrollments
+      currently_nothing: None
 
   groups:
     title: My Groups | mammooc

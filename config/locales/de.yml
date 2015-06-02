@@ -143,6 +143,12 @@ de:
       oauth_error: Fehler! Wir konnten keine Verbindung zu deinem Account herstellen. Bitte überprüfe deine Einstellungen und versuche es erneut.
       revoke_provider_connection: Verbindung aufheben
       establish_provider_connection: Verbindung herstellen
+    profile:
+      title: Dein Profil
+      about_me: "Über mich:"
+      groups: Gruppen
+      current_courses: Belegungen
+      currently_nothing: Keine
 
   groups:
     title: Meine Gruppen | mammooc

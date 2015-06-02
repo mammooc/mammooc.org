@@ -1,3 +1,6 @@
+- content_for :title
+  = t('dashboard.title') + " | " + "#{t('global.app_name')}"
+
 .main-section
   .dashboard-top.mt30
     .user-visual
@@ -34,4 +37,5 @@
     .recommendations-wrapper
       - @recommendations.each_with_index do |recommendation, index|
         = render 'recommendations/recommendation', recommendation: recommendation, id: "recommendation_number_#{index}", group_context: false
+
 = render 'sidebar'
