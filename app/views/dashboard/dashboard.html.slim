@@ -1,26 +1,37 @@
-.page-header
-  h1
-    = t('dashboard.hi', name: current_user.first_name)
-h2
-  = form_tag({controller: "courses", action: "search"}, method: "get") do
-    .row
-      .col-lg-6
-        .input-group
-          = text_field_tag :query, nil, placeholder: t('dashboard.search_course'), class: 'form-control'
-          span.input-group-btn
-            = button_tag(type: 'submit', class: 'btn btn-default', id: 'submit-search-dashboard')
-              span.glyphicon.glyphicon-search
+.main-section
+  .dashboard-top.mt30
+    .user-visual
+      img src = @user_picture
+      .name
+        .hd3
+          => current_user.first_name
+          => current_user.last_name
+      | Last active on June 1, 2015
+    .user-info.hidden-xs
+      = t('dashboard.number_of_recommendations', number: @number_of_recommendations)
+      br
+        // need to change group/groups wording as soon as this is implemented
+      = t('dashboard.number_of_activities')
+      br
+      | There are more news here.
 
-h2
-  = link_to recommendations_path
-    - if @number_of_recommendations == 0
-      = t('dashboard.recommendations')
-    - else
-      = t('dashboard.recommendations_with_quantity', number: @number_of_recommendations)
-- if @number_of_recommendations == 0
-  = t('recommendation.no_recommendation')
-- else
-  .recommendations-wrapper
-    - @recommendations.each_with_index do |recommendation, index|
-      = render 'recommendations/recommendation', recommendation: recommendation, id: "recommendation_number_#{index}", group_context: false
+  .dashboard-actions
+    = link_to current_user
+      .box
+        | Complete your profile
+    = link_to groups_path
+      .box
+        | Manage your groups
+    = link_to courses_index_path
+      .outer-box
+        | Search for courses
+
+  - if @number_of_recommendations == 0
+    .element
+      .no-content-alert
+        = t('recommendation.no_recommendation')
+  - else
+    .recommendations-wrapper
+      - @recommendations.each_with_index do |recommendation, index|
+        = render 'recommendations/recommendation', recommendation: recommendation, id: "recommendation_number_#{index}", group_context: false
 = render 'sidebar'
