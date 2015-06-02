@@ -140,7 +140,7 @@ RSpec.describe 'Course', type: :feature do
     let!(:course_wrong_attributes_2) { FactoryGirl.create(:course, name: 'Course that does not match all criteria 2', start_date: Time.zone.now - 1.day, end_date: Time.zone.now + 2.weeks, language: 'en', mooc_provider: open_sap, subtitle_languages: 'en', calculated_duration_in_days: 28, tracks: [expensive_track_2]) }
     let!(:course_wrong_attributes_3) { FactoryGirl.create(:course, name: 'Course that does not match all criteria 3', start_date: Time.zone.now, end_date: Time.zone.now + 2.weeks, language: 'en', mooc_provider: open_hpi, subtitle_languages: 'en', calculated_duration_in_days: 35, tracks: [expensive_track_3]) }
 
-    let(:second_user) {FactoryGirl.create(:user) }
+    let(:second_user) { FactoryGirl.create(:user) }
     let!(:bookmark1) { FactoryGirl.create(:bookmark, user: user, course: course) }
     let!(:bookmark2) { FactoryGirl.create(:bookmark, user: user, course: right_course) }
     let!(:bookmark3) { FactoryGirl.create(:bookmark, user: user, course: course_free) }

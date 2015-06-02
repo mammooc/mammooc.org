@@ -27,8 +27,6 @@ class CoursesController < ApplicationController
       end
     end
 
-
-
     respond_to do |format|
       format.html
       format.js
@@ -76,14 +74,10 @@ class CoursesController < ApplicationController
 
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses([@course])
     @bookmarked = false
-    if current_user.present?
-      current_user.bookmarks.each do |bookmark|
-        if bookmark.course == @course
-          @bookmarked = true
-        end
-      end
+    return unless current_user.present?
+    current_user.bookmarks.each do |bookmark|
+      @bookmarked = true if bookmark.course == @course
     end
-
   end
 
   def enroll_course

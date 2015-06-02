@@ -24,7 +24,7 @@ synchronizeCourse = (event) ->
   event.preventDefault()
 
 deleteBookmarkOnDashboard = (event) ->
-  entry = $(event.target).parent()
+  entry = $(event.target)
   current_course_id = entry.data('course_id')
   current_user_id = entry.data('user_id')
   url = "/bookmarks/delete"

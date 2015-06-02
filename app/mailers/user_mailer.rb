@@ -14,5 +14,4 @@ class UserMailer < ApplicationMailer
 
     mail(to: email_adress, subject: 'A bookmarked course starts soon')
   end
-
 end

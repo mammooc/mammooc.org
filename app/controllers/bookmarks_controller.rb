@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 class BookmarksController < ApplicationController
-
   respond_to :html
 
   def index

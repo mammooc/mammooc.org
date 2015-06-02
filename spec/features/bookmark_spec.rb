@@ -26,14 +26,14 @@ RSpec.describe 'Bookmark', type: :feature do
   describe 'bookmark course on course detail page' do
     let(:course) { FactoryGirl.create(:course) }
 
-    it 'creates a new bookmark', js:true do
+    it 'creates a new bookmark', js: true do
       visit course_path(course)
       click_on 'remember_course_link'
       wait_for_ajax
       expect(Bookmark.count).to be 1
     end
 
-    it 'changes text of button', js:true do
+    it 'changes text of button', js: true do
       visit course_path(course)
       click_on 'remember_course_link'
       wait_for_ajax
@@ -46,14 +46,14 @@ RSpec.describe 'Bookmark', type: :feature do
     let(:course) { FactoryGirl.create(:course) }
     let!(:bookmark) { FactoryGirl.create(:bookmark, user: user, course: course) }
 
-    it 'creates a new bookmark', js:true do
+    it 'creates a new bookmark', js: true do
       visit course_path(course)
       click_on 'delete_remember_course_link'
       wait_for_ajax
       expect(Bookmark.count).to be 0
     end
 
-    it 'changes text of button', js:true do
+    it 'changes text of button', js: true do
       visit course_path(course)
       click_on 'delete_remember_course_link'
       wait_for_ajax
@@ -66,14 +66,14 @@ RSpec.describe 'Bookmark', type: :feature do
     let(:course) { FactoryGirl.create(:course) }
     let!(:recommendation) { FactoryGirl.create(:user_recommendation, course: course, users: [user]) }
 
-    it 'creates a new bookmark', js:true do
+    it 'creates a new bookmark', js: true do
       visit dashboard_dashboard_path
       click_on 'remember_course_link'
       wait_for_ajax
       expect(Bookmark.count).to be 1
     end
 
-    it 'changes text of button', js:true do
+    it 'changes text of button', js: true do
       visit course_path(course)
       click_on 'remember_course_link'
       wait_for_ajax
@@ -87,14 +87,14 @@ RSpec.describe 'Bookmark', type: :feature do
     let!(:recommendation) { FactoryGirl.create(:user_recommendation, course: course, users: [user]) }
     let!(:bookmark) { FactoryGirl.create(:bookmark, user: user, course: course) }
 
-    it 'creates a new bookmark', js:true do
+    it 'creates a new bookmark', js: true do
       visit course_path(course)
       click_on 'delete_remember_course_link'
       wait_for_ajax
       expect(Bookmark.count).to be 0
     end
 
-    it 'changes text of button', js:true do
+    it 'changes text of button', js: true do
       visit course_path(course)
       click_on 'delete_remember_course_link'
       wait_for_ajax
@@ -109,14 +109,14 @@ RSpec.describe 'Bookmark', type: :feature do
     let!(:bookmark) { FactoryGirl.create(:bookmark, course: course, user: user) }
     let!(:second_bookmark) { FactoryGirl.create(:bookmark, course: second_course, user: user) }
 
-    it 'deletes bookmark', js:true do
+    it 'deletes bookmark', js: true do
       visit dashboard_dashboard_path
       first('.delete_bookmark_on_dashboard').click
       wait_for_ajax
       expect(Bookmark.count).to eq 1
     end
 
-    it 'hides only deleted bookmark entry', js:true do
+    it 'hides only deleted bookmark entry', js: true do
       visit dashboard_dashboard_path
       first('.delete_bookmark_on_dashboard').click
       wait_for_ajax
@@ -132,14 +132,14 @@ RSpec.describe 'Bookmark', type: :feature do
     let!(:bookmark) { FactoryGirl.create(:bookmark, course: course, user: user) }
     let!(:second_bookmark) { FactoryGirl.create(:bookmark, course: second_course, user: user) }
 
-    it 'deletes bookmark', js:true do
+    it 'deletes bookmark', js: true do
       visit bookmarks_path
       first('.delete_bookmark_from_bookmark_list').click
       wait_for_ajax
       expect(Bookmark.count).to eq 1
     end
 
-    it 'hides only deleted bookmark entry', js:true do
+    it 'hides only deleted bookmark entry', js: true do
       visit bookmarks_path
       first('.delete_bookmark_from_bookmark_list').click
       wait_for_ajax
@@ -148,5 +148,4 @@ RSpec.describe 'Bookmark', type: :feature do
       expect(page).not_to have_content bookmark.course.name
     end
   end
-
 end

@@ -181,10 +181,9 @@ class Course < ActiveRecord::Base
     return nil if user_id == '0'
     user = User.find(user_id)
     course_ids = []
-    user.bookmarks.each { |bookmark| course_ids.push(bookmark.course.id) }
+    user.bookmarks.each {|bookmark| course_ids.push(bookmark.course.id) }
     where(id: course_ids)
   end
-
 
   def self.options_for_costs
     [[I18n.t('courses.filter.costs.free'), 'free'],
