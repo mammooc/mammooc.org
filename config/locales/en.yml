@@ -96,6 +96,7 @@ en:
     complete_profile: Complete your profile
     manage_groups: Manage your groups
     search_courses: Search for courses
+    last_time_active: Last active on
 
   home:
     welcome_heading: Welcome to mammooc!
