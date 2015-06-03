@@ -20,21 +20,12 @@
     .col-sm-10
       = f.text_field :last_name, :class => "form-control"
   .form-group
-    = f.label :gender, :class => "col-sm-2 control-label"
-    .col-sm-10
-      = f.text_field :gender, :class => "form-control"
-  .form-group
-    = f.label :profile_image_id, :class => "col-sm-2 control-label"
-    .col-sm-10
-      = f.text_field :profile_image_id, :class => "form-control"
-  .form-group
-    = f.label :email_settings, :class => "col-sm-2 control-label"
-    .col-sm-10
-      = f.text_field :email_settings, :class => "form-control"
-  .form-group
     = f.label :about_me, :class => "col-sm-2 control-label"
     .col-sm-10
       = f.text_area :about_me, :class => "form-control"
   .form-group
     .col-sm-offset-2.col-sm-10
-      = f.submit :class => "btn btn-primary"
+      = f.submit :class => "btn btn-primary mr5"
+      = link_to @user
+        button.btn.btn-cancel type ="button"
+          | Cancel

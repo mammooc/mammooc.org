@@ -346,8 +346,8 @@ $course-img-height: 250px;
 // Hide sidebar and show filter in another way
 // for small and extra small screens
 
-@media(max-width: $screen-sm-max) {
-  .courses-filter {
-    display: none;
-  }
-}
+//@media(max-width: $screen-sm-max) {
+//  .courses-filter {
+//    display: none;
+//  }
+//}

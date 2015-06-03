@@ -2,7 +2,7 @@
   = t('users.profile.title') + " | " + "#{t('global.app_name')}"
 
 .main-section
-  .profile-top.mt30
+  .profile-top
     .user-visual
       img src = @user_picture
       .name
@@ -23,12 +23,17 @@
         = "#{(@user.courses.collect { |course| course.name }).join(', ')}"
       - else
         =< t('users.profile.currently_nothing')
+      - if current_user.id == @user.id
+        .edit-profile
+          = link_to edit_user_path(@user), :class => 'btn btn-default' do
+            span.glyphicon.glyphicon-pencil
+            = t('global.edit')
 
   - if @user.about_me
     .element
       .content
-      => t('users.profile.about_me')
-      = @user.about_me
+        => t('users.profile.about_me')
+        = @user.about_me
 
 = render 'sidebar'
 

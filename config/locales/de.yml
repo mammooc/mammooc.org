@@ -26,6 +26,7 @@ de:
     close: Schließen
     submit: Absenden
     cancel: Abbrechen
+    edit: Bearbeiten
     by: 'von '
     ajax_failed: Hoppla! Bei der Anforderung ist etwas schief gelaufen. Bitte versuche es erneut.
     show_more: Mehr anzeigen
@@ -149,6 +150,8 @@ de:
       groups: Gruppen
       current_courses: Belegungen
       currently_nothing: Keine
+      edit_profile_title: Profil bearbeiten
+      editing_profile: Profil bearbeiten
 
   groups:
     title: Meine Gruppen | mammooc

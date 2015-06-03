@@ -26,6 +26,7 @@ en:
     close: Close
     submit: Submit
     cancel: Cancel
+    edit: Edit
     by: 'by '
     ajax_failed: Sorry, something went wrong. Please try again.
     show_more: Show more
@@ -149,6 +150,8 @@ en:
       groups: Groups
       current_courses: Enrollments
       currently_nothing: None
+      edit_profile_title: Edit Profile
+      editing_profile: Edit your profile information
 
   groups:
     title: My Groups | mammooc
