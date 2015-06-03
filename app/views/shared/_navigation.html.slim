@@ -26,19 +26,16 @@ nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
           = link_to t('navbar.about'), about_path
         li class=('active' if current_page?(courses_path) || current_page?(courses_index_path))
           = link_to t('navbar.courses'), courses_path
-        /TODO : Create a footer for that (like openHPI)
-        /li class=('active' if current_page?(impressum_path))
-        /  = link_to t('navbar.impressum'), impressum_path
-        - if not user_signed_in?
-          li class="dropdown"
-            a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-expanded="false"
-              = I18n.locale.upcase
-              span.caret
-            ul.dropdown-menu role="menu"
-              - (I18n.available_locales - [I18n.locale]).each do |l|
-                li
-                  a href="#{request.fullpath.split('?')[0]}?language=#{l}"
-                    = language_names[l]
+        / TODO: Language should only be accessible if not logged in
+        li class="dropdown"
+          a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-expanded="false"
+            = I18n.locale.upcase
+            span.caret
+          ul.dropdown-menu role="menu"
+            - (I18n.available_locales - [I18n.locale]).each do |l|
+              li
+                a href="#{request.fullpath.split('?')[0]}?language=#{l}"
+                  = language_names[l]
         - if user_signed_in?
           li.dropdown
             a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
