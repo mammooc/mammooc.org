@@ -15,7 +15,7 @@ nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
           = image_tag("mammooc-logo-weiss.png")
     .collapse.navbar-collapse id="navbar"
       .navbar-form.navbar-left
-        = form_tag({controller: "courses", action: "search"}, method: "get") do
+        = form_tag({controller: "/courses", action: "search"}, method: "get") do
           .input-group
             = text_field_tag :query, nil, placeholder: t('navbar.search_course'), class: 'form-control'
             span.input-group-btn

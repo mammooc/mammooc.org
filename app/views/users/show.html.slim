@@ -23,7 +23,7 @@
         = "#{(@user.courses.collect { |course| course.name }).join(', ')}"
       - else
         =< t('users.profile.currently_nothing')
-      - if current_user.id == @user.id
+      - if current_user && current_user.id == @user.id
         .edit-profile
           = link_to edit_user_path(@user), :class => 'btn btn-default' do
             span.glyphicon.glyphicon-pencil
