@@ -41,9 +41,9 @@ class Course < ActiveRecord::Base
     direction = (sort_option =~ /desc$/) ? 'desc' : 'asc'
     case sort_option.to_s
       when /^name_/
-        order("LOWER(courses.name) #{direction}")
+        order("LOWER(courses.name) #{direction} NULLS LAST")
       when /^start_date_/
-        order("courses.start_date #{direction}")
+        order("courses.start_date #{direction} NULLS LAST")
       when /^duration_/
         order("courses.calculated_duration_in_days IS NULL, courses.calculated_duration_in_days #{direction}")
       when /^relevance_/
@@ -251,12 +251,13 @@ class Course < ActiveRecord::Base
   end
 
   def self.options_for_sorted_by
-    [[I18n.t('courses.filter.sort.start_date_asc'), 'start_date_asc'],
+    [[I18n.t('courses.filter.sort.start_date_desc'), 'start_date_desc'],
+     [I18n.t('courses.filter.sort.start_date_asc'), 'start_date_asc'],
      [I18n.t('courses.filter.sort.duration_desc'), 'duration_desc'],
      [I18n.t('courses.filter.sort.duration_asc'), 'duration_asc'],
      [I18n.t('courses.filter.sort.name_desc'), 'name_desc'],
      [I18n.t('courses.filter.sort.name_asc'), 'name_asc'],
-     [I18n.t('courses.filter.sort.relevance'), 'relevance_asc']]
+     [I18n.t('courses.filter.sort.start_date_relevance'), 'relevance_asc']]
   end
 
   self.per_page = 10

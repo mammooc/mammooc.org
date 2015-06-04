@@ -319,12 +319,13 @@ en:
         sort: Sorted by
         bookmarked: Only show my bookmarked courses
       sort:
-        start_date_asc: Start date newest first
+        start_date_desc: Start date descending
+        start_date_asc: Start date ascending
         duration_desc: Duration decending
         duration_asc: Duration ascending
         name_desc: Title (z-a)
         name_asc: Title (a-z)
-        relevance: Relevance
+        start_date_relevance: Start date - relevance for today
     languages:
       ar: Arabic
       cn: Chinese
