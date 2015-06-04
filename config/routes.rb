@@ -74,7 +74,6 @@ Rails.application.routes.draw do
   get 'groups/:id/all_members_to_administrators' => 'groups#all_members_to_administrators'
   get 'groups/:id/synchronize_courses' => 'groups#synchronize_courses'
 
-  get 'impressum' => 'static_pages#impressum'
   get 'recommendations/:id/delete_user_from_recommendation' => 'recommendations#delete_user_from_recommendation'
   get 'recommendations/:id/delete_group_recommendation' => 'recommendations#delete_group_recommendation'
   root to: 'home#index'

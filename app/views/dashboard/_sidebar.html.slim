@@ -1,30 +1,34 @@
 - content_for :sidebar
-  h3
-    = link_to bookmarks_path
-      = t('dashboard.bookmarks')
-  - if @bookmarks.blank?
-    = t('dashboard.no_bookmarks')
-  - else
-    - @bookmarks.each do |bookmark|
-      .bookmark
-        = link_to bookmark.course.name, course_path(bookmark.course.id)
-        - unless bookmark.course.start_date.blank?
-          | ,
-          =< t('dashboard.course_starts_at')
-          =< I18n.l bookmark.course.start_date, format: t('global.date_format_month')
-
-  h3
-    = t('dashboard.my_current_courses')
-    button.btn.btn-default id='sync-user-course-button' data-user_id='#{current_user.id}'
-      span.glyphicon.glyphicon-refresh data-user_id='#{current_user.id}'
-  .user-courses-container
-    = render partial: 'dashboard/user_courses'
-  h3
-    = link_to t('dashboard.my_groups'), groups_path
-
-  - if current_user.groups.empty?
-    = t('dashboard.no_groups')
-  - else
-    - current_user.groups.each do |group|
-      p
-        = link_to group.name, group_path(group)
+  .sidebar.mt30
+    .element
+      .content
+        .hd5.pb5
+          = t('dashboard.my_groups')
+        - if current_user.groups.empty?
+          = t('dashboard.no_groups')
+        - else
+          - current_user.groups.each do |group|
+            = link_to group.name, group_path(group)
+            br
+    .element
+      .content
+        .hd5.pb5
+          = t('dashboard.bookmarks')
+        - if @bookmarks.blank?
+          = t('dashboard.no_bookmarks')
+        - else
+          - @bookmarks.each do |bookmark|
+            .bookmark
+              = link_to bookmark.course.name, course_path(bookmark.course.id)
+              - unless bookmark.course.start_date.blank?
+                | ,
+                =< t('dashboard.course_starts_at')
+                =< I18n.l bookmark.course.start_date, format: t('global.date_format_month')
+    .element
+      .content
+        .hd5.pb5
+          => t('dashboard.my_current_courses')
+          button.btn.btn-xs.btn-default id='sync-user-course-button' data-user_id='#{current_user.id}' style="margin-bottom: 0px"
+            span.glyphicon.glyphicon-refresh data-user_id='#{current_user.id}'
+        .user-courses-container
+          = render 'user_courses'

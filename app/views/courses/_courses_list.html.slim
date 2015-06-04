@@ -1,7 +1,8 @@
 - if @courses.empty?
-  .panel.panel-default
-    .panel-body
-      = t('courses.no_courses')
+  .main-section
+    .element
+      .no-content-alert
+        = t('courses.no_courses')
 - else
   .courses-wrapper
     - @courses.each do |course|
