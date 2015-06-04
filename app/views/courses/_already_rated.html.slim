@@ -1,2 +1,9 @@
 h4
-  = "Hi #{current_user.first_name}, du hast diesen Kurs bereits bewertet. Vielen Dank für dein Feedback!"
+  = "Hi #{current_user.first_name}, du hast diesen Kurs bewertet. Vielen Dank für dein Feedback!"
+button.btn.btn-primary id="edit-rating-button"
+  | Bewertung anpassen
+.rating-form
+  br
+  = render 'rating'
+script type="text/javascript"
+  | bindToggleRatingFormClickEvent();

@@ -1,9 +1,3 @@
-ready = ->
-  $('#submit-rating-button').on 'click', (event) -> sendCourseReview(event)
-  return
-
-$(document).ready(ready)
-
 sendCourseReview = (event) ->
   button = $(event.target)
   course_id = button.data('course_id')
@@ -33,9 +27,13 @@ sendCourseReview = (event) ->
     success: (data, textStatus, jqXHR) ->
       if data.status == true
         console.log('success')
-        $('div.rating-form').html('Danke für deine Bewertung!')
+        $('div.rating-menu').html(data.partial)
       else if data.status == false
         console.log('no success')
         console.log(data.error_text)
         $('.invitation-error').text(data.error_text)
   event.preventDefault()
+
+@bindSendCourseReviewClick = () ->
+  $('button[id="submit-rating-button"]').on 'click', (event) ->
+    sendCourseReview(event)

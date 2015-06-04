@@ -41,7 +41,7 @@ class CoursesController < ApplicationController
     end
 
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses([@course])
-
+    @has_rated_course = Evaluation.find_by(user_id: current_user.id, course_id: @course.id).present?
   end
 
   def enroll_course
@@ -94,6 +94,7 @@ class CoursesController < ApplicationController
     else
       @saved_evaluation_successfuly = false
     end
+    @respond_partial = render_to_string partial: 'courses/already_rated', formats:[:html]
     respond_to do |format|
       begin
         format.html { redirect_to dashboard_path }

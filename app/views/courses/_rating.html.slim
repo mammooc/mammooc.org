@@ -1,10 +1,5 @@
-h4
-  = 'Kursbewertung'
 -if @evaluation
   - has_rated_course=true
-  p
-    = "Hallo #{current_user.first_name}, du hast diesen Kurs bereits bewertet. Vielen Dank für dein Feedback!"
-
 -else
   - has_rated_course=false
 form.form-horizontal
@@ -16,6 +11,8 @@ form.form-horizontal
         input.rating type='hidden' value="#{@evaluation.rating}" data-start="0" data-stop="5" id="rating-input"
       - else
         input.rating type='hidden' value="" data-start="0" data-stop="5" id="rating-input"
+      script type="text/javascript"
+        | $('#rating-input').rating();
   .form-group
     label.col-sm-3 for="rating-textarea"
       | Zusätzliche Anmerkungen
@@ -60,3 +57,5 @@ form.form-horizontal
     .col-sm-3
     .col-sm-9
       .invitation-error.text-danger
+script type="text/javascript"
+  | bindSendCourseReviewClick();

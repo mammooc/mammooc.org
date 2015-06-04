@@ -1,3 +1,3 @@
 json.status @saved_evaluation_successfuly
 json.error_text @errors
-# json.partial @send_evaluation_answer_partial
+json.partial @respond_partial

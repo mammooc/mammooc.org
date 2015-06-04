@@ -29,6 +29,20 @@ class Course < ActiveRecord::Base
     end
   end
 
+  def self.updateCourseRatingAttributes course_id
+    course = Course.find(course_id)
+    puts "updateCourseRatingAttributes"
+    course_evaluations = Evaluation.find_by_course_id(course_id)
+    if course_evaluations.present?
+      course.calculated_rating = Evaluation.where(course_id: course_id).average(:rating)
+      course.rating_count = Evaluation.where(course_id: course_id).count
+    else
+      course.calculated_rating = 0
+      course.rating_count = 0
+    end
+    course.save
+  end
+
   private
 
   def check_and_update_duration
