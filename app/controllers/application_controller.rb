@@ -7,9 +7,8 @@ class ApplicationController < ActionController::Base
   before_action :require_login, :set_language, :user_picture, :ensure_signup_complete
 
   def user_picture
-    if current_user
-      @user_picture = AmazonS3.instance.get_url(current_user.profile_image_id)
-    end
+    return unless current_user
+    @user_picture = AmazonS3.instance.get_url(current_user.profile_image_id)
   end
 
   def after_sign_in_path_for(resource)
