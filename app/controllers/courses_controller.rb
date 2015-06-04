@@ -22,7 +22,7 @@ class CoursesController < ApplicationController
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(@courses)
 
     if current_user.present?
-      @my_bookmarked_courses = current_user.bookmarks.collect{ |bookmark| bookmark.course }
+      @my_bookmarked_courses = current_user.bookmarks.collect(&:course)
     else
       @my_bookmarked_courses = []
     end

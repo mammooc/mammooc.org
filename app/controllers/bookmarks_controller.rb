@@ -3,7 +3,7 @@ class BookmarksController < ApplicationController
   respond_to :html
 
   def index
-    @bookmarked_courses = current_user.bookmarks.collect{ |bookmark| bookmark.course }
+    @bookmarked_courses = current_user.bookmarks.collect(&:course)
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(@bookmarked_courses)
   end
 
