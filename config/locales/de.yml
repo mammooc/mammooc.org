@@ -325,7 +325,7 @@ de:
         duration_asc: Dauer - aufsteigend
         name_desc: Titel (z-a)
         name_asc: Titel (a-z)
-        start_date_relevance: Startdatum - Relevanz für heute
+        start_date_relevance: Startdatum Relevanz ab heute
     languages:
       ar: Arabisch
       cn: Chinesisch
