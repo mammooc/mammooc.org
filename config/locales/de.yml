@@ -173,6 +173,7 @@ de:
     my_groups: Meine Gruppen
     show: Zur Gruppe
     recommend_course: Dieser Gruppe einen Kurs empfehlen
+    recommend_course_obligatory: Dieser Gruppe einen Kurs vorschreiben
     current_recommendations: Aktuelle Empfehlungen (%{shown_number} von %{complete_number})
     subnav:
       home: Home
@@ -405,6 +406,7 @@ de:
     obligatory_recommendation:
       submit: Vorschreibung erstellen
       successfully_created: Vorschreibung erfolgreich erstellt.
+      new: Neue Vorschreibung
 
     button:
       ignore: Empfehlung ignorieren
