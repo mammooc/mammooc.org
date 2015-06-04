@@ -4,6 +4,7 @@ ready = ->
   $('.course-infobox .collapse').on('show.bs.collapse', addActiveClass)
   $('.course-infobox .collapse').on('hidden.bs.collapse', removeActiveClass)
   $('#recommend-course-link').click(toggleAccordion)
+  $('#recommend-obligatory-course-link').click(toggleAccordion)
   $('#rate-course-link').click(toggleAccordion)
   $('#enroll-course-link').on 'click', (event) -> enrollCourse(event)
   $('#unenroll-course-link').on 'click', (event) -> unenrollCourse(event)

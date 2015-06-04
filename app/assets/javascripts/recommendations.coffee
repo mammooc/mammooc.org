@@ -46,7 +46,7 @@ courses_autocomplete = []
 
 generate_groups_autocomplete = () ->
   get_my_groups()
-  $("#recommendation_related_group_ids").tokenfield
+  $(".recommendation_related_group_ids").tokenfield
     autocomplete:
       source: groups_autocomplete
       delay: 100
@@ -86,7 +86,7 @@ generate_users_autocomplete = () ->
         for user in data.group_members
           users_autocomplete.push({ value: user.id, label: user.first_name + ' ' + user.last_name })
 
-  $("#recommendation_related_user_ids").tokenfield
+  $(".recommendation_related_user_ids").tokenfield
     autocomplete:
       source: users_autocomplete
       delay: 100
@@ -106,7 +106,7 @@ generate_course_autocomplete = () ->
       console.log('courses success')
       for course in data
         courses_autocomplete.push({ label: course.name, value: course.id })
-  $('#recommendation_course_id').tokenfield
+  $('.recommendation_course_ids').tokenfield
     autocomplete:
       minLength: 3
       source: courses_autocomplete

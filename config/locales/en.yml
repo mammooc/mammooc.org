@@ -269,6 +269,7 @@ en:
     enroll_course: Enroll me for this Course
     unenroll_course: Unenroll me for this Course
     recommend_course: Recommend Course
+    recommend_course_obligatory: Make course obligatory
     rate_course: Rate Course
     recommendations: Recommendations
     user_belongs_to_group: 'Group: '
@@ -401,6 +402,9 @@ en:
     successfully_destroyed: Recommendation was successfully destroyed.
     creation_error: Error on creation.
     update_error: Error on update.
+    obligatory_recommendation:
+      submit: Create obligatory recommendation
+      successfully_created: Create obligatory recommendation successfully.
 
     button:
       ignore: Ignore recommendation

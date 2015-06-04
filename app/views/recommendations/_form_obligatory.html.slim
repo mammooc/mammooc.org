@@ -1,4 +1,4 @@
-= form_for(@recommendation, :html => { :class => "form-horizontal", :role => "form", :id => "recommendation_form" }) do |f|
+= form_for(@recommendation, :html => { :class => "form-horizontal", :role => "form", :id => "recommendation_obligatory_form" }) do |f|
   - if @recommendation.errors.any?
     .alert.alert-danger.alert-dismissable role="alert"
       button.close type="button" data-dismiss="alert"
@@ -11,7 +11,7 @@
         - @recommendation.errors.full_messages.each do |msg|
           li= msg
   .form-group
-    = f.hidden_field :is_obligatory, value: false
+    = f.hidden_field :is_obligatory, value: true
   .form-group
     = f.label t('recommendation.related_groups'), :class => "col-sm-2 control-label"
     .col-sm-10
@@ -31,7 +31,7 @@
 
   .form-group
     .col-sm-offset-2.col-sm-10
-      = f.submit :class => "btn btn-primary"
+      = f.submit t('recommendation.obligatory_recommendation.submit'), :class => "btn btn-primary"
 
 script type="text/javascript"
   | recommendationNewParameters();

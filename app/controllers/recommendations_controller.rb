@@ -54,7 +54,11 @@ class RecommendationsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to session.delete(:return_to), notice: t('recommendation.successfully_created') }
+      if params[:recommendation][:is_obligatory] == 'true'
+        format.html { redirect_to session.delete(:return_to), notice: t('recommendation.obligatory_recommendation.successfully_created') }
+      else
+        format.html { redirect_to session.delete(:return_to), notice: t('recommendation.successfully_created') }
+      end
     end
 
   rescue ActiveRecord::RecordNotSaved

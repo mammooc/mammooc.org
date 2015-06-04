@@ -269,6 +269,7 @@ de:
     enroll_course: Kurs belegen
     unenroll_course: Kursbelegung entfernen
     recommend_course: Kurs empfehlen
+    recommend_course_obligatory: Kurs vorschreiben
     rate_course: Kurs bewerten
     recommendations: Empfehlungen
     user_belongs_to_group: 'Gruppe: '
@@ -401,6 +402,9 @@ de:
     successfully_destroyed: Empfehlung erfolgreich gelöscht.
     creation_error: Fehler beim Erstellen.
     update_error: Fehler beim Bearbeiten.
+    obligatory_recommendation:
+      submit: Vorschreibung erstellen
+      successfully_created: Vorschreibung erfolgreich erstellt.
 
     button:
       ignore: Empfehlung ignorieren
