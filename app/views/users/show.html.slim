@@ -1,31 +1,40 @@
-.page-header
-  = link_to edit_user_path(@user), :class => 'btn btn-primary' do 
-    span.glyphicon.glyphicon-pencil
-    |  Edit 
-  h1
-    | Show user
-dl.dl-horizontal
-  dt
-    | Firstname:
-  dd
-    = @user.first_name
-  dt
-    | Lastname:
-  dd
-    = @user.last_name
-  dt
-    | Gender:
-  dd
-    = @user.gender
-  dt
-    | Profileimageid:
-  dd
-    = @user.profile_image_id
-  dt
-    | Emailsettings:
-  dd
-    = @user.email_settings
-  dt
-    | Aboutme:
-  dd
-    = @user.about_me
+- content_for :title
+  = t('users.profile.title') + " | " + "#{t('global.app_name')}"
+
+.main-section
+  .profile-top
+    .user-visual
+      img src = @user_picture
+      .name
+        .hd3
+          => @user.first_name
+          => @user.last_name
+      - if @user.groups.size > 0
+        .small-heading
+          = t('users.profile.groups')
+        - if current_user.id == @user.id
+          = "#{(@user.groups.collect { |group| group.name }).join(', ')}"
+        - else
+          = "#{(current_user.common_groups_with_user(@user).collect { |group| group.name }).join(', ')}"
+      br
+      .small-heading
+        = t('users.profile.current_courses')
+      - if @user.courses.size > 0
+        = "#{(@user.courses.collect { |course| course.name }).join(', ')}"
+      - else
+        =< t('users.profile.currently_nothing')
+      - if current_user && current_user.id == @user.id
+        .edit-profile
+          = link_to edit_user_path(@user), :class => 'btn btn-default' do
+            span.glyphicon.glyphicon-pencil
+            = t('global.edit')
+
+  - if @user.about_me
+    .element
+      .content
+        => t('users.profile.about_me')
+        = @user.about_me
+
+= render 'sidebar'
+
+

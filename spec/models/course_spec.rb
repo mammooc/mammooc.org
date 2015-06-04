@@ -143,9 +143,14 @@ RSpec.describe Course, type: :model do
         expect(result).to match([course_today, course_soon, course_past, course_current, course_without_dates])
       end
 
-      it 'sorts for start_date' do
+      it 'sorts for start_date_asc' do
         result = described_class.sorted_by('start_date_asc')
         expect(result).to match([course_past, course_current, course_today, course_soon, course_without_dates])
+      end
+
+      it 'sorts for start_date_desc' do
+        result = described_class.sorted_by('start_date_desc')
+        expect(result).to match([course_soon, course_today, course_current, course_past, course_without_dates])
       end
 
       it 'show courses starts today first' do
@@ -628,6 +633,24 @@ RSpec.describe Course, type: :model do
           result = described_class.with_tracks(track_options)
           expect(result).to match([course1_range6])
         end
+      end
+    end
+
+    context 'my bookmarked courses' do
+      let(:user) { FactoryGirl.create(:user) }
+      let(:second_user) { FactoryGirl.create(:user) }
+      let(:not_bookmarked_course) { FactoryGirl.create(:course) }
+      let(:bookmarked_course) { FactoryGirl.create(:course) }
+      let!(:bookmark) { FactoryGirl.create(:bookmark, user: user, course: bookmarked_course) }
+
+      it 'returns only bookmarked courses' do
+        result = described_class.bookmarked(user.id)
+        expect(result).to match([bookmarked_course])
+      end
+
+      it 'returns nothing if there are no bookmarked courses' do
+        result = described_class.bookmarked(second_user.id)
+        expect(result).to match([])
       end
     end
   end

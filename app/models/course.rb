@@ -13,7 +13,8 @@ class Course < ActiveRecord::Base
                         :start_filter_options,
                         :with_tracks,
                         :search_query,
-                        :sorted_by]
+                        :sorted_by,
+                        :bookmarked]
   )
 
   belongs_to :mooc_provider
@@ -42,7 +43,7 @@ class Course < ActiveRecord::Base
       when /^name_/
         order("LOWER(courses.name) #{direction}")
       when /^start_date_/
-        order("courses.start_date #{direction}")
+        order("courses.start_date #{direction} NULLS LAST")
       when /^duration_/
         order("courses.calculated_duration_in_days IS NULL, courses.calculated_duration_in_days #{direction}")
       when /^relevance_/
@@ -176,6 +177,14 @@ class Course < ActiveRecord::Base
     end
   end
 
+  scope :bookmarked, ->(user_id) do
+    return nil if user_id == '0'
+    user = User.find(user_id)
+    course_ids = []
+    user.bookmarks.each {|bookmark| course_ids.push(bookmark.course.id) }
+    where(id: course_ids)
+  end
+
   def self.options_for_costs
     [[I18n.t('courses.filter.costs.free'), 'free'],
      [I18n.t('courses.filter.costs.range1'), 'range1'],
@@ -242,12 +251,13 @@ class Course < ActiveRecord::Base
   end
 
   def self.options_for_sorted_by
-    [[I18n.t('courses.filter.sort.start_date_asc'), 'start_date_asc'],
+    [[I18n.t('courses.filter.sort.start_date_relevance'), 'relevance_asc'],
      [I18n.t('courses.filter.sort.duration_desc'), 'duration_desc'],
      [I18n.t('courses.filter.sort.duration_asc'), 'duration_asc'],
      [I18n.t('courses.filter.sort.name_desc'), 'name_desc'],
      [I18n.t('courses.filter.sort.name_asc'), 'name_asc'],
-     [I18n.t('courses.filter.sort.relevance'), 'relevance_asc']]
+     [I18n.t('courses.filter.sort.start_date_desc'), 'start_date_desc'],
+     [I18n.t('courses.filter.sort.start_date_asc'), 'start_date_asc']]
   end
 
   self.per_page = 10

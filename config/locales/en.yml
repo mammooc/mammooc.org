@@ -26,6 +26,7 @@ en:
     close: Close
     submit: Submit
     cancel: Cancel
+    edit: Edit
     by: 'by '
     ajax_failed: Sorry, something went wrong. Please try again.
     show_more: Show more
@@ -66,30 +67,49 @@ en:
   navbar:
     home: Home
     courses: Courses
-    about: About us
-    impressum: Legal Notice
+    about: About mammooc
     sign_out: Sign Out
     dashboard: Dashboard
-    profile: Profile
+    profile: My Profile
+    groups: My Groups
     settings: Settings
     welcome_heading: Welcome to mammooc!
+    search_course: Search for courses
+
+  footer:
+    title: More information
+    about: About mammooc
+    about_text: "mammooc is a student's project developed at the German Hasso Plattner Institute, Potsdam."
+    hpi: Hasso Plattner Institute
+    imprint: Imprint
 
   dashboard:
-    hi: Hi %{name}
+    title: Dashboard
     my_groups: :groups.my_groups
     my_current_courses: My Current Courses
     no_groups: :groups.no_groups
     new_group: Creating Group
     edit_group: Editing Group
     no_courses: :courses.no_courses
-    recommendations: :recommendation.your_recommendations
-    recommendations_with_quantity: :recommendation.your_recommendations_with_quantity
-    search_course: Search for courses
+    number_of_recommendations: You have %{number} recommendations
+    number_of_activities: There are 2 new activities in your groups
+    complete_profile: Complete your profile
+    manage_groups: Manage your groups
+    search_courses: Search for courses
+    last_time_active: Last active on
+    bookmarks: :bookmarks.my_bookmarks
+    no_bookmarks: :bookmarks.no_bookmarks
+    course_starts_at: starts at
 
   home:
     welcome_heading: Welcome to mammooc!
     welcome_title: "mammooc: Sign up today!"
     hello: Hello
+
+  bookmarks:
+    my_bookmarks: My Bookmarked Courses
+    no_bookmarks: You don't have any bookmarked courses right now.
+    bookmarked: bookmarked
 
   users:
     sign_in_up:
@@ -142,6 +162,14 @@ en:
       oauth_error: Sorry! We were unable to establish a connection to your account. Please check your settings and try again.
       revoke_provider_connection: Revoke connection
       establish_provider_connection: Establish connection
+    profile:
+      title: Your Profile
+      about_me: "About me:"
+      groups: Groups
+      current_courses: Enrollments
+      currently_nothing: None
+      edit_profile_title: Edit Profile
+      editing_profile: Edit your profile information
 
   groups:
     title: My Groups | mammooc
@@ -245,7 +273,8 @@ en:
     difficulty: Difficulty
     workload: Workload
     enter_course: Enter Course
-    remember_course: Remember Course
+    remember_course: Bookmark Course
+    delete_remember_course: Delete Course from bookmarks
     enroll_course: Enroll me for this Course
     unenroll_course: Unenroll me for this Course
     recommend_course: Recommend Course
@@ -317,14 +346,15 @@ en:
         costs: Price
         certificate: Type of Certificate
         sort: Sorted by
+        bookmarked: Only show my bookmarked courses
       sort:
-        start_date_asc: Start date newest first
+        start_date_desc: Start date descending
+        start_date_asc: Start date ascending
         duration_desc: Duration decending
         duration_asc: Duration ascending
         name_desc: Title (z-a)
         name_asc: Title (a-z)
-        relevance: Relevance
-
+        start_date_relevance: Start date relevance from today
     languages:
       ar: Arabic
       cn: Chinese
@@ -462,11 +492,6 @@ en:
       text_1: We are six students of the HPI, working on mammooc as the last phase of our bachelors-degree.
       text_2: We are continuously trying to provide you with the best experience! You have feedback, questions, wishes or anything else to say about mammooc? We’d be glad to hear from you!
       text_3: Write us at
-    impressum:
-      heading: Legal Notice
-      title: Legal Notice | mammooc
-      text: Currently you can find our legal notice on the openHPI website.
-      link: To legal notice
 
   unauthorized:
     create:
