@@ -7,6 +7,8 @@ ready = ->
   $('#rate-course-link').click(toggleAccordion)
   $('#enroll-course-link').on 'click', (event) -> enrollCourse(event)
   $('#unenroll-course-link').on 'click', (event) -> unenrollCourse(event)
+  $('#remember_course_link').on 'click', (event) -> rememberCourse(event)
+  $('#delete_remember_course_link').on 'click', (event) -> deleteRememberCourse(event)
 
   content_height = $('#course-description').children().find('.content').outerHeight()
   title_height = $('#course-description').children().find('.title').outerHeight()
@@ -83,6 +85,53 @@ unenrollCourse = (event) ->
       else
         alert(I18n.t('courses.unenrollment_error'))
   event.preventDefault()
+
+rememberCourse = (event) ->
+  current_course_id = $(event.target).data('course_id')
+  current_user_id = $(event.target).data('user_id')
+  url = "/bookmarks"
+  data =
+    bookmark :
+      course_id : current_course_id
+      user_id : current_user_id
+
+  $.ajax
+    url: url
+    data: data
+    method: 'POST'
+    error: (jqXHR, textStatus, errorThrown) ->
+      console.log('error_status')
+      alert(I18n.t('global.ajax_failed'))
+    success: (data, textStatus, jqXHR) ->
+      $(event.target).text(I18n.t('courses.delete_remember_course'))
+      .unbind('click')
+      .attr('id','delete_remember_course_link')
+      .on 'click', (event) -> deleteRememberCourse(event)
+  event.preventDefault()
+
+deleteRememberCourse = (event) ->
+  current_course_id = $(event.target).data('course_id')
+  current_user_id = $(event.target).data('user_id')
+  url = "/bookmarks/delete"
+  data =
+    course_id : current_course_id
+    user_id : current_user_id
+
+  $.ajax
+    url: url
+    data: data
+    method: 'POST'
+    error: (jqXHR, textStatus, errorThrown) ->
+      console.log('error_status')
+      alert(I18n.t('global.ajax_failed'))
+    success: (data, textStatus, jqXHR) ->
+      $(event.target).text(I18n.t('courses.remember_course'))
+      .unbind('click')
+      .attr('id','remember_course_link')
+      .on 'click', (event) -> rememberCourse(event)
+  event.preventDefault()
+
+
 
 $.setAjaxPagination = ->
   $('.rec-pagination a').click (event) ->

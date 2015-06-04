@@ -64,8 +64,12 @@
       = t('recommendation.button.course_details')
     | &nbsp;&#183;&nbsp;
     - unless current_user.courses.include? recommendation.course
-      = link_to ''
-        = t('courses.remember_course')
+      - if Bookmark.where(user_id: current_user.id, course_id: recommendation.course.id).blank?
+        a class="entry" href='' id='remember_course_link' data-course_id='#{recommendation.course.id}' data-user_id='#{current_user.id}'
+          = t('courses.remember_course')
+      - else
+        a class="entry" href='' id='delete_remember_course_link' data-course_id='#{recommendation.course.id}' data-user_id='#{current_user.id}'
+          = t('courses.delete_remember_course')
       | &nbsp;&#183;&nbsp;
       a href='' id='enroll-course-link' data-course_id='#{recommendation.course.id}'
         = t('courses.enroll_course')

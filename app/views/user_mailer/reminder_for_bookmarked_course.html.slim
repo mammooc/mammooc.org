@@ -1,0 +1,34 @@
+doctype html
+html
+  head
+    meta charset="utf-8"
+    meta http-equiv="X-UA-Compatible" content="IE=edge"
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    meta name="description" content=""
+    meta name="author" content="#{t('global.app_name')}"
+  body
+    | (English Version below)
+    br
+    br
+    p
+      | Hallo #{@user.first_name} #{@user.last_name},
+    p
+      | dein vorgemerkter Kurs:
+      =<> link_to @course.name, course_url(@course)
+      | beginnt in einer Woche am #{@course.start_date.strftime('%-d.%-m.%Y')}.
+    p
+      | Viel Spaß,
+    p
+      | dein mammooc-Team
+    br
+    br
+    br
+      | Hello #{@user.first_name} #{@user.last_name},
+    p
+      | your bookmarked course:
+      =<> link_to @course.name, course_url(@course)
+      | starts in one weeks at #{@course.start_date.strftime('%-m/%-d/%Y')}.
+    p
+      | Lof of fun,
+    p
+      | your mammooc-Team
