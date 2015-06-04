@@ -85,11 +85,19 @@ en:
     recommendations: :recommendation.your_recommendations
     recommendations_with_quantity: :recommendation.your_recommendations_with_quantity
     search_course: Search for courses
+    bookmarks: :bookmarks.my_bookmarks
+    no_bookmarks: :bookmarks.no_bookmarks
+    course_starts_at: starts at
 
   home:
     welcome_heading: Welcome to mammooc!
     welcome_title: "mammooc: Sign up today!"
     hello: Hello
+
+  bookmarks:
+    my_bookmarks: My Bookmarked Courses
+    no_bookmarks: You don't have any bookmarked courses right now.
+    bookmarked: bookmarked
 
   users:
     sign_in_up:
@@ -236,7 +244,8 @@ en:
     difficulty: Difficulty
     workload: Workload
     enter_course: Enter Course
-    remember_course: Remember Course
+    remember_course: Bookmark Course
+    delete_remember_course: Delete Course from bookmarks
     enroll_course: Enroll me for this Course
     unenroll_course: Unenroll me for this Course
     recommend_course: Recommend Course
@@ -308,6 +317,7 @@ en:
         costs: Price
         certificate: Type of Certificate
         sort: Sorted by
+        bookmarked: Only show my bookmarked courses
       sort:
         start_date_asc: Start date newest first
         duration_desc: Duration decending
@@ -315,7 +325,6 @@ en:
         name_desc: Title (z-a)
         name_asc: Title (a-z)
         relevance: Relevance
-
     languages:
       ar: Arabic
       cn: Chinese

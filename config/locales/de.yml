@@ -85,11 +85,19 @@ de:
     recommendations: :recommendation.your_recommendations
     recommendations_with_quantity: :recommendation.your_recommendations_with_quantity
     search_course: Kurse finden
+    bookmarks: :bookmarks.my_bookmarks
+    no_bookmarks: :bookmarks.no_bookmarks
+    course_starts_at: beginnt am
 
   home:
     welcome_heading: Willkommen bei mammooc!
     welcome_title: "mammooc: Registriere Dich noch heute!"
     hello: Hallo
+
+  bookmarks:
+    my_bookmarks: Meine Vorgemerkten Kurse
+    no_bookmarks: Du hast leider derzeit keine Vormerkungen.
+    bookmarked: vorgemerkt
 
   users:
     sign_in_up:
@@ -237,6 +245,7 @@ de:
     workload: Arbeitsaufwand
     enter_course: Zum Kurs
     remember_course: Kurs merken
+    delete_remember_course: Kurs aus gemerkten Kursen entfernen
     enroll_course: Kurs belegen
     unenroll_course: Kursbelegung entfernen
     recommend_course: Kurs empfehlen
@@ -308,6 +317,7 @@ de:
         costs: Preis
         certificate: Art des Zertifikats
         sort: Sortieren nach
+        bookmarked: Zeige nur meine vorgemerkten Kurse
       sort:
         start_date_asc: Startdatum - neuestes zuerst
         duration_desc: Dauer - absteigend

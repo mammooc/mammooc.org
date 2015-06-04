@@ -24,7 +24,7 @@ Rails.application.routes.draw do
 
   resources :evaluations
 
-  resources :bookmarks
+  resources :bookmarks, except: [:edit, :new, :show, :update, :destroy]
 
   resources :progresses
 
@@ -87,6 +87,9 @@ Rails.application.routes.draw do
   get 'courses/:id' => 'courses#show', as: 'course'
   get 'courses/:id/enroll_course' => 'courses#enroll_course'
   get 'courses/:id/unenroll_course' => 'courses#unenroll_course'
+
+  # Bookmarks
+  post 'bookmarks/delete' => 'bookmarks#delete'
 
   # Users
   get 'users/:id/synchronize_courses' => 'users#synchronize_courses', as: 'synchronize_courses'

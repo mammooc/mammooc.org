@@ -7,28 +7,12 @@ RSpec.describe BookmarksController, type: :routing do
       expect(get: '/bookmarks').to route_to('bookmarks#index')
     end
 
-    it 'routes to #new' do
-      expect(get: '/bookmarks/new').to route_to('bookmarks#new')
-    end
-
-    it 'routes to #show' do
-      expect(get: '/bookmarks/1').to route_to('bookmarks#show', id: '1')
-    end
-
-    it 'routes to #edit' do
-      expect(get: '/bookmarks/1/edit').to route_to('bookmarks#edit', id: '1')
-    end
-
     it 'routes to #create' do
       expect(post: '/bookmarks').to route_to('bookmarks#create')
     end
 
-    it 'routes to #update' do
-      expect(put: '/bookmarks/1').to route_to('bookmarks#update', id: '1')
-    end
-
-    it 'routes to #destroy' do
-      expect(delete: '/bookmarks/1').to route_to('bookmarks#destroy', id: '1')
+    it 'routes to #delete' do
+      expect(post: '/bookmarks/delete').to route_to('bookmarks#delete')
     end
   end
 end
