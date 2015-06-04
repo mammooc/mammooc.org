@@ -12,23 +12,6 @@ h2
               span.glyphicon.glyphicon-search
 
 h2
-  = link_to bookmarks_path
-    = t('dashboard.bookmarks')
-- if @bookmarks.blank?
-  = t('dashboard.no_bookmarks')
-- else
-  - @bookmarks.each do |bookmark|
-    .bookmark
-      = link_to bookmark.course.name, course_path(bookmark.course.id)
-      - unless bookmark.course.start_date.blank?
-        | ,
-        =< t('dashboard.course_starts_at')
-        =< I18n.l bookmark.course.start_date, format: t('global.date_format_month')
-      a href= '' class='delete_bookmark_on_dashboard' data-course_id='#{bookmark.course.id}' data-user_id='#{current_user.id}'
-        span.glyphicon.glyphicon-remove
-      br
-
-h2
   = link_to recommendations_path
     - if @number_of_recommendations == 0
       = t('dashboard.recommendations')

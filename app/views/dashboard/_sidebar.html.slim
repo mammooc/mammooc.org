@@ -1,5 +1,19 @@
 - content_for :sidebar
   h3
+    = link_to bookmarks_path
+      = t('dashboard.bookmarks')
+  - if @bookmarks.blank?
+    = t('dashboard.no_bookmarks')
+  - else
+    - @bookmarks.each do |bookmark|
+      .bookmark
+        = link_to bookmark.course.name, course_path(bookmark.course.id)
+        - unless bookmark.course.start_date.blank?
+          | ,
+          =< t('dashboard.course_starts_at')
+          =< I18n.l bookmark.course.start_date, format: t('global.date_format_month')
+
+  h3
     = t('dashboard.my_current_courses')
     button.btn.btn-default id='sync-user-course-button' data-user_id='#{current_user.id}'
       span.glyphicon.glyphicon-refresh data-user_id='#{current_user.id}'

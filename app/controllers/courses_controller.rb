@@ -20,11 +20,11 @@ class CoursesController < ApplicationController
 
     @courses = @filterrific.find.page(params[:page])
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(@courses)
-    @my_bookmarked_courses = []
+
     if current_user.present?
-      current_user.bookmarks.each do |bookmark|
-        @my_bookmarked_courses.push(bookmark.course)
-      end
+      @my_bookmarked_courses = current_user.bookmarks.collect{ |bookmark| bookmark.course }
+    else
+      @my_bookmarked_courses = []
     end
 
     respond_to do |format|
