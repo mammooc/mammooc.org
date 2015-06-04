@@ -65,4 +65,20 @@ RSpec.describe 'Application', type: :feature do
       expect(current_path).to eq(dashboard_path)
     end
   end
+
+  describe 'log in via navbar' do
+    let(:user) { FactoryGirl.create(:user) }
+
+    it 'redirects to original URL after sign in' do
+      visit courses_path
+      click_on 'dropdown_for_login'
+      fill_in 'user_primary_email', with: user.primary_email
+      fill_in 'user_password', with: user.password
+      click_on 'submit_sign_in_dropdown'
+      expect(current_path).to eq courses_path
+      expect(page).to have_content user.first_name
+    end
+
+  end
+
 end
