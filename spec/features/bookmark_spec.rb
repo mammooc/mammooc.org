@@ -111,14 +111,14 @@ RSpec.describe 'Bookmark', type: :feature do
 
     it 'deletes bookmark', js: true do
       visit dashboard_dashboard_path
-      first('.delete_bookmark_on_dashboard').click
+      first('.glyphicon-remove').click
       wait_for_ajax
       expect(Bookmark.count).to eq 1
     end
 
     it 'hides only deleted bookmark entry', js: true do
       visit dashboard_dashboard_path
-      first('.delete_bookmark_on_dashboard').click
+      first('.glyphicon-remove').click
       wait_for_ajax
       expect(page).to have_content(I18n.t('dashboard.bookmarks'))
       expect(page).to have_content second_bookmark.course.name
@@ -134,14 +134,14 @@ RSpec.describe 'Bookmark', type: :feature do
 
     it 'deletes bookmark', js: true do
       visit bookmarks_path
-      first('.delete_bookmark_from_bookmark_list').click
+      first('.glyphicon-remove').click
       wait_for_ajax
       expect(Bookmark.count).to eq 1
     end
 
     it 'hides only deleted bookmark entry', js: true do
       visit bookmarks_path
-      first('.delete_bookmark_from_bookmark_list').click
+      first('.glyphicon-remove').click
       wait_for_ajax
       expect(page).to have_content(I18n.t('dashboard.bookmarks'))
       expect(page).to have_content second_bookmark.course.name

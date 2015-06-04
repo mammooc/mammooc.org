@@ -7,7 +7,7 @@
     - @bookmarked_courses.each do |course|
       .courses.bookmark
         a href= '' class='bookmark-remove delete_bookmark_from_bookmark_list' data-course_id='#{course.id}' data-user_id='#{current_user.id}'
-          span.glyphicon.glyphicon-remove data-course_id='#{course.id}' data-user_id='#{current_user.id}'
+          span.glyphicon.glyphicon-remove
         = link_to course
           .course-image
             - if course.imageId
