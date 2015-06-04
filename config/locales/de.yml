@@ -339,12 +339,13 @@ de:
         sort: Sortieren nach
         bookmarked: Zeige nur meine vorgemerkten Kurse
       sort:
-        start_date_asc: Startdatum - neuestes zuerst
+        start_date_desc: Startdatum - absteigend
+        start_date_asc: Startdatum - aufsteigend
         duration_desc: Dauer - absteigend
         duration_asc: Dauer - aufsteigend
         name_desc: Titel (z-a)
         name_asc: Titel (a-z)
-        relevance: Relevanz
+        start_date_relevance: Startdatum Relevanz ab heute
     languages:
       ar: Arabisch
       cn: Chinesisch
