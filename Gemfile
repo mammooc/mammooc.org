@@ -46,6 +46,9 @@ gem 'cancancan', '~>1.10'
 # HTTP api_connection
 gem 'rest-client'
 
+# file upload
+gem 'paperclip'
+
 # amazon S3 connection
 gem 'aws-sdk', '~> 2'
 

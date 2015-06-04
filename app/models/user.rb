@@ -22,6 +22,15 @@ class User < ActiveRecord::Base
   has_many :evaluations
   has_many :user_assignments
   has_many :user_identities, dependent: :destroy
+
+  has_attached_file :profile_image_id, styles: {
+                        thumb: '100x100>',
+                        square: '200x200#',
+                        medium: '300x300>'
+  }
+  # Validate the attached image is image/jpg, image/png, etc
+  validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
+
   before_destroy :handle_group_memberships, prepend: true
   after_commit :save_primary_email, on: :create
 
