@@ -64,6 +64,7 @@ nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
                     .field
                       = f.check_box :remember_me
                       = f.label :remember_me, t('users.sign_in_up.remember_me')
+                    - session[:user_original_url] = request.fullpath
                     .actions
                       = f.submit t('users.sign_in_up.sign_in'), :class => 'btn btn-primary'
                   = link_to t('users.sign_in_up.forgot_password'), new_password_path(:user)
