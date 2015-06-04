@@ -117,13 +117,11 @@ RSpec.describe Course, type: :model do
 
   describe 'scopes for filtering' do
     context 'sorted_by' do
-
       let!(:course_today) { FactoryGirl.create(:course, name: 'AAA', calculated_duration_in_days: 800, start_date: Time.zone.now) }
       let!(:course_soon) { FactoryGirl.create(:course, name: 'ZZZ', calculated_duration_in_days: 60, start_date: Time.zone.now + 1.weeks) }
-      let!(:course_current) { FactoryGirl.create(:course, name: 'CCC', start_date: Time.zone.now - 1.weeks, end_date: Time.zone.now + 1.weeks) } #calculated_duration_in_days will be 14
-      let!(:course_past) { FactoryGirl.create(:course, name: 'BBB', start_date: Time.zone.now - 4.weeks, end_date: Time.zone.now - 1.weeks) } #calculated_duration_in_days will be 21
+      let!(:course_current) { FactoryGirl.create(:course, name: 'CCC', start_date: Time.zone.now - 1.weeks, end_date: Time.zone.now + 1.weeks) } # calculated_duration_in_days will be 14
+      let!(:course_past) { FactoryGirl.create(:course, name: 'BBB', start_date: Time.zone.now - 4.weeks, end_date: Time.zone.now - 1.weeks) } # calculated_duration_in_days will be 21
       let!(:course_without_dates) { FactoryGirl.create(:course, name: 'FFF', start_date: nil, end_date: nil) }
-
 
       it 'sorts for name asc' do
         result = described_class.sorted_by('name_asc')
@@ -154,7 +152,6 @@ RSpec.describe Course, type: :model do
         result = described_class.sorted_by('relevance_asc')
         expect(result).to match([course_today, course_soon, course_current, course_past, course_without_dates])
       end
-
     end
 
     context 'search query' do
@@ -631,6 +628,24 @@ RSpec.describe Course, type: :model do
           result = described_class.with_tracks(track_options)
           expect(result).to match([course1_range6])
         end
+      end
+    end
+
+    context 'my bookmarked courses' do
+      let(:user) { FactoryGirl.create(:user) }
+      let(:second_user) { FactoryGirl.create(:user) }
+      let(:not_bookmarked_course) { FactoryGirl.create(:course) }
+      let(:bookmarked_course) { FactoryGirl.create(:course) }
+      let!(:bookmark) { FactoryGirl.create(:bookmark, user: user, course: bookmarked_course) }
+
+      it 'returns only bookmarked courses' do
+        result = described_class.bookmarked(user.id)
+        expect(result).to match([bookmarked_course])
+      end
+
+      it 'returns nothing if there are no bookmarked courses' do
+        result = described_class.bookmarked(second_user.id)
+        expect(result).to match([])
       end
     end
   end

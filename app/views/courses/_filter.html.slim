@@ -35,6 +35,10 @@
         br
           = f.label t('courses.filter.labels.sort')
           = f.select(:sorted_by, @filterrific.select_options[:options_for_sorted_by])
+        - if user_signed_in?
+          br
+          = t('courses.filter.labels.bookmarked')
+          = f.check_box :bookmarked, {}, current_user.id
         br
           = link_to 'Reset filters', reset_filterrific_url
           = render_filterrific_spinner

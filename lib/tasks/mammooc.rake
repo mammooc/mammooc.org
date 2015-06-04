@@ -22,4 +22,9 @@ namespace :mammooc do
     # OpenHPIChinaUserWorker.perform_async
     CourseraUserWorker.perform_async
   end
+
+  task send_reminders: :environment do
+    BookmarkWorker.perform_async
+  end
+
 end
