@@ -5,7 +5,7 @@
     .form-group
       = f.label :primary_mail, t('users.settings.email'), class: 'col-sm-2 control-label'
       .col-sm-10
-        = f.text_field :primary_email, autofocus: true, value: session.has_key?(:resource) ? session[:resource]['primary_email'] : '', class: 'form-control'
+        = f.text_field :primary_email, autofocus: true, value: session.has_key?(:resource) ? session[:resource]['primary_email'] : '', class: 'form-control', id: 'primary_email_finish_sign_up'
     .form-group
       .col-sm-offset-2.col-sm-10
-        = f.submit class: 'btn btn-primary'
+        = f.submit class: 'btn btn-primary', id: 'submit_finish_sign_up'

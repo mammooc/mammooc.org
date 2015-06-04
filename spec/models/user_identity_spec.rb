@@ -12,7 +12,6 @@ RSpec.describe UserIdentity, type: :model do
 
     it 'returns a new user identiy if no existing could be found' do
       identity = described_class.find_by(user: user)
-      puts identity.provider_user_id
       authentication_info = OmniAuth::AuthHash.new(provider: identity.omniauth_provider, uid: 'other_user')
       expect(new_identity = described_class.find_for_omniauth(authentication_info)).not_to eql identity
       expect(new_identity).to be_valid
