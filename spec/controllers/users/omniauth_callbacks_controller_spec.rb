@@ -20,6 +20,42 @@ RSpec.describe Users::OmniauthCallbacksController, type: :controller do
       get :facebook
       expect(subject.signed_in?).to be_truthy
     end
+
+    it 'google' do
+      expect(User).to receive(:find_for_omniauth).and_return(user)
+      get :google
+      expect(subject.signed_in?).to be_truthy
+    end
+
+    it 'github' do
+      expect(User).to receive(:find_for_omniauth).and_return(user)
+      get :github
+      expect(subject.signed_in?).to be_truthy
+    end
+
+    it 'linkedin' do
+      expect(User).to receive(:find_for_omniauth).and_return(user)
+      get :linkedin
+      expect(subject.signed_in?).to be_truthy
+    end
+
+    it 'twitter' do
+      expect(User).to receive(:find_for_omniauth).and_return(user)
+      get :twitter
+      expect(subject.signed_in?).to be_truthy
+    end
+
+    it 'windows_live' do
+      expect(User).to receive(:find_for_omniauth).and_return(user)
+      get :windows_live
+      expect(subject.signed_in?).to be_truthy
+    end
+
+    it 'amazon' do
+      expect(User).to receive(:find_for_omniauth).and_return(user)
+      get :amazon
+      expect(subject.signed_in?).to be_truthy
+    end
   end
 
   describe 'deauthorize' do

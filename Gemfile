@@ -39,6 +39,12 @@ gem 'passenger'
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth-facebook'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-github'
+gem 'omniauth-linkedin-oauth2'
+gem 'omniauth-twitter'
+gem 'omniauth-windowslive'
+gem 'omniauth-amazon'
 
 # authorization
 gem 'cancancan', '~>1.10'
