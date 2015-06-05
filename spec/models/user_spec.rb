@@ -139,6 +139,16 @@ RSpec.describe User, type: :model do
   end
 
   describe 'primary_email=' do
+    self.use_transactional_fixtures = false
+
+    before(:all) do
+      DatabaseCleaner.strategy = :truncation
+    end
+
+    after(:all) do
+      DatabaseCleaner.strategy = :transaction
+    end
+
     it 'creates a new UserEmail for the given primary email address' do
       user_data = FactoryGirl.build_stubbed(:user)
       user = described_class.new
@@ -148,21 +158,28 @@ RSpec.describe User, type: :model do
       user.password = user_data.password
       user.profile_image_id = user_data.profile_image_id
       expect { user.save! }.not_to raise_error
-      expect { user.send(:save_primary_email) }.not_to raise_error
       expect(user.instance_variable_get(:@primary_email_object)).to eql UserEmail.find_by_user_id(user)
       expect(user.primary_email).to eql user_data.primary_email
     end
 
     it 'updates the primary email without creating a new UserEmail object' do
-      user = FactoryGirl.create(:user, primary_email: 'test@example.com')
-      expect { user.primary_email = 'abc@example.com' }.not_to change { UserEmail.count }
+      user = FactoryGirl.build(:user, primary_email: 'test@example.com')
+      user.save!
+      expect do
+        user.primary_email = 'abc@example.com'
+        user.save!
+      end.not_to change { UserEmail.count }
       expect(UserEmail.find_by_address('test@example.com')).to be_nil
       expect(UserEmail.find_by_address('abc@example.com').user).to eql user
     end
 
     it 'updates a user' do
-      user = FactoryGirl.create(:user, primary_email: 'test@example.com')
-      expect { user.update!(primary_email: 'new@email.com') }.not_to raise_error
+      user = FactoryGirl.build(:user, primary_email: 'test@example.com')
+      user.save
+      expect do
+        user.update!(primary_email: 'new@email.com')
+        user.save!
+      end.not_to raise_error
       expect(described_class.find_by_primary_email('new@email.com')).to eql user
       expect(user.persisted?).to be true
     end

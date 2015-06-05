@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   has_many :user_assignments
   has_many :identities, class_name: 'UserIdentity', dependent: :destroy
   before_destroy :handle_group_memberships, prepend: true
-  after_commit :save_primary_email, on: :create
+  after_commit :save_primary_email, on: [:create, :update]
 
   def handle_group_memberships
     groups.each do |group|
@@ -69,8 +69,6 @@ class User < ActiveRecord::Base
       @primary_email_object.is_primary = true
       @primary_email_object.is_verified = false
     end
-    return if @primary_email_object.user.blank?
-    @primary_email_object.save!
   end
 
   def self.find_by_primary_email(email_address)
