@@ -26,7 +26,6 @@ sendCourseReview = (event) ->
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       if data.status == true
-        console.log('success')
         $('div.rating-menu').html(data.partial)
       else if data.status == false
         console.log('no success')

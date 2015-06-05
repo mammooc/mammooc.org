@@ -21,8 +21,8 @@ class CoursesController < ApplicationController
       @following_course_name = Course.find(@course.following_iteration_id).name
     end
 
-    # RECOMMENDATIONS
     if user_signed_in?
+      # RECOMMENDATIONS
       recommendations = Recommendation.sorted_recommendations_for_course_and_user(@course, current_user, [current_user])
       params[:page] ||= 1
       @recommendations = recommendations.paginate(page: params[:page], per_page: 5)
@@ -37,11 +37,15 @@ class CoursesController < ApplicationController
           @recommended_by.push(recommendation.author)
         end
       end
-      @evaluation = current_user.evaluations.find_by(course_id: @course.id)
+
+      # EVALUATIONS
+      @current_user_evaluation = current_user.evaluations.find_by(course_id: @course.id)
+      @has_rated_course = Evaluation.find_by(user_id: current_user.id, course_id: @course.id).present?
     end
 
+    generateRatingsForCourse @course
+
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses([@course])
-    @has_rated_course = Evaluation.find_by(user_id: current_user.id, course_id: @course.id).present?
   end
 
   def enroll_course
@@ -94,7 +98,7 @@ class CoursesController < ApplicationController
     else
       @saved_evaluation_successfuly = false
     end
-    @respond_partial = render_to_string partial: 'courses/already_rated', formats:[:html]
+    @respond_partial = render_to_string partial: 'courses/already_rated_course_form', formats:[:html]
     respond_to do |format|
       begin
         format.html { redirect_to dashboard_path }
@@ -124,6 +128,11 @@ class CoursesController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def course_params
     params.require(:course).permit(:name, :url, :course_instructor, :abstract, :language, :imageId, :videoId, :start_date, :end_date, :duration, :costs, :type_of_achievement, :categories, :difficulty, :requirements, :workload, :provider_course_id, :mooc_provider_id, :course_result_id)
+  end
+
+  def generateRatingsForCourse course
+    @course_evaluations = @course.evaluations
+    puts @course_evaluations.first.user
   end
 
   def create_enrollment

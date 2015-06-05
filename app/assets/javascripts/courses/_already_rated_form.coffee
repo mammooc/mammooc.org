@@ -1,5 +1,4 @@
 toggleRatingForm = (event) ->
-  console.log('blub')
   $('.rating-form').toggle()
 
 @bindToggleRatingFormClickEvent = () ->

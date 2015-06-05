@@ -1,4 +1,4 @@
--if @evaluation
+-if @current_user_evaluation
   - has_rated_course=true
 -else
   - has_rated_course=false
@@ -8,7 +8,7 @@ form.form-horizontal
       | Gesamtbewertung
     .col-sm-9
       - if has_rated_course
-        input.rating type='hidden' value="#{@evaluation.rating}" data-start="0" data-stop="5" id="rating-input"
+        input.rating type='hidden' value="#{@current_user_evaluation.rating}" data-start="0" data-stop="5" id="rating-input"
       - else
         input.rating type='hidden' value="" data-start="0" data-stop="5" id="rating-input"
       script type="text/javascript"
@@ -19,7 +19,7 @@ form.form-horizontal
     .col-sm-9
       textarea.form-control id="rating-textarea" rows="5" placeholder="Hilf anderen Nutzern diesen Kurs besser einzuschätzen!"
         - if has_rated_course
-          = @evaluation.description
+          = @current_user_evaluation.description
   .form-group
     label.col-sm-3
       | In welchem Verhältnis stehst du zum Kurs?
@@ -36,7 +36,7 @@ form.form-horizontal
             | Abgeschlossen
       - if has_rated_course
         script type="text/javascript"
-          | var d = document.getElementById("option#{@evaluation.course_status}");
+          | var d = document.getElementById("option#{@current_user_evaluation.course_status}");
           | d.className = d.className + " active";
   .form-group
     .col-sm-3
@@ -51,7 +51,7 @@ form.form-horizontal
           input type="checkbox" id="rate-anonymously-checkbox" value=""
           - if has_rated_course
             script type="text/javascript"
-              | $('#rate-anonymously-checkbox').prop('checked', #{@evaluation.rated_anonymously});
+              | $('#rate-anonymously-checkbox').prop('checked', #{@current_user_evaluation.rated_anonymously});
           | Gib meine Bewertung anonym ab
   .form-group
     .col-sm-3
