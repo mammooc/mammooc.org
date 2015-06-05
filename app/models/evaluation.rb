@@ -6,8 +6,6 @@ class Evaluation < ActiveRecord::Base
   after_save :updateCourseRatingAndCount
 
   def updateCourseRatingAndCount
-    puts rating
-    puts course_id
     Course.updateCourseRatingAttributes course_id
   end
 end

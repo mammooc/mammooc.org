@@ -22,6 +22,7 @@ class User < ActiveRecord::Base
   has_many :evaluations
   has_many :user_assignments
   before_destroy :handle_group_memberships, prepend: true
+  before_destroy :handle_evaluations, prepend: true
 
   def handle_group_memberships
     groups.each do |group|
@@ -36,4 +37,12 @@ class User < ActiveRecord::Base
       end
     end
   end
+
+  def handle_evaluations
+    evaluations.each do |evaluation|
+      evaluation.user_id = nil
+      evaluation.save
+    end
+  end
+
 end
