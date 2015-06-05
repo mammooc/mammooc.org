@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class CoursesController < ApplicationController
   before_action :set_course, only: [:show, :enroll_course, :unenroll_course]
-  skip_before_action :require_login, only: [:index, :show]
+  skip_before_action :require_login, only: [:index, :show, :filter_options]
   include ConnectorMapper
 
   # GET /courses
