@@ -123,9 +123,9 @@ class User < ActiveRecord::Base
       if email.present? && !user.emails.pluck(:address).include?(email.downcase)
         begin
           UserEmail.create!(user: user, address: email.downcase, is_primary: false)
-        rescue ActiveRecord::RecordInvalid => error
+        rescue ActiveRecord::RecordInvalid
           # TODO: Merge accounts!
-          Rails.logger.error "E-Mail-Adresse gehört zu einem anderen Nutzer, die Identität wird (weiter unten) aber verändert, sodass der alte Account nicht mehr erreichbar ist."
+          Rails.logger.error 'E-Mail-Adresse gehört zu einem anderen Nutzer, die Identität wird (weiter unten) aber verändert, sodass der alte Account nicht mehr erreichbar ist.'
         end
       end
     end
