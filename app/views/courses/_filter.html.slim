@@ -4,8 +4,10 @@
       .hd5
         | Filter
       = form_for_filterrific @filterrific do |f|
-        = f.label 'Search'
-        = f.text_field :search_query, class: 'filterrific-periodically-observed form-control'
+        .hidden
+          = f.label 'Search', class: 'hidden'
+          = f.text_field :search_query, class: 'filterrific-periodically-observed form-control hidden'
+
         = f.label t('courses.filter.labels.starts_after')
         = f.text_field(:with_start_date_gte, class: 'js-datepicker form control', 'data-provide': "datepicker", 'data-date-format': 'dd.mm.yyyy', 'data-date-orientation':"top")
         = f.label t('courses.filter.labels.ends_before')
@@ -32,9 +34,11 @@
           br
           = with_tracks_fields.label t('courses.filter.labels.certificate')
           = with_tracks_fields.select(:certificate, @filterrific.select_options[:options_for_certificate], {include_blank: t('courses.filter.all')})
-        br
+
+        .hidden
           = f.label t('courses.filter.labels.sort')
           = f.select(:sorted_by, @filterrific.select_options[:options_for_sorted_by])
+
         - if user_signed_in?
           br
           = t('courses.filter.labels.bookmarked')
