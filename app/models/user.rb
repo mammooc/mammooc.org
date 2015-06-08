@@ -125,7 +125,7 @@ class User < ActiveRecord::Base
           UserEmail.create!(user: user, address: email.downcase, is_primary: false)
         rescue ActiveRecord::RecordInvalid
           # TODO: Merge accounts!
-          Rails.logger.error 'E-Mail-Adresse gehört zu einem anderen Nutzer, die Identität wird (weiter unten) aber verändert, sodass der alte Account nicht mehr erreichbar ist.'
+          Rails.logger.error "This email address is associated to another user. The found identity will be changed later so that the existing account won't be accessible any longer."
         end
       end
     end
