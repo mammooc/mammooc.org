@@ -53,6 +53,27 @@ class RecommendationsController < ApplicationController
       recommendation.save!
     end
 
+    if params[:recommendation][:is_obligatory] == 'true'
+      #send_email
+      course = Course.find(params[:recommendation][:course_id])
+
+      user_ids.each do |user_id|
+        user = User.find(user_id)
+        email_adress = user.primary_email
+        UserMailer.obligatory_recommendation_user_notification(email_adress, user, course, current_user, root_url).deliver_later
+      end
+
+      group_ids.each do |group_id|
+        group = Group.find(group_id)
+        group.users.each do |user|
+          if user != current_user
+            email_adress = user.primary_email
+            UserMailer.obligatory_recommendation_group_notification(email_adress, user, group, course, current_user, root_url).deliver_later
+          end
+        end
+      end
+    end
+
     respond_to do |format|
       if params[:recommendation][:is_obligatory] == 'true'
         format.html { redirect_to session.delete(:return_to), notice: t('recommendation.obligatory_recommendation.successfully_created') }
