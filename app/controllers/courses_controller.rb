@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class CoursesController < ApplicationController
   before_action :set_course, only: [:show, :enroll_course, :unenroll_course]
-  skip_before_action :require_login, only: [:index, :show]
+  skip_before_action :require_login, only: [:index, :show, :filter_options, :search]
   include ConnectorMapper
 
   # GET /courses
@@ -34,7 +34,7 @@ class CoursesController < ApplicationController
     end
 
   rescue ActiveRecord::RecordNotFound => e
-    Rails.logger.info "Had to reset filterrific params: #{ e.message }"
+    Rails.logger.info "Had to reset filterrific params: #{e.message}"
     redirect_to(reset_filterrific_url(format: :html)) && return
   end
 

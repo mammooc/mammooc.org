@@ -70,6 +70,16 @@ RSpec.describe UsersController, type: :controller do
 
   describe 'PUT update' do
     describe 'with valid params' do
+      self.use_transactional_fixtures = false
+
+      before(:all) do
+        DatabaseCleaner.strategy = :truncation
+      end
+
+      after(:all) do
+        DatabaseCleaner.strategy = :transaction
+      end
+
       let(:new_attributes) { {first_name: 'Maxim', last_name: 'Mustergender', primary_email: 'maxim.mustergender@example.com'} }
 
       it 'updates the requested user' do

@@ -292,7 +292,7 @@ RSpec.describe Course, type: :model do
         correct_course.language = "de,#{test_language}-gb,zh"
         correct_course.save
         result = described_class.with_language(test_language)
-        expect(result).to match([correct_course2, correct_course])
+        expect(result).to match_array([correct_course2, correct_course])
       end
     end
 

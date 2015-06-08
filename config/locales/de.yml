@@ -39,30 +39,30 @@ de:
     next_label: 'Nächste &#187;'
 
   language:
-      english: Englisch
-      german: Deutsch
-      french: Französisch
-      spanish: Spanisch
-      arabic: Arabisch
-      italian: Italienisch
-      chinese: Chinesisch
-      portuguese: Portugiesisch
-      russian: Russisch
-      swedish: Schwedisch
-      hebrew: Hebräisch
-      romanian: Rumänisch
-      greek: Griechisch
-      filipino: Filipino
-      ukrainian: Ukrainisch
-      vietnamese: Vietnamesisch
-      turkish: Türkisch
-      lithuanian: Litauisch
-      kazakh: Kasachisch
-      serbian: Serbisch
-      korean: Koreanisch
-      japanese: Japanisch
-      dutch: Niederländisch
-      indonesian: Indonesisch
+    english: Englisch
+    german: Deutsch
+    french: Französisch
+    spanish: Spanisch
+    arabic: Arabisch
+    italian: Italienisch
+    chinese: Chinesisch
+    portuguese: Portugiesisch
+    russian: Russisch
+    swedish: Schwedisch
+    hebrew: Hebräisch
+    romanian: Rumänisch
+    greek: Griechisch
+    filipino: Filipino
+    ukrainian: Ukrainisch
+    vietnamese: Vietnamesisch
+    turkish: Türkisch
+    lithuanian: Litauisch
+    kazakh: Kasachisch
+    serbian: Serbisch
+    korean: Koreanisch
+    japanese: Japanisch
+    dutch: Niederländisch
+    indonesian: Indonesisch
 
   navbar:
     home: Home
@@ -116,6 +116,7 @@ de:
       sign_in: Einloggen
       sign_up: Registrieren
       sign_in_process: Anmeldung
+      finish_sign_up: Anmeldung vervollständigen
       first_name: Vorname
       last_name: Nachname
       email: E-Mail-Adresse
@@ -129,6 +130,14 @@ de:
       sign_up_link: Noch nicht registriert? Hier geht's zur Registrierung.
       sign_up_dropdown: Noch nicht registriert? Hier geht's zur Registrierung.
       forgot_password: Passwort vergessen?
+      omniauth: Mit %{provider} anmelden
+      terms_and_conditions_omniauth: "Du bestätigst die AGBs, falls du dich mithilfe von Single-Sign-On anmeldest:"
+      easyID:
+        login: Mit dem neuen Personalausweis anmelden
+        notice: "Hinweis: Die %{link} muss gestartet sein, damit du dich mit dem neuen Personalausweis anmelden kannst."
+        link: AusweisApp
+        success: Du hast Dich erfolgreich mit Deinem neuen Personalausweis angemeldet.
+        failure: Du konntest nicht mit Deinem Personalausweis angemeldet werden. Bitte versuche es erneut oder wähle ein anderes Anmeldeverfahren.
     password:
       forgot: Passwort vergessen?
       reset: Neues Passwort anfordern
@@ -149,6 +158,18 @@ de:
       update_account: Aktualisieren
       pending_mail_confirmation: 'Warte auf Bestätigung für:'
       still_admin_in_group_error: Account konnte nicht gelöscht werden. Du bist noch Administrator einer Gruppe.
+      manage_omniauth: Single-Sign-On verwalten
+      add_identity: Mit %{provider} verbinden
+      remove_identity: "%{provider}-Verbindung entfernen"
+      only_one_provider: Du musst entweder ein Passwort setzen oder dich über einen anderen Anbieter anmelden, damit du deine bestehende Verbindung entfernen kannst.
+      identity_deleted: Deine Verbindung mit %{provider} wurde erfolgreich aufgehoben.
+      identity_not_deleted: Deine Verbindung mit %{provider} konnte nicht entfernt werden.
+      easyID:
+        add_identity: Mit dem neuen Personalausweis verknüpfen
+        remove_identity: Verknüpfung mit meinem neuen Personalausweis aufheben
+        only_one_provider: "Neuer Personalausweis: Du musst entweder ein Passwort setzen oder dich über einen anderen Anbieter anmelden, damit du deine bestehende Verknüpfung entfernen kannst."
+        identity_deleted: Die Verknüpfung mit deinem neuen Personalausweis wurde erfolgreich aufgehoben.
+        identity_not_deleted: Die Verknüpfung mit deinem neuen Personalausweis konnte nicht entfernt werden.
     synchronization:
       oauth_error: Fehler! Wir konnten keine Verbindung zu deinem Account herstellen. Bitte überprüfe deine Einstellungen und versuche es erneut.
       revoke_provider_connection: Verbindung aufheben
@@ -434,8 +455,8 @@ de:
         successfully_updated: Gruppe wurde erfolgreich aktualisiert.
         successfully_destroyed: Gruppe wurde erfolgreich gelöscht.
       users:
-        successfully_updated: User was successfully updated.
-        successfully_destroyed: User was successfully destroyed.
+        successfully_updated: Benutzerdaten wurden erfolgreich aktualisiert.
+        successfully_destroyed: Benutzerdaten wurden erfolgreich gelöscht.
     error:
       taken: ist bereits belegt.
       blank: muss ausgefüllt werden.

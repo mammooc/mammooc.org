@@ -55,4 +55,18 @@ describe IversityCourseWorker do
     expect(course.calculated_duration_in_days).to eql 91
     expect(course.provider_given_duration).to eql courses_json['courses'][0]['duration']
   end
+
+  it 'parses another language as well' do
+    courses_json['courses'][0]['language'] = 'English'
+    iversity_course_worker.handle_response_data courses_json
+    course = Course.find_by(provider_course_id: courses_json['courses'][0]['id'], mooc_provider_id: mooc_provider.id)
+    expect(course.language).to eql 'en'
+  end
+
+  it 'parses more then one language' do
+    courses_json['courses'][0]['language'] = %w(en es)
+    iversity_course_worker.handle_response_data courses_json
+    course = Course.find_by(provider_course_id: courses_json['courses'][0]['id'], mooc_provider_id: mooc_provider.id)
+    expect(course.language).to eql 'en,es'
+  end
 end
