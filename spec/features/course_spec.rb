@@ -6,11 +6,13 @@ RSpec.describe 'Course', type: :feature do
 
   let(:user) { FactoryGirl.create(:user) }
 
-  before(:each) do
-    visit new_user_session_path
-    fill_in 'login_email', with: user.primary_email
-    fill_in 'login_password', with: user.password
-    click_button 'submit_sign_in'
+  before(:each) do |example|
+    unless example.metadata[:skip_before]
+      visit new_user_session_path
+      fill_in 'login_email', with: user.primary_email
+      fill_in 'login_password', with: user.password
+      click_button 'submit_sign_in'
+    end
 
     ActionMailer::Base.deliveries.clear
   end
@@ -183,4 +185,34 @@ RSpec.describe 'Course', type: :feature do
       expect(page.body.index(course.name)).to be > page.body.index(right_course.name)
     end
   end
+
+  describe 'search for courses from navbar' do
+    let!(:first_matching_course) { FactoryGirl.create(:course, name: 'Web Technologies') }
+    let!(:second_matching_course) { FactoryGirl.create(:course, name: 'Webmaster') }
+    let!(:not_matching_course) { FactoryGirl.create(:course, name: 'Ruby course') }
+
+    it 'redirects to courses overview' do
+      fill_in 'query', with: 'web'
+      click_button 'submit-course-search-navbar'
+      expect(current_path).to eq courses_path
+    end
+
+    it 'to find courses that match search query on courses overview' do
+      fill_in 'query', with: 'web'
+      click_button 'submit-course-search-navbar'
+      expect(page).to have_content(first_matching_course.name)
+      expect(page).to have_content(second_matching_course.name)
+      expect(page).not_to have_content(not_matching_course.name)
+    end
+
+    it 'works if user is not signed in', skip_before: true do
+      visit home_index_path
+      fill_in 'query', with: 'web'
+      click_button 'submit-course-search-navbar'
+      expect(page).to have_content(first_matching_course.name)
+      expect(page).to have_content(second_matching_course.name)
+      expect(page).not_to have_content(not_matching_course.name)
+    end
+  end
+
 end
