@@ -252,12 +252,12 @@ class Course < ActiveRecord::Base
 
   def self.options_for_sorted_by
     [[I18n.t('courses.filter.sort.start_date_relevance'), 'relevance_asc'],
-     [I18n.t('courses.filter.sort.duration_desc'), 'duration_desc'],
-     [I18n.t('courses.filter.sort.duration_asc'), 'duration_asc'],
-     [I18n.t('courses.filter.sort.name_desc'), 'name_desc'],
      [I18n.t('courses.filter.sort.name_asc'), 'name_asc'],
+     #[I18n.t('courses.filter.sort.name_desc'), 'name_desc'],
+     [I18n.t('courses.filter.sort.start_date_asc'), 'start_date_asc'],
      [I18n.t('courses.filter.sort.start_date_desc'), 'start_date_desc'],
-     [I18n.t('courses.filter.sort.start_date_asc'), 'start_date_asc']]
+     [I18n.t('courses.filter.sort.duration_asc'), 'duration_asc'],
+     [I18n.t('courses.filter.sort.duration_desc'), 'duration_desc']]
   end
 
   self.per_page = 10

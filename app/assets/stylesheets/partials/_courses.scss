@@ -192,7 +192,8 @@ $course-img-height: 250px;
 /* Course listing */
 
 .filter-options-top {
-  height: 42px;
+  width: 100%;
+  height: 34px;
   margin-bottom: 15px;
 
   .search-with-filterrific {
@@ -201,13 +202,12 @@ $course-img-height: 250px;
 
     .glyphicon {
       position: absolute;
-      top: 15px !important;
+      top: 10px !important;
       right: 10px;
     }
 
     & > .form-inline .form-control {
       width: 250px;
-      height: 42px;
     }
   }
 
@@ -216,7 +216,7 @@ $course-img-height: 250px;
 
     & > .form-control {
       width: 250px;
-      height: 42px;
+      float: right;
     }
   }
 }

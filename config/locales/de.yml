@@ -108,7 +108,7 @@ de:
 
   bookmarks:
     my_bookmarks: Meine Vorgemerkten Kurse
-    no_bookmarks: Du hast leider derzeit keine Vormerkungen.
+    no_bookmarks: Du hast keine Vormerkungen.
     bookmarked: vorgemerkt
 
   users:
@@ -306,6 +306,7 @@ de:
           udacity_nothing: Kein Zertifikat
           udacity_verified_certificate: Verifiziertes Zertifikat
     filter:
+      filter: Filter
       all: Alle
       duration:
         short: weniger als 5 Wochen
@@ -316,7 +317,7 @@ de:
       start:
         now: Aktuell laufend
         past: Bereits vorbei
-        soon: Beginnt innerhalb von zwei Wochen
+        soon: Beginnt bald
         future: Beginnt in Zukunft
       costs:
         free: frei
@@ -333,19 +334,20 @@ de:
         provider: Plattform
         subtitle_language: Untertitel
         duration: Dauer
-        start_categories: Zeitstatus
+        start_categories: Status
         costs: Preis
         certificate: Art des Zertifikats
         sort: Sortieren nach
         bookmarked: Zeige nur meine vorgemerkten Kurse
       sort:
-        start_date_desc: Startdatum - absteigend
-        start_date_asc: Startdatum - aufsteigend
-        duration_desc: Dauer - absteigend
-        duration_asc: Dauer - aufsteigend
-        name_desc: Titel (z-a)
-        name_asc: Titel (a-z)
-        start_date_relevance: Startdatum Relevanz ab heute
+        sort_by: "Sortieren nach:"
+        start_date_desc: "Startdatum: absteigend"
+        start_date_asc: "Startdatum: aufsteigend"
+        duration_desc: "Dauer: absteigend"
+        duration_asc: "Dauer: aufsteigend"
+        name_desc: "Titel: Z-A"
+        name_asc: "Titel"
+        start_date_relevance: Relevanz
       reset: Filter aufheben
     languages:
       ar: Arabisch
@@ -396,7 +398,7 @@ de:
     has_recommended: hat dir diesen Kurs empfohlen.
     pledged_by: vorgeschrieben von
     recommended_by: empfohlen von
-    no_recommendation: Du hast leider momentan keine Empfehlungen.
+    no_recommendation: Du hast momentan keine Empfehlungen.
     successfully_created: Empfehlung erfolgreich erstellt.
     successfully_updated: Empfehlung erfolgreich bearbeitet.
     successfully_destroyed: Empfehlung erfolgreich gelöscht.
@@ -407,7 +409,7 @@ de:
       ignore: Empfehlung ignorieren
       course_details: Details ansehen
     group:
-      no_recommendation: Diese Gruppe hat leider momentan keine Empfehlungen.
+      no_recommendation: Diese Gruppe hat momentan keine Empfehlungen.
       has_pledged: hat diesen Kurs vorgeschrieben.
       has_recommended: hat diesen Kurs empfohlen.
       obligatory_for: verpflichtend für
