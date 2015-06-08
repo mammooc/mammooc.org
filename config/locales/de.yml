@@ -284,6 +284,8 @@ de:
     following_iteration: Nachfolgender Durchlauf
     enrollment_error: Die Belegung beim MOOC-Anbieter hat leider nicht funktioniert.
     unenrollment_error: Das Entfernen der Belegung beim MOOC-Anbieter hat leider nicht funktioniert.
+    require_login: Du musst angemeldet sein, um diese Funktionalität nutzen zu können.
+    register_first: Bitte registriere dich.
     sidebar:
       recommended: Dieser Kurs wurde dir empfohlen
       pledged: Dieser Kurs wurde dir vorgeschrieben
@@ -403,6 +405,8 @@ de:
     successfully_destroyed: Empfehlung erfolgreich gelöscht.
     creation_error: Fehler beim Erstellen.
     update_error: Fehler beim Bearbeiten.
+    no_groups: Du hast keine Gruppen, für die du Empfehlungen erstellen kannst.
+    no_admin_groups: Du hast keine Gruppen, für die du Vorschreibungen erstellen kannst.
     obligatory_recommendation:
       submit: Vorschreibung erstellen
       successfully_created: Vorschreibung erfolgreich erstellt.

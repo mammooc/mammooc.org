@@ -284,6 +284,8 @@ en:
     following_iteration: Following Iteration
     enrollment_error: Sorry, the enrollment for this course has failed.
     unenrollment_error: Sorry, the unenrollment for this course has failed.
+    require_login: You have to be signed in to use this feature.
+    register_first: Please register first.
     sidebar:
       recommended: Someone recommended this course to you
       pledged: Someone wants to see you doing this course
@@ -403,6 +405,8 @@ en:
     successfully_destroyed: Recommendation was successfully destroyed.
     creation_error: Error on creation.
     update_error: Error on update.
+    no_groups: You don't have any groups for which you can create a recommendation.
+    no_admin_groups: You don't have any groups for which you can make a course obligatory.
     obligatory_recommendation:
       submit: Create obligatory recommendation
       successfully_created: Create obligatory recommendation successfully.

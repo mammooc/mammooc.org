@@ -78,7 +78,7 @@
           = t('courses.recommend_course')
       / recommend obligatory
       div role="tab" id="courses-subnav-recommend-obligatory"
-        a class="entry" data-toggle="collapse" href="#recommend-course-obligatory" id="recommend-obligatory-course-link" aria-expanded="false" aria-controls="recommend-course-obligatory"
+        a class="entry" data-toggle="collapse" href="#recommend-course-obligatory" id="recommend-course-obligatory-link" aria-expanded="false" aria-controls="recommend-course-obligatory"
           = t('courses.recommend_course_obligatory')
       / rate
       div role="tab" id="courses-subnav-rate"
@@ -88,11 +88,26 @@
     /form for recommend
     .collapse id="recommend-course" role="tabpanel" aria-labelledby="courses-subnav-recommend"
       .collapse-subnav
-        = render 'recommendations/form'
+        - if user_signed_in?
+          - if @has_groups
+            = render 'recommendations/form'
+          - else
+            = t('recommendation.no_groups')
+        - else
+          => t('courses.require_login')
+          = link_to t('courses.register_first'), new_user_registration_path
+
     /form for make obligatory
     .collapse id="recommend-course-obligatory" role="tabpanel" aria-labelledby="courses-subnav-recommend-obligatory"
       .collapse-subnav
-        = render 'recommendations/form_obligatory'
+        - if user_signed_in?
+          - if @has_admin_groups
+            = render 'recommendations/form_obligatory'
+          - else
+            = t('recommendation.no_admin_groups')
+        - else
+          => t('courses.require_login')
+          = link_to t('courses.register_first'), new_user_registration_path
 
     /form for rate
     .collapse id="rate-course" role="tabpanel" aria-labelledby="courses-subnav-rate"

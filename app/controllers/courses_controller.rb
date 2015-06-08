@@ -70,6 +70,8 @@ class CoursesController < ApplicationController
           @recommended_by.push(recommendation.author)
         end
       end
+      @has_groups = current_user.groups.any?
+      @has_admin_groups = UserGroup.where(user: current_user, is_admin: true).collect(&:group_id).any?
     end
 
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses([@course])
