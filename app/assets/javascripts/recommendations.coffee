@@ -145,7 +145,7 @@ generate_users_autocomplete_obligatory_recommendation = () ->
 generate_course_autocomplete = () ->
   courses_autocomplete = []
   $.ajax
-    url: '/courses.json'
+    url: '/all_courses.json'
     async: false
     method: 'GET'
     error: (jqXHR, textStatus, errorThrown) ->
@@ -153,8 +153,11 @@ generate_course_autocomplete = () ->
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       console.log('courses success')
+      console.log(data)
       for course in data
         courses_autocomplete.push({ label: course.name, value: course.id })
+      console.log(courses_autocomplete)
+
   $('.recommendation_course_ids').tokenfield
     autocomplete:
       minLength: 3

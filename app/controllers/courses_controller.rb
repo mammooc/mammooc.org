@@ -121,6 +121,10 @@ class CoursesController < ApplicationController
     redirect_to courses_path
   end
 
+  def all_courses
+    @all_courses = Course.all
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
