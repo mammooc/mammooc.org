@@ -29,6 +29,12 @@
             span.glyphicon.glyphicon-pencil
             = t('global.edit')
 
+  = form_for @user, html: {multipart:true} do |f|
+    = f.label :profile_image
+      | Upload Picture
+    = f.file_field :profile_image
+    = f.submit 'send'
+
   - if @user.about_me
     .element
       .content

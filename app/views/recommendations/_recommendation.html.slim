@@ -1,7 +1,7 @@
 .recommendations id='#{id}'
   .profile-picture
     = link_to recommendation.author
-      img src = @profile_pictures[recommendation.author.profile_image_id]
+      img src = @profile_pictures[recommendation.author.profile_image]
   .recommendations-box
     .message
       = link_to recommendation.author

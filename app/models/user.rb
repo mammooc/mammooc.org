@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable, :omniauthable and :encryptable
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable, :omniauthable
-  validates :first_name, :last_name, :profile_image_id, presence: true
+  validates :first_name, :last_name, presence: true
   has_many :emails, class_name: 'UserEmail', dependent: :destroy
   has_many :user_groups, dependent: :destroy
   has_many :groups, through: :user_groups
@@ -23,16 +23,41 @@ class User < ActiveRecord::Base
   has_many :user_assignments
   has_many :user_identities, dependent: :destroy
 
-  has_attached_file :profile_image_id, styles: {
-                        thumb: '100x100>',
+  has_attached_file :profile_image,
+                    styles: {
+                        thumb: '100x100#',
                         square: '200x200#',
-                        medium: '300x300>'
-  }
+                        medium: '300x300#'},
+                    s3_storage_class: :reduced_redundancy,
+                    s3_permissions: :private,
+                    default_url: '/assets/profile_picture_default.png'
+
   # Validate the attached image is image/jpg, image/png, etc
-  validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
+  validates_attachment_content_type :profile_image, :content_type => /\Aimage\/.*\Z/
 
   before_destroy :handle_group_memberships, prepend: true
   after_commit :save_primary_email, on: :create
+
+  def self.author_profile_images_hash_for_recommendations recommendations, style = :medium, expire_time = 3600
+    author_images = {}
+    recommendations.each do |recommendation|
+      unless author_images.key?("#{recommendation.author.id} #{recommendation.author.profile_image_file_name}")
+        author_images["#{recommendation.author.id} #{recommendation.author.profile_image_file_name}"] = recommendation.author.profile_image.expiring_url(expire_time, style)
+      end
+    end
+    author_images
+  end
+
+  def self.user_profile_images_hash_for_users users, images = {}, style = :medium, expire_time = 3600
+    users.each do |user|
+      unless images.key?("#{user.id} #{user.profile_image_file_name}")
+        images["#{user.id} #{user.profile_image_file_name}"] = user.profile_image.expiring_url(expire_time, style)
+      end
+    end
+    images
+  end
+
+
 
   def handle_group_memberships
     groups.each do |group|
@@ -125,7 +150,7 @@ class User < ActiveRecord::Base
         user = User.new(
           first_name: auth.info.first_name,
           last_name: auth.info.last_name,
-          profile_image_id: auth.info.image || 'profile_picture_default.png',
+          #profile_image_id: auth.info.image || 'profile_picture_default.png',
           # username: auth.info.nickname || auth.uid,
           email: email ? email : "change@me-#{auth.uid}-#{auth.provider}.com",
           password: Devise.friendly_token[0, 20],

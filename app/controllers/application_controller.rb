@@ -8,7 +8,8 @@ class ApplicationController < ActionController::Base
 
   def user_picture
     if current_user
-      @user_picture = AmazonS3.instance.get_url(current_user.profile_image_id)
+      @thumbnail_picture = @current_user.profile_image.expiring_url(3600, :thumb)
+      #@user_picture = AmazonS3.instance.get_url('profile_picture_default.png')
     end
   end
 
