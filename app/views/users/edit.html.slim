@@ -1,9 +1,8 @@
-.page-header
-  = link_to @user, :class => 'btn btn-primary' do
-    span.glyphicon.glyphicon-info-sign
-    |  Show 
-  h1
-    | Editing 
-    | user
+- content_for :title
+  = t('users.profile.edit_profile_title') + " | " + "#{t('global.app_name')}"
 
-= render 'form'
+.main-section
+  .hd3.mb20
+    = t('users.profile.editing_profile')
+
+  = render 'form'

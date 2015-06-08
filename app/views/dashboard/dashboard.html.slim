@@ -1,16 +1,44 @@
-.page-header
-  h1
-    = t('dashboard.hi', name: current_user.first_name)
-h2
-  = link_to recommendations_path
-    - if @number_of_recommendations == 0
-      = t('dashboard.recommendations')
-    - else
-      = t('dashboard.recommendations_with_quantity', number: @number_of_recommendations)
-- if @number_of_recommendations == 0
-  = t('recommendation.no_recommendation')
-- else
-  .recommendations-wrapper
-    - @recommendations.each_with_index do |recommendation, index|
-      = render 'recommendations/recommendation', recommendation: recommendation, id: "recommendation_number_#{index}", group_context: false
+- content_for :title
+  = t('dashboard.title') + " | " + "#{t('global.app_name')}"
+
+.main-section
+  .dashboard-top
+    .user-visual
+      img src = @user_picture
+      .name
+        .hd3
+          => current_user.first_name
+          => current_user.last_name
+      - if current_user.last_sign_in_at
+        => t('dashboard.last_time_active')
+        = I18n.l current_user.last_sign_in_at, format: t('global.date_format_month')
+    .user-info.hidden-xs
+      = t('dashboard.number_of_recommendations', number: @number_of_recommendations)
+      br
+        // not implemented yet
+      = t('dashboard.number_of_activities')
+      br
+        // if we don't show recommendations / activities (because there are none), this would show up
+      | There are more news here.
+
+  .dashboard-actions
+    = link_to current_user
+      .box
+        = t('dashboard.complete_profile')
+    = link_to groups_path
+      .box
+        = t('dashboard.manage_groups')
+    = link_to courses_index_path
+      .outer-box
+        = t('dashboard.search_courses')
+
+  - if @number_of_recommendations == 0
+    .element
+      .no-content-alert
+        = t('recommendation.no_recommendation')
+  - else
+    .recommendations-wrapper
+      - @recommendations.each_with_index do |recommendation, index|
+        = render 'recommendations/recommendation', recommendation: recommendation, id: "recommendation_number_#{index}", group_context: false
+
 = render 'sidebar'

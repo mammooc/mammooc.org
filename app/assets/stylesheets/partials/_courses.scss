@@ -1,5 +1,10 @@
 /* Course detail page */
 
+#course-sidebar .label  {
+  display: inline-block;
+  margin-right: 2px;
+}
+
 $course-img-height: 250px;
 
 .course-infobox {
@@ -38,12 +43,11 @@ $course-img-height: 250px;
 
     .options {
       position: absolute;
-      bottom: 0px;
-      right: 10px;
+      bottom: 20px;
+      right: 20px;
 
       img {
         height: 40px;
-        padding: 20px;
       }
     }
   }
@@ -242,7 +246,7 @@ $course-img-height: 250px;
         display: -webkit-box;
         line-height: 18px;
         max-height: 54px;
-        -webkit-line-clamp: 3;
+        -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
       }
 
@@ -341,8 +345,8 @@ $course-img-height: 250px;
 // Hide sidebar and show filter in another way
 // for small and extra small screens
 
-@media(max-width: $screen-sm-max) {
-  .courses-filter {
-    display: none;
-  }
-}
+//@media(max-width: $screen-sm-max) {
+//  .courses-filter {
+//    display: none;
+//  }
+//}

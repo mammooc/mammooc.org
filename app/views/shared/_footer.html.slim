@@ -1,0 +1,18 @@
+.container
+  .row
+    .col-md-6
+      .hd4.mb10
+        = t('footer.title')
+      = link_to t('footer.about'), about_path
+    .col-md-6
+      .hd4.mb10
+        = t('footer.about')
+      = t('footer.about_text')
+  .row
+    .col-md-12
+      | &#169; 2015
+      a href="https://hpi.de" target="_blank"
+        =< t('footer.hpi')
+      = " - "
+      a href="https://open.hpi.de/pages/imprint" target="_blank"
+        = t('footer.imprint')

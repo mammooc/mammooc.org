@@ -20,14 +20,14 @@ RSpec.describe 'Users::Session', type: :feature do
   end
 
   it 'works with valid input' do
-    fill_in 'login_email', with: user.email
+    fill_in 'login_email', with: user.primary_email
     fill_in 'login_password', with: user.password
     click_button 'submit_sign_in'
     expect(page).to have_text(I18n.t('devise.sessions.signed_in'))
   end
 
   it 'does not work if password is wrong' do
-    fill_in 'login_email', with: user.email
+    fill_in 'login_email', with: user.primary_email
     fill_in 'login_password', with: 'wrongpassword'
     click_button 'submit_sign_in'
     expect(page).to have_text(I18n.t('devise.failure.invalid', authentication_keys: 'email'))
@@ -41,7 +41,7 @@ RSpec.describe 'Users::Session', type: :feature do
   end
 
   it 'logouts if logout button clicked' do
-    fill_in 'login_email', with: user.email
+    fill_in 'login_email', with: user.primary_email
     fill_in 'login_password', with: user.password
     click_button 'submit_sign_in'
     expect(page).to have_text(I18n.t('devise.sessions.signed_in'))
@@ -51,7 +51,7 @@ RSpec.describe 'Users::Session', type: :feature do
 
   it 'updates course enrollments after sucessful sign in' do
     expect(UserWorker).to receive(:perform_async).with([user.id])
-    fill_in 'login_email', with: user.email
+    fill_in 'login_email', with: user.primary_email
     fill_in 'login_password', with: user.password
     click_button 'submit_sign_in'
     expect(page).to have_text(I18n.t('devise.sessions.signed_in'))
@@ -63,5 +63,27 @@ RSpec.describe 'Users::Session', type: :feature do
     fill_in 'login_password', with: 'wrongpassword'
     click_button 'submit_sign_in'
     expect(page).to have_text(I18n.t('devise.failure.not_found_in_database', authentication_keys: 'email'))
+  end
+
+  it 'shows finish sign up page if no primary email is provided (e.g. when using OmniAuth) and saves the input' do
+    user = FactoryGirl.create(:OmniAuthUser)
+    fill_in 'login_email', with: user.primary_email
+    fill_in 'login_password', with: user.password
+    click_button 'submit_sign_in'
+    expect(page).to have_text(I18n.t('users.sign_in_up.finish_sign_up'))
+    fill_in 'primary_email_finish_sign_up', with: 'max@example.com'
+    click_button 'submit_finish_sign_up'
+    expect(user.primary_email).to eql 'max@example.com'
+    expect(page).to have_text(I18n.t('flash.notice.users.successfully_updated'))
+  end
+
+  it 'shows finish sign up page when accessing another page' do
+    user = FactoryGirl.create(:OmniAuthUser)
+    fill_in 'login_email', with: user.primary_email
+    fill_in 'login_password', with: user.password
+    click_button 'submit_sign_in'
+    expect(page).to have_text(I18n.t('users.sign_in_up.finish_sign_up'))
+    visit dashboard_path
+    expect(page).to have_text(I18n.t('users.sign_in_up.finish_sign_up'))
   end
 end

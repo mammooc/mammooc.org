@@ -22,10 +22,11 @@
 en:
   global:
     app_name: mammooc
-    require_login: You must be logged in to access this section
+    require_login: You must be logged in to access this section.
     close: Close
     submit: Submit
     cancel: Cancel
+    edit: Edit
     by: 'by '
     ajax_failed: Sorry, something went wrong. Please try again.
     show_more: Show more
@@ -33,38 +34,89 @@ en:
     show_details: Show details
     date_format_month: '%B %-d, %Y'
 
+  will_paginate:
+    previous_label: '&#171; Previous'
+    next_label: 'Next &#187;'
+
+  language:
+    english: English
+    german: German
+    french: French
+    spanish: Spanish
+    arabic: Arabic
+    italian: Italian
+    chinese: Chinese
+    portuguese: Portuguese
+    russian: Russian
+    swedish: Swedisch
+    hebrew: Hebrew
+    romanian: Romanian
+    greek: Griechisch
+    filipino: Filipino
+    ukrainian: Ukrainian
+    vietnamese: Vietnamese
+    turkish: Turkish
+    lithuanian: Lithuanian
+    kazakh: Kazakh
+    serbian: Serbian
+    korean: Korean
+    japanese: Japanese
+    dutch: Dutch
+    indonesian: Indonesian
+
   navbar:
     home: Home
     courses: Courses
-    about: About us
-    impressum: Legal Notice
+    about: About mammooc
     sign_out: Sign Out
     dashboard: Dashboard
-    profile: Profile
+    profile: My Profile
+    groups: My Groups
     settings: Settings
     welcome_heading: Welcome to mammooc!
+    search_course: Search for courses
+
+  footer:
+    title: More information
+    about: About mammooc
+    about_text: "mammooc is a student's project developed at the German Hasso Plattner Institute, Potsdam."
+    hpi: Hasso Plattner Institute
+    imprint: Imprint
 
   dashboard:
-    hi: Hi %{name}
+    title: Dashboard
     my_groups: :groups.my_groups
     my_current_courses: My Current Courses
     no_groups: :groups.no_groups
     new_group: Creating Group
     edit_group: Editing Group
     no_courses: :courses.no_courses
-    recommendations: :recommendation.your_recommendations
-    recommendations_with_quantity: :recommendation.your_recommendations_with_quantity
+    number_of_recommendations: You have %{number} recommendations
+    number_of_activities: There are 2 new activities in your groups
+    complete_profile: Complete your profile
+    manage_groups: Manage your groups
+    search_courses: Search for courses
+    last_time_active: Last active on
+    bookmarks: :bookmarks.my_bookmarks
+    no_bookmarks: :bookmarks.no_bookmarks
+    course_starts_at: starts at
 
   home:
     welcome_heading: Welcome to mammooc!
     welcome_title: "mammooc: Sign up today!"
     hello: Hello
 
+  bookmarks:
+    my_bookmarks: My Bookmarked Courses
+    no_bookmarks: You don't have any bookmarked courses right now.
+    bookmarked: bookmarked
+
   users:
     sign_in_up:
       sign_in: Sign in
       sign_up: Sign Up
       sign_in_process: Log in
+      finish_sign_up: Finish Sign Up
       first_name: First name
       last_name: Last name
       email: Email
@@ -78,6 +130,8 @@ en:
       sign_up_link: Not signed up yet? Click here to sign up.
       sign_up_dropdown: Not signed up yet? Sign up here.
       forgot_password: Forgot your password?
+      omniauth: Sign in with %{provider}
+      terms_and_conditions_omniauth: "You confirm to mammooc's terms and conditions if you sign up via Single-Sign-On:"
     password:
       forgot: Forgot your password?
       reset: Reset my password
@@ -98,10 +152,24 @@ en:
       update_account: Update
       pending_mail_confirmation: 'Currently waiting confirmation for:'
       still_admin_in_group_error: Account could not be deleted, since you are still an administrator in a group.
+      manage_omniauth: Manage Single-Sign-On
+      add_identity: Connect with %{provider}
+      remove_identity: Remove %{provider} connection
+      only_one_provider: You must choose a password or add another provider in order to remove your existing connection.
+      identity_deleted: Your connection with %{provider} was successfully removed.
+      identity_not_deleted: Your connection with %{provider} could not be removed.
     synchronization:
       oauth_error: Sorry! We were unable to establish a connection to your account. Please check your settings and try again.
       revoke_provider_connection: Revoke connection
       establish_provider_connection: Establish connection
+    profile:
+      title: Your Profile
+      about_me: "About me:"
+      groups: Groups
+      current_courses: Enrollments
+      currently_nothing: None
+      edit_profile_title: Edit Profile
+      editing_profile: Edit your profile information
 
   groups:
     title: My Groups | mammooc
@@ -205,7 +273,8 @@ en:
     difficulty: Difficulty
     workload: Workload
     enter_course: Enter Course
-    remember_course: Remember Course
+    remember_course: Bookmark Course
+    delete_remember_course: Delete Course from bookmarks
     enroll_course: Enroll me for this Course
     unenroll_course: Unenroll me for this Course
     recommend_course: Recommend Course
@@ -245,6 +314,75 @@ en:
           edx_profed_certificate: edX Professional Education Certificate
           udacity_nothing: No certificate
           udacity_verified_certificate: Verified Certificate
+    filter:
+      all: All
+      duration:
+        short: shorter than 5 weeks
+        short_medium: 5 till 6 weeks
+        medium: 7 till 8 weeks
+        medium_long: 9 till 12 weeks
+        long: more than 12 weeks
+      start:
+        now: currently active
+        past: already fnished
+        soon: starts during next two weeks
+        future: starts in the future
+      costs:
+        free: free
+        range1: '< 30'
+        range2: 30-60
+        range3: 60-90
+        range4: 90-150
+        range5: 150-200
+        range6: '> 200'
+      labels:
+        starts_after: Course starts after
+        ends_before: Course ends before
+        language: Language
+        provider: Platform
+        subtitle_language: Subtitles
+        duration: Duration
+        start_categories: Time Status
+        costs: Price
+        certificate: Type of Certificate
+        sort: Sorted by
+        bookmarked: Only show my bookmarked courses
+      sort:
+        start_date_desc: Start date descending
+        start_date_asc: Start date ascending
+        duration_desc: Duration decending
+        duration_asc: Duration ascending
+        name_desc: Title (z-a)
+        name_asc: Title (a-z)
+        start_date_relevance: Start date relevance from today
+    languages:
+      ar: Arabic
+      cn: Chinese
+      de: German
+      el: Greek
+      en: English
+      es: Spanish
+      fil: Philippine languages
+      fr: French
+      he: Hebrew
+      id: Indonesian
+      it: Italian
+      ja: Japanese
+      kk: Kazakh
+      ko: Korean
+      lt: Lithuanian
+      nl: Dutch
+      pt: Portuguese
+      pt-br: Portuguese (Brasil)
+      ro: Romanian
+      ru: Russian
+      sr: Serbian
+      tr: Turkish
+      uk: Ukrainian
+      vi: Vietnamese
+      zh: Chinese
+      zh-cn: Chinese (China)
+      zh-tw: Chinese (Taiwan)
 
   recommendation:
     placeholder: Enter your personal message here ...
@@ -354,11 +492,6 @@ en:
       text_1: We are six students of the HPI, working on mammooc as the last phase of our bachelors-degree.
       text_2: We are continuously trying to provide you with the best experience! You have feedback, questions, wishes or anything else to say about mammooc? We’d be glad to hear from you!
       text_3: Write us at
-    impressum:
-      heading: Legal Notice
-      title: Legal Notice | mammooc
-      text: Currently you can find our legal notice on the openHPI website.
-      link: To legal notice
 
   unauthorized:
     create:

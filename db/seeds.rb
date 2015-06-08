@@ -113,15 +113,15 @@ case Rails.env
                                           CourseTrack.create!(track_type: iversity_ects_track_type, costs: 50.0, costs_currency: '€')]
                                 )
 
-    user1 = User.create!(first_name: 'Max', last_name: 'Mustermann', email: 'max@example.com', password: '12345678', profile_image_id: 'profile_picture_default.png')
-    user2 = User.create!(first_name: 'Maxi', last_name: 'Musterfrau', email: 'maxi@example.com', password: '12345678', profile_image_id: 'profile_picture_default.png')
+    user1 = User.create!(first_name: 'Max', last_name: 'Mustermann', primary_email: 'max@example.com', password: '12345678', profile_image_id: 'profile_picture_default.png')
+    user2 = User.create!(first_name: 'Maxi', last_name: 'Musterfrau', primary_email: 'maxi@example.com', password: '12345678', profile_image_id: 'profile_picture_default.png')
 
     group1 = Group.create!(name: 'Testgruppe1', description: 'Testgruppe1 ist die Beste!', image_id: 'group_picture_default.png')
 
     20.times do |i|
       user = User.create! first_name: "Maximus_#{i}",
                           last_name: 'Mustermann',
-                          email: "maximus_#{i}@example.com",
+                          primary_email: "maximus_#{i}@example.com",
                           password: '12345678',
                           profile_image_id: 'profile_picture_default.png'
       group1.users.push user
@@ -145,6 +145,9 @@ case Rails.env
     4.times { FactoryGirl.create(:group_recommendation, course: full_course, group: group1, users: group1.users) }
     3.times { FactoryGirl.create(:user_recommendation, course: full_course, users: [user1]) }
     2.times { FactoryGirl.create(:user_recommendation, course: full_course, users: [user2]) }
+
+    FactoryGirl.create(:group_recommendation, course: full_course, group: group1, users: group1.users, author: user2)
+    FactoryGirl.create(:user_recommendation, course: full_course, users: [user1], author: user2)
 
     if ENV['OPEN_HPI_TOKEN'].present?
       FactoryGirl.create(:naive_mooc_provider_user, user: user1, mooc_provider: open_hpi, access_token: ENV['OPEN_HPI_TOKEN'])

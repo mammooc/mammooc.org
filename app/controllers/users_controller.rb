@@ -2,8 +2,7 @@
 class UsersController < ApplicationController
   include ConnectorMapper
   before_action :set_provider_logos, only: [:settings, :mooc_provider_settings]
-
-  load_and_authorize_resource only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource only: [:show, :edit, :update, :destroy, :finish_signup]
 
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
@@ -203,6 +202,6 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :title, :password, :profile_image_id, :about_me) #:email_settings,
+    params.require(:user).permit(:first_name, :last_name, :primary_email, :title, :password, :profile_image_id, :about_me)
   end
 end

@@ -1,0 +1,41 @@
+.profile-top {
+  @extend .content-box;
+  height: 165px;
+  margin-bottom: 15px;
+
+  .user-visual {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+
+    img {
+      float: left;
+      height: 125px;
+      width: 125px;
+      margin-right: 10px;
+    }
+
+    .name {
+      vertical-align: top;
+      margin-bottom: 5px;
+    }
+
+    .small-heading {
+      display: inline-block;
+      margin-bottom: 4px;
+      width: 75px;
+      font-size: 12px;
+      font-weight: 300;
+      color: #777;
+      line-height: 20px;
+    }
+
+    .edit-profile {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+  }
+}

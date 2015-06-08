@@ -41,6 +41,7 @@ RSpec.describe CourseraCourseWorker do
     expect(course.name).to eql json_course['name']
     expect(course.provider_course_id).to eql json_course['id'].to_s + '|' + json_session['id'].to_s
     expect(course.mooc_provider_id).to eql mooc_provider.id
+    expect(course.calculated_duration_in_days).to eql 42
     expect(course.url).to include json_course['shortName']
     expect(course.language).to eql json_course['language']
     expect(course.imageId).to eql json_course['photo']

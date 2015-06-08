@@ -8,19 +8,26 @@ nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
         span.icon-bar
         span.icon-bar
       - if user_signed_in?
-        = link_to t('global.app_name'), dashboard_path, :class => "navbar-brand"
+        = link_to dashboard_path, :class => "navbar-brand"
+          = image_tag("mammooc-logo-weiss.png")
       - else
-        = link_to t('global.app_name'), home_index_path, :class => "navbar-brand"
+        = link_to home_index_path, :class => "navbar-brand"
+          = image_tag("mammooc-logo-weiss.png")
     .collapse.navbar-collapse id="navbar"
+      .navbar-form.navbar-left
+        = form_tag({controller: "/courses", action: "search"}, method: "get") do
+          .input-group
+            = text_field_tag :query, nil, placeholder: t('navbar.search_course'), class: 'form-control'
+            span.input-group-btn
+              = button_tag(type: 'submit', class: 'btn btn-default', id: 'submit-search-dashboard')
+                span.glyphicon.glyphicon-search
       ul.nav.navbar-nav.navbar-right
-        li class=('active' if current_page?(home_index_path) || current_page?(root_path))
-          = link_to t('navbar.home'), home_index_path
+        - if not user_signed_in?
+          li class=('active' if current_page?(about_path))
+            = link_to t('navbar.about'), about_path
         li class=('active' if current_page?(courses_path) || current_page?(courses_index_path))
           = link_to t('navbar.courses'), courses_path
-        li class=('active' if current_page?(about_path))
-          = link_to t('navbar.about'), about_path
-        li class=('active' if current_page?(impressum_path))
-          = link_to t('navbar.impressum'), impressum_path
+        / TODO: Language should only be accessible if not logged in
         li class="dropdown"
           a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-expanded="false"
             = I18n.locale.upcase
@@ -30,10 +37,10 @@ nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
               li
                 a href="#{request.fullpath.split('?')[0]}?language=#{l}"
                   = language_names[l]
-
         - if user_signed_in?
-          li class="dropdown"
+          li.dropdown
             a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
+              img src = @user_picture class="user-img"
               = current_user.first_name + ' '
               = current_user.last_name
               span class="caret"
@@ -43,12 +50,14 @@ nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
               li
                 = link_to t('navbar.profile'), current_user
               li
+                = link_to t('navbar.groups'), groups_path
+              li
                 = link_to t('navbar.settings'), "#{user_settings_path(current_user.id)}?subsite=mooc_provider"
               li
                 = link_to t('navbar.sign_out'), destroy_user_session_path, {:method => 'delete', :id =>'nav_sign_out_button'}
         - else
           li class="dropdown"
-            a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
+            a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" id="dropdown_for_login"
               = t('users.sign_in_up.sign_in')
               span class="caret"
             ul class="dropdown-menu login-dropdown" role="menu"
@@ -56,16 +65,23 @@ nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
                 .col-md-12.login-form
                   = form_for(:user, url: session_path(:user)) do |f|
                     .field
-                      = f.label :email, t('users.sign_in_up.email')
-                      = f.email_field :email, autofocus: true, :class => 'form-control'
+                      = f.label :primary_email, t('users.sign_in_up.email')
+                      = f.email_field :primary_email, autofocus: true, :class => 'form-control'
                     .field
                       = f.label :password, t('users.sign_in_up.password')
                       = f.password_field :password, autocomplete: "off", :class => 'form-control'
                     .field
                       = f.check_box :remember_me
                       = f.label :remember_me, t('users.sign_in_up.remember_me')
+                    = hidden_field_tag :request_path, request.fullpath
                     .actions
-                      = f.submit t('users.sign_in_up.sign_in'), :class => 'btn btn-primary'
+                      = f.submit t('users.sign_in_up.sign_in'), class: 'btn btn-primary', id: 'submit_sign_in_dropdown'
                   = link_to t('users.sign_in_up.forgot_password'), new_password_path(:user)
                   br
                   = link_to t('users.sign_in_up.sign_up_dropdown'), new_registration_path(:user)
+                  - if devise_mapping.omniauthable?
+                    hr
+                    = t('users.sign_in_up.terms_and_conditions_omniauth')
+                    - resource_class.omniauth_providers.each do |provider|
+                      br
+                      = link_to t('users.sign_in_up.omniauth', provider: provider.to_s.titleize), omniauth_authorize_path(resource_name, provider)

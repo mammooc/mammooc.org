@@ -26,7 +26,7 @@ RSpec.describe 'Application', type: :feature do
 
     it 'redirects to original URL after sign in' do
       visit groups_path
-      fill_in 'login_email', with: user.email
+      fill_in 'login_email', with: user.primary_email
       fill_in 'login_password', with: user.password
       click_button 'submit_sign_in'
       expect(current_path).to eq(groups_path)
@@ -47,7 +47,7 @@ RSpec.describe 'Application', type: :feature do
 
     it 'redirects to root after visiting sign in page' do
       visit new_user_session_path
-      fill_in 'login_email', with: user.email
+      fill_in 'login_email', with: user.primary_email
       fill_in 'login_password', with: user.password
       click_button 'submit_sign_in'
       expect(current_path).to eq(dashboard_path)
@@ -63,6 +63,40 @@ RSpec.describe 'Application', type: :feature do
       check 'terms_and_conditions_confirmation'
       click_button 'submit_sign_up'
       expect(current_path).to eq(dashboard_path)
+    end
+  end
+
+  describe 'log in via navbar' do
+    let(:user) { FactoryGirl.create(:user) }
+
+    it 'redirects to original URL after sign in' do
+      visit courses_path
+      click_on 'dropdown_for_login'
+      fill_in 'user_primary_email', with: user.primary_email
+      fill_in 'user_password', with: user.password
+      click_on 'submit_sign_in_dropdown'
+      expect(current_path).to eq courses_path
+      expect(page).to have_content user.first_name
+    end
+
+    it 'redirects to dashboard after login from /users/sign_in' do
+      visit new_user_session_path
+      click_on 'dropdown_for_login'
+      fill_in 'user_primary_email', with: user.primary_email
+      fill_in 'user_password', with: user.password
+      click_on 'submit_sign_in_dropdown'
+      expect(current_path).to eq dashboard_path
+      expect(page).to have_content user.first_name
+    end
+
+    it 'redirects to dashboard after login from /users/sign_up' do
+      visit new_user_registration_path
+      click_on 'dropdown_for_login'
+      fill_in 'user_primary_email', with: user.primary_email
+      fill_in 'user_password', with: user.password
+      click_on 'submit_sign_in_dropdown'
+      expect(current_path).to eq dashboard_path
+      expect(page).to have_content user.first_name
     end
   end
 end

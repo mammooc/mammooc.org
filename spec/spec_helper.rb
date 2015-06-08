@@ -17,7 +17,6 @@ require 'factory_girl_rails'
 require 'devise'
 require 'support/devise_support'
 require 'support/wait_for_ajax'
-require 'support/wait_for_phantom_js'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
 require 'selenium/webdriver'
@@ -66,14 +65,16 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
   end
 
-  config.around(:each) do |example|
+  config.before(:each) do |example|
     if ENV['PHANTOM_JS'] == 'true' && example.metadata[:js]
       Capybara.current_driver = :poltergeist
       Capybara.current_session.driver.headers = {'ACCEPT-LANGUAGE' => 'en'}
     end
-    DatabaseCleaner.cleaning do
-      example.run
-    end
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean!
   end
 
   config.before(:each) do

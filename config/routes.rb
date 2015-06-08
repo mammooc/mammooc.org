@@ -7,7 +7,8 @@ Rails.application.routes.draw do
 
   devise_for :users, skip: [:registrations], controllers: {registrations: 'users/registrations',
                                                            sessions: 'users/sessions',
-                                                           passwords: 'users/passwords'}
+                                                           passwords: 'users/passwords',
+                                                           omniauth_callbacks: 'users/omniauth_callbacks'}
   as :user do
     get '/users/cancel' => 'users/registrations#cancel', :as => 'cancel_user_registration'
     post '/users' => 'users/registrations#create', :as => 'user_registration'
@@ -15,6 +16,8 @@ Rails.application.routes.draw do
     patch '/users' => 'users/registrations#update'
     put '/users' => 'users/registrations#update'
     delete '/users' => 'users/registrations#destroy'
+    match '/users/finish_signup' => 'users/registrations#finish_signup', via: [:get, :patch], :as => :finish_signup
+    get '/users/deauth/:provider' => 'users/omniauth_callbacks#deauthorize', as: :omniauth_deauthorize
   end
 
   resources :user_assignments
@@ -23,7 +26,7 @@ Rails.application.routes.draw do
 
   resources :evaluations
 
-  resources :bookmarks
+  resources :bookmarks, except: [:edit, :new, :show, :update, :destroy]
 
   resources :progresses
 
@@ -49,7 +52,7 @@ Rails.application.routes.draw do
 
   resources :mooc_providers
 
-  resources :emails
+  resources :user_emails
 
   resources :users, except: [:new, :create, :index]
 
@@ -73,7 +76,6 @@ Rails.application.routes.draw do
   get 'groups/:id/all_members_to_administrators' => 'groups#all_members_to_administrators'
   get 'groups/:id/synchronize_courses' => 'groups#synchronize_courses'
 
-  get 'impressum' => 'static_pages#impressum'
   get 'recommendations/:id/delete_user_from_recommendation' => 'recommendations#delete_user_from_recommendation'
   get 'recommendations/:id/delete_group_recommendation' => 'recommendations#delete_group_recommendation'
   root to: 'home#index'
@@ -82,9 +84,14 @@ Rails.application.routes.draw do
   post 'courses/:id/send_evaluation' => 'courses#send_evaluation'
   get 'courses' => 'courses#index'
   get 'courses/index'
+  get 'courses/filter_options' => 'courses#filter_options'
+  get 'courses/search' => 'courses#search'
   get 'courses/:id' => 'courses#show', as: 'course'
   get 'courses/:id/enroll_course' => 'courses#enroll_course'
   get 'courses/:id/unenroll_course' => 'courses#unenroll_course'
+
+  # Bookmarks
+  post 'bookmarks/delete' => 'bookmarks#delete'
 
   # Users
   get 'users/:id/synchronize_courses' => 'users#synchronize_courses', as: 'synchronize_courses'

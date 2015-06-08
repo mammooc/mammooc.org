@@ -1,14 +1,42 @@
 # -*- encoding : utf-8 -*-
 class CoursesController < ApplicationController
   before_action :set_course, only: [:show, :enroll_course, :unenroll_course, :send_evaluation]
-  skip_before_action :require_login, only: [:index, :show]
+  skip_before_action :require_login, only: [:index, :show, :filter_options]
+
   include ConnectorMapper
 
   # GET /courses
   # GET /courses.json
   def index
-    @courses = Course.all
+    @filterrific = initialize_filterrific(Course, params[:filterrific],
+      select_options: {with_language: Course.options_for_languages,
+                       with_mooc_provider_id: MoocProvider.options_for_select,
+                       with_subtitle_languages: Course.options_for_subtitle_languages,
+                       duration_filter_options: Course.options_for_duration,
+                       start_filter_options: Course.options_for_start,
+                       options_for_costs: Course.options_for_costs,
+                       options_for_certificate: CourseTrackType.options_for_select,
+                       options_for_sorted_by: Course.options_for_sorted_by
+      }) || return
+
+    @courses = @filterrific.find.page(params[:page])
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(@courses)
+
+    if current_user.present?
+      @my_bookmarked_courses = current_user.bookmarks.collect(&:course)
+    else
+      @my_bookmarked_courses = []
+    end
+
+    respond_to do |format|
+      format.html
+      format.js
+      format.json
+    end
+
+  rescue ActiveRecord::RecordNotFound => e
+    Rails.logger.info "Had to reset filterrific params: #{ e.message }"
+    redirect_to(reset_filterrific_url(format: :html)) && return
   end
 
   # GET /courses/1
@@ -21,11 +49,18 @@ class CoursesController < ApplicationController
       @following_course_name = Course.find(@course.following_iteration_id).name
     end
 
+    @course_languages = (@course.language.blank?) ? nil : @course.language.split(',')
+    @subtitle_languages = (@course.subtitle_languages.blank?) ? nil : @course.subtitle_languages.split(',')
+
+    @recommendation = Recommendation.new(course: @course)
+
+
     if user_signed_in?
       # RECOMMENDATIONS
       recommendations = Recommendation.sorted_recommendations_for_course_and_user(@course, current_user, [current_user])
+      @recommendations_total = recommendations.size
       params[:page] ||= 1
-      @recommendations = recommendations.paginate(page: params[:page], per_page: 5)
+      @recommendations = recommendations.paginate(page: params[:page], per_page: 3)
       @profile_pictures = AmazonS3.instance.author_profile_images_hash_for_recommendations(@recommendations)
       @recommended_by = []
       @pledged_by = []
@@ -46,6 +81,11 @@ class CoursesController < ApplicationController
     generateRatingsForCourse @course
 
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses([@course])
+    @bookmarked = false
+    return unless current_user.present?
+    current_user.bookmarks.each do |bookmark|
+      @bookmarked = true if bookmark.course == @course
+    end
   end
 
   def enroll_course
@@ -108,6 +148,19 @@ class CoursesController < ApplicationController
         format.json { render json: e.to_json, status: :unprocessable_entity }
       end
     end
+  end
+
+  def filter_options
+    @filter_options = session['courses#index'].to_query('filterrific')
+
+    respond_to do |format|
+      format.json { render :filter_options }
+    end
+  end
+
+  def search
+    session['courses#index'] = {'search_query': params[:query], 'with_tracks': {'costs': '', 'certificate': ''}}
+    redirect_to courses_path
   end
 
   private

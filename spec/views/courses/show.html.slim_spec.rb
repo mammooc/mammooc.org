@@ -11,7 +11,7 @@ RSpec.describe 'courses/show', type: :view do
                       course_instructors: 'Course Instructor',
                       abstract: 'MyAbstract',
                       description: 'MyDescription',
-                      language: 'Language',
+                      language: 'en',
                       imageId: 'Image',
                       videoId: 'Video',
                       provider_given_duration: 'Duration',
@@ -28,6 +28,10 @@ RSpec.describe 'courses/show', type: :view do
     ))
   end
   let!(:provider_logos) { assign(:provider_logos, {}) }
+
+  before(:each) do
+    @recommendation = Recommendation.new
+  end
 
   it 'render the enroll button when not signed in' do
     render

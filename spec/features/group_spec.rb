@@ -15,7 +15,7 @@ RSpec.describe 'Group', type: :feature do
     UserGroup.set_is_admin(second_group.id, user.id, true)
 
     visit new_user_session_path
-    fill_in 'login_email', with: user.email
+    fill_in 'login_email', with: user.primary_email
     fill_in 'login_password', with: user.password
     click_button 'submit_sign_in'
 
@@ -273,7 +273,7 @@ RSpec.describe 'Group', type: :feature do
       click_link "#{user.first_name} #{user.last_name}"
       click_link I18n.t('navbar.sign_out')
       visit new_user_session_path
-      fill_in 'login_email', with: second_user.email
+      fill_in 'login_email', with: second_user.primary_email
       fill_in 'login_password', with: second_user.password
       click_button 'submit_sign_in'
       visit "/groups/#{group.id}/statistics"

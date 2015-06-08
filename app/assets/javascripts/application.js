@@ -18,6 +18,8 @@
 //= require bootstrap-rating.min
 //= require i18n
 //= require i18n/translations
+//= require bootstrap-datepicker
+//= require filterrific/filterrific-jquery
 //= require_tree .
 
 

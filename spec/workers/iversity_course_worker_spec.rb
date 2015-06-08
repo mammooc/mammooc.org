@@ -35,7 +35,7 @@ describe IversityCourseWorker do
     expect(course.name).to eql courses_json['courses'][0]['title']
     expect(course.url).to include courses_json['courses'][0]['url']
     expect(course.abstract).to eql courses_json['courses'][0]['subtitle']
-    expect(course.language).to eql courses_json['courses'][0]['language']
+    expect(course.language).to eql 'de'
     expect(course.imageId).to eql courses_json['courses'][0]['image']
     expect(course.videoId).to eql courses_json['courses'][0]['trailer_video']
     expect(course.start_date.to_datetime).to eql courses_json['courses'][0]['start_date'].to_datetime
@@ -54,5 +54,19 @@ describe IversityCourseWorker do
     expect(course.description).to eql courses_json['courses'][0]['description']
     expect(course.calculated_duration_in_days).to eql 91
     expect(course.provider_given_duration).to eql courses_json['courses'][0]['duration']
+  end
+
+  it 'parses another language as well' do
+    courses_json['courses'][0]['language'] = 'English'
+    iversity_course_worker.handle_response_data courses_json
+    course = Course.find_by(provider_course_id: courses_json['courses'][0]['id'], mooc_provider_id: mooc_provider.id)
+    expect(course.language).to eql 'en'
+  end
+
+  it 'parses more then one language' do
+    courses_json['courses'][0]['language'] = %w(en es)
+    iversity_course_worker.handle_response_data courses_json
+    course = Course.find_by(provider_course_id: courses_json['courses'][0]['id'], mooc_provider_id: mooc_provider.id)
+    expect(course.language).to eql 'en,es'
   end
 end

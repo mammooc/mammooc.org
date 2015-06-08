@@ -10,14 +10,16 @@
 @import "partials/utility";
 
 @import "partials/base";
+@import "partials/bookmarks";
 @import "partials/buttons";
 @import "partials/courses";
+@import "partials/dashboard";
 @import "partials/recommendations";
 @import "partials/groups";
 @import "partials/navbar";
+@import "partials/pagination";
 @import "partials/shared";
 @import "partials/teaser";
 @import "partials/rating";
 @import "partials/already_rated";
-
-
+@import "partials/users";

@@ -1,0 +1,22 @@
+.page-header
+  = link_to user_emails_path, :class => 'btn btn-default' do
+    span.glyphicon.glyphicon-list-alt
+    |  Back 
+  = link_to edit_user_email_path(@email), :class => 'btn btn-primary' do
+    span.glyphicon.glyphicon-pencil
+    |  Edit 
+  h1
+    | Show email
+dl.dl-horizontal
+  dt
+    | Address:
+  dd
+    = @email.address
+  dt
+    | Is primary:
+  dd
+    = @email.is_primary
+  dt
+    | User:
+  dd
+    = @email.user

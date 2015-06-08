@@ -39,12 +39,16 @@ module MAMMOOC
       Devise::UnlocksController.skip_before_action :require_login
       Devise::ConfirmationsController.skip_before_action :require_login
       Devise::RegistrationsController.skip_before_action :require_login
+      Devise::OmniauthCallbacksController.skip_before_action :require_login
     end
 
-    config.generators do |g|
-      g.test_framework :rspec
+    config.generators do |generator|
+      generator.test_framework :rspec
     end
 
-    config.action_mailer.default_url_options = {host: Settings.default_hostname}
+    config.action_mailer.default_url_options = {host: Settings.root_url}
+
+    # Force SSL for all connections
+    config.force_ssl = true
   end
 end
