@@ -78,7 +78,7 @@ class CoursesController < ApplicationController
       @has_rated_course = Evaluation.find_by(user_id: current_user.id, course_id: @course.id).present?
     end
 
-    generateRatingsForCourse @course
+    createRatingObjectForCourse @course
 
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses([@course])
     @bookmarked = false
@@ -183,9 +183,44 @@ class CoursesController < ApplicationController
     params.require(:course).permit(:name, :url, :course_instructor, :abstract, :language, :imageId, :videoId, :start_date, :end_date, :duration, :costs, :type_of_achievement, :categories, :difficulty, :requirements, :workload, :provider_course_id, :mooc_provider_id, :course_result_id)
   end
 
-  def generateRatingsForCourse course
-    @course_evaluations = @course.evaluations
-    puts @course_evaluations.first.user
+  def createRatingObjectForCourse course
+    if course.evaluations.present?
+      @course_evaluations = Array.new
+      course.evaluations.each { |evaluation|
+        evaluation_object = Hash.new
+        evaluation_object['evaluation_id'] = evaluation.id
+        evaluation_object['rating'] = evaluation.rating
+        evaluation_object['description'] = evaluation.description
+        evaluation_object['date'] = evaluation.date
+        evaluation_object['evaluation_rating_count'] = evaluation.evaluation_rating_count
+        evaluation_object['evaluation_helpful_rating_count'] = evaluation.evaluation_helpful_rating_count
+
+        case evaluation.course_status
+          when 1
+            evaluation_object['course_status'] = 'hat den Kurs abgebrochen'
+          when 2
+            evaluation_object['course_status'] = 'belegt den Kurs'
+          when 3
+            evaluation_object['course_status'] = 'hat den Kurs abgeschlossen'
+          else
+            evaluation_object['course_status'] = ''
+        end
+
+        unless evaluation.rated_anonymously
+          evaluation_object['user_id'] = evaluation.user_id
+          evaluation_object['user_profile_image_id'] = evaluation.user.profile_image_id
+          evaluation_object['user_name'] = "#{evaluation.user.first_name} #{evaluation.user.last_name}"
+        else
+          evaluation_object['user_id'] = nil
+          evaluation_object['user_profile_image_id'] = ''
+          evaluation_object['user_name'] = 'Anonymous'
+        end
+
+        @course_evaluations << evaluation_object
+      }
+    else
+      @course_evaluations = nil
+    end
   end
 
   def create_enrollment

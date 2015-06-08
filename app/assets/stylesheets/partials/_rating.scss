@@ -3,7 +3,13 @@
   padding-left: 4px;
 }
 
-.glyphicon {
+.glyphicon-star, .glyphicon-star-empty {
   font-size: 1.4em;
+  color: rgb(250, 212, 29);
+}
 
+.helpful-evaluation-div {
+  color: grey;
+  margin-top: 5px;
+  font-size: 13px;
 }
