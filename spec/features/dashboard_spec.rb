@@ -54,5 +54,4 @@ RSpec.describe 'Dashboard', type: :feature do
       expect(page).to have_no_content(course.name)
     end
   end
-
 end

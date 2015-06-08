@@ -214,5 +214,4 @@ RSpec.describe 'Course', type: :feature do
       expect(page).not_to have_content(not_matching_course.name)
     end
   end
-
 end
