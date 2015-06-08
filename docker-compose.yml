@@ -7,7 +7,7 @@ redis:
   ports:
     - "6379"
 web:
-  build: .
+  image: jprberlin/mammooc
   environment:
     - RAILS_ENV=production
     - RACK_ENV=production
