@@ -369,7 +369,7 @@ de:
         name_desc: "Titel: Z-A"
         name_asc: "Titel"
         start_date_relevance: Relevanz
-      reset: Filter aufheben
+      reset: Filter zurücksetzen
     languages:
       ar: Arabisch
       cn: Chinesisch
