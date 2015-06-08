@@ -81,4 +81,15 @@ RSpec.describe 'Users::Registration', type: :feature do
     click_button 'submit_sign_up'
     expect(page).to have_text(I18n.t('users.sign_in_up.first_name') + ' ' + I18n.t('flash.error.blank'))
   end
+
+  it 'does not work if email is invalid' do
+    fill_in 'user_first_name', with: user.first_name
+    fill_in 'user_last_name', with: user.last_name
+    fill_in 'registration_email', with: 'invalidemail'
+    fill_in 'registration_password', with: user.password
+    fill_in 'registration_password_confirmation', with: user.password
+    check 'terms_and_conditions_confirmation'
+    click_button 'submit_sign_up'
+    expect(page).to have_text(I18n.t('devise.registrations.email.invalid'))
+  end
 end

@@ -55,7 +55,7 @@ class Course < ActiveRecord::Base
                 ELSE 4
               END")
       else
-        raise ArgumentError.new "Invalid sort option: #{ sort_option.inspect }"
+        raise ArgumentError.new "Invalid sort option: #{sort_option.inspect}"
     end
   end
 

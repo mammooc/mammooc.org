@@ -6,6 +6,9 @@ h2
   .field
     = f.label :password, "New password"
     br
+    - if @minimum_password_length
+      em
+        = "(#{@minimum_password_length} #{t('users.sign_in_up.characters_minimum')})"
     = f.password_field :password, autofocus: true, autocomplete: "off"
   .field
     = f.label :password_confirmation, "Confirm new password"

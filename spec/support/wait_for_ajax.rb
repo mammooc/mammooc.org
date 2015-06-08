@@ -8,8 +8,7 @@ module WaitForAjax
     Timeout.timeout(Capybara.default_wait_time) do
       loop until finished_all_ajax_requests? || Time.zone.now > endtime
     end
-    # PhantomJS is much faster, a way too fast...
-    sleep(0.33) if ENV['PHANTOM_JS'] == 'true'
+    sleep(0.33)
   end
 
   def finished_all_ajax_requests?
