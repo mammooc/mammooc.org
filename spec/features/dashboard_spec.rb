@@ -55,25 +55,4 @@ RSpec.describe 'Dashboard', type: :feature do
     end
   end
 
-  describe 'search for courses' do
-    let!(:first_matching_course) { FactoryGirl.create(:course, name: 'Web Technologies') }
-    let!(:second_matching_course) { FactoryGirl.create(:course, name: 'Webmaster') }
-    let!(:not_matching_course) { FactoryGirl.create(:course, name: 'Ruby course') }
-
-    it 'redirects to courses overview' do
-      visit dashboard_dashboard_path
-      fill_in 'query', with: 'web'
-      click_button 'submit-search-dashboard'
-      expect(current_path).to eq courses_path
-    end
-
-    it 'to find courses that match search query on courses overview' do
-      visit dashboard_dashboard_path
-      fill_in 'query', with: 'web'
-      click_button 'submit-search-dashboard'
-      expect(page).to have_content(first_matching_course.name)
-      expect(page).to have_content(second_matching_course.name)
-      expect(page).not_to have_content(not_matching_course.name)
-    end
-  end
 end
