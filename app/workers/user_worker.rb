@@ -6,6 +6,7 @@ class UserWorker
     OpenHPIUserWorker.perform_async user_ids
     OpenSAPUserWorker.perform_async user_ids
     MoocHouseUserWorker.perform_async user_ids
+    CnmoocHouseUserWorker.perform_async user_ids
     OpenHPIChinaUserWorker.perform_async user_ids
     OpenSAPChinaUserWorker.perform_async user_ids
     OpenUNEUserWorker.perform_async user_ids
