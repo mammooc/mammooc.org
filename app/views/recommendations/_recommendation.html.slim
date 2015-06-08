@@ -73,12 +73,13 @@
       | &nbsp;&#183;&nbsp;
       a href='' id='enroll-course-link' data-course_id='#{recommendation.course.id}'
         = t('courses.enroll_course')
-      | &nbsp;&#183;&nbsp;
     - if (group_context == true && (can? :delete_group_recommendation, recommendation))
+      | &nbsp;&#183;&nbsp;
       span class='remove-recommendation-group' data-recommendation_id='#{recommendation.id}'
         a href=''
           = t('recommendation.button.ignore')
     - elsif group_context == false
+      | &nbsp;&#183;&nbsp;
       span class='remove-recommendation-current-user mr5' data-recommendation_id='#{recommendation.id}'
         a href=''
           = t('recommendation.button.ignore')

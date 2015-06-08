@@ -61,6 +61,7 @@ Rails.application.routes.draw do
   get 'dashboard' => 'dashboard#dashboard'
 
   # Groups
+  get 'groups_where_user_is_admin' => 'groups#groups_where_user_is_admin'
   post 'groups/:id/invite_members' => 'groups#invite_group_members'
   post 'groups/:id/add_administrator' => 'groups#add_administrator'
   post 'groups/:id/demote_administrator' => 'groups#demote_administrator'

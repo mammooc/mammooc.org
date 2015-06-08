@@ -23,6 +23,6 @@
               _url = _url.replace(/filterrific.*/g, data.filter_options)
             else
               _url = _url.replace(/filterrific.*?(?=&[^filterrific])/g, data.filter_options)
-          history.pushState({},'test', _url)
+          history.pushState({},'filter_state', _url)
 
 $(document).ready set_filter_options_to_param
