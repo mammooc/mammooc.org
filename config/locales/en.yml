@@ -239,7 +239,6 @@ en:
             password_confirmation:
               confirmation: doesn't match with password.
 
-  #show course
   courses:
     title: Courses | mammooc
     heading: Courses
@@ -343,9 +342,11 @@ en:
         start_date_asc: Start date ascending
         duration_desc: Duration decending
         duration_asc: Duration ascending
-        name_desc: Title (z-a)
-        name_asc: Title (a-z)
+        name_desc: Title (Z-A)
+        name_asc: Title (A-Z)
         start_date_relevance: Start date relevance from today
+      reset: Reset filter
+
     languages:
       ar: Arabic
       cn: Chinese
