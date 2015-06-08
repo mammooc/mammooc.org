@@ -20,7 +20,7 @@ RSpec.describe Users::OmniauthCallbacksController, type: :controller do
       get :facebook
       expect(subject.signed_in?).to be_truthy
     end
-    
+
     it 'google' do
       expect(User).to receive(:find_for_omniauth).and_return(user)
       get :google
