@@ -153,7 +153,7 @@ RSpec.describe 'Course', type: :feature do
       end
       visit courses_path
       expect(page).to have_content course.name
-      fill_in 'filterrific_search_query', with: 'nice name'
+      fill_in 'new_search', with: 'nice name'
       fill_in 'filterrific_with_start_date_gte', with: (Time.zone.today).strftime('%d.%m.%Y')
       fill_in 'filterrific_with_end_date_lte', with: (Time.zone.today + 3.weeks).strftime('%d.%m.%Y')
       select I18n.t('language.english'), from: 'filterrific_with_language'
