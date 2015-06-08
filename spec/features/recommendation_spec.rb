@@ -166,4 +166,33 @@ RSpec.describe 'Recommendation', type: :feature do
       expect(page).not_to have_content(recommendation.course.name)
     end
   end
+
+  describe 'create obligatory recommendation' do
+    let!(:course) { FactoryGirl.create(:course, name: 'qwertzui') }
+    let!(:group_obligatory) do
+      group = FactoryGirl.create :group, users: [user, second_user], name: 'Abcdefg'
+      UserGroup.set_is_admin(group.id, user.id, true)
+      group
+    end
+
+    it 'creates new obligatory recommendation from course detail page', js:true do
+      visit course_path(course)
+      expect(Recommendation.count).to eq 0
+      click_link('recommend-course-obligatory-link')
+      fill_in 'recommendation_related_group_ids-tokenfield', with: "Abc\t"
+      click_on I18n.t('recommendation.obligatory_recommendation.submit')
+      expect(Recommendation.count).to eq 1
+    end
+
+    it 'creates new obligatory recommendation from group recommendation page', js:true do
+      visit "/groups/#{group_obligatory.id}/recommendations"
+      expect(Recommendation.count).to eq 0
+      click_button I18n.t('groups.recommend_course_obligatory')
+      fill_in 'recommendation_course_id-tokenfield', with: "qwert\t"
+      click_button I18n.t('recommendation.obligatory_recommendation.submit')
+      expect(Recommendation.count).to eq 1
+    end
+
+  end
+
 end
