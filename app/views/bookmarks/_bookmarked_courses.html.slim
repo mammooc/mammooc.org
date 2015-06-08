@@ -1,0 +1,24 @@
+- if @bookmarked_courses.empty?
+  .panel.panel-default
+    .panel-body
+      = t('bookmarks.no_bookmarks')
+- else
+  .courses-wrapper
+    - @bookmarked_courses.each do |course|
+      .courses.bookmark
+        a href= '' class='bookmark-remove delete_bookmark_from_bookmark_list' data-course_id='#{course.id}' data-user_id='#{current_user.id}'
+          span.glyphicon.glyphicon-remove
+        = link_to course
+          .course-image
+            - if course.imageId
+              = image_tag(course.imageId)
+            - else
+              img src="/data/icons/courses-list-std.png"
+          .course-info
+            .hd6.course-name
+              = course.name
+            - if course.start_date.present?
+              => t('dashboard.course_starts_at')
+              =< I18n.l course.start_date, format: t('global.date_format_month')
+            .provider
+              img src = @provider_logos[course.mooc_provider.logo_id]

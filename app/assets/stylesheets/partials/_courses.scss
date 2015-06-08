@@ -43,12 +43,11 @@ $course-img-height: 250px;
 
     .options {
       position: absolute;
-      bottom: 0px;
-      right: 10px;
+      bottom: 20px;
+      right: 20px;
 
       img {
         height: 40px;
-        padding: 20px;
       }
     }
   }
@@ -346,8 +345,8 @@ $course-img-height: 250px;
 // Hide sidebar and show filter in another way
 // for small and extra small screens
 
-@media(max-width: $screen-sm-max) {
-  .courses-filter {
-    display: none;
-  }
-}
+//@media(max-width: $screen-sm-max) {
+//  .courses-filter {
+//    display: none;
+//  }
+//}

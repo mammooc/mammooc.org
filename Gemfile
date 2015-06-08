@@ -39,6 +39,12 @@ gem 'passenger'
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth-facebook'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-github'
+gem 'omniauth-linkedin-oauth2'
+gem 'omniauth-twitter'
+gem 'omniauth-windowslive'
+gem 'omniauth-amazon'
 
 # authorization
 gem 'cancancan', '~>1.10'
@@ -80,6 +86,7 @@ gem 'oauth2'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'ruby-debug-passenger'
 
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'

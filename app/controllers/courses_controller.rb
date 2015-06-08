@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class CoursesController < ApplicationController
   before_action :set_course, only: [:show, :enroll_course, :unenroll_course]
-  skip_before_action :require_login, only: [:index, :show]
+  skip_before_action :require_login, only: [:index, :show, :filter_options, :search]
   include ConnectorMapper
 
   # GET /courses
@@ -21,6 +21,12 @@ class CoursesController < ApplicationController
     @courses = @filterrific.find.page(params[:page])
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(@courses)
 
+    if current_user.present?
+      @my_bookmarked_courses = current_user.bookmarks.collect(&:course)
+    else
+      @my_bookmarked_courses = []
+    end
+
     respond_to do |format|
       format.html
       format.js
@@ -28,7 +34,7 @@ class CoursesController < ApplicationController
     end
 
   rescue ActiveRecord::RecordNotFound => e
-    Rails.logger "Had to reset filterrific params: #{ e.message }"
+    Rails.logger.info "Had to reset filterrific params: #{e.message}"
     redirect_to(reset_filterrific_url(format: :html)) && return
   end
 
@@ -67,6 +73,11 @@ class CoursesController < ApplicationController
     end
 
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses([@course])
+    @bookmarked = false
+    return unless current_user.present?
+    current_user.bookmarks.each do |bookmark|
+      @bookmarked = true if bookmark.course == @course
+    end
   end
 
   def enroll_course

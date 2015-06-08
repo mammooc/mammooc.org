@@ -16,6 +16,9 @@ Rails.application.routes.draw do
     patch '/users' => 'users/registrations#update'
     put '/users' => 'users/registrations#update'
     delete '/users' => 'users/registrations#destroy'
+    match '/users/finish_signup' => 'users/registrations#finish_signup', via: [:get, :patch], :as => :finish_signup
+    match '/users/auth/easyID' => 'users/omniauth_callbacks#easy_id', via: [:get, :post], :as => :easy_id
+    get '/users/deauth/:provider' => 'users/omniauth_callbacks#deauthorize', as: :omniauth_deauthorize
   end
 
   resources :user_assignments
@@ -24,7 +27,7 @@ Rails.application.routes.draw do
 
   resources :evaluations
 
-  resources :bookmarks
+  resources :bookmarks, except: [:edit, :new, :show, :update, :destroy]
 
   resources :progresses
 
@@ -74,7 +77,6 @@ Rails.application.routes.draw do
   get 'groups/:id/all_members_to_administrators' => 'groups#all_members_to_administrators'
   get 'groups/:id/synchronize_courses' => 'groups#synchronize_courses'
 
-  get 'impressum' => 'static_pages#impressum'
   get 'recommendations/:id/delete_user_from_recommendation' => 'recommendations#delete_user_from_recommendation'
   get 'recommendations/:id/delete_group_recommendation' => 'recommendations#delete_group_recommendation'
   root to: 'home#index'
@@ -88,6 +90,9 @@ Rails.application.routes.draw do
   get 'courses/:id/enroll_course' => 'courses#enroll_course'
   get 'courses/:id/unenroll_course' => 'courses#unenroll_course'
 
+  # Bookmarks
+  post 'bookmarks/delete' => 'bookmarks#delete'
+
   # Users
   get 'users/:id/synchronize_courses' => 'users#synchronize_courses', as: 'synchronize_courses'
   get 'users/:id/settings' => 'users#settings', as: 'user_settings'
@@ -95,7 +100,6 @@ Rails.application.routes.draw do
   get 'users/:id/mooc_provider_settings' => 'users#mooc_provider_settings'
   get 'users/:id/set_mooc_provider_connection' => 'users#set_mooc_provider_connection'
   get 'users/:id/revoke_mooc_provider_connection' => 'users#revoke_mooc_provider_connection'
-  match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
 
   # OAuth
   get 'oauth/callback' => 'users#oauth_callback'

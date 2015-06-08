@@ -22,32 +22,45 @@
           - if @course.end_date
             - if @course.start_date < Date.today and Date.today < @course.end_date
               = t('courses.already_running')
-          - if @course.start_date > Date.today
+            - elsif @course.start_date > Date.today
+              => t('courses.starting_soon')
+              = I18n.l @course.start_date, format: t('global.date_format_month')
+            - elsif @course.start_date == Date.today
+              = t('courses.starts_today')
+            - else
+              => t('courses.course_dates')
+              = I18n.l @course.start_date, format: t('global.date_format_month') + ' - '
+              = I18n.l @course.end_date, format: t('global.date_format_month')
+          - elsif @course.start_date > Date.today
             => t('courses.starting_soon')
             = I18n.l @course.start_date, format: t('global.date_format_month')
           - elsif @course.start_date == Date.today
             = t('courses.starts_today')
-          - elsif @course.end_date
-            => t('courses.course_dates')
-            = I18n.l @course.start_date, format: t('global.date_format_month') + ' - '
-            = I18n.l @course.end_date, format: t('global.date_format_month')
           - else
             => t('courses.starting_time')
             = I18n.l @course.start_date, format: t('global.date_format_month')
         - else
           = t('courses.no_dates_available')
 
-
         p
         - if @course.language
           img src="/data/icons/globe.png" class="pr5" style="height:18px"
           = @course.language
+        p
+        - if @bookmarked
+          //TODO: put in class
+          span.glyphicon.glyphicon-bookmark style='padding-left: 0px'
+          = t('bookmarks.bookmarked')
       .options
         img src=@provider_logos[@course.mooc_provider.logo_id]
     .subnav
-      a class="entry" href=''
-        = t('courses.remember_course')
       - if user_signed_in?
+        - if Bookmark.where(user_id: current_user.id, course_id: @course.id).blank?
+          a class="entry" href='' id='remember_course_link' data-course_id='#{@course.id}' data-user_id='#{current_user.id}'
+            = t('courses.remember_course')
+        - else
+          a class="entry" href='' id='delete_remember_course_link' data-course_id='#{@course.id}' data-user_id='#{current_user.id}'
+            = t('courses.delete_remember_course')
         - if current_user.courses.include? @course
           a class="entry" href='' id='unenroll-course-link' data-course_id='#{@course.id}'
             = t('courses.unenroll_course')
