@@ -98,6 +98,5 @@ RSpec.describe 'Application', type: :feature do
       expect(current_path).to eq dashboard_path
       expect(page).to have_content user.first_name
     end
-
   end
 end

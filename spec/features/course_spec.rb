@@ -36,10 +36,10 @@ RSpec.describe 'Course', type: :feature do
     it 'displays only the recommendation view upon click', js: true do
       visit "/courses/#{course.id}"
       click_link('recommend-course-link')
-      wait_for_phantom_js
+      wait_for_ajax
       expect(page).to have_selector('#recommend-course')
       expect(page).to have_no_selector('#rate-course')
-      wait_for_phantom_js
+      wait_for_ajax
       click_link('recommend-course-link')
       expect(page).to have_no_selector('#recommend-course')
       expect(page).to have_no_selector('#rate-course')
@@ -48,10 +48,10 @@ RSpec.describe 'Course', type: :feature do
     it 'displays only the rating view upon click', js: true do
       visit "/courses/#{course.id}"
       click_link('rate-course-link')
-      wait_for_phantom_js
+      wait_for_ajax
       expect(page).to have_selector('#rate-course')
       expect(page).to have_no_selector('#recommend-course')
-      wait_for_phantom_js
+      wait_for_ajax
       click_link('rate-course-link')
       expect(page).to have_no_selector('#recommend-course')
       expect(page).to have_no_selector('#rate-course')
@@ -60,18 +60,18 @@ RSpec.describe 'Course', type: :feature do
     it 'toggles between rating and recommendations view upon click', js: true do
       visit "/courses/#{course.id}"
       click_link('rate-course-link')
-      wait_for_phantom_js
+      wait_for_ajax
       expect(page).to have_selector('#rate-course')
       expect(page).to have_no_selector('#recommend-course')
-      wait_for_phantom_js
+      wait_for_ajax
       click_link('recommend-course-link')
       expect(page).to have_selector('#recommend-course')
       expect(page).to have_no_selector('#rate-course')
-      wait_for_phantom_js
+      wait_for_ajax
       click_link('rate-course-link')
       expect(page).to have_selector('#rate-course')
       expect(page).to have_no_selector('#recommend-course')
-      wait_for_phantom_js
+      wait_for_ajax
       click_link('rate-course-link')
       expect(page).to have_no_selector('#recommend-course')
       expect(page).to have_no_selector('#rate-course')

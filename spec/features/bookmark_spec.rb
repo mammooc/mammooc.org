@@ -118,7 +118,7 @@ RSpec.describe 'Bookmark', type: :feature do
 
     it 'hides only deleted bookmark entry', js: true do
       visit bookmarks_path
-      first('.glyphicon-remove').click
+      find("a[data-course_id='#{course.id}']").find('.glyphicon-remove').click
       wait_for_ajax
       expect(page).to have_content(I18n.t('dashboard.bookmarks'))
       expect(page).to have_content second_bookmark.course.name

@@ -116,6 +116,7 @@ en:
       sign_in: Sign in
       sign_up: Sign Up
       sign_in_process: Log in
+      finish_sign_up: Finish Sign Up
       first_name: First name
       last_name: Last name
       email: Email
@@ -129,6 +130,8 @@ en:
       sign_up_link: Not signed up yet? Click here to sign up.
       sign_up_dropdown: Not signed up yet? Sign up here.
       forgot_password: Forgot your password?
+      omniauth: Sign in with %{provider}
+      terms_and_conditions_omniauth: "You confirm to mammooc's terms and conditions if you sign up via Single-Sign-On:"
     password:
       forgot: Forgot your password?
       reset: Reset my password
@@ -149,6 +152,12 @@ en:
       update_account: Update
       pending_mail_confirmation: 'Currently waiting confirmation for:'
       still_admin_in_group_error: Account could not be deleted, since you are still an administrator in a group.
+      manage_omniauth: Manage Single-Sign-On
+      add_identity: Connect with %{provider}
+      remove_identity: Remove %{provider} connection
+      only_one_provider: You must choose a password or add another provider in order to remove your existing connection.
+      identity_deleted: Your connection with %{provider} was successfully removed.
+      identity_not_deleted: Your connection with %{provider} could not be removed.
     synchronization:
       oauth_error: Sorry! We were unable to establish a connection to your account. Please check your settings and try again.
       revoke_provider_connection: Revoke connection
