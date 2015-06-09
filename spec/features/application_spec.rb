@@ -99,4 +99,66 @@ RSpec.describe 'Application', type: :feature do
       expect(page).to have_content user.first_name
     end
   end
+
+  describe 'change language' do
+    let(:user) { FactoryGirl.create(:user) }
+
+    before(:each) do
+      Sidekiq::Testing.inline!
+
+      visit new_user_session_path
+      fill_in 'login_email', with: user.primary_email
+      fill_in 'login_password', with: user.password
+      click_button 'submit_sign_in'
+      if page.text.match(/DE/)
+        click_on 'language_selection'
+        click_on 'English'
+      end
+    end
+
+    it 'sets the new language' do
+      click_on 'language_selection'
+      click_on 'Deutsch'
+      expect(current_url).to include('?language=de')
+    end
+
+    it 'only includes the language param once' do
+      click_on 'language_selection'
+      click_on 'Deutsch'
+      expect(current_url).to include('?language=de')
+      click_on 'language_selection'
+      click_on 'English'
+      expect(current_url).to include('?language=en')
+      expect(current_url).not_to include('?language=de')
+    end
+
+    it 'appends the language to the params if necessary', js: true do
+      group = FactoryGirl.create(:group, users: [user])
+      visit group_path(group)
+      click_on I18n.t('groups.subnav.recommendations')
+      click_button I18n.t('groups.recommend_course')
+      expect(current_url).to include("?group_id=#{group.id}")
+      click_on 'language_selection'
+      click_on 'Deutsch'
+      expect(current_url).to include('&language=de')
+      expect(current_url).to include("?group_id=#{group.id}")
+    end
+
+    it 'replaces the language to the params if necessary', js: true do
+      group = FactoryGirl.create(:group, users: [user])
+      visit group_path(group)
+      click_on I18n.t('groups.subnav.recommendations')
+      click_button I18n.t('groups.recommend_course')
+      expect(current_url).to include("?group_id=#{group.id}")
+      click_on 'language_selection'
+      click_on 'Deutsch'
+      expect(current_url).to include('&language=de')
+      expect(current_url).to include("?group_id=#{group.id}")
+      click_on 'language_selection'
+      click_on 'English'
+      expect(current_url).to include('&language=en')
+      expect(current_url).not_to include('&language=de')
+      expect(current_url).to include("?group_id=#{group.id}")
+    end
+  end
 end
