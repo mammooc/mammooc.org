@@ -2,7 +2,7 @@
   .recommendation-small
     .user-info
       = link_to recommendation.author
-        img src=@profile_pictures[recommendation.author.profile_image]
+        img src=@profile_pictures["#{recommendation.author.id} #{recommendation.author.profile_image_file_name}"]
         .name
           .author
             = link_to recommendation.author
