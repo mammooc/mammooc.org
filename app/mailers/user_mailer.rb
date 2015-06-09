@@ -15,6 +15,8 @@ class UserMailer < ApplicationMailer
     mail(to: email_adress, subject: 'A bookmarked course starts soon')
   end
 
+  # rubocop:disable ParameterLists
+
   def obligatory_recommendation_user_notification(email_adress, user, course, current_user, root_url)
     @user = user
     @course = course
@@ -34,4 +36,5 @@ class UserMailer < ApplicationMailer
     mail(to: email_adress, subject: 'A course was made obligatory for one of your groups')
   end
 
+  # rubocop:enable ParameterLists
 end

@@ -49,7 +49,6 @@ RSpec.describe CoursesController, type: :controller do
       expect(JSON.parse(response.body)).to have_content third_course.name
       expect(JSON.parse(response.body)).to have_content third_course.id
     end
-
   end
 
   describe 'GET index' do

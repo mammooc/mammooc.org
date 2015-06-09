@@ -54,7 +54,6 @@ class RecommendationsController < ApplicationController
     end
 
     if params[:recommendation][:is_obligatory] == 'true'
-      #send_email
       course = Course.find(params[:recommendation][:course_id])
 
       user_ids.each do |user_id|

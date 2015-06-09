@@ -212,10 +212,8 @@ class GroupsController < ApplicationController
 
   def groups_where_user_is_admin
     group_ids = UserGroup.where(user: current_user, is_admin: true).collect(&:group_id)
-    puts "group_ids: #{group_ids}"
     @admin_groups = Group.find(group_ids)
   end
-
 
   # DELETE /groups/1
   # DELETE /groups/1.json

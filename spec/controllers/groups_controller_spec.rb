@@ -573,5 +573,4 @@ RSpec.describe GroupsController, type: :controller do
       expect(json).not_to have_content group.id
     end
   end
-
 end

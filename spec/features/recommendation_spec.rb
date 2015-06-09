@@ -184,7 +184,7 @@ RSpec.describe 'Recommendation', type: :feature do
     let!(:second_group) { FactoryGirl.create(:group, users: [third_user]) }
     let!(:third_user) { FactoryGirl.create(:user) }
 
-    it 'creates new recommendation from course detail page', js:true do
+    it 'creates new recommendation from course detail page', js: true do
       visit course_path(course)
       wait_for_ajax
       expect(Recommendation.count).to eq 0
@@ -200,7 +200,7 @@ RSpec.describe 'Recommendation', type: :feature do
       expect(Recommendation.count).to eq 1
     end
 
-    it 'creates new recommendation from group recommendation page', js:true do
+    it 'creates new recommendation from group recommendation page', js: true do
       visit "/groups/#{group_recommend.id}/recommendations"
       expect(Recommendation.count).to eq 0
       click_button I18n.t('groups.recommend_course')
@@ -211,7 +211,7 @@ RSpec.describe 'Recommendation', type: :feature do
         wait_for_ajax
         page.all('.tokenfield')[2].native.send_key(:Enter)
       else
-        fill_in 'recommendation_course_id-tokenfield', with: "qwert"
+        fill_in 'recommendation_course_id-tokenfield', with: 'qwert'
         wait_for_ajax
         fill_in 'recommendation_course_id-tokenfield', with: "\t"
       end
@@ -235,14 +235,11 @@ RSpec.describe 'Recommendation', type: :feature do
       wait_for_ajax
       user.groups.each do |group|
         group.users.each do |member|
-          unless user != member
-            expect(page).to have_content(member.first_name)
-          end
+          expect(page).to have_content(member.first_name) unless user == member
         end
       end
       expect(page).not_to have_content(third_user.first_name)
     end
-
 
     it 'hides form on course detail page if user has no groups', js: true, skip_before: true do
       visit new_user_session_path
@@ -266,7 +263,6 @@ RSpec.describe 'Recommendation', type: :feature do
       expect(page).to have_content I18n.t('courses.register_first')
       expect(page).not_to have_content I18n.t('recommendation.submit')
     end
-
   end
 
   describe 'create obligatory recommendation' do
@@ -284,7 +280,7 @@ RSpec.describe 'Recommendation', type: :feature do
     let!(:second_group) { FactoryGirl.create(:group, users: [user, third_user]) }
     let!(:third_user) { FactoryGirl.create(:user) }
 
-    it 'creates new obligatory recommendation from course detail page', js:true do
+    it 'creates new obligatory recommendation from course detail page', js: true do
       visit course_path(course)
       wait_for_ajax
       expect(Recommendation.count).to eq 0
@@ -300,7 +296,7 @@ RSpec.describe 'Recommendation', type: :feature do
       expect(Recommendation.count).to eq 1
     end
 
-    it 'creates new obligatory recommendation from group recommendation page', js:true do
+    it 'creates new obligatory recommendation from group recommendation page', js: true do
       visit "/groups/#{group_obligatory.id}/recommendations"
       expect(Recommendation.count).to eq 0
       click_button I18n.t('groups.recommend_course_obligatory')
@@ -311,7 +307,7 @@ RSpec.describe 'Recommendation', type: :feature do
         wait_for_ajax
         page.all('.tokenfield')[2].native.send_key(:Enter)
       else
-        fill_in 'recommendation_course_id-tokenfield', with: "qwert"
+        fill_in 'recommendation_course_id-tokenfield', with: 'qwert'
         wait_for_ajax
         fill_in 'recommendation_course_id-tokenfield', with: "\t"
       end
@@ -334,7 +330,7 @@ RSpec.describe 'Recommendation', type: :feature do
     end
 
     it 'shows in autocompletion only groups for which user is admin', js: true do
-      visit "/recommendations/new?is_obligatory=true"
+      visit '/recommendations/new?is_obligatory=true'
       first('.tokenfield').click
       wait_for_ajax
       expect(page).to have_content(group_obligatory.name)
@@ -343,7 +339,7 @@ RSpec.describe 'Recommendation', type: :feature do
     end
 
     it 'shows in autocompletion only member from groups for which user is admin', js: true do
-      visit "/recommendations/new?is_obligatory=true"
+      visit '/recommendations/new?is_obligatory=true'
       page.all('.tokenfield')[1].click
       wait_for_ajax
       expect(page).to have_content(second_user.first_name)
