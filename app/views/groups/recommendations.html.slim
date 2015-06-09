@@ -3,7 +3,7 @@
 
 p
   = link_to new_recommendation_path(group_id: @group.id)
-    button.btn.btn-default
+    button.btn.btn-default id='new_recommendation_for_group'
       = t('groups.recommend_course')
 - if @recommendations.empty?
   = t('recommendation.group.no_recommendation')
