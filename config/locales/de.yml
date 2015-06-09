@@ -95,7 +95,7 @@ de:
     number_of_activities: Es gibt 2 neue Aktivitäten in deinen Gruppen
     complete_profile: Vervollständige dein Profil
     manage_groups: Verwalte deine Gruppen
-    search_courses: Finde Kurse, die zur dir passen
+    search_courses: Finde passende Kurse
     last_time_active: Zuletzt aktiv am
     bookmarks: :bookmarks.my_bookmarks
     no_bookmarks: :bookmarks.no_bookmarks
@@ -107,7 +107,7 @@ de:
     hello: Hallo
 
   bookmarks:
-    my_bookmarks: Meine Vorgemerkten Kurse
+    my_bookmarks: Meine vorgemerkten Kurse
     no_bookmarks: Du hast leider derzeit keine Vormerkungen.
     bookmarked: vorgemerkt
 
