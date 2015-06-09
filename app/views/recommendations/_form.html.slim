@@ -6,7 +6,8 @@
           | &times;
         span.sr-only
           = t('global.close')
-      h4= "#{pluralize(@recommendation.errors.count,"error")} prohibited this recommendation from being saved:"
+      h4
+        = "#{pluralize(@recommendation.errors.count,"error")} prohibited this recommendation from being saved:"
       ul
         - @recommendation.errors.full_messages.each do |msg|
           li= msg
