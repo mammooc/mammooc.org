@@ -3,13 +3,25 @@
   padding-left: 4px;
 }
 
+.rating-value {
+  float:right;
+}
+
 .glyphicon-star, .glyphicon-star-empty {
   font-size: 1.4em;
   color: rgb(250, 212, 29);
+}
+
+.rating-evaluation-div {
+  margin-top: 5px;
 }
 
 .helpful-evaluation-div {
   color: grey;
   margin-top: 5px;
   font-size: 13px;
+}
+
+.rating-description-container {
+  margin: 5px;
 }

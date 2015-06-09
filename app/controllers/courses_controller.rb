@@ -79,6 +79,9 @@ class CoursesController < ApplicationController
     end
 
     createRatingObjectForCourse @course
+    evaluating_users = User.find(@course.evaluations.pluck(:user_id))
+    @profile_pictures ||= {}
+    @profile_pictures = AmazonS3.instance.user_profile_images_hash_for_users(evaluating_users,@profile_pictures)
 
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses([@course])
     @bookmarked = false
@@ -212,7 +215,7 @@ class CoursesController < ApplicationController
           evaluation_object['user_name'] = "#{evaluation.user.first_name} #{evaluation.user.last_name}"
         else
           evaluation_object['user_id'] = nil
-          evaluation_object['user_profile_image_id'] = ''
+          evaluation_object['user_profile_image_id'] = 'profile_picture_default.png'
           evaluation_object['user_name'] = 'Anonymous'
         end
 
