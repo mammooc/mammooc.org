@@ -49,11 +49,11 @@ GEM
       builder (~> 3.0)
       jmespath (~> 1.0)
       multi_json (~> 1.0)
+    aws-sdk-resources (2.0.48)
+      aws-sdk-core (= 2.0.48)
     aws-sdk-v1 (1.64.0)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
-    aws-sdk-resources (2.0.48)
-      aws-sdk-core (= 2.0.48)
     bcrypt (3.1.10)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
@@ -392,12 +392,12 @@ DEPENDENCIES
   omniauth
   omniauth-amazon
   omniauth-facebook
-  paperclip
   omniauth-github
   omniauth-google-oauth2
   omniauth-linkedin-oauth2
   omniauth-twitter
   omniauth-windowslive
+  paperclip
   passenger
   pg
   poltergeist
