@@ -34,6 +34,7 @@ de:
     show_details: Details anzeigen
     date_format_month: '%-d. %B %Y'
     date_format_month_short: '%d.%m.%y'
+    search: Suche
 
   will_paginate:
     previous_label: '&#171; Vorherige'
@@ -109,7 +110,7 @@ de:
 
   bookmarks:
     my_bookmarks: Meine vorgemerkten Kurse
-    no_bookmarks: Du hast leider derzeit keine Vormerkungen.
+    no_bookmarks: Du hast derzeit keine Vormerkungen.
     bookmarked: vorgemerkt
 
   users:
@@ -195,6 +196,7 @@ de:
     my_groups: Meine Gruppen
     show: Zur Gruppe
     recommend_course: Dieser Gruppe einen Kurs empfehlen
+    recommend_course_obligatory: Dieser Gruppe einen Kurs vorschreiben
     current_recommendations: Aktuelle Empfehlungen (%{shown_number} von %{complete_number})
     subnav:
       home: Home
@@ -286,6 +288,7 @@ de:
     enroll_course: Kurs belegen
     unenroll_course: Kursbelegung entfernen
     recommend_course: Kurs empfehlen
+    recommend_course_obligatory: Kurs vorschreiben
     rate_course: Kurs bewerten
     recommendations: Empfehlungen
     user_belongs_to_group: 'Gruppe: '
@@ -298,6 +301,9 @@ de:
     following_iteration: Nachfolgender Durchlauf
     enrollment_error: Die Belegung beim MOOC-Anbieter hat leider nicht funktioniert.
     unenrollment_error: Das Entfernen der Belegung beim MOOC-Anbieter hat leider nicht funktioniert.
+    require_login: Du musst angemeldet sein, um diese Funktionalität nutzen zu können.
+    register_first: Bitte registriere dich.
+
     # attention: this part is also used for recommendations
     starting_soon: Kurs beginnt am
     starts_today: Kurs beginnt heute
@@ -333,6 +339,7 @@ de:
           udacity_nothing: Kein Zertifikat
           udacity_verified_certificate: Verifiziertes Zertifikat
     filter:
+      filter: Filter
       all: Alle
       duration:
         short: weniger als 5 Wochen
@@ -343,7 +350,7 @@ de:
       start:
         now: Aktuell laufend
         past: Bereits vorbei
-        soon: Beginnt innerhalb von zwei Wochen
+        soon: Beginnt bald
         future: Beginnt in Zukunft
       costs:
         free: frei
@@ -360,19 +367,22 @@ de:
         provider: Plattform
         subtitle_language: Untertitel
         duration: Dauer
-        start_categories: Zeitstatus
+        start_categories: Status
         costs: Preis
         certificate: Art des Zertifikats
         sort: Sortieren nach
         bookmarked: Zeige nur meine vorgemerkten Kurse
       sort:
-        start_date_desc: Startdatum - absteigend
-        start_date_asc: Startdatum - aufsteigend
-        duration_desc: Dauer - absteigend
-        duration_asc: Dauer - aufsteigend
-        name_desc: Titel (z-a)
-        name_asc: Titel (a-z)
-        start_date_relevance: Startdatum Relevanz ab heute
+        sort_by: "Sortieren nach:"
+        start_date_desc: "Startdatum: absteigend"
+        start_date_asc: "Startdatum: aufsteigend"
+        duration_desc: "Dauer: absteigend"
+        duration_asc: "Dauer: aufsteigend"
+        name_desc: "Titel: Z-A"
+        name_asc: "Titel"
+        start_date_relevance: Aktuellste zuerst
+      reset: Filter zurücksetzen
+
     languages:
       ar: Arabisch
       cn: Chinesisch
@@ -403,6 +413,7 @@ de:
       zh-tw: Chinesisch (Taiwan)
 
   recommendation:
+    submit: Empfehlung erstellen
     placeholder: Gib deine persönliche Nachricht hier ein ...
     new: Neue Empfehlung
     related_course: Kurs
@@ -422,18 +433,24 @@ de:
     has_recommended: hat dir diesen Kurs empfohlen.
     pledged_by: vorgeschrieben von
     recommended_by: empfohlen von
-    no_recommendation: Du hast leider momentan keine Empfehlungen.
+    no_recommendation: Du hast momentan keine Empfehlungen.
     successfully_created: Empfehlung erfolgreich erstellt.
     successfully_updated: Empfehlung erfolgreich bearbeitet.
     successfully_destroyed: Empfehlung erfolgreich gelöscht.
     creation_error: Fehler beim Erstellen.
     update_error: Fehler beim Bearbeiten.
+    no_groups: Du braucht eine Gruppe um Empfehlungen zu erstellen.
+    no_admin_groups: Du hast keine Gruppen, für die du berechtigt bist Vorschreibungen zu erstellen.
+    obligatory_recommendation:
+      submit: Vorschreibung erstellen
+      successfully_created: Vorschreibung erfolgreich erstellt.
+      new: Neue Vorschreibung
 
     button:
       ignore: Empfehlung ignorieren
       course_details: Details ansehen
     group:
-      no_recommendation: Diese Gruppe hat leider momentan keine Empfehlungen.
+      no_recommendation: Diese Gruppe hat momentan keine Empfehlungen.
       has_pledged: hat diesen Kurs vorgeschrieben.
       has_recommended: hat diesen Kurs empfohlen.
       obligatory_for: verpflichtend für

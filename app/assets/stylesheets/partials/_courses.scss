@@ -191,7 +191,37 @@ $course-img-height: 250px;
 
 /* Course listing */
 
-$course-img-height: 130px;
+$course-listing-img-height: 130px;
+
+.filter-options-top {
+  width: 100%;
+  height: 34px;
+  margin-bottom: 15px;
+
+  .search-with-filterrific {
+    float: left;
+    position: relative;
+
+    .glyphicon {
+      position: absolute;
+      top: 10px !important;
+      right: 10px;
+    }
+
+    & > .form-inline .form-control {
+      width: 250px;
+    }
+  }
+
+  .sort-with-filterrific {
+    float: right;
+
+    & > .form-control {
+      width: 250px;
+      float: right;
+    }
+  }
+}
 
 .courses-wrapper {
 
@@ -216,7 +246,7 @@ $course-img-height: 130px;
     }
 
     .course-image {
-      height: $course-img-height;
+      height: $course-listing-img-height;
       position: relative;
       border-bottom: 1px solid $panel-default-border;
 
@@ -230,7 +260,7 @@ $course-img-height: 130px;
         filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
         -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
         width: 100%;
-        height: $course-img-height;
+        height: $course-listing-img-height;
         color: white;
         padding: 10px;
         font-weight: 500;
@@ -242,7 +272,7 @@ $course-img-height: 130px;
         left: 0;
         object-fit: cover;
         width: 100%;
-        height: $course-img-height;
+        height: $course-listing-img-height;
         overflow: hidden;
       }
     }

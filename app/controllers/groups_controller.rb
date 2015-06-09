@@ -35,8 +35,8 @@ class GroupsController < ApplicationController
     @number_of_recommendations = sorted_recommendations.length
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
 
-    @profile_pictures = AmazonS3.instance.author_profile_images_hash_for_recommendations(@recommendations)
-    @profile_pictures = AmazonS3.instance.user_profile_images_hash_for_users(@group.users, @profile_pictures)
+    @profile_pictures = User.author_profile_images_hash_for_recommendations(@recommendations)
+    @profile_pictures = User.user_profile_images_hash_for_users(@group.users, @profile_pictures)
 
     @group_picture = AmazonS3.instance.group_images_hash_for_groups [@group]
     @rating_picture = AmazonS3.instance.get_url('five_stars.png')
@@ -54,7 +54,7 @@ class GroupsController < ApplicationController
   def recommendations
     @recommendations = @group.recommendations.sort_by(&:created_at).reverse!
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
-    @profile_pictures = AmazonS3.instance.author_profile_images_hash_for_recommendations(@recommendations)
+    @profile_pictures = User.author_profile_images_hash_for_recommendations(@recommendations)
     @group_picture = AmazonS3.instance.group_images_hash_for_groups [@group]
     @rating_picture = AmazonS3.instance.get_url('five_stars.png')
   end
@@ -63,7 +63,7 @@ class GroupsController < ApplicationController
     @sorted_group_users = sort_by_name(@group.users - admins)
     @sorted_group_admins = sort_by_name(admins)
     @group_members = @group.users - [current_user]
-    @profile_pictures = AmazonS3.instance.user_profile_images_hash_for_users(@group.users)
+    @profile_pictures = User.user_profile_images_hash_for_users(@group.users)
     @group_picture = AmazonS3.instance.group_images_hash_for_groups [@group]
   end
 
@@ -208,6 +208,11 @@ class GroupsController < ApplicationController
         format.json { render json: e.to_json, status: :unprocessable_entity }
       end
     end
+  end
+
+  def groups_where_user_is_admin
+    group_ids = UserGroup.where(user: current_user, is_admin: true).collect(&:group_id)
+    @admin_groups = Group.find(group_ids)
   end
 
   # DELETE /groups/1

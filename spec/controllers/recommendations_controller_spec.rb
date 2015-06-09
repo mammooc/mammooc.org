@@ -15,14 +15,16 @@ RSpec.describe RecommendationsController, type: :controller do
 
   let(:course) { FactoryGirl.create(:course) }
 
-  let(:valid_model_attributes) { {author: second_user, is_obligatory: false, group: group, users: [user, third_user], course: course} }
-  let(:valid_controller_attributes_group) { {author: user, is_obligatory: false, related_group_ids: "#{group.id}", related_user_ids: '', course_id: course.id} }
-  let(:valid_controller_attributes_user) { {author: user, is_obligatory: false, related_user_ids: "#{second_user.id}", related_group_ids: '', course_id: course.id} }
-  let(:valid_controller_attributes_multiple_users) { {author: user, is_obligatory: false, related_group_ids: '', related_user_ids: "#{second_user.id}, #{third_user.id}", course_id: course.id} }
-  let(:valid_controller_attributes_multiple) { {author: user, is_obligatory: false, related_group_ids: "#{group.id}, #{second_group.id}", related_user_ids: "#{second_user.id}, #{third_user.id}", course_id: course.id} }
+  let(:valid_model_attributes) { {author: second_user, is_obligatory: 'false', group: group, users: [user, third_user], course: course} }
+  let(:valid_controller_attributes_group) { {author: user, is_obligatory: 'false', related_group_ids: "#{group.id}", related_user_ids: '', course_id: course.id} }
+  let(:valid_controller_attributes_user) { {author: user, is_obligatory: 'false', related_user_ids: "#{second_user.id}", related_group_ids: '', course_id: course.id} }
+  let(:valid_controller_attributes_multiple_users) { {author: user, is_obligatory: 'false', related_group_ids: '', related_user_ids: "#{second_user.id}, #{third_user.id}", course_id: course.id} }
+  let(:valid_controller_attributes_multiple) { {author: user, is_obligatory: 'false', related_group_ids: "#{group.id}, #{second_group.id}", related_user_ids: "#{second_user.id}, #{third_user.id}", course_id: course.id} }
+  let(:valid_controller_attributes_multiple_obligatory) { {author: user, is_obligatory: 'true', related_group_ids: "#{group.id}, #{second_group.id}", related_user_ids: "#{second_user.id}, #{third_user.id}", course_id: course.id} }
 
   before(:each) do
     sign_in user
+    ActionMailer::Base.deliveries.clear
   end
 
   describe 'GET index' do
@@ -70,6 +72,32 @@ RSpec.describe RecommendationsController, type: :controller do
 
     it 'creates one recommendation for each specified user or group' do
       expect { post :create, recommendation: valid_controller_attributes_multiple }.to change(Recommendation, :count).by(4)
+    end
+
+    it 'sends no email if recommendation is not obligatory' do
+      post :create, recommendation: valid_controller_attributes_group
+      expect(ActionMailer::Base.deliveries.count).to eq 0
+    end
+
+    describe 'obligatory recommendations' do
+      let(:valid_controller_attributes_user_obligatory) { {author: user, is_obligatory: 'true', related_user_ids: "#{second_user.id}", related_group_ids: '', course_id: course.id} }
+      let(:group_for_obligatory) { FactoryGirl.create(:group, users: [user, second_user]) }
+      let(:valid_controller_attributes_group_obligatory) { {author: user, is_obligatory: 'true', related_group_ids: "#{group_for_obligatory.id}", related_user_ids: '', course_id: course.id} }
+
+      it 'creates obligatory recommendations for each specified user or group' do
+        expect { post :create, recommendation: valid_controller_attributes_multiple_obligatory }.to change(Recommendation, :count).by(4)
+        expect(Recommendation.where(is_obligatory: true).count).to eq 4
+      end
+
+      it 'sends an email to specified user' do
+        post :create, recommendation: valid_controller_attributes_user_obligatory
+        expect(ActionMailer::Base.deliveries.count).to eq 1
+      end
+
+      it 'sends an email to every group member of specified group except the author of the obligatory recommendation' do
+        post :create, recommendation: valid_controller_attributes_group_obligatory
+        expect(ActionMailer::Base.deliveries.count).to eq group_for_obligatory.users.count - 1
+      end
     end
   end
 

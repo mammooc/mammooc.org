@@ -34,6 +34,7 @@ en:
     show_details: Show details
     date_format_month: '%B %-d, %Y'
     date_format_month_short: '%d.%m.%y'
+    search: Search
 
   will_paginate:
     previous_label: '&#171; Previous'
@@ -195,6 +196,7 @@ en:
     my_groups: My Groups
     show: Show group
     recommend_course: Recommend a course to this group
+    recommend_course_obligatory: Make a course obligatory to this group
     current_recommendations: Current Recommendations (%{shown_number} out of %{complete_number})
     subnav:
       home: Home
@@ -286,6 +288,7 @@ en:
     enroll_course: Enroll me for this Course
     unenroll_course: Unenroll me for this Course
     recommend_course: Recommend Course
+    recommend_course_obligatory: Make course obligatory
     rate_course: Rate Course
     recommendations: Recommendations
     user_belongs_to_group: 'Group: '
@@ -298,6 +301,9 @@ en:
     following_iteration: Following Iteration
     enrollment_error: Sorry, the enrollment for this course has failed.
     unenrollment_error: Sorry, the unenrollment for this course has failed.
+    require_login: You have to be signed in to use this feature.
+    register_first: Please register first.
+
     # attention: this part is also used for recommendations
     starting_soon: Course starts on
     starts_today: Course starts today
@@ -333,6 +339,7 @@ en:
           udacity_nothing: No certificate
           udacity_verified_certificate: Verified Certificate
     filter:
+      filter: Filter
       all: All
       duration:
         short: shorter than 5 weeks
@@ -343,8 +350,8 @@ en:
       start:
         now: currently active
         past: already finished
-        soon: starts during next two weeks
-        future: starts in the future
+        soon: starting soon
+        future: starting in the future
       costs:
         free: free
         range1: '< 30'
@@ -360,19 +367,22 @@ en:
         provider: Platform
         subtitle_language: Subtitles
         duration: Duration
-        start_categories: Time Status
+        start_categories: Status
         costs: Price
         certificate: Type of Certificate
         sort: Sorted by
         bookmarked: Only show my bookmarked courses
       sort:
-        start_date_desc: Start date descending
-        start_date_asc: Start date ascending
-        duration_desc: Duration decending
-        duration_asc: Duration ascending
-        name_desc: Title (z-a)
-        name_asc: Title (a-z)
-        start_date_relevance: Start date relevance from today
+        sort_by: "Sort by:"
+        start_date_desc: "Start date: descending"
+        start_date_asc: "Start date: ascending"
+        duration_desc: "Duration: decending"
+        duration_asc: "Duration: ascending"
+        name_desc: "Title: Z-A"
+        name_asc: "Title"
+        start_date_relevance: Current first
+      reset: Reset filter
+
     languages:
       ar: Arabic
       cn: Chinese
@@ -403,6 +413,7 @@ en:
       zh-tw: Chinese (Taiwan)
 
   recommendation:
+    submit: Create Recommendation
     placeholder: Enter your personal message here ...
     new: New recommendation
     related_course: course
@@ -428,6 +439,12 @@ en:
     successfully_destroyed: Recommendation was successfully destroyed.
     creation_error: Error on creation.
     update_error: Error on update.
+    no_groups: You have to create a group to create recommendations.
+    no_admin_groups: You don't have any groups for which you can make a course obligatory.
+    obligatory_recommendation:
+      submit: Create obligatory recommendation
+      successfully_created: Create obligatory recommendation successfully.
+      new: New obligatory Recommendation
 
     button:
       ignore: Ignore recommendation
