@@ -130,7 +130,6 @@ RSpec.describe User, type: :model do
       user.last_name = user_data.last_name
       user.primary_email = user_data.primary_email
       user.password = user_data.password
-      user.profile_image_id = user_data.profile_image_id
       expect { user.save! }.not_to raise_error
       expect { user.send(:save_primary_email) }.not_to raise_error
       expect(user.instance_variable_get(:@primary_email_object)).to eql UserEmail.find_by_user_id(user)

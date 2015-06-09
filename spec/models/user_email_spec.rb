@@ -3,7 +3,7 @@ require 'rails_helper'
 
 RSpec.describe UserEmail, type: :model do
   describe 'creates new user emails' do
-    let!(:user) { User.create!(first_name: 'Max', last_name: 'Mustermann', profile_image_id: 'profile_picture_default.png', password: '12345678') }
+    let!(:user) { User.create!(first_name: 'Max', last_name: 'Mustermann', password: '12345678') }
 
     it 'create a primary email if it is the first one' do
       expect { described_class.create!(user: user, is_primary: true, address: 'max@example.com') }.not_to raise_error
@@ -26,7 +26,7 @@ RSpec.describe UserEmail, type: :model do
   end
 
   describe 'update user emails' do
-    let!(:user) { User.create!(first_name: 'Max', last_name: 'Mustermann', profile_image_id: 'profile_picture_default.png', password: '12345678') }
+    let!(:user) { User.create!(first_name: 'Max', last_name: 'Mustermann', password: '12345678') }
 
     it 'is not allowed to remove the is_primary attribute without changing another address to the primary' do
       email = FactoryGirl.create(:user_email, user: user)
@@ -59,7 +59,7 @@ RSpec.describe UserEmail, type: :model do
   end
 
   describe 'destroy user emails' do
-    let!(:user) { User.create!(first_name: 'Max', last_name: 'Mustermann', profile_image_id: 'profile_picture_default.png', password: '12345678') }
+    let!(:user) { User.create!(first_name: 'Max', last_name: 'Mustermann', password: '12345678') }
 
     it 'is allowed to destroy any non primary address' do
       FactoryGirl.create(:user_email, user: user, is_primary: true)
@@ -105,7 +105,7 @@ RSpec.describe UserEmail, type: :model do
   end
 
   describe 'validate' do
-    let!(:user) { User.create!(first_name: 'Max', last_name: 'Mustermann', profile_image_id: 'profile_picture_default.png', password: '12345678') }
+    let!(:user) { User.create!(first_name: 'Max', last_name: 'Mustermann', password: '12345678') }
 
     context 'attribute is_verified' do
       it 'accepts true' do
