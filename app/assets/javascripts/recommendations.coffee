@@ -165,7 +165,7 @@ generate_course_autocomplete = () ->
     showAutocompleteOnFocus: true
     limit: 1
 
-fillInWithParams = () ->
+fill_in_with_params = () ->
   params = getParams()
   if 'group_id' of params
     group_id = params['group_id']
@@ -181,15 +181,15 @@ fillInWithParams = () ->
         $('#recommendation_related_group_ids').tokenfield('setTokens', [{value: group_id, label: group_name}])
 
 
-@recommendationNewParameters = () ->
+@recommendation_new_parameters = () ->
   generate_course_autocomplete()
   generate_groups_autocomplete()
   generate_users_autocomplete()
-  fillInWithParams()
+  fill_in_with_params()
 
 
-@recommendationObligatoryNewParameters = () ->
+@recommendation_obligatory_new_parameters = () ->
   generate_course_autocomplete()
   generate_groups_autocomplete_obligatory_recommendation()
   generate_users_autocomplete_obligatory_recommendation()
-  fillInWithParams()
+  fill_in_with_params()
