@@ -37,17 +37,12 @@ RSpec.describe CoursesController, type: :controller do
     end
   end
 
-  describe 'GET all_courses' do
-    render_views
+  describe 'GET autocomplete' do
+    let(:web_course) { FactoryGirl.create :course, name: 'Web Stuff' }
 
-    it 'responds with valid json' do
-      get :all_courses, format: :json
-      expect(JSON.parse(response.body)).to have_content course.name
-      expect(JSON.parse(response.body)).to have_content course.id
-      expect(JSON.parse(response.body)).to have_content second_course.name
-      expect(JSON.parse(response.body)).to have_content second_course.id
-      expect(JSON.parse(response.body)).to have_content third_course.name
-      expect(JSON.parse(response.body)).to have_content third_course.id
+    it 'responds with filtered courses' do
+      get :autocomplete, format: :json, q: 'web'
+      expect(assigns(:courses)).to match_array([web_course])
     end
   end
 

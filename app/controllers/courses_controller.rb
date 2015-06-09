@@ -121,8 +121,12 @@ class CoursesController < ApplicationController
     redirect_to courses_path
   end
 
-  def all_courses
-    @all_courses = Course.all
+  def autocomplete
+    @courses = Course.search_query params[:q]
+
+    respond_to do |format|
+      format.json
+    end
   end
 
   private
