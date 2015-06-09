@@ -9,48 +9,46 @@
       .courses
         = link_to course
           .course-image
-            - if course.imageId
-              = image_tag(course.imageId)
-            - else
-              img src="/data/icons/courses-list-std.png"
+            .show-image
+              - if course.imageId
+                = image_tag(course.imageId)
+              - else
+                img src="/data/icons/courses-list-std.png"
+            .additional-infos
+              .block
+                - if course.start_date
+                  - if course.end_date
+                    - if course.start_date < Date.today and Date.today < course.end_date
+                      = t('courses.course-list.already_running')
+                    - elsif course.start_date > Date.today
+                      => t('courses.course-list.starting_soon')
+                      = I18n.l course.start_date, format: t('global.date_format_month_short')
+                    - elsif course.start_date == Date.today
+                      = t('courses.starts_today')
+                    - else
+                      = I18n.l course.start_date, format: t('global.date_format_month_short') + ' - '
+                      = I18n.l course.end_date, format: t('global.date_format_month_short')
+                  - elsif course.start_date > Date.today
+                    => t('courses.course-list.starting_soon')
+                    = I18n.l course.start_date, format: t('global.date_format_month_short')
+                  - elsif course.start_date == Date.today
+                    = t('courses.course-list.starts_today')
+                  - else
+                    => t('courses.course-list.starting_soon')
+                    = I18n.l course.start_date, format: t('global.date_format_month_short')
+                - else
+                  = t('courses.no_dates_available')
+              .block
+                - if course.language
+                  = course.language
+              /- if @my_bookmarked_courses.include? course
+              /  span.glyphicon.glyphicon-bookmark.pl0
+              /  = t('bookmarks.bookmarked')
           .course-info
             .hd6.course-name
               = course.name
             .course-instructors
               = course.course_instructors
-            - if @my_bookmarked_courses.include? course
-              //TODO: put in class
-              span.glyphicon.glyphicon-bookmark style='padding-left: 0px'
-              = t('bookmarks.bookmarked')
-              br
-            img src="/data/icons/calendar.png" class="icon-small pr5"
-            .status
-              - if course.start_date
-                - if course.end_date
-                  - if course.start_date < Date.today and Date.today < course.end_date
-                    = t('courses.course-list.already_running')
-                  - elsif course.start_date > Date.today
-                    => t('courses.course-list.starting_soon')
-                    = I18n.l course.start_date, format: t('global.date_format_month_short')
-                  - elsif course.start_date == Date.today
-                    = t('courses.starts_today')
-                  - else
-                    = I18n.l course.start_date, format: t('global.date_format_month_short') + ' - '
-                    = I18n.l course.end_date, format: t('global.date_format_month_short')
-                - elsif course.start_date > Date.today
-                  => t('courses.course-list.starting_soon')
-                  = I18n.l course.start_date, format: t('global.date_format_month_short')
-                - elsif course.start_date == Date.today
-                  = t('courses.course-list.starts_today')
-                - else
-                  => t('courses.course-list.starting_soon')
-                  = I18n.l course.start_date, format: t('global.date_format_month_short')
-              - else
-                = t('courses.no_dates_available')
-            - if course.language
-              br
-              img src="/data/icons/globe.png" class="icon-small pr5"
-              .status
-                = course.language
+            // TODO: insert rating
             .provider
               img src = @provider_logos[course.mooc_provider.logo_id]
