@@ -33,6 +33,7 @@ class User < ActiveRecord::Base
 
   # Validate the attached image is image/jpg, image/png, etc
   validates_attachment_content_type :profile_image, content_type: /\Aimage\/.*\Z/
+  validates_attachment_size :profile_image, less_than: 1.megabyte
 
   before_destroy :handle_group_memberships, prepend: true
   after_commit :save_primary_email, on: [:create, :update]
