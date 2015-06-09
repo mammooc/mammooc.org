@@ -8,9 +8,9 @@ class DashboardController < ApplicationController
     @recommendations = all_my_sorted_recommendations.first(NUMBER_OF_SHOWN_RECOMMENDATIONS)
     @number_of_recommendations = all_my_sorted_recommendations.length
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
-    @profile_pictures = AmazonS3.instance.author_profile_images_hash_for_recommendations(@recommendations)
+    @profile_pictures = User.author_profile_images_hash_for_recommendations(@recommendations)
     @rating_picture = AmazonS3.instance.get_url('five_stars.png')
-
+    @user_picture = @current_user.profile_image.expiring_url(3600, :medium)
     # Bookmarks
     @bookmarks = current_user.bookmarks
 
