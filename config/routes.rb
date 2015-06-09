@@ -62,6 +62,9 @@ Rails.application.routes.draw do
   get 'about' => 'static_pages#about'
   get 'dashboard' => 'dashboard#dashboard'
 
+  # Evaluations
+  post 'evaluations/:id/processEvaluationRating' => 'evaluations#process_evaluation_rating'
+
   # Groups
   post 'groups/:id/invite_members' => 'groups#invite_group_members'
   post 'groups/:id/add_administrator' => 'groups#add_administrator'

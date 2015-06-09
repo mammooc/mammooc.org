@@ -271,7 +271,7 @@ class Course < ActiveRecord::Base
     end
   end
 
-  def self.updateCourseRatingAttributes course_id
+  def self.update_course_rating_attributes course_id
     course = Course.find(course_id)
     puts "updateCourseRatingAttributes"
     course_evaluations = Evaluation.find_by_course_id(course_id)

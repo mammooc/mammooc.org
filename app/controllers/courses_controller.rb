@@ -78,7 +78,7 @@ class CoursesController < ApplicationController
       @has_rated_course = Evaluation.find_by(user_id: current_user.id, course_id: @course.id).present?
     end
 
-    createRatingObjectForCourse @course
+    create_evaluation_object_for_course @course
     evaluating_users = User.find(@course.evaluations.pluck(:user_id))
     @profile_pictures ||= {}
     @profile_pictures = AmazonS3.instance.user_profile_images_hash_for_users(evaluating_users,@profile_pictures)
@@ -89,6 +89,10 @@ class CoursesController < ApplicationController
     current_user.bookmarks.each do |bookmark|
       @bookmarked = true if bookmark.course == @course
     end
+
+    # RATING
+    @course_rating_count = @course.rating_count
+
   end
 
   def enroll_course
@@ -118,6 +122,7 @@ class CoursesController < ApplicationController
   end
 
   def send_evaluation
+    # TODO: Übersetzungen und schön machen
     rating = params[:rating].to_i
     course_status = params[:course_status].to_i
     @errors ||= []
@@ -141,6 +146,7 @@ class CoursesController < ApplicationController
     else
       @saved_evaluation_successfuly = false
     end
+    @current_user_evaluation = current_user.evaluations.find_by(course_id: @course.id)
     @respond_partial = render_to_string partial: 'courses/already_rated_course_form', formats:[:html]
     respond_to do |format|
       begin
@@ -186,7 +192,7 @@ class CoursesController < ApplicationController
     params.require(:course).permit(:name, :url, :course_instructor, :abstract, :language, :imageId, :videoId, :start_date, :end_date, :duration, :costs, :type_of_achievement, :categories, :difficulty, :requirements, :workload, :provider_course_id, :mooc_provider_id, :course_result_id)
   end
 
-  def createRatingObjectForCourse course
+  def create_evaluation_object_for_course course
     if course.evaluations.present?
       @course_evaluations = Array.new
       course.evaluations.each { |evaluation|
@@ -197,7 +203,6 @@ class CoursesController < ApplicationController
         evaluation_object['date'] = evaluation.date
         evaluation_object['evaluation_rating_count'] = evaluation.evaluation_rating_count
         evaluation_object['evaluation_helpful_rating_count'] = evaluation.evaluation_helpful_rating_count
-
         case evaluation.course_status
           when 1
             evaluation_object['course_status'] = 'hat den Kurs abgebrochen'
@@ -208,7 +213,6 @@ class CoursesController < ApplicationController
           else
             evaluation_object['course_status'] = ''
         end
-
         unless evaluation.rated_anonymously
           evaluation_object['user_id'] = evaluation.user_id
           evaluation_object['user_profile_image_id'] = evaluation.user.profile_image_id
@@ -218,7 +222,6 @@ class CoursesController < ApplicationController
           evaluation_object['user_profile_image_id'] = 'profile_picture_default.png'
           evaluation_object['user_name'] = 'Anonymous'
         end
-
         @course_evaluations << evaluation_object
       }
     else

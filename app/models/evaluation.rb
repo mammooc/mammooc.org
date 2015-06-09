@@ -3,9 +3,11 @@ class Evaluation < ActiveRecord::Base
   belongs_to :user
   belongs_to :course
 
-  after_save :updateCourseRatingAndCount
+  after_save :update_course_rating_and_count
 
-  def updateCourseRatingAndCount
-    Course.updateCourseRatingAttributes course_id
+  def update_course_rating_and_count
+    if self.rating_changed?
+      Course.update_course_rating_attributes course_id
+    end
   end
 end

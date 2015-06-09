@@ -43,6 +43,7 @@ class User < ActiveRecord::Base
   def handle_evaluations
     evaluations.each do |evaluation|
       evaluation.user_id = nil
+      evaluation.rated_anonymously = true
       evaluation.save
     end
   end

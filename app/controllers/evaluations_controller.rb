@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class EvaluationsController < ApplicationController
-  before_action :set_evaluation, only: [:show, :edit, :update, :destroy]
+  before_action :set_evaluation, only: [:show, :edit, :update, :destroy, :process_evaluation_rating]
 
   respond_to :html
 
@@ -35,6 +35,26 @@ class EvaluationsController < ApplicationController
   def destroy
     @evaluation.destroy
     respond_with(@evaluation)
+  end
+
+  def process_evaluation_rating
+    if params['helpful'] == 'true'
+      @evaluation.evaluation_helpful_rating_count += 1
+      @evaluation.evaluation_rating_count += 1
+      @evaluation.save
+    elsif params['helpful'] == 'false'
+      @evaluation.evaluation_rating_count += 1
+      @evaluation.save
+    end
+    respond_to do |format|
+      begin
+        format.html { redirect_to dashboard_path }
+        format.json { render :process_evaluation_rating_result, status: :ok }
+      rescue StandardError => e
+        format.html { redirect_to dashboard_path }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
   end
 
   private

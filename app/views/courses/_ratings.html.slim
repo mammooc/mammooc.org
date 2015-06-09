@@ -16,7 +16,7 @@
               = evaluation['user_name']
           = evaluation['course_status']
           .rating-value
-            input.rating type='hidden' value="#{evaluation['rating']}" data-start="0" data-stop="5" id="rating-input" disabled="disabled"
+            input.rating type='hidden' value="#{evaluation['rating']}" data-start="0" data-stop="5" id="user-rating-output-#{index}" disabled="disabled"
         = I18n.l evaluation['date'], format: t('global.date_format_month')
 
       - if evaluation['description'].present?
@@ -24,18 +24,19 @@
           .rating-description-container
             = "\"#{evaluation['description']}\""
       .rating-evaluation-div
-      - if evaluation['evaluation_rating_count'].present? &&  evaluation['evaluation_rating_count'] > 0
-        .helpful-evaluation-div
-          = "#{evaluation['evaluation_helpful_rating_count']} von #{evaluation['evaluation_rating_count']} Nutzern fanden diese Bewertung hilfreich"
-      .was-evaluation-helpful-div
-        | Wie fandest du diese Bewertung?
-        = link_to dashboard_path
-          |  Hilfreich
-        = link_to dashboard_path
-          |  Nicht hilfreich
+        - if evaluation['evaluation_rating_count'].present? &&  evaluation['evaluation_rating_count'] > 0
+          .helpful-evaluation-div
+            = "#{evaluation['evaluation_helpful_rating_count']} von #{evaluation['evaluation_rating_count']} Nutzern fanden diese Bewertung hilfreich"
+        .was-evaluation-helpful-div
+          /TODO: what happens when user is not logged in?
+          = 'Wie fandest du diese Bewertung? '
+          a class="rate-evaluation-link" data-helpful="true" data-evaluation_id="#{evaluation['evaluation_id']}"
+            = 'Hilfreich'
+          a class="rate-evaluation-link" data-helpful="false" data-evaluation_id="#{evaluation['evaluation_id']}"
+            = ' Nicht Hilfreich'
     - if index < @course_evaluations.size - 1
       .gradient-divider
   /= will_paginate @course_evaluations, class: 'rec-pagination'
 - else
   h4
-    | Leider gibt es noch keine Bewertungen für diesen Kurs. :(
+    = 'Leider gibt es noch keine Bewertungen für diesen Kurs. :('
