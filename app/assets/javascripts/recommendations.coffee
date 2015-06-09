@@ -94,22 +94,25 @@ generate_users_autocomplete = () ->
     showAutocompleteOnFocus: true
 
 generate_course_autocomplete = () ->
-  courses_autocomplete = []
-  $.ajax
-    url: '/courses.json'
-    async: false
-    method: 'GET'
-    error: (jqXHR, textStatus, errorThrown) ->
-      console.log('courses error')
-      alert(I18n.t('global.ajax_failed'))
-    success: (data, textStatus, jqXHR) ->
-      console.log('courses success')
-      for course in data
-        courses_autocomplete.push({ label: course.name, value: course.id })
   $('#recommendation_course_id').tokenfield
     autocomplete:
       minLength: 3
-      source: courses_autocomplete
+      source: (request, response) ->
+        $.ajax
+          url: "/courses/autocomplete.json"
+          dataType: "json"
+          data:
+            q: request.term
+          error: (jqXHR, textStatus, errorThrown) ->
+            console.log('courses error')
+            alert(I18n.t('global.ajax_failed'))
+          success: (data, textStatus, jqXHR) ->
+            console.log('courses success')
+            results = []
+            for course in data
+              results.push({ label: course.name, value: course.id })
+            console.log(results)
+            response(results)
       delay: 100
       autoFocus: true
     showAutocompleteOnFocus: true
