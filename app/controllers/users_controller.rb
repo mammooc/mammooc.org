@@ -17,6 +17,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    @user_picture = current_user.profile_image.expiring_url(3600, :medium)
   end
 
   # GET /users/1/edit
@@ -202,6 +203,6 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :primary_email, :title, :password, :profile_image_id, :about_me)
+    params.require(:user).permit(:first_name, :last_name, :primary_email, :title, :password, :profile_image, :about_me)
   end
 end

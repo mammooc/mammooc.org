@@ -23,6 +23,12 @@
               _url = _url.replace(/filterrific.*/g, data.filter_options)
             else
               _url = _url.replace(/filterrific.*?(?=&[^filterrific])/g, data.filter_options)
+          $('.dropdown-language-entry').each (_index, language_entry) ->
+            if _url.search(/(?!with_)language=(.{2})/) != -1
+              link = _url.replace(/(?!with_)language=(.{2})/, "language=#{$(language_entry).data('language')}")
+            else
+              link = "#{_url}&language=#{$(language_entry).data('language')}"
+            $(language_entry).attr('href', link)
           history.pushState({},'test', _url)
 
 @copySelectOption = (fromId, toId) ->

@@ -108,7 +108,7 @@ en:
     hello: Hello
 
   bookmarks:
-    my_bookmarks: My Bookmarked Courses
+    my_bookmarks: My bookmarked courses
     no_bookmarks: You don't have any bookmarked courses right now.
     bookmarked: bookmarked
 
@@ -337,7 +337,7 @@ en:
         long: more than 12 weeks
       start:
         now: currently active
-        past: already fnished
+        past: already finished
         soon: starting soon
         future: starting in the future
       costs:

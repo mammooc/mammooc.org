@@ -37,6 +37,15 @@ RSpec.describe CoursesController, type: :controller do
     end
   end
 
+  describe 'GET autocomplete' do
+    let(:web_course) { FactoryGirl.create :course, name: 'Web Stuff' }
+
+    it 'responds with filtered courses' do
+      get :autocomplete, format: :json, q: 'web'
+      expect(assigns(:courses)).to match_array([web_course])
+    end
+  end
+
   describe 'GET index' do
     let(:course2) { FactoryGirl.create(:course, language: 'en', calculated_duration_in_days: 20) }
 

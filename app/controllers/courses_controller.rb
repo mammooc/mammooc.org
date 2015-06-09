@@ -59,7 +59,7 @@ class CoursesController < ApplicationController
       @recommendations_total = recommendations.size
       params[:page] ||= 1
       @recommendations = recommendations.paginate(page: params[:page], per_page: 3)
-      @profile_pictures = AmazonS3.instance.author_profile_images_hash_for_recommendations(@recommendations)
+      @profile_pictures = User.author_profile_images_hash_for_recommendations(@recommendations)
       @recommended_by = []
       @pledged_by = []
       @recommendations.each do |recommendation|
@@ -117,6 +117,14 @@ class CoursesController < ApplicationController
   def search
     session['courses#index'] = {'search_query': params[:query], 'with_tracks': {'costs': '', 'certificate': ''}}
     redirect_to courses_path
+  end
+
+  def autocomplete
+    @courses = Course.search_query params[:q]
+
+    respond_to do |format|
+      format.json
+    end
   end
 
   private

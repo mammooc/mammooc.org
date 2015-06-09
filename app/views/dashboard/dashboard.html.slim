@@ -21,15 +21,18 @@
         // if we don't show recommendations / activities (because there are none), this would show up
       | There are more news here.
 
-  .dashboard-actions
+  .dashboard-actions.hidden-xs
     = link_to current_user
       .box
+        img src="/data/icons/profile.png"
         = t('dashboard.complete_profile')
     = link_to groups_path
       .box
+        img src="/data/icons/group.png"
         = t('dashboard.manage_groups')
     = link_to courses_index_path
       .outer-box
+        img src="/data/icons/certificate.png"
         = t('dashboard.search_courses')
 
   - if @number_of_recommendations == 0
