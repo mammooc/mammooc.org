@@ -177,9 +177,16 @@ RSpec.describe 'Recommendation', type: :feature do
 
     it 'creates new obligatory recommendation from course detail page', js:true do
       visit course_path(course)
+      wait_for_ajax
       expect(Recommendation.count).to eq 0
       click_link('recommend-course-obligatory-link')
-      fill_in 'recommendation_related_group_ids-tokenfield', with: "Abc\t"
+      wait_for_ajax
+      if ENV['PHANTOM_JS'] == 'true'
+        first('.tokenfield').click
+        first('.tokenfield').native.send_key(:Enter)
+      else
+        fill_in 'recommendation_related_group_ids-tokenfield', with: "Abc\n"
+      end
       click_on I18n.t('recommendation.obligatory_recommendation.submit')
       expect(Recommendation.count).to eq 1
     end
@@ -188,7 +195,17 @@ RSpec.describe 'Recommendation', type: :feature do
       visit "/groups/#{group_obligatory.id}/recommendations"
       expect(Recommendation.count).to eq 0
       click_button I18n.t('groups.recommend_course_obligatory')
-      fill_in 'recommendation_course_id-tokenfield', with: "qwert\t"
+      wait_for_ajax
+      if ENV['PHANTOM_JS'] == 'true'
+        page.all('.tokenfield')[2].click
+        page.all('.tokenfield')[2].native.send_keys 'qwert'
+        wait_for_ajax
+        page.all('.tokenfield')[2].native.send_key(:Enter)
+      else
+        fill_in 'recommendation_course_id-tokenfield', with: "qwert"
+        wait_for_ajax
+        fill_in 'recommendation_course_id-tokenfield', with: "\t"
+      end
       click_button I18n.t('recommendation.obligatory_recommendation.submit')
       expect(Recommendation.count).to eq 1
     end
