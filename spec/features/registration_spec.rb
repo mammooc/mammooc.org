@@ -20,7 +20,6 @@ RSpec.describe 'Users::Registration', type: :feature do
   end
 
   context 'English' do
-
     it 'works with valid input' do
       fill_in 'user_first_name', with: user.first_name
       fill_in 'user_last_name', with: user.last_name
@@ -42,7 +41,7 @@ RSpec.describe 'Users::Registration', type: :feature do
       fill_in 'registration_password_confirmation', with: existing_user.password
       check 'terms_and_conditions_confirmation'
       click_button 'submit_sign_up'
-      expect(page).to have_text(I18n.t('users.sign_in_up.email') + ' ' + I18n.t('flash.error.taken'))
+      expect(page).to have_text(I18n.t('devise.registrations.email.taken'))
     end
 
     it 'does not work if not agreed to terms and conditions' do
@@ -97,11 +96,17 @@ RSpec.describe 'Users::Registration', type: :feature do
   end
 
   context 'German' do
-
-    before(:each) do
+    before(:all) do
       if page.text.match(/EN/)
         click_on 'language_selection'
         click_on 'Deutsch'
+      end
+    end
+
+    after(:all) do
+      if page.text.match(/DE/)
+        click_on 'language_selection'
+        click_on 'English'
       end
     end
 
@@ -126,7 +131,7 @@ RSpec.describe 'Users::Registration', type: :feature do
       fill_in 'registration_password_confirmation', with: existing_user.password
       check 'terms_and_conditions_confirmation'
       click_button 'submit_sign_up'
-      expect(page).to have_text(I18n.t('users.sign_in_up.email') + ' ' + I18n.t('flash.error.taken'))
+      expect(page).to have_text(I18n.t('devise.registrations.email.taken'))
     end
 
     it 'does not work if not agreed to terms and conditions' do
@@ -156,7 +161,7 @@ RSpec.describe 'Users::Registration', type: :feature do
       fill_in 'registration_password', with: user.password
       fill_in 'registration_password_confirmation', with: '123456789'
       click_button 'submit_sign_up'
-      expect(page).to have_text(I18n.t('users.sign_in_up.password_confirmation') + ' ' + I18n.t('flash.error.user.password_confirmation'))
+      expect(page).to have_text(I18n.t('users.sign_in_up.password_confirmation') + ' ' + I18n.t('errors.messages.confirmation', attribute: 'Password'))
     end
 
     it 'does not work without first_name' do
