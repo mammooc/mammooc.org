@@ -136,7 +136,7 @@ RSpec.describe 'Application', type: :feature do
       group = FactoryGirl.create(:group, users: [user])
       visit group_path(group)
       click_on I18n.t('groups.subnav.recommendations')
-      click_on 'new_recommendation_for_group'
+      click_button I18n.t('groups.recommend_course')
       expect(current_url).to include("?group_id=#{group.id}")
       click_on 'language_selection'
       click_on 'Deutsch'
@@ -148,7 +148,7 @@ RSpec.describe 'Application', type: :feature do
       group = FactoryGirl.create(:group, users: [user])
       visit group_path(group)
       click_on I18n.t('groups.subnav.recommendations')
-      click_on 'new_recommendation_for_group'
+      click_button I18n.t('groups.recommend_course')
       expect(current_url).to include("?group_id=#{group.id}")
       click_on 'language_selection'
       click_on 'Deutsch'
