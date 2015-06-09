@@ -107,11 +107,9 @@ generate_course_autocomplete = () ->
             console.log('courses error')
             alert(I18n.t('global.ajax_failed'))
           success: (data, textStatus, jqXHR) ->
-            console.log('courses success')
             results = []
             for course in data
               results.push({ label: course.name, value: course.id })
-            console.log(results)
             response(results)
       delay: 100
       autoFocus: true
