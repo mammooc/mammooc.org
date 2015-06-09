@@ -165,7 +165,7 @@ RSpec.describe 'Course', type: :feature do
       select I18n.t('courses.filter.start.now'), from: 'filterrific_start_filter_options'
       select I18n.t('courses.filter.costs.free'), from: 'filterrific_with_tracks_costs'
       select nice_track_type.title, from: 'filterrific_with_tracks_certificate'
-      #select I18n.t('courses.filter.sort.name_desc'), from: 'filterrific_sorted_by'
+      # select I18n.t('courses.filter.sort.name_desc'), from: 'filterrific_sorted_by'
       check 'filterrific_bookmarked'
       wait_for_ajax
       expect(page).to have_content course.name

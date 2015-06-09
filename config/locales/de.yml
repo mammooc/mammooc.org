@@ -369,8 +369,9 @@ de:
         duration_asc: "Dauer: aufsteigend"
         name_desc: "Titel: Z-A"
         name_asc: "Titel"
-        start_date_relevance: Relevanz
+        start_date_relevance: Aktuellste zuerst
       reset: Filter zurücksetzen
+
     languages:
       ar: Arabisch
       cn: Chinesisch
