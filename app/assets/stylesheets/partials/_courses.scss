@@ -245,9 +245,16 @@ $course-img-height: 250px;
         text-overflow: ellipsis;
         display: -webkit-box;
         line-height: 18px;
-        max-height: 54px;
-        -webkit-line-clamp: 2;
+        max-height: 18px;
+        margin-bottom: 5px;
+        -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
+      }
+
+      .status {
+        display: inline-block;
+        line-height: 25px;
+        vertical-align: middle;
       }
 
       .provider {
