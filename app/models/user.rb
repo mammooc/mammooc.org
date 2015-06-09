@@ -26,7 +26,6 @@ class User < ActiveRecord::Base
   has_attached_file :profile_image,
     styles: {
       thumb: '100x100#',
-      square: '200x200#',
       medium: '300x300#'},
     s3_storage_class: :reduced_redundancy,
     s3_permissions: :private,
