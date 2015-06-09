@@ -11,7 +11,6 @@ module Users
       flash['error'] ||= []
       exception = ''
       full_user_params = sign_up_params
-      full_user_params[:profile_image_id] = 'profile_picture_default.png'
       build_resource(full_user_params)
       begin
         resource.save

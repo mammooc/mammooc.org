@@ -19,7 +19,7 @@ class RecommendationsController < ApplicationController
     @recommendations = current_user.recommendations.sort_by(&:created_at).reverse!
 
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
-    @profile_pictures = AmazonS3.instance.author_profile_images_hash_for_recommendations(@recommendations)
+    @profile_pictures = User.author_profile_images_hash_for_recommendations(@recommendations)
     @rating_picture = AmazonS3.instance.get_url('five_stars.png')
   end
 
