@@ -38,21 +38,21 @@
 
 .dashboard-actions {
   @extend .content-box;
-  height: 40px;
+  height: 55px;
   margin-bottom: 30px;
-
-  &:last-child {
-    border-right: 0px;
-  }
 
   .box {
     float: left;
     border-right: 1px solid #ddd;
     width: 33.3%;
-    height: 100%;
     text-align: center;
     padding: 10px;
-    line-height: 20px;
+    line-height: 35px;
+
+    img {
+      height: 25px;
+      margin-right: 10px;
+    }
 
     &:hover {
       background-color: $gray-ultra-light;
