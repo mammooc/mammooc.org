@@ -4,7 +4,6 @@ FactoryGirl.define do
     sequence(:first_name) {|n| "Max_#{n}" }
     last_name 'Mustermann'
     password '12345678'
-    profile_image_id 'profile_picture_default.png'
 
     after(:create) do |user, evaluator|
       if evaluator.primary_email.nil?
@@ -28,9 +27,7 @@ FactoryGirl.define do
     last_name 'Mustermannnus'
     password '12345678'
     gender 'Titan'
-    profile_image_id 'profile_picture_default.png'
     about_me 'Sieh mich an und erstarre!'
-
     after(:create) do |user|
       create(:user_email, user: user)
     end
