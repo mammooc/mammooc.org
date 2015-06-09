@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   def user_picture
     return unless current_user
     @thumbnail_picture = @current_user.profile_image.expiring_url(3600, :thumb)
-    #@user_picture = AmazonS3.instance.get_url('profile_picture_default.png')
+    # @user_picture = AmazonS3.instance.get_url('profile_picture_default.png')
   end
 
   def after_sign_in_path_for(resource)
