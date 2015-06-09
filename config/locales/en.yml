@@ -33,6 +33,7 @@ en:
     show_less: Show less
     show_details: Show details
     date_format_month: '%B %-d, %Y'
+    search: Search
 
   will_paginate:
     previous_label: '&#171; Previous'
@@ -260,7 +261,6 @@ en:
             password_confirmation:
               confirmation: doesn't match with password.
 
-  #show course
   courses:
     title: Courses | mammooc
     heading: Courses
@@ -327,6 +327,7 @@ en:
           udacity_nothing: No certificate
           udacity_verified_certificate: Verified Certificate
     filter:
+      filter: Filter
       all: All
       duration:
         short: shorter than 5 weeks
@@ -337,8 +338,8 @@ en:
       start:
         now: currently active
         past: already finished
-        soon: starts during next two weeks
-        future: starts in the future
+        soon: starting soon
+        future: starting in the future
       costs:
         free: free
         range1: '< 30'
@@ -354,19 +355,22 @@ en:
         provider: Platform
         subtitle_language: Subtitles
         duration: Duration
-        start_categories: Time Status
+        start_categories: Status
         costs: Price
         certificate: Type of Certificate
         sort: Sorted by
         bookmarked: Only show my bookmarked courses
       sort:
-        start_date_desc: Start date descending
-        start_date_asc: Start date ascending
-        duration_desc: Duration decending
-        duration_asc: Duration ascending
-        name_desc: Title (z-a)
-        name_asc: Title (a-z)
-        start_date_relevance: Start date relevance from today
+        sort_by: "Sort by:"
+        start_date_desc: "Start date: descending"
+        start_date_asc: "Start date: ascending"
+        duration_desc: "Duration: decending"
+        duration_asc: "Duration: ascending"
+        name_desc: "Title: Z-A"
+        name_asc: "Title"
+        start_date_relevance: Relevance
+      reset: Reset filter
+
     languages:
       ar: Arabic
       cn: Chinese

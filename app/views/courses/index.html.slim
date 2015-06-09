@@ -10,6 +10,21 @@
         = t('courses.heading')
 
 - content_for :content
+  .filter-options-top
+    .search-with-filterrific
+      form.form-inline
+        .form-group
+          label.sr-only for="search"
+            = t('global.search')
+          div class="glyphicon glyphicon-search"
+          input.form-control type="search" placeholder="Search..." id="new_search"
+
+    .sort-with-filterrific
+      .form-inline
+        span
+        => t('courses.filter.sort.sort_by')
+        select.form-control id="new_sort"
+
   div id='filterrific_results'
     = render 'courses_list'
 

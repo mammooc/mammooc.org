@@ -31,4 +31,21 @@
             $(language_entry).attr('href', link)
           history.pushState({},'test', _url)
 
-$(document).ready set_filter_options_to_param
+@copySelectOption = (fromId, toId) ->
+  _options = $('#' + fromId + " > option").clone()
+  $('#' + toId).append(_options)
+  $('#' + toId).on "change": (event) ->
+    $('#' + fromId).val($('#' + toId).val())
+    $('#' + fromId).change()
+
+@copyInputField = (fromId, toId) ->
+  $('#' + toId).val($('#' + fromId).val())
+  $('#' + toId).on "change input": (event) ->
+    $('#' + fromId).val($('#' + toId).val())
+    $('#' + fromId).change()
+
+
+$(document).ready ->
+  set_filter_options_to_param
+  copySelectOption("filterrific_sorted_by", "new_sort")
+  copyInputField("filterrific_search_query", "new_search")
