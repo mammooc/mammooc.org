@@ -12,8 +12,13 @@
   br
 - if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks'
   = link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name)
-  br
 - if devise_mapping.omniauthable?
+  hr
+  = t('users.sign_in_up.terms_and_conditions_omniauth')
   - resource_class.omniauth_providers.each do |provider|
-    = link_to "Sign in with #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider)
     br
+    = link_to t('users.sign_in_up.omniauth', provider: provider.to_s.titleize), omniauth_authorize_path(resource_name, provider)
+  br
+  = link_to t('users.sign_in_up.easyID.login'), easy_id_link
+  hr
+  = t('users.sign_in_up.easyID.notice', link: link_to(t('users.sign_in_up.easyID.link'), 'https://www.ausweisapp.bund.de/', target: '_blank')).html_safe

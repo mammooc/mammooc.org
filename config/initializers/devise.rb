@@ -1,10 +1,14 @@
 # -*- encoding : utf-8 -*-
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
+# require 'google'
+
 Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
+  # Devise will use the `secret_key_base` on Rails 4+ applications as its `secret_key`
+  # by default. You can change it below and use your own secret key.
   config.secret_key = '9af1b4f2402e50082e0d0009046da71e59f498706c8bec0d28659858dfd655236ada1414fe14bb14d93852435d85eb94265e5db07366e45e36d8bc74c0bffeff'
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
@@ -144,7 +148,7 @@ Devise.setup do |config|
 
   # ==> Configuration for :validatable
   # Range for password length.
-  config.password_length = 8..128
+  config.password_length = 8..72
 
   # Email regex used to validate email formats. It simply asserts that
   # one (and only one) @ exists in the given string. This is mainly
@@ -195,6 +199,10 @@ Devise.setup do |config|
   # change their passwords.
   config.reset_password_within = 6.hours
 
+  # When set to false, does not sign a user in automatically after their password is
+  # reset. Defaults to true, so a user is signed in automatically after a reset.
+  # config.sign_in_after_reset_password = true
+
   # ==> Configuration for :encryptable
   # Allow you to use another encryption algorithm besides bcrypt (default). You can use
   # :sha1, :sha512 or encryptors from others authentication tools as :clearance_sha1,
@@ -238,6 +246,12 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth :facebook, ENV['FACEBOOK_CLIENT_ID'], ENV['FACEBOOK_SECRET_KEY'], scope: 'email'
+  config.omniauth :google, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_SECRET_KEY'], scope: 'profile email', strategy_class: OmniAuth::Strategies::Google
+  config.omniauth :github, ENV['GITHUB_CLIENT_ID'], ENV['GITHUB_SECRET_KEY'], scope: 'user:email'
+  config.omniauth :linkedin, ENV['LINKEDIN_CLIENT_ID'], ENV['LINKEDIN_SECRET_KEY'], scope: 'r_basicprofile r_emailaddress'
+  config.omniauth :twitter, ENV['TWITTER_CLIENT_ID'], ENV['TWITTER_SECRET_KEY']
+  config.omniauth :windows_live, ENV['WINDOWS_LIVE_CLIENT_ID'], ENV['WINDOWS_LIVE_SECRET_KEY'], scope: 'wl.basic wl.emails wl.signin', strategy_class: OmniAuth::Strategies::WindowsLive
+  config.omniauth :amazon, ENV['AMAZON_CLIENT_ID'], ENV['AMAZON_SECRET_KEY'], scope: 'profile'
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

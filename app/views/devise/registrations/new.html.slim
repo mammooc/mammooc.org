@@ -15,7 +15,7 @@ h2
     = f.email_field :primary_email,  :class => 'form-control', :value => session.has_key?(:resource) ? session[:resource]['primary_email'] : '', :id => 'registration_email'
   .form-group
     = f.label :password, t('users.sign_in_up.password')
-    - if @validatable
+    - if @minimum_password_length
       em
         |  (
         = @minimum_password_length

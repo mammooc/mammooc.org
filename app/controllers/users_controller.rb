@@ -2,7 +2,7 @@
 class UsersController < ApplicationController
   include ConnectorMapper
   before_action :set_provider_logos, only: [:settings, :mooc_provider_settings]
-  load_and_authorize_resource only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource only: [:show, :edit, :update, :destroy, :finish_signup]
 
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
@@ -22,19 +22,6 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-  end
-
-  # GET/PATCH /users/:id/finish_signup
-  def finish_signup
-    # authorize! :update, @user
-    return unless request.patch? && params[:user] # && params[:user][:email]
-    if @user.update(user_params)
-      @user.skip_reconfirmation!
-      sign_in(@user, bypass: true)
-      redirect_to @user, notice: 'Your profile was successfully updated.'
-    else
-      @show_errors = true
-    end
   end
 
   # PATCH/PUT /users/1
