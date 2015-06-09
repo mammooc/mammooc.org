@@ -61,7 +61,7 @@ RSpec.describe 'Users::Registration', type: :feature do
       fill_in 'registration_password', with: '123'
       fill_in 'registration_password_confirmation', with: '123'
       click_button 'submit_sign_up'
-      expect(page).to have_text(I18n.t('users.sign_in_up.password') + ' ' + I18n.t('flash.error.user.password_too_short', count: '8'))
+      expect(page).to have_text("#{I18n.t('users.sign_in_up.password')} #{I18n.t('flash.error.user.password_too_short', count: '8')}")
     end
 
     it 'does not work with two different password inputs' do
@@ -71,7 +71,7 @@ RSpec.describe 'Users::Registration', type: :feature do
       fill_in 'registration_password', with: user.password
       fill_in 'registration_password_confirmation', with: '123456789'
       click_button 'submit_sign_up'
-      expect(page).to have_text(I18n.t('users.sign_in_up.password_confirmation') + ' ' + I18n.t('flash.error.user.password_confirmation'))
+      expect(page).to have_text("#{I18n.t('users.sign_in_up.password_confirmation')} #{I18n.t('flash.error.user.password_confirmation')}")
     end
 
     it 'does not work without first_name' do
@@ -80,7 +80,7 @@ RSpec.describe 'Users::Registration', type: :feature do
       fill_in 'registration_password', with: user.password
       fill_in 'registration_password_confirmation', with: user.password
       click_button 'submit_sign_up'
-      expect(page).to have_text(I18n.t('users.sign_in_up.first_name') + ' ' + I18n.t('flash.error.blank'))
+      expect(page).to have_text("#{I18n.t('users.sign_in_up.first_name')} #{I18n.t('flash.error.blank')}")
     end
 
     it 'does not work if email is invalid' do
@@ -151,7 +151,7 @@ RSpec.describe 'Users::Registration', type: :feature do
       fill_in 'registration_password', with: '123'
       fill_in 'registration_password_confirmation', with: '123'
       click_button 'submit_sign_up'
-      expect(page).to have_text(I18n.t('users.sign_in_up.password') + ' ' + I18n.t('flash.error.user.password_too_short', count: '8'))
+      expect(page).to have_text("#{I18n.t('users.sign_in_up.password')} #{I18n.t('flash.error.user.password_too_short', count: '8')}")
     end
 
     it 'does not work with two different password inputs' do
@@ -161,7 +161,7 @@ RSpec.describe 'Users::Registration', type: :feature do
       fill_in 'registration_password', with: user.password
       fill_in 'registration_password_confirmation', with: '123456789'
       click_button 'submit_sign_up'
-      expect(page).to have_text(I18n.t('users.sign_in_up.password_confirmation') + ' ' + I18n.t('errors.messages.confirmation', attribute: 'Password'))
+      expect(page).to have_text("#{I18n.t('users.sign_in_up.password_confirmation')} #{I18n.t('errors.messages.confirmation', attribute: 'Password')}")
     end
 
     it 'does not work without first_name' do
@@ -170,7 +170,7 @@ RSpec.describe 'Users::Registration', type: :feature do
       fill_in 'registration_password', with: user.password
       fill_in 'registration_password_confirmation', with: user.password
       click_button 'submit_sign_up'
-      expect(page).to have_text(I18n.t('users.sign_in_up.first_name') + ' ' + I18n.t('flash.error.blank'))
+      expect(page).to have_text("#{I18n.t('users.sign_in_up.first_name')} #{I18n.t('flash.error.blank')}")
     end
 
     it 'does not work if email is invalid' do
