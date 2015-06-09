@@ -401,6 +401,7 @@ en:
       zh-tw: Chinese (Taiwan)
 
   recommendation:
+    submit: Create Recommendation
     placeholder: Enter your personal message here ...
     new: New recommendation
     related_course: course
@@ -426,7 +427,7 @@ en:
     successfully_destroyed: Recommendation was successfully destroyed.
     creation_error: Error on creation.
     update_error: Error on update.
-    no_groups: You don't have any groups for which you can create a recommendation.
+    no_groups: You have to create a group to create recommendations.
     no_admin_groups: You don't have any groups for which you can make a course obligatory.
     obligatory_recommendation:
       submit: Create obligatory recommendation
