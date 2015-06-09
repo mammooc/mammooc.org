@@ -195,6 +195,7 @@ en:
     my_groups: My Groups
     show: Show group
     recommend_course: Recommend a course to this group
+    recommend_course_obligatory: Make a course obligatory to this group
     current_recommendations: Current Recommendations (%{shown_number} out of %{complete_number})
     subnav:
       home: Home
@@ -291,6 +292,7 @@ en:
     enroll_course: Enroll me for this Course
     unenroll_course: Unenroll me for this Course
     recommend_course: Recommend Course
+    recommend_course_obligatory: Make course obligatory
     rate_course: Rate Course
     recommendations: Recommendations
     user_belongs_to_group: 'Group: '
@@ -304,6 +306,8 @@ en:
     following_iteration: Following Iteration
     enrollment_error: Sorry, the enrollment for this course has failed.
     unenrollment_error: Sorry, the unenrollment for this course has failed.
+    require_login: You have to be signed in to use this feature.
+    register_first: Please register first.
     sidebar:
       recommended: Someone recommended this course to you
       pledged: Someone wants to see you doing this course
@@ -402,6 +406,7 @@ en:
       zh-tw: Chinese (Taiwan)
 
   recommendation:
+    submit: Create Recommendation
     placeholder: Enter your personal message here ...
     new: New recommendation
     related_course: course
@@ -427,6 +432,12 @@ en:
     successfully_destroyed: Recommendation was successfully destroyed.
     creation_error: Error on creation.
     update_error: Error on update.
+    no_groups: You have to create a group to create recommendations.
+    no_admin_groups: You don't have any groups for which you can make a course obligatory.
+    obligatory_recommendation:
+      submit: Create obligatory recommendation
+      successfully_created: Create obligatory recommendation successfully.
+      new: New obligatory Recommendation
 
     button:
       ignore: Ignore recommendation

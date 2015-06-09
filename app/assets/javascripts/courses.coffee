@@ -29,7 +29,7 @@
             else
               link = "#{_url}&language=#{$(language_entry).data('language')}"
             $(language_entry).attr('href', link)
-          history.pushState({},'test', _url)
+          history.pushState({},'filter_state', _url)
 
 @copySelectOption = (fromId, toId) ->
   _options = $('#' + fromId + " > option").clone()

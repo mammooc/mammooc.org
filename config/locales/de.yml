@@ -195,6 +195,7 @@ de:
     my_groups: Meine Gruppen
     show: Zur Gruppe
     recommend_course: Dieser Gruppe einen Kurs empfehlen
+    recommend_course_obligatory: Dieser Gruppe einen Kurs vorschreiben
     current_recommendations: Aktuelle Empfehlungen (%{shown_number} von %{complete_number})
     subnav:
       home: Home
@@ -291,6 +292,7 @@ de:
     enroll_course: Kurs belegen
     unenroll_course: Kursbelegung entfernen
     recommend_course: Kurs empfehlen
+    recommend_course_obligatory: Kurs vorschreiben
     rate_course: Kurs bewerten
     recommendations: Empfehlungen
     user_belongs_to_group: 'Gruppe: '
@@ -304,6 +306,8 @@ de:
     following_iteration: Nachfolgender Durchlauf
     enrollment_error: Die Belegung beim MOOC-Anbieter hat leider nicht funktioniert.
     unenrollment_error: Das Entfernen der Belegung beim MOOC-Anbieter hat leider nicht funktioniert.
+    require_login: Du musst angemeldet sein, um diese Funktionalität nutzen zu können.
+    register_first: Bitte registriere dich.
     sidebar:
       recommended: Dieser Kurs wurde dir empfohlen
       pledged: Dieser Kurs wurde dir vorgeschrieben
@@ -402,6 +406,7 @@ de:
       zh-tw: Chinesisch (Taiwan)
 
   recommendation:
+    submit: Empfehlung erstellen
     placeholder: Gib deine persönliche Nachricht hier ein ...
     new: Neue Empfehlung
     related_course: Kurs
@@ -427,6 +432,12 @@ de:
     successfully_destroyed: Empfehlung erfolgreich gelöscht.
     creation_error: Fehler beim Erstellen.
     update_error: Fehler beim Bearbeiten.
+    no_groups: Du braucht eine Gruppe um Empfehlungen zu erstellen.
+    no_admin_groups: Du hast keine Gruppen, für die du berechtigt bist Vorschreibungen zu erstellen.
+    obligatory_recommendation:
+      submit: Vorschreibung erstellen
+      successfully_created: Vorschreibung erfolgreich erstellt.
+      new: Neue Vorschreibung
 
     button:
       ignore: Empfehlung ignorieren

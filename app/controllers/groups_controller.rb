@@ -210,6 +210,11 @@ class GroupsController < ApplicationController
     end
   end
 
+  def groups_where_user_is_admin
+    group_ids = UserGroup.where(user: current_user, is_admin: true).collect(&:group_id)
+    @admin_groups = Group.find(group_ids)
+  end
+
   # DELETE /groups/1
   # DELETE /groups/1.json
   def destroy
