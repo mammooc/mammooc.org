@@ -33,6 +33,7 @@ en:
     show_less: Show less
     show_details: Show details
     date_format_month: '%B %-d, %Y'
+    search: Search
 
   will_paginate:
     previous_label: '&#171; Previous'
