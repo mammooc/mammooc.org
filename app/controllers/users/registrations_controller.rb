@@ -52,9 +52,9 @@ module Users
       end
 
       return unless exception.present?
-      if exception.to_s.include?('Address is invalid')
+      if exception.to_s.include?(t('errors.messages.invalid'))
         flash['error'] << t('devise.registrations.email.invalid')
-      elsif exception.to_s.include?('Address has already been taken.')
+      elsif exception.to_s.include?(t('flash.error.taken'))
         flash['error'] << t('devise.registrations.email.taken')
       end
     end
