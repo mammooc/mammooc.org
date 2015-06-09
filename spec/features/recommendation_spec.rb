@@ -183,6 +183,7 @@ RSpec.describe 'Recommendation', type: :feature do
     end
     let!(:second_group) { FactoryGirl.create(:group, users: [third_user]) }
     let!(:third_user) { FactoryGirl.create(:user) }
+    let(:user_without_group) { FactoryGirl.create(:user) }
 
     it 'creates new recommendation from course detail page', js: true do
       visit course_path(course)
@@ -243,8 +244,8 @@ RSpec.describe 'Recommendation', type: :feature do
 
     it 'hides form on course detail page if user has no groups', js: true, skip_before: true do
       visit new_user_session_path
-      fill_in 'login_email', with: third_user.primary_email
-      fill_in 'login_password', with: third_user.password
+      fill_in 'login_email', with: user_without_group.primary_email
+      fill_in 'login_password', with: user_without_group.password
       click_button 'submit_sign_in'
       visit course_path(course)
       wait_for_ajax
