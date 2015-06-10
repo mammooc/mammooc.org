@@ -7,13 +7,11 @@ RSpec.describe 'groups/index', type: :view do
     [
       Group.create!(
         name: 'Name',
-        image_id: 'Image',
         description: 'MyText',
         primary_statistics: ''
       ),
       Group.create!(
         name: 'Name',
-        image_id: 'Image',
         description: 'MyText',
         primary_statistics: ''
       )
