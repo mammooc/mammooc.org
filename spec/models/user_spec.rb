@@ -458,4 +458,21 @@ RSpec.describe User, type: :model do
       expect(user.groups).to match([group2, group1, group4, group3])
     end
   end
+
+  describe 'self.process_uri' do
+
+    before(:each) do
+      allow(described_class).to receive(:process_uri).and_call_original
+    end
+
+    it 'returns if no uri is passed' do
+      expect{described_class.process_uri(nil)}.not_to raise_error
+      expect(described_class.process_uri(nil)).to be_nil
+    end
+
+    it 'changes the URL scheme to https and returns' do
+      puts described_class.process_uri('http://www.example.com/avatar.png')
+      expect(described_class.process_uri('http://www.example.com/avatar.png')).to eql 'https://www.example.com/avatar.png'
+    end
+  end
 end
