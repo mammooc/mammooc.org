@@ -76,7 +76,7 @@ class User < ActiveRecord::Base
   end
 
   def groups
-    Group.find(self.user_groups.collect(&:group_id)).sort_by do |group|
+    Group.find(user_groups.collect(&:group_id)).sort_by do |group|
       [group.admins.include?(self) ? 0 : 1, group.name]
     end
   end

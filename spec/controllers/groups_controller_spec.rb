@@ -564,13 +564,26 @@ RSpec.describe GroupsController, type: :controller do
   describe 'GET groups_where_user_is_admin' do
     render_views
     let(:json) { JSON.parse(response.body) }
+    let!(:second_group_with_admin) do
+      second_group_with_admin = FactoryGirl.create(:group, users: [user], name: 'A')
+      UserGroup.set_is_admin(second_group_with_admin.id, user.id, true)
+      second_group_with_admin
+    end
 
     it 'returns all groups where current_user is admin' do
       get :groups_where_user_is_admin, format: :json
       expect(json).to have_content group_with_admin.name
       expect(json).to have_content group_with_admin.id
+      expect(json).to have_content second_group_with_admin.name
+      expect(json).to have_content second_group_with_admin.id
       expect(json).not_to have_content group.name
       expect(json).not_to have_content group.id
+    end
+
+    it 'sorts the result' do
+      get :groups_where_user_is_admin, format: :json
+      expected_json = [{'id' => second_group_with_admin.id, 'name' => second_group_with_admin.name}, {'id' => group_with_admin.id, 'name' => group_with_admin.name}]
+      expect(json).to eql expected_json
     end
   end
 end

@@ -211,7 +211,7 @@ class GroupsController < ApplicationController
 
   def groups_where_user_is_admin
     group_ids = UserGroup.where(user: current_user, is_admin: true).collect(&:group_id)
-    @admin_groups = Group.find(group_ids).sort_by{|group| group.name}
+    @admin_groups = Group.find(group_ids).sort_by(&:name)
   end
 
   # DELETE /groups/1
