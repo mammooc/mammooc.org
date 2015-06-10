@@ -25,9 +25,9 @@
             = "\"#{evaluation['description']}\""
       .user-rating-evaluation
         - if evaluation['evaluation_rating_count'].present? &&  evaluation['evaluation_rating_count'] > 0
-          .helpful-evaluation-div
+          .evaluation-rating-notice
             = "#{evaluation['evaluation_helpful_rating_count']} von #{evaluation['evaluation_rating_count']} Nutzern fanden diese Bewertung hilfreich"
-        .was-evaluation-helpful-div
+        div class="was-helpful-evaluation-#{evaluation['evaluation_id']}"
           /TODO: what happens when user is not logged in?
           = 'Wie fandest du diese Bewertung? '
           a class="rate-evaluation-link" data-helpful="true" data-evaluation_id="#{evaluation['evaluation_id']}"

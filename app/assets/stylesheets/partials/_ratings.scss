@@ -11,14 +11,15 @@
   margin-top: 5px;
 }
 
-.helpful-evaluation-div {
+.evaluation-rating-notice {
   color: grey;
   margin-top: 5px;
   font-size: 13px;
+  font-weight: 300;
 }
 
 .user-rating-description {
-  margin: 5px;
+  margin: 5px 10px 10px;
 }
 
 a.rate-evaluation-link {
@@ -46,4 +47,8 @@ a.rate-evaluation-link {
 .user-rating-value {
   float:right;
   font-size: 1.4em;
+}
+
+.evaluation-rating-reply {
+  font-style: italic;
 }
