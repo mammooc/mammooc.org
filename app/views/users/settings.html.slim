@@ -1,3 +1,6 @@
+- content_for :title
+  = "#{t('users.settings.heading')} | #{t('global.app_name')}"
+
 .page-header
   h1
     = t('users.settings.heading')
@@ -10,6 +13,7 @@
 .settings-container
   - if @subsite == 'account'
     = render partial: 'users/form'
+    = render partial: 'users/change_emails'
     = render partial: 'devise/registrations/edit'
   - else
     = render partial: 'users/mooc_provider_settings'

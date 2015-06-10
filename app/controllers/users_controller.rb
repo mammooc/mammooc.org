@@ -184,6 +184,31 @@ class UsersController < ApplicationController
     end
   end
 
+  def change_email
+    @user = current_user
+
+    puts '################################################'
+    puts "params: #{params[:user]}"
+
+    # update existing
+    @user.emails.each do |email|
+      if params[:user][:user_email][:"address_#{email.id}"] != email.address
+        email.address = params[:user][:user_email][:"address_#{email.id}"]
+        email.save
+      end
+    end
+
+    # create new
+    new_adress = params[:user][:user_email][:additional_address]
+    new_email = UserEmail.new({address: new_adress, is_primary: false})
+    new_email.user = @user
+    @user.emails.push new_email
+
+    # change primary
+
+    redirect_to user_path(@user)
+  end
+
   private
 
   def prepare_mooc_provider_settings

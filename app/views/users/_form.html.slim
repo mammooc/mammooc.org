@@ -12,19 +12,23 @@
           li= msg
 
   .form-group
-    = f.label :first_name, class: 'col-sm-2 control-label', style: 'text-align: left'
+    .text-left
+      = f.label :first_name, class: 'col-sm-2 control-label'
     .col-sm-10
       = f.text_field :first_name, class: 'form-control'
   .form-group
-    = f.label :last_name, class:'col-sm-2 control-label', style: 'text-align: left'
+    .text-left
+      = f.label :last_name, class:'col-sm-2 control-label'
     .col-sm-10
       = f.text_field :last_name, class: 'form-control'
   .form-group
-    = f.label :about_me, class: 'col-sm-2 control-label', style: 'text-align: left'
+    .text-left
+      = f.label :about_me, class: 'col-sm-2 control-label'
     .col-sm-10
       = f.text_area :about_me, class: 'form-control'
   .form-group
-    = f.label :profile_image, class: 'col-sm-2 control-label', style: 'text-align: left'
+    .text-left
+      = f.label :profile_image, class: 'col-sm-2 control-label'
     .col-sm-10
       = f.file_field :profile_image
   .form-group

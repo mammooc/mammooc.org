@@ -1,0 +1,35 @@
+= form_for(@user, url: change_email_path(@user), html: { class: 'form-horizontal', role: 'form'}) do |f|
+
+  table class='table' id='table_for_user_emails'
+    thead
+      tr
+        th
+          | Adresse
+        th
+          | primary
+    tbody
+      - @user.emails.each do |email|
+        tr
+          = f.fields_for email do |email_fields|
+            td
+              = email_fields.email_field :"address_#{email.id}", :class => 'form-control', autofocus: true, value: email.address
+            - if email.address == @user.primary_email
+              td
+                = email_fields.radio_button :is_primary, email.address, checked: true
+            - else
+              td
+                = email_fields.radio_button :is_primary, email.address, checked: false
+      tr
+        td
+          .text-center
+            button.btn.btn-xs.btn-default id='add_new_email_field'
+              span.glyphicon.glyphicon-plus
+        td
+          = f.text_field :index, type: 'hidden', value: @user.emails.length
+
+
+
+
+  .form-group
+    .col-sm-offset-2.col-sm-10
+      = f.submit t('users.settings.update_account'), class: 'btn btn-primary mr5'

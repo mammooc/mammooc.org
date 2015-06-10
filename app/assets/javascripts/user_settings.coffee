@@ -2,9 +2,22 @@
 ready = ->
   $('#load-account-settings-button').on 'click', (event) -> loadAccountSettings(event)
   $('#load-mooc-provider-settings-button').on 'click', (event) -> loadMoocProviderSettings(event)
+  $('#add_new_email_field').on 'click', (event) -> addNewEmailField(event)
   return
 
 $(document).ready(ready)
+
+addNewEmailField = (event) ->
+  event.preventDefault()
+  table = document.getElementById('table_for_user_emails')
+  index = table.rows.length
+  new_row = table.insertRow(index-1)
+  cell_address = new_row.insertCell(0)
+  cell_primary = new_row.insertCell(1)
+  cell_address.innerHTML = "<input class='form-control' autofocus='autofocus' value='' type='email' name='user[user_email][additional_address]' id='user_user_email_additional_address'>"
+  cell_primary.innerHTML = "<input type='radio' value='' name='user[user_email][is_primary]' id='user_user_email_is_primary'>"
+  $('#user_index').val(index-1)
+
 
 loadAccountSettings = (event) ->
   button = $(event.target)
