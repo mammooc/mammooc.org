@@ -460,13 +460,12 @@ RSpec.describe User, type: :model do
   end
 
   describe 'self.process_uri' do
-
     before(:each) do
       allow(described_class).to receive(:process_uri).and_call_original
     end
 
     it 'returns if no uri is passed' do
-      expect{described_class.process_uri(nil)}.not_to raise_error
+      expect { described_class.process_uri(nil) }.not_to raise_error
       expect(described_class.process_uri(nil)).to be_nil
     end
 
