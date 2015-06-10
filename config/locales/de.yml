@@ -260,7 +260,7 @@ de:
             password:
               too_short: ist zu kurz (Minimum sind %{count} Zeichen).
             password_confirmation:
-            confirmation: stimmt nicht mit Passwort überein.
+              confirmation: stimmt nicht mit Passwort überein.
 
   #show course
   courses:
