@@ -1,0 +1,20 @@
+| (English Version below)
+
+| Hallo <%= @user.first_name %> <%= @user.last_name %>,
+
+| dir wurde der Kurs <%= link_to @course.name, course_url(@course) %> von <%=link_to "#{@author.first_name} #{@author.last_name}", user_url(@author) %> vorgeschrieben.
+| Für weitere Details besuche <%=link_to t('global.app_name'), @root_url %> .
+
+| Viel Spaß,
+| dein mammooc-Team
+
+
+
+
+| Hello <%= @user.first_name %> <%= @user.last_name %>,
+
+| the enrollment in the course <%= link_to @course.name, course_url(@course) %> was made obligatory for you by <%= link_to "#{@author.first_name} #{@author.last_name}", user_url(@author) %>.
+| For more details visit <%= link_to t('global.app_name'), @root_url %> .
+
+| Have fun,
+| your mammooc-Team

@@ -54,35 +54,6 @@ class AmazonS3
     logos
   end
 
-  def author_profile_images_hash_for_recommendations(recommendations)
-    author_images = {}
-    recommendations.each do |recommendation|
-      unless author_images.key?(recommendation.author.profile_image_id)
-        author_images[recommendation.author.profile_image_id] = get_url(recommendation.author.profile_image_id)
-      end
-    end
-
-    author_images
-  end
-
-  def user_profile_images_hash_for_users(users, images = {})
-    users.each do |user|
-      unless images.key?(user.profile_image_id)
-        images[user.profile_image_id] = get_url(user.profile_image_id)
-      end
-    end
-    images
-  end
-
-  def group_images_hash_for_groups(groups, images = {})
-    groups.each do |group|
-      unless images.key?(group.image_id)
-        images[group.image_id] = get_url(group.image_id)
-      end
-    end
-    images
-  end
-
   def put_data(key, file, options_hash = {})
     object = get_object(key)
 

@@ -6,7 +6,7 @@
 /vagrant_provision.sh
 
 # Ignore stupid Mac file
-/.DS_Store
+.DS_Store
 
 # Ignore dump file
 /dump.rdb
