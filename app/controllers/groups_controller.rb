@@ -18,7 +18,7 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
-    @groups = current_user.groups
+    @groups = current_user.groups_sorted_by_admin_state_and_name
     @groups_pictures = Group.group_images_hash_for_groups @groups
   end
 

@@ -438,7 +438,7 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe 'groups' do
+  describe 'groups_sorted_by_admin_state_and_name' do
     let!(:user) { FactoryGirl.create(:user) }
     let!(:group1) { FactoryGirl.create(:group, users: [user], name: 'C') }
     let!(:group2) { FactoryGirl.create(:group, users: [user], name: 'B') }
@@ -451,11 +451,11 @@ RSpec.describe User, type: :model do
     end
 
     it 'returns all groups' do
-      expect(user.groups).to match_array([group1, group2, group3, group4])
+      expect(user.groups_sorted_by_admin_state_and_name).to match_array([group1, group2, group3, group4])
     end
 
     it 'returns the groups where the user is admin sorted by name and following by a sorted list of groups where the user is no admin' do
-      expect(user.groups).to match([group2, group1, group4, group3])
+      expect(user.groups_sorted_by_admin_state_and_name).to match([group2, group1, group4, group3])
     end
   end
 
