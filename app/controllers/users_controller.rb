@@ -199,10 +199,17 @@ class UsersController < ApplicationController
     end
 
     # create new
-    new_adress = params[:user][:user_email][:additional_address]
-    new_email = UserEmail.new({address: new_adress, is_primary: false})
-    new_email.user = @user
-    @user.emails.push new_email
+    total_number_of_emails = params[:user][:index].to_i
+    number_of_new_emails = total_number_of_emails - @user.emails.length
+
+    number_of_new_emails.times do |index|
+      index_of_new_email = total_number_of_emails - index
+      new_address = params[:user][:user_email][:"address_#{index_of_new_email}"]
+      new_email = UserEmail.new({address: new_address, is_primary: false})
+      new_email.user = @user
+      @user.emails.push new_email
+    end
+
 
     # change primary
 

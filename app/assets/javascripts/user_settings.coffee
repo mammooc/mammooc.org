@@ -14,8 +14,10 @@ addNewEmailField = (event) ->
   new_row = table.insertRow(index-1)
   cell_address = new_row.insertCell(0)
   cell_primary = new_row.insertCell(1)
-  cell_address.innerHTML = "<input class='form-control' autofocus='autofocus' value='' type='email' name='user[user_email][additional_address]' id='user_user_email_additional_address'>"
-  cell_primary.innerHTML = "<input type='radio' value='' name='user[user_email][is_primary]' id='user_user_email_is_primary'>"
+  html_for_address_field = "class='form-control' autofocus='autofocus' type='email' name='user[user_email][address_#{index-1}]' id='user_user_email_address_#{index-1}'"
+  cell_address.innerHTML = "<input #{html_for_address_field}>"
+  html_for_primary_field = "type='radio' name='user[user_email][is_primary]' id='user_user_email_is_primary_#{index-1}'"
+  cell_primary.innerHTML = "<input #{html_for_primary_field}>"
   $('#user_index').val(index-1)
 
 
