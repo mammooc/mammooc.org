@@ -5,7 +5,12 @@
   = link_to recommendations_path, :class => 'btn btn-default' do 
     span.glyphicon.glyphicon-list-alt
     = t('global.cancel')
+
+- if params[:is_obligatory] == 'true'
+  h1
+    = t('recommendation.obligatory_recommendation.new')
+  = render 'form_obligatory'
+- else
   h1
     = t('recommendation.new')
-
-= render 'form'
+  = render 'form'

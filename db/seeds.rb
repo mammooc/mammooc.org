@@ -113,8 +113,8 @@ case Rails.env
                                           CourseTrack.create!(track_type: iversity_ects_track_type, costs: 50.0, costs_currency: '€')]
                                 )
 
-    user1 = User.create!(first_name: 'Max', last_name: 'Mustermann', primary_email: 'max@example.com', password: '12345678', profile_image_id: 'profile_picture_default.png')
-    user2 = User.create!(first_name: 'Maxi', last_name: 'Musterfrau', primary_email: 'maxi@example.com', password: '12345678', profile_image_id: 'profile_picture_default.png')
+    user1 = User.create!(first_name: 'Max', last_name: 'Mustermann', primary_email: 'max@example.com', password: '12345678')
+    user2 = User.create!(first_name: 'Maxi', last_name: 'Musterfrau', primary_email: 'maxi@example.com', password: '12345678')
 
     group1 = Group.create!(name: 'Testgruppe1', description: 'Testgruppe1 ist die Beste!', image_id: 'group_picture_default.png')
 
@@ -122,8 +122,7 @@ case Rails.env
       user = User.create! first_name: "Maximus_#{i}",
                           last_name: 'Mustermann',
                           primary_email: "maximus_#{i}@example.com",
-                          password: '12345678',
-                          profile_image_id: 'profile_picture_default.png'
+                          password: '12345678'
       group1.users.push user
     end
 
