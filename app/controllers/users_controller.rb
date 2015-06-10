@@ -212,6 +212,22 @@ class UsersController < ApplicationController
 
 
     # change primary
+    puts '################################################'
+    puts "params: #{params[:user][:user_email][:is_primary]}"
+
+    if params[:user][:user_email][:is_primary].include? 'new_email_index'
+      splitted_string = params[:user][:user_email][:is_primary].split('_')
+      email_address = params[:user][:user_email][:"address_#{splitted_string[3]}"]
+      UserEmail.transaction do
+        user_email_old = UserEmail.find_by(address: @user.primary_email)
+        user_email_old.is_primary = false
+        user_email_new = UserEmail.find_by(address: email_address)
+        user_email_new.is_primary = true
+
+      end
+    else
+      #params[:user][:user_email][:is_primary] zu primary machen
+    end
 
     redirect_to user_path(@user)
   end
