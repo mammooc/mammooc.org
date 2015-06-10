@@ -15,15 +15,15 @@
             - else
               = evaluation['user_name']
           = evaluation['course_status']
-          .rating-value
+          .user-rating-value
             input.rating type='hidden' value="#{evaluation['rating']}" data-start="0" data-stop="5" id="user-rating-output-#{index}" disabled="disabled"
         = I18n.l evaluation['date'], format: t('global.date_format_month')
 
       - if evaluation['description'].present?
         .comment
-          .rating-description-container
+          .user-rating-description
             = "\"#{evaluation['description']}\""
-      .rating-evaluation-div
+      .user-rating-evaluation
         - if evaluation['evaluation_rating_count'].present? &&  evaluation['evaluation_rating_count'] > 0
           .helpful-evaluation-div
             = "#{evaluation['evaluation_helpful_rating_count']} von #{evaluation['evaluation_rating_count']} Nutzern fanden diese Bewertung hilfreich"

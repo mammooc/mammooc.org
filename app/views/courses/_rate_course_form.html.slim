@@ -8,9 +8,11 @@ form.form-horizontal
       | Gesamtbewertung
     .col-sm-9
       - if has_rated_course
-        input.rating type='hidden' value="#{@current_user_evaluation.rating}" data-start="0" data-stop="5" id="rating-input"
+        .user-rate-course-value
+          input.rating type='hidden' value="#{@current_user_evaluation.rating}" data-start="0" data-stop="5" id="rating-input"
       - else
-        input.rating type='hidden' value="" data-start="0" data-stop="5" id="rating-input"
+        .user-rate-course-value
+          input.rating type='hidden' value="" data-start="0" data-stop="5" id="rating-input"
       script type="text/javascript"
         | $('#rating-input').rating();
   .form-group

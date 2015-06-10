@@ -3,16 +3,11 @@
   padding-left: 4px;
 }
 
-.rating-value {
-  float:right;
-}
-
 .glyphicon-star, .glyphicon-star-empty {
-  font-size: 1.4em;
   color: rgb(250, 212, 29);
 }
 
-.rating-evaluation-div {
+.user-rating-evaluation {
   margin-top: 5px;
 }
 
@@ -22,10 +17,33 @@
   font-size: 13px;
 }
 
-.rating-description-container {
+.user-rating-description {
   margin: 5px;
 }
 
 a.rate-evaluation-link {
   cursor: pointer;
+}
+
+.course-rating {
+  display: inline-block;
+}
+
+.course-rating-count {
+  display: inline;
+  font-weight: lighter;
+  font-size:  0.85em;
+}
+
+.course-rating-value {
+  font-size: 0.9em;
+}
+
+.user-rate-course-value {
+  font-size: 1.4em;
+}
+
+.user-rating-value {
+  float:right;
+  font-size: 1.4em;
 }
