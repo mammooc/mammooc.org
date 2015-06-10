@@ -173,6 +173,8 @@ en:
         identity_not_deleted: The link with your German National Identity Card could not be removed.
       privacy:
         title: Privacy
+        visible_to: '%{subject} visible to:'
+        course_enrollments: Course Enrollments
     synchronization:
       oauth_error: Sorry! We were unable to establish a connection to your account. Please check your settings and try again.
       revoke_provider_connection: Revoke connection
@@ -244,6 +246,15 @@ en:
       recommendation:
         one: Recommendation
         other: Recommendations
+      course:
+        one: Course
+        other: Courses
+      course_result:
+        one: Course Result
+        other: Course Results
+      user:
+        one: User
+        other: Users
     attributes:
       group:
         name: Name

@@ -84,9 +84,6 @@ gem 'filterrific'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 
-# user settings
-gem 'ledermann-rails-settings'
-
 gem 'oauth2'
 
 group :development, :test do
