@@ -9,6 +9,7 @@
 
 .settings-container
   - if @subsite == 'account'
+    = render partial: 'users/form'
     = render partial: 'devise/registrations/edit'
   - else
     = render partial: 'users/mooc_provider_settings'

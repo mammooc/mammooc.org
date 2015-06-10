@@ -149,12 +149,13 @@ de:
       mooc_provider_connection: Verbindungen mit MOOC-Providern
       email: :users.sign_in_up.email
       enter_mail: E-Mail eingeben
+      current_password: Altes Passwort
       password: :users.sign_in_up.password
       password_confirmation: :users.sign_in_up.password_confirmation
-      password_confirmation_info: (aktuelles Passwort eingeben, um Änderungen zu bestätigen)
+      password_confirmation_info: aktuelles Passwort eingeben, um Änderungen zu bestätigen
       new_password: Neues Passwort
-      new_password_confirmation: Bestätige neues Passwort
-      new_password_info: (Feld frei lassen, wenn das Passwort nicht geändert werden soll)
+      new_password_confirmation: Passwortbestätigung
+      new_password_info: Feld frei lassen, wenn das Passwort nicht geändert werden soll
       cancel_account: Account löschen
       update_account: Aktualisieren
       pending_mail_confirmation: 'Warte auf Bestätigung für:'
@@ -242,6 +243,9 @@ de:
       recommendation:
         one: Empfehlung
         other: Empfehlungen
+      user:
+        one: Nutzer
+        other: Nutzer
     attributes:
       group:
         name: Name
@@ -249,6 +253,11 @@ de:
       recommendation:
         is_obligatory: Verpflichtend?
         text: Nachricht
+      user:
+        first_name: Vorname
+        last_name: Nachname
+        about_me: Über mich
+        profile_image: Profilbild
    #error messages
     errors:
       messages:

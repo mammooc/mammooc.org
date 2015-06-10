@@ -103,6 +103,7 @@ class UsersController < ApplicationController
   def settings
     prepare_mooc_provider_settings
     @subsite = params['subsite']
+    @user = current_user
   end
 
   def oauth_callback
