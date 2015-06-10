@@ -1,0 +1,6 @@
+| $('#filterrific_results').html("#{escape_javascript(render partial: 'courses_list')}");
+| $.setAjaxPagination();
+| $('#result_count').text(#{@courses.total_entries});
+| current_page = 1;
+| total_entries = #{@courses.total_entries};
+| refresh_load_button();

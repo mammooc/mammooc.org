@@ -1,0 +1,18 @@
+- @courses.each do |course|
+  .courses
+    = link_to course
+      .course-image
+        - if course.imageId
+          = image_tag(course.imageId)
+        - else
+          img src="/data/icons/courses-list-std.png"
+      .course-info
+        .hd6.course-name
+          = course.name
+        .course-instructors
+          = course.course_instructors
+        - if @my_bookmarked_courses.include? course
+          span.glyphicon.glyphicon-bookmark.pl0
+          = t('bookmarks.bookmarked')
+        .provider
+          img src = @provider_logos[course.mooc_provider.logo_id]

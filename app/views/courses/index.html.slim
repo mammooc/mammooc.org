@@ -8,6 +8,10 @@
         img src="/data/icons/courses.png"
       .title
         = t('courses.heading')
+        |  (
+        span id="result_count"
+          = @courses.total_entries
+        | )
 
 - content_for :content
   div id='filterrific_results'
