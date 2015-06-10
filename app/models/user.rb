@@ -32,12 +32,6 @@ class User < ActiveRecord::Base
     s3_permissions: :private,
     default_url: '/data/profile_picture_default.png'
 
-  has_settings do |s|
-    s.key :course_enrollments, defaults: {groups: [], users: []}
-    s.key :course_results, defaults: {groups: [], users: []}
-    s.key :course_progresses, defaults: {groups: [], users: []}
-  end
-
   # Validate the attached image is image/jpg, image/png, etc
   validates_attachment_content_type :profile_image, content_type: /\Aimage\/.*\Z/
   validates_attachment_size :profile_image, less_than: 1.megabyte

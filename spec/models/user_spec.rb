@@ -442,6 +442,7 @@ RSpec.describe User, type: :model do
     let(:user) { FactoryGirl.create :user }
 
     it 'does not share course related contents by default' do
+      pending "reimplementation needed"
       expect(user.settings(:course_enrollments).groups).to match_array []
       expect(user.settings(:course_enrollments).users).to match_array []
       expect(user.settings(:course_results).groups).to match_array []
