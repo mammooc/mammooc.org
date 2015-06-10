@@ -73,7 +73,9 @@ class UsersController < ApplicationController
   end
 
   def account_settings
-    @partial = render_to_string partial: 'devise/registrations/edit', formats: [:html]
+    @user = current_user
+    @partial = render_to_string partial: 'users/form', formats: [:html]
+    @partial += render_to_string partial: 'devise/registrations/edit', formats: [:html]
     respond_to do |format|
       begin
         format.html { redirect_to dashboard_path }
