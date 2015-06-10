@@ -17,7 +17,7 @@
           = t('global.by')
           = @course.course_instructors
         p
-        img src="/data/icons/calendar.png" class="pr5" style="height:18px"
+        img src="/data/icons/calendar.png" class="icon-small pr5"
         - if @course.start_date
           - if @course.end_date
             - if @course.start_date < Date.today and Date.today < @course.end_date
@@ -44,7 +44,7 @@
 
         p
         - if @course.language
-          img src="/data/icons/globe.png" class="pr5" style="height:18px"
+          img src="/data/icons/globe.png" class="icon-small pr5"
           = @course.language
         p
         - if @bookmarked

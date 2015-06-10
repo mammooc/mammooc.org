@@ -33,6 +33,7 @@ en:
     show_less: Show less
     show_details: Show details
     date_format_month: '%B %-d, %Y'
+    date_format_month_short: '%d.%m.%y'
     search: Search
 
   will_paginate:
@@ -267,10 +268,6 @@ en:
     title: Courses | mammooc
     heading: Courses
     no_courses: No courses available
-    starting_soon: Course starts on
-    starts_today: Course starts today
-    already_running: Course is already running
-    course_dates: 'Dates:'
     about: About
     abstract: Abstract
     description: Description
@@ -278,7 +275,6 @@ en:
     mooc_provider: MOOC Provider
     instructors: Instructors
     time: Time
-    starting_time: Starting Time
     language: Language
     requirements: Requirements
     achievement: Type of Achievement
@@ -299,7 +295,6 @@ en:
     user_belongs_to_groups: 'Groups: '
     rating: Rating
     credit_points: Credit Points
-    no_dates_available: There are no dates available
     duration: Duration
     subtitle_languages: Available Subtitles
     previous_iteration: Previous Iteration
@@ -308,6 +303,18 @@ en:
     unenrollment_error: Sorry, the unenrollment for this course has failed.
     require_login: You have to be signed in to use this feature.
     register_first: Please register first.
+
+    # attention: this part is also used for recommendations
+    starting_soon: Course starts on
+    starts_today: Course starts today
+    already_running: Course is already running
+    course_dates: 'Dates:'
+    starting_time: Starting Time
+    no_dates_available: No dates available
+    course-list:
+      starting_soon: "Starts on"
+      starts_today: "Starts today"
+      already_running: "Running"
     sidebar:
       recommended: Someone recommended this course to you
       pledged: Someone wants to see you doing this course

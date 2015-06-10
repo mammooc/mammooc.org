@@ -33,6 +33,7 @@ de:
     show_less: Weniger anzeigen
     show_details: Details anzeigen
     date_format_month: '%-d. %B %Y'
+    date_format_month_short: '%d.%m.%y'
     search: Suche
 
   will_paginate:
@@ -267,10 +268,6 @@ de:
     title: Kursübersicht | mammooc
     heading: Kurse
     no_courses: Keine Kurse verfügbar
-    starting_soon: Kurs beginnt am
-    starts_today: Kurs beginnt heute
-    already_running: Kurs läuft
-    course_dates: 'Zeitraum:'
     about: Über diesen Kurs
     abstract: Zusammenfassung
     description: Kursbeschreibung
@@ -278,7 +275,6 @@ de:
     mooc_provider: Kursanbieter
     instructors: Lehrpersonen
     time: Zeitraum
-    starting_time: Startdatum
     language: Sprache
     requirements: Voraussetzungen
     achievement: Abschluss
@@ -299,7 +295,6 @@ de:
     user_belongs_to_groups: 'Gruppen: '
     rating: Bewertung
     credit_points: Leistungspunkte
-    no_dates_available: Es wurde kein Zeitraum angegeben
     duration: Dauer
     subtitle_languages: Verfügbare Untertitel
     previous_iteration: Vorheriger Durchlauf
@@ -308,6 +303,18 @@ de:
     unenrollment_error: Das Entfernen der Belegung beim MOOC-Anbieter hat leider nicht funktioniert.
     require_login: Du musst angemeldet sein, um diese Funktionalität nutzen zu können.
     register_first: Bitte registriere dich.
+
+    # attention: this part is also used for recommendations
+    starting_soon: Kurs beginnt am
+    starts_today: Kurs beginnt heute
+    already_running: Kurs läuft
+    course_dates: 'Zeitraum:'
+    starting_time: Startdatum
+    no_dates_available: Kein Zeitraum verfügbar
+    course-list:
+      starting_soon: "Startet am"
+      starts_today: "Beginnt heute"
+      already_running: "Kurs läuft"
     sidebar:
       recommended: Dieser Kurs wurde dir empfohlen
       pledged: Dieser Kurs wurde dir vorgeschrieben
