@@ -7,7 +7,6 @@ class User < ActiveRecord::Base
   validates :first_name, :last_name, presence: true
   has_many :emails, class_name: 'UserEmail', dependent: :destroy
   has_many :user_groups, dependent: :destroy
-  has_many :groups, through: :user_groups
   has_many :recommendations
   has_and_belongs_to_many :recommendations
   has_many :comments
@@ -74,6 +73,12 @@ class User < ActiveRecord::Base
 
   def common_groups_with_user(other_user)
     (other_user.groups.to_a.collect {|group| groups.include?(group) ? group : nil }).compact
+  end
+
+  def groups
+    Group.find(self.user_groups.collect(&:group_id)).sort_by do |group|
+      [group.admins.include?(self) ? 0 : 1, group.name]
+    end
   end
 
   # Disable email for devise - we will check with validations within the UserEmail model
