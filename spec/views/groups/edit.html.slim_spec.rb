@@ -6,7 +6,6 @@ RSpec.describe 'groups/edit', type: :view do
     assign(:group, Group.create!(
                      name: 'MyString',
                      description: 'MyText',
-                     image_id: 'Image'
     ))
   end
 

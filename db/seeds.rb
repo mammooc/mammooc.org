@@ -116,7 +116,7 @@ case Rails.env
     user1 = User.create!(first_name: 'Max', last_name: 'Mustermann', primary_email: 'max@example.com', password: '12345678')
     user2 = User.create!(first_name: 'Maxi', last_name: 'Musterfrau', primary_email: 'maxi@example.com', password: '12345678')
 
-    group1 = Group.create!(name: 'Testgruppe1', description: 'Testgruppe1 ist die Beste!', image_id: 'group_picture_default.png')
+    group1 = Group.create!(name: 'Testgruppe1', description: 'Testgruppe1 ist die Beste!')
 
     20.times do |i|
       user = User.create! first_name: "Maximus_#{i}",
@@ -129,12 +129,12 @@ case Rails.env
     group1.users.push(user1, user2)
     UserGroup.set_is_admin(group1.id, user1.id, true)
 
-    group2 = Group.create!(name: 'Testgruppe2', description: 'Testgruppe2 ist auch gut!', image_id: 'group_picture_default.png')
+    group2 = Group.create!(name: 'Testgruppe2', description: 'Testgruppe2 ist auch gut!')
 
     group2.users.push(user2)
     UserGroup.set_is_admin(group2.id, user2.id, true)
 
-    group3 = Group.create!(name: 'Testgruppe3', description: 'Testgruppe3 ist eine Enttäuschung...', image_id: 'group_picture_default.png')
+    group3 = Group.create!(name: 'Testgruppe3', description: 'Testgruppe3 ist eine Enttäuschung...')
 
     group3.users.push(user1, user2)
 

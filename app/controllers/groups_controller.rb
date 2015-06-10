@@ -19,7 +19,7 @@ class GroupsController < ApplicationController
   # GET /groups.json
   def index
     @groups = current_user.groups
-    @groups_pictures = AmazonS3.instance.group_images_hash_for_groups @groups
+    @groups_pictures = Group.group_images_hash_for_groups @groups
   end
 
   # GET /groups/1
@@ -38,7 +38,7 @@ class GroupsController < ApplicationController
     @profile_pictures = User.author_profile_images_hash_for_recommendations(@recommendations)
     @profile_pictures = User.user_profile_images_hash_for_users(@group.users, @profile_pictures)
 
-    @group_picture = AmazonS3.instance.group_images_hash_for_groups [@group]
+    @group_picture = Group.group_images_hash_for_groups [@group]
     @rating_picture = AmazonS3.instance.get_url('five_stars.png')
   end
 
@@ -55,7 +55,7 @@ class GroupsController < ApplicationController
     @recommendations = @group.recommendations.sort_by(&:created_at).reverse!
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
     @profile_pictures = User.author_profile_images_hash_for_recommendations(@recommendations)
-    @group_picture = AmazonS3.instance.group_images_hash_for_groups [@group]
+    @group_picture = Group.group_images_hash_for_groups [@group]
     @rating_picture = AmazonS3.instance.get_url('five_stars.png')
   end
 
@@ -64,18 +64,17 @@ class GroupsController < ApplicationController
     @sorted_group_admins = sort_by_name(admins)
     @group_members = @group.users - [current_user]
     @profile_pictures = User.user_profile_images_hash_for_users(@group.users)
-    @group_picture = AmazonS3.instance.group_images_hash_for_groups [@group]
+    @group_picture = Group.group_images_hash_for_groups [@group]
   end
 
   def statistics
-    @group_picture = AmazonS3.instance.group_images_hash_for_groups [@group]
+    @group_picture = Group.group_images_hash_for_groups [@group]
   end
 
   # POST /groups
   # POST /groups.json
   def create
     @group = Group.new(group_params)
-    @group.image_id = 'group_picture_default.png'
     respond_to do |format|
       if @group.save
         @group.users.push(current_user)
@@ -277,7 +276,7 @@ class GroupsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def group_params
-    params.require(:group).permit(:name, :image_id, :description, :primary_statistics)
+    params.require(:group).permit(:name, :image, :description, :primary_statistics)
   end
 
   def invited_members
