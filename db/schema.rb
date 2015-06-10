@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150610074354) do
+ActiveRecord::Schema.define(version: 20150610125411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -255,6 +255,17 @@ ActiveRecord::Schema.define(version: 20150610074354) do
     t.uuid "recommendation_id"
     t.uuid "user_id"
   end
+
+  create_table "settings", force: :cascade do |t|
+    t.string   "var",         null: false
+    t.text     "value"
+    t.integer  "target_id",   null: false
+    t.string   "target_type", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "settings", ["target_type", "target_id", "var"], name: "index_settings_on_target_type_and_target_id_and_var", unique: true, using: :btree
 
   create_table "statistics", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name"
