@@ -8,12 +8,12 @@ class Group < ActiveRecord::Base
   has_many :group_invitations
 
   has_attached_file :image,
-                    styles: {
-                        thumb: '100x100#',
-                        medium: '300x300#'},
-                    s3_storage_class: :reduced_redundancy,
-                    s3_permissions: :private,
-                    default_url: '/data/group_picture_default.png'
+    styles: {
+      thumb: '100x100#',
+      medium: '300x300#'},
+    s3_storage_class: :reduced_redundancy,
+    s3_permissions: :private,
+    default_url: '/data/group_picture_default.png'
 
   # Validate the attached image is image/jpg, image/png, etc
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/

@@ -5,7 +5,7 @@ RSpec.describe 'groups/edit', type: :view do
   let!(:group) do
     assign(:group, Group.create!(
                      name: 'MyString',
-                     description: 'MyText',
+                     description: 'MyText'
     ))
   end
 
