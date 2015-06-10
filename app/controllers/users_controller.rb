@@ -100,6 +100,20 @@ class UsersController < ApplicationController
     end
   end
 
+  def privacy_settings
+    @partial = render_to_string partial: 'users/privacy_settings', formats: [:html]
+
+    respond_to do |format|
+      begin
+        format.html { redirect_to dashboard_path }
+        format.json { render :settings, status: :ok }
+      rescue StandardError => e
+        format.html { redirect_to dashboard_path }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def settings
     prepare_mooc_provider_settings
     @subsite = params['subsite']

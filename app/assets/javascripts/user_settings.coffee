@@ -2,6 +2,7 @@
 ready = ->
   $('#load-account-settings-button').on 'click', (event) -> loadAccountSettings(event)
   $('#load-mooc-provider-settings-button').on 'click', (event) -> loadMoocProviderSettings(event)
+  $('#load-privacy-settings-button').on 'click', (event) -> loadPrivacySettings(event)
   return
 
 $(document).ready(ready)
@@ -34,6 +35,21 @@ loadMoocProviderSettings = (event) ->
     success: (data, textStatus, jqXHR) ->
       $("div.settings-container").html(data.partial)
       window.history.pushState({id: 'set_mooc_provider_subsite'}, '', 'settings?subsite=mooc_provider');
+  event.preventDefault()
+
+loadPrivacySettings = (event) ->
+  button = $(event.target)
+  user_id = button.data('user_id')
+  url = "/users/#{user_id}/privacy_settings.json"
+  $.ajax
+    url: url
+    method: 'GET'
+    error: (jqXHR, textStatus, errorThrown) ->
+      console.log('error_synchronize')
+      alert(I18n.t('global.ajax_failed'))
+    success: (data, textStatus, jqXHR) ->
+      $("div.settings-container").html(data.partial)
+      window.history.pushState({id: 'set_privacy_subsite'}, '', 'settings?subsite=privacy');
   event.preventDefault()
 
 synchronizeNaiveUserMoocProviderConnection = (event) ->

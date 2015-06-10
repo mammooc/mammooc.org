@@ -6,9 +6,14 @@
       = t('users.settings.mooc_provider')
     button.btn.btn-default id='load-account-settings-button' data-user_id='#{current_user.id}'
       = t('users.settings.account')
+    button.btn.btn-default id='load-privacy-settings-button' data-user_id='#{current_user.id}'
+      = t('users.settings.privacy.title')
 
 .settings-container
-  - if @subsite == 'account'
-    = render partial: 'devise/registrations/edit'
-  - else
-    = render partial: 'users/mooc_provider_settings'
+  - case @subsite
+    - when 'account'
+      = render partial: 'devise/registrations/edit'
+    - when 'mooc_provider'
+      = render partial: 'users/mooc_provider_settings'
+    - when 'privacy'
+      = render partial: 'users/privacy_settings'
