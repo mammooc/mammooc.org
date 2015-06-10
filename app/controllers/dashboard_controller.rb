@@ -14,6 +14,8 @@ class DashboardController < ApplicationController
     # Bookmarks
     @bookmarks = current_user.bookmarks
 
+    @activities = PublicActivity::Activity.all
+
     respond_to do |format|
       format.html {}
       format.json { render :dashboard, status: :ok }

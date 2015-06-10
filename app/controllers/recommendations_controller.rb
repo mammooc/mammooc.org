@@ -40,7 +40,9 @@ class RecommendationsController < ApplicationController
       recommendation = Recommendation.new(recommendation_params)
       recommendation.author = current_user
       recommendation.users.push(User.find(user_id))
-      recommendation.save!
+      if recommendation.save!
+        recommendation.create_activity key: 'recommendation.create', owner: current_user, recipient: recommendation.users.first
+      end
     end
 
     group_ids.each do |group_id|
@@ -50,7 +52,9 @@ class RecommendationsController < ApplicationController
       recommendation.group.users.each do |user|
         recommendation.users.push(user)
       end
-      recommendation.save!
+      if recommendation.save!
+        recommendation.create_activity key: 'recommendation.create', owner: current_user, recipient: recommendation.group
+      end
     end
 
     if params[:recommendation][:is_obligatory] == 'true'

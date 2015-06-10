@@ -63,6 +63,9 @@ gem 'redis'
 gem 'sidekiq'
 gem 'whenever'
 
+# newsfeed
+gem 'public_activity'
+
 gem 'bootstrap-sass'
 
 gem 'bootstrap_tokenfield_rails'

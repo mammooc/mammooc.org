@@ -5,6 +5,7 @@ class Recommendation < ActiveRecord::Base
   belongs_to :group
   has_many :comments
   has_and_belongs_to_many :users
+  include PublicActivity::Common
 
   def self.sorted_recommendations_for_course_and_user(course, user, filter_users = [])
     course_recommendations = []
