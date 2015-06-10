@@ -560,4 +560,17 @@ RSpec.describe GroupsController, type: :controller do
       end
     end
   end
+
+  describe 'GET groups_where_user_is_admin' do
+    render_views
+    let(:json) { JSON.parse(response.body) }
+
+    it 'returns all groups where current_user is admin' do
+      get :groups_where_user_is_admin, format: :json
+      expect(json).to have_content group_with_admin.name
+      expect(json).to have_content group_with_admin.id
+      expect(json).not_to have_content group.name
+      expect(json).not_to have_content group.id
+    end
+  end
 end

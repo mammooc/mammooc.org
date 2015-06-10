@@ -11,7 +11,6 @@ RSpec.describe MoocHouseCourseWorker do
   end
 
   it 'gets an API response' do
-    pending
     expect(mooc_house_course_worker.course_data).not_to be_nil
   end
 end

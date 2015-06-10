@@ -64,6 +64,7 @@ Rails.application.routes.draw do
   get 'dashboard' => 'dashboard#dashboard'
 
   # Groups
+  get 'groups_where_user_is_admin' => 'groups#groups_where_user_is_admin'
   post 'groups/:id/invite_members' => 'groups#invite_group_members'
   post 'groups/:id/add_administrator' => 'groups#add_administrator'
   post 'groups/:id/demote_administrator' => 'groups#demote_administrator'
@@ -77,6 +78,7 @@ Rails.application.routes.draw do
   get 'groups/:id/all_members_to_administrators' => 'groups#all_members_to_administrators'
   get 'groups/:id/synchronize_courses' => 'groups#synchronize_courses'
 
+  # Recommendations
   get 'recommendations/:id/delete_user_from_recommendation' => 'recommendations#delete_user_from_recommendation'
   get 'recommendations/:id/delete_group_recommendation' => 'recommendations#delete_group_recommendation'
   root to: 'home#index'
@@ -87,6 +89,7 @@ Rails.application.routes.draw do
   get 'courses/load_more' => 'courses#load_more'
   get 'courses/filter_options' => 'courses#filter_options'
   get 'courses/search' => 'courses#search'
+  get 'courses/autocomplete' => 'courses#autocomplete'
   get 'courses/:id' => 'courses#show', as: 'course'
   get 'courses/:id/enroll_course' => 'courses#enroll_course'
   get 'courses/:id/unenroll_course' => 'courses#unenroll_course'

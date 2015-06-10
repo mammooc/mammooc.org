@@ -191,6 +191,36 @@ $course-img-height: 250px;
 
 /* Course listing */
 
+.filter-options-top {
+  width: 100%;
+  height: 34px;
+  margin-bottom: 15px;
+
+  .search-with-filterrific {
+    float: left;
+    position: relative;
+
+    .glyphicon {
+      position: absolute;
+      top: 10px !important;
+      right: 10px;
+    }
+
+    & > .form-inline .form-control {
+      width: 250px;
+    }
+  }
+
+  .sort-with-filterrific {
+    float: right;
+
+    & > .form-control {
+      width: 250px;
+      float: right;
+    }
+  }
+}
+
 .courses-wrapper {
   height: auto;
   overflow: auto;

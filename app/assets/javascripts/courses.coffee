@@ -27,9 +27,26 @@
               _url = _url.replace(/filterrific.*/g, data.filter_options)
             else
               _url = _url.replace(/filterrific.*?(?=&[^filterrific])/g, data.filter_options)
-          history.pushState({},'test', _url)
-          if callback
-            callback()
+          $('.dropdown-language-entry').each (_index, language_entry) ->
+            if _url.search(/(?!with_)language=(.{2})/) != -1
+              link = _url.replace(/(?!with_)language=(.{2})/, "language=#{$(language_entry).data('language')}")
+            else
+              link = "#{_url}&language=#{$(language_entry).data('language')}"
+            $(language_entry).attr('href', link)
+          history.pushState({},'filter_state', _url)
+
+@copySelectOption = (fromId, toId) ->
+  _options = $('#' + fromId + " > option").clone()
+  $('#' + toId).append(_options)
+  $('#' + toId).on "change": (event) ->
+    $('#' + fromId).val($('#' + toId).val())
+    $('#' + fromId).change()
+
+@copyInputField = (fromId, toId) ->
+  $('#' + toId).val($('#' + fromId).val())
+  $('#' + toId).on "change input": (event) ->
+    $('#' + fromId).val($('#' + toId).val())
+    $('#' + fromId).change()
 
 @load_more = () ->
   #  Retrieve original URL parameters and only replace page attribute with the next possible
@@ -46,7 +63,6 @@
       $('.loading_spinner').hide()
   )
 
-
 @refresh_load_button = ()->
   if @total_entries > 10 * current_page
     $('#loadMore').show();
@@ -55,4 +71,6 @@
 
 $ =>
   set_filter_options_to_param
+  copySelectOption("filterrific_sorted_by", "new_sort")
+  copyInputField("filterrific_search_query", "new_search")
   @total_entries = parseInt($('#result_count').text())

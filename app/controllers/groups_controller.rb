@@ -19,7 +19,7 @@ class GroupsController < ApplicationController
   # GET /groups.json
   def index
     @groups = current_user.groups
-    @groups_pictures = AmazonS3.instance.group_images_hash_for_groups @groups
+    @groups_pictures = Group.group_images_hash_for_groups @groups
   end
 
   # GET /groups/1
@@ -35,10 +35,10 @@ class GroupsController < ApplicationController
     @number_of_recommendations = sorted_recommendations.length
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
 
-    @profile_pictures = AmazonS3.instance.author_profile_images_hash_for_recommendations(@recommendations)
-    @profile_pictures = AmazonS3.instance.user_profile_images_hash_for_users(@group.users, @profile_pictures)
+    @profile_pictures = User.author_profile_images_hash_for_recommendations(@recommendations)
+    @profile_pictures = User.user_profile_images_hash_for_users(@group.users, @profile_pictures)
 
-    @group_picture = AmazonS3.instance.group_images_hash_for_groups [@group]
+    @group_picture = Group.group_images_hash_for_groups [@group]
     @rating_picture = AmazonS3.instance.get_url('five_stars.png')
   end
 
@@ -54,8 +54,8 @@ class GroupsController < ApplicationController
   def recommendations
     @recommendations = @group.recommendations.sort_by(&:created_at).reverse!
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
-    @profile_pictures = AmazonS3.instance.author_profile_images_hash_for_recommendations(@recommendations)
-    @group_picture = AmazonS3.instance.group_images_hash_for_groups [@group]
+    @profile_pictures = User.author_profile_images_hash_for_recommendations(@recommendations)
+    @group_picture = Group.group_images_hash_for_groups [@group]
     @rating_picture = AmazonS3.instance.get_url('five_stars.png')
   end
 
@@ -63,19 +63,18 @@ class GroupsController < ApplicationController
     @sorted_group_users = sort_by_name(@group.users - admins)
     @sorted_group_admins = sort_by_name(admins)
     @group_members = @group.users - [current_user]
-    @profile_pictures = AmazonS3.instance.user_profile_images_hash_for_users(@group.users)
-    @group_picture = AmazonS3.instance.group_images_hash_for_groups [@group]
+    @profile_pictures = User.user_profile_images_hash_for_users(@group.users)
+    @group_picture = Group.group_images_hash_for_groups [@group]
   end
 
   def statistics
-    @group_picture = AmazonS3.instance.group_images_hash_for_groups [@group]
+    @group_picture = Group.group_images_hash_for_groups [@group]
   end
 
   # POST /groups
   # POST /groups.json
   def create
     @group = Group.new(group_params)
-    @group.image_id = 'group_picture_default.png'
     respond_to do |format|
       if @group.save
         @group.users.push(current_user)
@@ -210,6 +209,11 @@ class GroupsController < ApplicationController
     end
   end
 
+  def groups_where_user_is_admin
+    group_ids = UserGroup.where(user: current_user, is_admin: true).collect(&:group_id)
+    @admin_groups = Group.find(group_ids)
+  end
+
   # DELETE /groups/1
   # DELETE /groups/1.json
   def destroy
@@ -272,7 +276,7 @@ class GroupsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def group_params
-    params.require(:group).permit(:name, :image_id, :description, :primary_statistics)
+    params.require(:group).permit(:name, :image, :description, :primary_statistics)
   end
 
   def invited_members

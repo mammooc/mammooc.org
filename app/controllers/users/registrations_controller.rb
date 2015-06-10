@@ -11,7 +11,6 @@ module Users
       flash['error'] ||= []
       exception = ''
       full_user_params = sign_up_params
-      full_user_params[:profile_image_id] = 'profile_picture_default.png'
       build_resource(full_user_params)
       begin
         resource.save
@@ -53,9 +52,9 @@ module Users
       end
 
       return unless exception.present?
-      if exception.to_s.include?('Address is invalid')
+      if exception.to_s.include?(t('errors.messages.invalid'))
         flash['error'] << t('devise.registrations.email.invalid')
-      elsif exception.to_s.include?('Address has already been taken.')
+      elsif exception.to_s.include?(t('flash.error.taken'))
         flash['error'] << t('devise.registrations.email.taken')
       end
     end

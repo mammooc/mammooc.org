@@ -11,13 +11,11 @@ RSpec.describe 'dashboard/dashboard.html.slim', type: :view do
     assign(:groups, [
       Group.create!(
         name: 'Name',
-        image_id: 'Image',
         description: 'MyText',
         primary_statistics: ''
       ),
       Group.create!(
         name: 'Name',
-        image_id: 'Image',
         description: 'MyText',
         primary_statistics: ''
       )
