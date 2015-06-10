@@ -26,7 +26,8 @@ class User < ActiveRecord::Base
   has_attached_file :profile_image,
     styles: {
       thumb: '100x100#',
-      medium: '300x300#'},
+      square: '300x300#',
+      medium: '300x300>'},
     s3_storage_class: :reduced_redundancy,
     s3_permissions: :private,
     default_url: '/data/profile_picture_default.png'
@@ -38,7 +39,7 @@ class User < ActiveRecord::Base
   before_destroy :handle_group_memberships, prepend: true
   after_commit :save_primary_email, on: [:create, :update]
 
-  def self.author_profile_images_hash_for_recommendations(recommendations, style = :medium, expire_time = 3600)
+  def self.author_profile_images_hash_for_recommendations(recommendations, style = :square, expire_time = 3600)
     author_images = {}
     recommendations.each do |recommendation|
       unless author_images.key?("#{recommendation.author.id} #{recommendation.author.profile_image_file_name}")
@@ -48,7 +49,7 @@ class User < ActiveRecord::Base
     author_images
   end
 
-  def self.user_profile_images_hash_for_users(users, images = {}, style = :medium, expire_time = 3600)
+  def self.user_profile_images_hash_for_users(users, images = {}, style = :square, expire_time = 3600)
     users.each do |user|
       unless images.key?("#{user.id} #{user.profile_image_file_name}")
         images["#{user.id} #{user.profile_image_file_name}"] = user.profile_image.expiring_url(expire_time, style)

@@ -10,7 +10,7 @@ class DashboardController < ApplicationController
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
     @profile_pictures = User.author_profile_images_hash_for_recommendations(@recommendations)
     @rating_picture = AmazonS3.instance.get_url('five_stars.png')
-    @user_picture = @current_user.profile_image.expiring_url(3600, :medium)
+    @user_picture = @current_user.profile_image.expiring_url(3600, :square)
     # Bookmarks
     @bookmarks = current_user.bookmarks
 

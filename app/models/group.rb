@@ -10,7 +10,8 @@ class Group < ActiveRecord::Base
   has_attached_file :image,
     styles: {
       thumb: '100x100#',
-      medium: '300x300#'},
+      square: '300x300#',
+      medium: '300x300>'},
     s3_storage_class: :reduced_redundancy,
     s3_permissions: :private,
     default_url: '/data/group_picture_default.png'
