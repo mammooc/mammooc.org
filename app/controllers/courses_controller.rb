@@ -133,14 +133,16 @@ class CoursesController < ApplicationController
       @errors << 'Dein Kursstatus muss angegeben werden'
     end
     if @errors.empty?
-      @evaluation = Evaluation.find_or_initialize_by(user_id: current_user.id, course_id: @course.id)
+      @evaluation = Evaluation.find_by(user_id: current_user.id, course_id: @course.id)
+      if @evaluation.blank?
+        @evaluation = Evaluation.new(user_id: current_user.id, course_id: @course.id)
+        @evaluation.creation_date = Time.zone.now
+      end
       @evaluation.rating = rating
       @evaluation.description = params[:rating_textarea]
       @evaluation.course_status = course_status
       @evaluation.rated_anonymously = params[:rate_anonymously]
-      @evaluation.date = Time.zone.now
-      @evaluation.user_id = current_user.id
-      @evaluation.course_id = @course.id
+      @evaluation.update_date = Time.zone.now
       @evaluation.save
       @saved_evaluation_successfuly = true
     else
@@ -200,7 +202,7 @@ class CoursesController < ApplicationController
         evaluation_object['evaluation_id'] = evaluation.id
         evaluation_object['rating'] = evaluation.rating
         evaluation_object['description'] = evaluation.description
-        evaluation_object['date'] = evaluation.date
+        evaluation_object['creation_date'] = evaluation.creation_date
         evaluation_object['evaluation_rating_count'] = evaluation.evaluation_rating_count
         evaluation_object['evaluation_helpful_rating_count'] = evaluation.evaluation_helpful_rating_count
         case evaluation.course_status
