@@ -6,9 +6,9 @@
 - else
   .courses-wrapper
     = render "course_list_items"
-  .loadmore-wrapper
-    button id="loadMore" onclick="load_more()" style="#{'display:none' if @courses.total_entries <= 10}"
-      | Load More...
-    .loading_spinner.hidden
-      i.fa.fa-spinner.fa-pulse
-      | Loading (will be a spinner with Font Awesome)
+  .loadmore-wrapper.do-not-show-link
+    a href="" id="loadMore" onclick="load_more(); return false;" style="#{'display: none' if @courses.total_entries <= 10}"
+      .load-more-courses
+        => t('courses.course-list.load_more')
+        span.loading_spinner style="visibility: hidden"
+          i.fa.fa-spinner.fa-pulse

@@ -34,6 +34,7 @@
               link = "#{_url}&language=#{$(language_entry).data('language')}"
             $(language_entry).attr('href', link)
           history.pushState({},'filter_state', _url)
+          callback()
 
 @copySelectOption = (fromId, toId) ->
   _options = $('#' + fromId + " > option").clone()
@@ -51,7 +52,7 @@
 @load_more = () ->
   #  Retrieve original URL parameters and only replace page attribute with the next possible
   set_filter_options_to_param(()->
-    $('.loading_spinner').show()
+    $('.loading_spinner').css('visibility', 'visible')
     current_page++ # = if location.search == last_url then current_page+1 else 2
 
     refresh_load_button()
@@ -60,7 +61,7 @@
     url += if location.search.length > 0 then location.search + '&page=' + current_page else '?page=' + current_page
     $.get url, (data) ->
       $('.courses-wrapper').append($(data))
-      $('.loading_spinner').hide()
+      $('.loading_spinner').css('visibility', 'hidden')
   )
 
 @refresh_load_button = ()->

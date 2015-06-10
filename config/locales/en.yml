@@ -315,6 +315,7 @@ en:
       starting_soon: "Starts on"
       starts_today: "Starts today"
       already_running: "Running"
+      load_more: Show more
     sidebar:
       recommended: Someone recommended this course to you
       pledged: Someone wants to see you doing this course

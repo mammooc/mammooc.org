@@ -404,11 +404,14 @@ $course-listing-img-height: 130px;
   }
 }
 
-// Hide sidebar and show filter in another way
-// for small and extra small screens
-
-//@media(max-width: $screen-sm-max) {
-//  .courses-filter {
-//    display: none;
-//  }
-//}
+.load-more-courses {
+  display: block;
+  background-color: white;
+  border: 1px solid #ddd;
+  width: 100%;
+  margin: 0px;
+  padding: 10px;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 500;
+}
