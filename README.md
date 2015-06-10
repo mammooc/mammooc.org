@@ -24,6 +24,7 @@ These environment variables are for use in Production mode:
 | Amazon S3          | `AWS_ACCESS_KEY_ID`       |
 |                    | `AWS_SECRET_ACCESS_KEY`   |
 |                    | `AWS_REGION`              |
+|                    | `S3_BUCKET_NAME`          |
 | Coursera User Data | `COURSERA_CLIENT_ID`      |
 |                    | `COURSERA_SECRET_KEY`     |
 | Facebook Login     | `FACEBOOK_CLIENT_ID`      |
