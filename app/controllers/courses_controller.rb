@@ -13,7 +13,7 @@ class CoursesController < ApplicationController
       format.html
       format.js
       format.json
-    end
+    end unless performed?
 
   rescue ActiveRecord::RecordNotFound => e
     Rails.logger.info "Had to reset filterrific params: #{e.message}"
