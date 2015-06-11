@@ -319,8 +319,8 @@ en:
         costs: Costs
         credit_points: ECTS Points
         achievement_types:
-          openhpi_record_of_achievement: Record of Achievement
-          iversity_record_of_achievement: :courses.tracks.types.achievement_types.openhpi_record_of_achievement
+          xikolo_record_of_achievement: Record of Achievement
+          iversity_record_of_achievement: :courses.tracks.types.achievement_types.xikolo_record_of_achievement
           nothing: No certificate
           certificate: Certificate
           iversity_certificate: :courses.tracks.types.achievement_types.certificate

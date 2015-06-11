@@ -4,19 +4,20 @@
 # seeds for all environments
 
 open_hpi = MoocProvider.create!(name: 'openHPI', logo_id: 'logo_openHPI.png', api_support_state: :naive)
-MoocProvider.create!(name: 'openHPI China', logo_id: 'logo_openHPI.png', api_support_state: :nil)
-MoocProvider.create!(name: 'mooc.house', logo_id: 'logo_mooc_house.png', api_support_state: :nil)
+MoocProvider.create!(name: 'openHPI China', logo_id: 'logo_openHPI.png', api_support_state: :naive)
+MoocProvider.create!(name: 'mooc.house', logo_id: 'logo_mooc_house.png', api_support_state: :naive)
+MoocProvider.create!(name: 'cnmooc.house', logo_id: 'logo_cnmooc_house.png', api_support_state: :nil)
 open_sap = MoocProvider.create!(name: 'openSAP', logo_id: 'logo_openSAP.png', api_support_state: :naive)
-MoocProvider.create!(name: 'edX', logo_id: 'logo_edx.png', api_support_state: :nil)
+MoocProvider.create!(name: 'edX', logo_id: 'logo_edx.png', api_support_state: :naive)
 MoocProvider.create!(name: 'coursera', logo_id: 'logo_coursera.png', api_support_state: :oauth)
-MoocProvider.create!(name: 'openSAP China', logo_id: 'logo_openSAP.png', api_support_state: :nil)
-MoocProvider.create!(name: 'openUNE', logo_id: 'logo_openUNE.png', api_support_state: :nil)
+MoocProvider.create!(name: 'openSAP China', logo_id: 'logo_openSAP.png', api_support_state: :naive)
+MoocProvider.create!(name: 'openUNE', logo_id: 'logo_openUNE.png', api_support_state: :naive)
 MoocProvider.create!(name: 'iversity', logo_id: 'logo_iversity.png', api_support_state: :nil)
 MoocProvider.create!(name: 'Udacity', logo_id: 'logo_udacity.png', api_support_state: :nil)
 
-openhpi_audit_track_type = CourseTrackType.create!(title: 'Audit',
+xikolo_audit_track_type = CourseTrackType.create!(title: 'Audit',
                                                    description: 'You get a record of Achievement.',
-                                                   type_of_achievement: 'openhpi_record_of_achievement')
+                                                   type_of_achievement: 'xikolo_record_of_achievement')
 iversity_audit_track_type = CourseTrackType.create!(title: 'Audit',
                                                     description: "<ul class='list-none'> <li>All Course Material</li> <li>Course Community</li> <li>Statement of Participation</li> <li>Flexible Upgrade</li> </ul>",
                                                     type_of_achievement: 'iversity_record_of_achievement')
@@ -53,6 +54,11 @@ edx_profed_track_type = CourseTrackType.create!(title: 'Professional Education',
 
 OpenHPICourseWorker.perform_async
 OpenSAPCourseWorker.perform_async
+OpenHPIChinaCourseWorker.perform_async
+OpenSAPChinaCourseWorker.perform_async
+MoocHouseCourseWorker.perform_async
+CnmoocHouseCourseWorker.perform_async
+OpenUNECourseWorker.perform_async
 EdxCourseWorker.perform_async
 CourseraCourseWorker.perform_async
 IversityCourseWorker.perform_async
@@ -68,14 +74,14 @@ case Rails.env
                                              url: 'https://open.hpi.de/courses/pythonjunior2015',
                                              provider_course_id: 2,
                                              mooc_provider_id: open_mammooc.id,
-                                             tracks: [CourseTrack.create!(track_type: openhpi_audit_track_type)]
+                                             tracks: [CourseTrack.create!(track_type: xikolo_audit_track_type)]
                                             )
 
     minimal_following_course = Course.create!(name: 'Minimal Following Technologies',
                                               url: 'https://open.hpi.de/courses/pythonjunior2015',
                                               provider_course_id: 3,
                                               mooc_provider_id: open_mammooc.id,
-                                              tracks: [CourseTrack.create!(track_type: openhpi_audit_track_type)]
+                                              tracks: [CourseTrack.create!(track_type: xikolo_audit_track_type)]
                                              )
 
     full_course = Course.create!(name: 'Web Technologies',
@@ -108,7 +114,7 @@ case Rails.env
                                  mooc_provider_id: open_mammooc.id,
                                  previous_iteration_id: minimal_previous_course.id,
                                  following_iteration_id: minimal_following_course.id,
-                                 tracks: [CourseTrack.create!(track_type: openhpi_audit_track_type),
+                                 tracks: [CourseTrack.create!(track_type: xikolo_audit_track_type),
                                           CourseTrack.create!(track_type: certificate_track_type, costs: 20.0, costs_currency: '€'),
                                           CourseTrack.create!(track_type: iversity_ects_track_type, costs: 50.0, costs_currency: '€')]
                                 )
