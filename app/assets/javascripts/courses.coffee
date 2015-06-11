@@ -4,7 +4,6 @@
 
 @current_page = 1
 @total_entries = 0
-#last_url = ""
 
 @set_filter_options_to_param = (callback) ->
   if location.pathname == '/courses'
@@ -53,7 +52,7 @@
   #  Retrieve original URL parameters and only replace page attribute with the next possible
   set_filter_options_to_param(()->
     $('.loading_spinner').css('visibility', 'visible')
-    current_page++ # = if location.search == last_url then current_page+1 else 2
+    current_page++
 
     refresh_load_button()
 
