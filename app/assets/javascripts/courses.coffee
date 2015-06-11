@@ -57,7 +57,7 @@
 
     refresh_load_button()
 
-    url = 'http://localhost:3003/courses/load_more'
+    url = '/courses/load_more'
     url += if location.search.length > 0 then location.search + '&page=' + current_page else '?page=' + current_page
     $.get url, (data) ->
       $('.courses-wrapper').append($(data))
