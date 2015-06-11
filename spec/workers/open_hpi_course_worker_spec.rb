@@ -14,7 +14,7 @@ RSpec.describe OpenHPICourseWorker do
     JSON.parse course_data
   end
 
-  let!(:course_track_type) { FactoryGirl.create :course_track_type, type_of_achievement: 'openhpi_record_of_achievement' }
+  let!(:course_track_type) { FactoryGirl.create :course_track_type, type_of_achievement: 'xikolo_record_of_achievement' }
 
   it 'delivers MOOCProvider' do
     expect(open_hpi_course_worker.mooc_provider).to eql mooc_provider
