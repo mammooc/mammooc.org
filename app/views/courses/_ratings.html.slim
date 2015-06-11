@@ -4,9 +4,9 @@
       .user-info
         - if evaluation['user_id'].present?
           = link_to evaluation['user_id']
-            img src=@profile_pictures[evaluation['user_profile_image_id']]
+            img src=@profile_pictures["#{evaluation['user_id']} #{User.find(evaluation['user_id']).profile_image_file_name}"]
         - else
-          img src=@profile_pictures[evaluation['user_profile_image_id']]
+          img src='/data/profile_picture_default.png'
         .name
           .author
             - if evaluation['user_id'].present?

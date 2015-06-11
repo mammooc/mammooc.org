@@ -33,6 +33,7 @@ en:
     show_less: Show less
     show_details: Show details
     date_format_month: '%B %-d, %Y'
+    search: Search
 
   will_paginate:
     previous_label: '&#171; Previous'
@@ -107,7 +108,7 @@ en:
     hello: Hello
 
   bookmarks:
-    my_bookmarks: My Bookmarked Courses
+    my_bookmarks: My bookmarked courses
     no_bookmarks: You don't have any bookmarked courses right now.
     bookmarked: bookmarked
 
@@ -132,6 +133,12 @@ en:
       forgot_password: Forgot your password?
       omniauth: Sign in with %{provider}
       terms_and_conditions_omniauth: "You confirm to mammooc's terms and conditions if you sign up via Single-Sign-On:"
+      easyID:
+        login: Sign in with a German National Identity Card
+        notice: "Please note: In order to sign in with a German National Identity Card, the %{link} must be set up properly."
+        link: AusweisApp
+        success: Successfully authenticated with your German National Identity Card.
+        failure: Could not authenticate you with your German National Identity Card. Please try again or choose another sign in method.
     password:
       forgot: Forgot your password?
       reset: Reset my password
@@ -158,6 +165,12 @@ en:
       only_one_provider: You must choose a password or add another provider in order to remove your existing connection.
       identity_deleted: Your connection with %{provider} was successfully removed.
       identity_not_deleted: Your connection with %{provider} could not be removed.
+      easyID:
+        add_identity: Link with a German National Identity Card
+        remove_identity: Remove link with my German National Identity Card
+        only_one_provider: "German National Identity Card: You must choose a password or add another provider in order to remove your existing link."
+        identity_deleted: The link with your German National Identity Card was successfully removed.
+        identity_not_deleted: The link with your German National Identity Card could not be removed.
     synchronization:
       oauth_error: Sorry! We were unable to establish a connection to your account. Please check your settings and try again.
       revoke_provider_connection: Revoke connection
@@ -182,6 +195,7 @@ en:
     my_groups: My Groups
     show: Show group
     recommend_course: Recommend a course to this group
+    recommend_course_obligatory: Make a course obligatory to this group
     current_recommendations: Current Recommendations (%{shown_number} out of %{complete_number})
     subnav:
       home: Home
@@ -278,6 +292,7 @@ en:
     enroll_course: Enroll me for this Course
     unenroll_course: Unenroll me for this Course
     recommend_course: Recommend Course
+    recommend_course_obligatory: Make course obligatory
     rate_course: Rate Course
     recommendations: Recommendations
     user_belongs_to_group: 'Group: '
@@ -291,6 +306,8 @@ en:
     following_iteration: Following Iteration
     enrollment_error: Sorry, the enrollment for this course has failed.
     unenrollment_error: Sorry, the unenrollment for this course has failed.
+    require_login: You have to be signed in to use this feature.
+    register_first: Please register first.
     sidebar:
       recommended: Someone recommended this course to you
       pledged: Someone wants to see you doing this course
@@ -302,8 +319,8 @@ en:
         costs: Costs
         credit_points: ECTS Points
         achievement_types:
-          openhpi_record_of_achievement: Record of Achievement
-          iversity_record_of_achievement: :courses.tracks.types.achievement_types.openhpi_record_of_achievement
+          xikolo_record_of_achievement: Record of Achievement
+          iversity_record_of_achievement: :courses.tracks.types.achievement_types.xikolo_record_of_achievement
           nothing: No certificate
           certificate: Certificate
           iversity_certificate: :courses.tracks.types.achievement_types.certificate
@@ -315,6 +332,7 @@ en:
           udacity_nothing: No certificate
           udacity_verified_certificate: Verified Certificate
     filter:
+      filter: Filter
       all: All
       duration:
         short: shorter than 5 weeks
@@ -324,9 +342,9 @@ en:
         long: more than 12 weeks
       start:
         now: currently active
-        past: already fnished
-        soon: starts during next two weeks
-        future: starts in the future
+        past: already finished
+        soon: starting soon
+        future: starting in the future
       costs:
         free: free
         range1: '< 30'
@@ -342,19 +360,22 @@ en:
         provider: Platform
         subtitle_language: Subtitles
         duration: Duration
-        start_categories: Time Status
+        start_categories: Status
         costs: Price
         certificate: Type of Certificate
         sort: Sorted by
         bookmarked: Only show my bookmarked courses
       sort:
-        start_date_desc: Start date descending
-        start_date_asc: Start date ascending
-        duration_desc: Duration decending
-        duration_asc: Duration ascending
-        name_desc: Title (z-a)
-        name_asc: Title (a-z)
-        start_date_relevance: Start date relevance from today
+        sort_by: "Sort by:"
+        start_date_desc: "Start date: descending"
+        start_date_asc: "Start date: ascending"
+        duration_desc: "Duration: decending"
+        duration_asc: "Duration: ascending"
+        name_desc: "Title: Z-A"
+        name_asc: "Title"
+        start_date_relevance: Current first
+      reset: Reset filter
+
     languages:
       ar: Arabic
       cn: Chinese
@@ -413,6 +434,7 @@ en:
     thanks_for_feedback: Thank you for your feedback!
 
   recommendation:
+    submit: Create Recommendation
     placeholder: Enter your personal message here ...
     new: New recommendation
     related_course: course
@@ -438,6 +460,12 @@ en:
     successfully_destroyed: Recommendation was successfully destroyed.
     creation_error: Error on creation.
     update_error: Error on update.
+    no_groups: You have to create a group to create recommendations.
+    no_admin_groups: You don't have any groups for which you can make a course obligatory.
+    obligatory_recommendation:
+      submit: Create obligatory recommendation
+      successfully_created: Create obligatory recommendation successfully.
+      new: New obligatory Recommendation
 
     button:
       ignore: Ignore recommendation

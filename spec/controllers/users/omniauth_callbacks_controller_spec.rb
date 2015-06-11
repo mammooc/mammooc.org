@@ -20,6 +20,86 @@ RSpec.describe Users::OmniauthCallbacksController, type: :controller do
       get :facebook
       expect(subject.signed_in?).to be_truthy
     end
+
+    it 'google' do
+      expect(User).to receive(:find_for_omniauth).and_return(user)
+      get :google
+      expect(subject.signed_in?).to be_truthy
+    end
+
+    it 'github' do
+      expect(User).to receive(:find_for_omniauth).and_return(user)
+      get :github
+      expect(subject.signed_in?).to be_truthy
+    end
+
+    it 'linkedin' do
+      expect(User).to receive(:find_for_omniauth).and_return(user)
+      get :linkedin
+      expect(subject.signed_in?).to be_truthy
+    end
+
+    it 'twitter' do
+      expect(User).to receive(:find_for_omniauth).and_return(user)
+      get :twitter
+      expect(subject.signed_in?).to be_truthy
+    end
+
+    it 'windows_live' do
+      expect(User).to receive(:find_for_omniauth).and_return(user)
+      get :windows_live
+      expect(subject.signed_in?).to be_truthy
+    end
+
+    it 'amazon' do
+      expect(User).to receive(:find_for_omniauth).and_return(user)
+      get :amazon
+      expect(subject.signed_in?).to be_truthy
+    end
+
+    context 'easyID' do
+      it 'redirects to the same URL with a GET request' do
+        post :easy_id, UID: '123'
+        expect(response).to redirect_to("#{easy_id_path}?UID=123")
+      end
+
+      it 'redirects to the sign in page and shows an error if no UID was provided' do
+        get :easy_id
+        expect(response).to redirect_to(new_user_session_path)
+        expect(flash['error']).to include(I18n.t('users.sign_in_up.easyID.failure'))
+      end
+
+      it 'redirects to the sign in page and shows an error if user is not persisted' do
+        expect(User).to receive(:find_for_omniauth).and_return(User.new)
+        get :easy_id, UID: '123'
+        expect(response).to redirect_to(new_user_session_path)
+        expect(flash['error']).to include(I18n.t('users.sign_in_up.easyID.failure'))
+      end
+
+      it 'signs in the user if everything worked well' do
+        expect(User).to receive(:find_for_omniauth).and_return(user)
+        get :easy_id, UID: '123'
+        expect(response).to redirect_to(dashboard_path)
+        expect(flash['success']).to include(I18n.t('users.sign_in_up.easyID.success'))
+      end
+
+      it 'uses only the UID without additional characters' do
+        expect(User).to receive(:find_for_omniauth).and_return(user)
+        uid = SecureRandom.hex(32)
+        get :easy_id, UID: "#{uid}%0A"
+        expect(controller.send(:easy_id_params)).to eql uid
+      end
+
+      it 'redirects the user to the settings page if the user added the connection from there' do
+        expect_any_instance_of(ApplicationController).to receive(:ensure_signup_complete).and_return(true)
+        sign_in user
+        expect(User).to receive(:find_for_omniauth).and_return(user)
+        request.env['HTTP_REFERER'] = "#{user_settings_path(user.id)}?subsite=account"
+        get :easy_id, UID: '123'
+        expect(response).to redirect_to("#{user_settings_path(user.id)}?subsite=account")
+        expect(flash['success']).to include(I18n.t('users.sign_in_up.easyID.success'))
+      end
+    end
   end
 
   describe 'deauthorize' do

@@ -19,7 +19,7 @@ class RecommendationsController < ApplicationController
     @recommendations = current_user.recommendations.sort_by(&:created_at).reverse!
 
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
-    @profile_pictures = AmazonS3.instance.author_profile_images_hash_for_recommendations(@recommendations)
+    @profile_pictures = User.author_profile_images_hash_for_recommendations(@recommendations)
     @rating_picture = AmazonS3.instance.get_url('five_stars.png')
   end
 
@@ -53,8 +53,32 @@ class RecommendationsController < ApplicationController
       recommendation.save!
     end
 
+    if params[:recommendation][:is_obligatory] == 'true'
+      course = Course.find(params[:recommendation][:course_id])
+
+      user_ids.each do |user_id|
+        user = User.find(user_id)
+        email_adress = user.primary_email
+        UserMailer.obligatory_recommendation_user_notification(email_adress, user, course, current_user, root_url).deliver_later
+      end
+
+      group_ids.each do |group_id|
+        group = Group.find(group_id)
+        group.users.each do |user|
+          if user != current_user
+            email_adress = user.primary_email
+            UserMailer.obligatory_recommendation_group_notification(email_adress, user, group, course, current_user, root_url).deliver_later
+          end
+        end
+      end
+    end
+
     respond_to do |format|
-      format.html { redirect_to session.delete(:return_to), notice: t('recommendation.successfully_created') }
+      if params[:recommendation][:is_obligatory] == 'true'
+        format.html { redirect_to session.delete(:return_to), notice: t('recommendation.obligatory_recommendation.successfully_created') }
+      else
+        format.html { redirect_to session.delete(:return_to), notice: t('recommendation.successfully_created') }
+      end
     end
 
   rescue ActiveRecord::RecordNotSaved

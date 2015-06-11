@@ -60,12 +60,14 @@
         img src=@provider_logos[@course.mooc_provider.logo_id]
     .subnav
       - if user_signed_in?
+        / bookmark
         - if Bookmark.where(user_id: current_user.id, course_id: @course.id).blank?
           a class="entry" href='' id='remember_course_link' data-course_id='#{@course.id}' data-user_id='#{current_user.id}'
             = t('courses.remember_course')
         - else
           a class="entry" href='' id='delete_remember_course_link' data-course_id='#{@course.id}' data-user_id='#{current_user.id}'
             = t('courses.delete_remember_course')
+        / enroll
         - if current_user.courses.include? @course
           a class="entry" href='' id='unenroll-course-link' data-course_id='#{@course.id}'
             = t('courses.unenroll_course')
@@ -75,17 +77,44 @@
       - else
         a class="entry" href=new_user_session_path
           = t('courses.enroll_course')
+      / recommend
       div role="tab" id="courses-subnav-recommend"
         a class="entry" data-toggle="collapse" href="#recommend-course" id="recommend-course-link" aria-expanded="false" aria-controls="recommend-course"
           = t('courses.recommend_course')
+      / recommend obligatory
+      div role="tab" id="courses-subnav-recommend-obligatory"
+        a class="entry" data-toggle="collapse" href="#recommend-course-obligatory" id="recommend-course-obligatory-link" aria-expanded="false" aria-controls="recommend-course-obligatory"
+          = t('courses.recommend_course_obligatory')
+      / rate
       div role="tab" id="courses-subnav-rate"
         a class="entry" data-toggle="collapse" href="#rate-course" id="rate-course-link" aria-expanded="false" aria-controls="rate-course"
           = t('courses.rate_course')
 
+    /form for recommend
     .collapse id="recommend-course" role="tabpanel" aria-labelledby="courses-subnav-recommend"
       .collapse-subnav
-        = render 'recommendations/form'
+        - if user_signed_in?
+          - if @has_groups
+            = render 'recommendations/form'
+          - else
+            = t('recommendation.no_groups')
+        - else
+          => t('courses.require_login')
+          = link_to t('courses.register_first'), new_user_registration_path
 
+    /form for make obligatory
+    .collapse id="recommend-course-obligatory" role="tabpanel" aria-labelledby="courses-subnav-recommend-obligatory"
+      .collapse-subnav
+        - if user_signed_in?
+          - if @has_admin_groups
+            = render 'recommendations/form_obligatory'
+          - else
+            = t('recommendation.no_admin_groups')
+        - else
+          => t('courses.require_login')
+          = link_to t('courses.register_first'), new_user_registration_path
+
+    /form for rate
     .collapse id="rate-course" role="tabpanel" aria-labelledby="courses-subnav-rate"
       .collapse-subnav
         .rating-menu
