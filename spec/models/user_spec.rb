@@ -438,17 +438,12 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe 'settings' do
+  describe 'setting(key)' do
     let(:user) { FactoryGirl.create :user }
+    let(:user_setting) { FactoryGirl.create :user_setting, user: user }
 
-    it 'does not share course related contents by default' do
-      pending "reimplementation needed"
-      expect(user.settings(:course_enrollments).groups).to match_array []
-      expect(user.settings(:course_enrollments).users).to match_array []
-      expect(user.settings(:course_results).groups).to match_array []
-      expect(user.settings(:course_results).users).to match_array []
-      expect(user.settings(:course_progresses).groups).to match_array []
-      expect(user.settings(:course_progresses).users).to match_array []
+    it 'returns UserSetting object' do
+      expect(user.setting(user_setting.name)).to eq user_setting
     end
   end
 end

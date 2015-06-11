@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150610125411) do
+ActiveRecord::Schema.define(version: 20150611084826) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -256,17 +256,6 @@ ActiveRecord::Schema.define(version: 20150610125411) do
     t.uuid "user_id"
   end
 
-  create_table "settings", force: :cascade do |t|
-    t.string   "var",         null: false
-    t.text     "value"
-    t.integer  "target_id",   null: false
-    t.string   "target_type", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "settings", ["target_type", "target_id", "var"], name: "index_settings_on_target_type_and_target_id_and_var", unique: true, using: :btree
-
   create_table "statistics", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name"
     t.text     "result"
@@ -322,6 +311,25 @@ ActiveRecord::Schema.define(version: 20150610125411) do
   end
 
   add_index "user_identities", ["user_id"], name: "index_user_identities_on_user_id", using: :btree
+
+  create_table "user_setting_entries", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.string   "key"
+    t.string   "value"
+    t.uuid     "user_setting_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "user_setting_entries", ["user_setting_id"], name: "index_user_setting_entries_on_user_setting_id", using: :btree
+
+  create_table "user_settings", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.string   "name"
+    t.uuid     "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "user_settings", ["user_id"], name: "index_user_settings_on_user_id", using: :btree
 
   create_table "users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "first_name"
@@ -383,4 +391,6 @@ ActiveRecord::Schema.define(version: 20150610125411) do
   add_foreign_key "user_groups", "groups"
   add_foreign_key "user_groups", "users"
   add_foreign_key "user_identities", "users"
+  add_foreign_key "user_setting_entries", "user_settings"
+  add_foreign_key "user_settings", "users"
 end
