@@ -432,6 +432,7 @@ en:
     state_overall_rating: Please state your overall evaluation!
     state_course_status: Please state your course status!
     thanks_for_feedback: Thank you for your feedback!
+    anonymous: Anonymous
 
   recommendation:
     submit: Create Recommendation

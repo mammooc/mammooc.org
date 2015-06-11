@@ -432,6 +432,7 @@ de:
     state_overall_rating: Die Gesamtbewertung muss angegeben werden!
     state_course_status: Dein Kursstatus muss angegeben werden!
     thanks_for_feedback: Danke für dein Feedback!
+    anonymous: Anonymous
 
   recommendation:
     submit: Empfehlung erstellen

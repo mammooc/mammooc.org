@@ -5,6 +5,11 @@ class CoursesController < ApplicationController
 
   include ConnectorMapper
 
+  # Evaluation course_status constants
+  ABORTED_COURSE = 1
+  CURRENTLY_ENROLLED_COURSE = 2
+  COMPLETED_COURSE = 3
+
   # GET /courses
   # GET /courses.json
   def index
@@ -135,17 +140,17 @@ class CoursesController < ApplicationController
       @errors << t('evaluations.state_course_status')
     end
     if @errors.empty?
-      @evaluation = Evaluation.find_by(user_id: current_user.id, course_id: @course.id)
-      if @evaluation.blank?
-        @evaluation = Evaluation.new(user_id: current_user.id, course_id: @course.id)
-        @evaluation.creation_date = Time.zone.now
+      evaluation = Evaluation.find_by(user_id: current_user.id, course_id: @course.id)
+      if evaluation.blank?
+        evaluation = Evaluation.new(user_id: current_user.id, course_id: @course.id)
+        evaluation.creation_date = Time.zone.now
       end
-      @evaluation.rating = rating
-      @evaluation.description = params[:rating_textarea]
-      @evaluation.course_status = course_status
-      @evaluation.rated_anonymously = params[:rate_anonymously]
-      @evaluation.update_date = Time.zone.now
-      @evaluation.save
+      evaluation.rating = rating
+      evaluation.description = params[:rating_textarea]
+      evaluation.course_status = course_status
+      evaluation.rated_anonymously = params[:rate_anonymously]
+      evaluation.update_date = Time.zone.now
+      evaluation.save
       @saved_evaluation_successfuly = true
     else
       @saved_evaluation_successfuly = false
@@ -192,7 +197,7 @@ class CoursesController < ApplicationController
   end
 
   def course_status_valid? course_status
-    return course_status == 1 || course_status == 2 || course_status == 3
+    return course_status == ABORTED_COURSE || course_status == CURRENTLY_ENROLLED_COURSE || course_status == COMPLETED_COURSE
   end
 
   def set_course
@@ -205,33 +210,31 @@ class CoursesController < ApplicationController
   end
 
   def create_evaluation_object_for_course course
-    # TODO: schön machen
     if course.evaluations.present?
-      @course_evaluations = Array.new
+      @course_evaluations = Set.new
       course.evaluations.each { |evaluation|
-        evaluation_object = Hash.new
-        evaluation_object['evaluation_id'] = evaluation.id
-        evaluation_object['rating'] = evaluation.rating
-        evaluation_object['description'] = evaluation.description
-        evaluation_object['creation_date'] = evaluation.creation_date
-        evaluation_object['evaluation_rating_count'] = evaluation.evaluation_rating_count
-        evaluation_object['evaluation_helpful_rating_count'] = evaluation.evaluation_helpful_rating_count
+        evaluation_object = {
+          evaluation_id: evaluation.id,
+          rating: evaluation.rating,
+          description: evaluation.description,
+          creation_date: evaluation.creation_date,
+          evaluation_rating_count: evaluation.evaluation_rating_count,
+          evaluation_helpful_rating_count: evaluation.evaluation_helpful_rating_count
+        }
         case evaluation.course_status
-          when 1
-            evaluation_object['course_status'] = t('evaluations.aborted_course')
-          when 2
-            evaluation_object['course_status'] = t('evaluations.currently_enrolled_course')
-          when 3
-            evaluation_object['course_status'] = t('evaluations.finished_course')
-          else
-            evaluation_object['course_status'] = ''
+          when ABORTED_COURSE
+            evaluation_object[:course_status] = t('evaluations.aborted_course')
+          when CURRENTLY_ENROLLED_COURSE
+            evaluation_object[:course_status] = t('evaluations.currently_enrolled_course')
+          when COMPLETED_COURSE
+            evaluation_object[:course_status] = t('evaluations.finished_course')
         end
         unless evaluation.rated_anonymously
-          evaluation_object['user_id'] = evaluation.user_id
-          evaluation_object['user_name'] = "#{evaluation.user.first_name} #{evaluation.user.last_name}"
+          evaluation_object[:user_id] = evaluation.user_id
+          evaluation_object[:user_name] = "#{evaluation.user.first_name} #{evaluation.user.last_name}"
         else
-          evaluation_object['user_id'] = nil
-          evaluation_object['user_name'] = 'Anonymous'
+          evaluation_object[:user_id] = nil
+          evaluation_object[:user_name] = t('evaluations.anonymous')
         end
         @course_evaluations << evaluation_object
       }
