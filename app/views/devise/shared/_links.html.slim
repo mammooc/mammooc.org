@@ -15,7 +15,10 @@
 - if devise_mapping.omniauthable?
   hr
   = t('users.sign_in_up.terms_and_conditions_omniauth')
-  br
   - resource_class.omniauth_providers.each do |provider|
-    = link_to t('users.sign_in_up.omniauth', provider: provider.to_s.titleize), omniauth_authorize_path(resource_name, provider)
     br
+    = link_to t('users.sign_in_up.omniauth', provider: provider.to_s.titleize), omniauth_authorize_path(resource_name, provider)
+  br
+  = link_to t('users.sign_in_up.easyID.login'), easy_id_link
+  hr
+  = t('users.sign_in_up.easyID.notice', link: link_to(t('users.sign_in_up.easyID.link'), 'https://www.ausweisapp.bund.de/', target: '_blank')).html_safe

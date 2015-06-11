@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class CoursesController < ApplicationController
   before_action :set_course, only: [:show, :enroll_course, :unenroll_course, :send_evaluation]
-  skip_before_action :require_login, only: [:index, :show, :filter_options]
+  skip_before_action :require_login, only: [:index, :show, :filter_options, :search]
 
   include ConnectorMapper
 
@@ -35,7 +35,7 @@ class CoursesController < ApplicationController
     end
 
   rescue ActiveRecord::RecordNotFound => e
-    Rails.logger.info "Had to reset filterrific params: #{ e.message }"
+    Rails.logger.info "Had to reset filterrific params: #{e.message}"
     redirect_to(reset_filterrific_url(format: :html)) && return
   end
 
@@ -61,7 +61,7 @@ class CoursesController < ApplicationController
       @recommendations_total = recommendations.size
       params[:page] ||= 1
       @recommendations = recommendations.paginate(page: params[:page], per_page: 3)
-      @profile_pictures = AmazonS3.instance.author_profile_images_hash_for_recommendations(@recommendations)
+      @profile_pictures = User.author_profile_images_hash_for_recommendations(@recommendations)
       @recommended_by = []
       @pledged_by = []
       @recommendations.each do |recommendation|
@@ -72,10 +72,12 @@ class CoursesController < ApplicationController
           @recommended_by.push(recommendation.author)
         end
       end
-
       # EVALUATIONS
       @current_user_evaluation = current_user.evaluations.find_by(course_id: @course.id)
       @has_rated_course = Evaluation.find_by(user_id: current_user.id, course_id: @course.id).present?
+
+      @has_groups = current_user.groups.any?
+      @has_admin_groups = UserGroup.where(user: current_user, is_admin: true).collect(&:group_id).any?
     end
 
     create_evaluation_object_for_course @course
@@ -172,6 +174,14 @@ class CoursesController < ApplicationController
   def search
     session['courses#index'] = {'search_query': params[:query], 'with_tracks': {'costs': '', 'certificate': ''}}
     redirect_to courses_path
+  end
+
+  def autocomplete
+    @courses = Course.search_query params[:q]
+
+    respond_to do |format|
+      format.json
+    end
   end
 
   private

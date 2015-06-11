@@ -39,6 +39,12 @@ gem 'passenger'
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth-facebook'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-github'
+gem 'omniauth-linkedin-oauth2'
+gem 'omniauth-twitter'
+gem 'omniauth-windowslive'
+gem 'omniauth-amazon'
 
 # authorization
 gem 'cancancan', '~>1.10'
@@ -46,9 +52,12 @@ gem 'cancancan', '~>1.10'
 # HTTP api_connection
 gem 'rest-client'
 
+# file upload
+gem 'paperclip'
+
 # amazon S3 connection
 gem 'aws-sdk', '~> 2'
-
+gem 'aws-sdk-v1'
 # cron job
 gem 'redis'
 gem 'sidekiq'
@@ -80,6 +89,7 @@ gem 'oauth2'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'ruby-debug-passenger'
 
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'

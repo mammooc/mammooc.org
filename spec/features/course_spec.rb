@@ -6,11 +6,13 @@ RSpec.describe 'Course', type: :feature do
 
   let(:user) { FactoryGirl.create(:user) }
 
-  before(:each) do
-    visit new_user_session_path
-    fill_in 'login_email', with: user.primary_email
-    fill_in 'login_password', with: user.password
-    click_button 'submit_sign_in'
+  before(:each) do |example|
+    unless example.metadata[:skip_before]
+      visit new_user_session_path
+      fill_in 'login_email', with: user.primary_email
+      fill_in 'login_password', with: user.password
+      click_button 'submit_sign_in'
+    end
 
     ActionMailer::Base.deliveries.clear
   end
@@ -153,7 +155,7 @@ RSpec.describe 'Course', type: :feature do
       end
       visit courses_path
       expect(page).to have_content course.name
-      fill_in 'filterrific_search_query', with: 'nice name'
+      fill_in 'new_search', with: 'nice name'
       fill_in 'filterrific_with_start_date_gte', with: (Time.zone.today).strftime('%d.%m.%Y')
       fill_in 'filterrific_with_end_date_lte', with: (Time.zone.today + 3.weeks).strftime('%d.%m.%Y')
       select I18n.t('language.english'), from: 'filterrific_with_language'
@@ -163,7 +165,7 @@ RSpec.describe 'Course', type: :feature do
       select I18n.t('courses.filter.start.now'), from: 'filterrific_start_filter_options'
       select I18n.t('courses.filter.costs.free'), from: 'filterrific_with_tracks_costs'
       select nice_track_type.title, from: 'filterrific_with_tracks_certificate'
-      select I18n.t('courses.filter.sort.name_desc'), from: 'filterrific_sorted_by'
+      # select I18n.t('courses.filter.sort.name_desc'), from: 'filterrific_sorted_by'
       check 'filterrific_bookmarked'
       wait_for_ajax
       expect(page).to have_content course.name
@@ -181,6 +183,35 @@ RSpec.describe 'Course', type: :feature do
       expect(page).not_to have_content course_wrong_attributes_3.name
       expect(page).to have_content right_course.name
       expect(page.body.index(course.name)).to be > page.body.index(right_course.name)
+    end
+  end
+
+  describe 'search for courses from navbar' do
+    let!(:first_matching_course) { FactoryGirl.create(:course, name: 'Web Technologies') }
+    let!(:second_matching_course) { FactoryGirl.create(:course, name: 'Webmaster') }
+    let!(:not_matching_course) { FactoryGirl.create(:course, name: 'Ruby course') }
+
+    it 'redirects to courses overview' do
+      fill_in 'query', with: 'web'
+      click_button 'submit-course-search-navbar'
+      expect(current_path).to eq courses_path
+    end
+
+    it 'to find courses that match search query on courses overview' do
+      fill_in 'query', with: 'web'
+      click_button 'submit-course-search-navbar'
+      expect(page).to have_content(first_matching_course.name)
+      expect(page).to have_content(second_matching_course.name)
+      expect(page).not_to have_content(not_matching_course.name)
+    end
+
+    it 'works if user is not signed in', skip_before: true do
+      visit home_index_path
+      fill_in 'query', with: 'web'
+      click_button 'submit-course-search-navbar'
+      expect(page).to have_content(first_matching_course.name)
+      expect(page).to have_content(second_matching_course.name)
+      expect(page).not_to have_content(not_matching_course.name)
     end
   end
 end
