@@ -8,17 +8,17 @@
         th
           | primary
     tbody
-      - @user.emails.each do |email|
+      - @emails.each do |email|
         tr
           = f.fields_for email do |email_fields|
             td
               = email_fields.email_field :"address_#{email.id}", :class => 'form-control', autofocus: true, value: email.address
             - if email.address == @user.primary_email
               td
-                = email_fields.radio_button :is_primary, email.address, checked: true
+                = email_fields.radio_button :is_primary, email.id, checked: true
             - else
               td
-                = email_fields.radio_button :is_primary, email.address, checked: false
+                = email_fields.radio_button :is_primary, email.id, checked: false
       tr
         td
           .text-center

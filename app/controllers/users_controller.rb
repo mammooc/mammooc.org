@@ -74,7 +74,11 @@ class UsersController < ApplicationController
 
   def account_settings
     @user = current_user
+    @emails = @user.emails.sort_by do |email|
+      [email.is_primary ? 0 : 1, email.address]
+    end
     @partial = render_to_string partial: 'users/form', formats: [:html]
+    @partial += render_to_string partial: 'users/change_emails', formats: [:html]
     @partial += render_to_string partial: 'devise/registrations/edit', formats: [:html]
     respond_to do |format|
       begin
@@ -106,6 +110,10 @@ class UsersController < ApplicationController
     prepare_mooc_provider_settings
     @subsite = params['subsite']
     @user = current_user
+    @emails = @user.emails.sort_by do |email|
+      [email.is_primary ? 0 : 1, email.address]
+    end
+
   end
 
   def oauth_callback
@@ -187,10 +195,7 @@ class UsersController < ApplicationController
   def change_email
     @user = current_user
 
-    puts '################################################'
-    puts "params: #{params[:user]}"
-
-    # update existing
+    # update existing emails
     @user.emails.each do |email|
       if params[:user][:user_email][:"address_#{email.id}"] != email.address
         email.address = params[:user][:user_email][:"address_#{email.id}"]
@@ -198,7 +203,7 @@ class UsersController < ApplicationController
       end
     end
 
-    # create new
+    # create new emails
     total_number_of_emails = params[:user][:index].to_i
     number_of_new_emails = total_number_of_emails - @user.emails.length
 
@@ -211,25 +216,16 @@ class UsersController < ApplicationController
     end
 
 
-    # change primary
-    puts '################################################'
-    puts "params: #{params[:user][:user_email][:is_primary]}"
-
+    # change primary state
     if params[:user][:user_email][:is_primary].include? 'new_email_index'
       splitted_string = params[:user][:user_email][:is_primary].split('_')
-      email_address = params[:user][:user_email][:"address_#{splitted_string[3]}"]
-      UserEmail.transaction do
-        user_email_old = UserEmail.find_by(address: @user.primary_email)
-        user_email_old.is_primary = false
-        user_email_new = UserEmail.find_by(address: email_address)
-        user_email_new.is_primary = true
-
-      end
-    else
-      #params[:user][:user_email][:is_primary] zu primary machen
+      new_primary_email_address = params[:user][:user_email][:"address_#{splitted_string[3]}"]
+      UserEmail.find_by(address: new_primary_email_address).change_to_primary_email
+    elsif params[:user][:user_email][:is_primary] != UserEmail.find_by(address: @user.primary_email).id
+      UserEmail.find(params[:user][:user_email][:is_primary]).change_to_primary_email
     end
 
-    redirect_to user_path(@user)
+    redirect_to :back, notice: 'Erfolgreich aktualisiert'
   end
 
   private
