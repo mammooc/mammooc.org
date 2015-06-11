@@ -17,7 +17,7 @@
           = evaluation['course_status']
           .user-rating-value
             input.rating type='hidden' value="#{evaluation['rating']}" data-start="0" data-stop="5" id="user-rating-output-#{index}" disabled="disabled"
-        = I18n.l evaluation['date'], format: t('global.date_format_month')
+        = I18n.l evaluation['creation_date'], format: t('global.date_format_month')
 
       - if evaluation['description'].present?
         .comment

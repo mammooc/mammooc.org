@@ -195,6 +195,7 @@ class CoursesController < ApplicationController
   end
 
   def create_evaluation_object_for_course course
+    # TODO: Übersetzungen und schön machen
     if course.evaluations.present?
       @course_evaluations = Array.new
       course.evaluations.each { |evaluation|
