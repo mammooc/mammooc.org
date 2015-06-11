@@ -1,7 +1,7 @@
 h4
-  = "Hi #{current_user.first_name}, du hast diesen Kurs bewertet. Vielen Dank für dein Feedback!"
+  = t('evaluations.already_evaluated',first_name: current_user.first_name)
 button.btn.btn-primary id="edit-rating-button"
-  | Bewertung anpassen
+  = t('evaluations.modify_evaluation')
 .rating-form
   br
   = render 'rate_course_form'

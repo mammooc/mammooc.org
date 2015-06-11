@@ -122,15 +122,15 @@ class CoursesController < ApplicationController
   end
 
   def send_evaluation
-    # TODO: Übersetzungen und schön machen
+    # TODO: schön machen
     rating = params[:rating].to_i
     course_status = params[:course_status].to_i
     @errors ||= []
     unless ranking_valid? rating
-      @errors << 'Die Gesamtbewertung muss angegeben werden'
+      @errors << t('evaluations.state_overall_rating')
     end
     unless course_status_valid? course_status
-      @errors << 'Dein Kursstatus muss angegeben werden'
+      @errors << t('evaluations.state_course_status')
     end
     if @errors.empty?
       @evaluation = Evaluation.find_by(user_id: current_user.id, course_id: @course.id)
@@ -195,7 +195,7 @@ class CoursesController < ApplicationController
   end
 
   def create_evaluation_object_for_course course
-    # TODO: Übersetzungen und schön machen
+    # TODO: schön machen
     if course.evaluations.present?
       @course_evaluations = Array.new
       course.evaluations.each { |evaluation|
@@ -208,11 +208,11 @@ class CoursesController < ApplicationController
         evaluation_object['evaluation_helpful_rating_count'] = evaluation.evaluation_helpful_rating_count
         case evaluation.course_status
           when 1
-            evaluation_object['course_status'] = 'hat den Kurs abgebrochen'
+            evaluation_object['course_status'] = t('evaluations.aborted_course')
           when 2
-            evaluation_object['course_status'] = 'belegt den Kurs'
+            evaluation_object['course_status'] = t('evaluations.currently_enrolled_course')
           when 3
-            evaluation_object['course_status'] = 'hat den Kurs abgeschlossen'
+            evaluation_object['course_status'] = t('evaluations.finished_course')
           else
             evaluation_object['course_status'] = ''
         end

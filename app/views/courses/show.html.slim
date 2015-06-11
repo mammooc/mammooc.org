@@ -88,14 +88,16 @@
 
     .collapse id="rate-course" role="tabpanel" aria-labelledby="courses-subnav-rate"
       .collapse-subnav
-        /TODO: what happens when user is not logged in?
         .rating-menu
           h4
-            = 'Kursbewertung'
-          - unless @has_rated_course
-            = render 'rate_course_form'
+            = t('evaluations.heading')
+          - if user_signed_in?
+            - unless @has_rated_course
+              = render 'rate_course_form'
+            - else
+              = render 'already_rated_course_form'
           - else
-            = render 'already_rated_course_form'
+            = render 'please_sign_in_rating_form'
 
   - if @course.abstract or @course.description
     .course-details id="course-description"
