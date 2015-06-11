@@ -8,7 +8,7 @@ MoocProvider.create!(name: 'openHPI China', logo_id: 'logo_openHPI.png', api_sup
 MoocProvider.create!(name: 'mooc.house', logo_id: 'logo_mooc_house.png', api_support_state: :naive)
 MoocProvider.create!(name: 'cnmooc.house', logo_id: 'logo_cnmooc_house.png', api_support_state: :nil)
 open_sap = MoocProvider.create!(name: 'openSAP', logo_id: 'logo_openSAP.png', api_support_state: :naive)
-MoocProvider.create!(name: 'edX', logo_id: 'logo_edx.png', api_support_state: :naive)
+MoocProvider.create!(name: 'edX', logo_id: 'logo_edx.png', api_support_state: :nil)
 MoocProvider.create!(name: 'coursera', logo_id: 'logo_coursera.png', api_support_state: :oauth)
 MoocProvider.create!(name: 'openSAP China', logo_id: 'logo_openSAP.png', api_support_state: :naive)
 MoocProvider.create!(name: 'openUNE', logo_id: 'logo_openUNE.png', api_support_state: :naive)
