@@ -38,5 +38,6 @@
         .hd5.pb5
           | Activities
         .user-courses-container
-          - @activities.each do |activity|
-            = render_activity activity
+          - if @activities
+            - @activities.each do |activity|
+              = render_activity activity, layout: :activity

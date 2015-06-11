@@ -40,6 +40,18 @@ class GroupsController < ApplicationController
 
     @group_picture = Group.group_images_hash_for_groups [@group]
     @rating_picture = AmazonS3.instance.get_url('five_stars.png')
+
+    @activities = PublicActivity::Activity.order("created_at desc").where(owner_id: @group.users)
+    if @activities
+      @activities.each do |activity|
+        if activity.recipient_id
+          if activity.recipient_id != @group.id || activity.recipient_type != 'Group'
+            @activities -= [activity]
+          end
+        end
+      end
+    end
+
   end
 
   # GET /groups/new

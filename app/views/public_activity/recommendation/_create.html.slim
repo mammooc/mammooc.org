@@ -1,9 +1,11 @@
 - if activity.trackable
-  = link_to activity.owner.first_name, activity.owner
-  | has recommended the course
-  = link_to activity.trackable.course.name, activity.trackable.course
-  | to
-  - if activity.recipient_type == 'Group'
-    = link_to activity.recipient.name, activity.recipient
+  - if activity.trackable.is_obligatory
+    | made a course mandatory:
   - else
-    = link_to activity.recipient.first_name, activity.recipient
+    | recommended the course
+  br
+  = link_to activity.trackable.course
+    span.picture
+      = image_tag activity.trackable.course.imageId, width: '20', height: '20'
+    span.info
+      = activity.trackable.course.name

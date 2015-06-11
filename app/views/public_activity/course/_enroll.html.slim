@@ -1,0 +1,8 @@
+- if activity.trackable
+  | enrolled in course
+  br
+  = link_to activity.trackable
+    span.picture
+      = image_tag activity.trackable.imageId, width: '20', height: '20'
+    span.info
+      = activity.trackable.name

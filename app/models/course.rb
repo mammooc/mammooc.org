@@ -16,6 +16,7 @@ class Course < ActiveRecord::Base
                         :sorted_by,
                         :bookmarked]
   )
+  include PublicActivity::Common
 
   belongs_to :mooc_provider
   belongs_to :course_result

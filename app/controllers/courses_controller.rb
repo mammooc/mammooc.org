@@ -80,12 +80,14 @@ class CoursesController < ApplicationController
     current_user.bookmarks.each do |bookmark|
       @bookmarked = true if bookmark.course == @course
     end
+
   end
 
   def enroll_course
     respond_to do |format|
       begin
         create_enrollment
+        @course.create_activity key: 'course.enroll', owner: current_user
         format.html { redirect_to @course }
         format.json { render :enroll_course_result, status: :ok }
       rescue StandardError => e

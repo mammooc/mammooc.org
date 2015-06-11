@@ -1,0 +1,8 @@
+.activity
+  span.profile-picture
+    = link_to activity.owner
+      img src = activity.owner.profile_image.expiring_url(3600, :thumb) width='40' height='40' align='left'
+  span.content
+    b
+      => "#{activity.owner.first_name} #{activity.owner.last_name}"
+    = yield

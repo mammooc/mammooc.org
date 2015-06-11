@@ -14,8 +14,16 @@ class DashboardController < ApplicationController
     # Bookmarks
     @bookmarks = current_user.bookmarks
 
-    @activities = PublicActivity::Activity.all
-
+    @activities = PublicActivity::Activity.order("created_at desc").where(owner_id: @current_user.connected_users_ids)
+    if @activites
+      @activities.each do |activity|
+        if activity.recipient_id
+          if activity.recipient_id != @current_user.id && !@current_user.connected_groups_ids.include?(activity.recipient_id)
+            @activities -= [activity]
+          end
+        end
+      end
+    end
     respond_to do |format|
       format.html {}
       format.json { render :dashboard, status: :ok }

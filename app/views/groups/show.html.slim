@@ -6,6 +6,13 @@
     = @group.description
 
 h2
+  | Activities
+.user-courses-container
+  - if @activities
+    - @activities.each do |activity|
+      = render_activity activity, layout: :activity
+
+h2
   = t('groups.current_recommendations', complete_number: @number_of_recommendations, shown_number: @recommendations.length)
 - if @number_of_recommendations == 0
   = t('recommendation.group.no_recommendation')
