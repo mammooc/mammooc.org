@@ -54,15 +54,6 @@ class AmazonS3
     logos
   end
 
-  def group_images_hash_for_groups(groups, images = {})
-    groups.each do |group|
-      unless images.key?(group.image_id)
-        images[group.image_id] = get_url(group.image_id)
-      end
-    end
-    images
-  end
-
   def put_data(key, file, options_hash = {})
     object = get_object(key)
 

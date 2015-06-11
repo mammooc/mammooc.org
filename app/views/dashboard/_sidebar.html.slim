@@ -7,7 +7,7 @@
         - if current_user.groups.empty?
           = t('dashboard.no_groups')
         - else
-          - current_user.groups.each do |group|
+          - current_user.groups_sorted_by_admin_state_and_name.each do |group|
             = link_to group.name, group_path(group)
             br
     .element

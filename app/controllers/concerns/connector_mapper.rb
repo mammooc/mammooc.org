@@ -14,6 +14,8 @@ module ConnectorMapper
         return OpenSAPChinaConnector.new
       when 'mooc.house'
         return MoocHouseConnector.new
+      when 'cnmooc.house'
+        return CnmoocHouseConnector.new
       when 'openUNE'
         return OpenUNEConnector.new
       when 'coursera'
@@ -35,6 +37,8 @@ module ConnectorMapper
         return OpenSAPChinaUserWorker
       when 'mooc.house'
         return MoocHouseUserWorker
+      when 'cnmooc.house'
+        return CnmoocHouseUserWorker
       when 'openUNE'
         return OpenUNEUserWorker
       when 'coursera'

@@ -269,7 +269,7 @@ de:
             password:
               too_short: ist zu kurz (Minimum sind %{count} Zeichen).
             password_confirmation:
-            confirmation: stimmt nicht mit Passwort überein.
+              confirmation: stimmt nicht mit Passwort überein.
 
   #show course
   courses:
@@ -328,8 +328,8 @@ de:
         costs: Kosten
         credit_points: ECTS-Punkte
         achievement_types:
-          openhpi_record_of_achievement: Teilnahmebescheinigung
-          iversity_record_of_achievement: :courses.tracks.types.achievement_types.openhpi_record_of_achievement
+          xikolo_record_of_achievement: Teilnahmebescheinigung
+          iversity_record_of_achievement: :courses.tracks.types.achievement_types.xikolo_record_of_achievement
           nothing: Kein Zertifikat
           certificate: Zertifikat
           iversity_certificate: :courses.tracks.types.achievement_types.certificate

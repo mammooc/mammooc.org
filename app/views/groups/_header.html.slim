@@ -5,7 +5,7 @@
       .row
         .col-md-12
           .logo
-            img src=@group_picture[@group.image_id]
+            img src=@group_picture[@group.id]
           .title
             = @group.name
             - if can? :update, @group
