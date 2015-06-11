@@ -222,6 +222,7 @@ $course-img-height: 250px;
 }
 
 .courses-wrapper {
+  overflow: auto;
 
   .courses {
     @include white-box;
