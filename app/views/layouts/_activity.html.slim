@@ -6,3 +6,4 @@
     b
       => "#{activity.owner.first_name} #{activity.owner.last_name}"
     = yield
+  = activity.created_at.strftime(t('global.date_format_month'))
