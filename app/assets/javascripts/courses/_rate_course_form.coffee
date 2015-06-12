@@ -25,12 +25,9 @@ sendCourseReview = (event) ->
       console.log('error_synchronize')
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
-      if data.status == true
+      if !!(data.error_text)
         $('div.rating-menu').html(data.partial)
-      else if data.status == false
-        console.log('no success')
-        console.log(data.error_text)
-        $('.invitation-error').text(data.error_text)
+      else $('.invitation-error').text(data.error_text)
   event.preventDefault()
 
 @bindSendCourseReviewClick = () ->

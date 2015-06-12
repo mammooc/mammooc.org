@@ -273,7 +273,6 @@ class Course < ActiveRecord::Base
 
   def self.update_course_rating_attributes course_id
     course = Course.find(course_id)
-    puts "updateCourseRatingAttributes"
     course_evaluations = Evaluation.find_by_course_id(course_id)
     if course_evaluations.present?
       course.calculated_rating = Evaluation.where(course_id: course_id).average(:rating)

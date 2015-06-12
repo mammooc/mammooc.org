@@ -59,7 +59,6 @@ class CoursesController < ApplicationController
 
     @recommendation = Recommendation.new(course: @course)
 
-
     if user_signed_in?
       # RECOMMENDATIONS
       recommendations = Recommendation.sorted_recommendations_for_course_and_user(@course, current_user, [current_user])
@@ -77,12 +76,12 @@ class CoursesController < ApplicationController
           @recommended_by.push(recommendation.author)
         end
       end
+      @has_groups = current_user.groups.any?
+      @has_admin_groups = UserGroup.where(user: current_user, is_admin: true).collect(&:group_id).any?
+
       # EVALUATIONS
       @current_user_evaluation = current_user.evaluations.find_by(course_id: @course.id)
       @has_rated_course = Evaluation.find_by(user_id: current_user.id, course_id: @course.id).present?
-
-      @has_groups = current_user.groups.any?
-      @has_admin_groups = UserGroup.where(user: current_user, is_admin: true).collect(&:group_id).any?
     end
 
     create_evaluation_object_for_course @course
@@ -96,9 +95,6 @@ class CoursesController < ApplicationController
     current_user.bookmarks.each do |bookmark|
       @bookmarked = true if bookmark.course == @course
     end
-
-    # RATING
-    @course_rating_count = @course.rating_count
 
   end
 
@@ -129,7 +125,6 @@ class CoursesController < ApplicationController
   end
 
   def send_evaluation
-    # TODO: schön machen
     rating = params[:rating].to_i
     course_status = params[:course_status].to_i
     @errors ||= []
@@ -151,9 +146,6 @@ class CoursesController < ApplicationController
       evaluation.rated_anonymously = params[:rate_anonymously]
       evaluation.update_date = Time.zone.now
       evaluation.save
-      @saved_evaluation_successfuly = true
-    else
-      @saved_evaluation_successfuly = false
     end
     @current_user_evaluation = current_user.evaluations.find_by(course_id: @course.id)
     @respond_partial = render_to_string partial: 'courses/already_rated_course_form', formats:[:html]

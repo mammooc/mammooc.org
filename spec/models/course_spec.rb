@@ -83,6 +83,27 @@ RSpec.describe Course, type: :model do
     end
   end
 
+  describe 'update_course_rating_attributes' do
+
+    before(:all) do
+      DatabaseCleaner.strategy = :truncation
+    end
+
+    after(:all) do
+      DatabaseCleaner.strategy = :transaction
+    end
+
+    let!(:course) {FactoryGirl.create(:course)}
+
+    it 'should update calculated rating and rating count' do
+      FactoryGirl.create(:full_evaluation, rating: 1, course: course)
+      FactoryGirl.create(:minimal_evaluation, rating: 5, course: course)
+      course.reload
+      expect(course.rating_count).to eq(2)
+      expect(course.calculated_rating).to eq(3.0)
+    end
+  end
+
   describe 'options for different attributes' do
     it 'returns an array of options for costs' do
       options = described_class.options_for_costs
