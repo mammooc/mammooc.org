@@ -316,6 +316,7 @@ en:
       starts_today: "Starts today"
       already_running: "Running"
       load_more: Show more
+      bookmark: Kurs vormerken
     sidebar:
       recommended: Someone recommended this course to you
       pledged: Someone wants to see you doing this course
@@ -383,7 +384,6 @@ en:
         name_asc: "Title"
         start_date_relevance: Current first
       reset: Reset filter
-
     languages:
       ar: Arabic
       cn: Chinese
