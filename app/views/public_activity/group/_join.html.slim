@@ -1,0 +1,11 @@
+-if activity.trackable
+  .message
+    = link_to activity.owner
+      = "#{activity.owner.first_name} #{activity.owner.last_name}"
+    - if group_context
+      =<> 'joined the group'
+    - else
+      =<> "joined group"
+      = link_to activity.trackable
+        = activity.trackable.name
+  = I18n.l activity.created_at, format: t('global.date_format_month')

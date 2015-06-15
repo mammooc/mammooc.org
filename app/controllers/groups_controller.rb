@@ -54,6 +54,8 @@ class GroupsController < ApplicationController
           @activity_courses[activity.id] = Recommendation.find(activity.trackable_id).course
         elsif activity.trackable_type == 'Course'
           @activity_courses[activity.id] = Course.find(activity.trackable_id)
+        elsif activity.trackable_type == 'Bookmark'
+          @activity_courses[activity.id] = Bookmark.find(activity.trackable_id).course
         end
       end
     end
@@ -75,6 +77,25 @@ class GroupsController < ApplicationController
     @profile_pictures = User.author_profile_images_hash_for_recommendations(@recommendations)
     @group_picture = Group.group_images_hash_for_groups [@group]
     @rating_picture = AmazonS3.instance.get_url('five_stars.png')
+
+    @activities = PublicActivity::Activity.order("created_at desc").where(owner_id: @group.users, trackable_type: 'Recommendation')
+    @activity_courses = Hash.new
+    if @activities
+      @activities.each do |activity|
+        if activity.recipient_id
+          if activity.recipient_id != @group.id || activity.recipient_type != 'Group'
+            @activities -= [activity]
+          end
+        end
+        if activity.trackable_type == 'Recommendation'
+          @activity_courses[activity.id] = Recommendation.find(activity.trackable_id).course
+        elsif activity.trackable_type == 'Course'
+          @activity_courses[activity.id] = Course.find(activity.trackable_id)
+        elsif activity.trackable_type == 'Bookmark'
+          @activity_courses[activity.id] = Bookmark.find(activity.trackable_id).course
+        end
+      end
+    end
   end
 
   def members
@@ -282,6 +303,8 @@ class GroupsController < ApplicationController
 
     group_invitation.used = true
     group_invitation.save
+    @group.create_activity key: 'group.join', owner: current_user
+
 
     redirect_to group_path(group)
 

@@ -13,13 +13,13 @@
         => t('dashboard.last_time_active')
         = I18n.l current_user.last_sign_in_at, format: t('global.date_format_month')
     .user-info.hidden-xs
+      - if @number_of_mandatory_recommendations != 0
+        = t('dashboard.number_of_mandatory_recommendations', number: @number_of_mandatory_recommendations)
+        br
       = t('dashboard.number_of_recommendations', number: @number_of_recommendations)
       br
-        // not implemented yet
-      = t('dashboard.number_of_activities')
+      = t('dashboard.number_of_activities', number: @activities.length)
       br
-        // if we don't show recommendations / activities (because there are none), this would show up
-      | There are more news here.
 
   .dashboard-actions.hidden-xs
     = link_to current_user
@@ -43,6 +43,5 @@
     .recommendations-wrapper
       - if @activities
         - @activities.each do |activity|
-          = render_activity activity, layout: :activity, locals: {group_context: false}
-
+          = render_activity activity, layout: :activity, locals: {group_context: false, author: activity.owner, course: @activity_courses[activity.id], signed_in_user: current_user}
 = render 'sidebar'

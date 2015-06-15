@@ -10,13 +10,4 @@ h2
 .user-courses-container
   - if @activities
     - @activities.each do |activity|
-      = render_activity activity, layout: :activity, locals: {group_context: true, author: activity.owner, course: @activity_courses[activity.id], urrent_user: current_user}
-
-h2
-  = t('groups.current_recommendations', complete_number: @number_of_recommendations, shown_number: @recommendations.length)
-- if @number_of_recommendations == 0
-  = t('recommendation.group.no_recommendation')
-- else
-  .recommendations-wrapper
-    - @recommendations.each_with_index do |recommendation, index|
-      = render 'recommendations/recommendation', recommendation: recommendation, id: "recommendation_number_#{index}", group_context:true
+      = render_activity activity, layout: :activity, locals: {group_context: true, author: activity.owner, course: @activity_courses[activity.id], signed_in_user: current_user}
