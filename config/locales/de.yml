@@ -486,6 +486,10 @@ de:
       user:
         password_too_short: ist zu kurz (Minimum sind %{count} Zeichen).
         password_confirmation: stimmt nicht mit Passwort überein.
+      settings:
+        group: eine Gruppe
+        user: einen Nutzer
+        input_empty: Bitte geben Sie %{subject} an.
 
   startpage:
     carousel:
