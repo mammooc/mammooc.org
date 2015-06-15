@@ -6,7 +6,7 @@
     = @group.description
 
 h2
-  | Activities
+  = t('dashboard.activities')
 .user-courses-container
   - if @activities
     - @activities.each do |activity|

@@ -2,5 +2,5 @@
   .message
     = link_to activity.owner
       = "#{activity.owner.first_name} #{activity.owner.last_name}"
-    =<> "bookmarked a new course"
+    =<> t('newsfeed.bookmark.create')
   = I18n.l activity.created_at, format: t('global.date_format_month')

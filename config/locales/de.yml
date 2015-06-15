@@ -102,6 +102,7 @@ de:
     bookmarks: :bookmarks.my_bookmarks
     no_bookmarks: :bookmarks.no_bookmarks
     course_starts_at: beginnt am
+    activities: Aktivitäten
 
   home:
     welcome_heading: Willkommen bei mammooc!
@@ -406,6 +407,20 @@ de:
       zh-cn: Chinesisch (China)
       zh-tw: Chinesisch (Taiwan)
 
+  newsfeed:
+    button:
+      ignore: Ignorieren
+      course_details: Details ansehen
+    bookmark:
+      create: hat eine Vormerkung erstellt
+    course:
+      enroll: hat sich in einen Kurs eingeschrieben
+    group:
+      join:
+        group_context: ist der Gruppe beigetreten
+        no_group_context1: ist der Gruppe
+        no_group_context2: beigetreten
+
   recommendation:
     submit: Empfehlung erstellen
     placeholder: Gib deine persönliche Nachricht hier ein ...
@@ -439,10 +454,6 @@ de:
       submit: Vorschreibung erstellen
       successfully_created: Vorschreibung erfolgreich erstellt.
       new: Neue Vorschreibung
-
-    button:
-      ignore: Empfehlung ignorieren
-      course_details: Details ansehen
     group:
       no_recommendation: Diese Gruppe hat momentan keine Empfehlungen.
       has_pledged: hat diesen Kurs vorgeschrieben.

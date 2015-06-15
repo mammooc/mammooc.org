@@ -3,9 +3,10 @@
     = link_to activity.owner
       = "#{activity.owner.first_name} #{activity.owner.last_name}"
     - if group_context
-      =<> 'joined the group'
+      =<> t('newsfeed.group.join.group_context')
     - else
-      =<> "joined group"
+      =<> t('newsfeed.group.join.no_group_context1')
       = link_to activity.trackable
         = activity.trackable.name
+      =<> t('newsfeed.group.join.no_group_context2')
   = I18n.l activity.created_at, format: t('global.date_format_month')
