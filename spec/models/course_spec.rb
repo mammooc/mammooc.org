@@ -84,15 +84,6 @@ RSpec.describe Course, type: :model do
   end
 
   describe 'update_course_rating_attributes' do
-
-    before(:all) do
-      DatabaseCleaner.strategy = :truncation
-    end
-
-    after(:all) do
-      DatabaseCleaner.strategy = :transaction
-    end
-
     let!(:course) {FactoryGirl.create(:course)}
 
     it 'should update calculated rating and rating count' do
@@ -101,6 +92,16 @@ RSpec.describe Course, type: :model do
       course.reload
       expect(course.rating_count).to eq(2)
       expect(course.calculated_rating).to eq(3.0)
+    end
+
+    it 'should set calculated rating and rating count to zero when evaluations are deleted' do
+      eva1=FactoryGirl.create(:full_evaluation, rating: 1, course: course)
+      eva2=FactoryGirl.create(:minimal_evaluation, rating: 5, course: course)
+      eva1.destroy;
+      eva2.destroy;
+      course.reload
+      expect(course.rating_count).to eq(0)
+      expect(course.calculated_rating).to eq(0.0)
     end
   end
 

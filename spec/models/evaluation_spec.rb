@@ -5,10 +5,20 @@ RSpec.describe Evaluation, type: :model do
   describe 'update_course_rating_and_count' do
     let!(:user) { FactoryGirl.create(:user) }
     let!(:course) { FactoryGirl.create(:course) }
-    let!(:evaluation) { FactoryGirl.create(:full_evaluation, user: user, course: course, course_status:1, rating:1) }
+    let!(:evaluation) { FactoryGirl.create(:full_evaluation,
+                                           user: user,
+                                           course: course,
+                                           course_status: 1,
+                                           rating: 1) }
 
-    it 'should call update_course_rating_and_count after save' do
+    it 'should call update_course_rating_and_count after save when rating changed' do
       expect(evaluation).to receive(:update_course_rating_and_count)
+      evaluation.rating = 2
+      evaluation.save
+    end
+
+    it 'should not call update_course_rating_and_count after save when nothing changed' do
+      expect(evaluation).to_not receive(:update_course_rating_and_count)
       evaluation.save
     end
 

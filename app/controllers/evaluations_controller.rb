@@ -1,41 +1,8 @@
 # -*- encoding : utf-8 -*-
 class EvaluationsController < ApplicationController
-  before_action :set_evaluation, only: [:show, :edit, :update, :destroy, :process_evaluation_rating]
+  before_action :set_evaluation, only: [:process_evaluation_rating]
 
   respond_to :html
-
-  def index
-    @evaluations = Evaluation.all
-    respond_with(@evaluations)
-  end
-
-  def show
-    respond_with(@evaluation)
-  end
-
-  def new
-    @evaluation = Evaluation.new
-    respond_with(@evaluation)
-  end
-
-  def edit
-  end
-
-  def create
-    @evaluation = Evaluation.new(evaluation_params)
-    @evaluation.save
-    respond_with(@evaluation)
-  end
-
-  def update
-    @evaluation.update(evaluation_params)
-    respond_with(@evaluation)
-  end
-
-  def destroy
-    @evaluation.destroy
-    respond_with(@evaluation)
-  end
 
   def process_evaluation_rating
     if params['helpful'] == 'true'

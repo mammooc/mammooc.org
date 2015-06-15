@@ -54,6 +54,19 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'handles Evaluations when destroyed' do
+    let!(:user) { FactoryGirl.create(:user) }
+    let(:evaluation) { FactoryGirl.create(:full_evaluation, user_id: user.id)}
+
+    it 'set all evaluations to anonym and delete user_id' do
+      evaluation.save
+      expect(user.destroy).to be_truthy
+      evaluation.reload
+      expect(evaluation.user_id).to be_nil
+      expect(evaluation.rated_anonymously).to be_truthy
+    end
+  end
+
   describe 'factories' do
     it 'has valid factory' do
       expect(FactoryGirl.build_stubbed(:user)).to be_valid

@@ -121,4 +121,42 @@ RSpec.describe CoursesController, type: :controller do
       expect(assigns(:has_unenrolled)).to eq true
     end
   end
+
+  describe 'POST send_evaluation' do
+    let(:evaluation) { FactoryGirl.create(:full_evaluation, user_id: user.id, course_id: course.id,
+                                          rating: 1,
+                                          course_status: 1,
+                                          rated_anonymously: false,
+                                          description: 'blub blub')}
+
+    it 'throws an error when rating is not within accepted range' do
+      post :send_evaluation, rating: -5, id: course.id
+      expect(assigns(:errors)).not_to be_empty
+    end
+
+    it 'throws an error when course_status is not within accepted range' do
+      post :send_evaluation, course_status: -5, id: course.id
+      expect(assigns(:errors)).not_to be_empty
+    end
+
+    it 'creates a new evaluation when params are correct and no evaluation is present yet' do
+      expect{post :send_evaluation, rating: 1, course_status: 1, id: course.id}.to change{Evaluation.count}.by(1)
+    end
+
+    it 'does not create a new evaluation when it is already present' do
+      evaluation.save
+      expect{post :send_evaluation, rating: 2, course_status: 2, id: course.id}.to_not change(Evaluation, :count)
+    end
+
+    it 'updates the evaluation when params are correct and evaluation is already present' do
+      evaluation.save
+      post :send_evaluation, rating: 2, course_status: 2, rate_anonymously: true, rating_textarea: 'blub', id: course.id
+      evaluation.reload
+      expect(evaluation.rating).to eq(2)
+      expect(evaluation.course_status).to eq(2)
+      expect(evaluation.rated_anonymously).to eq(true)
+      expect(evaluation.description).to eq('blub')
+    end
+  end
+
 end

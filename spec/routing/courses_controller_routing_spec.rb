@@ -18,5 +18,9 @@ RSpec.describe CoursesController, type: :routing do
     it 'routes to #unenroll_course' do
       expect(get: '/courses/1/unenroll_course').to route_to('courses#unenroll_course', id: '1')
     end
+
+    it 'routes to #send_evaluation' do
+      expect(post: '/courses/1/send_evaluation').to route_to('courses#send_evaluation', id: '1')
+    end
   end
 end

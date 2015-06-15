@@ -151,10 +151,10 @@ class CoursesController < ApplicationController
     @respond_partial = render_to_string partial: 'courses/already_rated_course_form', formats:[:html]
     respond_to do |format|
       begin
-        format.html { redirect_to dashboard_path }
+        format.html { redirect_to @course }
         format.json { render :send_evaluation_result, status: :ok }
       rescue StandardError => e
-        format.html { redirect_to dashboard_path }
+        format.html { redirect_to @course }
         format.json { render json: e.to_json, status: :unprocessable_entity }
       end
     end

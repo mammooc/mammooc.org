@@ -20,21 +20,6 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe EvaluationsController, type: :controller do
-  # This should return the minimal set of attributes required to create a valid
-  # Evaluation. As you add validations to Evaluation, be sure to
-  # adjust the attributes here as well.
-  let(:valid_attributes) do
-    skip('Add a hash of attributes valid for your model')
-  end
-
-  let(:invalid_attributes) do
-    skip('Add a hash of attributes invalid for your model')
-  end
-
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # EvaluationsController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
 
   let(:user) { FactoryGirl.create(:user) }
 
@@ -42,123 +27,26 @@ RSpec.describe EvaluationsController, type: :controller do
     sign_in user
   end
 
-  describe 'GET index' do
-    it 'assigns all evaluations as @evaluations' do
-      evaluation = Evaluation.create! valid_attributes
-      get :index, {}, valid_session
-      expect(assigns(:evaluations)).to eq([evaluation])
+  describe 'POST process_evaluation_rating' do
+    let (:evaluation) { FactoryGirl.create(:full_evaluation, user_id: user.id) }
+    it 'increases rating_count by one when evaluation is marked as not helpful' do
+      evaluation_rating_count = evaluation.evaluation_rating_count
+      evaluation_helpful_rating_count = evaluation.evaluation_helpful_rating_count
+      post :process_evaluation_rating, id: evaluation.id, helpful: 'false'
+      evaluation.reload
+      expect(evaluation.evaluation_rating_count).to eq(evaluation_rating_count+1)
+      expect(evaluation.evaluation_helpful_rating_count).to eq(evaluation_helpful_rating_count)
+    end
+
+    it 'increases rating_count and helpful_rating_count by one when evaluation is marked as helpful' do
+      evaluation_rating_count = evaluation.evaluation_rating_count
+      evaluation_helpful_rating_count = evaluation.evaluation_helpful_rating_count
+      post :process_evaluation_rating, id: evaluation.id, helpful: 'true'
+      evaluation.reload
+      expect(evaluation.evaluation_rating_count).to eq(evaluation_rating_count+1)
+      expect(evaluation.evaluation_helpful_rating_count).to eq(evaluation_helpful_rating_count+1)
     end
   end
 
-  describe 'GET show' do
-    it 'assigns the requested evaluation as @evaluation' do
-      evaluation = Evaluation.create! valid_attributes
-      get :show, {id: evaluation.to_param}, valid_session
-      expect(assigns(:evaluation)).to eq(evaluation)
-    end
-  end
 
-  describe 'GET new' do
-    it 'assigns a new evaluation as @evaluation' do
-      get :new, {}, valid_session
-      expect(assigns(:evaluation)).to be_a_new(Evaluation)
-    end
-  end
-
-  describe 'GET edit' do
-    it 'assigns the requested evaluation as @evaluation' do
-      evaluation = Evaluation.create! valid_attributes
-      get :edit, {id: evaluation.to_param}, valid_session
-      expect(assigns(:evaluation)).to eq(evaluation)
-    end
-  end
-
-  describe 'POST create' do
-    describe 'with valid params' do
-      it 'creates a new Evaluation' do
-        expect do
-          post :create, {evaluation: valid_attributes}, valid_session
-        end.to change(Evaluation, :count).by(1)
-      end
-
-      it 'assigns a newly created evaluation as @evaluation' do
-        post :create, {evaluation: valid_attributes}, valid_session
-        expect(assigns(:evaluation)).to be_a(Evaluation)
-        expect(assigns(:evaluation)).to be_persisted
-      end
-
-      it 'redirects to the created evaluation' do
-        post :create, {evaluation: valid_attributes}, valid_session
-        expect(response).to redirect_to(Evaluation.last)
-      end
-    end
-
-    describe 'with invalid params' do
-      it 'assigns a newly created but unsaved evaluation as @evaluation' do
-        post :create, {evaluation: invalid_attributes}, valid_session
-        expect(assigns(:evaluation)).to be_a_new(Evaluation)
-      end
-
-      it "re-renders the 'new' template" do
-        post :create, {evaluation: invalid_attributes}, valid_session
-        expect(response).to render_template('new')
-      end
-    end
-  end
-
-  describe 'PUT update' do
-    describe 'with valid params' do
-      let(:new_attributes) do
-        skip('Add a hash of attributes valid for your model')
-      end
-
-      it 'updates the requested evaluation' do
-        evaluation = Evaluation.create! valid_attributes
-        put :update, {id: evaluation.to_param, evaluation: new_attributes}, valid_session
-        evaluation.reload
-        skip('Add assertions for updated state')
-      end
-
-      it 'assigns the requested evaluation as @evaluation' do
-        evaluation = Evaluation.create! valid_attributes
-        put :update, {id: evaluation.to_param, evaluation: valid_attributes}, valid_session
-        expect(assigns(:evaluation)).to eq(evaluation)
-      end
-
-      it 'redirects to the evaluation' do
-        evaluation = Evaluation.create! valid_attributes
-        put :update, {id: evaluation.to_param, evaluation: valid_attributes}, valid_session
-        expect(response).to redirect_to(evaluation)
-      end
-    end
-
-    describe 'with invalid params' do
-      it 'assigns the evaluation as @evaluation' do
-        evaluation = Evaluation.create! valid_attributes
-        put :update, {id: evaluation.to_param, evaluation: invalid_attributes}, valid_session
-        expect(assigns(:evaluation)).to eq(evaluation)
-      end
-
-      it "re-renders the 'edit' template" do
-        evaluation = Evaluation.create! valid_attributes
-        put :update, {id: evaluation.to_param, evaluation: invalid_attributes}, valid_session
-        expect(response).to render_template('edit')
-      end
-    end
-  end
-
-  describe 'DELETE destroy' do
-    it 'destroys the requested evaluation' do
-      evaluation = Evaluation.create! valid_attributes
-      expect do
-        delete :destroy, {id: evaluation.to_param}, valid_session
-      end.to change(Evaluation, :count).by(-1)
-    end
-
-    it 'redirects to the evaluations list' do
-      evaluation = Evaluation.create! valid_attributes
-      delete :destroy, {id: evaluation.to_param}, valid_session
-      expect(response).to redirect_to(evaluations_url)
-    end
-  end
 end
