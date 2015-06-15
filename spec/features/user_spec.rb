@@ -237,6 +237,44 @@ RSpec.describe 'User', type: :feature do
             expect(page).to have_selector '#user_user_email_address_3'
           end
         end
+
+        it 'could update existing, create new, change primary and delete', js:true do
+          third_email = FactoryGirl.create(:user_email, is_primary: false, user: user)
+          visit "#{user_settings_path(user.id)}?subsite=account"
+          fill_in "user_user_email_address_#{second_email.id}", with: 'NewEmailAddress@example.com'
+          choose "user_user_email_is_primary_#{second_email.id}"
+          find("#row_user_email_address_#{third_email.id}").find('.remove_email').click
+          click_button 'add_new_email_field'
+          fill_in 'user_user_email_address_4', with: 'max.muster@example.com'
+          click_button 'add_new_email_field'
+          click_button 'remove_button_5'
+          click_button 'submit_change_email'
+          expect(UserEmail.where(user: user).count).to eql 3
+          expect(UserEmail.where(id: third_email.id)).to be_empty
+          expect(UserEmail.where(address: 'max.muster@example.com').length).to eql 1
+          expect(UserEmail.find(second_email.id).address).to eq 'NewEmailAddress@example.com'
+          expect(UserEmail.find(second_email.id).is_primary).to be true
+          expect(UserEmail.find(first_email.id).is_primary).to be false
+        end
+
+        it 'cancel action', js:true do
+          third_email = FactoryGirl.create(:user_email, is_primary: false, user: user)
+          visit "#{user_settings_path(user.id)}?subsite=account"
+          fill_in "user_user_email_address_#{second_email.id}", with: 'NewEmailAddress@example.com'
+          choose "user_user_email_is_primary_#{second_email.id}"
+          find("#row_user_email_address_#{third_email.id}").find('.remove_email').click
+          click_button 'add_new_email_field'
+          fill_in 'user_user_email_address_4', with: 'max.muster@example.com'
+          click_button 'add_new_email_field'
+          click_button 'remove_button_5'
+          click_on 'cancel_change_email'
+          expect(UserEmail.where(user: user).count).to eql 3
+          expect(UserEmail.where(id: third_email.id).length).to eql 1
+          expect(UserEmail.find_by(address: 'max.muster@example.com')).to be_nil
+          expect(UserEmail.find(second_email.id).address).to eq second_email.address
+          expect(UserEmail.find(second_email.id).is_primary).to be false
+          expect(UserEmail.find(first_email.id).is_primary).to be true
+        end
       end
     end
   end
