@@ -101,6 +101,7 @@ class UsersController < ApplicationController
   end
 
   def privacy_settings
+    prepare_privacy_settings
     @partial = render_to_string partial: 'users/privacy_settings', formats: [:html]
 
     respond_to do |format|
@@ -116,6 +117,7 @@ class UsersController < ApplicationController
 
   def settings
     prepare_mooc_provider_settings
+    prepare_privacy_settings
     @subsite = params['subsite']
   end
 
@@ -209,6 +211,11 @@ class UsersController < ApplicationController
        oauth_link: oauth_link}
     end
     @mooc_provider_connections = current_user.mooc_providers.pluck(:mooc_provider_id)
+  end
+
+  def prepare_privacy_settings
+    puts "############################################################################################"
+    @course_enrollments_visibility_groups = Group.find(current_user.setting(:course_enrollments_visibility).value(:groups))
   end
 
   def set_provider_logos

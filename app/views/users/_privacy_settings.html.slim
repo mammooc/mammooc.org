@@ -11,14 +11,15 @@ h4
       = t('activerecord.models.group.other')
       .row
         .col-md-10
-          ul.list-group
-            li.list-group-item
-              | meine Gruppe 1
-            li.list-group-item
-              | meine Gruppe 2
+          ul.list-group#course-enrollments-visibility-groups-list data-setting='course_enrollments_visibility' data-key='groups'
+            - @course_enrollments_visibility_groups.each do |group|
+              li.list-group-item data-id="#{group.id}"
+                = group.name
+                button.btn.btn-xs.btn-default.pull-right
+                  span.glyphicon.glyphicon-remove
         .col-md-2
-          button.btn
-            | +
+          button.btn.btn-sm.btn-default.setting-add-button data-list-id='course-enrollments-visibility-groups-list'
+            span.glyphicon.glyphicon-plus
 
   .col-md-6
     h5
@@ -33,3 +34,5 @@ h4
         .col-md-2
           button.btn
             | +
+
+/ input forms
