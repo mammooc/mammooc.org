@@ -105,6 +105,9 @@ Rails.application.routes.draw do
   get 'users/:id/revoke_mooc_provider_connection' => 'users#revoke_mooc_provider_connection'
   patch 'users/:id/change_email' => 'users#change_email', as: 'change_email'
 
+  # UserEmails
+  get 'user_emails/:id/delete' => 'user_emails#delete'
+
   # OAuth
   get 'oauth/callback' => 'users#oauth_callback'
 

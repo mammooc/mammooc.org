@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class UserEmailsController < ApplicationController
-  before_action :set_email, only: [:show, :edit, :update, :destroy]
+  before_action :set_email, only: [:show, :edit, :update, :destroy, :delete]
 
   # GET /user_emails
   # GET /user_emails.json
@@ -51,6 +51,12 @@ class UserEmailsController < ApplicationController
       end
     end
   end
+
+  def delete 
+    @user_email.destroy
+  end
+
+
 
   # DELETE /user_emails/1
   # DELETE /user_emails/1.json

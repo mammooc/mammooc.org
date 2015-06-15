@@ -7,8 +7,10 @@
           | Adresse
         th
           | primary
+        th 
+          |
     tbody
-      - @emails.each do |email|
+      - @emails.each_with_index do |email, index|
         tr
           = f.fields_for email do |email_fields|
             td
@@ -16,9 +18,15 @@
             - if email.address == @user.primary_email
               td
                 = email_fields.radio_button :is_primary, email.id, checked: true
+              td 
+                |
             - else
               td
                 = email_fields.radio_button :is_primary, email.id, checked: false
+              td 
+                .text-center
+                  button.btn.btn-xs.btn-default id='remove_email' data-email_id="#{email.id}" data-row_id="#{index}"
+                    span.glyphicon.glyphicon-remove
       tr
         td
           .text-center
