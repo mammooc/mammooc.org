@@ -3,8 +3,8 @@ ready = ->
   $('#load-account-settings-button').on 'click', (event) -> loadAccountSettings(event)
   $('#load-mooc-provider-settings-button').on 'click', (event) -> loadMoocProviderSettings(event)
   $('#add_new_email_field').on 'click', (event) -> addNewEmailField(event)
-  $('#remove_added_email_field').on 'click', (event) -> removeAddedEmailField(event)
-  $('#remove_email').on 'click', (event) -> removeEmail(event)
+  $('.remove_added_email_field').on 'click', (event) -> removeAddedEmailField(event)
+  $('.remove_email').on 'click', (event) -> markEmailAsDeleted(event)
   return
 
 $(document).ready(ready)
@@ -17,39 +17,38 @@ addNewEmailField = (event) ->
   cell_address = new_row.insertCell(0)
   cell_primary = new_row.insertCell(1)
   cell_remove = new_row.insertCell(2)
-  html_for_address_field = "class='form-control' autofocus='autofocus' type='email' name='user[user_email][address_#{index}]' id='user_user_email_address_#{index}'"
-  cell_address.innerHTML = "<input #{html_for_address_field}>"
-  html_for_primary_field = "type='radio' name='user[user_email][is_primary]' value='new_email_index_#{index}' id='user_user_email_is_primary_#{index}'"
-  cell_primary.innerHTML = "<input #{html_for_primary_field}>"
-  html_for_remove_field = "<div class='text-center'><button class='btn btn-xs btn-default' data-row_id='#{index}' id='remove_added_email_field'><span class='glyphicon glyphicon-remove'></span></button></div>"
+  html_for_address_field = "<input class='form-control' autofocus='autofocus' type='email' name='user[user_email][address_#{index}]' id='user_user_email_address_#{index}'>"
+  cell_address.innerHTML = html_for_address_field
+  html_for_primary_field = "<input type='radio' name='user[user_email][is_primary]' value='new_email_index_#{index}' id='user_user_email_is_primary_#{index}'>"
+  cell_primary.innerHTML = html_for_primary_field
+  html_for_remove_field = "<div class='text-center'><button class='btn btn-xs btn-default remove_added_email_field' id='field_#{index}'><span class='glyphicon glyphicon-remove'></span></button></div>"
   cell_remove.innerHTML = html_for_remove_field
+  $("#field_#{index}").closest('.remove_added_email_field').on 'click', (event) -> removeAddedEmailField(event)
   $('#user_index').val(index)
 
-remove_added_email_field = (event) ->
+removeAddedEmailField = (event) ->
+  event.preventDefault()
   button = $(event.target)
-  row_id = button.data('row_id')
+  row_id = button.closest("tr")[0].rowIndex
   table = document.getElementById('table_for_user_emails')
+  button.closest(".remove_added_email_field").unbind('click')
   table.deleteRow(row_id)
 
-removeEmail = (event) ->
-  button = $(event.target).parent()
+markEmailAsDeleted = (event) ->
+  event.preventDefault()
+  button = $(event.target)
   email_id = button.data('email_id')
-  console.log(email_id)
-  row_id = button.data('row_id')
-  console.log(row_id)
-  #table = document.getElementById('table_for_user_emails')
-  url = "user_emails/#{email_id}/delete"
-  console.log url
+  url = "/user_emails/#{email_id}/mark_as_deleted"
 
-  #$.ajax
-  #  url: url
-  #  method: 'GET'
-  #  error: (jqXHR, textStatus, errorThrown) ->
-  #    console.log('error_delete_email')
-  #    #alert(I18n.t('global.ajax_failed'))
-  #  success: (data, textStatus, jqXHR) ->
-  #    console.log('deleted')
-  #    table.deleteRow(row_id)
+  $.ajax
+    url: url
+    method: 'GET'
+    error: (jqXHR, textStatus, errorThrown) ->
+      console.log('error_mark_as_deleted')
+      alert(I18n.t('global.ajax_failed'))
+    success: (data, textStatus, jqXHR) ->
+      console.log('deleted')
+      button.closest("tr").hide()
 
 
 loadAccountSettings = (event) ->

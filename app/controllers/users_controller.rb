@@ -107,6 +107,7 @@ class UsersController < ApplicationController
   end
 
   def settings
+    #session[:deleted_user_emails] = []
     prepare_mooc_provider_settings
     @subsite = params['subsite']
     @user = current_user
@@ -193,6 +194,7 @@ class UsersController < ApplicationController
   end
 
   def change_email
+    message = 'Erfolgreich aktualisiert'
     @user = current_user
 
     # update existing emails
@@ -225,7 +227,23 @@ class UsersController < ApplicationController
       UserEmail.find(params[:user][:user_email][:is_primary]).change_to_primary_email
     end
 
-    redirect_to :back, notice: 'Erfolgreich aktualisiert'
+    # delete marked emails
+    session[:deleted_user_emails].each do |user_email_id|
+      user_email = UserEmail.find(user_email_id)
+      if user_email.is_primary == false
+      user_email.destroy
+      else
+        message = 'Eine primäre Emailadresse kann nicht gelöscht werden.'
+      end
+    end
+    session[:deleted_user_emails] = []
+
+    redirect_to :back, notice: message
+  end
+
+  def cancel_change_email
+    session[:deleted_user_emails] = []
+    redirect_to "#{user_settings_path(current_user)}?subsite=account"
   end
 
   private

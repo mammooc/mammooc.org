@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class UserEmailsController < ApplicationController
-  before_action :set_email, only: [:show, :edit, :update, :destroy, :delete]
+  before_action :set_email, only: [:show, :edit, :update, :destroy, :mark_as_deleted]
 
   # GET /user_emails
   # GET /user_emails.json
@@ -52,8 +52,10 @@ class UserEmailsController < ApplicationController
     end
   end
 
-  def delete 
-    @user_email.destroy
+  def mark_as_deleted
+    session[:deleted_user_emails] ||= []
+    session[:deleted_user_emails].push @user_email.id
+    redirect_to :back
   end
 
 
@@ -72,7 +74,7 @@ class UserEmailsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_email
-    @user_email = Email.find(params[:id])
+    @user_email = UserEmail.find(params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
