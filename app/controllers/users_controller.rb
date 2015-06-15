@@ -193,7 +193,6 @@ class UsersController < ApplicationController
   end
 
   def change_email
-    message = 'Erfolgreich aktualisiert'
     @user = current_user
 
     # update existing emails
@@ -232,17 +231,13 @@ class UsersController < ApplicationController
     if session[:deleted_user_emails].present?
       session[:deleted_user_emails].each do |user_email_id|
         user_email = UserEmail.find(user_email_id)
-        if user_email.is_primary == false
         user_email.destroy
-        else
-          message = 'Eine primäre Emailadresse kann nicht gelöscht werden.'
-        end
       end
       session[:deleted_user_emails] = []
     end
 
 
-    redirect_to :back, notice: message
+    redirect_to :back, notice: t('users.settings.change_emails.success')
   end
 
   def cancel_change_email

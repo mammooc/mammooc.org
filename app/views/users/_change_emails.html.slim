@@ -4,11 +4,11 @@
     thead
       tr
         th
-          | Adresse
+          = t('users.settings.change_emails.address')
         th
-          | primary
-        th 
-          |
+          = t('users.settings.change_emails.primary')
+        th
+          = t('users.settings.change_emails.delete')
     tbody
       - @emails.each_with_index do |email, index|
         tr

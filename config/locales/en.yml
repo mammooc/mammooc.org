@@ -172,6 +172,12 @@ en:
         only_one_provider: "German National Identity Card: You must choose a password or add another provider in order to remove your existing link."
         identity_deleted: The link with your German National Identity Card was successfully removed.
         identity_not_deleted: The link with your German National Identity Card could not be removed.
+      change_emails:
+        address: Email-address
+        primary: Choose primary
+        delete: Delete
+        alert_can_not_delete_primary: This address can not be deleted. Choose another primary address first.
+        success: Email-addresses successfully updated.
     synchronization:
       oauth_error: Sorry! We were unable to establish a connection to your account. Please check your settings and try again.
       revoke_provider_connection: Revoke connection

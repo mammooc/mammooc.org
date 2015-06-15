@@ -32,7 +32,7 @@ removeAddedEmailField = (event) ->
   row_id = button.closest("tr")[0].rowIndex
   table = document.getElementById('table_for_user_emails')
   if $("#user_user_email_is_primary_#{row_id}")[0].checked
-    alert('bitte setze erst eine andere Adresse auf primary')
+    alert(I18n.t('users.settings.change_emails.alert_can_not_delete_primary'))
   else
     button.closest(".remove_added_email_field").unbind('click')
     table.deleteRow(row_id)
@@ -41,17 +41,20 @@ markEmailAsDeleted = (event) ->
   event.preventDefault()
   button = $(event.target)
   email_id = button.data('email_id')
-  url = "/user_emails/#{email_id}/mark_as_deleted"
+  if $("#user_user_email_is_primary_#{email_id}")[0].checked
+    alert(I18n.t('users.settings.change_emails.alert_can_not_delete_primary'))
+  else
+    url = "/user_emails/#{email_id}/mark_as_deleted"
 
-  $.ajax
-    url: url
-    method: 'GET'
-    error: (jqXHR, textStatus, errorThrown) ->
-      console.log('error_mark_as_deleted')
-      alert(I18n.t('global.ajax_failed'))
-    success: (data, textStatus, jqXHR) ->
-      console.log('deleted')
-      button.closest("tr").hide()
+    $.ajax
+      url: url
+      method: 'GET'
+      error: (jqXHR, textStatus, errorThrown) ->
+        console.log('error_mark_as_deleted')
+        alert(I18n.t('global.ajax_failed'))
+      success: (data, textStatus, jqXHR) ->
+        console.log('deleted')
+        button.closest("tr").hide()
 
 
 loadAccountSettings = (event) ->

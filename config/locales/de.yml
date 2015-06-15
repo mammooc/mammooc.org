@@ -172,6 +172,12 @@ de:
         only_one_provider: "Neuer Personalausweis: Du musst entweder ein Passwort setzen oder dich über einen anderen Anbieter anmelden, damit du deine bestehende Verknüpfung entfernen kannst."
         identity_deleted: Die Verknüpfung mit deinem neuen Personalausweis wurde erfolgreich aufgehoben.
         identity_not_deleted: Die Verknüpfung mit deinem neuen Personalausweis konnte nicht entfernt werden.
+      change_emails:
+        address: Emailadresse
+        primary: Wähle primäre
+        delete: Löschen
+        alert_can_not_delete_primary: Diese Adresse kann nicht gelöscht werden. Wähle erst eine andere primäre Adresse aus.
+        success: Emailadressen erfolgreich aktualisiert.
     synchronization:
       oauth_error: Fehler! Wir konnten keine Verbindung zu deinem Account herstellen. Bitte überprüfe deine Einstellungen und versuche es erneut.
       revoke_provider_connection: Verbindung aufheben

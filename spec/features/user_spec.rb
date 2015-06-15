@@ -171,11 +171,14 @@ RSpec.describe 'User', type: :feature do
           it 'can not delete existing email if primary is selected', js:true do
             choose "user_user_email_is_primary_#{second_email.id}"
             find('.remove_email').click
-            wait_for_ajax
-            click_button 'submit_change_email'
+            unless ENV['PHANTOM_JS'] == 'true'
+              expect(page.driver.browser.switch_to.alert.text).to eq I18n.t('users.settings.change_emails.alert_can_not_delete_primary')
+              page.driver.browser.switch_to.alert.accept
+            end
             expect(UserEmail.where(user: user).count).to eq 2
-            expect(page).to have_content('Eine primäre Emailadresse kann nicht gelöscht werden.')
+            expect(page).to have_selector("#user_user_email_address_#{second_email.id}")
           end
+
 
           context 'adds new row and delete afterwards' do
             it 'is added and deleted from table', js:true do
@@ -228,7 +231,7 @@ RSpec.describe 'User', type: :feature do
             choose 'user_user_email_is_primary_3'
             click_button 'remove_button_3'
             unless ENV['PHANTOM_JS'] == 'true'
-              expect(page.driver.browser.switch_to.alert.text).to eq 'bitte setze erst eine andere Adresse auf primary'
+              expect(page.driver.browser.switch_to.alert.text).to eq I18n.t('users.settings.change_emails.alert_can_not_delete_primary')
               page.driver.browser.switch_to.alert.accept
             end
             expect(page).to have_selector '#user_user_email_address_3'
