@@ -107,7 +107,6 @@ class UsersController < ApplicationController
   end
 
   def settings
-    #session[:deleted_user_emails] = []
     prepare_mooc_provider_settings
     @subsite = params['subsite']
     @user = current_user

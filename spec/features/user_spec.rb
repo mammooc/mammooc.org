@@ -139,6 +139,7 @@ RSpec.describe 'User', type: :feature do
           it 'adds new email and makes it primary', js:true do
             click_button 'add_new_email_field'
             fill_in 'user_user_email_address_3', with: 'NewEmail@example.com'
+            choose 'user_user_email_is_primary_3'
             click_button 'submit_change_email'
             expect(UserEmail.where(user: user).count).to eq 3
             expect(UserEmail.find_by(address: 'NewEmail@example.com').is_primary).to be true
@@ -154,19 +155,23 @@ RSpec.describe 'User', type: :feature do
 
           it 'deletes existing address when clicking on button', js:true do
             find('.remove_email').click
+            wait_for_ajax
             click_button 'submit_change_email'
             expect(UserEmail.where(user: user).count).to eq 1
           end
 
           it 'deletes existing address when clicking on glyphicon', js:true do
             find('.glyphicon-remove').click
+            wait_for_ajax
             click_button 'submit_change_email'
             expect(UserEmail.where(user: user).count).to eq 1
+            expect(UserEmail.where(address: second_email.address)).to be_empty
           end
 
           it 'can not delete existing email if primary is selected', js:true do
             choose "user_user_email_is_primary_#{second_email.id}"
             find('.remove_email').click
+            wait_for_ajax
             click_button 'submit_change_email'
             expect(UserEmail.where(user: user).count).to eq 2
             expect(page).to have_content('Eine primäre Emailadresse kann nicht gelöscht werden.')
@@ -178,6 +183,7 @@ RSpec.describe 'User', type: :feature do
               click_button 'add_new_email_field'
               expect(page).to have_selector '#user_user_email_address_3'
               click_button 'remove_button_3'
+              wait_for_ajax
               expect(page).not_to have_selector '#user_user_email_address_3'
               expect(page).to have_css('table#table_for_user_emails tr', count: 4)
             end
@@ -186,6 +192,7 @@ RSpec.describe 'User', type: :feature do
               all_emails = UserEmail.all
               click_button 'add_new_email_field'
               click_button 'remove_button_3'
+              wait_for_ajax
               click_button 'submit_change_email'
               expect(UserEmail.all).to eq all_emails
             end
@@ -195,6 +202,7 @@ RSpec.describe 'User', type: :feature do
             it 'new rows are added to table and deleted row is deleted from table', js:true do
               4.times { click_button 'add_new_email_field' }
               click_button 'remove_button_5'
+              wait_for_ajax
               expect(page).to have_selector '#user_user_email_address_3'
               expect(page).to have_selector '#user_user_email_address_4'
               expect(page).to have_selector '#user_user_email_address_6'
@@ -205,6 +213,7 @@ RSpec.describe 'User', type: :feature do
               count = UserEmail.where(user: user).count
               4.times { click_button 'add_new_email_field' }
               click_button 'remove_button_5'
+              wait_for_ajax
               fill_in 'user_user_email_address_3', with: 'new.email3@example.com'
               fill_in 'user_user_email_address_4', with: 'new.email4@example.com'
               fill_in 'user_user_email_address_6', with: 'new.email6@example.com'
@@ -224,14 +233,9 @@ RSpec.describe 'User', type: :feature do
             end
             expect(page).to have_selector '#user_user_email_address_3'
           end
-
         end
-
-
       end
-
     end
-
   end
 
   context 'second user' do
