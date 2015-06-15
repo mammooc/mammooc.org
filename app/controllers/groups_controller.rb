@@ -42,12 +42,18 @@ class GroupsController < ApplicationController
     @rating_picture = AmazonS3.instance.get_url('five_stars.png')
 
     @activities = PublicActivity::Activity.order("created_at desc").where(owner_id: @group.users)
+    @activity_courses = Hash.new
     if @activities
       @activities.each do |activity|
         if activity.recipient_id
           if activity.recipient_id != @group.id || activity.recipient_type != 'Group'
             @activities -= [activity]
           end
+        end
+        if activity.trackable_type == 'Recommendation'
+          @activity_courses[activity.id] = Recommendation.find(activity.trackable_id).course
+        elsif activity.trackable_type == 'Course'
+          @activity_courses[activity.id] = Course.find(activity.trackable_id)
         end
       end
     end

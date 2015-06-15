@@ -41,7 +41,8 @@
         = t('recommendation.no_recommendation')
   - else
     .recommendations-wrapper
-      - @recommendations.each_with_index do |recommendation, index|
-        = render 'recommendations/recommendation', recommendation: recommendation, id: "recommendation_number_#{index}", group_context: false
+      - if @activities
+        - @activities.each do |activity|
+          = render_activity activity, layout: :activity, locals: {group_context: false}
 
 = render 'sidebar'

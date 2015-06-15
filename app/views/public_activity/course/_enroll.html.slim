@@ -1,8 +1,6 @@
-- if activity.trackable
-  | enrolled in course
-  br
-  = link_to activity.trackable
-    span.picture
-      = image_tag activity.trackable.imageId, width: '20', height: '20'
-    span.info
-      = activity.trackable.name
+-if activity.trackable
+  .message
+    = link_to activity.owner
+      = "#{activity.owner.first_name} #{activity.owner.last_name}"
+    =<> "enrolled in a course"
+  = I18n.l activity.created_at, format: t('global.date_format_month')

@@ -10,6 +10,7 @@ class BookmarksController < ApplicationController
   def create
     @bookmark = Bookmark.new(bookmark_params)
     @bookmark.save
+    @bookmark.create_activity key: 'bookmark.create', owner: current_user
     redirect_to bookmarks_path
   end
 

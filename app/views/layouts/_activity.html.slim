@@ -1,9 +1,82 @@
-.activity
-  span.profile-picture
-    = link_to activity.owner
-      img src = activity.owner.profile_image.expiring_url(3600, :thumb) width='40' height='40' align='left'
-  span.content
-    b
-      => "#{activity.owner.first_name} #{activity.owner.last_name}"
+.recommendations id='#{activity.id}'
+  .profile-picture
+    = link_to author
+      img src = @profile_pictures["#{author.id} #{author.profile_image_file_name}"]
+  .recommendations-box
     = yield
-  = activity.created_at.strftime(t('global.date_format_month'))
+    - if course
+      .do-not-show-link
+        = link_to course_path(course)
+          .course
+            .picture
+              - if course.imageId
+                = image_tag(course.imageId)
+              - else
+                img src="/data/icons/courses-list-std.png"
+            .info
+              .hd4.mt5
+                = course.name
+                .pull-right
+                  img src = @rating_picture style='height:25px; width:auto'
+              = course.mooc_provider.name
+              br
+              - if course.start_date
+                - if course.end_date
+                  - if course.start_date < Date.today and Date.today < course.end_date
+                    = t('courses.already_running')
+                  - elsif course.start_date > Date.today
+                    => t('courses.starting_soon')
+                    = I18n.l course.start_date, format: t('global.date_format_month')
+                  - elsif course.start_date == Date.today
+                    = t('courses.starts_today')
+                  - else
+                    => t('courses.course_dates')
+                    = I18n.l course.start_date, format: t('global.date_format_month') + ' - '
+                    = I18n.l course.end_date, format: t('global.date_format_month')
+                - elsif course.start_date > Date.today
+                  => t('courses.starting_soon')
+                  = I18n.l course.start_date, format: t('global.date_format_month')
+                - elsif course.start_date == Date.today
+                  = t('courses.starts_today')
+                - else
+                  => t('courses.starting_time')
+                  = I18n.l course.start_date, format: t('global.date_format_month')
+              - else
+                = t('courses.no_dates_available')
+
+              .description.mt10
+                - if course.abstract
+                  = raw course.abstract
+                - elsif course.description
+                  = raw course.description
+
+      = link_to course_path(course)
+        = t('recommendation.button.course_details')
+      | &nbsp;&#183;&nbsp;
+      - unless urrent_user.courses.include? course
+        - if Bookmark.where(user_id: urrent_user.id, course_id: course.id).blank?
+          a class="entry" href='' id='remember_course_link' data-course_id='#{course.id}' data-user_id='#{urrent_user.id}'
+            = t('courses.remember_course')
+        - else
+          a class="entry" href='' id='delete_remember_course_link' data-course_id='#{course.id}' data-user_id='#{urrent_user.id}'
+            = t('courses.delete_remember_course')
+        | &nbsp;&#183;&nbsp;
+        a href='' id='enroll-course-link' data-course_id='#{course.id}'
+          = t('courses.enroll_course')
+      - if (group_context == true && (can? :delete, activity))
+        | &nbsp;&#183;&nbsp;
+        span class='remove-recommendation-group' data-recommendation_id='#{activity.id}'
+          a href=''
+            = t('recommendation.button.ignore')
+      - elsif group_context == false
+        | &nbsp;&#183;&nbsp;
+        span class='remove-recommendation-current-user mr5' data-recommendation_id='#{activity.id}'
+          a href=''
+            = t('recommendation.button.ignore')
+    - if activity.trackable_type == 'Recommendation'
+      - if activity.trackable.is_obligatory
+        .label-obligatory
+          = t('recommendation.obligatory')
+      - else
+        .label-recommended
+          = t('recommendation.recommended')

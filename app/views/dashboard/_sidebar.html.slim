@@ -32,12 +32,3 @@
             span.glyphicon.glyphicon-refresh data-user_id='#{current_user.id}'
         .user-courses-container
           = render 'user_courses'
-
-    .element
-      .content
-        .hd5.pb5
-          | Activities
-        .user-courses-container
-          - if @activities
-            - @activities.each do |activity|
-              = render_activity activity, layout: :activity
