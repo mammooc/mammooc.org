@@ -21,9 +21,9 @@ addNewEmailField = (event) ->
   cell_address.innerHTML = html_for_address_field
   html_for_primary_field = "<input type='radio' name='user[user_email][is_primary]' value='new_email_index_#{index}' id='user_user_email_is_primary_#{index}'>"
   cell_primary.innerHTML = html_for_primary_field
-  html_for_remove_field = "<div class='text-center'><button class='btn btn-xs btn-default remove_added_email_field' id='field_#{index}'><span class='glyphicon glyphicon-remove'></span></button></div>"
+  html_for_remove_field = "<div class='text-center'><button class='btn btn-xs btn-default remove_added_email_field' id='remove_button_#{index}'><span class='glyphicon glyphicon-remove'></span></button></div>"
   cell_remove.innerHTML = html_for_remove_field
-  $("#field_#{index}").closest('.remove_added_email_field').on 'click', (event) -> removeAddedEmailField(event)
+  $("#remove_button_#{index}").closest('.remove_added_email_field').on 'click', (event) -> removeAddedEmailField(event)
   $('#user_index').val(index)
 
 removeAddedEmailField = (event) ->
@@ -31,8 +31,11 @@ removeAddedEmailField = (event) ->
   button = $(event.target)
   row_id = button.closest("tr")[0].rowIndex
   table = document.getElementById('table_for_user_emails')
-  button.closest(".remove_added_email_field").unbind('click')
-  table.deleteRow(row_id)
+  if $("#user_user_email_is_primary_#{row_id}")[0].checked
+    alert('bitte setze erst eine andere Adresse auf primary')
+  else
+    button.closest(".remove_added_email_field").unbind('click')
+    table.deleteRow(row_id)
 
 markEmailAsDeleted = (event) ->
   event.preventDefault()

@@ -211,10 +211,12 @@ class UsersController < ApplicationController
 
     number_of_new_emails.times do |index|
       index_of_new_email = total_number_of_emails - index
-      new_address = params[:user][:user_email][:"address_#{index_of_new_email}"]
-      new_email = UserEmail.new({address: new_address, is_primary: false})
-      new_email.user = @user
-      @user.emails.push new_email
+      if  params[:user][:user_email][:"address_#{index_of_new_email}"].present?
+        new_address = params[:user][:user_email][:"address_#{index_of_new_email}"]
+        new_email = UserEmail.new({address: new_address, is_primary: false})
+        new_email.user = @user
+        @user.emails.push new_email
+      end
     end
 
 
@@ -228,15 +230,18 @@ class UsersController < ApplicationController
     end
 
     # delete marked emails
-    session[:deleted_user_emails].each do |user_email_id|
-      user_email = UserEmail.find(user_email_id)
-      if user_email.is_primary == false
-      user_email.destroy
-      else
-        message = 'Eine primäre Emailadresse kann nicht gelöscht werden.'
+    if session[:deleted_user_emails].present?
+      session[:deleted_user_emails].each do |user_email_id|
+        user_email = UserEmail.find(user_email_id)
+        if user_email.is_primary == false
+        user_email.destroy
+        else
+          message = 'Eine primäre Emailadresse kann nicht gelöscht werden.'
+        end
       end
+      session[:deleted_user_emails] = []
     end
-    session[:deleted_user_emails] = []
+
 
     redirect_to :back, notice: message
   end

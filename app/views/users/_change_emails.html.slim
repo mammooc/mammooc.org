@@ -36,6 +36,6 @@
           = f.text_field :index, type: 'hidden', value: @user.emails.length
 
   .form-group
-    .col-sm-offset-2.col-sm-10
-      = f.submit t('users.settings.update_account'), class: 'btn btn-primary mr5'
+    .col-sm-10
+      = f.submit t('users.settings.update_account'), class: 'btn btn-primary mr5', id: 'submit_change_email'
       = link_to t('global.cancel'), "/users/#{current_user.id}/cancel_change_email" , class: 'btn btn-cancel mr5'
