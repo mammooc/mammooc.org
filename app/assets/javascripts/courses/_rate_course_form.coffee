@@ -25,7 +25,8 @@ sendCourseReview = (event) ->
       console.log('error_synchronize')
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
-      if !!(data.error_text)
+      console.log(data.error_text)
+      if (data.error_text).length < 1
         $('div.rating-menu').html(data.partial)
       else $('.invitation-error').text(data.error_text)
   event.preventDefault()

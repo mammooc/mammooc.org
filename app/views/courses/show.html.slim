@@ -12,7 +12,7 @@
         .title
           = link_to @course.url, target: "_blank"
             = @course.name
-          - if @course.calculated_rating.present?
+          - if @course.calculated_rating.present? && @course.calculated_rating > 0
             .course-rating
               span.course-rating-value
                 input.rating type='hidden' value="#{@course.calculated_rating}" data-start="0" data-stop="5" id="course-rating-output" disabled="disabled"

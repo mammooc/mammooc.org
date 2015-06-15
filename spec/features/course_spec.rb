@@ -214,4 +214,72 @@ RSpec.describe 'Course', type: :feature do
       expect(page).not_to have_content(not_matching_course.name)
     end
   end
+
+  describe 'evaluate courses' do
+    let(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI') }
+    let!(:course) { FactoryGirl.create(:full_course, mooc_provider: mooc_provider) }
+
+    it 'shows a special form when submitted evaluation for course', js: true do
+      visit "/courses/#{course.id}"
+      click_link 'rate-course-link'
+      find("div[class='user-rate-course-value']").find("span").all("div[class='rating-symbol']").last.click
+      fill_in 'rating-textarea', with: 'Great Course!'
+      find("label[id='option1']").click
+      click_button('submit-rating-button')
+      wait_for_ajax
+      expect(page).to have_content(I18n.t('evaluations.already_evaluated', first_name: user.first_name))
+    end
+
+    it 'show errors when submitting form with errors', js: true do
+      visit "/courses/#{course.id}"
+      click_link 'rate-course-link'
+      fill_in 'rating-textarea', with: 'Great Course!'
+      click_button('submit-rating-button')
+      wait_for_ajax
+      expect(page).to have_content(I18n.t('evaluations.state_overall_rating'))
+      expect(page).to have_content(I18n.t('evaluations.state_course_status'))
+      find("div[class='user-rate-course-value']").find("span").all("div[class='rating-symbol']").last.click
+      find("label[id='option1']").click
+      click_button('submit-rating-button')
+      expect(page).to_not have_content(I18n.t('evaluations.state_overall_rating'))
+      expect(page).to_not have_content(I18n.t('evaluations.state_course_status'))
+    end
+
+    it 'shows my already submitted evaluation', js: true do
+      eval = FactoryGirl.create(:full_evaluation, user_id: user.id, course_id: course.id, course_status: 2, rating: 4, description: 'blub')
+      visit "/courses/#{course.id}"
+      expect(page).to have_selector("div[class='course-rating']")
+      expect(page).to have_content("(#{course.evaluations.count})")
+      expect(page).to have_content("#{user.first_name} #{user.last_name}#{I18n.t('evaluations.currently_enrolled_course')}")
+      expect(page).to have_content(eval.description)
+    end
+
+    it 'update evaluation', js: true do
+      eval = FactoryGirl.create(:full_evaluation, user_id: user.id, course_id: course.id, course_status: 2, rating: 4, description: 'blub')
+      visit "/courses/#{course.id}"
+      click_link 'rate-course-link'
+      # Expect eval attributes to already be set
+      click_button 'edit-rating-button'
+      find("div[class='user-rate-course-value']").find("span").all("div[class='rating-symbol']").first.click
+      find("label[id='option3']").click
+      click_button('submit-rating-button')
+    end
+
+    it 'mark an evaluation as helpful', js: true do
+      visit "/courses/#{course.id}"
+
+    end
+
+    it 'mark an evaluation as not helpful', js: true do
+      visit "/courses/#{course.id}"
+      # Expect Thank you text and Change in Database
+      # Reload -> expect
+    end
+
+    it 'shows different rating form when not logged in', skip_before: true, js: true do
+      visit "/courses/#{course.id}"
+      # Expect another form
+    end
+  end
+
 end
