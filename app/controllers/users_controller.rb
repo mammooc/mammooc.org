@@ -20,10 +20,6 @@ class UsersController < ApplicationController
     @user_picture = current_user.profile_image.expiring_url(3600, :square)
   end
 
-  # GET /users/1/edit
-  def edit
-  end
-
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
