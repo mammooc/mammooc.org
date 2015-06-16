@@ -5,8 +5,6 @@ class Completion < ActiveRecord::Base
   has_many :certificates, dependent: :destroy
 
   def sorted_certificates
-    self.certificates.sort_by do |certificate|
-      certificate.classification
-    end
+    certificates.sort_by(&:classification)
   end
 end

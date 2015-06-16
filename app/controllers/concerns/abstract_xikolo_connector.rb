@@ -120,33 +120,28 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
 
     response_data['enrollments'].each do |course_element|
       course_id = Course.get_course_id_by_mooc_provider_id_and_provider_course_id mooc_provider, course_element['course_id']
-      if course_id.present?
-        course = Course.find(course_id)
-        enrolled_course = user.courses.find_by(id: course_id)
-        enrolled_course.nil? ? user.courses << course : enrollments_update_map[enrolled_course.id] = true
+      next unless course_id.present?
+      course = Course.find(course_id)
+      enrolled_course = user.courses.find_by(id: course_id)
+      enrolled_course.nil? ? user.courses << course : enrollments_update_map[enrolled_course.id] = true
 
-        if course_element['certificates'].has_value?(true) || course_element['completed'] == true
-          completion = user.completions.find_by(course_id: course_id)
-          if completion.nil?
-            completion = Completion.new
-          else
-            completions_update_map[completion.id] = true
-          end
-          completion.quantile = course_element['quantile']
-          completion.points_achieved = course_element['points']['achieved']
-          completion.user = user
-          completion.course = course
-          completion.provider_percentage = course_element['points']['percentage']
-          completion.save!
-=begin
-          course_element['certificates'].each do |key, value|
-            if value
-              Certificate.create!(type: key, completion: completion)
-            end
-          end
-=end
-        end
+      next unless course_element['certificates'].value?(true) || course_element['completed'] == true
+      completion = user.completions.find_by(course_id: course_id)
+      if completion.nil?
+        completion = Completion.new
+      else
+        completions_update_map[completion.id] = true
       end
+      completion.quantile = course_element['quantile']
+      completion.points_achieved = course_element['points']['achieved']
+      completion.user = user
+      completion.course = course
+      completion.provider_percentage = course_element['points']['percentage']
+      completion.save!
+      #           course_element['certificates'].each do |key, value|
+      #             next unless value
+      #             Certificate.create!(type: key, completion: completion)
+      #           end
     end
     evaluate_enrollments_update_map enrollments_update_map, user
     evaluate_completions_update_map completions_update_map, user

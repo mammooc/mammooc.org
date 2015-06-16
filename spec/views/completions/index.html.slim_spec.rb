@@ -2,35 +2,34 @@
 require 'rails_helper'
 
 RSpec.describe 'completions/index', type: :view do
-
-  let(:user) {FactoryGirl.create(:user)}
-  let(:course) {FactoryGirl.create(:course)}
+  let(:user) { FactoryGirl.create(:user) }
+  let(:course) { FactoryGirl.create(:course) }
   let(:first_completion) do
     Completion.create!(
-        quantile: 0.1,
-        points_achieved: 84,
-        provider_percentage: 97,
-        user: user,
-        course: course)
+      quantile: 0.1,
+      points_achieved: 84,
+      provider_percentage: 97,
+      user: user,
+      course: course)
   end
   let(:completions) do
     [first_completion,
-      Completion.create!(
-        quantile: 0.5,
-        points_achieved: 35.4,
-        provider_percentage: 23.7,
-        user: user,
-        course: course
-      )]
+     Completion.create!(
+       quantile: 0.5,
+       points_achieved: 35.4,
+       provider_percentage: 23.7,
+       user: user,
+       course: course
+     )]
   end
   let(:certificates) do
     [Certificate.create!(
-       title: 'Procotored Certificate',
-       download_url: 'https://example.com/get_certificate',
-       verification_url: nil,
-       type: 'certificate',
-       completion: first_completion
-     ),
+      title: 'Procotored Certificate',
+      download_url: 'https://example.com/get_certificate',
+      verification_url: nil,
+      type: 'certificate',
+      completion: first_completion
+    ),
      Certificate.create!(
        title: nil,
        download_url: 'https://example.com/get_certificate',

@@ -35,9 +35,7 @@ Rails.application.routes.draw do
 
   resources :course_requests
 
-  resources :certificates
-
-  resources :completions
+  resources :completions, only: [:index]
 
   resources :user_groups
 
