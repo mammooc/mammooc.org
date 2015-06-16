@@ -5,15 +5,15 @@
         = image_tag(course.imageId)
       - else
         img src="/data/icons/courses-list-std.png"
-      - if Bookmark.where(user_id: current_user.id, course_id: course.id).blank?
-        .add-to-wishlist
-          a href="" class='bookmark-icon-o' data-course_id='#{course.id}' data-user_id='#{current_user.id}'
-            /data-toggle="tooltip" data-placement="right" title="#{(t('courses.course-list.bookmark'))}"
-            i class="fa fa-bookmark-o action-icon"
-      - else
-        .remove-from-wishlist
+      - if @my_bookmarked_courses.include? course
+        .remove-from-wishlist data-toggle="tooltip" data-placement="left" title="#{(t('courses.course-list.remove_bookmark'))}"
           a href="" class='bookmark-icon' data-course_id='#{course.id}' data-user_id='#{current_user.id}'
-            i class="fa fa-bookmark"
+            i class="fa fa-bookmark bookmark-icon-green"
+      - elsif current_user
+        .add-to-wishlist data-toggle="tooltip" data-placement="left" title="#{(t('courses.course-list.bookmark'))}"
+          a href="" class='bookmark-icon-o' data-course_id='#{course.id}' data-user_id='#{current_user.id}'
+            i class="fa fa-bookmark bookmark-icon-gray"
+
       .additional-infos
         .block.mb5
           - if course.language

@@ -33,7 +33,8 @@
               link = "#{_url}&language=#{$(language_entry).data('language')}"
             $(language_entry).attr('href', link)
           history.pushState({},'filter_state', _url)
-          callback()
+          if (callback)
+            callback()
 
 @copySelectOption = (fromId, toId) ->
   _options = $('#' + fromId + " > option").clone()
@@ -88,7 +89,7 @@
     success: (data, textStatus, jqXHR) ->
       target.unbind('click')
             .removeClass('bookmark-icon-o').addClass('bookmark-icon')
-            .children('i').removeClass('fa-bookmark-o').addClass('fa-bookmark')
+            .children('i').removeClass('bookmark-icon-gray').addClass('bookmark-icon-green')
       target.on 'click', (event) -> removeFromWishlist(event)
   event.preventDefault()
 
@@ -110,7 +111,7 @@
     success: (data, textStatus, jqXHR) ->
       target.unbind('click')
             .removeClass('bookmark-icon').addClass('bookmark-icon-o')
-            .children('i').removeClass('fa-bookmark').addClass('fa-bookmark-o')
+            .children('i').removeClass('bookmark-icon-green').addClass('bookmark-icon-gray')
       target.on 'click', (event) -> addToWishlist(event)
   event.preventDefault()
 

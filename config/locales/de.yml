@@ -316,7 +316,8 @@ de:
       starts_today: "Beginnt heute"
       already_running: "Kurs läuft"
       load_more: Mehr anzeigen
-      bookmark: Kurs vormerken
+      bookmark: Vormerken
+      remove_bookmark: Vormerkung entfernen
     sidebar:
       recommended: Dieser Kurs wurde dir empfohlen
       pledged: Dieser Kurs wurde dir vorgeschrieben
