@@ -55,7 +55,7 @@ Rails.application.routes.draw do
 
   resources :user_emails, except: [:new, :edit, :show, :index]
 
-  resources :users, except: [:new, :create, :index]
+  resources :users, except: [:new, :create, :index, :edit]
 
   get 'dashboard/dashboard'
 

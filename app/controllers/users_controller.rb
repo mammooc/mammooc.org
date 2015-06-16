@@ -232,7 +232,6 @@ class UsersController < ApplicationController
       session[:deleted_user_emails] = []
     end
 
-
     redirect_to :back, notice: t('users.settings.change_emails.success')
   end
 
