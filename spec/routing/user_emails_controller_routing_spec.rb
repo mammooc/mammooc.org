@@ -3,7 +3,6 @@ require 'rails_helper'
 
 RSpec.describe UserEmailsController, type: :routing do
   describe 'routing' do
-
     it 'routes to #create' do
       expect(post: '/user_emails').to route_to('user_emails#create')
     end

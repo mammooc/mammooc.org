@@ -162,11 +162,10 @@ RSpec.describe UsersController, type: :controller do
 
     it 'assigns sorted user_emails to @emails' do
       second_email = FactoryGirl.create(:user_email, address: 'aaaa@example.com', user: user, is_primary: false)
-      third_email = FactoryGirl.create(:user_email, address: 'bbbbb@example.com' ,user: user, is_primary: false)
+      third_email = FactoryGirl.create(:user_email, address: 'bbbbb@example.com', user: user, is_primary: false)
       get :settings, id: user.id
       expect(assigns(:emails)).to match_array([primary_email, second_email, third_email])
     end
-
   end
 
   describe 'GET oauth_callback' do
@@ -481,18 +480,16 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe 'cancel change email' do
-
     it 'reset session variable for email marked as deleted' do
       session[:deleted_user_emails] = user.emails.collect(&:id)
-      get :cancel_change_email, {id: user.id}
+      get :cancel_change_email, id: user.id
       expect(session[:deleted_user_emails]).to be_empty
     end
 
     it 'redirects to account settings page' do
-      get :cancel_change_email, {id: user.id}
+      get :cancel_change_email, id: user.id
       expect(response).to redirect_to "#{user_settings_path(user)}?subsite=account"
     end
-
   end
 
   describe 'change email' do
@@ -500,19 +497,19 @@ RSpec.describe UsersController, type: :controller do
 
     it 'reset session variable for email marked as deleted' do
       session[:deleted_user_emails] = user.emails.collect(&:id)
-      get :change_email, {id: user.id, user: {user_email: {is_primary: primary_email.id}}}
+      get :change_email, id: user.id, user: {user_email: {is_primary: primary_email.id}}
       expect(session[:deleted_user_emails]).to be_empty
     end
 
     it 'change existing email address' do
-      get :change_email, {id: user.id, user: {user_email: {"address_#{second_email.id}": 'newAddress@example.com', is_primary: primary_email.id}}}
+      get :change_email, id: user.id, user: {user_email: {"address_#{second_email.id}": 'newAddress@example.com', is_primary: primary_email.id}}
       second_email.reload
       expect(second_email.address).to eq 'newAddress@example.com'
       expect(UserEmail.find(primary_email.id).address).to eq primary_email.address
     end
 
     it 'change existing primary email' do
-      get :change_email, {id: user.id, user: {user_email: {is_primary: second_email.id}}}
+      get :change_email, id: user.id, user: {user_email: {is_primary: second_email.id}}
       second_email.reload
       primary_email.reload
       expect(second_email.is_primary).to be true
@@ -520,26 +517,26 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it 'adds new email address' do
-      get :change_email, {id: user.id, user: {user_email: {address_3: 'this_is_a_new_email@example.com', is_primary: primary_email.id}, index: 3}}
+      get :change_email, id: user.id, user: {user_email: {address_3: 'this_is_a_new_email@example.com', is_primary: primary_email.id}, index: 3}
       expect(UserEmail.where(user: user).length).to eq 3
       expect(UserEmail.find_by(address: 'this_is_a_new_email@example.com', user: user).is_primary).to be false
     end
 
     it 'adds new email address and makes it primary' do
-      get :change_email, {id: user.id, user: {user_email: {address_3:'this_is_a_new_email@example.com', is_primary: 'new_email_index_3'}, index: 3}}
+      get :change_email, id: user.id, user: {user_email: {address_3: 'this_is_a_new_email@example.com', is_primary: 'new_email_index_3'}, index: 3}
       expect(UserEmail.find_by(address: 'this_is_a_new_email@example.com', user: user).is_primary).to be true
     end
 
     it 'deletes emails defined in session variable' do
       session[:deleted_user_emails] = [second_email.id]
-      get :change_email, {id: user.id, user: {user_email: {is_primary: primary_email.id}}}
+      get :change_email, id: user.id, user: {user_email: {is_primary: primary_email.id}}
       expect(UserEmail.where(id: second_email.id)).to be_empty
     end
 
     it 'updates existing, change primary, add new emails and delete specified emails' do
       third_email = FactoryGirl.create(:user_email, user: user, is_primary: false)
       session[:deleted_user_emails] = [second_email.id]
-      get :change_email, {id: user.id, user: {user_email: {address_4: 'this_is_a_new_email@example.com', address_5: 'this_is_another_new_email@example.com', "address_#{third_email.id}": 'newAddress@example.com', is_primary: third_email.id}, index: 5}}
+      get :change_email, id: user.id, user: {user_email: {address_4: 'this_is_a_new_email@example.com', address_5: 'this_is_another_new_email@example.com', "address_#{third_email.id}": 'newAddress@example.com', is_primary: third_email.id}, index: 5}
       expect(UserEmail.where(user: user).length).to eq 4
       expect(UserEmail.where(id: second_email.id)).to be_empty
       expect(UserEmail.find_by(address: 'this_is_a_new_email@example.com', user: user).is_primary).to be false
@@ -549,7 +546,5 @@ RSpec.describe UsersController, type: :controller do
       expect(UserEmail.find(third_email.id).address).to eq 'newAddress@example.com'
       expect(UserEmail.find(primary_email.id).address).to eq primary_email.address
     end
-
   end
-
 end

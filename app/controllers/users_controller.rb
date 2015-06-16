@@ -205,14 +205,12 @@ class UsersController < ApplicationController
 
     number_of_new_emails.times do |index|
       index_of_new_email = total_number_of_emails - index
-      if  params[:user][:user_email][:"address_#{index_of_new_email}"].present?
-        new_address = params[:user][:user_email][:"address_#{index_of_new_email}"]
-        new_email = UserEmail.new({address: new_address, is_primary: false})
-        new_email.user = @user
-        @user.emails.push new_email
-      end
+      next unless params[:user][:user_email][:"address_#{index_of_new_email}"].present?
+      new_address = params[:user][:user_email][:"address_#{index_of_new_email}"]
+      new_email = UserEmail.new(address: new_address, is_primary: false)
+      new_email.user = @user
+      @user.emails.push new_email
     end
-
 
     # change primary state
     if params[:user][:user_email][:is_primary].include? 'new_email_index'

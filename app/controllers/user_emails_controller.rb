@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class UserEmailsController < ApplicationController
-  before_action :set_email, only: [ :update, :destroy, :mark_as_deleted]
+  before_action :set_email, only: [:update, :destroy, :mark_as_deleted]
 
   # POST /user_emails
   # POST /user_emails.json
@@ -39,8 +39,6 @@ class UserEmailsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
-
 
   # DELETE /user_emails/1
   # DELETE /user_emails/1.json

@@ -72,11 +72,9 @@ RSpec.describe 'User', type: :feature do
         expect(page).to have_content I18n.t('users.settings.manage_omniauth')
         expect(page).to have_content I18n.t('users.settings.cancel_account')
       end
-
     end
 
     describe 'account settings' do
-
       describe 'email settings' do
         let!(:second_email) { FactoryGirl.create(:user_email, user: user, is_primary: false) }
 
@@ -114,7 +112,6 @@ RSpec.describe 'User', type: :feature do
         end
 
         context 'adding new emails' do
-
           it 'adds new field', js: true do
             expect(page).to have_css('table#table_for_user_emails tr', count: 4)
             click_button 'add_new_email_field'
@@ -137,7 +134,7 @@ RSpec.describe 'User', type: :feature do
             expect(page).to have_selector '.remove_added_email_field'
           end
 
-          it 'updates hidden count of email addresses', js:true do
+          it 'updates hidden count of email addresses', js: true do
             click_button 'add_new_email_field'
             expect(find('#user_index', visible: false).value).to eq '3'
           end
@@ -150,7 +147,7 @@ RSpec.describe 'User', type: :feature do
             expect(UserEmail.find_by(address: 'NewEmail@example.com').is_primary).to be false
           end
 
-          it 'adds new email and makes it primary', js:true do
+          it 'adds new email and makes it primary', js: true do
             click_button 'add_new_email_field'
             fill_in 'user_user_email_address_3', with: 'NewEmail@example.com'
             choose 'user_user_email_is_primary_3'
@@ -161,20 +158,18 @@ RSpec.describe 'User', type: :feature do
         end
 
         context 'deleting emails' do
-
           it 'shows remove button only for not-primary addresses' do
             page.assert_selector('.remove_email', count: 1)
-
           end
 
-          it 'deletes existing address when clicking on button', js:true do
+          it 'deletes existing address when clicking on button', js: true do
             find('.remove_email').click
             wait_for_ajax
             click_button 'submit_change_email'
             expect(UserEmail.where(user: user).count).to eq 1
           end
 
-          it 'deletes existing address when clicking on glyphicon', js:true do
+          it 'deletes existing address when clicking on glyphicon', js: true do
             find('.glyphicon-remove').click
             wait_for_ajax
             click_button 'submit_change_email'
@@ -182,7 +177,7 @@ RSpec.describe 'User', type: :feature do
             expect(UserEmail.where(address: second_email.address)).to be_empty
           end
 
-          it 'can not delete existing email if primary is selected', js:true do
+          it 'can not delete existing email if primary is selected', js: true do
             choose "user_user_email_is_primary_#{second_email.id}"
             find('.remove_email').click
             unless ENV['PHANTOM_JS'] == 'true'
@@ -193,9 +188,8 @@ RSpec.describe 'User', type: :feature do
             expect(page).to have_selector("#user_user_email_address_#{second_email.id}")
           end
 
-
           context 'adds new row and delete afterwards' do
-            it 'is added and deleted from table', js:true do
+            it 'is added and deleted from table', js: true do
               expect(page).to have_css('table#table_for_user_emails tr', count: 4)
               click_button 'add_new_email_field'
               expect(page).to have_selector '#user_user_email_address_3'
@@ -205,7 +199,7 @@ RSpec.describe 'User', type: :feature do
               expect(page).to have_css('table#table_for_user_emails tr', count: 4)
             end
 
-            it 'has no influence on controller method', js:true do
+            it 'has no influence on controller method', js: true do
               all_emails = UserEmail.all
               click_button 'add_new_email_field'
               click_button 'remove_button_3'
@@ -216,7 +210,7 @@ RSpec.describe 'User', type: :feature do
           end
 
           context 'adds new rows and delete one afterwards' do
-            it 'new rows are added to table and deleted row is deleted from table', js:true do
+            it 'new rows are added to table and deleted row is deleted from table', js: true do
               4.times { click_button 'add_new_email_field' }
               click_button 'remove_button_5'
               wait_for_ajax
@@ -226,7 +220,7 @@ RSpec.describe 'User', type: :feature do
               expect(page).not_to have_selector '#user_user_email_address_5'
             end
 
-            it 'adds the new email addresses, but ignore deleted', js:true do
+            it 'adds the new email addresses, but ignore deleted', js: true do
               count = UserEmail.where(user: user).count
               4.times { click_button 'add_new_email_field' }
               click_button 'remove_button_5'
@@ -235,11 +229,11 @@ RSpec.describe 'User', type: :feature do
               fill_in 'user_user_email_address_4', with: 'new.email4@example.com'
               fill_in 'user_user_email_address_6', with: 'new.email6@example.com'
               click_button 'submit_change_email'
-              expect(UserEmail.where(user: user).count).to eq count+3
+              expect(UserEmail.where(user: user).count).to eq count + 3
             end
           end
 
-          it 'can not delete new row with primary selected', js:true do
+          it 'can not delete new row with primary selected', js: true do
             click_button 'add_new_email_field'
             fill_in 'user_user_email_address_3', with: 'max.deleted@example.com'
             choose 'user_user_email_is_primary_3'
@@ -252,7 +246,7 @@ RSpec.describe 'User', type: :feature do
           end
         end
 
-        it 'could update existing, create new, change primary and delete', js:true do
+        it 'could update existing, create new, change primary and delete', js: true do
           third_email = FactoryGirl.create(:user_email, is_primary: false, user: user)
           visit "#{user_settings_path(user.id)}?subsite=account"
           fill_in "user_user_email_address_#{second_email.id}", with: 'NewEmailAddress@example.com'
@@ -271,7 +265,7 @@ RSpec.describe 'User', type: :feature do
           expect(UserEmail.find(first_email.id).is_primary).to be false
         end
 
-        it 'cancel action', js:true do
+        it 'cancel action', js: true do
           third_email = FactoryGirl.create(:user_email, is_primary: false, user: user)
           visit "#{user_settings_path(user.id)}?subsite=account"
           fill_in "user_user_email_address_#{second_email.id}", with: 'NewEmailAddress@example.com'
