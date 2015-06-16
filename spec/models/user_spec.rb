@@ -438,12 +438,18 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe 'setting(key)' do
+  describe 'setting(key, create_new)' do
     let(:user) { FactoryGirl.create :user }
     let(:user_setting) { FactoryGirl.create :user_setting, user: user }
 
     it 'returns UserSetting object' do
       expect(user.setting(user_setting.name)).to eq user_setting
+    end
+
+    context 'UserSetting object does not exist' do
+      it 'creates new UserSetting' do
+        expect{user.setting(:newsetting, true)}.to change{UserSetting.count}.by(1)
+      end
     end
   end
 end
