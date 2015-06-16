@@ -102,23 +102,6 @@ class RecommendationsController < ApplicationController
     redirect_to root_path
   end
 
-  def delete_user_from_recommendation
-    @recommendation.users -= [current_user]
-    if @recommendation.users.empty? && @recommendation.group.blank?
-      @recommendation.destroy
-    end
-    respond_to do |format|
-      format.html { redirect_to :back, notice: t('recommendation.successfully_destroyed') }
-    end
-  end
-
-  def delete_group_recommendation
-    @recommendation.destroy
-    respond_to do |format|
-      format.html { redirect_to :back, notice: t('recommendation.successfully_destroyed') }
-    end
-  end
-
   private
 
   # Use callbacks to share common setup or constraints between actions.

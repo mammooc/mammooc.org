@@ -25,6 +25,17 @@ class Recommendation < ActiveRecord::Base
     course_recommendations.uniq.sort_by(&:created_at).reverse!
   end
 
+  def delete_user_from_recommendation user
+    self.users -= [user]
+    if self.users.empty? && self.group.blank?
+      self.destroy
+    end
+  end
+
+  def delete_group_recommendation
+    self.destroy
+  end
+
   def self.filter_users(recommendations, filter_users)
     recommendations.reject {|r| filter_users.include? r.author }
   end

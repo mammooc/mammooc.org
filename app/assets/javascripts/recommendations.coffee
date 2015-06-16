@@ -3,27 +3,11 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 ready = ->
-  $('.remove-recommendation-group').click(delete_group_recommendation)
-  $('.remove-recommendation-current-user').click(delete_user_from_recommendation)
   $('.remove-activity-current-user').click(delete_user_from_activity)
   $('.remove-activity-group').click(delete_group_from_activity)
   return
 
 $(document).ready(ready)
-
-delete_group_recommendation = () ->
-  recommendation_id = $(this).data('recommendation_id')
-  recommendation = $(this).closest('.recommendations')
-
-  $.ajax
-    url: "/recommendations/#{recommendation_id}/delete_group_recommendation"
-    method: 'GET'
-    error: (jqXHR, textStatus, errorThrown) ->
-      console.log('group delete recommendation error')
-      alert(I18n.t('global.ajax_failed'))
-    success: (data, textStatus, jqXHR) ->
-      recommendation.remove()
-  return false
 
 delete_group_from_activity = () ->
   activity_id = $(this).data('activity_id')
@@ -52,20 +36,6 @@ delete_user_from_activity = () ->
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       activity.remove()
-  return false
-
-delete_user_from_recommendation = () ->
-  recommendation_id = $(this).data('recommendation_id')
-  recommendation = $(this).closest('.recommendations')
-
-  $.ajax
-    url: "/recommendations/#{recommendation_id}/delete_user_from_recommendation"
-    method: 'GET'
-    error: (jqXHR, textStatus, errorThrown) ->
-      console.log('user delete recommendation error')
-      alert(I18n.t('global.ajax_failed'))
-    success: (data, textStatus, jqXHR) ->
-      recommendation.remove()
   return false
 
 group_ids = []
