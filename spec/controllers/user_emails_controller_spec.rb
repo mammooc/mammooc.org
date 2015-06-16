@@ -28,7 +28,7 @@ RSpec.describe UserEmailsController, type: :controller do
 
       it 'redirects to the created email' do
         post :create, {user_email: valid_attributes}
-        expect(response).to redirect_to(UserEmail.last)
+        expect(response).to redirect_to(user_email_path(assigns(:user_email)))
       end
     end
   end

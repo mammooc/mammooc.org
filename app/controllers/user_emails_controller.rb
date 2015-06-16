@@ -35,7 +35,9 @@ class UserEmailsController < ApplicationController
   def mark_as_deleted
     session[:deleted_user_emails] ||= []
     session[:deleted_user_emails].push @user_email.id
-    redirect_to :back
+    respond_to do |format|
+      format.json { head :no_content }
+    end
   end
 
 

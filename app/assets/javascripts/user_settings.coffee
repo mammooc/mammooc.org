@@ -44,7 +44,7 @@ markEmailAsDeleted = (event) ->
   if $("#user_user_email_is_primary_#{email_id}")[0].checked
     alert(I18n.t('users.settings.change_emails.alert_can_not_delete_primary'))
   else
-    url = "/user_emails/#{email_id}/mark_as_deleted"
+    url = "/user_emails/#{email_id}/mark_as_deleted.json"
 
     $.ajax
       url: url

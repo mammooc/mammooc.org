@@ -496,7 +496,7 @@ RSpec.describe UsersController, type: :controller do
       get :change_email, {id: user.id, user: {user_email: {"address_#{second_email.id}": 'newAddress@example.com', is_primary: primary_email.id}}}
       second_email.reload
       expect(second_email.address).to eq 'newAddress@example.com'
-      expect(UserEmail.find(primary_email.id)).to eq primary_email.address
+      expect(UserEmail.find(primary_email.id).address).to eq primary_email.address
     end
 
     it 'change existing primary email' do
