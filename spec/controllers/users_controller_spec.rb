@@ -157,7 +157,7 @@ RSpec.describe UsersController, type: :controller do
     it 'reset session variable for emails marked as deleted' do
       session[:deleted_user_emails] = [primary_email.id]
       get :settings, id: user.id
-      expect(session[:deleted_user_emails]).to be_empty
+      expect(session).not_to have_key(:deleted_user_emails)
     end
 
     it 'assigns sorted user_emails to @emails' do
@@ -483,7 +483,7 @@ RSpec.describe UsersController, type: :controller do
     it 'reset session variable for email marked as deleted' do
       session[:deleted_user_emails] = user.emails.collect(&:id)
       get :cancel_change_email, id: user.id
-      expect(session[:deleted_user_emails]).to be_empty
+      expect(session).not_to have_key(:deleted_user_emails)
     end
 
     it 'redirects to account settings page' do
@@ -498,7 +498,7 @@ RSpec.describe UsersController, type: :controller do
     it 'reset session variable for email marked as deleted' do
       session[:deleted_user_emails] = user.emails.collect(&:id)
       get :change_email, id: user.id, user: {user_email: {is_primary: primary_email.id}}
-      expect(session[:deleted_user_emails]).to be_empty
+      expect(session).not_to have_key(:deleted_user_emails)
     end
 
     it 'change existing email address' do
