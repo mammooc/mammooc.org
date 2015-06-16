@@ -98,6 +98,7 @@ addSetting = (event) ->
   button = if (event.target.nodeName == 'SPAN') then $(event.target.parentElement) else $(event.target)
   list_id = button.data('list-id')
   list = $("##{list_id}")
+  user_id = button.data('user-id')
 
   ok_button = $('<button></button>')
                 .addClass('btn btn-default')
@@ -108,8 +109,25 @@ addSetting = (event) ->
     id = $("#new-#{list.data('key')}-id").val()
     if name != '' && id != ''
       ids = getExistingIDs(list.data('setting'), list.data('key'))
-      ids.push $("#new-#{list.data('key')}-id").val()
-      console.log ids
+      ids.push id
+      $.ajax
+        type: 'POST'
+        url: "/users/#{user_id}/set_setting"
+        data:
+          setting: list.data('setting')
+          key: list.data('key')
+          value: ids
+        dataType: 'json'
+        success: (data, textStatus, jqXHR) ->
+          new_item = $('<li></li>').addClass('list-group-item').data('id', id)
+                      .append(name)
+                      .append($('<button></button>').addClass('btn btn-xs btn-default pull-right')
+                        .append($('<span></span>').addClass('glyphicon glyphicon-remove')))
+          form_item.remove()
+          list.prepend(new_item)
+        error: (jqXHR, textStatus, errorThrown) ->
+          alert(I18n.t('global.ajax_failed'))
+
     else
       subject = list.data('key').slice(0, -1)
       alert(I18n.t('flash.error.settings.input_empty', subject: I18n.t("flash.error.settings.#{subject}")))

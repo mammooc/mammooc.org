@@ -99,6 +99,7 @@ Rails.application.routes.draw do
   # Users
   get 'users/:id/synchronize_courses' => 'users#synchronize_courses', as: 'synchronize_courses'
   get 'users/:id/settings' => 'users#settings', as: 'user_settings'
+  post 'users/:id/set_setting' => 'users#set_setting'
   get 'users/:id/account_settings' => 'users#account_settings'
   get 'users/:id/mooc_provider_settings' => 'users#mooc_provider_settings'
   get 'users/:id/privacy_settings' => 'users#privacy_settings'

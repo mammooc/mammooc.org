@@ -121,6 +121,15 @@ class UsersController < ApplicationController
     @subsite = params['subsite']
   end
 
+  def set_setting
+    setting = current_user.setting(params[:setting])
+    setting.set(params[:key], params[:value])
+
+    respond_to do |format|
+      format.json { render json: {status: :ok} }
+    end
+  end
+
   def oauth_callback
     code = params[:code]
     state = params[:state].split(/~/)
