@@ -190,6 +190,19 @@ class User < ActiveRecord::Base
     connected_users.uniq
   end
 
+  def connected_users
+    connected_users = Array.new
+    groups.each do |group|
+      group.users.each do |user|
+        if user.id != id
+          connected_users << user
+        end
+      end
+    end
+    connected_users.uniq
+  end
+
+
   def connected_groups_ids
     connected_groups = Array.new
     groups.each do |group|
