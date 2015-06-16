@@ -1,26 +1,6 @@
 # -*- encoding : utf-8 -*-
 class UserEmailsController < ApplicationController
-  before_action :set_email, only: [:show, :edit, :update, :destroy, :mark_as_deleted]
-
-  # GET /user_emails
-  # GET /user_emails.json
-  def index
-    @user_emails = UserEmail.all
-  end
-
-  # GET /user_emails/1
-  # GET /user_emails/1.json
-  def show
-  end
-
-  # GET /user_emails/new
-  def new
-    @user_email = UserEmail.new
-  end
-
-  # GET /user_emails/1/edit
-  def edit
-  end
+  before_action :set_email, only: [ :update, :destroy, :mark_as_deleted]
 
   # POST /user_emails
   # POST /user_emails.json

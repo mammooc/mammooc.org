@@ -59,6 +59,20 @@ RSpec.describe 'User', type: :feature do
         wait_for_ajax
         expect(page).to have_content I18n.t('users.settings.still_admin_in_group_error')
       end
+
+      it 'renders 3 partial when navigating to account settings page', js: true do
+        visit "#{user_settings_path(user.id)}?subsite=mooc_provider"
+        click_button 'load-account-settings-button'
+        wait_for_ajax
+        expect(page).to have_content I18n.t('activerecord.attributes.user.first_name')
+        expect(page).to have_content I18n.t('activerecord.attributes.user.profile_image')
+        expect(page).to have_content I18n.t('users.settings.change_emails.address')
+        expect(page).to have_content I18n.t('users.settings.change_emails.primary')
+        expect(page).to have_content I18n.t('users.settings.new_password')
+        expect(page).to have_content I18n.t('users.settings.manage_omniauth')
+        expect(page).to have_content I18n.t('users.settings.cancel_account')
+      end
+
     end
 
     describe 'account settings' do
