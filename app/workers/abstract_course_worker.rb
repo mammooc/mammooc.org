@@ -41,4 +41,9 @@ class AbstractCourseWorker
       course.destroy if !updated && course.present?
     end
   end
+
+  def parse_markdown(text)
+    redcarpet = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
+    redcarpet.render(text).html_safe
+  end
 end
