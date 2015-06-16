@@ -46,6 +46,6 @@
 
 
 $(document).ready ->
-  set_filter_options_to_param
+  set_filter_options_to_param()
   copySelectOption("filterrific_sorted_by", "new_sort")
   copyInputField("filterrific_search_query", "new_search")
