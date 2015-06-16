@@ -153,6 +153,20 @@ RSpec.describe UsersController, type: :controller do
       end
       expect(assigns(:mooc_provider_connections)).to eql user.mooc_providers.pluck(:mooc_provider_id)
     end
+
+    it 'reset session variable for emails marked as deleted' do
+      session[:deleted_user_emails] = [primary_email.id]
+      get :settings, id: user.id
+      expect(session[:deleted_user_emails]).to be_empty
+    end
+
+    it 'assigns sorted user_emails to @emails' do
+      second_email = FactoryGirl.create(:user_email, address: 'aaaa@example.com', user: user, is_primary: false)
+      third_email = FactoryGirl.create(:user_email, address: 'bbbbb@example.com' ,user: user, is_primary: false)
+      get :settings, id: user.id
+      expect(assigns(:emails)).to match_array([primary_email, second_email, third_email])
+    end
+
   end
 
   describe 'GET oauth_callback' do
