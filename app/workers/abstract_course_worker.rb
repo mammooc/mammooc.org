@@ -46,4 +46,22 @@ class AbstractCourseWorker
     redcarpet = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
     redcarpet.render(text).html_safe
   end
+
+  def convert_to_asolute_urls(html)
+    document = Nokogiri::HTML(html)
+    tags = {img: 'src', a: 'href'}
+
+    document.search(tags.keys.join(',')).each do |node|
+      url_attribute = tags[node.name]
+
+      uri_string = node[url_attribute]
+      next if uri_string.empty?
+      uri = URI.parse(uri_string)
+      next if uri.host.present?
+      uri.scheme = URI(self.class::COURSE_LINK_BODY).scheme
+      uri.host = URI(self.class::COURSE_LINK_BODY).host
+      node[url_attribute] = uri.to_s
+    end
+    document.to_html
+  end
 end
