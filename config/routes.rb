@@ -105,6 +105,7 @@ Rails.application.routes.draw do
   get 'users/:id/privacy_settings' => 'users#privacy_settings'
   get 'users/:id/set_mooc_provider_connection' => 'users#set_mooc_provider_connection'
   get 'users/:id/revoke_mooc_provider_connection' => 'users#revoke_mooc_provider_connection'
+  get 'users/:id/connected_users_autocomplete' => 'users#connected_users_autocomplete'
 
   # OAuth
   get 'oauth/callback' => 'users#oauth_callback'

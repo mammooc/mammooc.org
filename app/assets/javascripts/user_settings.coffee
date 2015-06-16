@@ -146,7 +146,7 @@ addSetting = (event) ->
   name_input = $('<input></input>').attr('type', 'text').addClass('form-control').attr('id', "new-#{list.data('key')}-name")
   input_source_url = switch list.data('key')
     when 'groups' then '/groups.json'
-    when 'users' then 'dontknowyet'
+    when 'users' then "/users/#{user_id}/connected_users_autocomplete.json"
 
   name_input.autocomplete
     minLength: 2
@@ -164,7 +164,10 @@ addSetting = (event) ->
           results = []
           existing_ids = getExistingIDs(list.data('setting'), list.data('key'))
           for item in data
-            results.push({label: item.name, value: item.id}) if existing_ids.indexOf(item.id) < 0
+            label = switch list.data('key')
+              when 'groups' then item.name
+              when 'users' then "#{item.first_name} #{item.last_name} (#{item.email})"
+            results.push({label: label, value: item.id}) if existing_ids.indexOf(item.id) < 0
           response(results)
     select: (event, ui) ->
       id_input.val(ui.item.value)

@@ -130,6 +130,16 @@ class UsersController < ApplicationController
     end
   end
 
+  def connected_users_autocomplete
+    search = params[:q].downcase
+    users = current_user.connected_users.select{|u| u.first_name.downcase.include?(search) || u.last_name.downcase.include?(search) }
+              .collect { |u| {id: u.id, first_name: u.first_name, last_name: u.last_name, email: u.primary_email} }
+
+    respond_to do |format|
+      format.json { render json: users }
+    end
+  end
+
   def oauth_callback
     code = params[:code]
     state = params[:state].split(/~/)
@@ -224,6 +234,7 @@ class UsersController < ApplicationController
 
   def prepare_privacy_settings
     @course_enrollments_visibility_groups = Group.find(current_user.setting(:course_enrollments_visibility).value(:groups))
+    @course_enrollments_visibility_users = User.find(current_user.setting(:course_enrollments_visibility).value(:users))
   end
 
   def set_provider_logos
