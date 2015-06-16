@@ -70,12 +70,12 @@
             = t('newsfeed.button.ignore')
       - elsif group_context == true && activity.trackable_type != 'Recommendation' && user_is_admin
         | &nbsp;&#183;&nbsp;
-        span class='remove-activity-group' data-recommendation_id='#{activity.id}'
+        span class='remove-activity-group' data-activity_id='#{activity.id}' data-group_id='#{group_id}'
           a href=''
             = t('newsfeed.button.ignore')
       - elsif group_context == false
         | &nbsp;&#183;&nbsp;
-        span class='remove-activity-current-user mr5' data-recommendation_id='#{activity.id}'
+        span class='remove-activity-current-user mr5' data-activity_id='#{activity.id}'
           a href=''
             = t('newsfeed.button.ignore')
     - if activity.trackable_type == 'Recommendation'

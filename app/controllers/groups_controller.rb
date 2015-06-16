@@ -45,17 +45,20 @@ class GroupsController < ApplicationController
     @activity_courses = Hash.new
     if @activities
       @activities.each do |activity|
-        if activity.recipient_id
-          if activity.recipient_id != @group.id || activity.recipient_type != 'Group'
+        if activity.group_ids
+          if activity.group_ids.include? @group.id
+            if activity.trackable_type == 'Recommendation'
+              @activity_courses[activity.id] = Recommendation.find(activity.trackable_id).course
+            elsif activity.trackable_type == 'Course'
+              @activity_courses[activity.id] = Course.find(activity.trackable_id)
+            elsif activity.trackable_type == 'Bookmark'
+              @activity_courses[activity.id] = Bookmark.find(activity.trackable_id).course
+            end
+          else
             @activities -= [activity]
           end
-        end
-        if activity.trackable_type == 'Recommendation'
-          @activity_courses[activity.id] = Recommendation.find(activity.trackable_id).course
-        elsif activity.trackable_type == 'Course'
-          @activity_courses[activity.id] = Course.find(activity.trackable_id)
-        elsif activity.trackable_type == 'Bookmark'
-          @activity_courses[activity.id] = Bookmark.find(activity.trackable_id).course
+        else
+          @activities -= [activity]
         end
       end
     end

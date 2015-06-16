@@ -18,17 +18,20 @@ class DashboardController < ApplicationController
     @activity_courses = Hash.new
     if @activities
       @activities.each do |activity|
-        if activity.recipient_id
-          if activity.recipient_id != @current_user.id && !@current_user.connected_groups_ids.include?(activity.recipient_id)
+        if activity.user_ids
+          if activity.user_ids.include? current_user.id
+            if activity.trackable_type == 'Recommendation'
+              @activity_courses[activity.id] = Recommendation.find(activity.trackable_id).course
+            elsif activity.trackable_type == 'Course'
+              @activity_courses[activity.id] = Course.find(activity.trackable_id)#
+            elsif activity.trackable_type == 'Bookmark'
+              @activity_courses[activity.id] = Bookmark.find(activity.trackable_id).course
+            end
+          else
             @activities -= [activity]
           end
-        end
-        if activity.trackable_type == 'Recommendation'
-          @activity_courses[activity.id] = Recommendation.find(activity.trackable_id).course
-        elsif activity.trackable_type == 'Course'
-          @activity_courses[activity.id] = Course.find(activity.trackable_id)#
-        elsif activity.trackable_type == 'Bookmark'
-          @activity_courses[activity.id] = Bookmark.find(activity.trackable_id).course
+        else
+          @activities -= [activity]
         end
       end
     end

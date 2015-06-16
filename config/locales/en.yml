@@ -94,7 +94,7 @@ en:
     no_courses: :courses.no_courses
     number_of_recommendations: You have %{number} recommendations
     number_of_mandatory_recommendations: You have %{number} mandatory recommendations
-    number_of_activities: There are %{number} activities in your groups
+    number_of_activities: There are %{number} current activities in your groups
     complete_profile: Complete your profile
     manage_groups: Manage your groups
     search_courses: Search for courses

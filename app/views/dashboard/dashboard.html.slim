@@ -43,5 +43,5 @@
     .recommendations-wrapper
       - if @activities
         - @activities.each do |activity|
-          = render_activity activity, layout: :activity, locals: {group_context: false, author: activity.owner, course: @activity_courses[activity.id], signed_in_user: current_user}
+          = render_activity activity, layout: :activity, locals: {group_context: false, author: activity.owner, course: @activity_courses[activity.id], signed_in_user: current_user, user_is_admin: false}
 = render 'sidebar'

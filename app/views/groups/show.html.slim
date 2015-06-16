@@ -10,4 +10,4 @@ h2
 .user-courses-container
   - if @activities
     - @activities.each do |activity|
-      = render_activity activity, layout: :activity, locals: {group_context: true, author: activity.owner, course: @activity_courses[activity.id], signed_in_user: current_user, user_is_admin: @group.admins.include? current_user}
+      = render_activity activity, layout: :activity, locals: {group_context: true, author: activity.owner, course: @activity_courses[activity.id], signed_in_user: current_user, user_is_admin: (@group.admins.include? current_user), group_id: @group.id}

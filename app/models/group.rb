@@ -32,7 +32,7 @@ class Group < ActiveRecord::Base
 
   def user_ids
     user_ids = Array.new
-    group.users.each do |user|
+    users.each do |user|
       user_ids << user.id
     end
     user_ids

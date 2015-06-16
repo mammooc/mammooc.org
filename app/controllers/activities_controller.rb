@@ -1,7 +1,9 @@
 class ActivitiesController < ApplicationController
-  def delete_group_from_newsfeed_entry group
-    @activity.groups -= [group]
-    if @activity.users.empty? && activity.groups.empty?
+  def delete_group_from_newsfeed_entry
+    @activity = PublicActivity::Activity.find(params[:id])
+    @activity.group_ids -= [params[:group_id]]
+    @activity.save
+    if @activity.user_ids.empty? && @activity.group_ids.empty?
       @activity.destroy
     end
     respond_to do |format|
@@ -10,8 +12,10 @@ class ActivitiesController < ApplicationController
   end
 
   def delete_user_from_newsfeed_entry
-    @activity.users -= [current_user]
-    if @activity.users.empty? && @activity.groups.empty?
+    @activity = PublicActivity::Activity.find(params[:id])
+    @activity.user_ids -= [current_user.id]
+    @activity.save
+    if (!@activity.user_ids || @activity.user_ids.empty?) && (!@activity.group_ids || @activity.group_ids.empty?)
       @activity.destroy
     end
     respond_to do |format|

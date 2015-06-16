@@ -217,8 +217,6 @@ class User < ActiveRecord::Base
     connected_groups.uniq
   end
 
-
-
   def self.process_uri(uri)
     return if uri.nil?
     avatar_url = URI.parse(uri)

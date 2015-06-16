@@ -53,7 +53,7 @@ class RecommendationsController < ApplicationController
       recommendation.author = current_user
       recommendation.users.push(User.find(user_id))
       if recommendation.save!
-        recommendation.create_activity key: 'recommendation.create', owner: current_user, recipient: recommendation.users.first, user_ids: [recommendation.users.first.id],
+        recommendation.create_activity key: 'recommendation.create', owner: current_user, recipient: recommendation.users.first, user_ids: [recommendation.users.first.id]
       end
     end
 
