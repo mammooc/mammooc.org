@@ -7,7 +7,7 @@ sendEvaluationRating = (event) ->
   console.log('got a request')
   evaluation_id = $(event.target).data('evaluation_id')
   helpful = $(event.target).data('helpful')
-  url = "/evaluations/#{evaluation_id}/processEvaluationRating.json"
+  url = "/evaluations/#{evaluation_id}/process_evaluation_rating.json"
   data =
     helpful: helpful
   $.ajax
