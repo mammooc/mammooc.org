@@ -10,7 +10,7 @@ module Users
 
     # POST /resource/sign_in
     def create
-      unless params[:request_path] == new_user_session_path || params[:request_path] == new_user_registration_path
+      unless params[:request_path] == new_user_session_path || params[:request_path] == new_user_registration_path || params[:request_path] == root_path
         session[:user_original_url] ||= params[:request_path]
       end
       self.resource = warden.authenticate!(auth_options)
