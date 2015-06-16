@@ -1,5 +1,9 @@
 # -*- encoding : utf-8 -*-
 Rails.application.routes.draw do
+  get 'activities/delete_group_newsfeed_entry'
+
+  get 'activities/delete_user_from_newsfeed_entry'
+
   get 'api_connection/index'
   get 'api_connection/send_request'
   get 'api_connection/update_user'

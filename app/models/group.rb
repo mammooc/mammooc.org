@@ -30,6 +30,14 @@ class Group < ActiveRecord::Base
     images
   end
 
+  def user_ids
+    user_ids = Array.new
+    group.users.each do |user|
+      user_ids << user.id
+    end
+    user_ids
+  end
+
   def destroy
     UserGroup.destroy_all(group_id: id)
     GroupInvitation.where(group_id: id).update_all(group_id: nil)

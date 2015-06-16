@@ -420,6 +420,7 @@ de:
         group_context: ist der Gruppe beigetreten
         no_group_context1: ist der Gruppe
         no_group_context2: beigetreten
+    successfully_destroyed: Eintrag erfolgreich gelöscht.
 
   recommendation:
     submit: Empfehlung erstellen

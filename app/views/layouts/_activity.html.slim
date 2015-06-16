@@ -51,7 +51,7 @@
                   = raw course.description
 
       = link_to course_path(course)
-        = t('recommendation.button.course_details')
+        = t('newsfeed.button.course_details')
       | &nbsp;&#183;&nbsp;
       - unless signed_in_user.courses.include? course
         - if Bookmark.where(user_id: signed_in_user.id, course_id: course.id).blank?
@@ -63,17 +63,21 @@
         | &nbsp;&#183;&nbsp;
         a href='' id='enroll-course-link' data-course_id='#{course.id}'
           = t('courses.enroll_course')
-      - if (group_context == true && true)
-        /missing the ability - can I delete stuff in this group?
+      - if group_context == true && (activity.trackable_type == 'Recommendation' && (can? :delete_group_recommendation, activity.trackable))
         | &nbsp;&#183;&nbsp;
         span class='remove-recommendation-group' data-recommendation_id='#{activity.id}'
           a href=''
-            = t('recommendation.button.ignore')
+            = t('newsfeed.button.ignore')
+      - elsif group_context == true && activity.trackable_type != 'Recommendation' && user_is_admin
+        | &nbsp;&#183;&nbsp;
+        span class='remove-activity-group' data-recommendation_id='#{activity.id}'
+          a href=''
+            = t('newsfeed.button.ignore')
       - elsif group_context == false
         | &nbsp;&#183;&nbsp;
-        span class='remove-recommendation-current-user mr5' data-recommendation_id='#{activity.id}'
+        span class='remove-activity-current-user mr5' data-recommendation_id='#{activity.id}'
           a href=''
-            = t('recommendation.button.ignore')
+            = t('newsfeed.button.ignore')
     - if activity.trackable_type == 'Recommendation'
       - if activity.trackable.is_obligatory
         .label-obligatory
