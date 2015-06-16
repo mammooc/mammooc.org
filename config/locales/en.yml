@@ -453,6 +453,17 @@ en:
     course:
       already_enrolled: You are already enrolled for this course.
 
+  completions:
+    title: My Completions | mammooc
+    heading: My Completions
+    points_achieved: "%{points_achieved} points achieved"
+    points_achieved_of_maximal: "%{points_achieved} of %{points_maximal} points achieved"
+    verify: Verify
+    unable_to_verify: Unable to verify (at this moment)
+    confirmation_of_participation: Confirmation of Participation
+    record_of_achievement: Record of Achievement
+    certificate: Certificate
+
   flash:
     #success:
     notice:

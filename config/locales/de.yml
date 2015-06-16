@@ -453,6 +453,17 @@ de:
     course:
       already_enrolled: Du belegst diesen Kurs bereits.
 
+  completions:
+    title: Meine Abschlüsse | mammooc
+    heading: Meine Abschlüsse
+    points_achieved: "%{points_achieved} Punkte erreicht"
+    points_achieved_of_maximal: "%{points_achieved} von %{points_maximal} Punkten erreicht"
+    verify: Verifizieren
+    unable_to_verify: Verifizierung (noch) nicht möglich
+    confirmation_of_participation: Teilnahmebestätitung
+    record_of_achievement: Leistungsnachweis
+    certificate: Zertifikat
+
   flash:
     #success:
     notice:
