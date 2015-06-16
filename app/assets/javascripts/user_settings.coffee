@@ -104,10 +104,12 @@ addSetting = (event) ->
                 .append($('<span></span>').addClass('glyphicon glyphicon-ok'))
   ok_button.on 'click', (event) ->
     event.preventDefault()
-    input = $(this).parent().find('input')
-    if input.val() != ''
-      existing_ids = getExistingIDs(list.data('setting'), list.data('key'))
-
+    name = $("#new-#{list.data('key')}-name").val()
+    id = $("#new-#{list.data('key')}-id").val()
+    if name != '' && id != ''
+      ids = getExistingIDs(list.data('setting'), list.data('key'))
+      ids.push $("#new-#{list.data('key')}-id").val()
+      console.log ids
     else
       subject = list.data('key').slice(0, -1)
       alert(I18n.t('flash.error.settings.input_empty', subject: I18n.t("flash.error.settings.#{subject}")))
@@ -120,7 +122,7 @@ addSetting = (event) ->
     form_item.remove()
 
   id_input = $('<input></input>').attr('type', 'hidden').attr('id', "new-#{list.data('key')}-id")
-  name_input = $('<input></input>').attr('type', 'text').addClass('form-control')
+  name_input = $('<input></input>').attr('type', 'text').addClass('form-control').attr('id', "new-#{list.data('key')}-name")
   input_source_url = switch list.data('key')
     when 'groups' then '/groups.json'
     when 'users' then 'dontknowyet'
@@ -147,6 +149,8 @@ addSetting = (event) ->
       id_input.val(ui.item.value)
       name_input.val(ui.item.label)
       return false
+    search: (event, ui) ->
+      id_input.val('')
 
   form_item = $('<li></li>').addClass('list-group-item').append(
     $('<form></form>').addClass('form-inline')
