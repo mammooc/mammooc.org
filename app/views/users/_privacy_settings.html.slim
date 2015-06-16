@@ -15,7 +15,7 @@ h4
             - @course_enrollments_visibility_groups.each do |group|
               li.list-group-item data-id="#{group.id}"
                 = group.name
-                button.btn.btn-xs.btn-default.pull-right
+                button.btn.btn-xs.btn-default.pull-right.setting-remove-button data-user-id="#{current_user.id}"
                   span.glyphicon.glyphicon-remove
         .col-md-2
           button.btn.btn-sm.btn-default.setting-add-button data-list-id='course-enrollments-visibility-groups-list' data-user-id="#{current_user.id}"

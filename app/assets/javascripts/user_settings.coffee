@@ -5,6 +5,7 @@ ready = ->
   $('#load-privacy-settings-button').on 'click', (event) -> loadPrivacySettings(event)
 
   $('button.setting-add-button').on 'click', (event) -> addSetting(event)
+  $('button.setting-remove-button').on 'click', (event) -> removeSetting(event)
   return
 
 $(document).ready(ready)
@@ -122,6 +123,8 @@ addSetting = (event) ->
           new_item = $('<li></li>').addClass('list-group-item').data('id', id)
                       .append(name)
                       .append($('<button></button>').addClass('btn btn-xs btn-default pull-right')
+                      .data('user-id', user_id)
+                      .on('click', removeSetting)
                         .append($('<span></span>').addClass('glyphicon glyphicon-remove')))
           form_item.remove()
           list.prepend(new_item)
@@ -179,6 +182,27 @@ addSetting = (event) ->
       .append(cancel_button))
   list.prepend(form_item)
 
+removeSetting = (event) ->
+  button = if (event.target.nodeName == 'SPAN') then $(event.target.parentElement) else $(event.target)
+  list = button.closest('ul')
+  user_id = button.data('user-id')
+  ids = getExistingIDs(list.data('setting'), list.data('key'))
+  remove_id = button.parent().data('id')
+  remove_index = ids.indexOf(remove_id)
+  ids.splice(remove_index, 1) if remove_index >= 0
+  $.ajax
+    type: 'POST'
+    url: "/users/#{user_id}/set_setting"
+    data:
+      setting: list.data('setting')
+      key: list.data('key')
+      value: ids
+    dataType: 'json'
+    success: (data, textStatus, jqXHR) ->
+      button.parent().remove()
+    error: (jqXHR, textStatus, errorThrown) ->
+      alert(I18n.t('global.ajax_failed'))
+
 getExistingIDs = (setting, key) ->
   existing_ids = []
   ul_id = "#{setting.replace(/_/g, '-')}-#{key}-list"
@@ -194,3 +218,4 @@ getExistingIDs = (setting, key) ->
   $('button[id="revoke-naive-user-mooc_provider-connection-button"]').on 'click', (event) ->
     revokeNaiveUserMoocProviderConnection(event)
   $('button.setting-add-button').on 'click', (event) -> addSetting(event)
+  $('button.setting-remove-button').on 'click', (event) -> removeSetting(event)
