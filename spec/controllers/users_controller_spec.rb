@@ -485,14 +485,12 @@ RSpec.describe UsersController, type: :controller do
     let!(:second_email) { FactoryGirl.create(:user_email, user: user, is_primary: false) }
 
     it 'reset session variable for email marked as deleted' do
-      request.env['HTTP_REFERER'] = dashboard_path
       session[:deleted_user_emails] = user.emails.collect(&:id)
       get :change_email, {id: user.id, user: {user_email: {is_primary: primary_email.id}}}
       expect(session[:deleted_user_emails]).to be_empty
     end
 
     it 'change existing email address' do
-      request.env['HTTP_REFERER'] = dashboard_path
       get :change_email, {id: user.id, user: {user_email: {"address_#{second_email.id}": 'newAddress@example.com', is_primary: primary_email.id}}}
       second_email.reload
       expect(second_email.address).to eq 'newAddress@example.com'
@@ -500,7 +498,6 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it 'change existing primary email' do
-      request.env['HTTP_REFERER'] = dashboard_path
       get :change_email, {id: user.id, user: {user_email: {is_primary: second_email.id}}}
       second_email.reload
       primary_email.reload
@@ -509,20 +506,17 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it 'adds new email address' do
-      request.env['HTTP_REFERER'] = dashboard_path
       get :change_email, {id: user.id, user: {user_email: {address_3: 'this_is_a_new_email@example.com', is_primary: primary_email.id}, index: 3}}
       expect(UserEmail.where(user: user).length).to eq 3
       expect(UserEmail.find_by(address: 'this_is_a_new_email@example.com', user: user).is_primary).to be false
     end
 
     it 'adds new email address and makes it primary' do
-      request.env['HTTP_REFERER'] = dashboard_path
       get :change_email, {id: user.id, user: {user_email: {address_3:'this_is_a_new_email@example.com', is_primary: 'new_email_index_3'}, index: 3}}
       expect(UserEmail.find_by(address: 'this_is_a_new_email@example.com', user: user).is_primary).to be true
     end
 
     it 'deletes emails defined in session variable' do
-      request.env['HTTP_REFERER'] = dashboard_path
       session[:deleted_user_emails] = [second_email.id]
       get :change_email, {id: user.id, user: {user_email: {is_primary: primary_email.id}}}
       expect(UserEmail.where(id: second_email.id)).to be_empty
@@ -530,7 +524,6 @@ RSpec.describe UsersController, type: :controller do
 
     it 'updates existing, change primary, add new emails and delete specified emails' do
       third_email = FactoryGirl.create(:user_email, user: user, is_primary: false)
-      request.env['HTTP_REFERER'] = dashboard_path
       session[:deleted_user_emails] = [second_email.id]
       get :change_email, {id: user.id, user: {user_email: {address_4: 'this_is_a_new_email@example.com', address_5: 'this_is_another_new_email@example.com', "address_#{third_email.id}": 'newAddress@example.com', is_primary: third_email.id}, index: 5}}
       expect(UserEmail.where(user: user).length).to eq 4
