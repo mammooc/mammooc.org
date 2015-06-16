@@ -92,8 +92,8 @@ de:
     new_group: Gruppe erstellen
     edit_group: Gruppe bearbeiten
     no_courses: :courses.no_courses
-    number_of_recommendations: Du hast %{number}
-    recommendations: Empfehlungen
+    you_have: Du hast
+    number_of_recommendations: '%{number} Empfehlungen'
     number_of_activities: Es gibt 2 neue Aktivitäten in deinen Gruppen
     complete_profile: Vervollständige dein Profil
     manage_groups: Verwalte deine Gruppen
