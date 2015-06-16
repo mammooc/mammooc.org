@@ -36,7 +36,7 @@ class UserEmailsController < ApplicationController
     session[:deleted_user_emails] ||= []
     session[:deleted_user_emails].push @user_email.id
     respond_to do |format|
-      format.json { head :no_content }
+      format.json { render json: {status: :ok} }
     end
   end
 
@@ -46,7 +46,7 @@ class UserEmailsController < ApplicationController
     @user_email.destroy
     respond_to do |format|
       format.html { redirect_to user_emails_url, notice: 'Email was successfully destroyed.' }
-      format.json { head :no_content }
+      format.json { render json: {status: :ok} }
     end
   end
 

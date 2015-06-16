@@ -109,7 +109,7 @@ class UsersController < ApplicationController
     @emails = @user.emails.sort_by do |email|
       [email.is_primary ? 0 : 1, email.address]
     end
-    session[:deleted_user_emails] = []
+    session.delete(:deleted_user_emails)
   end
 
   def oauth_callback
@@ -227,14 +227,14 @@ class UsersController < ApplicationController
         user_email = UserEmail.find(user_email_id)
         user_email.destroy
       end
-      session[:deleted_user_emails] = []
+      session.delete(:deleted_user_emails)
     end
 
     redirect_to "#{user_settings_path(current_user)}?subsite=account", notice: t('users.settings.change_emails.success')
   end
 
   def cancel_change_email
-    session[:deleted_user_emails] = []
+    session.delete(:deleted_user_emails)
     redirect_to "#{user_settings_path(current_user)}?subsite=account"
   end
 
