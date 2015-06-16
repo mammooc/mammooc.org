@@ -17,16 +17,16 @@ class RecommendationsController < ApplicationController
   # GET /recommendations.json
   def index
     @recommendations = current_user.recommendations.sort_by(&:created_at).reverse!
-    @recommendations_ids = Array.new
+    recommendations_ids = Array.new
     @recommendations.each do |recommendation|
-      @recommendations_ids << recommendation.id
+      recommendations_ids << recommendation.id
     end
 
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
     @profile_pictures = User.author_profile_images_hash_for_recommendations(@recommendations)
     @rating_picture = AmazonS3.instance.get_url('five_stars.png')
 
-    @activities = PublicActivity::Activity.order("created_at desc").where(trackable_id: @recommendations_ids, trackable_type: 'Recommendation')
+    @activities = PublicActivity::Activity.order("created_at desc").where(trackable_id: recommendations_ids, trackable_type: 'Recommendation')
     @activity_courses = Hash.new
     if @activities
       @activities.each do |activity|
