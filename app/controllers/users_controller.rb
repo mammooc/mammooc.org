@@ -214,7 +214,6 @@ class UsersController < ApplicationController
   end
 
   def prepare_privacy_settings
-    puts "############################################################################################"
     @course_enrollments_visibility_groups = Group.find(current_user.setting(:course_enrollments_visibility).value(:groups))
   end
 

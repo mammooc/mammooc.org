@@ -9,6 +9,17 @@ RSpec.describe 'User', type: :feature do
   let(:third_user) { FactoryGirl.create(:user) }
   let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
 
+  let!(:course_enrollments_visibility_settings) do
+    setting = FactoryGirl.create :user_setting, name: :course_enrollments_visibility, user: user
+    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    end
+  let!(:second_course_enrollments_visibility_settings) do
+    setting = FactoryGirl.create :user_setting, name: :course_enrollments_visibility, user: second_user
+    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+  end
+
   before(:all) do
     DatabaseCleaner.strategy = :truncation
   end
