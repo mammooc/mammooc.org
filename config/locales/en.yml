@@ -25,6 +25,7 @@ en:
     require_login: You must be logged in to access this section.
     close: Close
     submit: Submit
+    save: Save
     cancel: Cancel
     edit: Edit
     by: 'by '
@@ -178,6 +179,7 @@ en:
         delete: Delete
         alert_can_not_delete_primary: This address can not be deleted. Choose another primary address first.
         success: Email-addresses successfully updated.
+        new_line: New Line
     synchronization:
       oauth_error: Sorry! We were unable to establish a connection to your account. Please check your settings and try again.
       revoke_provider_connection: Revoke connection

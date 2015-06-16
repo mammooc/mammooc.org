@@ -25,6 +25,7 @@ de:
     require_login: Du musst eingeloggt sein, um auf diese Seite zugreifen zu können.
     close: Schließen
     submit: Absenden
+    save: Speichern
     cancel: Abbrechen
     edit: Bearbeiten
     by: 'von '
@@ -178,6 +179,7 @@ de:
         delete: Löschen
         alert_can_not_delete_primary: Diese Adresse kann nicht gelöscht werden. Wähle erst eine andere primäre Adresse aus.
         success: Emailadressen erfolgreich aktualisiert.
+        new_line: Neue Zeile
     synchronization:
       oauth_error: Fehler! Wir konnten keine Verbindung zu deinem Account herstellen. Bitte überprüfe deine Einstellungen und versuche es erneut.
       revoke_provider_connection: Verbindung aufheben

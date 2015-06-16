@@ -1,41 +1,47 @@
 = form_for(@user, url: change_email_path(@user), html: { class: 'form-horizontal', role: 'form'}) do |f|
-
-  table class='table' id='table_for_user_emails'
-    thead
-      tr
-        th
-          = t('users.settings.change_emails.address')
-        th
-          = t('users.settings.change_emails.primary')
-        th
-          = t('users.settings.change_emails.delete')
-    tbody
-      - @emails.each_with_index do |email, index|
-        tr id="row_user_email_address_#{email.id}"
-          = f.fields_for email do |email_fields|
-            td
-              = email_fields.email_field :"address_#{email.id}", :class => 'form-control', autofocus: true, value: email.address
-            - if email.address == @user.primary_email
+  .col-sm-offset-2.col-sm-10
+    table class='table' id='table_for_user_emails'
+      thead
+        tr
+          th
+            = t('users.settings.change_emails.address')
+          th
+            = t('users.settings.change_emails.primary')
+          th
+            .text-right
+              = t('users.settings.change_emails.delete')
+      tbody
+        - @emails.each_with_index do |email, index|
+          tr id="row_user_email_address_#{email.id}"
+            = f.fields_for email do |email_fields|
               td
-                = email_fields.radio_button :is_primary, email.id, checked: true
-              td 
-                |
-            - else
-              td
-                = email_fields.radio_button :is_primary, email.id, checked: false
-              td 
-                .text-center
-                  button.btn.btn-xs.btn-default class='remove_email' data-email_id="#{email.id}"
-                    span.glyphicon.glyphicon-remove data-email_id="#{email.id}"
-      tr
-        td
-          .text-center
-            button.btn.btn-xs.btn-default id='add_new_email_field'
-              span.glyphicon.glyphicon-plus
-        td
-          = f.text_field :index, type: 'hidden', value: @user.emails.length
+                = email_fields.email_field :"address_#{email.id}", :class => 'form-control', autofocus: true, value: email.address
+              - if email.address == @user.primary_email
+                td
+                  = email_fields.radio_button :is_primary, email.id, checked: true
+                td
+                  |
+              - else
+                td
+                  = email_fields.radio_button :is_primary, email.id, checked: false
+                td
+                  .text-right
+                    button.btn.btn-xs.btn-default class='remove_email' data-email_id="#{email.id}"
+                      span.glyphicon.glyphicon-remove data-email_id="#{email.id}"
+        tr
+          td
+            .text-center
+              button.btn.btn-default id='add_new_email_field'
+                span.glyphicon.glyphicon-plus
+                =< t('users.settings.change_emails.new_line')
+          td
+            = f.text_field :index, type: 'hidden', value: @user.emails.length
+          td
+            .text-right
+              = link_to t('global.cancel'), "/users/#{current_user.id}/cancel_change_email" , class: 'btn btn-cancel mr5', id: 'cancel_change_email'
+              = f.submit t('global.save'), class: 'btn btn-primary mr5', id: 'submit_change_email'
 
-  .form-group
-    .col-sm-10
-      = f.submit t('users.settings.update_account'), class: 'btn btn-primary mr5', id: 'submit_change_email'
-      = link_to t('global.cancel'), "/users/#{current_user.id}/cancel_change_email" , class: 'btn btn-cancel mr5', id: 'cancel_change_email'
+    br
+    br
+    br
+    br
