@@ -100,7 +100,7 @@ RSpec.describe 'Course', type: :feature do
   end
 
   describe 'display the option to collapse long course descriptions' do
-    let(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI') }
+    let(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openSAP') }
     let!(:course) { FactoryGirl.create(:full_course, mooc_provider: mooc_provider) }
 
     it 'displays a button', js: true do
@@ -219,7 +219,7 @@ RSpec.describe 'Course', type: :feature do
     let(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI') }
     let!(:course) { FactoryGirl.create(:full_course, mooc_provider: mooc_provider) }
 
-    it 'shows a special form when evaluation was already submitted for the course', js: true do
+    it 'submit an evaluation and show a special form afterwards', js: true do
       visit "/courses/#{course.id}"
       click_link 'rate-course-link'
       expect(page).not_to have_content(I18n.t('evaluations.already_evaluated', first_name: user.first_name))
@@ -242,6 +242,7 @@ RSpec.describe 'Course', type: :feature do
       find("div[class='user-rate-course-value']").first("span").all("div[class='rating-symbol']").last.click
       find("label[id='option1']").click
       click_button('submit-rating-button')
+      wait_for_ajax
       expect(page).to_not have_content(I18n.t('evaluations.state_overall_rating'))
       expect(page).to_not have_content(I18n.t('evaluations.state_course_status'))
     end
@@ -262,12 +263,13 @@ RSpec.describe 'Course', type: :feature do
       click_button 'edit-rating-button'
       wait_for_ajax
       expect(page.find("div[class='user-rate-course-value']").all("span[class='glyphicon glyphicon-star']").count).to eq(eval.rating)
-      expect(page.find("div[class='rating-form']")).to have_content(eval.description)
+      expect(page.find("textarea[id='rating-textarea']")).to have_content(eval.description)
       expect(page.find("label[class='btn btn-default active']")['data-value']).to eql("#{eval.course_status}")
       find("div[class='user-rate-course-value']").first("span").all("div[class='rating-symbol']").last.click
       fill_in 'rating-textarea', with: 'Great Course!'
       find("label[id='option1']").click
       click_button('submit-rating-button')
+      wait_for_ajax
       expect(page).to have_content(I18n.t('evaluations.already_evaluated', first_name: user.first_name))
     end
 
