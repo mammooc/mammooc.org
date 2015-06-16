@@ -106,9 +106,7 @@ addSetting = (event) ->
     event.preventDefault()
     input = $(this).parent().find('input')
     if input.val() != ''
-      existing_ids = []
-      $.each $(this).closest('ul').children(), (_, li) ->
-        existing_ids.push $(li).data('id') if $(li).data('id')
+      existing_ids = getExistingIDs(list.data('setting'), list.data('key'))
 
     else
       subject = list.data('key').slice(0, -1)
@@ -121,13 +119,16 @@ addSetting = (event) ->
     event.preventDefault()
     form_item.remove()
 
-  input = $('<input></input>').attr('type', 'text').addClass('form-control')
+  id_input = $('<input></input>').attr('type', 'hidden').attr('id', "new-#{list.data('key')}-id")
+  name_input = $('<input></input>').attr('type', 'text').addClass('form-control')
   input_source_url = switch list.data('key')
     when 'groups' then '/groups.json'
     when 'users' then 'dontknowyet'
 
-  input.autocomplete
+  name_input.autocomplete
     minLength: 2
+    delay: 100
+    autoFocus: true
     source: (request, response) ->
       $.ajax
         url: input_source_url
@@ -138,21 +139,32 @@ addSetting = (event) ->
           alert(I18n.t('global.ajax_failed'))
         success: (data, textStatus, jqXHR) ->
           results = []
+          existing_ids = getExistingIDs(list.data('setting'), list.data('key'))
           for item in data
-            results.push({ label: item.name, value: item.id })
+            results.push({label: item.name, value: item.id}) if existing_ids.indexOf(item.id) < 0
           response(results)
-    delay: 100
-    autoFocus: true
-
-
+    select: (event, ui) ->
+      id_input.val(ui.item.value)
+      name_input.val(ui.item.label)
+      return false
 
   form_item = $('<li></li>').addClass('list-group-item').append(
     $('<form></form>').addClass('form-inline')
       .append($('<div></div>').addClass('form-group')
-        .append(input))
+        .append(name_input)
+        .append(id_input))
       .append(ok_button)
       .append(cancel_button))
   list.prepend(form_item)
+
+getExistingIDs = (setting, key) ->
+  existing_ids = []
+  ul_id = "#{setting.replace(/_/g, '-')}-#{key}-list"
+  lis = $("##{ul_id}").children()
+  $.each lis, (_, li) ->
+    existing_ids.push $(li).data('id') if $(li).data('id')
+
+  return existing_ids
 
 @bindClickEvents = () ->
   $('button[id="sync-naive-user-mooc_provider-connection-button"]').on 'click', (event) ->
