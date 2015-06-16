@@ -80,15 +80,13 @@ RSpec.describe UserEmailsController, type: :controller do
     let(:third_email) { FactoryGirl.create(:user_email, user: user, is_primary: false) }
 
     it 'adds the specified email to session variable' do
-      request.env['HTTP_REFERER'] = dashboard_path
-      get :mark_as_deleted, {id: second_email.id}
+      get :mark_as_deleted, format: :json, id: second_email.id
       expect(session[:deleted_user_emails]).to match([second_email.id])
     end
 
     it 'adds more than one email to session variable' do
-      request.env['HTTP_REFERER'] = dashboard_path
-      get :mark_as_deleted, {id: second_email.id}
-      get :mark_as_deleted, {id: third_email.id}
+      get :mark_as_deleted, id: second_email.id, format: :json
+      get :mark_as_deleted, id: third_email.id, format: :json
       expect(session[:deleted_user_emails]).to match([second_email.id, third_email.id])
     end
 
