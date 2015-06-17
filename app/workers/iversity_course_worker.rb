@@ -40,7 +40,12 @@ class IversityCourseWorker < AbstractCourseWorker
       course.end_date = course_element['end_date']
       course.difficulty = course_element['knowledge_level ']
 
-      course_element['plans'].each do |plan|
+      if course_element['plans'].is_a?(Array)
+        plan_array = course_element['plans']
+      else
+        plan_array = [course_element['plans']]
+      end
+      plan_array.each do |plan|
         price = plan['price'].split(' ') unless plan['price'].blank?
         track_attributes = {}
         case plan['title'].split(/[\s-]/)[0].downcase
@@ -59,7 +64,14 @@ class IversityCourseWorker < AbstractCourseWorker
       course.categories = [course_element['discipline']]
 
       course.course_instructors = ''
-      course_element['instructors'].each_with_index do |instructor, i|
+
+      if course_element['instructors'].is_a?(Array)
+        instructor_array = course_element['instructors']
+      else
+        instructor_array = [course_element['instructors']]
+      end
+
+      instructor_array.each_with_index do |instructor, i|
         course.course_instructors += "#{(i > 0) ? ', ' : ''}#{instructor['name']}"
       end
 

@@ -53,9 +53,7 @@ Rails.application.routes.draw do
 
   resources :mooc_providers
 
-  resources :user_emails
-
-  resources :users, except: [:new, :create, :index]
+  resources :users, except: [:new, :create, :index, :edit]
 
   get 'dashboard/dashboard'
 
@@ -104,6 +102,11 @@ Rails.application.routes.draw do
   get 'users/:id/mooc_provider_settings' => 'users#mooc_provider_settings'
   get 'users/:id/set_mooc_provider_connection' => 'users#set_mooc_provider_connection'
   get 'users/:id/revoke_mooc_provider_connection' => 'users#revoke_mooc_provider_connection'
+  patch 'users/:id/change_email' => 'users#change_email', as: 'change_email'
+  get 'users/:id/cancel_change_email' => 'users#cancel_change_email'
+
+  # UserEmails
+  get 'user_emails/:id/mark_as_deleted' => 'user_emails#mark_as_deleted'
 
   # OAuth
   get 'oauth/callback' => 'users#oauth_callback'

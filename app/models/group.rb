@@ -34,4 +34,8 @@ class Group < ActiveRecord::Base
     GroupInvitation.where(group_id: id).update_all(group_id: nil)
     super
   end
+
+  def admins
+    User.find(UserGroup.where(group_id: id, is_admin: true).collect(&:user_id))
+  end
 end
