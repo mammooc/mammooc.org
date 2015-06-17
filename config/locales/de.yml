@@ -235,8 +235,8 @@ de:
       confirm_remove_member: Mitglied entfernen
       yourself: dich
     statistics:
-      average_enrollments_title: In dieser Gruppe gibt es durchschnittlich %{number} Belegungen pro Nutzer.
-      average_enrollments: Durchschnittliche Anzahl der Belegungen
+      average_enrollments: In dieser Gruppe gibt es durchschnittlich %{number} Kursbelegungen pro Mitglied.
+      average_enrollments_title: Durchschnittliche Anzahl der Kursbelegungen
 
 
   activerecord:

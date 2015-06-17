@@ -235,8 +235,8 @@ en:
       confirm_remove_member: Remove
       yourself: yourself
     statistics:
-      average_enrollments_title: In this group are %{number} enrollments per user on average.
-      average_enrollments: Average Enrollents
+      average_enrollments: In this group are %{number} course enrollments per member on average.
+      average_enrollments_title: Average Course Enrollents
 
   activerecord:
     models:
