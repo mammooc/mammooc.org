@@ -63,14 +63,9 @@
         | &nbsp;&#183;&nbsp;
         a href='' id='enroll-course-link' data-course_id='#{course.id}'
           = t('courses.enroll_course')
-      - if group_context == true && (activity.trackable_type == 'Recommendation' && (can? :delete_group_recommendation, activity.trackable))
+      - if group_context == true && user_is_admin
         | &nbsp;&#183;&nbsp;
-        span class='remove-recommendation-group' data-recommendation_id='#{activity.id}'
-          a href=''
-            = t('newsfeed.button.ignore')
-      - elsif group_context == true && activity.trackable_type != 'Recommendation' && user_is_admin
-        | &nbsp;&#183;&nbsp;
-        span class='remove-activity-group' data-activity_id='#{activity.id}' data-group_id='#{group_id}'
+        span class='remove-activity-group' data-recommendation_id='#{activity.id}' data-group_id='#{group_id}'
           a href=''
             = t('newsfeed.button.ignore')
       - elsif group_context == false

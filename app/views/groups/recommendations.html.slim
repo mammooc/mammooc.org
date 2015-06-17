@@ -16,4 +16,4 @@ p
     - if @activities
       - @activities.each do |activity|
         - if activity.trackable_type == 'Recommendation'
-          = render_activity activity, layout: :activity, locals: {group_context: true, author: activity.owner, bookmarked: @activity_courses_bookmarked[activity.id], course: @activity_courses[activity.id], signed_in_user: current_user}
+          = render_activity activity, layout: :activity, locals: {group_context: true, author: activity.owner, bookmarked: @activity_courses_bookmarked[activity.id], course: @activity_courses[activity.id], signed_in_user: current_user, user_is_admin: (@group.admins.include? current_user), group_id: @group.id}
