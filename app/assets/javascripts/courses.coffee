@@ -84,7 +84,6 @@
   .attr('toggle-title', toggle_title)
 
 @addToWishlist = (event) ->
-  console.log('Click event fired (add)')
   target = $(event.delegateTarget)
   current_course_id = target.data('course_id')
   current_user_id = target.data('user_id')
@@ -93,7 +92,6 @@
     bookmark :
       course_id : current_course_id
       user_id : current_user_id
-  console.log(data)
   $.ajax
     url: url
     data: data
@@ -143,10 +141,8 @@
     url: url
     method: 'GET'
     error: (jqXHR, textStatus, errorThrown) ->
-      console.log("error")
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
-      console.log('success')
       if data.status == true
         toggle_title(target.parent())
         target.unbind('click')
@@ -173,7 +169,6 @@
   event.preventDefault()
 
 $ =>
-  console.log("DOM is ready")
   set_filter_options_to_param()
   copySelectOption("filterrific_sorted_by", "new_sort")
   copyInputField("filterrific_search_query", "new_search")
