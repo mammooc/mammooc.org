@@ -233,17 +233,17 @@ class UsersController < ApplicationController
   end
 
   def prepare_privacy_settings
-    @course_enrollments_visibility_groups = Group.find(current_user.setting(:course_enrollments_visibility).value(:groups) || [])
-    @course_enrollments_visibility_users = User.find(current_user.setting(:course_enrollments_visibility).value(:users) || [])
+    @course_enrollments_visibility_groups = Group.find(current_user.setting(:course_enrollments_visibility, true).value(:groups) || [])
+    @course_enrollments_visibility_users = User.find(current_user.setting(:course_enrollments_visibility, true).value(:users) || [])
 
-    @course_results_visibility_groups = Group.find(current_user.setting(:course_results_visibility).value(:groups) || [])
-    @course_results_visibility_users = User.find(current_user.setting(:course_results_visibility).value(:users) || [])
+    @course_results_visibility_groups = Group.find(current_user.setting(:course_results_visibility, true).value(:groups) || [])
+    @course_results_visibility_users = User.find(current_user.setting(:course_results_visibility, true).value(:users) || [])
 
-    @course_progress_visibility_groups = Group.find(current_user.setting(:course_progress_visibility).value(:groups) || [])
-    @course_progress_visibility_users = User.find(current_user.setting(:course_progress_visibility).value(:users) || [])
+    @course_progress_visibility_groups = Group.find(current_user.setting(:course_progress_visibility, true).value(:groups) || [])
+    @course_progress_visibility_users = User.find(current_user.setting(:course_progress_visibility, true).value(:users) || [])
 
-    @profile_visibility_groups = Group.find(current_user.setting(:profile_visibility).value(:groups) || [])
-    @profile_visibility_users = User.find(current_user.setting(:profile_visibility).value(:users) || [])
+    @profile_visibility_groups = Group.find(current_user.setting(:profile_visibility, true).value(:groups) || [])
+    @profile_visibility_users = User.find(current_user.setting(:profile_visibility, true).value(:users) || [])
   end
 
   def set_provider_logos

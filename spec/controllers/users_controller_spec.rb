@@ -28,6 +28,21 @@ RSpec.describe UsersController, type: :controller do
     FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
     FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
   end
+  let!(:course_results_visibility_settings) do
+    setting = FactoryGirl.create :user_setting, name: :course_results_visibility, user: user
+    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+  end
+  let!(:course_progress_visibility_settings) do
+    setting = FactoryGirl.create :user_setting, name: :course_progress_visibility, user: user
+    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+  end
+  let!(:profile_visibility_settings) do
+    setting = FactoryGirl.create :user_setting, name: :profile_visibility, user: user
+    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+  end
 
   let!(:open_hpi) { FactoryGirl.create(:mooc_provider, name: 'openHPI', api_support_state: :naive) }
   let!(:open_sap) { FactoryGirl.create(:mooc_provider, name: 'openSAP', api_support_state: :naive) }

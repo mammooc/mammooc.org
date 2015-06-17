@@ -14,8 +14,39 @@ RSpec.describe 'User', type: :feature do
     FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
     FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
   end
+  let!(:course_results_visibility_settings) do
+    setting = FactoryGirl.create :user_setting, name: :course_results_visibility, user: user
+    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+  end
+  let!(:course_progress_visibility_settings) do
+    setting = FactoryGirl.create :user_setting, name: :course_progress_visibility, user: user
+    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+  end
+  let!(:profile_visibility_settings) do
+    setting = FactoryGirl.create :user_setting, name: :profile_visibility, user: user
+    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+  end
   let!(:second_course_enrollments_visibility_settings) do
     setting = FactoryGirl.create :user_setting, name: :course_enrollments_visibility, user: second_user
+    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+  end
+
+  let!(:second_course_results_visibility_settings) do
+    setting = FactoryGirl.create :user_setting, name: :course_results_visibility, user: second_user
+    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+  end
+  let!(:second_course_progress_visibility_settings) do
+    setting = FactoryGirl.create :user_setting, name: :course_progress_visibility, user: second_user
+    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+  end
+  let!(:second_profile_visibility_settings) do
+    setting = FactoryGirl.create :user_setting, name: :profile_visibility, user: second_user
     FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
     FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
   end
