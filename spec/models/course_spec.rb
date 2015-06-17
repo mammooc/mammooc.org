@@ -97,8 +97,8 @@ RSpec.describe Course, type: :model do
     it 'should set calculated rating and rating count to zero when evaluations are deleted' do
       eva1=FactoryGirl.create(:full_evaluation, rating: 1, course: course)
       eva2=FactoryGirl.create(:minimal_evaluation, rating: 5, course: course)
-      eva1.destroy;
-      eva2.destroy;
+      eva1.destroy
+      eva2.destroy
       course.reload
       expect(course.rating_count).to eq(0)
       expect(course.calculated_rating).to eq(0.0)

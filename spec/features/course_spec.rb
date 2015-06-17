@@ -225,7 +225,7 @@ RSpec.describe 'Course', type: :feature do
       expect(page).not_to have_content(I18n.t('evaluations.already_evaluated', first_name: user.first_name))
       find("div[class='user-rate-course-value']").first("span").all("div[class='rating-symbol']").last.click
       fill_in 'rating-textarea', with: 'Great Course!'
-      find("label[id='option1']").click
+      find("label[id='option_aborted']").click
       click_button('submit-rating-button')
       wait_for_ajax
       expect(page).to have_content(I18n.t('evaluations.already_evaluated', first_name: user.first_name))
@@ -240,7 +240,7 @@ RSpec.describe 'Course', type: :feature do
       expect(page).to have_content(I18n.t('evaluations.state_overall_rating'))
       expect(page).to have_content(I18n.t('evaluations.state_course_status'))
       find("div[class='user-rate-course-value']").first("span").all("div[class='rating-symbol']").last.click
-      find("label[id='option1']").click
+      find("label[id='option_aborted']").click
       click_button('submit-rating-button')
       wait_for_ajax
       expect(page).to_not have_content(I18n.t('evaluations.state_overall_rating'))
@@ -248,7 +248,7 @@ RSpec.describe 'Course', type: :feature do
     end
 
     it 'shows my already submitted evaluation in _ratings', js: true do
-      eval = FactoryGirl.create(:full_evaluation, user_id: user.id, course_id: course.id, course_status: 2, rating: 4, description: 'blub')
+      eval = FactoryGirl.create(:full_evaluation, user_id: user.id, course_id: course.id, course_status: :enrolled, rating: 4, description: 'blub')
       visit "/courses/#{course.id}"
       expect(page).to have_selector("div[class='course-rating']")
       expect(page).to have_content("(#{course.evaluations.count})")
@@ -257,7 +257,7 @@ RSpec.describe 'Course', type: :feature do
     end
 
     it 'update evaluation', js: true do
-      eval = FactoryGirl.create(:full_evaluation, user_id: user.id, course_id: course.id, course_status: 2, rating: 4, description: 'blub')
+      eval = FactoryGirl.create(:full_evaluation, user_id: user.id, course_id: course.id, course_status: :enrolled, rating: 4, description: 'blub')
       visit "/courses/#{course.id}"
       click_link 'rate-course-link'
       click_button 'edit-rating-button'
@@ -267,14 +267,14 @@ RSpec.describe 'Course', type: :feature do
       expect(page.find("label[class='btn btn-default active']")['data-value']).to eql("#{eval.course_status}")
       find("div[class='user-rate-course-value']").first("span").all("div[class='rating-symbol']").last.click
       fill_in 'rating-textarea', with: 'Great Course!'
-      find("label[id='option1']").click
+      find("label[id='option_aborted']").click
       click_button('submit-rating-button')
       wait_for_ajax
       expect(page).to have_content(I18n.t('evaluations.already_evaluated', first_name: user.first_name))
     end
 
     it 'mark an evaluation as helpful', js: true do
-      eval1 = FactoryGirl.create(:minimal_evaluation, course_id: course.id, course_status: 2, rating: 4, description: 'blub')
+      eval1 = FactoryGirl.create(:minimal_evaluation, course_id: course.id, course_status: :enrolled, rating: 4, description: 'blub')
       visit "/courses/#{course.id}"
       find("a[id='rate-evaluation-link-0-true']").click
       wait_for_ajax
@@ -285,7 +285,7 @@ RSpec.describe 'Course', type: :feature do
     end
 
     it 'mark an evaluation as not helpful', js: true do
-      eval1 = FactoryGirl.create(:minimal_evaluation, course_id: course.id, course_status: 2, rating: 4, description: 'blub')
+      eval1 = FactoryGirl.create(:minimal_evaluation, course_id: course.id, course_status: :enrolled, rating: 4, description: 'blub')
       visit "/courses/#{course.id}"
       find("a[id='rate-evaluation-link-0-false']").click
       wait_for_ajax

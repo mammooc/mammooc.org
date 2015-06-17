@@ -49,7 +49,7 @@ RSpec.describe EvaluationsController, type: :controller do
       expect(evaluation.evaluation_helpful_rating_count).to eq(evaluation_helpful_rating_count+1)
     end
 
-    it 'does no increase anything when rated an own evaluation' do
+    it 'does not increase anything when rated an own evaluation' do
       evaluation_rating_count = own_evaluation.evaluation_rating_count
       evaluation_helpful_rating_count = own_evaluation.evaluation_helpful_rating_count
       post :process_evaluation_rating, id: own_evaluation.id, helpful: 'true'

@@ -18,5 +18,5 @@ sendEvaluationRating = (event) ->
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       $("div.was-helpful-evaluation-#{evaluation_id}").html(I18n.t('evaluations.thanks_for_feedback'))
-      $("div.was-helpful-evaluation-#{evaluation_id}").addClass("evaluation-rating-reply")
+      $("div.was-helpful-evaluation-#{evaluation_id}").addClass('evaluation-rating-reply')
   event.preventDefault()

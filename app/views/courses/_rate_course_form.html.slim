@@ -1,7 +1,3 @@
--if @current_user_evaluation
-  - has_rated_course=true
--else
-  - has_rated_course=false
 form.form-horizontal
   .form-group
     label.col-sm-3 for="rating-input"
@@ -9,7 +5,7 @@ form.form-horizontal
       span.required_field
         | *
     .col-sm-9
-      - if has_rated_course
+      - if @has_rated_course
         .user-rate-course-value
           input.rating type='hidden' value="#{@current_user_evaluation.rating}" data-start="0" data-stop="5" id="rating-input"
       - else
@@ -22,7 +18,7 @@ form.form-horizontal
       = t('evaluations.additional_notes')
     .col-sm-9
       textarea.form-control id="rating-textarea" rows="5" placeholder="#{t('evaluations.help_other_users')}"
-        - if has_rated_course
+        - if @has_rated_course
           = @current_user_evaluation.description
   .form-group
     label.col-sm-3
@@ -31,34 +27,38 @@ form.form-horizontal
         | *
     .col-sm-9
       .btn-group.btn-group-sm data-toggle="buttons" id="course-status-selector"
-        label.btn.btn-default data-value="1" id="option1"
+        label.btn.btn-default data-value="aborted" id="option_aborted"
           input type="radio"
             = t('evaluations.aborted')
-        label.btn.btn-default data-value="2" id="option2"
+        label.btn.btn-default data-value="enrolled" id="option_enrolled"
           input type="radio"
             = t('evaluations.currently_enrolled')
-        label.btn.btn-default data-value="3" id="option3"
+        label.btn.btn-default data-value="finished" id="option_finished"
           input type="radio"
             = t('evaluations.finished')
-      - if has_rated_course
+      - if @has_rated_course
         script type="text/javascript"
-          | var d = document.getElementById("option#{@current_user_evaluation.course_status}");
+          | var d = document.getElementById("option_#{@current_user_evaluation.course_status}");
           | d.className = d.className + " active";
   .form-group
     .col-sm-3
     .col-sm-9
-      button.btn.btn-primary id="submit-rating-button" data-course_id="#{@course.id}"
-        - unless has_rated_course
-          = t('evaluations.send_evaluation')
-        - else
-          = t('evaluations.update_evaluation')
       .checkbox
         label
           input type="checkbox" id="rate-anonymously-checkbox" value=""
-          - if has_rated_course
+          - if @has_rated_course
             script type="text/javascript"
               | $('#rate-anonymously-checkbox').prop('checked', #{@current_user_evaluation.rated_anonymously});
           = t('evaluations.anonymous_evaluation')
+  .form-group
+    .col-sm-3
+    .col-sm-9
+      button.btn.btn-primary id="submit-rating-button" data-course_id="#{@course.id}"
+        - unless @has_rated_course
+          = t('evaluations.send_evaluation')
+        - else
+          = t('evaluations.update_evaluation')
+
   .form-group
     .col-sm-3
     .col-sm-9

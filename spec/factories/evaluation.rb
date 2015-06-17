@@ -6,7 +6,7 @@ FactoryGirl.define do
     course {FactoryGirl.create(:course)}
     creation_date Time.zone.now
     update_date Time.zone.now
-    course_status {rand(1..3)}
+    course_status :enrolled
     rated_anonymously false
     evaluation_rating_count {rand(1..2)}
     evaluation_helpful_rating_count {rand(0..1)}
@@ -18,7 +18,7 @@ FactoryGirl.define do
     course {FactoryGirl.create(:course)}
     creation_date Time.zone.now
     update_date Time.zone.now
-    course_status {rand(1..3)}
+    course_status :enrolled
     rated_anonymously true
   end
 

@@ -122,8 +122,8 @@ case Rails.env
     user1 = User.create!(first_name: 'Max', last_name: 'Mustermann', primary_email: 'max@example.com', password: '12345678')
     user2 = User.create!(first_name: 'Maxi', last_name: 'Musterfrau', primary_email: 'maxi@example.com', password: '12345678')
 
-    eval1 = Evaluation.create!(user_id: user1.id, course_id: full_course.id, rating:5, description:'Super Kurs!', course_status:3, rated_anonymously:false, evaluation_rating_count:101, evaluation_helpful_rating_count:101, creation_date:'2015-05-29 13:56:03.19532', update_date:'2015-06-11 13:59:55.148811')
-    eval2 = Evaluation.create!(user_id: user2.id, course_id: full_course.id, rating:2, course_status:1, rated_anonymously:true, creation_date:'2015-05-11 13:56:03.19532', update_date:'2015-06-10 13:59:55.148811')
+    Evaluation.create!(user_id: user1.id, course_id: full_course.id, rating:5, description:'Super Kurs!', course_status: :finished, rated_anonymously:false, evaluation_rating_count:101, evaluation_helpful_rating_count:101, creation_date:'2015-05-29 13:56:03.19532', update_date:'2015-06-11 13:59:55.148811')
+    Evaluation.create!(user_id: user2.id, course_id: full_course.id, rating:2, course_status: :aborted, rated_anonymously:true, creation_date:'2015-05-11 13:56:03.19532', update_date:'2015-06-10 13:59:55.148811')
 
     group1 = Group.create!(name: 'Testgruppe1', description: 'Testgruppe1 ist die Beste!')
 
