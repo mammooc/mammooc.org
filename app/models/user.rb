@@ -77,8 +77,8 @@ class User < ActiveRecord::Base
     (other_user.groups.to_a.collect {|group| groups.include?(group) ? group : nil }).compact
   end
 
-  def groups_sorted_by_admin_state_and_name
-    groups.sort_by do |group|
+  def groups_sorted_by_admin_state_and_name(groups_to_sort = groups)
+    groups_to_sort.sort_by do |group|
       [group.admins.include?(self) ? 0 : 1, group.name]
     end
   end
