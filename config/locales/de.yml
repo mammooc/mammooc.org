@@ -176,6 +176,7 @@ de:
         visible_to: '%{subject} sichtbar für:'
         course_enrollments: Kursbelegungen
         course_results: Kursabschlüsse
+        course_progress: Kursfortschritt
     synchronization:
       oauth_error: Fehler! Wir konnten keine Verbindung zu deinem Account herstellen. Bitte überprüfe deine Einstellungen und versuche es erneut.
       revoke_provider_connection: Verbindung aufheben
