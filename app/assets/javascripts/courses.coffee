@@ -66,7 +66,7 @@
   )
 
 @refresh_load_button = ()->
-  if @total_entries > 10 * current_page
+  if @total_entries > 20 * current_page
     $('#loadMore').show();
   else
     $('#loadMore').hide();
