@@ -16,8 +16,8 @@ MoocProvider.create!(name: 'iversity', logo_id: 'logo_iversity.png', api_support
 MoocProvider.create!(name: 'Udacity', logo_id: 'logo_udacity.png', api_support_state: :nil)
 
 xikolo_audit_track_type = CourseTrackType.create!(title: 'Audit',
-                                                   description: 'You get a record of Achievement.',
-                                                   type_of_achievement: 'xikolo_record_of_achievement')
+                                                  description: 'You get a record of Achievement.',
+                                                  type_of_achievement: 'xikolo_record_of_achievement')
 iversity_audit_track_type = CourseTrackType.create!(title: 'Audit',
                                                     description: "<ul class='list-none'> <li>All Course Material</li> <li>Course Community</li> <li>Statement of Participation</li> <li>Flexible Upgrade</li> </ul>",
                                                     type_of_achievement: 'iversity_record_of_achievement')
