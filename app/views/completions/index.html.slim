@@ -1,4 +1,4 @@
-= content_for :title, "#{t('completions.heading') | t('global.app_name')}"
+= content_for :title, "#{t('completions.heading')} | #{t('global.app_name')}"
 
 .page-header
   h1
@@ -27,9 +27,12 @@ div
               - if completion.provider_percentage < 25
                 span.ml10
                   = "#{completion.provider_percentage} %"
+          - else
+            br /
       - number_of_certificates = completion.certificates.count
+      - verify_available = completion.certificates.pluck(:verification_url).reject{|element| element.blank?}.present? ? true : false
       - if number_of_certificates > 0 && number_of_certificates <= 3
-        div.certificates-download-box.mt10
+        div.certificates-download-box.mt10 class="verify-#{verify_available}"
           - completion.sorted_certificates.each_with_index do |certificate, index|
             = link_to certificate.download_url
               - if index == completion.certificates.size - 1
@@ -40,7 +43,7 @@ div
                 div.box class="certificates-#{number_of_certificates}"
                   span.fa.fa-file-pdf-o
                   = certificate.title.present? ? certificate.title : t("completions.#{certificate.document_type}")
-          - if completion.certificates.pluck(:verification_url).present?
+          - if verify_available
             - completion.sorted_certificates.each_with_index do |certificate, index|
               - if certificate.verification_url.present?
                 = link_to certificate.verification_url
@@ -51,6 +54,10 @@ div
                     div.verify-entry class="certificates-#{number_of_certificates}"
                       = t('completions.verify')
               - else
-                div.no-verify-entry class="certificates-#{number_of_certificates}"
-                  = t('completions.unable_to_verify')
+                - if index == completion.certificates.size - 1
+                  div.no-verify-entry class="certificates-#{number_of_certificates}-no-border"
+                    = t('completions.unable_to_verify')
+                - else
+                  div.no-verify-entry class="certificates-#{number_of_certificates}"
+                    = t('completions.unable_to_verify')
     hr

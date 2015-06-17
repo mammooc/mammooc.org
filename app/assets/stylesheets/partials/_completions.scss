@@ -1,6 +1,5 @@
 .certificates-download-box {
   @extend .content-box;
-  height: 82px;
   margin-bottom: 30px;
 
   .box {
@@ -68,4 +67,12 @@
 
 .white-background {
   background: #fff;
+}
+
+.verify-true {
+  height: 82px;
+}
+
+.verify-false {
+  height: 58px;
 }
