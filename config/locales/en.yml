@@ -238,7 +238,7 @@ en:
       average_enrollments: In this group are %{number} course enrollments per member on average.
       average_enrollments_title: Average Course Enrollents
       enrolled_courses: Enrolled Courses
-      number_of_enrollments: (%{number} members)
+      number_of_enrollments: '%{number} members'
 
   activerecord:
     models:

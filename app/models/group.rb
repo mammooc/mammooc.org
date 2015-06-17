@@ -47,7 +47,7 @@ class Group < ActiveRecord::Base
     (total_enrollments.to_f / users.length.to_f).round(2)
   end
 
-  def enrolled_courses
+  def enrolled_courses_with_amount
     enrolled_courses_array = []
     users.each do |user|
       enrolled_courses_array += user.courses
@@ -55,10 +55,18 @@ class Group < ActiveRecord::Base
     enrolled_courses_array_uniq = enrolled_courses_array.uniq
     enrolled_courses = []
     enrolled_courses_array_uniq.each do |enrolled_course|
-      enrolled_courses.push({id: enrolled_course.id, name: enrolled_course.name, count: enrolled_courses_array.count(enrolled_course)})
+      enrolled_courses.push({course: enrolled_course, count: enrolled_courses_array.count(enrolled_course)})
     end
     enrolled_courses = enrolled_courses.sort_by{ |course_hash| course_hash[:name] }.reverse
     enrolled_courses.sort_by{ |course_hash| course_hash[:count] }.reverse
+  end
+
+  def enrolled_courses
+    enrolled_courses_array = []
+    users.each do |user|
+      enrolled_courses_array += user.courses
+    end
+    enrolled_courses_array.uniq
   end
 
 end

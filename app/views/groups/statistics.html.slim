@@ -13,7 +13,29 @@ br
 
 h3
   = t('groups.statistics.enrolled_courses')
-- @enrolled_courses.each do |enrolled_course_hash|
-  p
-    = link_to enrolled_course_hash[:name], course_path(enrolled_course_hash[:id])
-    =< t('groups.statistics.number_of_enrollments', number: enrolled_course_hash[:count])
+- @enrolled_courses_with_amount.each do |enrolled_course_hash|
+  .enrollments
+    - if enrolled_course_hash[:course].imageId
+      = image_tag(enrolled_course_hash[:course].imageId)
+    span
+      = link_to enrolled_course_hash[:course].name, course_path(enrolled_course_hash[:course].id)
+      br
+      =< t('groups.statistics.number_of_enrollments', number: enrolled_course_hash[:count])
+
+/h3
+/  = t('groups.statistics.enrolled_courses')
+/.courses-wrapper
+/  - @enrolled_courses_with_amount.each do |enrolled_course_hash|
+/    .courses
+/      = link_to enrolled_course_hash[:course]
+/        .course-image
+/          - if enrolled_course_hash[:course].imageId
+/            = image_tag(enrolled_course_hash[:course].imageId)
+/          - else
+/            img src="/data/icons/courses-list-std.png"
+/        .course-info
+/          .hd6.course-name
+/            = enrolled_course_hash[:course].name
+/          = t('groups.statistics.number_of_enrollments', number: enrolled_course_hash[:count])
+/          .provider
+/            img src = @provider_logos[enrolled_course_hash[:course].mooc_provider.logo_id]
