@@ -13,7 +13,7 @@ RSpec.describe 'User', type: :feature do
     setting = FactoryGirl.create :user_setting, name: :course_enrollments_visibility, user: user
     FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
     FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
-    end
+  end
   let!(:second_course_enrollments_visibility_settings) do
     setting = FactoryGirl.create :user_setting, name: :course_enrollments_visibility, user: second_user
     FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting

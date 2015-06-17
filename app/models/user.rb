@@ -180,39 +180,32 @@ class User < ActiveRecord::Base
   end
 
   def connected_users_ids
-    connected_users = Array.new
+    connected_users = []
     groups.each do |group|
       group.users.each do |user|
-        if user.id != id
-          connected_users << user.id
-        end
+        connected_users << user.id if user.id != id
       end
     end
     connected_users.uniq
   end
 
   def connected_users
-    connected_users = Array.new
+    connected_users = []
     groups.each do |group|
       group.users.each do |user|
-        if user.id != id
-          connected_users << user
-        end
+        connected_users << user if user.id != id
       end
     end
     connected_users.uniq
   end
 
-
   def connected_groups_ids
-    connected_groups = Array.new
+    connected_groups = []
     groups.each do |group|
       connected_groups << group.id
-      end
+    end
     connected_groups.uniq
   end
-
-
 
   def self.process_uri(uri)
     return if uri.nil?
@@ -238,7 +231,7 @@ class User < ActiveRecord::Base
   end
 
   def setting(key, create_new = false)
-    setting = self.settings.find_by(name: key)
+    setting = settings.find_by(name: key)
     if !setting && create_new
       puts 'in here'
       setting = UserSetting.create!(name: key, user: self)

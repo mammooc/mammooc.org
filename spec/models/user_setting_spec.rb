@@ -20,18 +20,18 @@ RSpec.describe UserSetting, type: :model do
       let(:value) { 'value' }
 
       it 'creates new UserSettingsEntry' do
-        expect{setting.set(key, value)}.to change{UserSettingEntry.count}.by(1)
+        expect { setting.set(key, value) }.to change { UserSettingEntry.count }.by(1)
       end
 
       it 'saves with correct value' do
-        expect{setting.set(key, value)}.to change{setting.value(key)}.from(nil).to(value)
+        expect { setting.set(key, value) }.to change { setting.value(key) }.from(nil).to(value)
       end
 
       context 'value is Array' do
         let(:value) { [1, 2, 3] }
 
         it 'saves with correct value' do
-          expect{setting.set(key, value)}.to change{setting.value(key)}.from(nil).to(value)
+          expect { setting.set(key, value) }.to change { setting.value(key) }.from(nil).to(value)
         end
       end
     end
@@ -42,8 +42,8 @@ RSpec.describe UserSetting, type: :model do
       let(:setting_entry) { FactoryGirl.create :user_setting_entry, setting: setting, value: old_value }
 
       it 'overwrites the old value' do
-        expect{setting.set(setting_entry.key, new_value)}.to change{setting.value(setting_entry.key)}.from(old_value)
-                                                                                                     .to(new_value)
+        expect { setting.set(setting_entry.key, new_value) }.to change { setting.value(setting_entry.key) }.from(old_value)
+          .to(new_value)
       end
     end
   end

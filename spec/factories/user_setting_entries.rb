@@ -4,5 +4,4 @@ FactoryGirl.define do
     sequence(:value) {|n| "my_value_#{n}" }
     association :setting, factory: :user_setting
   end
-
 end
