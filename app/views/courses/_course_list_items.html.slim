@@ -15,10 +15,11 @@
             i class="fa fa-bookmark bookmark-icon-gray"
 
       .additional-infos
-        .block.mb5
+        .block.pr20.mb5
           - if course.language
-            = course.language
-        .block.course-instructors
+            img src="/data/icons/globe-white.png" class="icon-small pr5"
+              = course.language
+        .block.pr20.course-instructors
           = course.course_instructors
 
     = link_to course
