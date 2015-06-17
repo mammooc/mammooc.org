@@ -6,6 +6,8 @@ form.form-horizontal
   .form-group
     label.col-sm-3 for="rating-input"
       = t('evaluations.overall_evaluation')
+      span.required_field
+        | *
     .col-sm-9
       - if has_rated_course
         .user-rate-course-value
@@ -25,6 +27,8 @@ form.form-horizontal
   .form-group
     label.col-sm-3
       = t('evaluations.course_status')
+      span.required_field
+        | *
     .col-sm-9
       .btn-group.btn-group-sm data-toggle="buttons" id="course-status-selector"
         label.btn.btn-default data-value="1" id="option1"

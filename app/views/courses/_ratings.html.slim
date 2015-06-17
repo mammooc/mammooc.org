@@ -3,14 +3,14 @@
     .recommendation-small
       .user-info
         - if evaluation[:user_id].present?
-          = link_to evaluation[:user_id]
+          = link_to user_path(evaluation[:user_id])
             img src=@profile_pictures["#{evaluation[:user_id]} #{User.find(evaluation[:user_id]).profile_image_file_name}"]
         - else
           img src='/data/profile_picture_default.png'
         .name
           .author
             - if evaluation[:user_id].present?
-              = link_to evaluation[:user_id]
+              = link_to user_path(evaluation[:user_id])
                 = evaluation[:user_name]
             - else
               = evaluation[:user_name]
@@ -27,13 +27,14 @@
         - if evaluation[:evaluation_rating_count].present? &&  evaluation[:evaluation_rating_count] > 0
           .evaluation-rating-notice
             = t('evaluations.users_found_evaluation_helpful',helpful_rating_count: evaluation[:evaluation_helpful_rating_count], rating_count: evaluation[:evaluation_rating_count])
-        div class="was-helpful-evaluation-#{evaluation[:evaluation_id]}"
-          = t('evaluations.did_you_like_evaluation') + ' '
-          a class="rate-evaluation-link" id="rate-evaluation-link-#{index}-true" data-helpful="true" data-evaluation_id="#{evaluation[:evaluation_id]}"
-            = t('evaluations.helpful')
-          = ' '
-          a class="rate-evaluation-link" id="rate-evaluation-link-#{index}-false" data-helpful="false" data-evaluation_id="#{evaluation[:evaluation_id]}"
-            = t('evaluations.not_helpful')
+        - unless evaluation[:user_id] == current_user.id
+          div class="was-helpful-evaluation-#{evaluation[:evaluation_id]}"
+            = t('evaluations.did_you_like_evaluation') + ' '
+            a class="rate-evaluation-link" id="rate-evaluation-link-#{index}-true" data-helpful="true" data-evaluation_id="#{evaluation[:evaluation_id]}"
+              = t('evaluations.helpful')
+            = ' '
+            a class="rate-evaluation-link" id="rate-evaluation-link-#{index}-false" data-helpful="false" data-evaluation_id="#{evaluation[:evaluation_id]}"
+              = t('evaluations.not_helpful')
     - if index < @course_evaluations.size - 1
       .gradient-divider
 - else
