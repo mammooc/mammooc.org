@@ -17,4 +17,3 @@ p
       - @activities.each do |activity|
         - if activity.trackable_type == 'Recommendation'
           = render_activity activity, layout: :activity, locals: {group_context: true, author: activity.owner, course: @activity_courses[activity.id], signed_in_user: current_user}
-          /potential errors because of different Id's

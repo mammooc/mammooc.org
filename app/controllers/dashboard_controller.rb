@@ -14,7 +14,7 @@ class DashboardController < ApplicationController
     # Bookmarks
     @bookmarks = current_user.bookmarks
 
-    @activities = PublicActivity::Activity.order("created_at desc").where(owner_id: @current_user.connected_users_ids)
+    @activities = PublicActivity::Activity.order("created_at desc").where(owner_id: @current_user.connected_users_ids).where("? IN user_ids", current_user.id)
     @activity_courses = Hash.new
     if @activities
       @activities.each do |activity|
@@ -23,7 +23,7 @@ class DashboardController < ApplicationController
             if activity.trackable_type == 'Recommendation'
               @activity_courses[activity.id] = Recommendation.find(activity.trackable_id).course
             elsif activity.trackable_type == 'Course'
-              @activity_courses[activity.id] = Course.find(activity.trackable_id)#
+              @activity_courses[activity.id] = Course.find(activity.trackable_id)
             elsif activity.trackable_type == 'Bookmark'
               @activity_courses[activity.id] = Bookmark.find(activity.trackable_id).course
             end
@@ -34,6 +34,7 @@ class DashboardController < ApplicationController
           @activities -= [activity]
         end
       end
+      @number_of_activities = @activities.length
     end
     @number_of_mandatory_recommendations = 0
     @recommendations.each do |recommendation|

@@ -2,17 +2,14 @@ require 'rails_helper'
 
 RSpec.describe ActivitiesController, type: :controller do
 
-  describe "GET #delete_group_newsfeed_entry" do
-    it "returns http success" do
-      get :delete_group_newsfeed_entry
-      expect(response).to have_http_status(:success)
-    end
-  end
-
-  describe "GET #delete_user_from_newsfeed_entry" do
-    it "returns http success" do
-      get :delete_user_from_newsfeed_entry
-      expect(response).to have_http_status(:success)
+  describe 'delete group newsfeed_entry' do
+    let(:group) {FactoryGirl.create(:group)}
+    it 'destroys the requested newsfeed_entry of specified group' do
+      request.env['HTTP_REFERER'] = dashboard_path
+      activity = FactoryGirl.create(:activity, group_ids: [group.id], user_ids: nil)
+      expect do
+        get :delete_group_from_newsfeed_entry, id: activity.id, group_id: group.id
+      end.to change(Recommendation, :count).by(-1)
     end
   end
 
