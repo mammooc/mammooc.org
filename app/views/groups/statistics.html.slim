@@ -5,7 +5,15 @@
   button.btn.btn-default id='sync-group-course-button' data-group_id='#{@group.id}'
     span.glyphicon.glyphicon-refresh data-group_id='#{@group.id}'
 
-h4
+h3
   = t('groups.statistics.average_enrollments_title')
 p
   = t('groups.statistics.average_enrollments', number: @average_enrollments)
+br
+
+h3
+  = t('groups.statistics.enrolled_courses')
+- @enrolled_courses.each do |enrolled_course_hash|
+  p
+    = link_to enrolled_course_hash[:name], course_path(enrolled_course_hash[:id])
+    =< t('groups.statistics.number_of_enrollments', number: enrolled_course_hash[:count])
