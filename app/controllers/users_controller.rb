@@ -122,7 +122,7 @@ class UsersController < ApplicationController
   end
 
   def set_setting
-    setting = current_user.setting(params[:setting])
+    setting = current_user.setting(params[:setting], true)
     setting.set(params[:key], params[:value])
 
     respond_to do |format|
