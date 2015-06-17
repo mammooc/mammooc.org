@@ -17,10 +17,7 @@ class RecommendationsController < ApplicationController
   # GET /recommendations.json
   def index
     @recommendations = current_user.recommendations.sort_by(&:created_at).reverse!
-    recommendations_ids = Array.new
-    @recommendations.each do |recommendation|
-      recommendations_ids << recommendation.id
-    end
+    recommendations_ids = @recommendations.collect(&:id)
 
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
     @profile_pictures = User.author_profile_images_hash_for_recommendations(@recommendations)

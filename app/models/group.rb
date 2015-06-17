@@ -31,11 +31,7 @@ class Group < ActiveRecord::Base
   end
 
   def user_ids
-    user_ids = Array.new
-    users.each do |user|
-      user_ids << user.id
-    end
-    user_ids
+    users.collect(&:id)
   end
 
   def destroy

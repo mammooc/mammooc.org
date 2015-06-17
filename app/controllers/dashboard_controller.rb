@@ -14,22 +14,18 @@ class DashboardController < ApplicationController
     # Bookmarks
     @bookmarks = current_user.bookmarks
 
-    @activities = PublicActivity::Activity.order("created_at desc").where(owner_id: @current_user.connected_users_ids).where("? IN user_ids", current_user.id)
+    @activities = PublicActivity::Activity.order("created_at desc").where(owner_id: @current_user.connected_users_ids)
     @activity_courses = Hash.new
+    @activity_courses_bookmarked = Hash.new
     if @activities
       @activities.each do |activity|
-        if activity.user_ids
-          if activity.user_ids.include? current_user.id
-            if activity.trackable_type == 'Recommendation'
-              @activity_courses[activity.id] = Recommendation.find(activity.trackable_id).course
-            elsif activity.trackable_type == 'Course'
-              @activity_courses[activity.id] = Course.find(activity.trackable_id)
-            elsif activity.trackable_type == 'Bookmark'
-              @activity_courses[activity.id] = Bookmark.find(activity.trackable_id).course
-            end
-          else
-            @activities -= [activity]
-          end
+        if activity.user_ids && (activity.user_ids.include? current_user.id)
+          @activity_courses[activity.id] = case activity.trackable_type
+                                             when 'Recommendation' then Recommendation.find(activity.trackable_id).course
+                                             when 'Course' then Course.find(activity.trackable_id)
+                                             when 'Bookmark' then Bookmark.find(activity.trackable_id).course
+                                           end
+          @activity_courses_bookmarked[activity.id] = @activity_courses[activity.id].bookmarked_by_user? current_user
         else
           @activities -= [activity]
         end

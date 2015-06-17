@@ -27,7 +27,7 @@ class Recommendation < ActiveRecord::Base
 
   def delete_user_from_recommendation user
     self.users -= [user]
-    if self.users.empty? && self.group.blank?
+    if self.users.blank? && self.group.blank?
       self.destroy
     end
   end

@@ -54,12 +54,12 @@
         = t('newsfeed.button.course_details')
       | &nbsp;&#183;&nbsp;
       - unless signed_in_user.courses.include? course
-        - if Bookmark.where(user_id: signed_in_user.id, course_id: course.id).blank?
-          a class="entry" href='' id='remember_course_link' data-course_id='#{course.id}' data-user_id='#{signed_in_user.id}'
-            = t('courses.remember_course')
-        - else
+        - if bookmarked
           a class="entry" href='' id='delete_remember_course_link' data-course_id='#{course.id}' data-user_id='#{signed_in_user.id}'
             = t('courses.delete_remember_course')
+        - else
+          a class="entry" href='' id='remember_course_link' data-course_id='#{course.id}' data-user_id='#{signed_in_user.id}'
+            = t('courses.remember_course')
         | &nbsp;&#183;&nbsp;
         a href='' id='enroll-course-link' data-course_id='#{course.id}'
           = t('courses.enroll_course')
