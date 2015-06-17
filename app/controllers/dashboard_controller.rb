@@ -19,7 +19,7 @@ class DashboardController < ApplicationController
     @activity_courses_bookmarked = Hash.new
     if @activities
       @activities.each do |activity|
-        if activity.user_ids && (activity.user_ids.include? current_user.id)
+        if activity.user_ids.present? && (activity.user_ids.include? current_user.id)
           @activity_courses[activity.id] = case activity.trackable_type
                                              when 'Recommendation' then Recommendation.find(activity.trackable_id).course
                                              when 'Course' then Course.find(activity.trackable_id)

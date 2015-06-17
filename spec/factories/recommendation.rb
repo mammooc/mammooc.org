@@ -6,7 +6,7 @@ FactoryGirl.define do
     course { FactoryGirl.create(:course) }
     text 'Great Course!'
     users { [FactoryGirl.create(:user)] }
-    after(:create){ |recommendation |FactoryGirl.create(:activity, key: 'recommendation.create', trackable_id: recommendation.id, trackable_type: 'Recommendation', owner: recommendation.author, group_ids: nil, user_ids: [recommendation.users.first.id])}
+    after(:create){ |recommendation |FactoryGirl.create(:activity, key: 'recommendation.create', trackable_id: recommendation.id, trackable_type: 'Recommendation', owner: recommendation.author, group_ids: nil, user_ids: recommendation.users.collect {|user| user.id})}
   end
 
   factory :group_recommendation, class: Recommendation do

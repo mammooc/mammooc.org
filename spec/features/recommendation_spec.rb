@@ -4,10 +4,10 @@ require 'rails_helper'
 RSpec.describe 'Recommendation', type: :feature do
   self.use_transactional_fixtures = false
 
-  let(:user) { FactoryGirl.create(:user) }
-  let(:second_user) { FactoryGirl.create(:user) }
-  let(:author) { FactoryGirl.create(:user) }
-  let(:group) { FactoryGirl.create(:group, users: [user, author]) }
+  let!(:user) { FactoryGirl.create(:user) }
+  let!(:second_user) { FactoryGirl.create(:user) }
+  let!(:author) { FactoryGirl.create(:user) }
+  let!(:group) { FactoryGirl.create(:group, users: [user, author, second_user]) }
 
   before(:each) do |example|
     unless example.metadata[:skip_before]
