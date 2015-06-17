@@ -455,7 +455,6 @@ en:
       already_enrolled: You are already enrolled for this course.
 
   completions:
-    title: My Completions | mammooc
     heading: My Completions
     points_achieved: "%{points_achieved} points achieved"
     points_achieved_of_maximal: "%{points_achieved} of %{points_maximal} points achieved"

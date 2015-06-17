@@ -47,9 +47,9 @@ class AbstractCourseWorker
     redcarpet.render(text).html_safe
   end
 
-  def convert_to_asolute_urls(html)
-    document = Nokogiri::HTML(html)
-    tags = {img: 'src', a: 'href'}
+  def convert_to_absolute_urls(html)
+    document = Nokogiri::HTML.fragment(html)
+    tags = {'img' => 'src', 'a' => 'href', 'video' => 'src'}
 
     document.search(tags.keys.join(',')).each do |node|
       url_attribute = tags[node.name]
