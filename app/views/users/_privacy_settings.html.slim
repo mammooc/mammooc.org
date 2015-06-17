@@ -102,3 +102,38 @@ h4
       .col-md-2
         button.btn.btn-sm.btn-default.setting-add-button data-list-id='course-progress-visibility-users-list' data-user-id="#{current_user.id}"
           span.glyphicon.glyphicon-plus
+
+h3
+  = t('users.settings.privacy.profile')
+h4
+  = t('users.settings.privacy.visible_to', subject: t('users.settings.privacy.profile'))
+.row
+  .col-md-6
+    h5
+      = t('activerecord.models.group.other')
+    .row
+      .col-md-10
+        ul.list-group#profile-visibility-groups-list data-setting='profile_visibility' data-key='groups'
+          - @profile_visibility_groups.each do |group|
+            li.list-group-item data-id="#{group.id}"
+              = group.name
+              button.btn.btn-xs.btn-default.pull-right.setting-remove-button data-user-id="#{current_user.id}"
+                span.glyphicon.glyphicon-remove
+      .col-md-2
+        button.btn.btn-sm.btn-default.setting-add-button data-list-id='profile-visibility-groups-list' data-user-id="#{current_user.id}"
+          span.glyphicon.glyphicon-plus
+
+  .col-md-6
+    h5
+      = t('activerecord.models.user.other')
+    .row
+      .col-md-10
+        ul.list-group#profile-visibility-users-list data-setting='profile_visibility' data-key='users'
+          - @profile_visibility_users.each do |user|
+            li.list-group-item data-id="#{user.id}"
+              = "#{user.first_name} #{user.last_name} (#{user.primary_email})"
+              button.btn.btn-xs.btn-default.pull-right.setting-remove-button data-user-id="#{current_user.id}"
+                span.glyphicon.glyphicon-remove
+      .col-md-2
+        button.btn.btn-sm.btn-default.setting-add-button data-list-id='profile-visibility-users-list' data-user-id="#{current_user.id}"
+          span.glyphicon.glyphicon-plus

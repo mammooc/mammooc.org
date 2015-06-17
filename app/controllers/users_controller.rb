@@ -241,6 +241,9 @@ class UsersController < ApplicationController
 
     @course_progress_visibility_groups = Group.find(current_user.setting(:course_progress_visibility).value(:groups) || [])
     @course_progress_visibility_users = User.find(current_user.setting(:course_progress_visibility).value(:users) || [])
+
+    @profile_visibility_groups = Group.find(current_user.setting(:profile_visibility).value(:groups) || [])
+    @profile_visibility_users = User.find(current_user.setting(:profile_visibility).value(:users) || [])
   end
 
   def set_provider_logos
