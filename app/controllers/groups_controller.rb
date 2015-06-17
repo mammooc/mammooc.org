@@ -19,7 +19,7 @@ class GroupsController < ApplicationController
   # GET /groups.json
   def index
     @groups = current_user.groups
-    @groups.where!('name LIKE %', params[:q])
+    @groups.where!('name LIKE %?%', params[:q])
     @groups_pictures = Group.group_images_hash_for_groups @groups
 
     respond_to do |format|

@@ -155,7 +155,7 @@ addSetting = (event) ->
     source: (request, response) ->
       $.ajax
         url: input_source_url
-        dataType: "json"
+        dataType: 'json'
         data:
           q: request.term
         error: (jqXHR, textStatus, errorThrown) ->
@@ -166,7 +166,7 @@ addSetting = (event) ->
           for item in data
             label = switch list.data('key')
               when 'groups' then item.name
-              when 'users' then "#{item.first_name} #{item.last_name} (#{item.email})"
+              when 'users' then "#{item.first_name} #{item.last_name}"
             results.push({label: label, value: item.id}) if existing_ids.indexOf(item.id) < 0
           response(results)
     select: (event, ui) ->

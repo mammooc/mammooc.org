@@ -177,7 +177,7 @@ de:
         course_enrollments: Kursbelegungen
         course_results: Kursabschlüsse
         course_progress: Kursfortschritt
-        profile: profile
+        profile: Profil
     synchronization:
       oauth_error: Fehler! Wir konnten keine Verbindung zu deinem Account herstellen. Bitte überprüfe deine Einstellungen und versuche es erneut.
       revoke_provider_connection: Verbindung aufheben
@@ -492,7 +492,7 @@ de:
       settings:
         group: eine Gruppe
         user: einen Nutzer
-        input_empty: Bitte geben Sie %{subject} an.
+        input_empty: Bitte gib %{subject} an.
 
   startpage:
     carousel:

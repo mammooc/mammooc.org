@@ -4,11 +4,7 @@ class UserSetting < ActiveRecord::Base
 
   def value(key)
     entry = entries.find_by(key: key)
-    if entry
-      return entry.value
-    else
-      return nil
-    end
+    return (entry) ? entry.value : nil
   end
 
   def set(key, value)

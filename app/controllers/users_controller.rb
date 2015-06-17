@@ -133,7 +133,7 @@ class UsersController < ApplicationController
   def connected_users_autocomplete
     search = params[:q].downcase
     users = current_user.connected_users.select {|u| u.first_name.downcase.include?(search) || u.last_name.downcase.include?(search) }
-            .collect {|u| {id: u.id, first_name: u.first_name, last_name: u.last_name, email: u.primary_email} }
+            .collect {|u| {id: u.id, first_name: u.first_name, last_name: u.last_name} }
 
     respond_to do |format|
       format.json { render json: users }

@@ -491,7 +491,7 @@ en:
         password_confirmation: doesn't match with password.
       settings:
         group: a group
-        user: a user
+        user: an user
         input_empty: Please provide %{subject}.
 
   startpage:
