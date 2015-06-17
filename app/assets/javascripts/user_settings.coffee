@@ -184,6 +184,7 @@ addSetting = (event) ->
       .append(ok_button)
       .append(cancel_button))
   list.prepend(form_item)
+  name_input.focus()
 
 removeSetting = (event) ->
   button = if (event.target.nodeName == 'SPAN') then $(event.target.parentElement) else $(event.target)
