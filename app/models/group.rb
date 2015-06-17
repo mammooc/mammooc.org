@@ -38,4 +38,13 @@ class Group < ActiveRecord::Base
   def admins
     User.find(UserGroup.where(group_id: id, is_admin: true).collect(&:user_id))
   end
+
+  def average_enrollments
+    total_enrollments = 0
+    users.each do |user|
+      total_enrollments += user.courses.length
+    end
+    (total_enrollments.to_f / users.length.to_f).round(2)
+  end
+
 end

@@ -69,6 +69,7 @@ class GroupsController < ApplicationController
 
   def statistics
     @group_picture = Group.group_images_hash_for_groups [@group]
+    @average_enrollments = @group.average_enrollments
   end
 
   # POST /groups

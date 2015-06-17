@@ -234,6 +234,10 @@ de:
       confirm_leave_group: Gruppe verlassen
       confirm_remove_member: Mitglied entfernen
       yourself: dich
+    statistics:
+      average_enrollments_title: In dieser Gruppe gibt es durchschnittlich %{number} Belegungen pro Nutzer.
+      average_enrollments: Durchschnittliche Anzahl der Belegungen
+
 
   activerecord:
     models:

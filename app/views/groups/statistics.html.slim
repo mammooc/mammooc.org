@@ -4,3 +4,8 @@
 - if can? :synchronize_courses, @group
   button.btn.btn-default id='sync-group-course-button' data-group_id='#{@group.id}'
     span.glyphicon.glyphicon-refresh data-group_id='#{@group.id}'
+
+h4
+  = t('groups.statistics.average_enrollments_title')
+p
+  = t('groups.statistics.average_enrollments', number: @average_enrollments)
