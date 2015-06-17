@@ -189,47 +189,47 @@ RSpec.describe Course, type: :model do
 
       it 'finds the course with the specified name' do
         result = described_class.search_query(course_match_name.name)
-        expect(result).to match([course_match_name])
+        expect(result).to match_array([course_match_name])
       end
 
       it 'finds courses with the specified course instructor' do
         result = described_class.search_query(course_match_instructors.course_instructors)
-        expect(result).to match([course_match_instructors])
+        expect(result).to match_array([course_match_instructors])
       end
 
       it 'finds courses where query match first part of course name' do
         result = described_class.search_query('We')
-        expect(result).to match([course_match_name])
+        expect(result).to match_array([course_match_name])
       end
 
       it 'finds courses where query match last part of course name' do
         result = described_class.search_query('gies')
-        expect(result).to match([course_match_name])
+        expect(result).to match_array([course_match_name])
       end
 
       it 'finds courses where query match middle part of course name' do
         result = described_class.search_query('Techno')
-        expect(result).to match([course_match_name, course_not_match_name])
+        expect(result).to match_array([course_match_name, course_not_match_name])
       end
 
       it 'finds courses where query match first part of course instructors' do
         result = described_class.search_query('Jan')
-        expect(result).to match([course_match_instructors])
+        expect(result).to match_array([course_match_instructors])
       end
 
       it 'finds courses where query match last part of course instructors' do
         result = described_class.search_query('bitz')
-        expect(result).to match([course_match_instructors, course_not_match_instructors])
+        expect(result).to match_array([course_match_instructors, course_not_match_instructors])
       end
 
       it 'finds courses where query match middle part of course instructors' do
         result = described_class.search_query('Chris')
-        expect(result).to match([course_not_match_instructors])
+        expect(result).to match_array([course_not_match_instructors])
       end
 
       it 'treats upper and lowercase equally' do
         result = described_class.search_query('JAN')
-        expect(result).to match([course_match_instructors])
+        expect(result).to match_array([course_match_instructors])
       end
     end
 
@@ -241,14 +241,14 @@ RSpec.describe Course, type: :model do
 
       it 'returns courses that start at or after defined date' do
         result = described_class.with_start_date_gte(test_date)
-        expect(result).to match([correct_course, correct_course2])
+        expect(result).to match_array([correct_course, correct_course2])
       end
 
       it 'ignores courses without start_date' do
         wrong_course.start_date = nil
         wrong_course.save
         result = described_class.with_start_date_gte(test_date)
-        expect(result).to match([correct_course, correct_course2])
+        expect(result).to match_array([correct_course, correct_course2])
       end
     end
 
@@ -260,14 +260,14 @@ RSpec.describe Course, type: :model do
 
       it 'returns courses that end at or before defined date' do
         result = described_class.with_end_date_lte(test_date)
-        expect(result).to match([correct_course, correct_course2])
+        expect(result).to match_array([correct_course, correct_course2])
       end
 
       it 'ignores courses without end_date' do
         wrong_course.end_date = nil
         wrong_course.save
         result = described_class.with_end_date_lte(test_date)
-        expect(result).to match([correct_course, correct_course2])
+        expect(result).to match_array([correct_course, correct_course2])
       end
     end
 
@@ -279,35 +279,35 @@ RSpec.describe Course, type: :model do
 
       it 'returns courses that have only the test language set as language' do
         result = described_class.with_language(test_language)
-        expect(result).to match([correct_course, correct_course2])
+        expect(result).to match_array([correct_course, correct_course2])
       end
 
       it 'ignores courses without language' do
         wrong_course.language = nil
         wrong_course.save
         result = described_class.with_language(test_language)
-        expect(result).to match([correct_course, correct_course2])
+        expect(result).to match_array([correct_course, correct_course2])
       end
 
       it 'works with languages that define a region' do
         correct_course.language = "#{test_language}-gb"
         correct_course.save
         result = described_class.with_language(test_language)
-        expect(result).to match([correct_course2, correct_course])
+        expect(result).to match_array([correct_course2, correct_course])
       end
 
       it 'works with the search language being one of the later languages' do
         correct_course.language = "zh,#{test_language}"
         correct_course.save
         result = described_class.with_language(test_language)
-        expect(result).to match([correct_course2, correct_course])
+        expect(result).to match_array([correct_course2, correct_course])
       end
 
       it 'works with the search language being the first of many languages' do
         correct_course.language = "#{test_language},zh"
         correct_course.save
         result = described_class.with_language(test_language)
-        expect(result).to match([correct_course2, correct_course])
+        expect(result).to match_array([correct_course2, correct_course])
       end
 
       it 'works with multiple languages that include regions' do
@@ -328,7 +328,7 @@ RSpec.describe Course, type: :model do
 
       it 'returns courses of the correct provider' do
         result = described_class.with_mooc_provider_id(correct_provider.id)
-        expect(result).to match([correct_course])
+        expect(result).to match_array([correct_course])
       end
     end
 
@@ -340,42 +340,42 @@ RSpec.describe Course, type: :model do
 
       it 'returns courses that have only the test subtitle_language set as subtitle_language' do
         result = described_class.with_subtitle_languages(test_language)
-        expect(result).to match([correct_course, correct_course2])
+        expect(result).to match_array([correct_course, correct_course2])
       end
 
       it 'ignores courses without subtitle_language' do
         wrong_course.subtitle_languages = nil
         wrong_course.save
         result = described_class.with_subtitle_languages(test_language)
-        expect(result).to match([correct_course, correct_course2])
+        expect(result).to match_array([correct_course, correct_course2])
       end
 
       it 'works with subtitle_languages that define a region' do
         correct_course.subtitle_languages = "#{test_language}-gb"
         correct_course.save
         result = described_class.with_subtitle_languages(test_language)
-        expect(result).to match([correct_course2, correct_course])
+        expect(result).to match_array([correct_course2, correct_course])
       end
 
       it 'works with the search subtitle_language being one of the later subtitle_languages' do
         correct_course.subtitle_languages = "zh,#{test_language}"
         correct_course.save
         result = described_class.with_subtitle_languages(test_language)
-        expect(result).to match([correct_course2, correct_course])
+        expect(result).to match_array([correct_course2, correct_course])
       end
 
       it 'works with the search subtitle_language being the first of many subtitle_languages' do
         correct_course.subtitle_languages = "#{test_language},zh"
         correct_course.save
         result = described_class.with_subtitle_languages(test_language)
-        expect(result).to match([correct_course2, correct_course])
+        expect(result).to match_array([correct_course2, correct_course])
       end
 
       it 'works with multiple subtitle_languages that include regions' do
         correct_course.subtitle_languages = "de,#{test_language}-gb,zh"
         correct_course.save
         result = described_class.with_subtitle_languages(test_language)
-        expect(result).to match([correct_course2, correct_course])
+        expect(result).to match_array([correct_course2, correct_course])
       end
     end
 
