@@ -2,18 +2,18 @@
   .sidebar.mt30
     .element
       .content
-        .hd5.pb5
-          = t('dashboard.my_groups')
+        .hd5.pb5.do-not-show-link
+          = link_to t('dashboard.my_groups'), groups_path
         - if current_user.groups.empty?
           = t('dashboard.no_groups')
         - else
-          - current_user.groups.each do |group|
+          - current_user.groups_sorted_by_admin_state_and_name.each do |group|
             = link_to group.name, group_path(group)
             br
     .element
       .content
-        .hd5.pb5
-          = t('dashboard.bookmarks')
+        .hd5.pb5.do-not-show-link
+          = link_to t('dashboard.bookmarks'), bookmarks_path
         - if @bookmarks.blank?
           = t('dashboard.no_bookmarks')
         - else

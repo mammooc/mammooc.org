@@ -28,7 +28,7 @@ RSpec.describe CoursesController, type: :controller do
   describe 'GET search' do
     it 'set session variable "courses#index" to the given param' do
       get :search, query: 'web'
-      expect(session['courses#index']).to eql('search_query': 'web', 'with_tracks': {'costs': '', 'certificate': ''})
+      expect(session['courses#index']).to eql(search_query: 'web')
     end
 
     it 'redirects to courses_path' do

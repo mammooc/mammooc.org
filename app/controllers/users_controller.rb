@@ -20,10 +20,6 @@ class UsersController < ApplicationController
     @user_picture = current_user.profile_image.expiring_url(3600, :square)
   end
 
-  # GET /users/1/edit
-  def edit
-  end
-
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
@@ -73,7 +69,13 @@ class UsersController < ApplicationController
   end
 
   def account_settings
-    @partial = render_to_string partial: 'devise/registrations/edit', formats: [:html]
+    @user = current_user
+    @emails = @user.emails.sort_by do |email|
+      [email.is_primary ? 0 : 1, email.address]
+    end
+    @partial = render_to_string partial: 'users/form', formats: [:html]
+    @partial += render_to_string partial: 'users/change_emails', formats: [:html]
+    @partial += render_to_string partial: 'devise/registrations/edit', formats: [:html]
     respond_to do |format|
       begin
         format.html { redirect_to dashboard_path }
@@ -119,6 +121,11 @@ class UsersController < ApplicationController
     prepare_mooc_provider_settings
     prepare_privacy_settings
     @subsite = params['subsite']
+    @user = current_user
+    @emails = @user.emails.sort_by do |email|
+      [email.is_primary ? 0 : 1, email.address]
+    end
+    session.delete(:deleted_user_emails)
   end
 
   def set_setting
@@ -214,6 +221,56 @@ class UsersController < ApplicationController
         format.json { render json: e.to_json, status: :unprocessable_entity }
       end
     end
+  end
+
+  def change_email
+    @user = current_user
+
+    # update existing emails
+    @user.emails.each do |email|
+      if params[:user][:user_email][:"address_#{email.id}"] != email.address
+        email.address = params[:user][:user_email][:"address_#{email.id}"]
+        email.save
+      end
+    end
+
+    # create new emails
+    total_number_of_emails = params[:user][:index].to_i
+    number_of_new_emails = total_number_of_emails - @user.emails.length
+
+    number_of_new_emails.times do |index|
+      index_of_new_email = total_number_of_emails - index
+      next unless params[:user][:user_email][:"address_#{index_of_new_email}"].present?
+      new_address = params[:user][:user_email][:"address_#{index_of_new_email}"]
+      new_email = UserEmail.new(address: new_address, is_primary: false)
+      new_email.user = @user
+      @user.emails.push new_email
+    end
+
+    # change primary state
+    if params[:user][:user_email][:is_primary].include? 'new_email_index'
+      splitted_string = params[:user][:user_email][:is_primary].split('_')
+      new_primary_email_address = params[:user][:user_email][:"address_#{splitted_string[3]}"]
+      UserEmail.find_by(address: new_primary_email_address).change_to_primary_email
+    elsif params[:user][:user_email][:is_primary] != UserEmail.find_by(address: @user.primary_email).id
+      UserEmail.find(params[:user][:user_email][:is_primary]).change_to_primary_email
+    end
+
+    # delete marked emails
+    if session[:deleted_user_emails].present?
+      session[:deleted_user_emails].each do |user_email_id|
+        user_email = UserEmail.find(user_email_id)
+        user_email.destroy
+      end
+      session.delete(:deleted_user_emails)
+    end
+
+    redirect_to "#{user_settings_path(current_user)}?subsite=account", notice: t('users.settings.change_emails.success')
+  end
+
+  def cancel_change_email
+    session.delete(:deleted_user_emails)
+    redirect_to "#{user_settings_path(current_user)}?subsite=account"
   end
 
   private

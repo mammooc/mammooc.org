@@ -12,8 +12,9 @@
       - if current_user.last_sign_in_at
         => t('dashboard.last_time_active')
         = I18n.l current_user.last_sign_in_at, format: t('global.date_format_month')
-    .user-info.hidden-xs
-      = t('dashboard.number_of_recommendations', number: @number_of_recommendations)
+    .user-info.hidden-xs.link-black-hover-green
+      = t('dashboard.you_have')
+      =< link_to t('dashboard.number_of_recommendations', number: @number_of_recommendations), recommendations_path
       br
         // not implemented yet
       = t('dashboard.number_of_activities')
