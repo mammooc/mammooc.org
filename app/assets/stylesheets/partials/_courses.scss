@@ -44,10 +44,31 @@ $course-img-height: 250px;
     .options {
       position: absolute;
       bottom: 20px;
-      right: 20px;
+      right: 60px;
 
       img {
         height: 40px;
+      }
+    }
+
+    .actions {
+      position: absolute;
+      top: 0px;
+      right: 15px;
+      min-height: $course-img-height + 40px;
+      width: 30px;
+      background-color: rgba(0, 0, 0, 0.5);
+
+      .action-icon-wishlist {
+        @extend .action-icons;
+        margin-top: 15px;
+        padding-left: 8px;
+      }
+
+      .action-icon-enrollment {
+        @extend .action-icons;
+        margin-top: 45px;
+        padding-left: 6px;
       }
     }
   }
@@ -188,7 +209,7 @@ $course-img-height: 250px;
   background-color: #ffffff;
  }
 
-/* Course listing */
+/* Course listing: Filter */
 
 .filter-options-top {
   width: 100%;
@@ -220,7 +241,42 @@ $course-img-height: 250px;
   }
 }
 
+/* Course listing: Items */
+
 $course-listing-img-height: 130px;
+
+.action-icons {
+  z-index: 3;
+  position: absolute;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  display: inline-block;
+  text-decoration: inherit;
+  font-size: 18px;
+}
+
+.action-icon-gray {
+  color: white;
+  -webkit-text-fill-color: rgba(0, 0, 0, 0.5);
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: white;
+
+  &:hover {
+    -webkit-text-fill-color: $mammooc;
+  }
+}
+
+.action-icon-green {
+  color: white;
+  -webkit-text-fill-color: $mammooc;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: white;
+
+  &:hover {
+    -webkit-text-fill-color: rgba(0, 0, 0, 0.5);
+  }
+}
 
 .courses-wrapper {
   overflow: auto;
@@ -274,7 +330,7 @@ $course-listing-img-height: 130px;
         }
       }
 
-      img {
+      & > img {
         z-index: 1;
         position: absolute;
         top: 0;
@@ -285,30 +341,16 @@ $course-listing-img-height: 130px;
         overflow: hidden;
       }
 
-      .add-to-wishlist {
-        z-index: 3;
-        position: absolute;
+      .action-icon-wishlist {
+        @extend .action-icons;
         top: 10px;
         right: 10px;
-        font-family: FontAwesome;
-        font-style: normal;
-        font-weight: normal;
-        display: inline-block;
-        text-decoration: inherit;
-        font-size: 18px;
       }
 
-      .remove-from-wishlist {
-        z-index: 3;
-        position: absolute;
-        top: 10px;
+      .action-icon-enrollment {
+        @extend .action-icons;
+        top: 35px;
         right: 10px;
-        font-family: FontAwesome;
-        font-style: normal;
-        font-weight: normal;
-        display: inline-block;
-        text-decoration: inherit;
-        font-size: 18px;
       }
     }
 
@@ -352,28 +394,6 @@ $course-listing-img-height: 130px;
         }
       }
     }
-  }
-}
-
-.bookmark-icon-gray {
-  color: white;
-  -webkit-text-fill-color: rgba(0, 0, 0, 0.5);
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: white;
-
-  &:hover {
-    -webkit-text-fill-color: $mammooc;
-  }
-}
-
-.bookmark-icon-green {
-  color: white;
-  -webkit-text-fill-color: $mammooc;
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: white;
-
-  &:hover {
-    -webkit-text-fill-color: rgba(0, 0, 0, 0.5);
   }
 }
 

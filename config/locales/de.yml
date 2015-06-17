@@ -317,7 +317,9 @@ de:
       already_running: "Kurs läuft"
       load_more: Mehr anzeigen
       bookmark: Vormerken
-      remove_bookmark: Vormerkung entfernen
+      remove-bookmark: Vormerkung entfernen
+      enroll: Belegen
+      unenroll: Belegung entfernen
     sidebar:
       recommended: Dieser Kurs wurde dir empfohlen
       pledged: Dieser Kurs wurde dir vorgeschrieben

@@ -285,8 +285,8 @@ en:
     enter_course: Enter Course
     remember_course: Bookmark Course
     delete_remember_course: Delete Course from bookmarks
-    enroll_course: Enroll me for this Course
-    unenroll_course: Unenroll me for this Course
+    enroll_course: Enroll me for this course
+    unenroll_course: Unenroll me for this course
     recommend_course: Recommend Course
     recommend_course_obligatory: Make course obligatory
     rate_course: Rate Course
@@ -317,7 +317,9 @@ en:
       already_running: "Running"
       load_more: Show more
       bookmark: Bookmark
-      remove_bookmark: Remove bookmark
+      remove-bookmark: Remove bookmark
+      enroll: Enroll
+      unenroll: Unenroll
     sidebar:
       recommended: Someone recommended this course to you
       pledged: Someone wants to see you doing this course

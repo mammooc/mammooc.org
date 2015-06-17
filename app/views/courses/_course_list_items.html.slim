@@ -5,15 +5,23 @@
         = image_tag(course.imageId)
       - else
         img src="/data/icons/courses-list-std.png"
-      - if @my_bookmarked_courses.include? course
-        .remove-from-wishlist data-toggle="tooltip" data-placement="left" title="#{(t('courses.course-list.remove_bookmark'))}"
-          a href="" class='bookmark-icon' data-course_id='#{course.id}' data-user_id='#{current_user.id}'
-            i class="fa fa-bookmark bookmark-icon-green"
-      - elsif current_user
-        .add-to-wishlist data-toggle="tooltip" data-placement="left" title="#{(t('courses.course-list.bookmark'))}"
-          a href="" class='bookmark-icon-o' data-course_id='#{course.id}' data-user_id='#{current_user.id}'
-            i class="fa fa-bookmark bookmark-icon-gray"
-
+      - if user_signed_in?
+        - if @my_bookmarked_courses.include? course
+          .action-icon-wishlist data-toggle="tooltip" data-placement="auto" title="#{(t('courses.course-list.remove-bookmark'))}" toggle-title=title="#{(t('courses.course-list.bookmark'))}"
+            a href="" class='bookmark-icon' data-course_id='#{course.id}' data-user_id='#{current_user.id}'
+              i class="fa fa-bookmark action-icon-green"
+        - else
+          .action-icon-wishlist data-toggle="tooltip" data-placement="left" title="#{(t('courses.course-list.bookmark'))}" toggle-title=title="#{(t('courses.course-list.remove-bookmark'))}"
+            a href="" class='bookmark-icon-o' data-course_id='#{course.id}' data-user_id='#{current_user.id}'
+              i class="fa fa-bookmark action-icon-gray"
+        - if current_user.courses.include? course
+          .action-icon-enrollment data-toggle="tooltip" data-placement="left" title="#{(t('courses.course-list.unenroll'))}" toggle-title="#{(t('courses.course-list.enroll'))}"
+            a href="" class='unenroll-icon' data-course_id='#{course.id}'
+              i class="fa fa-sign-in action-icon-green"
+        - else
+          .action-icon-enrollment data-toggle="tooltip" data-placement="left" title="#{(t('courses.course-list.enroll'))}" toggle-title="#{(t('courses.course-list.unenroll'))}"
+            a href="" class='enroll-icon' data-course_id='#{course.id}'
+              i class="fa fa-sign-in action-icon-gray"
       .additional-infos
         .block.pr20.mb5
           - if course.language

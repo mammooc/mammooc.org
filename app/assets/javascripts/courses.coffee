@@ -71,7 +71,20 @@
   else
     $('#loadMore').hide();
 
+
+@prepare_bookmark_events = () ->
+  $('.bookmark-icon-o').unbind('click')
+                       .on 'click', (event) -> addToWishlist(event)
+  $('.bookmark-icon').unbind('click')
+                     .on 'click', (event) -> removeFromWishlist(event)
+
+@toggle_title = (target) ->
+  toggle_title = target.attr('data-original-title')
+  target.attr('data-original-title', target.attr('toggle-title'))
+  .attr('toggle-title', toggle_title)
+
 @addToWishlist = (event) ->
+  console.log('Click event fired (add)')
   target = $(event.delegateTarget)
   current_course_id = target.data('course_id')
   current_user_id = target.data('user_id')
@@ -80,6 +93,7 @@
     bookmark :
       course_id : current_course_id
       user_id : current_user_id
+  console.log(data)
   $.ajax
     url: url
     data: data
@@ -87,9 +101,10 @@
     error: (jqXHR, textStatus, errorThrown) ->
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
+      toggle_title(target.parent())
       target.unbind('click')
             .removeClass('bookmark-icon-o').addClass('bookmark-icon')
-            .children('i').removeClass('bookmark-icon-gray').addClass('bookmark-icon-green')
+            .children('i').removeClass('action-icon-gray').addClass('action-icon-green')
       target.on 'click', (event) -> removeFromWishlist(event)
   event.preventDefault()
 
@@ -109,15 +124,53 @@
     error: (jqXHR, textStatus, errorThrown) ->
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
+      toggle_title(target.parent())
       target.unbind('click')
             .removeClass('bookmark-icon').addClass('bookmark-icon-o')
-            .children('i').removeClass('bookmark-icon-green').addClass('bookmark-icon-gray')
+            .children('i').removeClass('action-icon-green').addClass('action-icon-gray')
       target.on 'click', (event) -> addToWishlist(event)
   event.preventDefault()
 
-@prepare_bookmark_events = () ->
-  $('.bookmark-icon-o').on 'click', (event) -> addToWishlist(event)
-  $('.bookmark-icon').on 'click', (event) -> removeFromWishlist(event)
+@prepare_enrollment_events = () ->
+  $('.enroll-icon').on 'click', (event) -> addToEnrollments(event)
+  $('.unenroll-icon').on 'click', (event) -> removeFromEnrollments(event)
+
+@addToEnrollments = (event) ->
+  target = $(event.delegateTarget)
+  course_id = target.data('course_id')
+  url = "/courses/#{course_id}/enroll_course.json"
+  $.ajax
+    url: url
+    method: 'GET'
+    error: (jqXHR, textStatus, errorThrown) ->
+      console.log("error")
+      alert(I18n.t('global.ajax_failed'))
+    success: (data, textStatus, jqXHR) ->
+      console.log('success')
+      if data.status == true
+        toggle_title(target.parent())
+        target.unbind('click')
+            .removeClass('enroll-icon').addClass('unenroll-icon')
+            .children('i').removeClass('action-icon-gray').addClass('action-icon-green')
+        target.on 'click', (event) -> removeFromEnrollments(event)
+  event.preventDefault()
+
+@removeFromEnrollments = (event) ->
+  target = $(event.delegateTarget)
+  course_id = target.data('course_id')
+  url = "/courses/#{course_id}/unenroll_course.json"
+  $.ajax
+    url: url
+    method: 'GET'
+    error: (jqXHR, textStatus, errorThrown) ->
+      alert(I18n.t('global.ajax_failed'))
+    success: (data, textStatus, jqXHR) ->
+      toggle_title(target.parent())
+      target.unbind('click')
+            .removeClass('unenroll-icon').addClass('enroll-icon')
+            .children('i').removeClass('action-icon-green').addClass('action-icon-gray')
+      target.on 'click', (event) -> addToEnrollments(event)
+  event.preventDefault()
 
 $ =>
   console.log("DOM is ready")
@@ -126,3 +179,4 @@ $ =>
   copyInputField("filterrific_search_query", "new_search")
   @total_entries = parseInt($('#result_count').text())
   prepare_bookmark_events()
+  prepare_enrollment_events()
