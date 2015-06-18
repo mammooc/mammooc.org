@@ -25,8 +25,6 @@ Rails.application.routes.draw do
 
   resources :course_assignments
 
-  resources :evaluations
-
   resources :bookmarks, except: [:edit, :new, :show, :update, :destroy]
 
   resources :progresses
@@ -61,6 +59,9 @@ Rails.application.routes.draw do
   get 'about' => 'static_pages#about'
   get 'dashboard' => 'dashboard#dashboard'
 
+  # Evaluations
+  post 'evaluations/:id/process_evaluation_rating' => 'evaluations#process_evaluation_rating'
+
   # Groups
   get 'groups_where_user_is_admin' => 'groups#groups_where_user_is_admin'
   post 'groups/:id/invite_members' => 'groups#invite_group_members'
@@ -86,6 +87,7 @@ Rails.application.routes.draw do
   get 'activities/:id/delete_user_from_newsfeed_entry' => 'activities#delete_user_from_newsfeed_entry'
 
   # Courses
+  post 'courses/:id/send_evaluation' => 'courses#send_evaluation'
   get 'courses' => 'courses#index'
   get 'courses/index'
   get 'courses/load_more' => 'courses#load_more'

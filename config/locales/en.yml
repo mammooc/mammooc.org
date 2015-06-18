@@ -253,6 +253,15 @@ en:
       confirm_leave_group: Leave
       confirm_remove_member: Remove
       yourself: yourself
+    statistics:
+      average_enrollments: In this group are %{number} course enrollments per member on average.
+      average_enrollments_title: Average Course Enrollents
+      enrolled_courses: Enrolled Courses
+      number_of_enrollments: '%{number} members'
+      synchronize: Synchronize data of all members
+      information_title: 'Please Note:'
+      information: To calculate the following statistics we only use data from group members who decide to share their data.
+      number_of_share_member: In this group %{number} members share their data.
 
   activerecord:
     models:
@@ -446,6 +455,35 @@ en:
       zh: Chinese
       zh-cn: Chinese (China)
       zh-tw: Chinese (Taiwan)
+
+  evaluations:
+    heading: Course Evaluation
+    please_sign_in: Please sign in to evaluate the course. Don't have an account yet?
+    path_to_registration: Sign up here!
+    users_found_evaluation_helpful: '%{helpful_rating_count} of %{rating_count} people found the review helpful'
+    did_you_like_evaluation: How did you like this evaluation?
+    helpful: Helpful
+    not_helpful: Not Helpful
+    no_evaluations: Unfortunately there are no evaluations for this course yet. :(
+    already_evaluated: Hi %{first_name}, you evaluated the course. Thanks for your feedback!
+    modify_evaluation: Modify Evaluation
+    overall_evaluation: Overall Evaluation
+    additional_notes: Additional Notes
+    help_other_users: Help other users to get a clearer picture of the course.
+    course_status: What's your course status?
+    aborted: Aborted
+    currently_enrolled: Currently Enrolled
+    finished: Finished
+    send_evaluation: Send Evaluation
+    update_evaluation: Update Evaluation
+    anonymous_evaluation: Rate the course anonymously
+    aborted_course: aborted the course
+    currently_enrolled_course: is currently enrolled
+    finished_course: finished the course
+    state_overall_rating: Please state your overall evaluation!
+    state_course_status: Please state your course status!
+    thanks_for_feedback: Thank you for your feedback!
+    anonymous: Anonymous
 
   newsfeed:
     button:

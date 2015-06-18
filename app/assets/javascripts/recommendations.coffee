@@ -28,7 +28,6 @@ get_my_groups = () ->
       console.log('error_get_my_groups')
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
-      console.log('success_get_my_groups')
       for group in data
         group_ids.push(group.id)
         groups_autocomplete.push({ value: group.id, label: group.name })
@@ -46,7 +45,6 @@ generate_users_autocomplete = () ->
         console.log('users error')
         alert(I18n.t('global.ajax_failed'))
       success: (data, textStatus, jqXHR) ->
-        console.log('users success')
         for user in data.group_members
           users_autocomplete.push({ value: user.id, label: user.first_name + ' ' + user.last_name })
 
@@ -77,7 +75,6 @@ get_my_admin_groups = () ->
       console.log('error_get_my_admin_groups')
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
-      console.log('success_get_my_admin_groups')
       for group in data
         group_ids.push(group.id)
         groups_autocomplete.push({ value: group.id, label: group.name })
@@ -95,7 +92,6 @@ generate_users_autocomplete_obligatory_recommendation = () ->
         console.log('users error')
         alert(I18n.t('global.ajax_failed'))
       success: (data, textStatus, jqXHR) ->
-        console.log('users success')
         for user in data.group_members
           users_autocomplete.push({ value: user.id, label: user.first_name + ' ' + user.last_name })
 
@@ -140,7 +136,6 @@ fill_in_with_params = () ->
         console.log('group id error')
         alert(I18n.t('global.ajax_failed'))
       success: (data, textStatus, jqXHR) ->
-        console.log('group id success')
         group_name = data.name
         $('#recommendation_related_group_ids').tokenfield('setTokens', [{value: group_id, label: group_name}])
 

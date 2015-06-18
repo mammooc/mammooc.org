@@ -43,4 +43,33 @@ class Group < ActiveRecord::Base
   def admins
     User.find(UserGroup.where(group_id: id, is_admin: true).collect(&:user_id))
   end
+
+  def average_enrollments
+    total_enrollments = 0
+    users.each do |user|
+      total_enrollments += user.courses.length
+    end
+    (total_enrollments.to_f / users.length.to_f).round(2)
+  end
+
+  def enrolled_courses_with_amount
+    enrolled_courses_array = []
+    users.each do |user|
+      enrolled_courses_array += user.courses
+    end
+    enrolled_courses = []
+    enrolled_courses_array.uniq.each do |enrolled_course|
+      enrolled_courses.push(course: enrolled_course, count: enrolled_courses_array.count(enrolled_course))
+    end
+    enrolled_courses = enrolled_courses.sort_by {|course_hash| course_hash[:name] }.reverse
+    enrolled_courses.sort_by {|course_hash| course_hash[:count] }.reverse
+  end
+
+  def enrolled_courses
+    enrolled_courses_array = []
+    users.each do |user|
+      enrolled_courses_array += user.courses
+    end
+    enrolled_courses_array.uniq
+  end
 end
