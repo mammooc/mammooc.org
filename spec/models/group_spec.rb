@@ -2,19 +2,95 @@
 require 'rails_helper'
 
 RSpec.describe Group, type: :model do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:second_user) { FactoryGirl.create(:user) }
-  let!(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
-  let!(:group_invitation) { FactoryGirl.create(:group_invitation, group: group) }
-  let!(:second_group_invitation) { FactoryGirl.create(:group_invitation, group: group) }
 
-  it "deletes all memberships of a group and it's invitation" do
-    expect(UserGroup.where(user: user, group: group)).to be_present
-    expect(UserGroup.where(user: second_user, group: group)).to be_present
-    expect(GroupInvitation.where(group: group).count).to eq 2
-    expect { group.destroy }.not_to raise_error
-    expect(UserGroup.where(user: user, group: group)).to be_empty
-    expect(UserGroup.where(user: second_user, group: group)).to be_empty
-    expect(GroupInvitation.where(group: group).count).to eq 0
+  describe 'destroy group' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:second_user) { FactoryGirl.create(:user) }
+    let!(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
+    let!(:group_invitation) { FactoryGirl.create(:group_invitation, group: group) }
+    let!(:second_group_invitation) { FactoryGirl.create(:group_invitation, group: group) }
+
+    it "deletes all memberships of a group and it's invitation" do
+      expect(UserGroup.where(user: user, group: group)).to be_present
+      expect(UserGroup.where(user: second_user, group: group)).to be_present
+      expect(GroupInvitation.where(group: group).count).to eq 2
+      expect { group.destroy }.not_to raise_error
+      expect(UserGroup.where(user: user, group: group)).to be_empty
+      expect(UserGroup.where(user: second_user, group: group)).to be_empty
+      expect(GroupInvitation.where(group: group).count).to eq 0
+    end
   end
+
+  describe 'admins' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:second_user) { FactoryGirl.create(:user) }
+    let(:third_user) { FactoryGirl.create(:user) }
+    let(:group) do
+      group = FactoryGirl.create(:group, users: [user, second_user, third_user])
+      UserGroup.set_is_admin(group.id, user.id, true)
+      UserGroup.set_is_admin(group.id, second_user.id, true)
+      group
+    end
+
+    it 'returns all admins of a group' do
+      admins = group.admins
+      expect(admins).to eql User.find(user.id, second_user.id)
+    end
+
+  end
+
+  describe 'average enrollments' do
+    let(:course1) { FactoryGirl.create(:course) }
+    let(:course2) { FactoryGirl.create(:course) }
+    let(:course3) { FactoryGirl.create(:course) }
+    let!(:course4) { FactoryGirl.create(:course) }
+    let(:user) { FactoryGirl.create(:user, courses: [course1, course2, course3]) }
+    let(:second_user) { FactoryGirl.create(:user, courses: [course2, course3]) }
+    let(:third_user) { FactoryGirl.create(:user, courses: [course3]) }
+    let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
+
+    it 'returns average of all course enrollments per group member' do
+      average = group.average_enrollments
+      expect(average).to eq 2
+    end
+
+    it 'returns a float with two ' do
+      third_user.courses = []
+      average = group.average_enrollments
+      expect(average).to eq 1.67
+    end
+  end
+
+  describe 'enrolled courses with amount' do
+    let(:course1) { FactoryGirl.create(:course) }
+    let(:course2) { FactoryGirl.create(:course) }
+    let(:course3) { FactoryGirl.create(:course) }
+    let!(:course4) { FactoryGirl.create(:course) }
+    let(:user) { FactoryGirl.create(:user, courses: [course1, course2, course3]) }
+    let(:second_user) { FactoryGirl.create(:user, courses: [course2, course3]) }
+    let(:third_user) { FactoryGirl.create(:user, courses: [course3]) }
+    let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
+
+    it 'returns all enrolled course and total number of enrollments of group members' do
+      enrolled_courses = group.enrolled_courses_with_amount
+      expect(enrolled_courses).to match_array([{course: course1, count: 1}, {course: course2, count: 2}, {course: course3, count: 3}])
+    end
+  end
+
+  describe 'enrolled courses' do
+    let(:course1) { FactoryGirl.create(:course) }
+    let(:course2) { FactoryGirl.create(:course) }
+    let(:course3) { FactoryGirl.create(:course) }
+    let!(:course4) { FactoryGirl.create(:course) }
+    let(:user) { FactoryGirl.create(:user, courses: [course1, course2, course3]) }
+    let(:second_user) { FactoryGirl.create(:user, courses: [course2, course3]) }
+    let(:third_user) { FactoryGirl.create(:user, courses: [course3]) }
+    let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
+
+    it 'returns all enrolled courses' do
+      enrolled_courses = group.enrolled_courses
+      expect(enrolled_courses).to match_array([course1, course2, course3])
+    end
+  end
+
 end

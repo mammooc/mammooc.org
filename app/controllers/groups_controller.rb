@@ -71,8 +71,7 @@ class GroupsController < ApplicationController
     @group_picture = Group.group_images_hash_for_groups [@group]
     @average_enrollments = @group.average_enrollments
     @enrolled_courses_with_amount = @group.enrolled_courses_with_amount
-    enrolled_courses = @group.enrolled_courses
-    @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(enrolled_courses)
+    @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(@group.enrolled_courses)
   end
 
   # POST /groups
