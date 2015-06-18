@@ -12,7 +12,12 @@
         .title
           = link_to @course.url, target: "_blank"
             = @course.name
-        // TODO : Include Rating (stars + number of ratings)
+          - if @course.calculated_rating.present? && @course.calculated_rating > 0
+            .course-rating
+              span.course-rating-value
+                input.rating type='hidden' value="#{@course.calculated_rating}" data-start="0" data-stop="5" id="course-rating-output" disabled="disabled"
+              .course-rating-count
+                = "(#{@course.rating_count})"
         - if @course.course_instructors.present?
           => t('global.by')
           = @course.course_instructors
@@ -109,7 +114,16 @@
     /form for rate
     .collapse id="rate-course" role="tabpanel" aria-labelledby="courses-subnav-rate"
       .collapse-subnav
-        = render 'rating'
+        .rating-menu
+          h4
+            = t('evaluations.heading')
+          - if user_signed_in?
+            - if @has_rated_course
+              = render 'already_rated_course_form'
+            - else
+              = render 'rate_course_form'
+          - else
+            = render 'please_sign_in_rating_form'
 
   - if @course.abstract or @course.description
     .course-details id="course-description"
@@ -139,11 +153,11 @@
         div id="recommendation-list"
           = render 'recommendations'
 
-  .course-details
+  .course-details id="course-evaluations"
     .title
       = t('courses.rating')
     .content
-      | blablabla
+      = render 'ratings'
 
 - content_for :sidebar
   = render 'sidebar'

@@ -26,8 +26,11 @@
           .info
             .hd4.mt5
               = recommendation.course.name
-              .pull-right
-                img src = @rating_picture style='height:25px; width:auto'
+              - if recommendation.course.calculated_rating.present? && recommendation.course.calculated_rating > 0
+                .pull-right
+                  input.rating type='hidden' value="#{recommendation.course.calculated_rating}" data-start="0" data-stop="5" id="course-rating-output" disabled="disabled"
+                  .course-rating-count
+                    = "(#{recommendation.course.rating_count})"
             = recommendation.course.mooc_provider.name
             br
             - if recommendation.course.start_date

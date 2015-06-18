@@ -152,6 +152,8 @@ ActiveRecord::Schema.define(version: 20150615133308) do
     t.string   "subtitle_languages"
     t.integer  "calculated_duration_in_days"
     t.string   "provider_given_duration"
+    t.float    "calculated_rating"
+    t.integer  "rating_count"
     t.float    "points_maximal"
   end
 
@@ -164,15 +166,19 @@ ActiveRecord::Schema.define(version: 20150615133308) do
   end
 
   create_table "evaluations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.string   "title"
     t.float    "rating"
     t.boolean  "is_verified"
     t.text     "description"
-    t.datetime "date"
     t.uuid     "user_id"
     t.uuid     "course_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+    t.integer  "course_status"
+    t.boolean  "rated_anonymously"
+    t.integer  "evaluation_rating_count",         default: 0, null: false
+    t.integer  "evaluation_helpful_rating_count", default: 0, null: false
+    t.datetime "update_date"
+    t.datetime "creation_date"
   end
 
   add_index "evaluations", ["course_id"], name: "index_evaluations_on_course_id", using: :btree
