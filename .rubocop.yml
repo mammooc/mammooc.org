@@ -5,7 +5,7 @@ AllCops:
     - '**/*.gemspec'
     - '**/Rakefile'
   Exclude:
-    - 'vendor/**'
+    - 'vendor/**/*'
     - 'db/schema.rb'
   RunRailsCops: true
 
