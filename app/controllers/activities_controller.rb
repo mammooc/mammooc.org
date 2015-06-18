@@ -22,7 +22,7 @@ class ActivitiesController < ApplicationController
     if @activity.trackable_type == 'Recommendation'
       Recommendation.find(@activity.trackable_id).delete_user_from_recommendation current_user
     end
-    if (@activity.user_ids.blank?) && (!@activity.group_ids.blank?)
+    if (@activity.user_ids.blank?) && (@activity.group_ids.blank?)
       @activity.destroy
     end
     respond_to do |format|

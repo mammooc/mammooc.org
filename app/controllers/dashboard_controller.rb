@@ -25,7 +25,9 @@ class DashboardController < ApplicationController
                                              when 'Course' then Course.find(activity.trackable_id)
                                              when 'Bookmark' then Bookmark.find(activity.trackable_id).course
                                            end
-          @activity_courses_bookmarked[activity.id] = @activity_courses[activity.id].bookmarked_by_user? current_user
+          if @activity_courses[activity.id].present?
+            @activity_courses_bookmarked[activity.id] = @activity_courses[activity.id].bookmarked_by_user? current_user
+          end
         else
           @activities -= [activity]
         end
