@@ -44,11 +44,11 @@ div
             = link_to certificate.download_url
               - if index == completion.certificates.size - 1
                 div.box class="certificates-#{number_of_certificates}-no-border"
-                  span.fa.fa-file-pdf-o
+                  span.fa.fa-file-pdf-o.mr10
                   = certificate.title.present? ? certificate.title : t("completions.#{certificate.document_type}")
               - else
                 div.box class="certificates-#{number_of_certificates}"
-                  span.fa.fa-file-pdf-o
+                  span.fa.fa-file-pdf-o.mr10
                   = certificate.title.present? ? certificate.title : t("completions.#{certificate.document_type}")
           - if verify_available
             - completion.sorted_certificates.each_with_index do |certificate, index|

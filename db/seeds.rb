@@ -174,7 +174,7 @@ case Rails.env
 
     FactoryGirl.create(:full_completion, course: full_course, user: user1)
     completion1 = FactoryGirl.create(:completion, course: minimal_following_course, user: user1)
-    FactoryGirl.create(:transcript_of_participation, completion: completion1)
+    FactoryGirl.create(:confirmation_of_participation, completion: completion1)
     FactoryGirl.create(:record_of_achievement, completion: completion1, verification_url: 'https://mammooc.org', title: 'open_mammooc Achievement')
     FactoryGirl.create(:full_completion, course: minimal_previous_course, user: user2)
 
