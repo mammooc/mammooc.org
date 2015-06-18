@@ -251,6 +251,15 @@ en:
       confirm_leave_group: Leave
       confirm_remove_member: Remove
       yourself: yourself
+    statistics:
+      average_enrollments: In this group are %{number} course enrollments per member on average.
+      average_enrollments_title: Average Course Enrollents
+      enrolled_courses: Enrolled Courses
+      number_of_enrollments: '%{number} members'
+      synchronize: Synchronize data of all members
+      information_title: 'Please Note:'
+      information: To calculate the following statistics we only use data from group members who decide to share their data.
+      number_of_share_member: In this group %{number} members share their data.
 
   activerecord:
     models:
