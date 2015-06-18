@@ -1,14 +1,15 @@
 # -*- encoding : utf-8 -*-
 class AbstractXikoloConnector < AbstractMoocProviderConnector
   AUTHENTICATE_API = 'authenticate/'
-  ENROLLMENTS_API = 'users/me/enrollments/'
+  ENROLLMENTS_API_V1 = 'users/me/enrollments/'
+  ENROLLMENTS_API_V2 = 'my_enrollments/'
   COURSES_API = 'courses/'
 
   private
 
   def send_connection_request(user, credentials)
     request_parameters = "email=#{credentials[:email]}&password=#{credentials[:password]}"
-    authentication_url = self.class::ROOT_API + AUTHENTICATE_API
+    authentication_url = self.class::ROOT_API_V2 + AUTHENTICATE_API
     response = RestClient.post(authentication_url, request_parameters, accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', authorization: 'token=\"78783786789\"')
     json_response = JSON.parse response
     return unless json_response['token'].present?
@@ -19,20 +20,20 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
 
   def send_enrollment_for_course(user, course)
     token_string = "Legacy-Token token=#{get_access_token user}"
-    api_url = self.class::ROOT_API + ENROLLMENTS_API
+    api_url = self.class::ROOT_API_V1 + ENROLLMENTS_API_V1
     request_parameters = "course_id=#{course.provider_course_id}"
     RestClient.post(api_url, request_parameters, accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', authorization: token_string)
   end
 
   def send_unenrollment_for_course(user, course)
     token_string = "Legacy-Token token=#{get_access_token user}"
-    api_url = self.class::ROOT_API + ENROLLMENTS_API + course.provider_course_id
+    api_url = self.class::ROOT_API_V1 + ENROLLMENTS_API_V1 + course.provider_course_id
     RestClient.delete(api_url, accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', authorization: token_string)
   end
 
   def get_enrollments_for_user(user)
     token_string = "Legacy-Token token=#{get_access_token user}"
-    api_url = self.class::ROOT_API + ENROLLMENTS_API
+    api_url = self.class::ROOT_API_V2 + ENROLLMENTS_API_V2
     # response = RestClient.get(api_url, accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', authorization: token_string)
     # JSON.parse response
     response = '{

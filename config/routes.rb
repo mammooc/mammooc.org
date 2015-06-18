@@ -35,8 +35,6 @@ Rails.application.routes.draw do
 
   resources :course_requests
 
-  resources :completions, only: [:index]
-
   resources :user_groups
 
   resources :comments
@@ -101,6 +99,7 @@ Rails.application.routes.draw do
   get 'users/:id/mooc_provider_settings' => 'users#mooc_provider_settings'
   get 'users/:id/set_mooc_provider_connection' => 'users#set_mooc_provider_connection'
   get 'users/:id/revoke_mooc_provider_connection' => 'users#revoke_mooc_provider_connection'
+  get 'users/:user_id/completions' => 'completions#index'
 
   # OAuth
   get 'oauth/callback' => 'users#oauth_callback'

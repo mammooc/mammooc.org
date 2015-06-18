@@ -455,7 +455,8 @@ en:
       already_enrolled: You are already enrolled for this course.
 
   completions:
-    heading: My Completions
+    my_heading: My Completions
+    other_user_heading: "%{user}'s Completions"
     points_achieved: "%{points_achieved} points achieved"
     points_achieved_of_maximal: "%{points_achieved} of %{points_maximal} points achieved"
     verify: Verify

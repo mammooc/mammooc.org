@@ -1,8 +1,15 @@
-= content_for :title, "#{t('completions.heading')} | #{t('global.app_name')}"
+= content_for :title
+  - if current_user == @completions.first.user
+    = "#{t('completions.my_heading')} | #{t('global.app_name')}"
+  - else
+    = "#{t('completions.other_user_heading', user: @completions.first.user.first_name)} | #{t('global.app_name')}"
 
 .page-header
   h1
-    = t('completions.heading')
+    - if current_user == @completions.first.user
+      = t('completions.my_heading')
+    - else
+      = t('completions.other_user_heading', user: @completions.first.user.first_name)
 div
   - @completions.each do |completion|
     div
