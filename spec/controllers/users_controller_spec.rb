@@ -10,21 +10,25 @@ RSpec.describe UsersController, type: :controller do
     setting = FactoryGirl.create :user_setting, name: :course_enrollments_visibility, user: user
     FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
     FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    setting
   end
   let!(:course_results_visibility_settings) do
     setting = FactoryGirl.create :user_setting, name: :course_results_visibility, user: user
     FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
     FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    setting
   end
   let!(:course_progress_visibility_settings) do
     setting = FactoryGirl.create :user_setting, name: :course_progress_visibility, user: user
     FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
     FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    setting
   end
   let!(:profile_visibility_settings) do
     setting = FactoryGirl.create :user_setting, name: :profile_visibility, user: user
     FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
     FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    setting
   end
 
   let!(:open_hpi) { FactoryGirl.create(:mooc_provider, name: 'openHPI', api_support_state: :naive) }
@@ -173,6 +177,16 @@ RSpec.describe UsersController, type: :controller do
         end
       end
       expect(assigns(:mooc_provider_connections)).to eql user.mooc_providers.pluck(:mooc_provider_id)
+
+      # privacy settings
+      expect(assigns(:course_enrollments_visibility_groups)).to eql course_enrollments_visibility_settings.value(:groups)
+      expect(assigns(:course_enrollments_visibility_users)).to eql course_enrollments_visibility_settings.value(:users)
+      expect(assigns(:course_results_visibility_groups)).to eql course_results_visibility_settings.value(:groups)
+      expect(assigns(:course_results_visibility_users)).to eql course_results_visibility_settings.value(:users)
+      expect(assigns(:course_progress_visibility_groups)).to eql course_progress_visibility_settings.value(:groups)
+      expect(assigns(:course_progress_visibility_users)).to eql course_progress_visibility_settings.value(:users)
+      expect(assigns(:profile_visibility_groups)).to eql profile_visibility_settings.value(:groups)
+      expect(assigns(:profile_visibility_users)).to eql profile_visibility_settings.value(:users)
     end
 
     it 'reset session variable for emails marked as deleted' do
@@ -497,6 +511,38 @@ RSpec.describe UsersController, type: :controller do
         get :mooc_provider_settings, id: user.to_param, format: :json
         expect(json).to include 'partial'
       end
+    end
+  end
+
+  describe 'GET privacy_settings' do
+    it 'prepares mooc_provider_settings' do
+      expect_any_instance_of(described_class).to receive(:prepare_privacy_settings)
+      get :privacy_settings, id: user.to_param
+    end
+
+    context 'views' do
+      render_views
+      let(:json) { JSON.parse(response.body) }
+
+      it 'redirects to the dashboard' do
+        get :privacy_settings, id: user.to_param
+        expect(response).to redirect_to dashboard_path
+      end
+
+      it 'renders a JSON with the partial' do
+        get :privacy_settings, id: user.to_param, format: :json
+        expect(json).to include 'partial'
+      end
+    end
+  end
+
+  describe 'POST set_setting' do
+    let(:old_value) { course_enrollments_visibility_settings.value(:groups) }
+    let(:new_value) { [FactoryGirl.create(:group).id] }
+    subject { ->  { post :set_setting, id: user.id, setting: course_enrollments_visibility_settings.name, key: :groups, value: new_value, format: :json } }
+
+    it 'updates the setting entry' do
+      expect{ subject.call }.to change{ course_enrollments_visibility_settings.value(:groups) }.from(old_value).to(new_value)
     end
   end
 
