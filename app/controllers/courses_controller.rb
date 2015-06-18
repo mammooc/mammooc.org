@@ -1,7 +1,8 @@
 # -*- encoding : utf-8 -*-
 class CoursesController < ApplicationController
-  before_action :set_course, only: [:show, :enroll_course, :unenroll_course]
+  before_action :set_course, only: [:show, :enroll_course, :unenroll_course, :send_evaluation]
   skip_before_action :require_login, only: [:index, :show, :filter_options, :search, :load_more]
+
   include ConnectorMapper
 
   # GET /courses
@@ -43,8 +44,8 @@ class CoursesController < ApplicationController
 
     @recommendation = Recommendation.new(course: @course)
 
-    # RECOMMENDATIONS
     if user_signed_in?
+      # RECOMMENDATIONS
       recommendations = Recommendation.sorted_recommendations_for_course_and_user(@course, current_user, [current_user])
       @recommendations_total = recommendations.size
       params[:page] ||= 1
@@ -62,7 +63,16 @@ class CoursesController < ApplicationController
       end
       @has_groups = current_user.groups.any?
       @has_admin_groups = UserGroup.where(user: current_user, is_admin: true).collect(&:group_id).any?
+
+      # EVALUATIONS
+      @current_user_evaluation = current_user.evaluations.find_by(course_id: @course.id)
+      @has_rated_course = Evaluation.find_by(user_id: current_user.id, course_id: @course.id).present?
     end
+
+    create_evaluation_object_for_course @course
+    evaluating_users = User.find(@course.evaluations.pluck(:user_id))
+    @profile_pictures ||= {}
+    @profile_pictures = User.user_profile_images_hash_for_users(evaluating_users, @profile_pictures)
 
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses([@course])
     @bookmarked = false
@@ -98,6 +108,42 @@ class CoursesController < ApplicationController
     end
   end
 
+  def send_evaluation
+    @errors ||= []
+    unless ranking_valid? params[:rating].to_i
+      @errors << t('evaluations.state_overall_rating')
+    end
+    unless course_status_valid? params[:course_status]
+      @errors << t('evaluations.state_course_status')
+    end
+
+    if @errors.empty?
+      evaluation = Evaluation.find_by(user_id: current_user.id, course_id: @course.id)
+      if evaluation.blank?
+        evaluation = Evaluation.new(user_id: current_user.id, course_id: @course.id)
+        evaluation.creation_date = Time.zone.now
+      end
+      evaluation.rating = params[:rating].to_i
+      evaluation.description = params[:rating_textarea]
+      evaluation.course_status = params[:course_status].to_sym
+      evaluation.rated_anonymously = params[:rate_anonymously]
+      evaluation.update_date = Time.zone.now
+      evaluation.save
+    end
+    @current_user_evaluation = current_user.evaluations.find_by(course_id: @course.id)
+    @has_rated_course = @current_user_evaluation.present?
+    @respond_partial = render_to_string partial: 'courses/already_rated_course_form', formats: [:html]
+    respond_to do |format|
+      begin
+        format.html { redirect_to @course }
+        format.json { render :send_evaluation_result, status: :ok }
+      rescue StandardError => e
+        format.html { redirect_to @course }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def filter_options
     @filter_options = session['courses#index'].to_query('filterrific')
 
@@ -122,6 +168,15 @@ class CoursesController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
+  def ranking_valid?(rating)
+    [1, 2, 3, 4, 5].include? rating
+  end
+
+  def course_status_valid?(course_status)
+    return false unless course_status.present?
+    [:aborted, :enrolled, :finished].include? course_status.to_sym
+  end
+
   def set_course
     @course = Course.find(params[:id])
   end
@@ -129,6 +184,40 @@ class CoursesController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def course_params
     params.require(:course).permit(:name, :url, :course_instructor, :abstract, :language, :imageId, :videoId, :start_date, :end_date, :duration, :costs, :type_of_achievement, :categories, :difficulty, :requirements, :workload, :provider_course_id, :mooc_provider_id, :course_result_id)
+  end
+
+  def create_evaluation_object_for_course(course)
+    if course.evaluations.present?
+      @course_evaluations = Set.new
+      course.evaluations.each do |evaluation|
+        evaluation_object = {
+          evaluation_id: evaluation.id,
+          rating: evaluation.rating,
+          description: evaluation.description,
+          creation_date: evaluation.creation_date,
+          evaluation_rating_count: evaluation.evaluation_rating_count,
+          evaluation_helpful_rating_count: evaluation.evaluation_helpful_rating_count
+        }
+        case evaluation.course_status.to_sym
+          when :aborted
+            evaluation_object[:course_status] = t('evaluations.aborted_course')
+          when :enrolled
+            evaluation_object[:course_status] = t('evaluations.currently_enrolled_course')
+          when :finished
+            evaluation_object[:course_status] = t('evaluations.finished_course')
+        end
+        if evaluation.rated_anonymously
+          evaluation_object[:user_id] = nil
+          evaluation_object[:user_name] = t('evaluations.anonymous')
+        else
+          evaluation_object[:user_id] = evaluation.user_id
+          evaluation_object[:user_name] = "#{evaluation.user.first_name} #{evaluation.user.last_name}"
+        end
+        @course_evaluations << evaluation_object
+      end
+    else
+      @course_evaluations = nil
+    end
   end
 
   def create_enrollment

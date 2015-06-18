@@ -454,6 +454,35 @@ de:
       zh-cn: Chinesisch (China)
       zh-tw: Chinesisch (Taiwan)
 
+  evaluations:
+    heading: Kursbewertung
+    please_sign_in: Bitte melde dich an, um diesen Kurs zu bewerten. Du hast noch keinen Account?
+    path_to_registration: Hier geht's zur Registrierung
+    users_found_evaluation_helpful: '%{helpful_rating_count} von %{rating_count} Nutzern fanden diese Bewertung hilfreich'
+    did_you_like_evaluation: Wie fandest du diese Bewertung?
+    helpful: Hilfreich
+    not_helpful: Nicht Hilfreich
+    no_evaluations: Leider gibt es noch keine Bewertungen für diesen Kurs :(
+    already_evaluated: Hi %{first_name}, du hast diesen Kurs bewertet. Vielen Dank für dein Feedback!
+    modify_evaluation: Bewertung anpassen
+    overall_evaluation: Gesamtbewertung
+    additional_notes: Anmerkungen
+    help_other_users: Hilf anderen Nutzern diesen Kurs besser einzuschätzen!
+    course_status: In welchem Verhältnis stehst du zum Kurs?
+    aborted: Abgebrochen
+    currently_enrolled: Gerade belegt
+    finished: Abgeschlossen
+    send_evaluation: Bewertung abschicken
+    update_evaluation: Bewertung aktualisieren
+    anonymous_evaluation: Gib meine Bewertung anonym ab
+    aborted_course: hat den Kurs abgebrochen
+    currently_enrolled_course: belegt den Kurs gerade
+    finished_course: hat den Kurs abgeschlossen
+    state_overall_rating: Die Gesamtbewertung muss angegeben werden!
+    state_course_status: Dein Kursstatus muss angegeben werden!
+    thanks_for_feedback: Danke für dein Feedback!
+    anonymous: Anonymous
+
   recommendation:
     submit: Empfehlung erstellen
     placeholder: Gib deine persönliche Nachricht hier ein ...

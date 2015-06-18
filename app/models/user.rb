@@ -38,6 +38,7 @@ class User < ActiveRecord::Base
   validates_attachment_size :profile_image, less_than: 1.megabyte
 
   before_destroy :handle_group_memberships, prepend: true
+  before_destroy :handle_evaluations, prepend: true
   after_commit :save_primary_email, on: [:create, :update]
 
   def self.author_profile_images_hash_for_recommendations(recommendations, style = :square, expire_time = 3600)
@@ -70,6 +71,14 @@ class User < ActiveRecord::Base
       else
         group.destroy
       end
+    end
+  end
+
+  def handle_evaluations
+    evaluations.each do |evaluation|
+      evaluation.user_id = nil
+      evaluation.rated_anonymously = true
+      evaluation.save
     end
   end
 
