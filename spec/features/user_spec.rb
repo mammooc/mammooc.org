@@ -352,7 +352,7 @@ RSpec.describe 'User', type: :feature do
           end
         end
         expect(page).to have_content I18n.t('devise.registrations.destroyed')
-        expect { User.find(second_user.id) }.to raise_error
+        expect { User.find(second_user.id) }.to raise_error ActiveRecord::RecordNotFound
       end
     end
   end
