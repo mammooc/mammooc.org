@@ -195,12 +195,15 @@ en:
       establish_provider_connection: Establish connection
     profile:
       title: Your Profile
-      about_me: "About me:"
+      about_me: About me
       groups: Groups
-      current_courses: Enrollments
-      currently_nothing: None
+      current_courses: Your Enrollments
+      currently_no_courses: You are not enrolled in any courses.
       edit_profile_title: Edit Profile
       editing_profile: Edit your profile information
+      bookmarks: Your Bookmarks
+      currently_no_bookmarks: You didn't bookmark any courses yet.
+      starts: starts on
 
   groups:
     title: My Groups | mammooc
