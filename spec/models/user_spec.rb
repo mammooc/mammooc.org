@@ -483,7 +483,6 @@ RSpec.describe User, type: :model do
     end
 
     it 'changes the URL scheme to https and returns' do
-      puts described_class.process_uri('http://www.example.com/avatar.png')
       expect(described_class.process_uri('http://www.example.com/avatar.png')).to eql 'https://www.example.com/avatar.png'
     end
   end
