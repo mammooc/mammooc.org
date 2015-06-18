@@ -249,6 +249,9 @@ en:
       enrolled_courses: Enrolled Courses
       number_of_enrollments: '%{number} members'
       synchronize: Synchronize data of all members
+      information_title: 'Please Note:'
+      information: To calculate the following statistics we only use data from group members who decide to share their data.
+      number_of_share_member: In this group %{number} members share their data.
 
   activerecord:
     models:

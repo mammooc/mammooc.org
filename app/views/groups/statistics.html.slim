@@ -2,17 +2,25 @@
   = "#{@group.name} | #{t('global.app_name')}"
 
 - if can? :synchronize_courses, @group
-  button.btn.btn-default id='sync-group-course-button' data-group_id='#{@group.id}'
+  button.btn.btn-default.pull-right.mb50.ml20 id='sync-group-course-button' data-group_id='#{@group.id}'
     span.glyphicon.glyphicon-refresh data-group_id='#{@group.id}'
     = t('groups.statistics.synchronize')
 
-h3
+.hd3
+  = t('groups.statistics.information_title')
+  br
+= t('groups.statistics.information')
+=< t('groups.statistics.number_of_share_member', number: 'xxx')
+br
+br
+
+.hd3
   = t('groups.statistics.average_enrollments_title')
 p
   = t('groups.statistics.average_enrollments', number: @average_enrollments)
 br
 
-h3
+.hd3
   = t('groups.statistics.enrolled_courses')
 - @enrolled_courses_with_amount.each do |enrolled_course_hash|
   .enrollments
