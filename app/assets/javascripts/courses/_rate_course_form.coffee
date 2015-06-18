@@ -30,7 +30,6 @@ sendCourseReview = (event) ->
       console.log('error_synchronize')
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
-      console.log(data.evaluation)
       if (data.error_text).length < 1
         $('div.rating-menu').html(data.partial)
         prepareRateCourseFormPartial(data.evaluation)
