@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class ActivitiesController < ApplicationController
   def delete_group_from_newsfeed_entry
     @activity = PublicActivity::Activity.find(params[:id])
@@ -12,6 +13,10 @@ class ActivitiesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to :back, notice: t('newsfeed.successfully_destroyed') }
     end
+  end
+
+  def test
+    puts 'juhu'
   end
 
   def delete_user_from_newsfeed_entry
