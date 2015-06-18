@@ -115,7 +115,7 @@ RSpec.describe 'Bookmark', type: :feature do
       visit bookmarks_path
       if ENV['PHANTOM_JS'] == 'true'
         first('.glyphicon-remove').trigger('click')
-      else 
+      else
         first('.glyphicon-remove').click
       end
       wait_for_ajax
