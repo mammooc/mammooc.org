@@ -197,9 +197,7 @@ class User < ActiveRecord::Base
   def connected_users_ids
     connected_users = []
     groups.each do |group|
-      group.users.each do |user|
-        connected_users << user.id if user.id != id
-      end
+      connected_users += group.users.reject {|user| user.id == id }.collect(&:id)
     end
     connected_users.uniq
   end
@@ -207,19 +205,13 @@ class User < ActiveRecord::Base
   def connected_users
     connected_users = []
     groups.each do |group|
-      group.users.each do |user|
-        connected_users << user if user.id != id
-      end
+      connected_users += group.users.reject {|user| user.id == id }
     end
     connected_users.uniq
   end
 
   def connected_groups_ids
-    connected_groups = []
-    groups.each do |group|
-      connected_groups << group.id
-    end
-    connected_groups.uniq
+    groups.collect(&:id)
   end
 
   def self.process_uri(uri)

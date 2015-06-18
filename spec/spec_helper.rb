@@ -13,6 +13,7 @@ SimpleCov.start do
   add_group 'Workers', 'app/workers'
   add_group 'Libraries', 'lib'
 end
+require 'public_activity/testing'
 require 'factory_girl_rails'
 require 'devise'
 require 'support/devise_support'

@@ -96,7 +96,8 @@ en:
     no_courses: :courses.no_courses
     you_have: You have
     number_of_recommendations: '%{number} recommendations'
-    number_of_activities: There are 2 new activities in your groups
+    number_of_mandatory_recommendations: '%{number} mandatory recommendations'
+    number_of_activities: There are %{number} current activities in your groups
     complete_profile: Complete your profile
     manage_groups: Manage your groups
     search_courses: Search for courses
@@ -104,6 +105,7 @@ en:
     bookmarks: :bookmarks.my_bookmarks
     no_bookmarks: :bookmarks.no_bookmarks
     course_starts_at: starts at
+    activities: Activities
 
   home:
     welcome_heading: Welcome to mammooc!
@@ -486,6 +488,22 @@ en:
     thanks_for_feedback: Thank you for your feedback!
     anonymous: Anonymous
 
+  newsfeed:
+    button:
+      ignore: Ignore
+      course_details: View details
+    bookmark:
+      create: bookmarked a new course
+    course:
+      enroll: enrolled in a course
+    group:
+      join:
+        group_context: joined your group
+        no_group_context1: joined group
+        no_group_context2:
+    successfully_destroyed: Entry was successfully destroyed.
+
+
   recommendation:
     submit: Create Recommendation
     placeholder: Enter your personal message here ...
@@ -519,10 +537,6 @@ en:
       submit: Create obligatory recommendation
       successfully_created: Create obligatory recommendation successfully.
       new: New obligatory Recommendation
-
-    button:
-      ignore: Ignore recommendation
-      course_details: View details
     group:
       no_recommendation: This group doesn't have any recommendations right now.
       has_pledged:  expects enrollment in this course.

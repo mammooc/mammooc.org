@@ -64,6 +64,9 @@ gem 'redis'
 gem 'sidekiq'
 gem 'whenever'
 
+# newsfeed
+gem 'public_activity'
+
 gem 'bootstrap-sass'
 gem 'font-awesome-sass', '~> 4.3.0'
 

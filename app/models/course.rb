@@ -16,6 +16,7 @@ class Course < ActiveRecord::Base
                         :sorted_by,
                         :bookmarked]
   )
+  include PublicActivity::Common
 
   belongs_to :mooc_provider
   belongs_to :course_result
@@ -261,6 +262,10 @@ class Course < ActiveRecord::Base
   end
 
   self.per_page = 20
+
+  def bookmarked_by_user?(user)
+    bookmarks.where(user_id: user.id).any?
+  end
 
   def self.get_course_id_by_mooc_provider_id_and_provider_course_id(mooc_provider_id, provider_course_id)
     course = Course.find_by(provider_course_id: provider_course_id, mooc_provider_id: mooc_provider_id)

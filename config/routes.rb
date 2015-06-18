@@ -78,6 +78,10 @@ Rails.application.routes.draw do
   get 'recommendations/:id/delete_group_recommendation' => 'recommendations#delete_group_recommendation'
   root to: 'home#index'
 
+  # Activities
+  get 'activities/:id/delete_group_from_newsfeed_entry' => 'activities#delete_group_from_newsfeed_entry'
+  get 'activities/:id/delete_user_from_newsfeed_entry' => 'activities#delete_user_from_newsfeed_entry'
+
   # Courses
   post 'courses/:id/send_evaluation' => 'courses#send_evaluation'
   get 'courses' => 'courses#index'
