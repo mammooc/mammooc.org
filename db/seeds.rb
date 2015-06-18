@@ -147,15 +147,14 @@ case Rails.env
     UserGroup.set_is_admin(group3.id, user1.id, true)
     UserGroup.set_is_admin(group3.id, user2.id, true)
 
-    UserSetting.create! name: :course_enrollments_visibility, user: user1
-    user1.setting(:course_enrollments_visibility).set(:groups, [group1.id, group2.id])
-    user1.setting(:course_enrollments_visibility).set(:users, [user2.id])
-    user1.setting(:course_results_visibility).set(:groups, [group1.id, group2.id])
-    user1.setting(:course_results_visibility).set(:users, [user2.id])
-    user1.setting(:course_progress_visibility).set(:groups, [group1.id, group2.id])
-    user1.setting(:course_progress_visibility).set(:users, [user2.id])
-    user1.setting(:profile_visibility).set(:groups, [group1.id, group2.id])
-    user1.setting(:profile_visibility).set(:users, [user2.id])
+    user1.setting(:course_enrollments_visibility, true).set(:groups, [group1.id, group2.id])
+    user1.setting(:course_enrollments_visibility, true).set(:users, [user2.id])
+    user1.setting(:course_results_visibility, true).set(:groups, [group1.id, group2.id])
+    user1.setting(:course_results_visibility, true).set(:users, [user2.id])
+    user1.setting(:course_progress_visibility, true).set(:groups, [group1.id, group2.id])
+    user1.setting(:course_progress_visibility, true).set(:users, [user2.id])
+    user1.setting(:profile_visibility, true).set(:groups, [group1.id, group2.id])
+    user1.setting(:profile_visibility, true).set(:users, [user2.id])
 
     4.times { FactoryGirl.create(:group_recommendation, course: full_course, group: group1, users: group1.users) }
     3.times { FactoryGirl.create(:user_recommendation, course: full_course, users: [user1]) }
