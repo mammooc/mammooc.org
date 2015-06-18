@@ -54,7 +54,7 @@
               - elsif course.start_date == Date.today
                 = t('courses.course-list.starts_today')
               - else
-                => t('courses.course-list.starting_soon')
+                => t('courses.course-list.already_started')
                 = I18n.l course.start_date, format: t('global.date_format_month_short')
             - else
               = t('courses.no_dates_available')

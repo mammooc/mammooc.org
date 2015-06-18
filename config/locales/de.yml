@@ -356,6 +356,7 @@ de:
     no_dates_available: Kein Zeitraum verfügbar
     course-list:
       starting_soon: Startet am
+      already_started: Startete am
       starts_today: Beginnt heute
       already_running: Kurs läuft
       load_more: Mehr anzeigen
