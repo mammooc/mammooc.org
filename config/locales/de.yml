@@ -247,6 +247,7 @@ de:
       average_enrollments: In dieser Gruppe gibt es durchschnittlich %{number} Kursbelegungen pro Mitglied.
       average_enrollments_title: Durchschnittliche Anzahl der Kursbelegungen
       enrolled_courses: Kursbelegungen
+      one_enrollment: 1 Mitglied
       number_of_enrollments: '%{number} Mitglieder'
       synchronize: Daten aller Mitglieder synchronisieren
       information_title: 'Hinweis:'
