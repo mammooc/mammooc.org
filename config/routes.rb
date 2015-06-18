@@ -98,12 +98,15 @@ Rails.application.routes.draw do
   # Users
   get 'users/:id/synchronize_courses' => 'users#synchronize_courses', as: 'synchronize_courses'
   get 'users/:id/settings' => 'users#settings', as: 'user_settings'
+  post 'users/:id/set_setting' => 'users#set_setting'
   get 'users/:id/account_settings' => 'users#account_settings'
   get 'users/:id/mooc_provider_settings' => 'users#mooc_provider_settings'
+  get 'users/:id/privacy_settings' => 'users#privacy_settings'
   get 'users/:id/set_mooc_provider_connection' => 'users#set_mooc_provider_connection'
   get 'users/:id/revoke_mooc_provider_connection' => 'users#revoke_mooc_provider_connection'
   patch 'users/:id/change_email' => 'users#change_email', as: 'change_email'
   get 'users/:id/cancel_change_email' => 'users#cancel_change_email'
+  get 'users/:id/connected_users_autocomplete' => 'users#connected_users_autocomplete'
 
   # UserEmails
   get 'user_emails/:id/mark_as_deleted' => 'user_emails#mark_as_deleted'

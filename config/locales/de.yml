@@ -182,6 +182,13 @@ de:
         alert_can_not_delete_primary: Diese Adresse kann nicht gelöscht werden. Wähle erst eine andere primäre Adresse aus.
         success: Emailadressen erfolgreich aktualisiert.
         new_line: Neue Zeile
+      privacy:
+        title: Privatsphäre
+        visible_to: '%{subject} sichtbar für:'
+        course_enrollments: Kursbelegungen
+        course_results: Kursabschlüsse
+        course_progress: Kursfortschritt
+        profile: Profil
     synchronization:
       oauth_error: Fehler! Wir konnten keine Verbindung zu deinem Account herstellen. Bitte überprüfe deine Einstellungen und versuche es erneut.
       revoke_provider_connection: Verbindung aufheben
@@ -253,6 +260,12 @@ de:
       recommendation:
         one: Empfehlung
         other: Empfehlungen
+      course:
+        one: Kurs
+        other: Kurse
+      course_result:
+        one: Kursabschluss
+        other: Kursabschlüsse
       user:
         one: Nutzer
         other: Nutzer
@@ -500,6 +513,10 @@ de:
       user:
         password_too_short: ist zu kurz (Minimum sind %{count} Zeichen).
         password_confirmation: stimmt nicht mit Passwort überein.
+      settings:
+        group: eine Gruppe
+        user: einen Nutzer
+        input_empty: Bitte gib %{subject} an.
 
   startpage:
     carousel:
