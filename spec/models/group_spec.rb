@@ -2,7 +2,6 @@
 require 'rails_helper'
 
 RSpec.describe Group, type: :model do
-
   describe 'destroy group' do
     let(:user) { FactoryGirl.create(:user) }
     let(:second_user) { FactoryGirl.create(:user) }
@@ -36,7 +35,6 @@ RSpec.describe Group, type: :model do
       admins = group.admins
       expect(admins).to eql User.find(user.id, second_user.id)
     end
-
   end
 
   describe 'average enrollments' do
@@ -92,5 +90,4 @@ RSpec.describe Group, type: :model do
       expect(enrolled_courses).to match_array([course1, course2, course3])
     end
   end
-
 end
