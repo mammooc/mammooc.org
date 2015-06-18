@@ -195,6 +195,7 @@ en:
       editing_profile: Edit your profile information
       bookmarks: Your Bookmarks
       currently_no_bookmarks: You didn't bookmark any courses yet.
+      starts: starts on
 
   groups:
     title: My Groups | mammooc

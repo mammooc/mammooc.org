@@ -41,12 +41,12 @@
           = t('users.profile.currently_no_bookmarks')
         - else
           - @bookmarks.each do |bookmark|
-            = link_to bookmark.course.name, course_path(bookmark.course.id)
-            - unless bookmark.course.start_date.blank?
-              | ,
-              =< t('dashboard.course_starts_at')
+            p
+              = link_to bookmark.course.name, course_path(bookmark.course.id)
+              - unless bookmark.course.start_date.blank?
+                | ,
+                =< t('users.profile.starts')
                 =< I18n.l bookmark.course.start_date, format: t('global.date_format_month')
-    .user-details
       .title
         = t('users.profile.current_courses')
         - unless current_user.courses.empty?
@@ -56,6 +56,7 @@
           = t('users.profile.currently_no_courses')
         - else
           - current_user.courses.each do |course|
-            = link_to course.name, course_path(course)
+            p
+              = link_to course.name, course_path(course)
 
 = render 'sidebar'
