@@ -100,33 +100,4 @@ RSpec.describe RecommendationsController, type: :controller do
       end
     end
   end
-
-  describe 'delete user from recommendation' do
-    it 'destroys the requested recommendation of current user' do
-      request.env['HTTP_REFERER'] = dashboard_path
-      recommendation = FactoryGirl.create(:user_recommendation, users: [user])
-      expect do
-        get :delete_user_from_recommendation, id: recommendation.to_param
-      end.to change(Recommendation, :count).by(-1)
-    end
-
-    it 'removes current user from recommendation but do not delete recommendation' do
-      request.env['HTTP_REFERER'] = dashboard_path
-      recommendation = FactoryGirl.create(:user_recommendation, users: [user, second_user])
-      expect do
-        get :delete_user_from_recommendation, id: recommendation.to_param
-      end.to change(Recommendation, :count).by(0)
-      expect(Recommendation.find(recommendation.id).users).to match_array([second_user])
-    end
-  end
-
-  describe 'delete group recommendation' do
-    it 'destroys the requested recommendation of specified group' do
-      request.env['HTTP_REFERER'] = dashboard_path
-      recommendation = FactoryGirl.create(:group_recommendation, group: group)
-      expect do
-        get :delete_group_recommendation, id: recommendation.to_param
-      end.to change(Recommendation, :count).by(-1)
-    end
-  end
 end

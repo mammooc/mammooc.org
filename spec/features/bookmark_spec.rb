@@ -61,8 +61,10 @@ RSpec.describe 'Bookmark', type: :feature do
   end
 
   describe 'bookmark course directly from recommendation' do
-    let(:course) { FactoryGirl.create(:course) }
-    let!(:recommendation) { FactoryGirl.create(:user_recommendation, course: course, users: [user]) }
+    let!(:course) { FactoryGirl.create(:course) }
+    let!(:author) { FactoryGirl.create(:user) }
+    let!(:group) { FactoryGirl.create(:group, users: [user, author]) }
+    let!(:recommendation) { FactoryGirl.create(:user_recommendation, course: course, users: [user], author: author, group: nil) }
 
     it 'creates a new bookmark', js: true do
       visit dashboard_dashboard_path
@@ -82,7 +84,9 @@ RSpec.describe 'Bookmark', type: :feature do
 
   describe 'delete bookmark for a course directly from recommendation' do
     let(:course) { FactoryGirl.create(:course) }
-    let!(:recommendation) { FactoryGirl.create(:user_recommendation, course: course, users: [user]) }
+    let!(:author) { FactoryGirl.create(:user) }
+    let!(:group) { FactoryGirl.create(:group, users: [user, author]) }
+    let!(:recommendation) { FactoryGirl.create(:user_recommendation, author: author, course: course, users: [user]) }
     let!(:bookmark) { FactoryGirl.create(:bookmark, user: user, course: course) }
 
     it 'deletes the specified bookmark', js: true do

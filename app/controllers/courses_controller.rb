@@ -25,7 +25,7 @@ class CoursesController < ApplicationController
     load_courses
 
     respond_to do |format|
-      format.html {render :partial => "/courses/course_list_items"}
+      format.html { render partial: '/courses/course_list_items' }
     end
   end
 
@@ -86,6 +86,7 @@ class CoursesController < ApplicationController
     respond_to do |format|
       begin
         create_enrollment
+        @course.create_activity key: 'course.enroll', owner: current_user, group_ids: current_user.connected_groups_ids, user_ids: current_user.connected_users_ids
         format.html { redirect_to @course }
         format.json { render :enroll_course_result, status: :ok }
       rescue StandardError => e
@@ -258,15 +259,15 @@ class CoursesController < ApplicationController
 
   def load_courses
     @filterrific = initialize_filterrific(Course, params[:filterrific],
-                                          select_options: {with_language: Course.options_for_languages,
-                                                           with_mooc_provider_id: MoocProvider.options_for_select,
-                                                           with_subtitle_languages: Course.options_for_subtitle_languages,
-                                                           duration_filter_options: Course.options_for_duration,
-                                                           start_filter_options: Course.options_for_start,
-                                                           options_for_costs: Course.options_for_costs,
-                                                           options_for_certificate: CourseTrackType.options_for_select,
-                                                           options_for_sorted_by: Course.options_for_sorted_by
-                                          }) || return
+      select_options: {with_language: Course.options_for_languages,
+                       with_mooc_provider_id: MoocProvider.options_for_select,
+                       with_subtitle_languages: Course.options_for_subtitle_languages,
+                       duration_filter_options: Course.options_for_duration,
+                       start_filter_options: Course.options_for_start,
+                       options_for_costs: Course.options_for_costs,
+                       options_for_certificate: CourseTrackType.options_for_select,
+                       options_for_sorted_by: Course.options_for_sorted_by
+      }) || return
 
     @courses = @filterrific.find.page(params[:page])
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(@courses)
