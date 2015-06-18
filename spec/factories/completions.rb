@@ -1,9 +1,9 @@
 # -*- encoding : utf-8 -*-
 FactoryGirl.define do
   factory :full_completion, class: Completion do
-    quantile {Random.rand()}
-    points_achieved {Random.rand() * Random.rand(0..100)}
-    provider_percentage {points_achieved / 100.0}
+    quantile { Random.rand }
+    points_achieved { Random.rand * Random.rand(0..100) }
+    provider_percentage { points_achieved / 100.0 }
     association :user_id, factory: :user
     association :course_id, factory: :course
 

@@ -29,7 +29,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
       course.name = course_element['name'].strip
       course.provider_course_id = course_element['id']
       course.mooc_provider_id = mooc_provider.id
-      course.url = course_element['urls']['details'] #self.class::COURSE_LINK_BODY + course_element['course_code']
+      course.url = course_element['urls']['details'] # self.class::COURSE_LINK_BODY + course_element['course_code']
       course.language = course_element['language']
       course.imageId = course_element['image']
       course.start_date = course_element['startDate']
