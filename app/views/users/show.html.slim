@@ -47,6 +47,7 @@
                 | ,
                 =< t('users.profile.starts')
                 =< I18n.l bookmark.course.start_date, format: t('global.date_format_month')
+    .user-details
       .title
         = t('users.profile.current_courses')
         - unless current_user.courses.empty?
