@@ -203,7 +203,7 @@ addSetting = (event) ->
     when 'users' then "/users/#{user_id}/connected_users_autocomplete.json"
 
   name_input.autocomplete
-    minLength: 2
+    minLength: 0
     delay: 100
     autoFocus: true
     source: (request, response) ->
@@ -238,6 +238,7 @@ addSetting = (event) ->
       .append(ok_button)
       .append(cancel_button))
   list.prepend(form_item)
+  name_input.autocomplete('search')
   name_input.focus()
 
 removeSetting = (event) ->
