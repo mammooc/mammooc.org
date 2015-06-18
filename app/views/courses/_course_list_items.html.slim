@@ -5,6 +5,7 @@
         = image_tag(course.imageId)
       - else
         img src="/data/icons/courses-list-std.png"
+      .course-status
       - if user_signed_in?
         - if @my_bookmarked_courses.include? course
           .action-icon-wishlist data-toggle="tooltip" data-placement="auto" title="#{(t('courses.course-list.remove-bookmark'))}" toggle-title=title="#{(t('courses.course-list.bookmark'))}"
@@ -29,7 +30,6 @@
               = course.language
         .block.pr20.course-instructors
           = course.course_instructors
-
     = link_to course
       .course-info
         .hd6.course-name
