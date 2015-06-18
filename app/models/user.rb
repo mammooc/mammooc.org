@@ -239,7 +239,7 @@ class User < ActiveRecord::Base
 
   def setting(key, create_new = false)
     setting = settings.find_by(name: key)
-    if !setting && create_new
+    if setting.nil? && create_new
       setting = UserSetting.create!(name: key, user: self)
     end
     setting

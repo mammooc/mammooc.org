@@ -113,14 +113,14 @@ RSpec.describe 'Bookmark', type: :feature do
 
     it 'deletes bookmark', js: true do
       visit bookmarks_path
-      first('.glyphicon-remove').click
+      first('.glyphicon-remove').trigger('click')
       wait_for_ajax
       expect(Bookmark.count).to eq 1
     end
 
     it 'hides only deleted bookmark entry', js: true do
       visit bookmarks_path
-      find("a[data-course_id='#{course.id}']").find('.glyphicon-remove').click
+      find("a[data-course_id='#{course.id}']").find('.glyphicon-remove').trigger('click')
       wait_for_ajax
       expect(page).to have_content(I18n.t('dashboard.bookmarks'))
       expect(page).to have_content second_bookmark.course.name
