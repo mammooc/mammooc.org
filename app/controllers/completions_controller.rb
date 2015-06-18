@@ -4,7 +4,12 @@ class CompletionsController < ApplicationController
   # GET /completions.json
   def index
     @user = User.find(completions_params[:user_id])
-    @completions = Completion.where(user: @user)
+    @completions = Completion.where(user: @user).sort_by(&:created_at).reverse
+    courses = []
+    @completions.each do |completion|
+      courses.push(completion.course)
+    end
+    @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(courses)
   end
 
   private

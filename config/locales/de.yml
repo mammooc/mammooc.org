@@ -554,7 +554,7 @@ de:
     points_achieved_of_maximal: "%{points_achieved} von %{points_maximal} Punkten erreicht"
     verify: Verifizieren
     unable_to_verify: Verifizierung (noch) nicht möglich
-    confirmation_of_participation: Teilnahmebestätitung
+    confirmation_of_participation: Teilnahmebestätigung
     record_of_achievement: Leistungsnachweis
     certificate: Zertifikat
     no_visible: '%{user} hat keine Abschlüsse zur Anzeige freigegeben.'

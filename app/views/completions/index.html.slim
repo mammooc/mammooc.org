@@ -14,11 +14,11 @@ div
   - if @completions.present?
     - @completions.each do |completion|
       div
-        h4.bold.link-black-hover-green.pull-left.mb0.mt0.mr5
+        h3.bold.link-black-hover-green.pull-left.mb0.mt0.mr5
           = link_to course_path(completion.course)
             = completion.course.name
         span
-          =< "(#{completion.course.mooc_provider.name})"
+          img.provider-logo src = @provider_logos[completion.course.mooc_provider.logo_id]
         - if completion.points_achieved
           div.mt5
             div.pull-left.mr20
