@@ -42,6 +42,8 @@ RSpec.describe 'completions/index', type: :view do
   before(:each) do
     sign_in user
     assign(:completions, completions)
+    assign(:user, user)
+    assign(:provider_logos, {})
   end
 
   it 'renders a list of completions' do
