@@ -260,7 +260,7 @@ class Course < ActiveRecord::Base
      [I18n.t('courses.filter.sort.duration_desc'), 'duration_desc']]
   end
 
-  self.per_page = 10
+  self.per_page = 20
 
   def self.get_course_id_by_mooc_provider_id_and_provider_course_id(mooc_provider_id, provider_course_id)
     course = Course.find_by(provider_course_id: provider_course_id, mooc_provider_id: mooc_provider_id)

@@ -44,10 +44,31 @@ $course-img-height: 250px;
     .options {
       position: absolute;
       bottom: 20px;
-      right: 20px;
+      right: 60px;
 
       img {
         height: 40px;
+      }
+    }
+
+    .actions {
+      position: absolute;
+      top: 0px;
+      right: 15px;
+      min-height: $course-img-height + 40px;
+      width: 30px;
+      background-color: rgba(0, 0, 0, 0.5);
+
+      .action-icon-wishlist {
+        @extend .action-icons;
+        margin-top: 15px;
+        padding-left: 8px;
+      }
+
+      .action-icon-enrollment {
+        @extend .action-icons;
+        margin-top: 45px;
+        padding-left: 6px;
       }
     }
   }
@@ -82,7 +103,6 @@ $course-img-height: 250px;
     background-color: white;
     padding: 10px;
   }
-
 }
 
 .entry-active {
@@ -189,7 +209,7 @@ $course-img-height: 250px;
   background-color: #ffffff;
  }
 
-/* Course listing */
+/* Course listing: Filter */
 
 .filter-options-top {
   width: 100%;
@@ -221,7 +241,45 @@ $course-img-height: 250px;
   }
 }
 
+/* Course listing: Items */
+
+$course-listing-img-height: 130px;
+
+.action-icons {
+  z-index: 3;
+  position: absolute;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  display: inline-block;
+  text-decoration: inherit;
+  font-size: 18px;
+}
+
+.action-icon-gray {
+  color: white;
+  -webkit-text-fill-color: rgba(0, 0, 0, 0.5);
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: white;
+
+  &:hover {
+    -webkit-text-fill-color: $mammooc;
+  }
+}
+
+.action-icon-green {
+  color: white;
+  -webkit-text-fill-color: $mammooc;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: white;
+
+  &:hover {
+    -webkit-text-fill-color: rgba(0, 0, 0, 0.5);
+  }
+}
+
 .courses-wrapper {
+  overflow: auto;
 
   .courses {
     @include white-box;
@@ -233,17 +291,66 @@ $course-img-height: 250px;
 
     &:hover {
       @include box-shadow-hover;
-      cursor: pointer;
+
+      & .course-image {
+        .additional-infos {
+         visibility: visible;
+        }
+      }
     }
 
     .course-image {
+      height: $course-listing-img-height;
+      width: 100%;
+      position: relative;
       border-bottom: 1px solid $panel-default-border;
 
-      img {
+      .additional-infos {
+        visibility: hidden;
+        z-index: 2;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.5);
+        width: 100%;
+        height: $course-listing-img-height;
+        color: white;
+        padding: 10px;
+        font-weight: 500;
+
+        .course-instructors {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          line-height: 18px;
+          max-height: 54px;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+        }
+      }
+
+      & > img {
+        z-index: 1;
+        position: absolute;
+        top: 0;
+        left: 0;
         object-fit: cover;
         width: 100%;
         height: 130px;
         overflow: hidden;
+      }
+
+      .action-icon-wishlist {
+        @extend .action-icons;
+        top: 10px;
+        right: 10px;
+      }
+
+      .action-icon-enrollment {
+        @extend .action-icons;
+        top: 35px;
+        right: 10px;
       }
     }
 
@@ -270,14 +377,10 @@ $course-img-height: 250px;
         -webkit-box-orient: vertical;
       }
 
-      .course-instructors {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        line-height: 18px;
-        max-height: 54px;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
+      .status {
+        display: inline-block;
+        line-height: 25px;
+        vertical-align: middle;
       }
 
       .provider {
@@ -286,8 +389,8 @@ $course-img-height: 250px;
         right: 10px;
 
         img {
-          width: 100px;
-          height: auto;
+          height: 35px;
+          width: auto;
         }
       }
     }
@@ -372,11 +475,14 @@ $course-img-height: 250px;
   }
 }
 
-// Hide sidebar and show filter in another way
-// for small and extra small screens
-
-//@media(max-width: $screen-sm-max) {
-//  .courses-filter {
-//    display: none;
-//  }
-//}
+.load-more-courses {
+  display: block;
+  background-color: white;
+  border: 1px solid #ddd;
+  width: 100%;
+  margin: 0px;
+  padding: 10px;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 500;
+}
