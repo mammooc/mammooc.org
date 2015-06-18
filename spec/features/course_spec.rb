@@ -223,7 +223,7 @@ RSpec.describe 'Course', type: :feature do
       visit "/courses/#{course.id}"
       click_link 'rate-course-link'
       expect(page).not_to have_content(I18n.t('evaluations.already_evaluated', first_name: user.first_name))
-      find("div[class='user-rate-course-value']").first("span").all("div[class='rating-symbol']").last.click
+      find("div[class='user-rate-course-value']").first('span').all("div[class='rating-symbol']").last.click
       fill_in 'rating-textarea', with: 'Great Course!'
       find("label[id='option_aborted']").click
       click_button('submit-rating-button')
@@ -239,7 +239,7 @@ RSpec.describe 'Course', type: :feature do
       wait_for_ajax
       expect(page).to have_content(I18n.t('evaluations.state_overall_rating'))
       expect(page).to have_content(I18n.t('evaluations.state_course_status'))
-      find("div[class='user-rate-course-value']").first("span").all("div[class='rating-symbol']").last.click
+      find("div[class='user-rate-course-value']").first('span').all("div[class='rating-symbol']").last.click
       find("label[id='option_aborted']").click
       click_button('submit-rating-button')
       wait_for_ajax
@@ -265,7 +265,7 @@ RSpec.describe 'Course', type: :feature do
       expect(page.find("div[class='user-rate-course-value']").all("span[class='glyphicon glyphicon-star']").count).to eq(eval.rating)
       expect(page.find("textarea[id='rating-textarea']")).to have_content(eval.description)
       expect(page.find("label[class='btn btn-default active']")['data-value']).to eql("#{eval.course_status}")
-      find("div[class='user-rate-course-value']").first("span").all("div[class='rating-symbol']").last.click
+      find("div[class='user-rate-course-value']").first('span').all("div[class='rating-symbol']").last.click
       fill_in 'rating-textarea', with: 'Great Course!'
       find("label[id='option_aborted']").click
       click_button('submit-rating-button')
@@ -302,5 +302,4 @@ RSpec.describe 'Course', type: :feature do
       expect(page).to have_content(I18n.t('evaluations.path_to_registration'))
     end
   end
-
 end

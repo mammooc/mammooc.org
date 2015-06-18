@@ -11,8 +11,6 @@ form.form-horizontal
       - else
         .user-rate-course-value
           input.rating type='hidden' value="" data-start="0" data-stop="5" id="rating-input"
-      script type="text/javascript"
-        | $('#rating-input').rating();
   .form-group
     label.col-sm-3 for="rating-textarea"
       = t('evaluations.additional_notes')
@@ -27,28 +25,39 @@ form.form-horizontal
         | *
     .col-sm-9
       .btn-group.btn-group-sm data-toggle="buttons" id="course-status-selector"
-        label.btn.btn-default data-value="aborted" id="option_aborted"
-          input type="radio"
-            = t('evaluations.aborted')
-        label.btn.btn-default data-value="enrolled" id="option_enrolled"
-          input type="radio"
-            = t('evaluations.currently_enrolled')
-        label.btn.btn-default data-value="finished" id="option_finished"
-          input type="radio"
-            = t('evaluations.finished')
-      - if @has_rated_course
-        script type="text/javascript"
-          | var d = document.getElementById("option_#{@current_user_evaluation.course_status}");
-          | d.className = d.className + " active";
+        - if @has_rated_course && @current_user_evaluation.course_status == 'aborted'
+          label.btn.btn-default data-value="aborted" id="option_aborted" class="active"
+            input type="radio"
+              = t('evaluations.aborted')
+        - else
+          label.btn.btn-default data-value="aborted" id="option_aborted"
+            input type="radio"
+              = t('evaluations.aborted')
+        - if @has_rated_course && @current_user_evaluation.course_status == 'enrolled'
+          label.btn.btn-default data-value="enrolled" id="option_enrolled" class="active"
+            input type="radio"
+              = t('evaluations.currently_enrolled')
+        - else
+          label.btn.btn-default data-value="enrolled" id="option_enrolled"
+            input type="radio"
+              = t('evaluations.currently_enrolled')
+        - if @has_rated_course && @current_user_evaluation.course_status == 'finished'
+          label.btn.btn-default data-value="finished" id="option_finished" class="active"
+            input type="radio"
+              = t('evaluations.finished')
+        - else
+          label.btn.btn-default data-value="finished" id="option_enrolled"
+            input type="radio"
+              = t('evaluations.finished')
   .form-group
     .col-sm-3
     .col-sm-9
       .checkbox
         label
-          input type="checkbox" id="rate-anonymously-checkbox" value=""
           - if @has_rated_course
-            script type="text/javascript"
-              | $('#rate-anonymously-checkbox').prop('checked', #{@current_user_evaluation.rated_anonymously});
+            input type="checkbox" id="rate-anonymously-checkbox" checked="#{@current_user_evaluation.rated_anonymously}"
+          - else
+            input type="checkbox" id="rate-anonymously-checkbox"
           = t('evaluations.anonymous_evaluation')
   .form-group
     .col-sm-3
@@ -63,5 +72,3 @@ form.form-horizontal
     .col-sm-3
     .col-sm-9
       .invitation-error.text-danger
-script type="text/javascript"
-  | bindSendCourseReviewClick();

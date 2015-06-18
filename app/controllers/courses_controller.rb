@@ -82,7 +82,7 @@ class CoursesController < ApplicationController
     create_evaluation_object_for_course @course
     evaluating_users = User.find(@course.evaluations.pluck(:user_id))
     @profile_pictures ||= {}
-    @profile_pictures = User.user_profile_images_hash_for_users(evaluating_users,@profile_pictures)
+    @profile_pictures = User.user_profile_images_hash_for_users(evaluating_users, @profile_pictures)
 
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses([@course])
     @bookmarked = false
@@ -90,7 +90,6 @@ class CoursesController < ApplicationController
     current_user.bookmarks.each do |bookmark|
       @bookmarked = true if bookmark.course == @course
     end
-
   end
 
   def enroll_course
@@ -143,7 +142,7 @@ class CoursesController < ApplicationController
     end
     @current_user_evaluation = current_user.evaluations.find_by(course_id: @course.id)
     @has_rated_course = @current_user_evaluation.present?
-    @respond_partial = render_to_string partial: 'courses/already_rated_course_form', formats:[:html]
+    @respond_partial = render_to_string partial: 'courses/already_rated_course_form', formats: [:html]
     respond_to do |format|
       begin
         format.html { redirect_to @course }
@@ -179,13 +178,13 @@ class CoursesController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
-  def ranking_valid? rating
-    return [1, 2, 3, 4, 5].include? rating
+  def ranking_valid?(rating)
+    [1, 2, 3, 4, 5].include? rating
   end
 
-  def course_status_valid? course_status
+  def course_status_valid?(course_status)
     return false unless course_status.present?
-    return [:aborted, :enrolled, :finished].include? course_status.to_sym
+    [:aborted, :enrolled, :finished].include? course_status.to_sym
   end
 
   def set_course
@@ -197,7 +196,7 @@ class CoursesController < ApplicationController
     params.require(:course).permit(:name, :url, :course_instructor, :abstract, :language, :imageId, :videoId, :start_date, :end_date, :duration, :costs, :type_of_achievement, :categories, :difficulty, :requirements, :workload, :provider_course_id, :mooc_provider_id, :course_result_id)
   end
 
-  def create_evaluation_object_for_course course
+  def create_evaluation_object_for_course(course)
     if course.evaluations.present?
       @course_evaluations = Set.new
       course.evaluations.each do |evaluation|

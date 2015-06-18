@@ -8,7 +8,6 @@ class Evaluation < ActiveRecord::Base
   enum course_status: [:aborted, :enrolled, :finished]
 
   def update_course_rating_and_count
-      Course.update_course_rating_attributes course_id
+    Course.update_course_rating_attributes course_id
   end
-
 end

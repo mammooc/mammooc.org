@@ -36,5 +36,4 @@ RSpec.describe 'recommendations/_recommendation', type: :view do
     render 'recommendations/recommendation', recommendation: recommendation, id: 'recommendation_number_1', group_context: false
     expect(rendered).not_to have_content("(#{recommendation.course.rating_count})")
   end
-
 end

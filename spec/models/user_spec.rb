@@ -56,7 +56,7 @@ RSpec.describe User, type: :model do
 
   describe 'handles Evaluations when destroyed' do
     let!(:user) { FactoryGirl.create(:user) }
-    let(:evaluation) { FactoryGirl.create(:full_evaluation, user_id: user.id)}
+    let(:evaluation) { FactoryGirl.create(:full_evaluation, user_id: user.id) }
 
     it 'set all evaluations to anonym and delete user_id' do
       evaluation.save

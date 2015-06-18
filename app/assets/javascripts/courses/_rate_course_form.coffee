@@ -1,3 +1,8 @@
+ready = ->
+  $('#submit-rating-button').on 'click', (event) -> sendCourseReview(event)
+
+$(document).ready(ready)
+
 sendCourseReview = (event) ->
   button = $(event.target)
   course_id = button.data('course_id')
@@ -25,12 +30,17 @@ sendCourseReview = (event) ->
       console.log('error_synchronize')
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
-      console.log(data.error_text)
+      console.log(data.evaluation)
       if (data.error_text).length < 1
         $('div.rating-menu').html(data.partial)
+        prepareRateCourseFormPartial(data.evaluation)
       else $('.invitation-error').text(data.error_text)
   event.preventDefault()
 
-@bindSendCourseReviewClick = () ->
+prepareRateCourseFormPartial = (evaluation) ->
   $('button[id="submit-rating-button"]').on 'click', (event) ->
     sendCourseReview(event)
+  $('#rating-input').rating();
+  d = document.getElementById("option_#{evaluation.course_status}");
+  d.className = d.className + ' active';
+  $('#rate-anonymously-checkbox').prop('checked', evaluation.rated_anonymously);

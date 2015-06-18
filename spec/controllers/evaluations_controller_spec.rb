@@ -20,7 +20,6 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe EvaluationsController, type: :controller do
-
   let(:user) { FactoryGirl.create(:user) }
 
   before(:each) do
@@ -28,15 +27,15 @@ RSpec.describe EvaluationsController, type: :controller do
   end
 
   describe 'POST process_evaluation_rating' do
-    let (:evaluation) { FactoryGirl.create(:full_evaluation) }
-    let (:own_evaluation) { FactoryGirl.create(:full_evaluation, user_id: user.id) }
+    let(:evaluation) { FactoryGirl.create(:full_evaluation) }
+    let(:own_evaluation) { FactoryGirl.create(:full_evaluation, user_id: user.id) }
 
     it 'increases rating_count by one when evaluation is marked as not helpful' do
       evaluation_rating_count = evaluation.evaluation_rating_count
       evaluation_helpful_rating_count = evaluation.evaluation_helpful_rating_count
       post :process_evaluation_rating, id: evaluation.id, helpful: 'false'
       evaluation.reload
-      expect(evaluation.evaluation_rating_count).to eq(evaluation_rating_count+1)
+      expect(evaluation.evaluation_rating_count).to eq(evaluation_rating_count + 1)
       expect(evaluation.evaluation_helpful_rating_count).to eq(evaluation_helpful_rating_count)
     end
 
@@ -45,8 +44,8 @@ RSpec.describe EvaluationsController, type: :controller do
       evaluation_helpful_rating_count = evaluation.evaluation_helpful_rating_count
       post :process_evaluation_rating, id: evaluation.id, helpful: 'true'
       evaluation.reload
-      expect(evaluation.evaluation_rating_count).to eq(evaluation_rating_count+1)
-      expect(evaluation.evaluation_helpful_rating_count).to eq(evaluation_helpful_rating_count+1)
+      expect(evaluation.evaluation_rating_count).to eq(evaluation_rating_count + 1)
+      expect(evaluation.evaluation_helpful_rating_count).to eq(evaluation_helpful_rating_count + 1)
     end
 
     it 'does not increase anything when rated an own evaluation' do
@@ -54,10 +53,8 @@ RSpec.describe EvaluationsController, type: :controller do
       evaluation_helpful_rating_count = own_evaluation.evaluation_helpful_rating_count
       post :process_evaluation_rating, id: own_evaluation.id, helpful: 'true'
       own_evaluation.reload
-      expect(own_evaluation.evaluation_rating_count).not_to eq(evaluation_rating_count+1)
-      expect(own_evaluation.evaluation_helpful_rating_count).not_to eq(evaluation_helpful_rating_count+1)
+      expect(own_evaluation.evaluation_rating_count).not_to eq(evaluation_rating_count + 1)
+      expect(own_evaluation.evaluation_helpful_rating_count).not_to eq(evaluation_helpful_rating_count + 1)
     end
   end
-
-
 end

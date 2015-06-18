@@ -84,9 +84,9 @@ RSpec.describe Course, type: :model do
   end
 
   describe 'update_course_rating_attributes' do
-    let!(:course) {FactoryGirl.create(:course)}
+    let!(:course) { FactoryGirl.create(:course) }
 
-    it 'should update calculated rating and rating count' do
+    it 'update calculated rating and rating count' do
       FactoryGirl.create(:full_evaluation, rating: 1, course: course)
       FactoryGirl.create(:minimal_evaluation, rating: 5, course: course)
       course.reload
@@ -94,9 +94,9 @@ RSpec.describe Course, type: :model do
       expect(course.calculated_rating).to eq(3.0)
     end
 
-    it 'should set calculated rating and rating count to zero when evaluations are deleted' do
-      eva1=FactoryGirl.create(:full_evaluation, rating: 1, course: course)
-      eva2=FactoryGirl.create(:minimal_evaluation, rating: 5, course: course)
+    it 'set calculated rating and rating count to zero when evaluations are deleted' do
+      eva1 = FactoryGirl.create(:full_evaluation, rating: 1, course: course)
+      eva2 = FactoryGirl.create(:minimal_evaluation, rating: 5, course: course)
       eva1.destroy
       eva2.destroy
       course.reload
