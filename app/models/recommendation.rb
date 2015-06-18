@@ -5,6 +5,7 @@ class Recommendation < ActiveRecord::Base
   belongs_to :group
   has_many :comments
   has_and_belongs_to_many :users
+  include PublicActivity::Common
 
   def self.sorted_recommendations_for_course_and_user(course, user, filter_users = [])
     course_recommendations = []
@@ -22,6 +23,15 @@ class Recommendation < ActiveRecord::Base
 
     course_recommendations = self.filter_users(course_recommendations, filter_users)
     course_recommendations.uniq.sort_by(&:created_at).reverse!
+  end
+
+  def delete_user_from_recommendation(user)
+    self.users -= [user]
+    destroy if self.users.blank? && group.blank?
+  end
+
+  def delete_group_recommendation
+    destroy
   end
 
   def self.filter_users(recommendations, filter_users)

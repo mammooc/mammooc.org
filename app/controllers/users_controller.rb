@@ -17,7 +17,8 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @user_picture = current_user.profile_image.expiring_url(3600, :square)
+    @user_picture = @user.profile_image.expiring_url(3600, :square)
+    @bookmarks = current_user.bookmarks
   end
 
   # PATCH/PUT /users/1
