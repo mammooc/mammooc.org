@@ -25,6 +25,7 @@ de:
     require_login: Du musst eingeloggt sein, um auf diese Seite zugreifen zu können.
     close: Schließen
     submit: Absenden
+    save: Speichern
     cancel: Abbrechen
     edit: Bearbeiten
     by: 'von '
@@ -150,12 +151,13 @@ de:
       mooc_provider_connection: Verbindungen mit MOOC-Providern
       email: :users.sign_in_up.email
       enter_mail: E-Mail eingeben
+      current_password: Altes Passwort
       password: :users.sign_in_up.password
       password_confirmation: :users.sign_in_up.password_confirmation
-      password_confirmation_info: (aktuelles Passwort eingeben, um Änderungen zu bestätigen)
+      password_confirmation_info: aktuelles Passwort eingeben, um Änderungen zu bestätigen
       new_password: Neues Passwort
-      new_password_confirmation: Bestätige neues Passwort
-      new_password_info: (Feld frei lassen, wenn das Passwort nicht geändert werden soll)
+      new_password_confirmation: Passwortbestätigung
+      new_password_info: Feld frei lassen, wenn das Passwort nicht geändert werden soll
       cancel_account: Account löschen
       update_account: Aktualisieren
       pending_mail_confirmation: 'Warte auf Bestätigung für:'
@@ -172,6 +174,13 @@ de:
         only_one_provider: "Neuer Personalausweis: Du musst entweder ein Passwort setzen oder dich über einen anderen Anbieter anmelden, damit du deine bestehende Verknüpfung entfernen kannst."
         identity_deleted: Die Verknüpfung mit deinem neuen Personalausweis wurde erfolgreich aufgehoben.
         identity_not_deleted: Die Verknüpfung mit deinem neuen Personalausweis konnte nicht entfernt werden.
+      change_emails:
+        address: Emailadresse
+        primary: Wähle primäre
+        delete: Löschen
+        alert_can_not_delete_primary: Diese Adresse kann nicht gelöscht werden. Wähle erst eine andere primäre Adresse aus.
+        success: Emailadressen erfolgreich aktualisiert.
+        new_line: Neue Zeile
     synchronization:
       oauth_error: Fehler! Wir konnten keine Verbindung zu deinem Account herstellen. Bitte überprüfe deine Einstellungen und versuche es erneut.
       revoke_provider_connection: Verbindung aufheben
@@ -249,6 +258,9 @@ de:
       recommendation:
         one: Empfehlung
         other: Empfehlungen
+      user:
+        one: Nutzer
+        other: Nutzer
     attributes:
       group:
         name: Name
@@ -256,6 +268,11 @@ de:
       recommendation:
         is_obligatory: Verpflichtend?
         text: Nachricht
+      user:
+        first_name: Vorname
+        last_name: Nachname
+        about_me: Über mich
+        profile_image: Profilbild
    #error messages
     errors:
       messages:
