@@ -73,6 +73,7 @@ loadAccountSettings = (event) ->
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       $("div.settings-container").html(data.partial)
+      bindClickEvents()
       window.history.pushState({id: 'set_account_subsite'}, '', 'settings?subsite=account');
   event.preventDefault()
 
@@ -88,6 +89,7 @@ loadMoocProviderSettings = (event) ->
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       $("div.settings-container").html(data.partial)
+      bindClickEvents()
       window.history.pushState({id: 'set_mooc_provider_subsite'}, '', 'settings?subsite=mooc_provider');
   event.preventDefault()
 
@@ -103,6 +105,7 @@ loadPrivacySettings = (event) ->
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       $("div.settings-container").html(data.partial)
+      bindClickEvents()
       window.history.pushState({id: 'set_privacy_subsite'}, '', 'settings?subsite=privacy');
   event.preventDefault()
 
@@ -272,5 +275,10 @@ getExistingIDs = (setting, key) ->
     synchronizeNaiveUserMoocProviderConnection(event)
   $('button[id="revoke-naive-user-mooc_provider-connection-button"]').on 'click', (event) ->
     revokeNaiveUserMoocProviderConnection(event)
+
+  $('#add_new_email_field').on 'click', (event) -> addNewEmailField(event)
+  $('.remove_added_email_field').on 'click', (event) -> removeAddedEmailField(event)
+  $('.remove_email').on 'click', (event) -> markEmailAsDeleted(event)
+
   $('button.setting-add-button').on 'click', (event) -> addSetting(event)
   $('button.setting-remove-button').on 'click', (event) -> removeSetting(event)
