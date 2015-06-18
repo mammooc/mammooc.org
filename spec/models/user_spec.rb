@@ -54,6 +54,19 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'handles Evaluations when destroyed' do
+    let!(:user) { FactoryGirl.create(:user) }
+    let(:evaluation) { FactoryGirl.create(:full_evaluation, user_id: user.id) }
+
+    it 'set all evaluations to anonym and delete user_id' do
+      evaluation.save
+      expect(user.destroy).to be_truthy
+      evaluation.reload
+      expect(evaluation.user_id).to be_nil
+      expect(evaluation.rated_anonymously).to be_truthy
+    end
+  end
+
   describe 'factories' do
     it 'has valid factory' do
       expect(FactoryGirl.build_stubbed(:user)).to be_valid
@@ -223,7 +236,7 @@ RSpec.describe User, type: :model do
       another_user = FactoryGirl.create(:user, primary_email: 'test2@example.com')
       user_email = FactoryGirl.build(:user_email, user: another_user, address: 'test@example.com')
       user.instance_variable_set(:@primary_email_object, user_email)
-      expect { user.send(:save_primary_email) }.to raise_error
+      expect { user.send(:save_primary_email) }.to raise_error NoMethodError
       expect(described_class.find_by_primary_email('test2@example.com')).to eql another_user
       expect(described_class.find_by_primary_email('test@example.com')).to be_nil
     end
@@ -470,8 +483,22 @@ RSpec.describe User, type: :model do
     end
 
     it 'changes the URL scheme to https and returns' do
-      puts described_class.process_uri('http://www.example.com/avatar.png')
       expect(described_class.process_uri('http://www.example.com/avatar.png')).to eql 'https://www.example.com/avatar.png'
+    end
+  end
+
+  describe 'setting(key, create_new)' do
+    let(:user) { FactoryGirl.create :user }
+    let(:user_setting) { FactoryGirl.create :user_setting, user: user }
+
+    it 'returns UserSetting object' do
+      expect(user.setting(user_setting.name)).to eq user_setting
+    end
+
+    context 'UserSetting object does not exist' do
+      it 'creates new UserSetting' do
+        expect { user.setting(:newsetting, true) }.to change { UserSetting.count }.by(1)
+      end
     end
   end
 end

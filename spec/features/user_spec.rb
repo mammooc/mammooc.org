@@ -4,11 +4,53 @@ require 'rails_helper'
 RSpec.describe 'User', type: :feature do
   self.use_transactional_fixtures = false
 
-  let(:user) { User.create!(first_name: 'Max', last_name: 'Mustermann', password: '12345678')  }
+  let!(:user) { User.create!(first_name: 'Max', last_name: 'Mustermann', password: '12345678')  }
   let!(:first_email) { FactoryGirl.create(:user_email, user: user) }
   let(:second_user) { FactoryGirl.create(:user) }
   let(:third_user) { FactoryGirl.create(:user) }
   let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
+
+  let!(:course_enrollments_visibility_settings) do
+    setting = FactoryGirl.create :user_setting, name: :course_enrollments_visibility, user: user
+    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+  end
+  let!(:course_results_visibility_settings) do
+    setting = FactoryGirl.create :user_setting, name: :course_results_visibility, user: user
+    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+  end
+  let!(:course_progress_visibility_settings) do
+    setting = FactoryGirl.create :user_setting, name: :course_progress_visibility, user: user
+    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+  end
+  let!(:profile_visibility_settings) do
+    setting = FactoryGirl.create :user_setting, name: :profile_visibility, user: user
+    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+  end
+  let!(:second_course_enrollments_visibility_settings) do
+    setting = FactoryGirl.create :user_setting, name: :course_enrollments_visibility, user: second_user
+    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+  end
+
+  let!(:second_course_results_visibility_settings) do
+    setting = FactoryGirl.create :user_setting, name: :course_results_visibility, user: second_user
+    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+  end
+  let!(:second_course_progress_visibility_settings) do
+    setting = FactoryGirl.create :user_setting, name: :course_progress_visibility, user: second_user
+    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+  end
+  let!(:second_profile_visibility_settings) do
+    setting = FactoryGirl.create :user_setting, name: :profile_visibility, user: second_user
+    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+  end
 
   before(:all) do
     DatabaseCleaner.strategy = :truncation
@@ -74,8 +116,8 @@ RSpec.describe 'User', type: :feature do
       end
     end
 
-    describe 'account settings' do
-      describe 'email settings' do
+    describe 'subsite account settings' do
+      describe 'change email settings' do
         let!(:second_email) { FactoryGirl.create(:user_email, user: user, is_primary: false) }
 
         before(:each) do
@@ -265,7 +307,7 @@ RSpec.describe 'User', type: :feature do
           expect(UserEmail.find(first_email.id).is_primary).to be false
         end
 
-        it 'cancel action', js: true do
+        it 'cancels action', js: true do
           third_email = FactoryGirl.create(:user_email, is_primary: false, user: user)
           visit "#{user_settings_path(user.id)}?subsite=account"
           fill_in "user_user_email_address_#{second_email.id}", with: 'NewEmailAddress@example.com'
@@ -310,7 +352,7 @@ RSpec.describe 'User', type: :feature do
           end
         end
         expect(page).to have_content I18n.t('devise.registrations.destroyed')
-        expect { User.find(second_user.id) }.to raise_error
+        expect { User.find(second_user.id) }.to raise_error ActiveRecord::RecordNotFound
       end
     end
   end

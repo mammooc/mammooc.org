@@ -1,0 +1,54 @@
+.rating-input {
+  display: inline-block;
+  padding-left: 4px;
+}
+
+.glyphicon-star, .glyphicon-star-empty {
+  color: rgb(250, 212, 29);
+}
+
+.user-rating-evaluation {
+  margin-top: 5px;
+}
+
+.evaluation-rating-notice {
+  color: grey;
+  margin-top: 5px;
+  font-size: 13px;
+  font-weight: 300;
+}
+
+.user-rating-description {
+  margin: 5px 10px 10px;
+}
+
+a.rate-evaluation-link {
+  cursor: pointer;
+}
+
+.course-rating {
+  display: inline-block;
+}
+
+.course-rating-count {
+  display: inline;
+  font-weight: lighter;
+  font-size:  0.85em;
+}
+
+.course-rating-value {
+  font-size: 0.9em;
+}
+
+.user-rate-course-value {
+  font-size: 1.4em;
+}
+
+.user-rating-value {
+  float:right;
+  font-size: 1.4em;
+}
+
+.evaluation-rating-reply {
+  font-style: italic;
+}

@@ -16,6 +16,7 @@ class Course < ActiveRecord::Base
                         :sorted_by,
                         :bookmarked]
   )
+  include PublicActivity::Common
 
   belongs_to :mooc_provider
   belongs_to :course_result
@@ -47,13 +48,16 @@ class Course < ActiveRecord::Base
       when /^duration_/
         order("courses.calculated_duration_in_days IS NULL, courses.calculated_duration_in_days #{direction}")
       when /^relevance_/
+        order("courses.start_date asc NULLS LAST")
         order("CASE
                 WHEN start_date = to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 1
                 WHEN start_date > to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') AND start_date < to_timestamp('#{(Time.zone.now + 2.weeks).strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 2
                 WHEN start_date < to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') AND end_date IS NOT NULL AND end_date > to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 3
-                WHEN start_date IS NULL THEN 5
-                ELSE 4
-              END")
+                WHEN start_date > to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') AND start_date > to_timestamp('#{(Time.zone.now + 2.weeks).strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 4
+                WHEN start_date IS NULL THEN 6
+                ELSE 5
+              END,
+              start_date ASC")
       else
         raise ArgumentError.new "Invalid sort option: #{sort_option.inspect}"
     end
@@ -260,7 +264,11 @@ class Course < ActiveRecord::Base
      [I18n.t('courses.filter.sort.duration_desc'), 'duration_desc']]
   end
 
-  self.per_page = 10
+  self.per_page = 20
+
+  def bookmarked_by_user?(user)
+    bookmarks.where(user_id: user.id).any?
+  end
 
   def self.get_course_id_by_mooc_provider_id_and_provider_course_id(mooc_provider_id, provider_course_id)
     course = Course.find_by(provider_course_id: provider_course_id, mooc_provider_id: mooc_provider_id)
@@ -269,6 +277,19 @@ class Course < ActiveRecord::Base
     else
       return nil
     end
+  end
+
+  def self.update_course_rating_attributes(course_id)
+    course = Course.find(course_id)
+    course_evaluations = Evaluation.find_by_course_id(course_id)
+    if course_evaluations.present?
+      course.calculated_rating = Evaluation.where(course_id: course_id).average(:rating)
+      course.rating_count = Evaluation.where(course_id: course_id).count
+    else
+      course.calculated_rating = 0
+      course.rating_count = 0
+    end
+    course.save
   end
 
   private

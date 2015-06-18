@@ -2,6 +2,8 @@
 
 @import "bootstrap-variables";
 @import "bootstrap-generators";
+@import "font-awesome-sprockets";
+@import "font-awesome";
 
 // Import Partials
 
@@ -21,4 +23,8 @@
 @import "partials/shared";
 @import "partials/statistics";
 @import "partials/teaser";
+@import "partials/ratings";
+@import "partials/already_rated";
+@import "partials/rating_form";
 @import "partials/users";
+@import "partials/newsfeed";

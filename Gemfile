@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 ruby '2.2.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.1'
+gem 'rails', '4.2.2'
 # Use sqlite3 as the database for Active Record
 gem 'pg'
 gem 'sass-rails', '~> 5.0'
@@ -63,7 +63,11 @@ gem 'redis'
 gem 'sidekiq'
 gem 'whenever'
 
+# newsfeed
+gem 'public_activity'
+
 gem 'bootstrap-sass'
+gem 'font-awesome-sass', '~> 4.3.0'
 
 gem 'bootstrap_tokenfield_rails'
 gem 'bootstrap-datepicker-rails'

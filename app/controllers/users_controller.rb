@@ -17,7 +17,8 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @user_picture = current_user.profile_image.expiring_url(3600, :square)
+    @user_picture = @user.profile_image.expiring_url(3600, :square)
+    @bookmarks = current_user.bookmarks
   end
 
   # PATCH/PUT /users/1
@@ -102,14 +103,49 @@ class UsersController < ApplicationController
     end
   end
 
+  def privacy_settings
+    prepare_privacy_settings
+    @partial = render_to_string partial: 'users/privacy_settings', formats: [:html]
+
+    respond_to do |format|
+      begin
+        format.html { redirect_to dashboard_path }
+        format.json { render :settings, status: :ok }
+      rescue StandardError => e
+        format.html { redirect_to dashboard_path }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def settings
     prepare_mooc_provider_settings
+    prepare_privacy_settings
     @subsite = params['subsite']
     @user = current_user
     @emails = @user.emails.sort_by do |email|
       [email.is_primary ? 0 : 1, email.address]
     end
     session.delete(:deleted_user_emails)
+  end
+
+  def set_setting
+    setting = current_user.setting(params[:setting], true)
+    setting.set(params[:key], params[:value])
+
+    respond_to do |format|
+      format.json { render json: {status: :ok} }
+    end
+  end
+
+  def connected_users_autocomplete
+    search = params[:q].downcase
+    users = current_user.connected_users.select {|u| u.first_name.downcase.include?(search) || u.last_name.downcase.include?(search) }
+            .collect {|u| {id: u.id, first_name: u.first_name, last_name: u.last_name} }
+
+    respond_to do |format|
+      format.json { render json: users }
+    end
   end
 
   def oauth_callback
@@ -252,6 +288,20 @@ class UsersController < ApplicationController
        oauth_link: oauth_link}
     end
     @mooc_provider_connections = current_user.mooc_providers.pluck(:mooc_provider_id)
+  end
+
+  def prepare_privacy_settings
+    @course_enrollments_visibility_groups = Group.find(current_user.setting(:course_enrollments_visibility, true).value(:groups) || [])
+    @course_enrollments_visibility_users = User.find(current_user.setting(:course_enrollments_visibility, true).value(:users) || [])
+
+    @course_results_visibility_groups = Group.find(current_user.setting(:course_results_visibility, true).value(:groups) || [])
+    @course_results_visibility_users = User.find(current_user.setting(:course_results_visibility, true).value(:users) || [])
+
+    @course_progress_visibility_groups = Group.find(current_user.setting(:course_progress_visibility, true).value(:groups) || [])
+    @course_progress_visibility_users = User.find(current_user.setting(:course_progress_visibility, true).value(:users) || [])
+
+    @profile_visibility_groups = Group.find(current_user.setting(:profile_visibility, true).value(:groups) || [])
+    @profile_visibility_users = User.find(current_user.setting(:profile_visibility, true).value(:users) || [])
   end
 
   def set_provider_logos

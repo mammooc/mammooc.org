@@ -81,26 +81,30 @@ RSpec.describe 'Course', type: :feature do
 
     it 'toggles the enrollment button upon click', js: true do
       allow_any_instance_of(OpenHPIConnector).to receive(:enroll_user_for_course).and_return(true)
-      visit "/courses/#{course.id}"
-      click_link('enroll-course-link')
+      visit course_path(course)
+      expect(page).to have_no_selector('.unenroll-icon')
+      expect(page).to have_selector('.enroll-icon')
+      click_link('enroll-link')
       wait_for_ajax
-      expect(page).to have_no_selector('#enroll-course-link')
-      expect(page).to have_selector('#unenroll-course-link')
+      expect(page).to have_no_selector('.enroll-icon')
+      expect(page).to have_selector('.unenroll-icon')
     end
 
     it 'toggles the unenrollment button upon click', js: true do
       user.courses << course
       allow_any_instance_of(OpenHPIConnector).to receive(:unenroll_user_for_course).and_return(true)
       visit "/courses/#{course.id}"
-      click_link('unenroll-course-link')
+      expect(page).to have_no_selector('.enroll-icon')
+      expect(page).to have_selector('.unenroll-icon')
+      click_link('unenroll-link')
       wait_for_ajax
-      expect(page).to have_no_selector('#unenroll-course-link')
-      expect(page).to have_selector('#enroll-course-link')
+      expect(page).to have_no_selector('.unenroll-icon')
+      expect(page).to have_selector('.enroll-icon')
     end
   end
 
   describe 'display the option to collapse long course descriptions' do
-    let(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI') }
+    let(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openSAP') }
     let!(:course) { FactoryGirl.create(:full_course, mooc_provider: mooc_provider) }
 
     it 'displays a button', js: true do
@@ -149,10 +153,6 @@ RSpec.describe 'Course', type: :feature do
     let!(:bookmark4) { FactoryGirl.create(:bookmark, user: second_user, course: course) }
 
     it 'filters courses for all filter criteria', js: true do
-      # TODO: delete after mobile optimization
-      unless ENV['PHANTOM_JS'] == 'true'
-        page.driver.browser.manage.window.resize_to(1024, 768)
-      end
       visit courses_path
       expect(page).to have_content course.name
       fill_in 'new_search', with: 'nice name'
@@ -165,7 +165,7 @@ RSpec.describe 'Course', type: :feature do
       select I18n.t('courses.filter.start.now'), from: 'filterrific_start_filter_options'
       select I18n.t('courses.filter.costs.free'), from: 'filterrific_with_tracks_costs'
       select nice_track_type.title, from: 'filterrific_with_tracks_certificate'
-      # select I18n.t('courses.filter.sort.name_desc'), from: 'filterrific_sorted_by'
+      select I18n.t('courses.filter.sort.name_asc'), from: 'new_sort'
       check 'filterrific_bookmarked'
       wait_for_ajax
       expect(page).to have_content course.name
@@ -182,7 +182,7 @@ RSpec.describe 'Course', type: :feature do
       expect(page).not_to have_content course_wrong_attributes_2.name
       expect(page).not_to have_content course_wrong_attributes_3.name
       expect(page).to have_content right_course.name
-      expect(page.body.index(course.name)).to be > page.body.index(right_course.name)
+      expect(page.body.index(course.name)).to be < page.body.index(right_course.name)
     end
   end
 
@@ -212,6 +212,94 @@ RSpec.describe 'Course', type: :feature do
       expect(page).to have_content(first_matching_course.name)
       expect(page).to have_content(second_matching_course.name)
       expect(page).not_to have_content(not_matching_course.name)
+    end
+  end
+
+  describe 'evaluate courses' do
+    let(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI') }
+    let!(:course) { FactoryGirl.create(:full_course, mooc_provider: mooc_provider) }
+
+    it 'submit an evaluation and show a special form afterwards', js: true do
+      visit "/courses/#{course.id}"
+      click_link 'rate-course-link'
+      expect(page).not_to have_content(I18n.t('evaluations.already_evaluated', first_name: user.first_name))
+      find("div[class='user-rate-course-value']").first('span').all("div[class='rating-symbol']").last.click
+      fill_in 'rating-textarea', with: 'Great Course!'
+      find("label[id='option_aborted']").click
+      click_button('submit-rating-button')
+      wait_for_ajax
+      expect(page).to have_content(I18n.t('evaluations.already_evaluated', first_name: user.first_name))
+    end
+
+    it 'show errors when submitting form with errors', js: true do
+      visit "/courses/#{course.id}"
+      click_link 'rate-course-link'
+      fill_in 'rating-textarea', with: 'Great Course!'
+      click_button('submit-rating-button')
+      wait_for_ajax
+      expect(page).to have_content(I18n.t('evaluations.state_overall_rating'))
+      expect(page).to have_content(I18n.t('evaluations.state_course_status'))
+      find("div[class='user-rate-course-value']").first('span').all("div[class='rating-symbol']").last.click
+      find("label[id='option_aborted']").click
+      click_button('submit-rating-button')
+      wait_for_ajax
+      expect(page).to_not have_content(I18n.t('evaluations.state_overall_rating'))
+      expect(page).to_not have_content(I18n.t('evaluations.state_course_status'))
+    end
+
+    it 'shows my already submitted evaluation in _ratings', js: true do
+      eval = FactoryGirl.create(:full_evaluation, user_id: user.id, course_id: course.id, course_status: :enrolled, rating: 4, description: 'blub')
+      visit "/courses/#{course.id}"
+      expect(page).to have_selector("div[class='course-rating']")
+      expect(page).to have_content("(#{course.evaluations.count})")
+      expect(page).to have_content("#{user.first_name} #{user.last_name}#{I18n.t('evaluations.currently_enrolled_course')}")
+      expect(page).to have_content(eval.description)
+    end
+
+    it 'update evaluation', js: true do
+      eval = FactoryGirl.create(:full_evaluation, user_id: user.id, course_id: course.id, course_status: :enrolled, rating: 4, description: 'blub')
+      visit "/courses/#{course.id}"
+      click_link 'rate-course-link'
+      click_button 'edit-rating-button'
+      wait_for_ajax
+      expect(page.find("div[class='user-rate-course-value']").all("span[class='glyphicon glyphicon-star']").count).to eq(eval.rating)
+      expect(page.find("textarea[id='rating-textarea']")).to have_content(eval.description)
+      expect(page.find("label[class='btn btn-default active']")['data-value']).to eql("#{eval.course_status}")
+      find("div[class='user-rate-course-value']").first('span').all("div[class='rating-symbol']").last.click
+      fill_in 'rating-textarea', with: 'Great Course!'
+      find("label[id='option_aborted']").click
+      click_button('submit-rating-button')
+      wait_for_ajax
+      expect(page).to have_content(I18n.t('evaluations.already_evaluated', first_name: user.first_name))
+    end
+
+    it 'mark an evaluation as helpful', js: true do
+      eval1 = FactoryGirl.create(:minimal_evaluation, course_id: course.id, course_status: :enrolled, rating: 4, description: 'blub')
+      visit "/courses/#{course.id}"
+      find("a[id='rate-evaluation-link-0-true']").click
+      wait_for_ajax
+      expect(page.find("div[id='course-evaluations']")).to have_content(I18n.t('evaluations.thanks_for_feedback'))
+      visit "/courses/#{course.id}"
+      eval1.reload
+      expect(page.find("div[id='course-evaluations']")).to have_content(I18n.t('evaluations.users_found_evaluation_helpful', helpful_rating_count: eval1.evaluation_helpful_rating_count, rating_count: eval1.evaluation_rating_count))
+    end
+
+    it 'mark an evaluation as not helpful', js: true do
+      eval1 = FactoryGirl.create(:minimal_evaluation, course_id: course.id, course_status: :enrolled, rating: 4, description: 'blub')
+      visit "/courses/#{course.id}"
+      find("a[id='rate-evaluation-link-0-false']").click
+      wait_for_ajax
+      expect(page.find("div[id='course-evaluations']")).to have_content(I18n.t('evaluations.thanks_for_feedback'))
+      visit "/courses/#{course.id}"
+      eval1.reload
+      expect(page.find("div[id='course-evaluations']")).to have_content(I18n.t('evaluations.users_found_evaluation_helpful', helpful_rating_count: eval1.evaluation_helpful_rating_count, rating_count: eval1.evaluation_rating_count))
+    end
+
+    it 'shows different rating form when not logged in', skip_before: true, js: true do
+      visit "/courses/#{course.id}"
+      click_link 'rate-course-link'
+      expect(page).to have_content(I18n.t('evaluations.please_sign_in'))
+      expect(page).to have_content(I18n.t('evaluations.path_to_registration'))
     end
   end
 end

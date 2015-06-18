@@ -122,6 +122,9 @@ case Rails.env
     user1 = User.create!(first_name: 'Max', last_name: 'Mustermann', primary_email: 'max@example.com', password: '12345678')
     user2 = User.create!(first_name: 'Maxi', last_name: 'Musterfrau', primary_email: 'maxi@example.com', password: '12345678')
 
+    Evaluation.create!(user_id: user1.id, course_id: full_course.id, rating: 5, description: 'Super Kurs!', course_status: :finished, rated_anonymously: false, evaluation_rating_count: 101, evaluation_helpful_rating_count: 101, creation_date: '2015-05-29 13:56:03.19532', update_date: '2015-06-11 13:59:55.148811')
+    Evaluation.create!(user_id: user2.id, course_id: full_course.id, rating: 2, course_status: :aborted, rated_anonymously: true, creation_date: '2015-05-11 13:56:03.19532', update_date: '2015-06-10 13:59:55.148811')
+
     group1 = Group.create!(name: 'Testgruppe1', description: 'Testgruppe1 ist die Beste!')
 
     20.times do |i|
@@ -146,6 +149,15 @@ case Rails.env
 
     UserGroup.set_is_admin(group3.id, user1.id, true)
     UserGroup.set_is_admin(group3.id, user2.id, true)
+
+    user1.setting(:course_enrollments_visibility, true).set(:groups, [group1.id, group2.id])
+    user1.setting(:course_enrollments_visibility, true).set(:users, [user2.id])
+    user1.setting(:course_results_visibility, true).set(:groups, [group1.id, group2.id])
+    user1.setting(:course_results_visibility, true).set(:users, [user2.id])
+    user1.setting(:course_progress_visibility, true).set(:groups, [group1.id, group2.id])
+    user1.setting(:course_progress_visibility, true).set(:users, [user2.id])
+    user1.setting(:profile_visibility, true).set(:groups, [group1.id, group2.id])
+    user1.setting(:profile_visibility, true).set(:users, [user2.id])
 
     4.times { FactoryGirl.create(:group_recommendation, course: full_course, group: group1, users: group1.users) }
     3.times { FactoryGirl.create(:user_recommendation, course: full_course, users: [user1]) }

@@ -25,8 +25,6 @@ Rails.application.routes.draw do
 
   resources :course_assignments
 
-  resources :evaluations
-
   resources :bookmarks, except: [:edit, :new, :show, :update, :destroy]
 
   resources :progresses
@@ -61,6 +59,9 @@ Rails.application.routes.draw do
   get 'about' => 'static_pages#about'
   get 'dashboard' => 'dashboard#dashboard'
 
+  # Evaluations
+  post 'evaluations/:id/process_evaluation_rating' => 'evaluations#process_evaluation_rating'
+
   # Groups
   get 'groups_where_user_is_admin' => 'groups#groups_where_user_is_admin'
   post 'groups/:id/invite_members' => 'groups#invite_group_members'
@@ -81,9 +82,15 @@ Rails.application.routes.draw do
   get 'recommendations/:id/delete_group_recommendation' => 'recommendations#delete_group_recommendation'
   root to: 'home#index'
 
+  # Activities
+  get 'activities/:id/delete_group_from_newsfeed_entry' => 'activities#delete_group_from_newsfeed_entry'
+  get 'activities/:id/delete_user_from_newsfeed_entry' => 'activities#delete_user_from_newsfeed_entry'
+
   # Courses
+  post 'courses/:id/send_evaluation' => 'courses#send_evaluation'
   get 'courses' => 'courses#index'
   get 'courses/index'
+  get 'courses/load_more' => 'courses#load_more'
   get 'courses/filter_options' => 'courses#filter_options'
   get 'courses/search' => 'courses#search'
   get 'courses/autocomplete' => 'courses#autocomplete'
@@ -97,12 +104,15 @@ Rails.application.routes.draw do
   # Users
   get 'users/:id/synchronize_courses' => 'users#synchronize_courses', as: 'synchronize_courses'
   get 'users/:id/settings' => 'users#settings', as: 'user_settings'
+  post 'users/:id/set_setting' => 'users#set_setting'
   get 'users/:id/account_settings' => 'users#account_settings'
   get 'users/:id/mooc_provider_settings' => 'users#mooc_provider_settings'
+  get 'users/:id/privacy_settings' => 'users#privacy_settings'
   get 'users/:id/set_mooc_provider_connection' => 'users#set_mooc_provider_connection'
   get 'users/:id/revoke_mooc_provider_connection' => 'users#revoke_mooc_provider_connection'
   patch 'users/:id/change_email' => 'users#change_email', as: 'change_email'
   get 'users/:id/cancel_change_email' => 'users#cancel_change_email'
+  get 'users/:id/connected_users_autocomplete' => 'users#connected_users_autocomplete'
 
   # UserEmails
   get 'user_emails/:id/mark_as_deleted' => 'user_emails#mark_as_deleted'

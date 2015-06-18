@@ -1,0 +1,9 @@
+h4
+  = t('evaluations.already_evaluated',first_name: current_user.first_name)
+button.btn.btn-primary id="edit-rating-button"
+  = t('evaluations.modify_evaluation')
+.rating-form
+  br
+  = render 'rate_course_form'
+script type="text/javascript"
+  | bindToggleRatingFormClickEvent();
