@@ -397,6 +397,13 @@ $course-listing-img-height: 130px;
   }
 }
 
+.course-status {
+  position: relative;
+  height: 3px;
+  z-index: 1;
+  //background-color: red;
+}
+
 // Show 1 item per line for extra small screens,
 // mainly phones (portrait)
 

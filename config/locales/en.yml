@@ -356,6 +356,7 @@ en:
     no_dates_available: No dates available
     course-list:
       starting_soon: Starts on
+      already_started: Started on
       starts_today: Starts today
       already_running: Running
       load_more: Show more
