@@ -153,10 +153,6 @@ RSpec.describe 'Course', type: :feature do
     let!(:bookmark4) { FactoryGirl.create(:bookmark, user: second_user, course: course) }
 
     it 'filters courses for all filter criteria', js: true do
-      # TODO: delete after mobile optimization
-      unless ENV['PHANTOM_JS'] == 'true'
-        page.driver.browser.manage.window.resize_to(1024, 768)
-      end
       visit courses_path
       expect(page).to have_content course.name
       fill_in 'new_search', with: 'nice name'
