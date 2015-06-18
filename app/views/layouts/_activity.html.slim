@@ -16,8 +16,11 @@
             .info
               .hd4.mt5
                 = course.name
-                .pull-right
-                  img src = @rating_picture style='height:25px; width:auto'
+                - if course.calculated_rating.present? && course.calculated_rating > 0
+                  .pull-right
+                    input.rating type='hidden' value="#{course.calculated_rating}" data-start="0" data-stop="5" id="course-rating-output" disabled="disabled"
+                      .course-rating-count
+                        = "(#{course.rating_count})"
               = course.mooc_provider.name
               br
               - if course.start_date
