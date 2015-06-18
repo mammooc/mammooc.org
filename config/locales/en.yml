@@ -28,12 +28,13 @@ en:
     save: Save
     cancel: Cancel
     edit: Edit
-    by: 'by '
+    by: by
     ajax_failed: Sorry, something went wrong. Please try again.
     show_more: Show more
     show_less: Show less
     show_details: Show details
     date_format_month: '%B %-d, %Y'
+    date_format_month_short: '%d.%m.%y'
     search: Search
 
   will_paginate:
@@ -81,14 +82,14 @@ en:
   footer:
     title: More information
     about: About mammooc
-    about_text: "mammooc is a student's project developed at the German Hasso Plattner Institute, Potsdam."
+    about_text: mammooc is a student's project developed at the German Hasso Plattner Institute, Potsdam. mammooc gives the possibility to collect and share learning achievements. Users can bookmark courses or enroll into them. To connect with others, they are able to create groups.
     hpi: Hasso Plattner Institute
     imprint: Imprint
 
   dashboard:
     title: Dashboard
     my_groups: :groups.my_groups
-    my_current_courses: My Current Courses
+    my_current_courses: My Current Coursese
     no_groups: :groups.no_groups
     new_group: Creating Group
     edit_group: Editing Group
@@ -285,10 +286,6 @@ en:
     title: Courses | mammooc
     heading: Courses
     no_courses: No courses available
-    starting_soon: Course starts on
-    starts_today: Course starts today
-    already_running: Course is already running
-    course_dates: 'Dates:'
     about: About
     abstract: Abstract
     description: Description
@@ -296,7 +293,6 @@ en:
     mooc_provider: MOOC Provider
     instructors: Instructors
     time: Time
-    starting_time: Starting Time
     language: Language
     requirements: Requirements
     achievement: Type of Achievement
@@ -307,17 +303,14 @@ en:
     enter_course: Enter Course
     remember_course: Bookmark Course
     delete_remember_course: Delete Course from bookmarks
-    enroll_course: Enroll me for this Course
-    unenroll_course: Unenroll me for this Course
+    enroll_course: Enroll me for this course
+    unenroll_course: Unenroll me for this course
     recommend_course: Recommend Course
     recommend_course_obligatory: Make course obligatory
     rate_course: Rate Course
     recommendations: Recommendations
-    user_belongs_to_group: 'Group: '
-    user_belongs_to_groups: 'Groups: '
     rating: Rating
     credit_points: Credit Points
-    no_dates_available: There are no dates available
     duration: Duration
     subtitle_languages: Available Subtitles
     previous_iteration: Previous Iteration
@@ -326,6 +319,23 @@ en:
     unenrollment_error: Sorry, the unenrollment for this course has failed.
     require_login: You have to be signed in to use this feature.
     register_first: Please register first.
+
+    # attention: this part is also used for recommendations
+    starting_soon: Course starts on
+    starts_today: Course starts today
+    already_running: Course is already running
+    course_dates: 'Dates:'
+    starting_time: Starting Time
+    no_dates_available: No dates available
+    course-list:
+      starting_soon: Starts on
+      starts_today: Starts today
+      already_running: Running
+      load_more: Show more
+      bookmark: Bookmark
+      remove-bookmark: Remove bookmark
+      enroll: Enroll
+      unenroll: Unenroll
     sidebar:
       recommended: Someone recommended this course to you
       pledged: Someone wants to see you doing this course
@@ -390,10 +400,9 @@ en:
         duration_desc: "Duration: decending"
         duration_asc: "Duration: ascending"
         name_desc: "Title: Z-A"
-        name_asc: "Title"
+        name_asc: Title
         start_date_relevance: Current first
       reset: Reset filter
-
     languages:
       ar: Arabic
       cn: Chinese

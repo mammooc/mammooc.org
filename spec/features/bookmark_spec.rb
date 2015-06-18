@@ -28,17 +28,16 @@ RSpec.describe 'Bookmark', type: :feature do
 
     it 'creates a new bookmark', js: true do
       visit course_path(course)
-      click_on 'remember_course_link'
+      click_on 'bookmark-link'
       wait_for_ajax
       expect(Bookmark.count).to be 1
     end
 
     it 'changes text of button', js: true do
       visit course_path(course)
-      click_on 'remember_course_link'
+      click_on 'bookmark-link'
       wait_for_ajax
-      expect(page).to have_content I18n.t('courses.delete_remember_course')
-      expect(page).not_to have_content I18n.t('courses.remember_course')
+      expect(find('.action-icon-wishlist')['data-original-title']).to eq(I18n.t('courses.course-list.remove-bookmark'))
     end
   end
 
@@ -48,17 +47,16 @@ RSpec.describe 'Bookmark', type: :feature do
 
     it 'deletes the specified bookmark', js: true do
       visit course_path(course)
-      click_on 'delete_remember_course_link'
+      click_on 'remove-bookmark-link'
       wait_for_ajax
       expect(Bookmark.count).to be 0
     end
 
     it 'changes text of button', js: true do
       visit course_path(course)
-      click_on 'delete_remember_course_link'
+      click_on 'remove-bookmark-link'
       wait_for_ajax
-      expect(page).to have_content I18n.t('courses.remember_course')
-      expect(page).not_to have_content I18n.t('courses.delete_remember_course')
+      expect(find('.action-icon-wishlist')['data-original-title']).to eq(I18n.t('courses.course-list.bookmark'))
     end
   end
 
@@ -74,7 +72,7 @@ RSpec.describe 'Bookmark', type: :feature do
     end
 
     it 'changes text of button', js: true do
-      visit course_path(course)
+      visit dashboard_dashboard_path
       click_on 'remember_course_link'
       wait_for_ajax
       expect(page).to have_content I18n.t('courses.delete_remember_course')
@@ -88,14 +86,14 @@ RSpec.describe 'Bookmark', type: :feature do
     let!(:bookmark) { FactoryGirl.create(:bookmark, user: user, course: course) }
 
     it 'deletes the specified bookmark', js: true do
-      visit course_path(course)
+      visit dashboard_dashboard_path
       click_on 'delete_remember_course_link'
       wait_for_ajax
       expect(Bookmark.count).to be 0
     end
 
     it 'changes text of button', js: true do
-      visit course_path(course)
+      visit dashboard_dashboard_path
       click_on 'delete_remember_course_link'
       wait_for_ajax
       expect(page).to have_content I18n.t('courses.remember_course')

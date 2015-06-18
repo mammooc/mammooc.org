@@ -84,6 +84,7 @@ Rails.application.routes.draw do
   # Courses
   get 'courses' => 'courses#index'
   get 'courses/index'
+  get 'courses/load_more' => 'courses#load_more'
   get 'courses/filter_options' => 'courses#filter_options'
   get 'courses/search' => 'courses#search'
   get 'courses/autocomplete' => 'courses#autocomplete'
