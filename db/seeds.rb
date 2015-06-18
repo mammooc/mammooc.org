@@ -116,7 +116,8 @@ case Rails.env
                                  following_iteration_id: minimal_following_course.id,
                                  tracks: [CourseTrack.create!(track_type: xikolo_audit_track_type),
                                           CourseTrack.create!(track_type: certificate_track_type, costs: 20.0, costs_currency: '€'),
-                                          CourseTrack.create!(track_type: iversity_ects_track_type, costs: 50.0, costs_currency: '€')]
+                                          CourseTrack.create!(track_type: iversity_ects_track_type, costs: 50.0, costs_currency: '€')],
+                                 points_maximal: 105.7
                                 )
 
     user1 = User.create!(first_name: 'Max', last_name: 'Mustermann', primary_email: 'max@example.com', password: '12345678')
@@ -147,15 +148,14 @@ case Rails.env
     UserGroup.set_is_admin(group3.id, user1.id, true)
     UserGroup.set_is_admin(group3.id, user2.id, true)
 
-    UserSetting.create! name: :course_enrollments_visibility, user: user1
-    user1.setting(:course_enrollments_visibility).set(:groups, [group1.id, group2.id])
-    user1.setting(:course_enrollments_visibility).set(:users, [user2.id])
-    user1.setting(:course_results_visibility).set(:groups, [group1.id, group2.id])
-    user1.setting(:course_results_visibility).set(:users, [user2.id])
-    user1.setting(:course_progress_visibility).set(:groups, [group1.id, group2.id])
-    user1.setting(:course_progress_visibility).set(:users, [user2.id])
-    user1.setting(:profile_visibility).set(:groups, [group1.id, group2.id])
-    user1.setting(:profile_visibility).set(:users, [user2.id])
+    user1.setting(:course_enrollments_visibility, true).set(:groups, [group1.id, group2.id])
+    user1.setting(:course_enrollments_visibility, true).set(:users, [user2.id])
+    user1.setting(:course_results_visibility, true).set(:groups, [group1.id, group2.id])
+    user1.setting(:course_results_visibility, true).set(:users, [user2.id])
+    user1.setting(:course_progress_visibility, true).set(:groups, [group1.id, group2.id])
+    user1.setting(:course_progress_visibility, true).set(:users, [user2.id])
+    user1.setting(:profile_visibility, true).set(:groups, [group1.id, group2.id])
+    user1.setting(:profile_visibility, true).set(:users, [user2.id])
 
     4.times { FactoryGirl.create(:group_recommendation, course: full_course, group: group1, users: group1.users) }
     3.times { FactoryGirl.create(:user_recommendation, course: full_course, users: [user1]) }
@@ -171,6 +171,13 @@ case Rails.env
     if ENV['OPEN_SAP_TOKEN'].present?
       FactoryGirl.create(:naive_mooc_provider_user, user: user1, mooc_provider: open_sap, access_token: ENV['OPEN_SAP_TOKEN'])
     end
+
+    FactoryGirl.create(:full_completion, course: full_course, user: user1)
+    completion1 = FactoryGirl.create(:completion, course: minimal_following_course, user: user1)
+    FactoryGirl.create(:transcript_of_participation, completion: completion1)
+    FactoryGirl.create(:record_of_achievement, completion: completion1, verification_url: 'https://mammooc.org', title: 'open_mammooc Achievement')
+    FactoryGirl.create(:full_completion, course: minimal_previous_course, user: user2)
+
 end
 
 # rubocop:enable Lint/UselessAssignment
