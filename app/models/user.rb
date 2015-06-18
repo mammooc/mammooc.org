@@ -239,7 +239,6 @@ class User < ActiveRecord::Base
   def setting(key, create_new = false)
     setting = settings.find_by(name: key)
     if !setting && create_new
-      puts 'in here'
       setting = UserSetting.create!(name: key, user: self)
     end
     setting
