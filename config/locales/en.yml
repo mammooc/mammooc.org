@@ -184,10 +184,10 @@ en:
       privacy:
         title: Privacy
         visible_to: '%{subject} visible to:'
-        course_enrollments: Course Enrollments
-        course_results: Course Results
-        course_progress: Course Progress
-        profile: Profile
+        course_enrollments: My Course Enrollments are
+        course_results: My Course Results are
+        course_progress: My Course Progress is
+        profile: My Profile is
     synchronization:
       oauth_error: Sorry! We were unable to establish a connection to your account. Please check your settings and try again.
       revoke_provider_connection: Revoke connection
