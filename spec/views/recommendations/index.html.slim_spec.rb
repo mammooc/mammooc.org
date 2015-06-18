@@ -10,10 +10,11 @@ RSpec.describe 'recommendations/index', type: :view do
 
   before(:each) do
     assign(:recommendations, [first_recommendation, second_recommendation])
-    recommendations_ids = recommendations.collect(&:id)
+    recommendations_ids = [first_recommendation.id, second_recommendation.id]
     assign(:provider_logos, {})
     assign(:profile_pictures, {})
-    assign(:activities, PublicActivity::Activity.order('created_at desc').where(trackable_id: recommendations_ids, trackable_type: 'Recommendation'))
+    activities = PublicActivity::Activity.order('created_at desc').where(trackable_id: recommendations_ids, trackable_type: 'Recommendation')
+    assign(:activities, activities)
     assign(:activity_courses, activities.first.id => first_recommendation.course, activities.last.id => second_recommendation.course)
     assign(:activity_courses_bookmarked, activities.first.id => false, activities.last.id => false)
   end
