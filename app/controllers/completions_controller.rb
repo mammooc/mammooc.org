@@ -3,7 +3,8 @@ class CompletionsController < ApplicationController
   # GET /completions
   # GET /completions.json
   def index
-    @completions = Completion.where(user: completions_params[:user_id])
+    @user = User.find(completions_params[:user_id])
+    @completions = Completion.where(user: @user)
   end
 
   private

@@ -503,6 +503,8 @@ en:
     confirmation_of_participation: Confirmation of Participation
     record_of_achievement: Record of Achievement
     certificate: Certificate
+    no_visible: '%{user} has not shared any completions yet'
+    no_completion: "You don't any completion yet. Enroll for a course and complete in order to view your results here."
 
   flash:
     #success:

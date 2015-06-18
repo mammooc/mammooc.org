@@ -503,6 +503,8 @@ de:
     confirmation_of_participation: Teilnahmebestätitung
     record_of_achievement: Leistungsnachweis
     certificate: Zertifikat
+    no_visible: '%{user} hat keine Abschlüsse zur Anzeige freigegeben.'
+    no_completion: Du hast noch keinen Abschluss. Belege einen Kurs und schließe ihn ab, damit deine Erfolge hier angezeigt werden.
 
   flash:
     #success:
