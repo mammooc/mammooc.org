@@ -20,24 +20,42 @@
         - else
           = "#{(current_user.common_groups_with_user(@user).collect { |group| group.name }).join(', ')}"
       br
-      .small-heading
-        = t('users.profile.current_courses')
-      - if @user.courses.size > 0
-        = "#{(@user.courses.collect { |course| course.name }).join(', ')}"
-      - else
-        =< t('users.profile.currently_nothing')
+      - if @user.about_me.size > 0
+        .small-heading
+          = t('users.profile.about_me')
+        = @user.about_me
       - if current_user && current_user.id == @user.id
         .edit-profile
           = link_to "#{user_settings_path(@user.id)}?subsite=account", :class => 'btn btn-default' do
             span.glyphicon.glyphicon-pencil
             = t('global.edit')
 
-  - if @user.about_me
-    .element
+  - if current_user.id == @user.id
+    .user-details
+      .title
+        => t('users.profile.bookmarks')
+        - unless @bookmarks.blank?
+          = "(#{@bookmarks.size})"
       .content
-        => t('users.profile.about_me')
-        = @user.about_me
+        - if @bookmarks.blank?
+          = t('users.profile.currently_no_bookmarks')
+        - else
+          - @bookmarks.each do |bookmark|
+            = link_to bookmark.course.name, course_path(bookmark.course.id)
+            - unless bookmark.course.start_date.blank?
+              | ,
+              =< t('dashboard.course_starts_at')
+                =< I18n.l bookmark.course.start_date, format: t('global.date_format_month')
+    .user-details
+      .title
+        = t('users.profile.current_courses')
+        - unless current_user.courses.empty?
+          = "(#{current_user.courses.size})"
+      .content
+        - if current_user.courses.empty?
+          = t('users.profile.currently_no_courses')
+        - else
+          - current_user.courses.each do |course|
+            = link_to course.name, course_path(course)
 
 = render 'sidebar'
-
-

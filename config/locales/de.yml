@@ -187,12 +187,14 @@ de:
       establish_provider_connection: Verbindung herstellen
     profile:
       title: Dein Profil
-      about_me: "Über mich:"
+      about_me: Über mich
       groups: Gruppen
-      current_courses: Belegungen
-      currently_nothing: Keine
+      current_courses: Deine Belegungen
+      currently_no_courses: Du hast zurzeit keine Kurse belegt.
       edit_profile_title: Profil bearbeiten
       editing_profile: Profil bearbeiten
+      bookmarks: Deine Vormerkungen
+      currently_no_bookmarks: Du hast zurzeit keine Kurse vorgemerkt.
 
   groups:
     title: Meine Gruppen | mammooc
