@@ -26,6 +26,13 @@ RSpec.describe GroupsController, type: :controller do
       get :index, {}
       expect(assigns(:groups)).to match_array(user_groups)
     end
+
+    context 'with name filter' do
+      it 'filters correctly' do
+        get :index, q: group.name
+        expect(assigns(:groups)).to match_array([group])
+      end
+    end
   end
 
   describe 'GET show' do
