@@ -28,7 +28,7 @@ de:
     save: Speichern
     cancel: Abbrechen
     edit: Bearbeiten
-    by: 'von '
+    by: von
     ajax_failed: Hoppla! Bei der Anforderung ist etwas schief gelaufen. Bitte versuche es erneut.
     show_more: Mehr anzeigen
     show_less: Weniger anzeigen
@@ -82,7 +82,7 @@ de:
   footer:
     title: Mehr Informationen
     about: Über mammooc
-    about_text: "mammooc ist ein Projekt, das von sechs Bachelorstudenten des Hasso-Plattner-Instituts entwickelt worden ist. mammooc bietet die Möglichkeit, persönliche Lernerfolge zu sammeln und zu teilen. Nutzer können Online-Lernkurse, so genannte MOOCs, vormerken, belegen und empfehlen. Über Gruppen verbinden sie sich mit anderen."
+    about_text: mammooc ist ein Projekt, das von sechs Bachelorstudenten des Hasso-Plattner-Instituts entwickelt worden ist. mammooc bietet die Möglichkeit, persönliche Lernerfolge zu sammeln und zu teilen. Nutzer können Online-Lernkurse, so genannte MOOCs, vormerken, belegen und empfehlen. Über Gruppen verbinden sie sich mit anderen.
     hpi: Hasso-Plattner-Institut
     imprint: Impressum
 
@@ -107,7 +107,7 @@ de:
 
   home:
     welcome_heading: Willkommen bei mammooc!
-    welcome_title: "mammooc: Registriere Dich noch heute!"
+    welcome_title: "mammooc: Registriere dich noch heute!"
     hello: Hallo
 
   bookmarks:
@@ -140,8 +140,8 @@ de:
         login: Mit dem neuen Personalausweis anmelden
         notice: "Hinweis: Die %{link} muss gestartet sein, damit du dich mit dem neuen Personalausweis anmelden kannst."
         link: AusweisApp
-        success: Du hast Dich erfolgreich mit Deinem neuen Personalausweis angemeldet.
-        failure: Du konntest nicht mit Deinem Personalausweis angemeldet werden. Bitte versuche es erneut oder wähle ein anderes Anmeldeverfahren.
+        success: Du hast dich erfolgreich mit deinem neuen Personalausweis angemeldet.
+        failure: Du konntest nicht mit deinem Personalausweis angemeldet werden. Bitte versuche es erneut oder wähle ein anderes Anmeldeverfahren.
     password:
       forgot: Passwort vergessen?
       reset: Neues Passwort anfordern
@@ -224,7 +224,7 @@ de:
       title: Mitglieder zur Gruppe hinzufügen
       invite_members: Mitglieder einladen
       text: E-Mail-Adressen durch Komma getrennt eingeben
-      error: 'Fehler: Nicht alle Emails konnten zugestellt werden. Bitte überprüfe die verbleibenden E-Mails'
+      error: 'Fehler: Nicht alle E-Mails konnten zugestellt werden. Bitte überprüfe die verbleibenden E-Mails'
     all_members:
       administrator: AdministratorIn
       add_admin: Als AdministratorIn hinzufügen
@@ -309,8 +309,6 @@ de:
     recommend_course_obligatory: Kurs vorschreiben
     rate_course: Kurs bewerten
     recommendations: Empfehlungen
-    user_belongs_to_group: 'Gruppe: '
-    user_belongs_to_groups: 'Gruppen: '
     rating: Bewertung
     credit_points: Leistungspunkte
     duration: Dauer
@@ -330,9 +328,9 @@ de:
     starting_time: Startdatum
     no_dates_available: Kein Zeitraum verfügbar
     course-list:
-      starting_soon: "Startet am"
-      starts_today: "Beginnt heute"
-      already_running: "Kurs läuft"
+      starting_soon: Startet am
+      starts_today: Beginnt heute
+      already_running: Kurs läuft
       load_more: Mehr anzeigen
       bookmark: Vormerken
       remove-bookmark: Vormerkung entfernen
@@ -402,7 +400,7 @@ de:
         duration_desc: "Dauer: absteigend"
         duration_asc: "Dauer: aufsteigend"
         name_desc: "Titel: Z-A"
-        name_asc: "Titel"
+        name_asc: Titel
         start_date_relevance: Aktuellste zuerst
       reset: Filter zurücksetzen
     languages:
@@ -461,7 +459,7 @@ de:
     successfully_destroyed: Empfehlung erfolgreich gelöscht.
     creation_error: Fehler beim Erstellen.
     update_error: Fehler beim Bearbeiten.
-    no_groups: Du braucht eine Gruppe um Empfehlungen zu erstellen.
+    no_groups: Du brauchst eine Gruppe, um Empfehlungen zu erstellen.
     no_admin_groups: Du hast keine Gruppen, für die du berechtigt bist Vorschreibungen zu erstellen.
     obligatory_recommendation:
       submit: Vorschreibung erstellen

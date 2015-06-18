@@ -28,7 +28,7 @@ en:
     save: Save
     cancel: Cancel
     edit: Edit
-    by: 'by '
+    by: by
     ajax_failed: Sorry, something went wrong. Please try again.
     show_more: Show more
     show_less: Show less
@@ -82,14 +82,14 @@ en:
   footer:
     title: More information
     about: About mammooc
-    about_text: "mammooc is a student's project developed at the German Hasso Plattner Institute, Potsdam."
+    about_text: mammooc is a student's project developed at the German Hasso Plattner Institute, Potsdam. mammooc gives the possibility to collect and share learning achievements. Users can bookmark courses or enroll into them. To connect with others, they are able to create groups.
     hpi: Hasso Plattner Institute
     imprint: Imprint
 
   dashboard:
     title: Dashboard
     my_groups: :groups.my_groups
-    my_current_courses: My Current Courses
+    my_current_courses: My Current Coursese
     no_groups: :groups.no_groups
     new_group: Creating Group
     edit_group: Editing Group
@@ -309,8 +309,6 @@ en:
     recommend_course_obligatory: Make course obligatory
     rate_course: Rate Course
     recommendations: Recommendations
-    user_belongs_to_group: 'Group: '
-    user_belongs_to_groups: 'Groups: '
     rating: Rating
     credit_points: Credit Points
     duration: Duration
@@ -330,9 +328,9 @@ en:
     starting_time: Starting Time
     no_dates_available: No dates available
     course-list:
-      starting_soon: "Starts on"
-      starts_today: "Starts today"
-      already_running: "Running"
+      starting_soon: Starts on
+      starts_today: Starts today
+      already_running: Running
       load_more: Show more
       bookmark: Bookmark
       remove-bookmark: Remove bookmark
@@ -402,7 +400,7 @@ en:
         duration_desc: "Duration: decending"
         duration_asc: "Duration: ascending"
         name_desc: "Title: Z-A"
-        name_asc: "Title"
+        name_asc: Title
         start_date_relevance: Current first
       reset: Reset filter
     languages:
