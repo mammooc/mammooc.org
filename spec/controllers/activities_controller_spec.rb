@@ -1,11 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe ActivitiesController, type: :controller do
-
   describe 'delete group newsfeed_entry' do
     let(:user) { FactoryGirl.create(:user) }
-    let!(:group) {FactoryGirl.create(:group)}
-    let!(:group2) {FactoryGirl.create(:group)}
+    let!(:group) { FactoryGirl.create(:group) }
+    let!(:group2) { FactoryGirl.create(:group) }
 
     before(:each) do
       request.env['devise.mapping'] = Devise.mappings[:user]
@@ -27,5 +26,4 @@ RSpec.describe ActivitiesController, type: :controller do
       expect(PublicActivity::Activity.find(activity.id).group_ids.length).to eql 1
     end
   end
-
 end

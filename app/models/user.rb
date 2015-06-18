@@ -186,21 +186,20 @@ class User < ActiveRecord::Base
   end
 
   def connected_users_ids
-    connected_users = Array.new
+    connected_users = []
     groups.each do |group|
-      connected_users += group.users.reject {|user| user.id == id}.collect(&:id)
+      connected_users += group.users.reject {|user| user.id == id }.collect(&:id)
     end
     connected_users.uniq
   end
 
   def connected_users
-    connected_users = Array.new
+    connected_users = []
     groups.each do |group|
-      connected_users += group.users.reject {|user| user.id == id}
+      connected_users += group.users.reject {|user| user.id == id }
     end
     connected_users.uniq
   end
-
 
   def connected_groups_ids
     groups.collect(&:id)

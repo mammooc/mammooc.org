@@ -14,9 +14,9 @@ class DashboardController < ApplicationController
     # Bookmarks
     @bookmarks = current_user.bookmarks
 
-    @activities = PublicActivity::Activity.order("created_at desc").where(owner_id: @current_user.connected_users_ids)
-    @activity_courses = Hash.new
-    @activity_courses_bookmarked = Hash.new
+    @activities = PublicActivity::Activity.order('created_at desc').where(owner_id: @current_user.connected_users_ids)
+    @activity_courses = {}
+    @activity_courses_bookmarked = {}
     if @activities
       @activities.each do |activity|
         if activity.user_ids.present? && (activity.user_ids.include? current_user.id)
@@ -34,9 +34,7 @@ class DashboardController < ApplicationController
     end
     @number_of_mandatory_recommendations = 0
     @recommendations.each do |recommendation|
-      if recommendation.is_obligatory
-        @number_of_mandatory_recommendations += 1
-      end
+      @number_of_mandatory_recommendations += 1 if recommendation.is_obligatory
     end
     respond_to do |format|
       format.html {}

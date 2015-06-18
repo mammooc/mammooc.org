@@ -95,8 +95,8 @@ en:
     edit_group: Editing Group
     no_courses: :courses.no_courses
     you_have: You have
-    number_of_recommendations: %{number} recommendations
-    number_of_mandatory_recommendations: %{number} mandatory recommendations
+    number_of_recommendations: '%{number} recommendations'
+    number_of_mandatory_recommendations: '%{number} mandatory recommendations'
     number_of_activities: There are %{number} current activities in your groups
     complete_profile: Complete your profile
     manage_groups: Manage your groups

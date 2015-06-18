@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 require 'rails_helper'
-
 RSpec.describe 'recommendations/index', type: :view do
   let!(:user) { FactoryGirl.create(:user) }
   let!(:course) { FactoryGirl.create(:course) }
@@ -10,13 +9,13 @@ RSpec.describe 'recommendations/index', type: :view do
   let!(:second_recommendation) { FactoryGirl.create(:user_recommendation, author: author, course: course,  users: [user]) }
 
   before(:each) do
-    @recommendations = [first_recommendation, second_recommendation]
-    recommendations_ids = @recommendations.collect(&:id)
-    @provider_logos = {}
-    @profile_pictures = {}
-    @activities = PublicActivity::Activity.order("created_at desc").where(trackable_id: recommendations_ids, trackable_type: 'Recommendation')
-    @activity_courses = {@activities.first.id => first_recommendation.course, @activities.last.id => second_recommendation.course}
-    @activity_courses_bookmarked = {@activities.first.id => false, @activities.last.id => false}
+    assign(:recommendations, [first_recommendation, second_recommendation])
+    recommendations_ids = recommendations.collect(&:id)
+    assign(:provider_logos, {})
+    assign(:profile_pictures, {})
+    assign(:activities, PublicActivity::Activity.order('created_at desc').where(trackable_id: recommendations_ids, trackable_type: 'Recommendation'))
+    assign(:activity_courses, activities.first.id => first_recommendation.course, activities.last.id => second_recommendation.course)
+    assign(:activity_courses_bookmarked, activities.first.id => false, activities.last.id => false)
   end
 
   it 'renders a list of recommendations' do

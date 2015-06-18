@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 Rails.application.routes.draw do
-
   get 'api_connection/index'
   get 'api_connection/send_request'
   get 'api_connection/update_user'
@@ -85,7 +84,6 @@ Rails.application.routes.draw do
   # Activities
   get 'activities/:id/delete_group_from_newsfeed_entry' => 'activities#delete_group_from_newsfeed_entry'
   get 'activities/:id/delete_user_from_newsfeed_entry' => 'activities#delete_user_from_newsfeed_entry'
-
 
   # Courses
   get 'courses' => 'courses#index'

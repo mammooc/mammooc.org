@@ -15,10 +15,6 @@ class ActivitiesController < ApplicationController
     end
   end
 
-  def test
-    puts 'juhu'
-  end
-
   def delete_user_from_newsfeed_entry
     @activity = PublicActivity::Activity.find(params[:id])
     @activity.user_ids -= [current_user.id]
