@@ -6,6 +6,7 @@ class Group < ActiveRecord::Base
   has_many :recommendations
   has_many :course_requests
   has_many :group_invitations
+  include PublicActivity::Common
 
   has_attached_file :image,
     styles: {
@@ -27,6 +28,10 @@ class Group < ActiveRecord::Base
       end
     end
     images
+  end
+
+  def user_ids
+    users.collect(&:id)
   end
 
   def destroy
