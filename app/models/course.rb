@@ -261,7 +261,7 @@ class Course < ActiveRecord::Base
      [I18n.t('courses.filter.sort.duration_desc'), 'duration_desc']]
   end
 
-  self.per_page = 10
+  self.per_page = 20
 
   def bookmarked_by_user? user
     self.bookmarks.where(user_id: user.id).any?

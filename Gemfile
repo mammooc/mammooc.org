@@ -67,6 +67,7 @@ gem 'whenever'
 gem 'public_activity'
 
 gem 'bootstrap-sass'
+gem 'font-awesome-sass', '~> 4.3.0'
 
 gem 'bootstrap_tokenfield_rails'
 gem 'bootstrap-datepicker-rails'

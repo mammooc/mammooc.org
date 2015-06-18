@@ -1,41 +1,31 @@
 # -*- encoding : utf-8 -*-
 class CoursesController < ApplicationController
   before_action :set_course, only: [:show, :enroll_course, :unenroll_course]
-  skip_before_action :require_login, only: [:index, :show, :filter_options, :search]
+  skip_before_action :require_login, only: [:index, :show, :filter_options, :search, :load_more]
   include ConnectorMapper
 
   # GET /courses
   # GET /courses.json
   def index
-    @filterrific = initialize_filterrific(Course, params[:filterrific],
-      select_options: {with_language: Course.options_for_languages,
-                       with_mooc_provider_id: MoocProvider.options_for_select,
-                       with_subtitle_languages: Course.options_for_subtitle_languages,
-                       duration_filter_options: Course.options_for_duration,
-                       start_filter_options: Course.options_for_start,
-                       options_for_costs: Course.options_for_costs,
-                       options_for_certificate: CourseTrackType.options_for_select,
-                       options_for_sorted_by: Course.options_for_sorted_by
-      }) || return
-
-    @courses = @filterrific.find.page(params[:page])
-    @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(@courses)
-
-    if current_user.present?
-      @my_bookmarked_courses = current_user.bookmarks.collect(&:course)
-    else
-      @my_bookmarked_courses = []
-    end
+    load_courses
 
     respond_to do |format|
       format.html
       format.js
       format.json
-    end
+    end unless performed?
 
   rescue ActiveRecord::RecordNotFound => e
     Rails.logger.info "Had to reset filterrific params: #{e.message}"
     redirect_to(reset_filterrific_url(format: :html)) && return
+  end
+
+  def load_more
+    load_courses
+
+    respond_to do |format|
+      format.html {render :partial => "/courses/course_list_items"}
+    end
   end
 
   # GET /courses/1
@@ -119,7 +109,7 @@ class CoursesController < ApplicationController
   end
 
   def search
-    session['courses#index'] = {'search_query': params[:query], 'with_tracks': {'costs': '', 'certificate': ''}}
+    session['courses#index'] = {search_query: params[:query]}
     redirect_to courses_path
   end
 
@@ -176,6 +166,28 @@ class CoursesController < ApplicationController
     else
       # We didn't implement a provider_connector for this mooc_provider
       @has_unenrolled = false
+    end
+  end
+
+  def load_courses
+    @filterrific = initialize_filterrific(Course, params[:filterrific],
+                                          select_options: {with_language: Course.options_for_languages,
+                                                           with_mooc_provider_id: MoocProvider.options_for_select,
+                                                           with_subtitle_languages: Course.options_for_subtitle_languages,
+                                                           duration_filter_options: Course.options_for_duration,
+                                                           start_filter_options: Course.options_for_start,
+                                                           options_for_costs: Course.options_for_costs,
+                                                           options_for_certificate: CourseTrackType.options_for_select,
+                                                           options_for_sorted_by: Course.options_for_sorted_by
+                                          }) || return
+
+    @courses = @filterrific.find.page(params[:page])
+    @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(@courses)
+
+    if current_user.present?
+      @my_bookmarked_courses = current_user.bookmarks.collect(&:course)
+    else
+      @my_bookmarked_courses = []
     end
   end
 end

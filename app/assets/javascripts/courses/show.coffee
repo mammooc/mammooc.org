@@ -132,8 +132,6 @@ deleteRememberCourse = (event) ->
       .on 'click', (event) -> rememberCourse(event)
   event.preventDefault()
 
-
-
 $.setAjaxPagination = ->
   $('.rec-pagination a').click (event) ->
     event.preventDefault()

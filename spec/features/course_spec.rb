@@ -81,21 +81,25 @@ RSpec.describe 'Course', type: :feature do
 
     it 'toggles the enrollment button upon click', js: true do
       allow_any_instance_of(OpenHPIConnector).to receive(:enroll_user_for_course).and_return(true)
-      visit "/courses/#{course.id}"
-      click_link('enroll-course-link')
+      visit course_path(course)
+      expect(page).to have_no_selector('.unenroll-icon')
+      expect(page).to have_selector('.enroll-icon')
+      click_link('enroll-link')
       wait_for_ajax
-      expect(page).to have_no_selector('#enroll-course-link')
-      expect(page).to have_selector('#unenroll-course-link')
+      expect(page).to have_no_selector('.enroll-icon')
+      expect(page).to have_selector('.unenroll-icon')
     end
 
     it 'toggles the unenrollment button upon click', js: true do
       user.courses << course
       allow_any_instance_of(OpenHPIConnector).to receive(:unenroll_user_for_course).and_return(true)
       visit "/courses/#{course.id}"
-      click_link('unenroll-course-link')
+      expect(page).to have_no_selector('.enroll-icon')
+      expect(page).to have_selector('.unenroll-icon')
+      click_link('unenroll-link')
       wait_for_ajax
-      expect(page).to have_no_selector('#unenroll-course-link')
-      expect(page).to have_selector('#enroll-course-link')
+      expect(page).to have_no_selector('.unenroll-icon')
+      expect(page).to have_selector('.enroll-icon')
     end
   end
 

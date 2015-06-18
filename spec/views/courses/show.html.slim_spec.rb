@@ -33,25 +33,19 @@ RSpec.describe 'courses/show', type: :view do
     @recommendation = Recommendation.new
   end
 
-  it 'render the enroll button when not signed in' do
-    render
-    expect(view.content_for(:content)).to match(t('courses.enroll_course'))
-    expect(view.content_for(:content)).to have_selector("a[href='#{new_user_session_path}']")
-  end
-
   it 'render the enroll button when signed in but not enrolled in course' do
     sign_in user
     render
-    expect(view.content_for(:content)).to match(t('courses.enroll_course'))
     expect(view.content_for(:content)).to have_selector("a[href='']")
-    expect(view.content_for(:content)).to have_selector("a[id='enroll-course-link']")
+    expect(view.content_for(:content)).to have_selector("a[id='enroll-link']")
+    expect(view.content_for(:content)).to have_selector(".action-icon-enrollment[title='" + t('courses.course-list.enroll') + "']")
   end
 
   it 'render the unenroll button when signed in and already enrolled in course' do
     sign_in user
     user.courses << course
     render
-    expect(view.content_for(:content)).to match(t('courses.unenroll_course'))
-    expect(view.content_for(:content)).to have_selector("a[id='unenroll-course-link']")
+    expect(view.content_for(:content)).to have_selector("a[id='unenroll-link']")
+    expect(view.content_for(:content)).to have_selector(".action-icon-enrollment[title='" + t('courses.course-list.unenroll') + "']")
   end
 end

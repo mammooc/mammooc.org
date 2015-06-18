@@ -16,8 +16,8 @@ MoocProvider.create!(name: 'iversity', logo_id: 'logo_iversity.png', api_support
 MoocProvider.create!(name: 'Udacity', logo_id: 'logo_udacity.png', api_support_state: :nil)
 
 xikolo_audit_track_type = CourseTrackType.create!(title: 'Audit',
-                                                   description: 'You get a record of Achievement.',
-                                                   type_of_achievement: 'xikolo_record_of_achievement')
+                                                  description: 'You get a record of Achievement.',
+                                                  type_of_achievement: 'xikolo_record_of_achievement')
 iversity_audit_track_type = CourseTrackType.create!(title: 'Audit',
                                                     description: "<ul class='list-none'> <li>All Course Material</li> <li>Course Community</li> <li>Statement of Participation</li> <li>Flexible Upgrade</li> </ul>",
                                                     type_of_achievement: 'iversity_record_of_achievement')
@@ -146,6 +146,16 @@ case Rails.env
 
     UserGroup.set_is_admin(group3.id, user1.id, true)
     UserGroup.set_is_admin(group3.id, user2.id, true)
+
+    UserSetting.create! name: :course_enrollments_visibility, user: user1
+    user1.setting(:course_enrollments_visibility).set(:groups, [group1.id, group2.id])
+    user1.setting(:course_enrollments_visibility).set(:users, [user2.id])
+    user1.setting(:course_results_visibility).set(:groups, [group1.id, group2.id])
+    user1.setting(:course_results_visibility).set(:users, [user2.id])
+    user1.setting(:course_progress_visibility).set(:groups, [group1.id, group2.id])
+    user1.setting(:course_progress_visibility).set(:users, [user2.id])
+    user1.setting(:profile_visibility).set(:groups, [group1.id, group2.id])
+    user1.setting(:profile_visibility).set(:users, [user2.id])
 
     4.times { FactoryGirl.create(:group_recommendation, course: full_course, group: group1, users: group1.users) }
     3.times { FactoryGirl.create(:user_recommendation, course: full_course, users: [user1]) }
