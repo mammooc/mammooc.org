@@ -401,7 +401,15 @@ $course-listing-img-height: 130px;
   position: relative;
   height: 3px;
   z-index: 1;
-  //background-color: red;
+}
+.red {
+  background-color: red;
+}
+.orange {
+  background-color: orange;
+}
+.green {
+  background-color: rgba(46, 211, 0, 1);
 }
 
 // Show 1 item per line for extra small screens,
