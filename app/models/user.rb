@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   has_many :emails, class_name: 'UserEmail', dependent: :destroy
   has_many :user_groups, dependent: :destroy
   has_many :groups, through: :user_groups
-  has_many :recommendations
+  has_many :created_recommendations, foreign_key: "author_id", class_name: 'Recommendation'
   has_and_belongs_to_many :recommendations
   has_many :comments
   has_many :mooc_provider_users, dependent: :destroy
