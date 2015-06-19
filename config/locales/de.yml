@@ -162,6 +162,7 @@ de:
       new_password_confirmation: Passwortbestätigung
       new_password_info: Feld frei lassen, wenn das Passwort nicht geändert werden soll
       cancel_account: Account löschen
+      confirm_cancel_account: Bist du sicher, dass du deinen Accout löschen möchtest?
       update_account: Aktualisieren
       pending_mail_confirmation: 'Warte auf Bestätigung für:'
       still_admin_in_group_error: Account konnte nicht gelöscht werden. Du bist noch Administrator einer Gruppe.

@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   has_many :emails, class_name: 'UserEmail', dependent: :destroy
   has_many :user_groups, dependent: :destroy
   has_many :groups, through: :user_groups
-  has_many :recommendations, dependent: :destroy
+  has_many :recommendations
   has_and_belongs_to_many :recommendations
   has_many :comments
   has_many :mooc_provider_users, dependent: :destroy
@@ -39,6 +39,7 @@ class User < ActiveRecord::Base
 
   before_destroy :handle_group_memberships, prepend: true
   before_destroy :handle_evaluations, prepend: true
+  before_destroy :handle_recommendations
   after_commit :save_primary_email, on: [:create, :update]
 
   def self.author_profile_images_hash_for_recommendations(recommendations, style = :square, expire_time = 3600)
@@ -80,6 +81,13 @@ class User < ActiveRecord::Base
       evaluation.rated_anonymously = true
       evaluation.save
     end
+  end
+
+  def handle_recommendations
+    recommendations.each do | recommendation |
+      recommendation.delete_user_from_recommendation self
+    end
+    Recommendation.where(author: self).destroy_all
   end
 
   def common_groups_with_user(other_user)

@@ -357,8 +357,8 @@ RSpec.describe 'User', type: :feature do
 
       it 'deletes account successfully although the user has recommendations' do
         FactoryGirl.create(:user_recommendation, author: second_user)
-        #FactoryGirl.create(:user_recommendation, users: [second_user])
-        expect(Recommendation.count).to eq 1
+        FactoryGirl.create(:user_recommendation, users: [second_user])
+        expect(Recommendation.count).to eq 2
         visit "#{user_settings_path(second_user.id)}?subsite=account"
         if ENV['PHANTOM_JS'] == 'true'
           click_button I18n.t('users.settings.cancel_account')
@@ -369,6 +369,43 @@ RSpec.describe 'User', type: :feature do
         end
         expect(page).to have_content I18n.t('devise.registrations.destroyed')
         expect { User.find(second_user.id) }.to raise_error ActiveRecord::RecordNotFound
+        expect(Recommendation.count).to eq 0
+      end
+
+      it 'deletes account and removes recommendations where user is author' do 
+        FactoryGirl.create(:group_recommendation, author: second_user)
+        FactoryGirl.create(:user_recommendation, author: second_user)
+        FactoryGirl.create(:user_recommendation)
+        expect(Recommendation.count).to eq 3
+        visit "#{user_settings_path(second_user.id)}?subsite=account"
+        if ENV['PHANTOM_JS'] == 'true'
+          click_button I18n.t('users.settings.cancel_account')
+        else
+          accept_alert do
+            click_button I18n.t('users.settings.cancel_account')
+          end
+        end
+        expect(page).to have_content I18n.t('devise.registrations.destroyed')
+        expect { User.find(second_user.id) }.to raise_error ActiveRecord::RecordNotFound
+        expect(Recommendation.count).to eq 1
+      end
+
+      it 'deletes account and removes user from his recommendations' do 
+        FactoryGirl.create(:group_recommendation, users: [second_user, user])
+        FactoryGirl.create(:user_recommendation, users: [second_user])
+        FactoryGirl.create(:user_recommendation)
+        expect(Recommendation.count).to eq 3
+        visit "#{user_settings_path(second_user.id)}?subsite=account"
+        if ENV['PHANTOM_JS'] == 'true'
+          click_button I18n.t('users.settings.cancel_account')
+        else
+          accept_alert do
+            click_button I18n.t('users.settings.cancel_account')
+          end
+        end
+        expect(page).to have_content I18n.t('devise.registrations.destroyed')
+        expect { User.find(second_user.id) }.to raise_error ActiveRecord::RecordNotFound
+        expect(Recommendation.count).to eq 2
       end
     end
   end

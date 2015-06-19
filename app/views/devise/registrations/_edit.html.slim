@@ -45,4 +45,4 @@ p
 h3
   = t('users.settings.cancel_account')
 p
-  = button_to t('users.settings.cancel_account'), registration_path(resource_name), :class => "btn btn-primary", data: { confirm: "Are you sure?" },  method: :delete
+  = button_to t('users.settings.cancel_account'), registration_path(resource_name), :class => "btn btn-primary", data: { confirm: t('users.settings.confirm_cancel_account') },  method: :delete
