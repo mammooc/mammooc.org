@@ -153,24 +153,9 @@ class AbstractMoocProviderConnector
     update_map
   end
 
-  def create_completions_update_map(mooc_provider, user)
-    update_map = {}
-
-    user.completions.each do |completion|
-      update_map.store(completion.id, false) if completion.course.mooc_provider == mooc_provider
-    end
-    update_map
-  end
-
   def evaluate_enrollments_update_map(update_map, user)
     update_map.each do |course_id, updated|
       user.courses.destroy(course_id) unless updated
-    end
-  end
-
-  def evaluate_completions_update_map(update_map, user)
-    update_map.each do |completion_id, updated|
-      user.completions.destroy(completion_id) unless updated
     end
   end
 end

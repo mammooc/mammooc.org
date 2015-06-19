@@ -1,7 +1,6 @@
 # -*- encoding : utf-8 -*-
 class OpenSAPChinaConnector < AbstractXikoloConnector
   NAME = 'openSAP China'
-  ROOT_API_V1 = 'https://open.sap.cn/api/'
-  ROOT_API_V2 = 'https://open.sap.cn/api/v2/'
+  ROOT_API = 'https://open.sap.cn/api/'
   COURSE_LINK = 'https://open.sap.cn/courses/'
 end
