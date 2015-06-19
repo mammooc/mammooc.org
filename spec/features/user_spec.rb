@@ -294,6 +294,7 @@ RSpec.describe 'User', type: :feature do
           fill_in "user_user_email_address_#{second_email.id}", with: 'NewEmailAddress@example.com'
           choose "user_user_email_is_primary_#{second_email.id}"
           find("#row_user_email_address_#{third_email.id}").find('.remove_email').click
+          wait_for_ajax
           click_button 'add_new_email_field'
           wait_for_ajax
           fill_in 'user_user_email_address_4', with: 'max.muster@example.com'
@@ -314,6 +315,7 @@ RSpec.describe 'User', type: :feature do
           fill_in "user_user_email_address_#{second_email.id}", with: 'NewEmailAddress@example.com'
           choose "user_user_email_is_primary_#{second_email.id}"
           find("#row_user_email_address_#{third_email.id}").find('.remove_email').click
+          wait_for_ajax
           click_button 'add_new_email_field'
           wait_for_ajax
           fill_in 'user_user_email_address_4', with: 'max.muster@example.com'
