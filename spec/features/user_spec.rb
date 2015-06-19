@@ -355,7 +355,7 @@ RSpec.describe 'User', type: :feature do
         expect { User.find(second_user.id) }.to raise_error ActiveRecord::RecordNotFound
       end
 
-      it 'deletes account successfully although the user has recommendations' do
+      it 'deletes account successfully although the user has recommendations', js: true do
         FactoryGirl.create(:user_recommendation, author: second_user)
         FactoryGirl.create(:user_recommendation, users: [second_user])
         expect(Recommendation.count).to eq 2
@@ -372,7 +372,7 @@ RSpec.describe 'User', type: :feature do
         expect(Recommendation.count).to eq 0
       end
 
-      it 'deletes account and removes recommendations where user is author' do 
+      it 'deletes account and removes recommendations where user is author', js: true do 
         FactoryGirl.create(:group_recommendation, author: second_user)
         FactoryGirl.create(:user_recommendation, author: second_user)
         FactoryGirl.create(:user_recommendation)
@@ -390,7 +390,7 @@ RSpec.describe 'User', type: :feature do
         expect(Recommendation.count).to eq 1
       end
 
-      it 'deletes account and removes user from his recommendations' do 
+      it 'deletes account and removes user from his recommendations', js: true do 
         FactoryGirl.create(:group_recommendation, users: [second_user, user])
         FactoryGirl.create(:user_recommendation, users: [second_user])
         FactoryGirl.create(:user_recommendation)
