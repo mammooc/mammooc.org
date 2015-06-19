@@ -100,6 +100,76 @@ RSpec.describe GroupsController, type: :controller do
     end
   end
 
+describe 'GET recommendations' do
+  it 'assigns the requested group as @group' do
+    get :recommendations, id: group.to_param
+    expect(assigns(:group)).to eq(group)
+  end
+
+  context 'without authorization' do
+    before(:each) { get :recommendations, id: group_without_user.id }
+    it 'redirects to groups page' do
+      expect(response).to redirect_to(groups_path)
+    end
+
+    it 'shows an alert message' do
+      expect(flash[:alert]).to eq I18n.t('unauthorized.show.group')
+    end
+  end
+
+  describe 'check activities' do
+    let!(:user2) { FactoryGirl.create(:user)}
+    let!(:group) { FactoryGirl.create(:group, users: [user, user2])}
+
+    it 'only shows activities from my group members' do
+      user3 = FactoryGirl.create(:user)
+      FactoryGirl.create(:group, users: [user, user3])
+      user4 = FactoryGirl.create(:user)
+      user4_activity = FactoryGirl.create(:activity_group_recommendation, owner: user4, group_ids: [group.id])
+      user3_activity = FactoryGirl.create(:activity_group_recommendation, owner: user3, group_ids: [group.id])
+      user2_activity = FactoryGirl.create(:activity_group_recommendation, owner: user2, group_ids: [group.id])
+      get :recommendations, id: group.to_param
+      expect(assigns(:activities)).not_to include(user3_activity)
+      expect(assigns(:activities)).to include(user2_activity)
+      expect(assigns(:activities)).not_to include(user4_activity)
+
+    end
+
+
+    it 'does not filter out my own activities' do
+      my_activity = FactoryGirl.create(:activity_group_recommendation, owner: user, group_ids: [group.id])
+      get :recommendations, id: group.to_param
+      expect(assigns(:activities)).to include(my_activity)
+    end
+
+    it 'filters out activities not directed at my groups' do
+      activity_to_me = FactoryGirl.create(:activity_group_recommendation, owner: user2, user_ids: [user.id])
+      activity_to_my_group = FactoryGirl.create(:activity_group_recommendation, owner: user2, group_ids: [group.id])
+      activity_without_me = FactoryGirl.create(:activity_group_recommendation, owner: user2)
+      get :recommendations, id: group.to_param
+      expect(assigns(:activities)).not_to include(activity_to_me)
+      expect(assigns(:activities)).to include(activity_to_my_group)
+      expect(assigns(:activities)).not_to include(activity_without_me)
+    end
+
+    it 'filters out anything that is not a group_recommendation activity' do
+      activity_bookmark = FactoryGirl.create(:activity_bookmark, owner: user2, group_ids: [group.id])
+      activity_group_join = FactoryGirl.create(:activity_group_join, owner: user2, group_ids: [group.id])
+      activity_course_enroll = FactoryGirl.create(:activity_course_enroll, owner: user2, group_ids: [group.id])
+      activity_group_recommendation = FactoryGirl.create(:activity_group_recommendation, owner: user2, group_ids: [group.id])
+
+      get :recommendations, id: group.to_param
+
+      expect(assigns(:activities)).not_to include(activity_bookmark)
+      expect(assigns(:activities)).not_to include(activity_group_join)
+      expect(assigns(:activities)).not_to include(activity_course_enroll)
+      expect(assigns(:activities)).to include(activity_group_recommendation)
+    end
+
+  end
+end
+
+
   describe 'GET new' do
     it 'assigns a new group as @group' do
       get :new, {}
@@ -359,6 +429,12 @@ RSpec.describe GroupsController, type: :controller do
       expect(Group.find(unjoined_group.id).users).to include(user)
       expect(GroupInvitation.find(invitation.id).used).to be true
       expect(flash[:success]).to eq I18n.t('groups.invitation.joined_group')
+    end
+
+    it 'creates a group.join activity' do
+      expect do
+        get :join, token: invitation.token
+      end.to change(PublicActivity::Activity, :count).by(1)
     end
 
     it 'does not allow to use link twice' do
