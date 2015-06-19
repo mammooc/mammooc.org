@@ -2,13 +2,12 @@
 require 'rails_helper'
 
 RSpec.describe CompletionsController, type: :controller do
-
   let(:user) { FactoryGirl.create(:user) }
 
   let(:course) { FactoryGirl.create(:course) }
 
   let(:valid_attributes) do
-    { user: user, course: course }
+    {user: user, course: course}
   end
 
   before(:each) do

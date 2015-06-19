@@ -3,7 +3,7 @@ require 'rails_helper'
 
 RSpec.describe MoocProvidersController, type: :controller do
   let(:valid_attributes) do
-    { name: 'open_mammooc', logo_id: 'logo_open_mammooc.png' }
+    {name: 'open_mammooc', logo_id: 'logo_open_mammooc.png'}
   end
 
   let(:user) { FactoryGirl.create(:user) }
