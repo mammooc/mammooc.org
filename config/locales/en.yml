@@ -187,6 +187,7 @@ en:
         course_enrollments: My Course Enrollments are
         course_results: My Course Results are
         course_progress: My Course Progress is
+        profile_title: Profile
         profile: My Profile is
     synchronization:
       oauth_error: Sorry! We were unable to establish a connection to your account. Please check your settings and try again.
