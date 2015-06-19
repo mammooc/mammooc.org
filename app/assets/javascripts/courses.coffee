@@ -45,6 +45,9 @@
 
 @copyInputField = (fromId, toId) ->
   $('#' + toId).val($('#' + fromId).val())
+  $('#' + toId).on "keydown": (event) ->
+    if event.which == 13
+      event.preventDefault()
   $('#' + toId).on "change input": (event) ->
     $('#' + fromId).val($('#' + toId).val())
     $('#' + fromId).change()
