@@ -20,6 +20,17 @@ RSpec.describe Group, type: :model do
     end
   end
 
+  describe 'user_ids' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:second_user) { FactoryGirl.create(:user) }
+    let!(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
+
+    it 'returns an array with all ids of group_members' do
+      expect(group.user_ids).to include(user.id)
+      expect(group.user_ids).to include(second_user.id)
+    end
+  end
+
   describe 'admins' do
     let(:user) { FactoryGirl.create(:user) }
     let(:second_user) { FactoryGirl.create(:user) }

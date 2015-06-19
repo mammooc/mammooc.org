@@ -2,6 +2,25 @@
 require 'rails_helper'
 
 RSpec.describe Course, type: :model do
+
+  describe 'bookmarked_by_user' do
+    it 'delivers true if bookmarked by user' do
+      user = FactoryGirl.create(:user)
+      bookmark = FactoryGirl.create(:bookmark, user: user)
+      expect(
+        bookmark.course.bookmarked_by_user? user
+      ).to be true
+    end
+
+    it 'delivers false if not bookmarked by this user' do
+      user = FactoryGirl.create(:user)
+      bookmark = FactoryGirl.create(:bookmark)
+      expect(
+        bookmark.course.bookmarked_by_user? user
+      ).to be false
+    end
+  end
+
   describe 'saving a course' do
     let!(:provider) { FactoryGirl.create(:mooc_provider) }
     let!(:course1) do
