@@ -48,7 +48,6 @@ class Course < ActiveRecord::Base
       when /^duration_/
         order("courses.calculated_duration_in_days IS NULL, courses.calculated_duration_in_days #{direction}")
       when /^relevance_/
-        order('courses.start_date asc NULLS LAST')
         order("CASE
                 WHEN start_date > to_timestamp('#{(Time.zone.now - 1.weeks).strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 1
                 WHEN start_date <= to_timestamp('#{(Time.zone.now - 1.weeks).strftime('%Y-%m-%d')}', 'YYYY-MM-DD') AND end_date IS NOT NULL AND end_date > to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 2
