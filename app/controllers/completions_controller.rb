@@ -18,7 +18,6 @@ class CompletionsController < ApplicationController
     @completions.each do |completion|
       @verify_available.push completion.certificates.pluck(:verification_url).reject(&:blank?).present? ? true : false
     end
-    puts @verify_available.to_s
   end
 
   private

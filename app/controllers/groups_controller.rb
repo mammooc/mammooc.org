@@ -48,18 +48,18 @@ class GroupsController < ApplicationController
     @activities = PublicActivity::Activity.order('created_at desc').select {|activity| (@group.users.collect(&:id).include? activity.owner_id) && activity.group_ids.present? && (activity.group_ids.include? @group.id) }
     @activity_courses = {}
     @activity_courses_bookmarked = {}
-    return if @activities.blank?
-    @activities.each do |activity|
-      @activity_courses[activity.id] = case activity.trackable_type
-                                         when 'Recommendation' then Recommendation.find(activity.trackable_id).course
-                                         when 'Course' then Course.find(activity.trackable_id)
-                                         when 'Bookmark' then Bookmark.find(activity.trackable_id).course
-                                       end
-      if @activity_courses[activity.id].present?
-        @activity_courses_bookmarked[activity.id] = @activity_courses[activity.id].bookmarked_by_user? current_user
+    if @activities.present?
+      @activities.each do |activity|
+        @activity_courses[activity.id] = case activity.trackable_type
+                                           when 'Recommendation' then Recommendation.find(activity.trackable_id).course
+                                           when 'Course' then Course.find(activity.trackable_id)
+                                           when 'Bookmark' then Bookmark.find(activity.trackable_id).course
+                                         end
+        if @activity_courses[activity.id].present?
+          @activity_courses_bookmarked[activity.id] = @activity_courses[activity.id].bookmarked_by_user? current_user
+        end
       end
     end
-
     @profile_pictures = User.author_profile_images_hash_for_activities(@activities)
     @profile_pictures = User.user_profile_images_hash_for_users(@group.users, @profile_pictures)
 
