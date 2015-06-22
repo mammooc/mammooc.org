@@ -114,9 +114,8 @@ class User < ActiveRecord::Base
     if activity.trackable_type == 'Recommendation'
       Recommendation.find(activity.trackable_id).delete_user_from_recommendation self
     end
-    if (activity.user_ids.blank?) && (activity.group_ids.blank?)
-      activity.destroy
-    end
+    return unless (activity.user_ids.blank?) && (activity.group_ids.blank?)
+    activity.destroy
   end
 
   def common_groups_with_user(other_user)

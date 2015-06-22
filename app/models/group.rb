@@ -40,9 +40,8 @@ class Group < ActiveRecord::Base
     if activity.trackable_type == 'Recommendation'
       Recommendation.find(activity.trackable_id).delete_group_recommendation
     end
-    if (activity.user_ids.blank?) && (activity.group_ids.blank?)
-      activity.destroy
-    end
+    return unless (activity.user_ids.blank?) && (activity.group_ids.blank?)
+    activity.destroy
   end
 
   def self.group_images_hash_for_groups(groups, images = {},  style = :medium, expire_time = 3600)

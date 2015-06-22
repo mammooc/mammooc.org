@@ -270,6 +270,7 @@ RSpec.describe User, type: :model do
       result = FactoryGirl.create_list(:user, 5)
       result += [user]
       result += [third_user]
+      result
     end
     let!(:group1) { FactoryGirl.create(:group, users: userlist) }
     let!(:group2) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
