@@ -14,12 +14,10 @@ class CompletionsController < ApplicationController
     @completions.each do |completion|
       @number_of_certificates.push completion.certificates.count
     end
-    puts @number_of_certificates
     @verify_available = []
     @completions.each do |completion|
-      @verify_available.push completion.certificates.pluck(:verification_url).reject{|element| element.blank?}.present? ? true : false
+      @verify_available.push completion.certificates.pluck(:verification_url).reject(&:blank?).present? ? true : false
     end
-    puts @verify_available
   end
 
   private
