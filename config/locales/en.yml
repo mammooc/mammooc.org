@@ -500,8 +500,9 @@ en:
       join:
         group_context: joined your group
         no_group_context1: joined group
-        no_group_context2:
+        no_group_context2: ''
     successfully_destroyed: Entry was successfully destroyed.
+    no_activities: There are no activities in your groups right now.
 
 
   recommendation:

@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 FactoryGirl.define do
-
   factory :activity_group_join, class: PublicActivity::Activity  do
     key 'group.join'
     user_ids { [FactoryGirl.create(:user).id, FactoryGirl.create(:user).id] }
@@ -11,7 +10,7 @@ FactoryGirl.define do
     owner_type 'User'
   end
 
-  factory :activity_course_enroll,class: PublicActivity::Activity  do
+  factory :activity_course_enroll, class: PublicActivity::Activity  do
     key 'course.enroll'
     user_ids { [FactoryGirl.create(:user).id, FactoryGirl.create(:user).id] }
     group_ids { [FactoryGirl.create(:group).id] }
@@ -29,7 +28,7 @@ FactoryGirl.define do
     trackable_type 'Bookmark'
     owner_id { FactoryGirl.create(:user).id }
     owner_type 'User'
-   end
+  end
 
   factory :activity_group_recommendation, class: PublicActivity::Activity do
     key 'recommendation.create'

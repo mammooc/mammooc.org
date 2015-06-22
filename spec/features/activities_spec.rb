@@ -24,11 +24,6 @@ RSpec.describe 'Activities', type: :feature do
   describe 'create activity' do
     let(:second_user) { FactoryGirl.create(:user) }
     let(:group) { FactoryGirl.create(:group, users: [user]) }
-    #let(:group_join) { FactoryGirl.create(:activity_group_join, group_ids: [group.id], user_ids: [group.users.collect(&:id)], owner_id: second_user.id) }
-    #let(:course_enroll) { FactoryGirl.create(:activity_course_enroll, group_ids: [group.id], user_ids: [group.users.collect(&:id)], owner_id: second_user.id) }
-    #let(:bookmark) { FactoryGirl.create(:activity_bookmark, group_ids: [group.id], user_ids: [group.users.collect(&:id)], owner_id: second_user.id) }
-    #let(:group_recommendation) { FactoryGirl.create(:activity_group_recommendation) }
-    #let(:user_recommendation) { FactoryGirl.create(:activity_user_recommendation) }
 
     context 'join a group' do
       let(:invitation) { FactoryGirl.create(:group_invitation, group: group) }
@@ -48,27 +43,25 @@ RSpec.describe 'Activities', type: :feature do
 
       it 'is shown on dashboard' do
         visit dashboard_dashboard_path
-        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name}"
-        expect(page).to have_content I18n.t('newsfeed.group.join.no_group_context2')
+        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('newsfeed.group.join.no_group_context1')} #{group.name} #{I18n.t('newsfeed.group.join.no_group_context2')}"
       end
 
       it 'is shown on group dashboard' do
         visit group_path(group)
-        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name}"
-        expect(page).to have_content I18n.t('newsfeed.group.join.group_context')
+        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('newsfeed.group.join.group_context')}"
       end
 
       it 'is not shown on owner dashboard' do
         capybara_sign_out user
         capybara_sign_in second_user
         visit dashboard_dashboard_path
-        expect(page).not_to have_content I18n.t('newsfeed.group.join.no_group_context2')
+        expect(page).not_to have_content "#{I18n.t('newsfeed.group.join.no_group_context1')} #{group.name} #{I18n.t('newsfeed.group.join.no_group_context2')}"
       end
     end
 
     context 'bookmark a course' do
       let(:course) { FactoryGirl.create(:course) }
-      let!(:group_one) { FactoryGirl.create(:group, users: [user, second_user]) }
+      let!(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
 
       before(:each) do
         capybara_sign_out user
@@ -80,22 +73,19 @@ RSpec.describe 'Activities', type: :feature do
         capybara_sign_in user
       end
 
-      it 'creates activity after bookmark a course', js:true do
+      it 'creates activity after bookmark a course', js: true do
         expect(Bookmark.count).to eq 1
         expect(PublicActivity::Activity.count).to eq 1
       end
 
       it 'is shown on dashboard', js: true do
-        group_one
         visit dashboard_dashboard_path
-        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name}"
-        expect(page).to have_content I18n.t('newsfeed.bookmark.create')
+        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('newsfeed.bookmark.create')}"
       end
 
       it 'is shown on group dashboard', js: true do
         visit group_path(group)
-        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name}"
-        expect(page).to have_content I18n.t('newsfeed.bookmark.create')
+        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('newsfeed.bookmark.create')}"
       end
 
       it 'is not shown on owner dashboard', js: true do
@@ -128,14 +118,13 @@ RSpec.describe 'Activities', type: :feature do
 
       it 'is shown on dashboard', js: true do
         visit dashboard_dashboard_path
-        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name}"
+        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('newsfeed.course.enroll')}"
         expect(page).to have_content I18n.t('newsfeed.course.enroll')
       end
 
       it 'is shown on group dashboard', js: true do
         visit group_path(group)
-        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name}"
-        expect(page).to have_content I18n.t('newsfeed.course.enroll')
+        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('newsfeed.course.enroll')}"
       end
 
       it 'is not shown on owner dashboard', js: true do
@@ -146,7 +135,7 @@ RSpec.describe 'Activities', type: :feature do
       end
     end
 
-    context 'recommend a course' do
+    context 'recommend a course to a group' do
       let(:course) { FactoryGirl.create(:course) }
       let!(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
 
@@ -168,31 +157,67 @@ RSpec.describe 'Activities', type: :feature do
         capybara_sign_in user
       end
 
-      it 'creates activity after recommend a course', js:true do
+      it 'creates activity after recommend a course', js: true do
         expect(Recommendation.count).to eq 1
         expect(PublicActivity::Activity.count).to eq 1
       end
 
-      it 'is shown on dashboard', js:true do
+      it 'is shown on dashboard', js: true do
         visit dashboard_dashboard_path
-        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name}"
-        expect(page).to have_content I18n.t('recommendation.for_you')
+        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_group')} #{group.name}"
       end
 
-      it 'is shown on group dashboard', js:true do
+      it 'is shown on group dashboard', js: true do
         visit group_path(group)
-        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name}"
-        expect(page).to have_content I18n.t('recommendation.for_group')
+        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_group')}"
       end
 
-      it 'is not shown on owner dashboard', js:true do
+      it 'is not shown on owner dashboard', js: true do
         capybara_sign_out user
         capybara_sign_in second_user
         visit dashboard_dashboard_path
-        expect(page).not_to have_content I18n.t('recommendation.for_you')
+        expect(page).not_to have_content I18n.t('recommendation.for_group')
       end
     end
 
-  end
+    context 'recommend a course to a user' do
+      let(:course) { FactoryGirl.create(:course) }
+      let!(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
 
+      before(:each) do
+        capybara_sign_out user
+        capybara_sign_in second_user
+        visit course_path(course)
+        wait_for_ajax
+        click_link('recommend-course-link')
+        wait_for_ajax
+        if ENV['PHANTOM_JS'] == 'true'
+          page.all('.tokenfield')[1].click
+          page.all('.tokenfield')[1].native.send_key(:Enter)
+        else
+          fill_in 'recommendation_related_user_ids-tokenfield', with: "#{user.first_name}\n"
+        end
+        click_on I18n.t('recommendation.submit')
+        capybara_sign_out second_user
+        capybara_sign_in user
+      end
+
+      it 'creates activity after recommend a course', js: true do
+        expect(Recommendation.count).to eq 1
+        expect(PublicActivity::Activity.count).to eq 1
+      end
+
+      it 'is shown on dashboard', js: true do
+        visit dashboard_dashboard_path
+        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_you')}"
+      end
+
+      it 'is not shown on owner dashboard', js: true do
+        capybara_sign_out user
+        capybara_sign_in second_user
+        visit dashboard_dashboard_path
+        expect(page).not_to have_content I18n.t('recommendation.for_group')
+      end
+    end
+  end
 end

@@ -57,6 +57,5 @@ RSpec.describe ActivitiesController, type: :controller do
         get :delete_group_from_newsfeed_entry, id: activity.id, group_id: group.id
       end.to change(Recommendation, :count).by(-1)
     end
-
   end
 end
