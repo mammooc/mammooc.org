@@ -303,7 +303,7 @@ class GroupsController < ApplicationController
 
     group_invitation.used = true
     group_invitation.save
-    group.create_activity key: 'group.join', owner: current_user, group_ids: [group.id], user_ids: group.user_ids
+    group.create_activity key: 'group.join', owner: current_user, group_ids: [group.id], user_ids: (group.user_ids - [current_user.id])
 
     redirect_to group_path(group)
 
