@@ -10,3 +10,12 @@
         = activity.trackable.name
       =<> t('newsfeed.group.join.no_group_context2')
   = I18n.l activity.created_at, format: t('global.date_format_month')
+  div
+  - if group_context == true && user_is_admin
+    span class='remove-activity-group' data-activity_id='#{activity.id}' data-group_id='#{group_id}'
+      a href=''
+        = t('newsfeed.button.ignore')
+  - elsif group_context == false
+    span class='remove-activity-current-user mr5' data-activity_id='#{activity.id}'
+      a href=''
+        = t('newsfeed.button.ignore')
