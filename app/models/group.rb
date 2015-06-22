@@ -25,7 +25,7 @@ class Group < ActiveRecord::Base
   before_destroy :handle_recommendations
 
   def handle_activities
-    PublicActivity::Activity.where(group_ids: id).each do |activity|
+    PublicActivity::Activity.select{ |activity| (activity.group_ids.present?) && (activity.group_ids.include? id) }.each do |activity|
       self.delete_group_from_activity activity
     end
   end

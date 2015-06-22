@@ -105,7 +105,7 @@ class User < ActiveRecord::Base
     PublicActivity::Activity.where(owner_id: id).each do |activity|
       activity.destroy
     end
-    PublicActivity::Activity.select{ |activity| activity.user_ids.include? id}.each do |activity|
+    PublicActivity::Activity.select{ |activity| (activity.user_ids.present?) && (activity.user_ids.include? id)}.each do |activity|
       self.delete_user_from_activity activity
     end
   end
