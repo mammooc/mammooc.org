@@ -154,7 +154,7 @@ RSpec.describe UsersController, type: :controller do
       expect(assigns(:synchronization_state)[:openHPI]).to eql true
       expect(assigns(:synchronization_state)[:openSAP]).to eql true
       expect(assigns(:synchronization_state)[:coursera]).to eql true
-      expected_json = JSON.parse '{"partial":"No courses available","synchronization_state":{"open_hpi":true,"open_sap":true,"coursera":true}}'
+      expected_json = JSON.parse '{"partial":"No courses available","synchronization_state":{"openHPI":true,"openSAP":true,"coursera":true}}'
       expect(json).to eql expected_json
     end
   end
