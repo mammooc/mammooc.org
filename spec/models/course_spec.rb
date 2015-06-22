@@ -695,4 +695,38 @@ RSpec.describe Course, type: :model do
       end
     end
   end
+
+  describe 'destroys a course' do
+    let!(:course) { FactoryGirl.create(:course) }
+
+    it 'destroys all activities where course is referenced' do
+      bookmark = FactoryGirl.create(:bookmark, course: course)
+      FactoryGirl.create(:activity_bookmark, trackable_id: bookmark.id )
+
+      FactoryGirl.create(:activity_course_enroll, trackable_id: course.id)
+
+      group_recommendation = FactoryGirl.create(:group_recommendation_without_activity, course: course)
+      FactoryGirl.create(:activity, trackable_id: group_recommendation.id, trackable_type: 'Recommendation')
+
+      user_recommendation = FactoryGirl.create(:user_recommendation_without_activity, course: course)
+      FactoryGirl.create(:activity, trackable_id: user_recommendation.id, trackable_type: 'Recommendation')
+
+      expect(PublicActivity::Activity.count).to eq 4
+      expect { course.destroy! }.not_to raise_error
+      expect(PublicActivity::Activity.count).to eq 0
+    end
+
+    it 'does not destroy activities where course is not referenced' do
+      FactoryGirl.create(:activity_bookmark)
+      FactoryGirl.create(:activity_course_enroll)
+      FactoryGirl.create(:activity_group_recommendation)
+      FactoryGirl.create(:activity_user_recommendation)
+
+      expect(PublicActivity::Activity.count).to eq 4
+      expect { course.destroy! }.not_to raise_error
+      expect(PublicActivity::Activity.count).to eq 4
+    end
+
+  end
+
 end

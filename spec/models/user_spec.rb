@@ -80,6 +80,39 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'handle recommendations when destroyed' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:second_user) { FactoryGirl.create(:user) }
+    let(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
+
+    it 'deletes recommendations where user is author' do
+      FactoryGirl.create(:user_recommendation, author: user)
+      FactoryGirl.create(:group_recommendation, author: user)
+      FactoryGirl.create(:group_recommendation)
+      expect(Recommendation.count).to eq 3
+      expect{ user.destroy! }.not_to raise_error
+      expect(Recommendation.count).to eq 1
+    end
+
+    it 'deletes user from recommendations where user is recipient' do
+      FactoryGirl.create(:user_recommendation, users: [user])
+      FactoryGirl.create(:user_recommendation, users: [user, second_user])
+      FactoryGirl.create(:group_recommendation, group: group, users: group.users)
+      expect(Recommendation.count).to eq 3
+      expect{ user.destroy! }.not_to raise_error
+      expect(Recommendation.count).to eq 2
+    end
+
+    it 'deletes recommendation if user was last recipient' do
+      FactoryGirl.create(:user_recommendation, users: [user])
+      FactoryGirl.create(:user_recommendation, users: [user])
+      FactoryGirl.create(:group_recommendation, group: group, users: group.users)
+      expect(Recommendation.count).to eq 3
+      expect{ user.destroy! }.not_to raise_error
+      expect(Recommendation.count).to eq 1
+    end
+  end
+
   describe 'factories' do
     it 'has valid factory' do
       expect(FactoryGirl.build_stubbed(:user)).to be_valid

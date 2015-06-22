@@ -26,8 +26,8 @@ class Course < ActiveRecord::Base
   has_and_belongs_to_many :users
   has_many :course_requests
   has_many :progresses
-  has_many :bookmarks
-  has_many :evaluations
+  has_many :bookmarks, dependent: :destroy
+  has_many :evaluations, dependent: :destroy
   has_many :course_assignments
   has_many :user_assignments
   has_many :tracks, class_name: 'CourseTrack', dependent: :destroy
@@ -37,6 +37,7 @@ class Course < ActiveRecord::Base
   before_save :check_and_update_duration
   after_save :create_and_update_course_connections
   before_destroy :delete_dangling_course_connections
+  before_destroy :handle_activities, prepend: true
 
   scope :sorted_by, ->(sort_option) do
     direction = (sort_option =~ /desc$/) ? 'desc' : 'asc'
@@ -288,6 +289,20 @@ class Course < ActiveRecord::Base
       course.rating_count = 0
     end
     course.save
+  end
+
+  def handle_activities
+    PublicActivity::Activity.find_each do |activity|
+      case activity.trackable_type
+        when 'Recommendation' then course = Recommendation.find(activity.trackable_id).course
+        when 'Course' then course = Course.find(activity.trackable_id)
+        when 'Bookmark' then course = Bookmark.find(activity.trackable_id).course
+        else course = nil
+      end
+      if course == self
+        activity.destroy
+      end
+    end
   end
 
   private
