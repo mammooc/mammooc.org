@@ -21,6 +21,30 @@ class Group < ActiveRecord::Base
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
   validates_attachment_size :image, less_than: 1.megabyte
 
+  before_destroy :handle_activities
+  before_destroy :handle_recommendations
+
+  def handle_activities
+    PublicActivity::Activity.where(group_ids: id).each do |activity|
+      self.delete_group_from_activity activity
+    end
+  end
+
+  def handle_recommendations
+    recommendations.destroy
+  end
+
+  def delete_group_from_activity activity
+    activity.group_ids -= [id]
+    activity.save
+    if activity.trackable_type == 'Recommendation'
+      Recommendation.find(activity.trackable_id).delete_group_recommendation
+    end
+    if (activity.user_ids.blank?) && (activity.group_ids.blank?)
+      activity.destroy
+    end
+  end
+
   def self.group_images_hash_for_groups(groups, images = {},  style = :medium, expire_time = 3600)
     groups.each do |group|
       unless images.key?(group.id)
