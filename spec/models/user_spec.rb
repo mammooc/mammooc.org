@@ -67,6 +67,19 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'handles Completions (and Certificates) when destroyed' do
+    let!(:user) { FactoryGirl.create(:user) }
+    let!(:completion) { FactoryGirl.create(:full_completion, user_id: user.id) }
+
+    it 'deletes all comlpetions and the associated certificates' do
+      expect(Completion.count).to eql 1
+      expect(Certificate.count).to eql 3
+      expect(user.destroy).to be_truthy
+      expect(Completion.count).to eql 0
+      expect(Certificate.count).to eql 0
+    end
+  end
+
   describe 'factories' do
     it 'has valid factory' do
       expect(FactoryGirl.build_stubbed(:user)).to be_valid
