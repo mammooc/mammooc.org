@@ -12,7 +12,7 @@
       = t('completions.other_user_heading', user: @user.first_name)
 div
   - if @completions.present?
-    - @completions.each do |completion|
+    - @completions.each_with_index do |completion, completion_index|
       div
         h3.bold.link-black-hover-green.pull-left.mb0.mt0.mr5
           = link_to course_path(completion.course)
@@ -37,36 +37,34 @@ div
                     = "#{completion.provider_percentage} %"
             - else
               br /
-        - number_of_certificates = completion.certificates.count
-        - verify_available = completion.certificates.pluck(:verification_url).reject{|element| element.blank?}.present? ? true : false
-        - if number_of_certificates > 0 && number_of_certificates <= 3
-          div.certificates-download-box.mt10 class="verify-#{verify_available}"
+        - if @number_of_certificates[completion_index] > 0 && @number_of_certificates[completion_index] <= 3
+          div.certificates-download-box.mt10 class="verify-#{@verify_available[completion_index]}"
             - completion.sorted_certificates.each_with_index do |certificate, index|
               = link_to certificate.download_url
                 - if index == completion.certificates.size - 1
-                  div.box class="certificates-#{number_of_certificates}-no-border"
+                  div.box class="certificates-#{@number_of_certificates[completion_index]}-no-border"
                     span.fa.fa-file-pdf-o.mr10
                     = certificate.title.present? ? certificate.title : t("completions.#{certificate.document_type}")
                 - else
-                  div.box class="certificates-#{number_of_certificates}"
+                  div.box class="certificates-#{@number_of_certificates[completion_index]}"
                     span.fa.fa-file-pdf-o.mr10
                     = certificate.title.present? ? certificate.title : t("completions.#{certificate.document_type}")
-            - if verify_available
+            - if @verify_available[completion_index]
               - completion.sorted_certificates.each_with_index do |certificate, index|
                 - if certificate.verification_url.present?
                   = link_to certificate.verification_url
                     - if index == completion.certificates.size - 1
-                      div.verify-entry class="certificates-#{number_of_certificates}-no-border"
+                      div.verify-entry class="certificates-#{@number_of_certificates[completion_index]}-no-border"
                         = t('completions.verify')
                     - else
-                      div.verify-entry class="certificates-#{number_of_certificates}"
+                      div.verify-entry class="certificates-#{@number_of_certificates[completion_index]}"
                         = t('completions.verify')
                 - else
                   - if index == completion.certificates.size - 1
-                    div.no-verify-entry class="certificates-#{number_of_certificates}-no-border"
+                    div.no-verify-entry class="certificates-#{@number_of_certificates[completion_index]}-no-border"
                       = t('completions.unable_to_verify')
                   - else
-                    div.no-verify-entry class="certificates-#{number_of_certificates}"
+                    div.no-verify-entry class="certificates-#{@number_of_certificates[completion_index]}"
                       = t('completions.unable_to_verify')
       hr
   - else

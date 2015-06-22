@@ -106,6 +106,7 @@ en:
     no_bookmarks: :bookmarks.no_bookmarks
     course_starts_at: starts at
     activities: Activities
+    error_synchronize_courses: An internal error occoured while synchronizing your enrollments with %{provider}.
 
   home:
     welcome_heading: Welcome to mammooc!

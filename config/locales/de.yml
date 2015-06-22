@@ -106,6 +106,7 @@ de:
     no_bookmarks: :bookmarks.no_bookmarks
     course_starts_at: beginnt am
     activities: Aktivitäten
+    error_synchronize_courses: Bei der Aktualisierung der Kurse bei %{provider} trat ein interner Fehler auf.
 
   home:
     welcome_heading: Willkommen bei mammooc!
