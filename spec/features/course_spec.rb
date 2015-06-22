@@ -153,10 +153,6 @@ RSpec.describe 'Course', type: :feature do
     let!(:bookmark4) { FactoryGirl.create(:bookmark, user: second_user, course: course) }
 
     it 'filters courses for all filter criteria', js: true do
-      # TODO: delete after mobile optimization
-      unless ENV['PHANTOM_JS'] == 'true'
-        page.driver.browser.manage.window.resize_to(1024, 768)
-      end
       visit courses_path
       expect(page).to have_content course.name
       fill_in 'new_search', with: 'nice name'
@@ -169,7 +165,7 @@ RSpec.describe 'Course', type: :feature do
       select I18n.t('courses.filter.start.now'), from: 'filterrific_start_filter_options'
       select I18n.t('courses.filter.costs.free'), from: 'filterrific_with_tracks_costs'
       select nice_track_type.title, from: 'filterrific_with_tracks_certificate'
-      # select I18n.t('courses.filter.sort.name_desc'), from: 'filterrific_sorted_by'
+      select I18n.t('courses.filter.sort.name_asc'), from: 'new_sort'
       check 'filterrific_bookmarked'
       wait_for_ajax
       expect(page).to have_content course.name
@@ -186,7 +182,7 @@ RSpec.describe 'Course', type: :feature do
       expect(page).not_to have_content course_wrong_attributes_2.name
       expect(page).not_to have_content course_wrong_attributes_3.name
       expect(page).to have_content right_course.name
-      expect(page.body.index(course.name)).to be > page.body.index(right_course.name)
+      expect(page.body.index(course.name)).to be < page.body.index(right_course.name)
     end
   end
 

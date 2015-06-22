@@ -26,8 +26,12 @@ br
 - @enrolled_courses_with_amount.each do |enrolled_course_hash|
   .enrollments
     - if enrolled_course_hash[:course].imageId
-      = image_tag(enrolled_course_hash[:course].imageId)
-    span
+      .enrollment-picture
+        = image_tag(enrolled_course_hash[:course].imageId)
+    .enrollment-text
       = link_to enrolled_course_hash[:course].name, course_path(enrolled_course_hash[:course].id)
       br
-      =< t('groups.statistics.number_of_enrollments', number: enrolled_course_hash[:count])
+      - if enrolled_course_hash[:count] == 1
+        =< t('groups.statistics.one_enrollment')
+      - else
+        =< t('groups.statistics.number_of_enrollments', number: enrolled_course_hash[:count])

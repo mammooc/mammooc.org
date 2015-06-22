@@ -20,7 +20,7 @@
         - else
           = "#{(current_user.common_groups_with_user(@user).collect { |group| group.name }).join(', ')}"
       br
-      - if @user.about_me.size > 0
+      - if @user.about_me and @user.about_me.size > 0
         .small-heading
           = t('users.profile.about_me')
         = @user.about_me
@@ -47,6 +47,7 @@
                 | ,
                 =< t('users.profile.starts')
                 =< I18n.l bookmark.course.start_date, format: t('global.date_format_month')
+    .user-details
       .title
         = t('users.profile.current_courses')
         - unless current_user.courses.empty?

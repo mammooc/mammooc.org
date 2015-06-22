@@ -260,6 +260,7 @@ de:
       average_enrollments: In dieser Gruppe gibt es durchschnittlich %{number} Kursbelegungen pro Mitglied.
       average_enrollments_title: Durchschnittliche Anzahl der Kursbelegungen
       enrolled_courses: Kursbelegungen
+      one_enrollment: 1 Mitglied
       number_of_enrollments: '%{number} Mitglieder'
       synchronize: Daten aller Mitglieder synchronisieren
       information_title: 'Hinweis:'
@@ -356,6 +357,7 @@ de:
     no_dates_available: Kein Zeitraum verfügbar
     course-list:
       starting_soon: Startet am
+      already_started: Startete am
       starts_today: Beginnt heute
       already_running: Kurs läuft
       load_more: Mehr anzeigen

@@ -49,12 +49,19 @@ class Course < ActiveRecord::Base
         order("courses.calculated_duration_in_days IS NULL, courses.calculated_duration_in_days #{direction}")
       when /^relevance_/
         order("CASE
-                WHEN start_date = to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 1
-                WHEN start_date > to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') AND start_date < to_timestamp('#{(Time.zone.now + 2.weeks).strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 2
-                WHEN start_date < to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') AND end_date IS NOT NULL AND end_date > to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 3
+                WHEN start_date > to_timestamp('#{(Time.zone.now - 1.weeks).strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 1
+                WHEN start_date <= to_timestamp('#{(Time.zone.now - 1.weeks).strftime('%Y-%m-%d')}', 'YYYY-MM-DD') AND end_date IS NOT NULL AND end_date > to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 2
+                WHEN start_date <= to_timestamp('#{(Time.zone.now - 1.weeks).strftime('%Y-%m-%d')}', 'YYYY-MM-DD') AND end_date IS NOT NULL AND end_date <= to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 3
                 WHEN start_date IS NULL THEN 5
                 ELSE 4
-              END")
+              END,
+              start_date ASC")
+        # WHEN start_date = to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 1
+        # WHEN start_date > to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') AND start_date < to_timestamp('#{(Time.zone.now + 2.weeks).strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 2
+        # WHEN start_date < to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') AND end_date IS NOT NULL AND end_date > to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 3
+        # WHEN start_date > to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') AND start_date > to_timestamp('#{(Time.zone.now + 2.weeks).strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 4
+        # WHEN start_date IS NULL THEN 6
+        # ELSE 5
       else
         raise ArgumentError.new "Invalid sort option: #{sort_option.inspect}"
     end

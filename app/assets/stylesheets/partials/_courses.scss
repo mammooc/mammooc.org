@@ -397,6 +397,21 @@ $course-listing-img-height: 130px;
   }
 }
 
+.course-status {
+  position: relative;
+  height: 3px;
+  z-index: 1;
+}
+.red {
+  background-color: red;
+}
+.orange {
+  background-color: orange;
+}
+.green {
+  background-color: rgba(46, 211, 0, 1);
+}
+
 // Show 1 item per line for extra small screens,
 // mainly phones (portrait)
 

@@ -194,9 +194,9 @@ RSpec.describe Course, type: :model do
         expect(result).to match([course_soon, course_today, course_current, course_past, course_without_dates])
       end
 
-      it 'show courses starts today first' do
+      it 'show relevant courses starts current first' do
         result = described_class.sorted_by('relevance_asc')
-        expect(result).to match([course_today, course_soon, course_current, course_past, course_without_dates])
+        expect(result).to match([course_current, course_today, course_soon, course_past, course_without_dates])
       end
     end
 

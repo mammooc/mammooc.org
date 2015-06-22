@@ -29,7 +29,18 @@
               = course.language
         .block.pr20.course-instructors
           = course.course_instructors
-
+    - if course.start_date
+      - if course.start_date > (Date.today - 1.weeks)
+        .course-status.green
+      - elsif course.end_date
+        - if course.start_date <= Date.today and Date.today < course.end_date
+          .course-status.orange
+        - else
+          .course-status.red
+      - else
+        .course-status.red
+    - else
+      .course-status.red
     = link_to course
       .course-info
         .hd6.course-name
@@ -54,7 +65,7 @@
               - elsif course.start_date == Date.today
                 = t('courses.course-list.starts_today')
               - else
-                => t('courses.course-list.starting_soon')
+                => t('courses.course-list.already_started')
                 = I18n.l course.start_date, format: t('global.date_format_month_short')
             - else
               = t('courses.no_dates_available')

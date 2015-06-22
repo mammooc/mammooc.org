@@ -177,7 +177,7 @@ RSpec.describe 'Group', type: :feature do
       expect(group.users.count).to eq number_of_members - 1
       current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq UserGroup.where(group_id: group.id, is_admin: true).count
-      expect { find("#list_member_element_user_#{third_user.id}") }.to raise_error
+      expect { find("#list_member_element_user_#{third_user.id}") }.to raise_error Capybara::ElementNotFound
       expect(UserGroup.where(group_id: group.id, user_id: third_user.id).empty?).to be_truthy
     end
 
@@ -193,7 +193,7 @@ RSpec.describe 'Group', type: :feature do
       expect(group.users.count).to eq number_of_members - 1
       current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq UserGroup.where(group_id: group.id, is_admin: true).count
-      expect { find("#list_member_element_user_#{third_user.id}") }.to raise_error
+      expect { find("#list_member_element_user_#{third_user.id}") }.to raise_error Capybara::ElementNotFound
       expect(UserGroup.where(group_id: group.id, user_id: third_user.id).empty?).to be_truthy
     end
 
@@ -218,9 +218,9 @@ RSpec.describe 'Group', type: :feature do
       current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq UserGroup.where(group_id: group.id, is_admin: true).count
 
-      expect { find("#list_member_element_user_#{second_user.id}") }.to raise_error
+      expect { find("#list_member_element_user_#{second_user.id}") }.to raise_error Capybara::ElementNotFound
       expect(UserGroup.where(group_id: group.id, user_id: second_user.id).empty?).to be_truthy
-      expect { find("#list_member_element_user_#{third_user.id}") }.to raise_error
+      expect { find("#list_member_element_user_#{third_user.id}") }.to raise_error Capybara::ElementNotFound
       expect(UserGroup.where(group_id: group.id, user_id: third_user.id).empty?).to be_truthy
     end
 
@@ -231,7 +231,7 @@ RSpec.describe 'Group', type: :feature do
       click_on I18n.t('groups.remove_member.confirm_delete_group')
       wait_for_ajax
       expect(current_path).to eq groups_path
-      expect { Group.find(second_group.id) }.to raise_error
+      expect { Group.find(second_group.id) }.to raise_error ActiveRecord::RecordNotFound
     end
 
     it 'deletes the group if the last admin wants to leave (after confirmation)', js: true do
@@ -241,7 +241,7 @@ RSpec.describe 'Group', type: :feature do
       click_on I18n.t('groups.remove_member.confirm_delete_group')
       wait_for_ajax
       expect(current_path).to eq groups_path
-      expect { Group.find(group.id) }.to raise_error
+      expect { Group.find(group.id) }.to raise_error ActiveRecord::RecordNotFound
     end
 
     it 'makes all members to admins if the last admin wants to leave (after confirmation)', js: true do
