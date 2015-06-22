@@ -44,8 +44,18 @@ class User < ActiveRecord::Base
   def self.author_profile_images_hash_for_recommendations(recommendations, style = :square, expire_time = 3600)
     author_images = {}
     recommendations.each do |recommendation|
-      unless author_images.key?("#{recommendation.author.id} #{recommendation.author.profile_image_file_name}")
-        author_images["#{recommendation.author.id} #{recommendation.author.profile_image_file_name}"] = recommendation.author.profile_image.expiring_url(expire_time, style)
+      unless author_images.key?("#{recommendation.author.id}")
+        author_images["#{recommendation.author.id}"] = recommendation.author.profile_image.expiring_url(expire_time, style)
+      end
+    end
+    author_images
+  end
+
+  def self.author_profile_images_hash_for_activities(activities, style = :square, expire_time = 3600)
+    author_images = {}
+    activities.each do |activity|
+      unless author_images.key?("#{activity.owner_id}")
+        author_images["#{activity.owner_id}"] = activity.owner.profile_image.expiring_url(expire_time, style)
       end
     end
     author_images
@@ -53,8 +63,8 @@ class User < ActiveRecord::Base
 
   def self.user_profile_images_hash_for_users(users, images = {}, style = :square, expire_time = 3600)
     users.each do |user|
-      unless images.key?("#{user.id} #{user.profile_image_file_name}")
-        images["#{user.id} #{user.profile_image_file_name}"] = user.profile_image.expiring_url(expire_time, style)
+      unless images.key?("#{user.id}")
+        images["#{user.id}"] = user.profile_image.expiring_url(expire_time, style)
       end
     end
     images

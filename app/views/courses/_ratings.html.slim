@@ -4,7 +4,7 @@
       .user-info
         - if evaluation[:user_id].present?
           / Here could be a link to the evaluating user's profile
-          img src=@profile_pictures["#{evaluation[:user_id]} #{User.find(evaluation[:user_id]).profile_image_file_name}"]
+          img src=@profile_pictures["#{evaluation[:user_id]}"]
         - else
           img src='/data/profile_picture_default.png'
         .name

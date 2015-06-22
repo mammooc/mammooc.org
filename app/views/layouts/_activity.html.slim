@@ -1,7 +1,7 @@
 .newsfeed id='#{activity.id}'
   .profile-picture
     = link_to author
-      img src = @profile_pictures["#{author.id} #{author.profile_image_file_name}"]
+      img src = @profile_pictures["#{author.id}"]
   .newsfeed-box
     = yield
     - if course
