@@ -41,4 +41,27 @@ class AbstractCourseWorker
       course.destroy if !updated && course.present?
     end
   end
+
+  def parse_markdown(text)
+    redcarpet = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
+    redcarpet.render(text).html_safe
+  end
+
+  def convert_to_absolute_urls(html)
+    document = Nokogiri::HTML.fragment(html)
+    tags = {'img' => 'src', 'a' => 'href', 'video' => 'src'}
+
+    document.search(tags.keys.join(',')).each do |node|
+      url_attribute = tags[node.name]
+
+      uri_string = node[url_attribute]
+      next if uri_string.empty?
+      uri = URI.parse(uri_string)
+      next if uri.host.present?
+      uri.scheme = URI(self.class::COURSE_LINK_BODY).scheme
+      uri.host = URI(self.class::COURSE_LINK_BODY).host
+      node[url_attribute] = uri.to_s
+    end
+    document.to_html
+  end
 end

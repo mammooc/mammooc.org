@@ -50,8 +50,8 @@ class UsersController < ApplicationController
 
   def synchronize_courses
     @synchronization_state = {}
-    @synchronization_state[:open_hpi] = OpenHPIUserWorker.new.perform [current_user.id]
-    @synchronization_state[:open_sap] = OpenSAPUserWorker.new.perform [current_user.id]
+    @synchronization_state[:openHPI] = OpenHPIUserWorker.new.perform [current_user.id]
+    @synchronization_state[:openSAP] = OpenSAPUserWorker.new.perform [current_user.id]
     if CourseraUserWorker.new.perform [current_user.id]
       @synchronization_state[:coursera] = true
     else

@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :mooc_provider_users, dependent: :destroy
   has_many :mooc_providers, through: :mooc_provider_users
-  has_many :completions
+  has_many :completions, dependent: :destroy
   has_and_belongs_to_many :courses
   has_many :course_requests
   has_many :approvals

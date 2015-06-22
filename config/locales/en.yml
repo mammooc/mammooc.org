@@ -106,6 +106,7 @@ en:
     no_bookmarks: :bookmarks.no_bookmarks
     course_starts_at: starts at
     activities: Activities
+    error_synchronize_courses: An internal error occoured while synchronizing your enrollments with %{provider}.
 
   home:
     welcome_heading: Welcome to mammooc!
@@ -549,6 +550,19 @@ en:
       recommended_course_to: recommended this course to
     course:
       already_enrolled: You are already enrolled for this course.
+
+  completions:
+    my_heading: My Completions
+    other_user_heading: "%{user}'s Completions"
+    points_achieved: "%{points_achieved} points achieved"
+    points_achieved_of_maximal: "%{points_achieved} of %{points_maximal} points achieved"
+    verify: Verify
+    unable_to_verify: Unable to verify (at this moment)
+    confirmation_of_participation: Confirmation of Participation
+    record_of_achievement: Record of Achievement
+    certificate: Certificate
+    no_visible: '%{user} has not shared any completions yet'
+    no_completion: "You don't any completion yet. Enroll for a course and complete in order to view your results here."
 
   flash:
     #success:

@@ -59,10 +59,12 @@ ActiveRecord::Schema.define(version: 20150616081527) do
 
   create_table "certificates", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "title"
-    t.string   "file_id"
     t.uuid     "completion_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.string   "download_url",     null: false
+    t.string   "verification_url"
+    t.string   "document_type"
   end
 
   add_index "certificates", ["completion_id"], name: "index_certificates_on_completion_id", using: :btree
@@ -80,14 +82,13 @@ ActiveRecord::Schema.define(version: 20150616081527) do
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "completions", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.integer  "position_in_course"
-    t.float    "points"
-    t.string   "permissions",                     array: true
-    t.datetime "date"
+    t.float    "quantile"
+    t.float    "points_achieved"
     t.uuid     "user_id"
     t.uuid     "course_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.float    "provider_percentage"
   end
 
   add_index "completions", ["course_id"], name: "index_completions_on_course_id", using: :btree
@@ -172,6 +173,7 @@ ActiveRecord::Schema.define(version: 20150616081527) do
     t.string   "provider_given_duration"
     t.float    "calculated_rating"
     t.integer  "rating_count"
+    t.float    "points_maximal"
   end
 
   add_index "courses", ["course_result_id"], name: "index_courses_on_course_result_id", using: :btree
