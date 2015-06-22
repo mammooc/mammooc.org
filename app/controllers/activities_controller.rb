@@ -16,15 +16,7 @@ class ActivitiesController < ApplicationController
   end
 
   def delete_user_from_newsfeed_entry
-    @activity = PublicActivity::Activity.find(params[:id])
-    @activity.user_ids -= [current_user.id]
-    @activity.save
-    if @activity.trackable_type == 'Recommendation'
-      Recommendation.find(@activity.trackable_id).delete_user_from_recommendation current_user
-    end
-    if (@activity.user_ids.blank?) && (@activity.group_ids.blank?)
-      @activity.destroy
-    end
+    current_user.delete_user_from_activity PublicActivity::Activity.find(params[:id])
     respond_to do |format|
       format.html { redirect_to :back, notice: t('newsfeed.successfully_destroyed') }
     end

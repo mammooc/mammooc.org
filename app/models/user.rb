@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   has_many :course_requests
   has_many :approvals
   has_many :progresses
-  has_many :bookmarks
+  has_many :bookmarks, dependent: :destroy
   has_many :evaluations
   has_many :user_assignments
   has_many :identities, class_name: 'UserIdentity', dependent: :destroy
@@ -40,6 +40,7 @@ class User < ActiveRecord::Base
   before_destroy :handle_group_memberships, prepend: true
   before_destroy :handle_evaluations, prepend: true
   before_destroy :handle_recommendations
+  before_destroy :handle_activities
   after_commit :save_primary_email, on: [:create, :update]
 
   def self.author_profile_images_hash_for_recommendations(recommendations, style = :square, expire_time = 3600)
@@ -98,6 +99,26 @@ class User < ActiveRecord::Base
       recommendation.delete_user_from_recommendation self
     end
     Recommendation.where(author: self).destroy_all
+  end
+
+  def handle_activities
+    PublicActivity::Activity.where(owner_id: id).each do |activity|
+      activity.destroy
+    end
+    PublicActivity::Activity.select{ |activity| activity.user_ids.include? id}.each do |activity|
+      self.delete_user_from_activity activity
+    end
+  end
+
+  def delete_user_from_activity activity
+    activity.user_ids -= [id]
+    activity.save
+    if activity.trackable_type == 'Recommendation'
+      Recommendation.find(activity.trackable_id).delete_user_from_recommendation self
+    end
+    if (activity.user_ids.blank?) && (activity.group_ids.blank?)
+      activity.destroy
+    end
   end
 
   def common_groups_with_user(other_user)
