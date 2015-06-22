@@ -2,7 +2,6 @@
 require 'rails_helper'
 
 RSpec.describe Course, type: :model do
-
   describe 'bookmarked_by_user' do
     it 'delivers true if bookmarked by user' do
       user = FactoryGirl.create(:user)
@@ -701,7 +700,7 @@ RSpec.describe Course, type: :model do
 
     it 'destroys all activities where course is referenced' do
       bookmark = FactoryGirl.create(:bookmark, course: course)
-      FactoryGirl.create(:activity_bookmark, trackable_id: bookmark.id )
+      FactoryGirl.create(:activity_bookmark, trackable_id: bookmark.id)
 
       FactoryGirl.create(:activity_course_enroll, trackable_id: course.id)
 
@@ -726,7 +725,5 @@ RSpec.describe Course, type: :model do
       expect { course.destroy! }.not_to raise_error
       expect(PublicActivity::Activity.count).to eq 4
     end
-
   end
-
 end

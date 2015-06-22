@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   has_many :emails, class_name: 'UserEmail', dependent: :destroy
   has_many :user_groups, dependent: :destroy
   has_many :groups, through: :user_groups
-  has_many :created_recommendations, foreign_key: "author_id", class_name: 'Recommendation'
+  has_many :created_recommendations, foreign_key: 'author_id', class_name: 'Recommendation'
   has_and_belongs_to_many :recommendations
   has_many :comments
   has_many :mooc_provider_users, dependent: :destroy
@@ -95,22 +95,20 @@ class User < ActiveRecord::Base
   end
 
   def handle_recommendations
-    recommendations.each do | recommendation |
+    recommendations.each do |recommendation|
       recommendation.delete_user_from_recommendation self
     end
     Recommendation.where(author: self).destroy_all
   end
 
   def handle_activities
-    PublicActivity::Activity.where(owner_id: id).each do |activity|
-      activity.destroy
-    end
-    PublicActivity::Activity.select{ |activity| (activity.user_ids.present?) && (activity.user_ids.include? id)}.each do |activity|
-      self.delete_user_from_activity activity
+    PublicActivity::Activity.where(owner_id: id).find_each(&:destroy)
+    PublicActivity::Activity.select {|activity| (activity.user_ids.present?) && (activity.user_ids.include? id) }.each do |activity|
+      delete_user_from_activity activity
     end
   end
 
-  def delete_user_from_activity activity
+  def delete_user_from_activity(activity)
     activity.user_ids -= [id]
     activity.save
     if activity.trackable_type == 'Recommendation'

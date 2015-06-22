@@ -299,9 +299,7 @@ class Course < ActiveRecord::Base
         when 'Bookmark' then course = Bookmark.find(activity.trackable_id).course
         else course = nil
       end
-      if course == self
-        activity.destroy
-      end
+      activity.destroy if course == self
     end
   end
 

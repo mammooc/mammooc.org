@@ -43,7 +43,6 @@ RSpec.describe Group, type: :model do
       expect { group.destroy! }.not_to raise_error
       expect(Recommendation.count).to eq 1
     end
-
   end
 
   describe 'user_ids' do

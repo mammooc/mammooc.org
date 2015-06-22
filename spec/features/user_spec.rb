@@ -376,7 +376,7 @@ RSpec.describe 'User', type: :feature do
         expect(Recommendation.count).to eq 0
       end
 
-      it 'deletes account and removes recommendations where user is author', js: true do 
+      it 'deletes account and removes recommendations where user is author', js: true do
         FactoryGirl.create(:group_recommendation, author: second_user)
         FactoryGirl.create(:user_recommendation, author: second_user)
         FactoryGirl.create(:user_recommendation)
@@ -394,7 +394,7 @@ RSpec.describe 'User', type: :feature do
         expect(Recommendation.count).to eq 1
       end
 
-      it 'deletes account and removes user from his recommendations', js: true do 
+      it 'deletes account and removes user from his recommendations', js: true do
         FactoryGirl.create(:group_recommendation, users: [second_user, user])
         FactoryGirl.create(:user_recommendation, users: [second_user])
         FactoryGirl.create(:user_recommendation)

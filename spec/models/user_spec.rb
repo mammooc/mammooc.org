@@ -90,7 +90,7 @@ RSpec.describe User, type: :model do
       FactoryGirl.create(:group_recommendation, author: user)
       FactoryGirl.create(:group_recommendation)
       expect(Recommendation.count).to eq 3
-      expect{ user.destroy! }.not_to raise_error
+      expect { user.destroy! }.not_to raise_error
       expect(Recommendation.count).to eq 1
     end
 
@@ -99,7 +99,7 @@ RSpec.describe User, type: :model do
       FactoryGirl.create(:user_recommendation, users: [user, second_user])
       FactoryGirl.create(:group_recommendation, group: group, users: group.users)
       expect(Recommendation.count).to eq 3
-      expect{ user.destroy! }.not_to raise_error
+      expect { user.destroy! }.not_to raise_error
       expect(Recommendation.count).to eq 2
     end
 
@@ -108,7 +108,7 @@ RSpec.describe User, type: :model do
       FactoryGirl.create(:user_recommendation, users: [user])
       FactoryGirl.create(:group_recommendation, group: group, users: group.users)
       expect(Recommendation.count).to eq 3
-      expect{ user.destroy! }.not_to raise_error
+      expect { user.destroy! }.not_to raise_error
       expect(Recommendation.count).to eq 1
     end
   end
@@ -271,8 +271,8 @@ RSpec.describe User, type: :model do
       result += [user]
       result += [third_user]
     end
-    let!(:group1) { FactoryGirl.create(:group, users: userlist)}
-    let!(:group2) { FactoryGirl.create(:group, users: [user, second_user, third_user])}
+    let!(:group1) { FactoryGirl.create(:group, users: userlist) }
+    let!(:group2) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
 
     it 'returns the ids of all users of all my groups' do
       result = user.connected_users_ids
@@ -288,14 +288,14 @@ RSpec.describe User, type: :model do
 
     it 'returns only unique ids' do
       result = user.connected_users_ids
-      expect(result.detect{ |e| result.count(e) > 1}).to be_nil
+      expect(result.detect {|e| result.count(e) > 1 }).to be_nil
     end
   end
 
   describe 'connected_groups_ids' do
     let(:user) { FactoryGirl.create(:user) }
-    let!(:group1) { FactoryGirl.create(:group, users: [user])}
-    let!(:group2) { FactoryGirl.create(:group, users: [user])}
+    let!(:group1) { FactoryGirl.create(:group, users: [user]) }
+    let!(:group2) { FactoryGirl.create(:group, users: [user]) }
 
     it 'returns all group_ids' do
       result = user.connected_groups_ids
@@ -305,10 +305,9 @@ RSpec.describe User, type: :model do
 
     it 'return only unique values' do
       result = user.connected_groups_ids
-      expect(result.detect{ |e| result.count(e) > 1}).to be_nil
+      expect(result.detect {|e| result.count(e) > 1 }).to be_nil
     end
   end
-
 
   describe 'save_primary_email' do
     it 'returns without saving if @primary_email_object is undefined' do

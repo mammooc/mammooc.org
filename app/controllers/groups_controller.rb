@@ -62,7 +62,6 @@ class GroupsController < ApplicationController
     end
     @profile_pictures = User.author_profile_images_hash_for_activities(@activities)
     @profile_pictures = User.user_profile_images_hash_for_users(@group.users, @profile_pictures)
-
   end
 
   # GET /groups/new

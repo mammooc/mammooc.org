@@ -43,13 +43,13 @@ RSpec.describe 'Activities', type: :feature do
 
       it 'is shown on dashboard' do
         visit dashboard_dashboard_path
-        expect{find('.newsfeed')}.not_to raise_error
+        expect { find('.newsfeed') }.not_to raise_error
         expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('newsfeed.group.join.no_group_context1')} #{group.name} #{I18n.t('newsfeed.group.join.no_group_context2')}"
       end
 
       it 'is shown on group dashboard' do
         visit group_path(group)
-        expect{find('.newsfeed')}.not_to raise_error
+        expect { find('.newsfeed') }.not_to raise_error
         expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('newsfeed.group.join.group_context')}"
       end
 
@@ -75,7 +75,7 @@ RSpec.describe 'Activities', type: :feature do
         click_on I18n.t('newsfeed.button.ignore')
         wait_for_ajax
         expect(PublicActivity::Activity.count).to eq 1
-        expect{find('.newsfeed')}.to raise_error Capybara::ElementNotFound
+        expect { find('.newsfeed') }.to raise_error Capybara::ElementNotFound
       end
 
       it 'is not possible to ignore activity in group if user is not admin', js: true do
@@ -89,7 +89,7 @@ RSpec.describe 'Activities', type: :feature do
         click_on I18n.t('newsfeed.button.ignore')
         wait_for_ajax
         expect(PublicActivity::Activity.count).to eq 1
-        expect{find('.newsfeed')}.to raise_error Capybara::ElementNotFound
+        expect { find('.newsfeed') }.to raise_error Capybara::ElementNotFound
       end
 
       it 'deletes activity if last user ignores', js: true do
@@ -114,7 +114,6 @@ RSpec.describe 'Activities', type: :feature do
     end
   end
 
-
   context 'bookmark a course' do
     let(:course) { FactoryGirl.create(:course) }
     let!(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
@@ -137,13 +136,13 @@ RSpec.describe 'Activities', type: :feature do
 
       it 'is shown on dashboard', js: true do
         visit dashboard_dashboard_path
-        expect{find('.newsfeed')}.not_to raise_error
+        expect { find('.newsfeed') }.not_to raise_error
         expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('newsfeed.bookmark.create')}"
       end
 
       it 'is shown on group dashboard', js: true do
         visit group_path(group)
-        expect{find('.newsfeed')}.not_to raise_error
+        expect { find('.newsfeed') }.not_to raise_error
         expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('newsfeed.bookmark.create')}"
       end
 
@@ -151,7 +150,7 @@ RSpec.describe 'Activities', type: :feature do
         capybara_sign_out user
         capybara_sign_in second_user
         visit dashboard_dashboard_path
-        expect{find('.newsfeed')}.to raise_error Capybara::ElementNotFound
+        expect { find('.newsfeed') }.to raise_error Capybara::ElementNotFound
         expect(page).not_to have_content I18n.t('newsfeed.bookmark.create')
       end
     end
@@ -170,7 +169,7 @@ RSpec.describe 'Activities', type: :feature do
         click_on I18n.t('newsfeed.button.ignore')
         wait_for_ajax
         expect(PublicActivity::Activity.count).to eq 1
-        expect{find('.newsfeed')}.to raise_error Capybara::ElementNotFound
+        expect { find('.newsfeed') }.to raise_error Capybara::ElementNotFound
       end
 
       it 'is not possible to ignore activity in group if user is not admin', js: true do
@@ -184,7 +183,7 @@ RSpec.describe 'Activities', type: :feature do
         click_on I18n.t('newsfeed.button.ignore')
         wait_for_ajax
         expect(PublicActivity::Activity.count).to eq 1
-        expect{find('.newsfeed')}.to raise_error Capybara::ElementNotFound
+        expect { find('.newsfeed') }.to raise_error Capybara::ElementNotFound
       end
 
       it 'deletes activity if last user ignores', js: true do
@@ -232,14 +231,14 @@ RSpec.describe 'Activities', type: :feature do
 
       it 'is shown on dashboard', js: true do
         visit dashboard_dashboard_path
-        expect{find('.newsfeed')}.not_to raise_error
+        expect { find('.newsfeed') }.not_to raise_error
         expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('newsfeed.course.enroll')}"
         expect(page).to have_content I18n.t('newsfeed.course.enroll')
       end
 
       it 'is shown on group dashboard', js: true do
         visit group_path(group)
-        expect{find('.newsfeed')}.not_to raise_error
+        expect { find('.newsfeed') }.not_to raise_error
         expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('newsfeed.course.enroll')}"
       end
 
@@ -247,7 +246,7 @@ RSpec.describe 'Activities', type: :feature do
         capybara_sign_out user
         capybara_sign_in second_user
         visit dashboard_dashboard_path
-        expect{find('.newsfeed')}.to raise_error Capybara::ElementNotFound
+        expect { find('.newsfeed') }.to raise_error Capybara::ElementNotFound
         expect(page).not_to have_content I18n.t('newsfeed.course.enroll')
       end
     end
@@ -266,7 +265,7 @@ RSpec.describe 'Activities', type: :feature do
         click_on I18n.t('newsfeed.button.ignore')
         wait_for_ajax
         expect(PublicActivity::Activity.count).to eq 1
-        expect{find('.newsfeed')}.to raise_error Capybara::ElementNotFound
+        expect { find('.newsfeed') }.to raise_error Capybara::ElementNotFound
       end
 
       it 'is not possible to ignore activity in group if user is not admin', js: true do
@@ -280,7 +279,7 @@ RSpec.describe 'Activities', type: :feature do
         click_on I18n.t('newsfeed.button.ignore')
         wait_for_ajax
         expect(PublicActivity::Activity.count).to eq 1
-        expect{find('.newsfeed')}.to raise_error Capybara::ElementNotFound
+        expect { find('.newsfeed') }.to raise_error Capybara::ElementNotFound
       end
 
       it 'deletes activity if last user ignores', js: true do
@@ -335,25 +334,25 @@ RSpec.describe 'Activities', type: :feature do
 
       it 'is shown on dashboard', js: true do
         visit dashboard_dashboard_path
-        expect{find('.newsfeed')}.not_to raise_error
+        expect { find('.newsfeed') }.not_to raise_error
         expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_group')} #{group.name}"
       end
 
       it 'is shown on users recommendation page', js: true do
         visit recommendations_path
-        expect{find('.newsfeed')}.not_to raise_error
+        expect { find('.newsfeed') }.not_to raise_error
         expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_group')} #{group.name}"
       end
 
       it 'is shown on group dashboard', js: true do
         visit group_path(group)
-        expect{find('.newsfeed')}.not_to raise_error
+        expect { find('.newsfeed') }.not_to raise_error
         expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_group')}  #{group.name}"
       end
 
       it 'is shown on groups recommendation page', js: true do
         visit "/groups/#{group.id}/recommendations"
-        expect{find('.newsfeed')}.not_to raise_error
+        expect { find('.newsfeed') }.not_to raise_error
         expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_group')}  #{group.name}"
       end
 
@@ -361,7 +360,7 @@ RSpec.describe 'Activities', type: :feature do
         capybara_sign_out user
         capybara_sign_in second_user
         visit dashboard_dashboard_path
-        expect{find('.newsfeed')}.to raise_error Capybara::ElementNotFound
+        expect { find('.newsfeed') }.to raise_error Capybara::ElementNotFound
         expect(page).not_to have_content I18n.t('recommendation.for_group')
       end
     end
@@ -380,7 +379,7 @@ RSpec.describe 'Activities', type: :feature do
         click_on I18n.t('newsfeed.button.ignore')
         wait_for_ajax
         expect(PublicActivity::Activity.count).to eq 1
-        expect{find('.newsfeed')}.to raise_error Capybara::ElementNotFound
+        expect { find('.newsfeed') }.to raise_error Capybara::ElementNotFound
       end
 
       it 'is not possible to ignore activity in group if user is not admin', js: true do
@@ -394,7 +393,7 @@ RSpec.describe 'Activities', type: :feature do
         click_on I18n.t('newsfeed.button.ignore')
         wait_for_ajax
         expect(PublicActivity::Activity.count).to eq 1
-        expect{find('.newsfeed')}.to raise_error Capybara::ElementNotFound
+        expect { find('.newsfeed') }.to raise_error Capybara::ElementNotFound
       end
 
       it 'deletes activity if last group ignores', js: true do
@@ -439,13 +438,13 @@ RSpec.describe 'Activities', type: :feature do
 
       it 'is shown on dashboard', js: true do
         visit dashboard_dashboard_path
-        expect{find('.newsfeed')}.not_to raise_error
+        expect { find('.newsfeed') }.not_to raise_error
         expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_you')}"
       end
 
       it 'is shown on users recommendation page', js: true do
         visit recommendations_path
-        expect{find('.newsfeed')}.not_to raise_error
+        expect { find('.newsfeed') }.not_to raise_error
         expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_you')}"
       end
 
@@ -453,7 +452,7 @@ RSpec.describe 'Activities', type: :feature do
         capybara_sign_out user
         capybara_sign_in second_user
         visit dashboard_dashboard_path
-        expect{find('.newsfeed')}.to raise_error Capybara::ElementNotFound
+        expect { find('.newsfeed') }.to raise_error Capybara::ElementNotFound
         expect(page).not_to have_content I18n.t('recommendation.for_group')
       end
     end
@@ -472,7 +471,7 @@ RSpec.describe 'Activities', type: :feature do
         click_on I18n.t('newsfeed.button.ignore')
         wait_for_ajax
         expect(PublicActivity::Activity.count).to eq 1
-        expect{find('.newsfeed')}.to raise_error Capybara::ElementNotFound
+        expect { find('.newsfeed') }.to raise_error Capybara::ElementNotFound
       end
 
       it 'deletes activity if last user ignores', js: true do

@@ -20,43 +20,42 @@ RSpec.describe Recommendation, type: :model do
   describe 'delete_user_from_recommendation' do
     let(:user) { FactoryGirl.create(:user) }
     let(:second_user) { FactoryGirl.create(:user) }
-    let(:group) { FactoryGirl.create(:group, users: [user,second_user]) }
+    let(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
     let(:course) { FactoryGirl.create(:course) }
-
 
     it 'does not destroy the recommendations if there are users left' do
       user_recommendation = FactoryGirl.create(:user_recommendation, users: [user, second_user], course: course)
       expect do
         user_recommendation.delete_user_from_recommendation user
-      end.to change(Recommendation, :count).by(0)
+      end.to change(described_class, :count).by(0)
     end
 
     it 'does not destroy the recommendations if there is a group left' do
       user_recommendation = FactoryGirl.create(:user_recommendation, users: [user], group: group, course: course)
       expect do
         user_recommendation.delete_user_from_recommendation user
-      end.to change(Recommendation, :count).by(0)
+      end.to change(described_class, :count).by(0)
     end
 
     it 'destroys the recommendations if there are no users or group left' do
       user_recommendation = FactoryGirl.create(:user_recommendation, users: [user], course: course)
       expect do
         user_recommendation.delete_user_from_recommendation user
-      end.to change(Recommendation, :count).by(-1)
+      end.to change(described_class, :count).by(-1)
     end
   end
 
   describe 'delete_group_recommendation' do
     let(:user) { FactoryGirl.create(:user) }
     let(:second_user) { FactoryGirl.create(:user) }
-    let(:group) { FactoryGirl.create(:group, users: [user,second_user]) }
+    let(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
     let(:course) { FactoryGirl.create(:course) }
 
     it 'destroys the recommendation' do
       group_recommendation =  FactoryGirl.create(:group_recommendation, users: [user, second_user], group: group, course: course)
       expect do
         group_recommendation.delete_group_recommendation
-      end.to change(Recommendation, :count).by(-1)
+      end.to change(described_class, :count).by(-1)
     end
   end
 end

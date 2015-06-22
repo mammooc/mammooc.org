@@ -25,8 +25,8 @@ class Group < ActiveRecord::Base
   before_destroy :handle_recommendations
 
   def handle_activities
-    PublicActivity::Activity.select{ |activity| (activity.group_ids.present?) && (activity.group_ids.include? id) }.each do |activity|
-      self.delete_group_from_activity activity
+    PublicActivity::Activity.select {|activity| (activity.group_ids.present?) && (activity.group_ids.include? id) }.each do |activity|
+      delete_group_from_activity activity
     end
   end
 
@@ -34,7 +34,7 @@ class Group < ActiveRecord::Base
     recommendations.destroy
   end
 
-  def delete_group_from_activity activity
+  def delete_group_from_activity(activity)
     activity.group_ids -= [id]
     activity.save
     if activity.trackable_type == 'Recommendation'
