@@ -6,10 +6,11 @@ RSpec.describe Group, type: :model do
     let(:user) { FactoryGirl.create(:user) }
     let(:second_user) { FactoryGirl.create(:user) }
     let!(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
+    let!(:second_group) { FactoryGirl.create(:group, users: [user, second_user]) }
     let!(:group_invitation) { FactoryGirl.create(:group_invitation, group: group) }
     let!(:second_group_invitation) { FactoryGirl.create(:group_invitation, group: group) }
 
-    it "deletes all memberships of a group and it's invitation" do
+    it 'deletes all memberships of a group and its invitation' do
       expect(UserGroup.where(user: user, group: group)).to be_present
       expect(UserGroup.where(user: second_user, group: group)).to be_present
       expect(GroupInvitation.where(group: group).count).to eq 2
@@ -18,6 +19,31 @@ RSpec.describe Group, type: :model do
       expect(UserGroup.where(user: second_user, group: group)).to be_empty
       expect(GroupInvitation.where(group: group).count).to eq 0
     end
+
+    it 'deletes group and delete group from all activities of group' do
+      activity1 = FactoryGirl.create(:activity_bookmark, user_ids: [second_user.id], group_ids: [group.id, second_group.id])
+      activity2 = FactoryGirl.create(:activity_bookmark, user_ids: [user.id, second_user.id], group_ids: [group.id])
+      FactoryGirl.create(:activity_bookmark, user_ids: [], group_ids: [group.id])
+
+      expect(PublicActivity::Activity.count).to eq 3
+      expect { group.destroy! }.not_to raise_error
+      expect(PublicActivity::Activity.count).to eq 2
+      expect(activity1.reload.user_ids).to match_array([second_user.id])
+      expect(activity1.reload.group_ids).to match_array([second_group.id])
+      expect(activity2.reload.user_ids).to match_array([user.id, second_user.id])
+      expect(activity2.reload.group_ids).to match_array([])
+    end
+
+    it 'deletes group and all recommendations of group' do
+      FactoryGirl.create(:group_recommendation, group: group, users: group.users)
+      FactoryGirl.create(:group_recommendation, group: group, users: group.users)
+      FactoryGirl.create(:group_recommendation, group: second_group, users: second_group.users)
+
+      expect(Recommendation.count).to eq 3
+      expect { group.destroy! }.not_to raise_error
+      expect(Recommendation.count).to eq 1
+    end
+
   end
 
   describe 'user_ids' do
