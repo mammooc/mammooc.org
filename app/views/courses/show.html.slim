@@ -18,7 +18,7 @@
                 input.rating type='hidden' value="#{@course.calculated_rating}" data-start="0" data-stop="5" id="course-rating-output" disabled="disabled"
               .course-rating-count
                 = "(#{@course.rating_count})"
-        - if @course.course_instructors
+        - if @course.course_instructors.present?
           => t('global.by')
           = @course.course_instructors
         p

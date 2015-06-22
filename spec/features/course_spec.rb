@@ -222,6 +222,7 @@ RSpec.describe 'Course', type: :feature do
     it 'submit an evaluation and show a special form afterwards', js: true do
       visit "/courses/#{course.id}"
       click_link 'rate-course-link'
+      wait_for_ajax
       expect(page).not_to have_content(I18n.t('evaluations.already_evaluated', first_name: user.first_name))
       find("div[class='user-rate-course-value']").first('span').all("div[class='rating-symbol']").last.click
       fill_in 'rating-textarea', with: 'Great Course!'

@@ -1,7 +1,6 @@
 # -*- encoding : utf-8 -*-
 require 'rails_helper'
 
-
 RSpec.describe 'layouts/_activity', type: :view do
   let(:user) { FactoryGirl.create(:user) }
   let(:author) { FactoryGirl.create(:user) }

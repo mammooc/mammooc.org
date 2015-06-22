@@ -56,12 +56,6 @@ class Course < ActiveRecord::Base
                 ELSE 4
               END,
               start_date ASC")
-        # WHEN start_date = to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 1
-        # WHEN start_date > to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') AND start_date < to_timestamp('#{(Time.zone.now + 2.weeks).strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 2
-        # WHEN start_date < to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') AND end_date IS NOT NULL AND end_date > to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 3
-        # WHEN start_date > to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') AND start_date > to_timestamp('#{(Time.zone.now + 2.weeks).strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 4
-        # WHEN start_date IS NULL THEN 6
-        # ELSE 5
       else
         raise ArgumentError.new "Invalid sort option: #{sort_option.inspect}"
     end

@@ -106,6 +106,7 @@ de:
     no_bookmarks: :bookmarks.no_bookmarks
     course_starts_at: beginnt am
     activities: Aktivitäten
+    error_synchronize_courses: Bei der Aktualisierung der Kurse bei %{provider} trat ein interner Fehler auf.
 
   home:
     welcome_heading: Willkommen bei mammooc!
@@ -162,6 +163,7 @@ de:
       new_password_confirmation: Passwortbestätigung
       new_password_info: Feld frei lassen, wenn das Passwort nicht geändert werden soll
       cancel_account: Account löschen
+      confirm_cancel_account: Bist du sicher, dass du deinen Accout löschen möchtest?
       update_account: Aktualisieren
       pending_mail_confirmation: 'Warte auf Bestätigung für:'
       still_admin_in_group_error: Account konnte nicht gelöscht werden. Du bist noch Administrator einer Gruppe.
@@ -548,6 +550,19 @@ de:
       recommended_course_to: hat diesen Kurs empfohlen für
     course:
       already_enrolled: Du belegst diesen Kurs bereits.
+
+  completions:
+    my_heading: Meine Abschlüsse
+    other_user_heading: Abschlüsse von %{user}
+    points_achieved: "%{points_achieved} Punkte erreicht"
+    points_achieved_of_maximal: "%{points_achieved} von %{points_maximal} Punkten erreicht"
+    verify: Verifizieren
+    unable_to_verify: Verifizierung (noch) nicht möglich
+    confirmation_of_participation: Teilnahmebestätigung
+    record_of_achievement: Leistungsnachweis
+    certificate: Zertifikat
+    no_visible: '%{user} hat keine Abschlüsse zur Anzeige freigegeben.'
+    no_completion: Du hast noch keinen Abschluss. Belege einen Kurs und schließe ihn ab, damit deine Erfolge hier angezeigt werden.
 
   flash:
     #success:

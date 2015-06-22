@@ -116,7 +116,8 @@ case Rails.env
                                  following_iteration_id: minimal_following_course.id,
                                  tracks: [CourseTrack.create!(track_type: xikolo_audit_track_type),
                                           CourseTrack.create!(track_type: certificate_track_type, costs: 20.0, costs_currency: '€'),
-                                          CourseTrack.create!(track_type: iversity_ects_track_type, costs: 50.0, costs_currency: '€')]
+                                          CourseTrack.create!(track_type: iversity_ects_track_type, costs: 50.0, costs_currency: '€')],
+                                 points_maximal: 105.7
                                 )
 
     user1 = User.create!(first_name: 'Max', last_name: 'Mustermann', primary_email: 'max@example.com', password: '12345678')
@@ -173,6 +174,15 @@ case Rails.env
     if ENV['OPEN_SAP_TOKEN'].present?
       FactoryGirl.create(:naive_mooc_provider_user, user: user1, mooc_provider: open_sap, access_token: ENV['OPEN_SAP_TOKEN'])
     end
+
+    FactoryGirl.create(:full_completion, course: full_course, user: user1)
+    completion1 = FactoryGirl.create(:completion, course: minimal_following_course, user: user1)
+    FactoryGirl.create(:confirmation_of_participation, completion: completion1)
+    FactoryGirl.create(:record_of_achievement, completion: completion1, verification_url: 'https://mammooc.org', title: 'open_mammooc Achievement')
+    completion2 = FactoryGirl.create(:completion, course: minimal_previous_course, user: user1, points_achieved: 24.0)
+    FactoryGirl.create(:confirmation_of_participation, completion: completion2)
+    FactoryGirl.create(:full_completion, course: minimal_previous_course, user: user2)
+
 end
 
 # rubocop:enable Lint/UselessAssignment

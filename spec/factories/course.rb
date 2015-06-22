@@ -37,6 +37,7 @@ Claudia; “I enjoyed this course so much. It gave me a chance to expand my hori
     open_for_registration true
     provider_given_duration '6 weeks'
     subtitle_languages 'en,de'
+    points_maximal 100.0
     mooc_provider { FactoryGirl.create(:mooc_provider) }
     tracks { [FactoryGirl.create(:course_track), FactoryGirl.create(:certificate_course_track), FactoryGirl.create(:ects_course_track)] }
   end

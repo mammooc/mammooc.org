@@ -126,9 +126,9 @@ RSpec.describe 'Bookmark', type: :feature do
       visit bookmarks_path
       if ENV['PHANTOM_JS'] == 'true'
         find("a[data-course_id='#{course.id}']").find('.glyphicon-remove').trigger('click')
-      else 
+      else
         find("a[data-course_id='#{course.id}']").find('.glyphicon-remove').click
-      end 
+      end
       wait_for_ajax
       expect(page).to have_content(I18n.t('dashboard.bookmarks'))
       expect(page).to have_content second_bookmark.course.name
