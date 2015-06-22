@@ -167,9 +167,19 @@ RSpec.describe 'Activities', type: :feature do
         expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_group')} #{group.name}"
       end
 
+      it 'is shown on users recommendation page', js: true do
+        visit recommendations_path
+        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_group')} #{group.name}"
+      end
+
       it 'is shown on group dashboard', js: true do
         visit group_path(group)
-        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_group')}"
+        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_group')}  #{group.name}"
+      end
+
+      it 'is shown on groups recommendation page', js: true do
+        visit "/groups/#{group.id}/recommendations"
+        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_group')}  #{group.name}"
       end
 
       it 'is not shown on owner dashboard', js: true do
@@ -209,6 +219,11 @@ RSpec.describe 'Activities', type: :feature do
 
       it 'is shown on dashboard', js: true do
         visit dashboard_dashboard_path
+        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_you')}"
+      end
+
+      it 'is shown on users recommendation page', js: true do
+        visit recommendations_path
         expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_you')}"
       end
 
