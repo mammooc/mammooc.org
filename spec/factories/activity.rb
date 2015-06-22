@@ -1,34 +1,37 @@
 # -*- encoding : utf-8 -*-
 FactoryGirl.define do
-
   factory :activity_group_join, class: PublicActivity::Activity  do
-      user_ids { [FactoryGirl.create(:user).id, FactoryGirl.create(:user).id] }
-      group_ids { [FactoryGirl.create(:group).id] }
-      trackable_id { FactoryGirl.create(:group).id }
-      trackable_type 'Group'
-      owner_id { FactoryGirl.create(:user).id }
-      owner_type 'User'
+    key 'group.join'
+    user_ids { [FactoryGirl.create(:user).id, FactoryGirl.create(:user).id] }
+    group_ids { [FactoryGirl.create(:group).id] }
+    trackable_id { group_ids.first }
+    trackable_type 'Group'
+    owner_id { FactoryGirl.create(:user).id }
+    owner_type 'User'
   end
 
-  factory :activity_course_enroll,class: PublicActivity::Activity  do
-      user_ids { [FactoryGirl.create(:user).id, FactoryGirl.create(:user).id] }
-      group_ids { [FactoryGirl.create(:group).id] }
-      trackable_id { FactoryGirl.create(:course).id }
-      trackable_type 'Course'
-      owner_id { FactoryGirl.create(:user).id }
-      owner_type 'User'
-    end
+  factory :activity_course_enroll, class: PublicActivity::Activity  do
+    key 'course.enroll'
+    user_ids { [FactoryGirl.create(:user).id, FactoryGirl.create(:user).id] }
+    group_ids { [FactoryGirl.create(:group).id] }
+    trackable_id { FactoryGirl.create(:course).id }
+    trackable_type 'Course'
+    owner_id { FactoryGirl.create(:user).id }
+    owner_type 'User'
+  end
 
   factory :activity_bookmark, class: PublicActivity::Activity do
-     user_ids { [FactoryGirl.create(:user).id, FactoryGirl.create(:user).id] }
-     group_ids { [FactoryGirl.create(:group).id] }
-     trackable_id { FactoryGirl.create(:bookmark).id }
-     trackable_type 'Bookmark'
-     owner_id { FactoryGirl.create(:user).id }
-     owner_type 'User'
-   end
+    key 'bookmark.create'
+    user_ids { [FactoryGirl.create(:user).id, FactoryGirl.create(:user).id] }
+    group_ids { [FactoryGirl.create(:group).id] }
+    trackable_id { FactoryGirl.create(:bookmark).id }
+    trackable_type 'Bookmark'
+    owner_id { FactoryGirl.create(:user).id }
+    owner_type 'User'
+  end
 
   factory :activity_group_recommendation, class: PublicActivity::Activity do
+    key 'recommendation.create'
     user_ids { [FactoryGirl.create(:user).id, FactoryGirl.create(:user).id] }
     group_ids { [FactoryGirl.create(:group).id] }
     trackable_id { FactoryGirl.create(:group_recommendation_without_activity).id }
@@ -43,6 +46,7 @@ FactoryGirl.define do
   end
 
   factory :activity_user_recommendation, class: PublicActivity::Activity do
+    key 'recommendation.create'
     user_ids { [FactoryGirl.create(:user).id, FactoryGirl.create(:user).id]  }
     trackable_id { FactoryGirl.create(:user_recommendation_without_activity).id }
     trackable_type 'Recommendation'

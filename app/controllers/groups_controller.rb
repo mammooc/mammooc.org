@@ -45,22 +45,18 @@ class GroupsController < ApplicationController
     @group_picture = Group.group_images_hash_for_groups [@group]
     @rating_picture = AmazonS3.instance.get_url('five_stars.png')
 
-    @activities = PublicActivity::Activity.order('created_at desc').where(owner_id: @group.users)
+    @activities = PublicActivity::Activity.order('created_at desc').select {|activity| (@group.users.collect(&:id).include? activity.owner_id) && activity.group_ids.present? && (activity.group_ids.include? @group.id) }
     @activity_courses = {}
     @activity_courses_bookmarked = {}
-    return unless @activities
+    return if @activities.blank?
     @activities.each do |activity|
-      if activity.group_ids && (activity.group_ids.include? @group.id)
-        @activity_courses[activity.id] = case activity.trackable_type
-                                           when 'Recommendation' then Recommendation.find(activity.trackable_id).course
-                                           when 'Course' then Course.find(activity.trackable_id)
-                                           when 'Bookmark' then Bookmark.find(activity.trackable_id).course
-                                         end
-        if @activity_courses[activity.id].present?
-          @activity_courses_bookmarked[activity.id] = @activity_courses[activity.id].bookmarked_by_user? current_user
-        end
-      else
-        @activities -= [activity]
+      @activity_courses[activity.id] = case activity.trackable_type
+                                         when 'Recommendation' then Recommendation.find(activity.trackable_id).course
+                                         when 'Course' then Course.find(activity.trackable_id)
+                                         when 'Bookmark' then Bookmark.find(activity.trackable_id).course
+                                       end
+      if @activity_courses[activity.id].present?
+        @activity_courses_bookmarked[activity.id] = @activity_courses[activity.id].bookmarked_by_user? current_user
       end
     end
 

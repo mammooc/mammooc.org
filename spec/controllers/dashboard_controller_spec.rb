@@ -14,8 +14,8 @@ RSpec.describe DashboardController, type: :controller do
       expect(response).to have_http_status(:success)
     end
     describe 'check activities' do
-      let!(:user2) { FactoryGirl.create(:user)}
-      let!(:group) { FactoryGirl.create(:group, users: [user, user2])}
+      let!(:user2) { FactoryGirl.create(:user) }
+      let!(:group) { FactoryGirl.create(:group, users: [user, user2]) }
 
       it 'only shows activities from my groups members' do
         user3 = FactoryGirl.create(:user)
@@ -28,9 +28,7 @@ RSpec.describe DashboardController, type: :controller do
         expect(assigns(:activities)).to include(user3_activity)
         expect(assigns(:activities)).to include(user2_activity)
         expect(assigns(:activities)).not_to include(user4_activity)
-
       end
-
 
       it 'filters out my own activities' do
         my_activity = FactoryGirl.create(:activity_bookmark, owner: user, user_ids: [user.id])
@@ -62,10 +60,7 @@ RSpec.describe DashboardController, type: :controller do
         expect(assigns(:activities)).to include(activity_course_enroll)
         expect(assigns(:activities)).to include(activity_group_recommendation)
         expect(assigns(:activities)).to include(activity_user_recommendation)
-
       end
-
     end
-
   end
 end

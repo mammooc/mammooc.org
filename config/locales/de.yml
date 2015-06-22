@@ -506,6 +506,7 @@ de:
         no_group_context1: ist der Gruppe
         no_group_context2: beigetreten
     successfully_destroyed: Eintrag erfolgreich gelöscht.
+    no_activities: Es gibt derzeit keine Aktivitäten in deinen Gruppen.
 
   recommendation:
     submit: Empfehlung erstellen

@@ -1,5 +1,5 @@
 - content_for :title
-  = t('dashboard.title') + " | " + "#{t('global.app_name')}"
+  = "#{t('dashboard.title')} | #{t('global.app_name')}"
 
 .main-section
   .dashboard-top
@@ -37,13 +37,13 @@
         img src="/data/icons/certificate.png"
         = t('dashboard.search_courses')
 
-  - if @number_of_recommendations == 0
+  - if @number_of_activities == 0
     .element
       .no-content-alert
-        = t('recommendation.no_recommendation')
+        = t('newsfeed.no_activities')
   - else
     .recommendations-wrapper
-      - if @activities
+      - if @activities.present?
         - @activities.each do |activity|
           = render_activity activity, layout: :activity, locals: {group_context: false, author: activity.owner, bookmarked: @activity_courses_bookmarked[activity.id], course: @activity_courses[activity.id], signed_in_user: current_user, user_is_admin: false}
 = render 'sidebar'

@@ -11,22 +11,19 @@ class DashboardController < ApplicationController
     # Bookmarks
     @bookmarks = current_user.bookmarks
 
-    @activities = PublicActivity::Activity.order('created_at desc').where(owner_id: @current_user.connected_users_ids)
+    # Activities
+    @activities = PublicActivity::Activity.order('created_at desc').select {|activity| (current_user.connected_users_ids.include? activity.owner_id) && activity.user_ids.present? && (activity.user_ids.include? current_user.id) }
     @activity_courses = {}
     @activity_courses_bookmarked = {}
     if @activities
       @activities.each do |activity|
-        if activity.user_ids.present? && (activity.user_ids.include? current_user.id)
-          @activity_courses[activity.id] = case activity.trackable_type
-                                             when 'Recommendation' then Recommendation.find(activity.trackable_id).course
-                                             when 'Course' then Course.find(activity.trackable_id)
-                                             when 'Bookmark' then Bookmark.find(activity.trackable_id).course
-                                           end
-          if @activity_courses[activity.id].present?
-            @activity_courses_bookmarked[activity.id] = @activity_courses[activity.id].bookmarked_by_user? current_user
-          end
-        else
-          @activities -= [activity]
+        @activity_courses[activity.id] = case activity.trackable_type
+                                           when 'Recommendation' then Recommendation.find(activity.trackable_id).course
+                                           when 'Course' then Course.find(activity.trackable_id)
+                                           when 'Bookmark' then Bookmark.find(activity.trackable_id).course
+                                         end
+        if @activity_courses[activity.id].present?
+          @activity_courses_bookmarked[activity.id] = @activity_courses[activity.id].bookmarked_by_user? current_user
         end
       end
       @number_of_activities = @activities.length
