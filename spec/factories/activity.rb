@@ -35,10 +35,16 @@ FactoryGirl.define do
     trackable_type 'Recommendation'
     owner_id { FactoryGirl.create(:user).id }
     owner_type 'User'
+
+    after(:create) do |activity|
+      activity.trackable_id = FactoryGirl.create(:group_recommendation_without_activity, group: Group.find(activity.group_ids.first)).id
+      activity.save
+    end
   end
 
   factory :activity_user_recommendation, class: PublicActivity::Activity do
     user_ids { [FactoryGirl.create(:user).id, FactoryGirl.create(:user).id]  }
+    trackable_id { FactoryGirl.create(:user_recommendation_without_activity).id }
     trackable_type 'Recommendation'
     owner_id { FactoryGirl.create(:user).id }
     owner_type 'User'
@@ -47,5 +53,11 @@ FactoryGirl.define do
       activity.trackable_id = FactoryGirl.create(:user_recommendation_without_activity, users: User.find(activity.user_ids)).id
       activity.save
     end
+  end
+
+  factory :activity, class: PublicActivity::Activity do
+    user_ids { [FactoryGirl.create(:user).id, FactoryGirl.create(:user).id]  }
+    owner_id { FactoryGirl.create(:user).id }
+    owner_type 'User'
   end
 end

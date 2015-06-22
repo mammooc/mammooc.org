@@ -216,6 +216,54 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'connected_users_ids' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:second_user) { FactoryGirl.create(:user) }
+    let(:third_user) { FactoryGirl.create(:user) }
+    let(:userlist) do
+      result = FactoryGirl.create_list(:user, 5)
+      result += [user]
+      result += [third_user]
+    end
+    let!(:group1) { FactoryGirl.create(:group, users: userlist)}
+    let!(:group2) { FactoryGirl.create(:group, users: [user, second_user, third_user])}
+
+    it 'returns the ids of all users of all my groups' do
+      result = user.connected_users_ids
+      expect(result).to include second_user.id
+      userlist.each do |a|
+        expect(result).to include(a.id) unless a.id == user.id
+      end
+    end
+
+    it 'does not return my own id' do
+      expect(user.connected_users_ids).not_to include user.id
+    end
+
+    it 'returns only unique ids' do
+      result = user.connected_users_ids
+      expect(result.detect{ |e| result.count(e) > 1}).to be_nil
+    end
+  end
+
+  describe 'connected_groups_ids' do
+    let(:user) { FactoryGirl.create(:user) }
+    let!(:group1) { FactoryGirl.create(:group, users: [user])}
+    let!(:group2) { FactoryGirl.create(:group, users: [user])}
+
+    it 'returns all group_ids' do
+      result = user.connected_groups_ids
+      expect(result).to include group1.id
+      expect(result).to include group2.id
+    end
+
+    it 'return only unique values' do
+      result = user.connected_groups_ids
+      expect(result.detect{ |e| result.count(e) > 1}).to be_nil
+    end
+  end
+
+
   describe 'save_primary_email' do
     it 'returns without saving if @primary_email_object is undefined' do
       user = FactoryGirl.create(:user, primary_email: 'test@example.com')
