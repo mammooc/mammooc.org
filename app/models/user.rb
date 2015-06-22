@@ -39,8 +39,8 @@ class User < ActiveRecord::Base
 
   before_destroy :handle_group_memberships, prepend: true
   before_destroy :handle_evaluations, prepend: true
-  before_destroy :handle_recommendations
   before_destroy :handle_activities
+  before_destroy :handle_recommendations
   after_commit :save_primary_email, on: [:create, :update]
 
   def self.author_profile_images_hash_for_recommendations(recommendations, style = :square, expire_time = 3600)
