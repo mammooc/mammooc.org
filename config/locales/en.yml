@@ -163,6 +163,7 @@ en:
       new_password_confirmation: Confirm Password
       new_password_info: leave blank if you don't want to change it
       cancel_account: Cancel my account
+      confirm_cancel_account: Are you sure you want to delete your Account?
       update_account: Update
       pending_mail_confirmation: 'Currently waiting confirmation for:'
       still_admin_in_group_error: Account could not be deleted, since you are still an administrator in a group.
