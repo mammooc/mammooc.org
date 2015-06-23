@@ -189,10 +189,11 @@ de:
       privacy:
         title: Privatsphäre
         visible_to: '%{subject} sichtbar für:'
-        course_enrollments: Kursbelegungen
-        course_results: Kursabschlüsse
-        course_progress: Kursfortschritt
-        profile: Profil
+        course_enrollments: Meine Kursbelegungen sind
+        course_results: Meine Kursabschlüsse sind
+        course_progress: Mein Kursfortschritt ist
+        profile_title: Profil
+        profile: Mein Profil ist
     synchronization:
       oauth_error: Fehler! Wir konnten keine Verbindung zu deinem Account herstellen. Bitte überprüfe deine Einstellungen und versuche es erneut.
       revoke_provider_connection: Verbindung aufheben
