@@ -376,7 +376,7 @@ RSpec.describe 'User', type: :feature do
         expect(Recommendation.count).to eq 0
       end
 
-      it 'deletes account and removes recommendations where user is author', js: true do 
+      it 'deletes account and removes recommendations where user is author', js: true do
         FactoryGirl.create(:group_recommendation, author: second_user)
         FactoryGirl.create(:user_recommendation, author: second_user)
         FactoryGirl.create(:user_recommendation)
@@ -394,7 +394,7 @@ RSpec.describe 'User', type: :feature do
         expect(Recommendation.count).to eq 1
       end
 
-      it 'deletes account and removes user from his recommendations', js: true do 
+      it 'deletes account and removes user from his recommendations', js: true do
         FactoryGirl.create(:group_recommendation, users: [second_user, user])
         FactoryGirl.create(:user_recommendation, users: [second_user])
         FactoryGirl.create(:user_recommendation)
@@ -410,6 +410,55 @@ RSpec.describe 'User', type: :feature do
         expect(page).to have_content I18n.t('devise.registrations.destroyed')
         expect { User.find(second_user.id) }.to raise_error ActiveRecord::RecordNotFound
         expect(Recommendation.count).to eq 2
+      end
+
+      it 'deletes user account although user is owner of activity', js: true do
+        FactoryGirl.create(:activity_bookmark, owner_id: second_user.id)
+        visit "#{user_settings_path(second_user.id)}?subsite=account"
+        if ENV['PHANTOM_JS'] == 'true'
+          click_button I18n.t('users.settings.cancel_account')
+        else
+          accept_alert do
+            click_button I18n.t('users.settings.cancel_account')
+          end
+        end
+        expect(page).to have_content I18n.t('devise.registrations.destroyed')
+        expect { User.find(second_user.id) }.to raise_error ActiveRecord::RecordNotFound
+      end
+
+      it 'deletes user account and all activities where user is owner', js: true do
+        FactoryGirl.create(:activity_bookmark, owner_id: second_user.id)
+        FactoryGirl.create(:activity_bookmark)
+        expect(PublicActivity::Activity.count).to eq 2
+        visit "#{user_settings_path(second_user.id)}?subsite=account"
+        if ENV['PHANTOM_JS'] == 'true'
+          click_button I18n.t('users.settings.cancel_account')
+        else
+          accept_alert do
+            click_button I18n.t('users.settings.cancel_account')
+          end
+        end
+        expect(page).to have_content I18n.t('devise.registrations.destroyed')
+        expect { User.find(second_user.id) }.to raise_error ActiveRecord::RecordNotFound
+        expect(PublicActivity::Activity.count).to eq 1
+      end
+
+      it 'deletes user account and delete user from activites', js: true do
+        FactoryGirl.create(:activity_bookmark, user_ids: [second_user.id], group_ids: [])
+        FactoryGirl.create(:activity_bookmark, user_ids: [user.id, second_user.id])
+
+        expect(PublicActivity::Activity.count).to eq 2
+        visit "#{user_settings_path(second_user.id)}?subsite=account"
+        if ENV['PHANTOM_JS'] == 'true'
+          click_button I18n.t('users.settings.cancel_account')
+        else
+          accept_alert do
+            click_button I18n.t('users.settings.cancel_account')
+          end
+        end
+        expect(page).to have_content I18n.t('devise.registrations.destroyed')
+        expect { User.find(second_user.id) }.to raise_error ActiveRecord::RecordNotFound
+        expect(PublicActivity::Activity.count).to eq 1
       end
     end
   end

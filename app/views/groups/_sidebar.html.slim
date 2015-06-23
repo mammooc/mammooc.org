@@ -17,7 +17,7 @@
             .row
               .col-md-12.list-members.bold
                 = link_to user_path(admin)
-                  img src = @profile_pictures["#{admin.id} #{admin.profile_image_file_name}"]
+                  img src = @profile_pictures["#{admin.id}"]
                 = link_to admin.first_name + ' ' + admin.last_name, user_path(admin)
           - number_of_shown_admins = i
         - @group_users.each_with_index do |user, i|
@@ -25,7 +25,7 @@
             .row
               .col-md-12.list-members
                 = link_to user_path(user)
-                  img src = @profile_pictures["#{user.id} #{user.profile_image_file_name}"]
+                  img src = @profile_pictures["#{user.id}"]
                 = link_to user.first_name + ' ' + user.last_name, user_path(user)
         - if @group_users.size > (number_of_shown_users + 1)
           .row

@@ -42,28 +42,26 @@ class GroupsController < ApplicationController
     @number_of_recommendations = sorted_recommendations.length
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
 
-    @profile_pictures = User.author_profile_images_hash_for_recommendations(@recommendations)
-    @profile_pictures = User.user_profile_images_hash_for_users(@group.users, @profile_pictures)
-
     @group_picture = Group.group_images_hash_for_groups [@group]
     @rating_picture = AmazonS3.instance.get_url('five_stars.png')
 
-    @activities = PublicActivity::Activity.order('created_at desc').where(owner_id: @group.users)
+    @activities = PublicActivity::Activity.order('created_at desc').select {|activity| (@group.users.collect(&:id).include? activity.owner_id) && activity.group_ids.present? && (activity.group_ids.include? @group.id) }
     @activity_courses = {}
     @activity_courses_bookmarked = {}
-    return unless @activities
-    @activities.each do |activity|
-      if activity.group_ids && (activity.group_ids.include? @group.id)
+    if @activities.present?
+      @activities.each do |activity|
         @activity_courses[activity.id] = case activity.trackable_type
                                            when 'Recommendation' then Recommendation.find(activity.trackable_id).course
                                            when 'Course' then Course.find(activity.trackable_id)
                                            when 'Bookmark' then Bookmark.find(activity.trackable_id).course
                                          end
-        @activity_courses_bookmarked[activity.id] = @activity_courses[activity.id].bookmarked_by_user? current_user
-      else
-        @activities -= [activity]
+        if @activity_courses[activity.id].present?
+          @activity_courses_bookmarked[activity.id] = @activity_courses[activity.id].bookmarked_by_user? current_user
+        end
       end
     end
+    @profile_pictures = User.author_profile_images_hash_for_activities(@activities)
+    @profile_pictures = User.user_profile_images_hash_for_users(@group.users, @profile_pictures)
   end
 
   # GET /groups/new
@@ -304,7 +302,7 @@ class GroupsController < ApplicationController
 
     group_invitation.used = true
     group_invitation.save
-    group.create_activity key: 'group.join', owner: current_user, group_ids: [group.id], user_ids: group.user_ids
+    group.create_activity key: 'group.join', owner: current_user, group_ids: [group.id], user_ids: (group.user_ids - [current_user.id])
 
     redirect_to group_path(group)
 

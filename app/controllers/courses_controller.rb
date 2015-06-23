@@ -86,7 +86,6 @@ class CoursesController < ApplicationController
     respond_to do |format|
       begin
         create_enrollment
-        @course.create_activity key: 'course.enroll', owner: current_user, group_ids: current_user.connected_groups_ids, user_ids: current_user.connected_users_ids
         format.html { redirect_to @course }
         format.json { render :enroll_course_result, status: :ok }
       rescue StandardError => e
@@ -230,6 +229,7 @@ class CoursesController < ApplicationController
           provider_worker = get_worker_by_mooc_provider @course.mooc_provider
           provider_worker.perform_async([current_user.id])
         end
+        @course.create_activity key: 'course.enroll', owner: current_user, group_ids: current_user.connected_groups_ids, user_ids: current_user.connected_users_ids
       rescue NotImplementedError
         @has_enrolled = false
       end

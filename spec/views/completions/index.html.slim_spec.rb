@@ -44,6 +44,8 @@ RSpec.describe 'completions/index', type: :view do
     assign(:completions, completions)
     assign(:user, user)
     assign(:provider_logos, {})
+    assign(:number_of_certificates, [2, 0])
+    assign(:verify_available, [true, false])
   end
 
   it 'renders a list of completions' do
