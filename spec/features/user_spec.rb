@@ -383,9 +383,9 @@ RSpec.describe 'User', type: :feature do
           end
 
           # TODO: implement this
-          #it 'removes a group' do
+          # it 'removes a group' do
           #
-          #end
+          # end
         end
       end
     end
