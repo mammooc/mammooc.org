@@ -192,7 +192,7 @@ de:
         course_enrollments: Meine Kursbelegungen sind
         course_results: Meine Kursabschlüsse sind
         course_progress: Mein Kursfortschritt ist
-        profile_tiele: Profil
+        profile_title: Profil
         profile: Mein Profil ist
     synchronization:
       oauth_error: Fehler! Wir konnten keine Verbindung zu deinem Account herstellen. Bitte überprüfe deine Einstellungen und versuche es erneut.
