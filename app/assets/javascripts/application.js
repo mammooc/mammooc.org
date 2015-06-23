@@ -15,6 +15,7 @@
 //= require jquery-ui
 //= require bootstrap
 //= require bootstrap-tokenfield
+//= require bootstrap-rating.min
 //= require i18n
 //= require i18n/translations
 //= require bootstrap-datepicker
@@ -27,4 +28,8 @@ $(document).ready(function(){
     $('.dropdown-menu').find('form').click(function (e) {
         e.stopPropagation();
     });
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 });

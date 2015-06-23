@@ -25,14 +25,16 @@ en:
     require_login: You must be logged in to access this section.
     close: Close
     submit: Submit
+    save: Save
     cancel: Cancel
     edit: Edit
-    by: 'by '
+    by: by
     ajax_failed: Sorry, something went wrong. Please try again.
     show_more: Show more
     show_less: Show less
     show_details: Show details
     date_format_month: '%B %-d, %Y'
+    date_format_month_short: '%d.%m.%y'
     search: Search
 
   will_paginate:
@@ -80,20 +82,22 @@ en:
   footer:
     title: More information
     about: About mammooc
-    about_text: "mammooc is a student's project developed at the German Hasso Plattner Institute, Potsdam."
+    about_text: mammooc is a student's project developed at the German Hasso Plattner Institute, Potsdam. mammooc gives the possibility to collect and share learning achievements. Users can bookmark courses or enroll into them. To connect with others, they are able to create groups.
     hpi: Hasso Plattner Institute
     imprint: Imprint
 
   dashboard:
     title: Dashboard
     my_groups: :groups.my_groups
-    my_current_courses: My Current Courses
+    my_current_courses: My Current Coursese
     no_groups: :groups.no_groups
     new_group: Creating Group
     edit_group: Editing Group
     no_courses: :courses.no_courses
-    number_of_recommendations: You have %{number} recommendations
-    number_of_activities: There are 2 new activities in your groups
+    you_have: You have
+    number_of_recommendations: '%{number} recommendations'
+    number_of_mandatory_recommendations: '%{number} mandatory recommendations'
+    number_of_activities: There are %{number} current activities in your groups
     complete_profile: Complete your profile
     manage_groups: Manage your groups
     search_courses: Search for courses
@@ -101,6 +105,8 @@ en:
     bookmarks: :bookmarks.my_bookmarks
     no_bookmarks: :bookmarks.no_bookmarks
     course_starts_at: starts at
+    activities: Activities
+    error_synchronize_courses: An internal error occoured while synchronizing your enrollments with %{provider}.
 
   home:
     welcome_heading: Welcome to mammooc!
@@ -149,13 +155,15 @@ en:
       mooc_provider_connection: MOOC Provider Connection
       email: :users.sign_in_up.email
       enter_mail: Enter email
+      current_password: Old Password
       password: :users.sign_in_up.password
       password_confirmation: :users.sign_in_up.password_confirmation
-      password_confirmation_info: (we need your current password to confirm your changes)
+      password_confirmation_info: we need your current password to confirm your changes
       new_password: New Password
-      new_password_confirmation: Confirm new Password
-      new_password_info: (leave blank if you don't want to change it)
+      new_password_confirmation: Confirm Password
+      new_password_info: leave blank if you don't want to change it
       cancel_account: Cancel my account
+      confirm_cancel_account: Are you sure you want to delete your Account?
       update_account: Update
       pending_mail_confirmation: 'Currently waiting confirmation for:'
       still_admin_in_group_error: Account could not be deleted, since you are still an administrator in a group.
@@ -171,18 +179,36 @@ en:
         only_one_provider: "German National Identity Card: You must choose a password or add another provider in order to remove your existing link."
         identity_deleted: The link with your German National Identity Card was successfully removed.
         identity_not_deleted: The link with your German National Identity Card could not be removed.
+      change_emails:
+        address: Email-address
+        primary: Choose primary
+        delete: Delete
+        alert_can_not_delete_primary: This address can not be deleted. Choose another primary address first.
+        success: Email-addresses successfully updated.
+        new_line: New Line
+      privacy:
+        title: Privacy
+        visible_to: '%{subject} visible to:'
+        course_enrollments: My Course Enrollments are
+        course_results: My Course Results are
+        course_progress: My Course Progress is
+        profile_title: Profile
+        profile: My Profile is
     synchronization:
       oauth_error: Sorry! We were unable to establish a connection to your account. Please check your settings and try again.
       revoke_provider_connection: Revoke connection
       establish_provider_connection: Establish connection
     profile:
       title: Your Profile
-      about_me: "About me:"
+      about_me: About me
       groups: Groups
-      current_courses: Enrollments
-      currently_nothing: None
+      current_courses: Your Enrollments
+      currently_no_courses: You are not enrolled in any courses.
       edit_profile_title: Edit Profile
       editing_profile: Edit your profile information
+      bookmarks: Your Bookmarks
+      currently_no_bookmarks: You didn't bookmark any courses yet.
+      starts: starts on
 
   groups:
     title: My Groups | mammooc
@@ -233,6 +259,16 @@ en:
       confirm_leave_group: Leave
       confirm_remove_member: Remove
       yourself: yourself
+    statistics:
+      average_enrollments: In this group are %{number} course enrollments per member on average.
+      average_enrollments_title: Average Course Enrollents
+      enrolled_courses: Enrolled Courses
+      one_enrollment: 1 member
+      number_of_enrollments: '%{number} members'
+      synchronize: Synchronize data of all members
+      information_title: 'Please Note:'
+      information: To calculate the following statistics we only use data from group members who decided to share their data.
+      number_of_share_member: In this group %{number} members share their data.
 
   activerecord:
     models:
@@ -242,6 +278,15 @@ en:
       recommendation:
         one: Recommendation
         other: Recommendations
+      course:
+        one: Course
+        other: Courses
+      course_result:
+        one: Course Result
+        other: Course Results
+      user:
+        one: User
+        other: Users
     attributes:
       group:
         name: Name
@@ -249,6 +294,11 @@ en:
       recommendation:
         is_obligatory: Obligatory?
         text: Message
+      user:
+        first_name: First Name
+        last_name: Last Name
+        about_me: About me
+        profile_image: Profile Image
     #error messages
     errors:
       messages:
@@ -267,10 +317,6 @@ en:
     title: Courses | mammooc
     heading: Courses
     no_courses: No courses available
-    starting_soon: Course starts on
-    starts_today: Course starts today
-    already_running: Course is already running
-    course_dates: 'Dates:'
     about: About
     abstract: Abstract
     description: Description
@@ -278,7 +324,6 @@ en:
     mooc_provider: MOOC Provider
     instructors: Instructors
     time: Time
-    starting_time: Starting Time
     language: Language
     requirements: Requirements
     achievement: Type of Achievement
@@ -289,17 +334,14 @@ en:
     enter_course: Enter Course
     remember_course: Bookmark Course
     delete_remember_course: Delete Course from bookmarks
-    enroll_course: Enroll me for this Course
-    unenroll_course: Unenroll me for this Course
+    enroll_course: Enroll me for this course
+    unenroll_course: Unenroll me for this course
     recommend_course: Recommend Course
     recommend_course_obligatory: Make course obligatory
     rate_course: Rate Course
     recommendations: Recommendations
-    user_belongs_to_group: 'Group: '
-    user_belongs_to_groups: 'Groups: '
     rating: Rating
     credit_points: Credit Points
-    no_dates_available: There are no dates available
     duration: Duration
     subtitle_languages: Available Subtitles
     previous_iteration: Previous Iteration
@@ -308,6 +350,24 @@ en:
     unenrollment_error: Sorry, the unenrollment for this course has failed.
     require_login: You have to be signed in to use this feature.
     register_first: Please register first.
+
+    # attention: this part is also used for recommendations
+    starting_soon: Course starts on
+    starts_today: Course starts today
+    already_running: Course is already running
+    course_dates: 'Dates:'
+    starting_time: Starting Time
+    no_dates_available: No dates available
+    course-list:
+      starting_soon: Starts on
+      already_started: Started on
+      starts_today: Starts today
+      already_running: Running
+      load_more: Show more
+      bookmark: Bookmark
+      remove-bookmark: Remove bookmark
+      enroll: Enroll
+      unenroll: Unenroll
     sidebar:
       recommended: Someone recommended this course to you
       pledged: Someone wants to see you doing this course
@@ -372,10 +432,9 @@ en:
         duration_desc: "Duration: decending"
         duration_asc: "Duration: ascending"
         name_desc: "Title: Z-A"
-        name_asc: "Title"
+        name_asc: Title
         start_date_relevance: Current first
       reset: Reset filter
-
     languages:
       ar: Arabic
       cn: Chinese
@@ -404,6 +463,52 @@ en:
       zh: Chinese
       zh-cn: Chinese (China)
       zh-tw: Chinese (Taiwan)
+
+  evaluations:
+    heading: Course Evaluation
+    please_sign_in: Please sign in to evaluate the course. Don't have an account yet?
+    path_to_registration: Sign up here!
+    users_found_evaluation_helpful: '%{helpful_rating_count} of %{rating_count} people found the review helpful'
+    did_you_like_evaluation: How did you like this evaluation?
+    helpful: Helpful
+    not_helpful: Not Helpful
+    no_evaluations: Unfortunately there are no evaluations for this course yet. :(
+    already_evaluated: Hi %{first_name}, you evaluated the course. Thanks for your feedback!
+    modify_evaluation: Modify Evaluation
+    overall_evaluation: Overall Evaluation
+    additional_notes: Additional Notes
+    help_other_users: Help other users to get a clearer picture of the course.
+    course_status: What's your course status?
+    aborted: Aborted
+    currently_enrolled: Currently Enrolled
+    finished: Finished
+    send_evaluation: Send Evaluation
+    update_evaluation: Update Evaluation
+    anonymous_evaluation: Rate the course anonymously
+    aborted_course: aborted the course
+    currently_enrolled_course: is currently enrolled
+    finished_course: finished the course
+    state_overall_rating: Please state your overall evaluation!
+    state_course_status: Please state your course status!
+    thanks_for_feedback: Thank you for your feedback!
+    anonymous: Anonymous
+
+  newsfeed:
+    button:
+      ignore: Ignore
+      course_details: View details
+    bookmark:
+      create: bookmarked a new course
+    course:
+      enroll: enrolled in a course
+    group:
+      join:
+        group_context: joined your group
+        no_group_context1: joined group
+        no_group_context2: ''
+    successfully_destroyed: Entry was successfully destroyed.
+    no_activities: There are no activities in your groups right now.
+
 
   recommendation:
     submit: Create Recommendation
@@ -438,10 +543,6 @@ en:
       submit: Create obligatory recommendation
       successfully_created: Create obligatory recommendation successfully.
       new: New obligatory Recommendation
-
-    button:
-      ignore: Ignore recommendation
-      course_details: View details
     group:
       no_recommendation: This group doesn't have any recommendations right now.
       has_pledged:  expects enrollment in this course.
@@ -452,6 +553,19 @@ en:
       recommended_course_to: recommended this course to
     course:
       already_enrolled: You are already enrolled for this course.
+
+  completions:
+    my_heading: My Completions
+    other_user_heading: "%{user}'s Completions"
+    points_achieved: "%{points_achieved} points achieved"
+    points_achieved_of_maximal: "%{points_achieved} of %{points_maximal} points achieved"
+    verify: Verify
+    unable_to_verify: Unable to verify (at this moment)
+    confirmation_of_participation: Confirmation of Participation
+    record_of_achievement: Record of Achievement
+    certificate: Certificate
+    no_visible: '%{user} has not shared any completions yet'
+    no_completion: "You don't any completion yet. Enroll for a course and complete in order to view your results here."
 
   flash:
     #success:
@@ -473,6 +587,10 @@ en:
       user:
         password_too_short: is too short (minimum is %{count} characters).
         password_confirmation: doesn't match with password.
+      settings:
+        group: a group
+        user: an user
+        input_empty: Please provide %{subject}.
 
   startpage:
     carousel:

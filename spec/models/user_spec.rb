@@ -54,6 +54,65 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'handles Evaluations when destroyed' do
+    let!(:user) { FactoryGirl.create(:user) }
+    let(:evaluation) { FactoryGirl.create(:full_evaluation, user_id: user.id) }
+
+    it 'set all evaluations to anonym and delete user_id' do
+      evaluation.save
+      expect(user.destroy).to be_truthy
+      evaluation.reload
+      expect(evaluation.user_id).to be_nil
+      expect(evaluation.rated_anonymously).to be_truthy
+    end
+  end
+
+  describe 'handles Completions (and Certificates) when destroyed' do
+    let!(:user) { FactoryGirl.create(:user) }
+    let!(:completion) { FactoryGirl.create(:full_completion, user_id: user.id) }
+
+    it 'deletes all comlpetions and the associated certificates' do
+      expect(Completion.count).to eql 1
+      expect(Certificate.count).to eql 3
+      expect(user.destroy).to be_truthy
+      expect(Completion.count).to eql 0
+      expect(Certificate.count).to eql 0
+    end
+  end
+
+  describe 'handle recommendations when destroyed' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:second_user) { FactoryGirl.create(:user) }
+    let(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
+
+    it 'deletes recommendations where user is author' do
+      FactoryGirl.create(:user_recommendation, author: user)
+      FactoryGirl.create(:group_recommendation, author: user)
+      FactoryGirl.create(:group_recommendation)
+      expect(Recommendation.count).to eq 3
+      expect { user.destroy! }.not_to raise_error
+      expect(Recommendation.count).to eq 1
+    end
+
+    it 'deletes user from recommendations where user is recipient' do
+      FactoryGirl.create(:user_recommendation, users: [user])
+      FactoryGirl.create(:user_recommendation, users: [user, second_user])
+      FactoryGirl.create(:group_recommendation, group: group, users: group.users)
+      expect(Recommendation.count).to eq 3
+      expect { user.destroy! }.not_to raise_error
+      expect(Recommendation.count).to eq 2
+    end
+
+    it 'deletes recommendation if user was last recipient' do
+      FactoryGirl.create(:user_recommendation, users: [user])
+      FactoryGirl.create(:user_recommendation, users: [user])
+      FactoryGirl.create(:group_recommendation, group: group, users: group.users)
+      expect(Recommendation.count).to eq 3
+      expect { user.destroy! }.not_to raise_error
+      expect(Recommendation.count).to eq 1
+    end
+  end
+
   describe 'factories' do
     it 'has valid factory' do
       expect(FactoryGirl.build_stubbed(:user)).to be_valid
@@ -203,6 +262,85 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'connected_users_ids' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:second_user) { FactoryGirl.create(:user) }
+    let(:third_user) { FactoryGirl.create(:user) }
+    let(:userlist) do
+      result = FactoryGirl.create_list(:user, 5)
+      result += [user]
+      result += [third_user]
+      result
+    end
+    let!(:group1) { FactoryGirl.create(:group, users: userlist) }
+    let!(:group2) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
+
+    it 'returns the ids of all users of all my groups' do
+      result = user.connected_users_ids
+      expect(result).to include second_user.id
+      userlist.each do |a|
+        expect(result).to include(a.id) unless a.id == user.id
+      end
+    end
+
+    it 'does not return my own id' do
+      expect(user.connected_users_ids).not_to include user.id
+    end
+
+    it 'returns only unique ids' do
+      result = user.connected_users_ids
+      expect(result.detect {|e| result.count(e) > 1 }).to be_nil
+    end
+  end
+
+  describe 'connected_users' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:second_user) { FactoryGirl.create(:user) }
+    let(:third_user) { FactoryGirl.create(:user) }
+    let(:userlist) do
+      result = FactoryGirl.create_list(:user, 5)
+      result += [user]
+      result += [third_user]
+      result
+    end
+    let!(:group1) { FactoryGirl.create(:group, users: userlist) }
+    let!(:group2) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
+
+    it 'returns all users of all my groups' do
+      result = user.connected_users
+      expect(result).to include second_user
+      userlist.each do |a|
+        expect(result).to include(a) unless a == user
+      end
+    end
+
+    it 'does not return the current user' do
+      expect(user.connected_users).not_to include user
+    end
+
+    it 'returns only unique users' do
+      result = user.connected_users
+      expect(result.detect {|e| result.count(e) > 1 }).to be_nil
+    end
+  end
+
+  describe 'connected_groups_ids' do
+    let(:user) { FactoryGirl.create(:user) }
+    let!(:group1) { FactoryGirl.create(:group, users: [user]) }
+    let!(:group2) { FactoryGirl.create(:group, users: [user]) }
+
+    it 'returns all group_ids' do
+      result = user.connected_groups_ids
+      expect(result).to include group1.id
+      expect(result).to include group2.id
+    end
+
+    it 'return only unique values' do
+      result = user.connected_groups_ids
+      expect(result.detect {|e| result.count(e) > 1 }).to be_nil
+    end
+  end
+
   describe 'save_primary_email' do
     it 'returns without saving if @primary_email_object is undefined' do
       user = FactoryGirl.create(:user, primary_email: 'test@example.com')
@@ -223,7 +361,7 @@ RSpec.describe User, type: :model do
       another_user = FactoryGirl.create(:user, primary_email: 'test2@example.com')
       user_email = FactoryGirl.build(:user_email, user: another_user, address: 'test@example.com')
       user.instance_variable_set(:@primary_email_object, user_email)
-      expect { user.send(:save_primary_email) }.to raise_error
+      expect { user.send(:save_primary_email) }.to raise_error NoMethodError
       expect(described_class.find_by_primary_email('test2@example.com')).to eql another_user
       expect(described_class.find_by_primary_email('test@example.com')).to be_nil
     end
@@ -470,8 +608,22 @@ RSpec.describe User, type: :model do
     end
 
     it 'changes the URL scheme to https and returns' do
-      puts described_class.process_uri('http://www.example.com/avatar.png')
       expect(described_class.process_uri('http://www.example.com/avatar.png')).to eql 'https://www.example.com/avatar.png'
+    end
+  end
+
+  describe 'setting(key, create_new)' do
+    let(:user) { FactoryGirl.create :user }
+    let(:user_setting) { FactoryGirl.create :user_setting, user: user }
+
+    it 'returns UserSetting object' do
+      expect(user.setting(user_setting.name)).to eq user_setting
+    end
+
+    context 'UserSetting object does not exist' do
+      it 'creates new UserSetting' do
+        expect { user.setting(:newsetting, true) }.to change { UserSetting.count }.by(1)
+      end
     end
   end
 end

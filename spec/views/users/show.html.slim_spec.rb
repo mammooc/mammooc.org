@@ -7,11 +7,4 @@ RSpec.describe 'users/show', type: :view do
   before(:each) do
     @user = user
   end
-
-  it 'renders attributes in <p>' do
-    render
-    expect(rendered).to match(user.first_name)
-    expect(rendered).to match(user.last_name)
-    expect(rendered).to match(user.about_me)
-  end
 end

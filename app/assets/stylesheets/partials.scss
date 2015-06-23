@@ -2,6 +2,8 @@
 
 @import "bootstrap-variables";
 @import "bootstrap-generators";
+@import "font-awesome-sprockets";
+@import "font-awesome";
 
 // Import Partials
 
@@ -12,6 +14,7 @@
 @import "partials/base";
 @import "partials/bookmarks";
 @import "partials/buttons";
+@import "partials/completions";
 @import "partials/courses";
 @import "partials/dashboard";
 @import "partials/recommendations";
@@ -19,5 +22,10 @@
 @import "partials/navbar";
 @import "partials/pagination";
 @import "partials/shared";
+@import "partials/statistics";
 @import "partials/teaser";
+@import "partials/ratings";
+@import "partials/already_rated";
+@import "partials/rating_form";
 @import "partials/users";
+@import "partials/newsfeed";

@@ -1,0 +1,27 @@
+.enrollments {
+  padding: 5px;
+  line-height: 20px;
+  margin-bottom: 10px;
+
+  .enrollment-picture {
+    width: 55px;
+    height: 40px;
+    position: relative;
+    margin-right: 5px;
+    display: inline-block;
+
+    img {
+      object-fit: cover;
+      position: absolute;
+      overflow: hidden;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+    }
+  }
+  .enrollment-text {
+    display: inline-block;
+    vertical-align: top;
+  }
+}

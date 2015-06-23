@@ -17,10 +17,26 @@ class RecommendationsController < ApplicationController
   # GET /recommendations.json
   def index
     @recommendations = current_user.recommendations.sort_by(&:created_at).reverse!
+    recommendations_ids = @recommendations.collect(&:id)
 
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
     @profile_pictures = User.author_profile_images_hash_for_recommendations(@recommendations)
     @rating_picture = AmazonS3.instance.get_url('five_stars.png')
+
+    @activities = PublicActivity::Activity.order('created_at desc').where(trackable_id: recommendations_ids, trackable_type: 'Recommendation', owner_id: current_user.connected_users_ids)
+    @activity_courses = {}
+    @activity_courses_bookmarked = {}
+    return unless @activities
+    @activities.each do |activity|
+      if activity.user_ids.present? && (activity.user_ids.include? current_user.id)
+        @activity_courses[activity.id] = Recommendation.find(activity.trackable_id).course
+        if @activity_courses[activity.id].present?
+          @activity_courses_bookmarked[activity.id] = @activity_courses[activity.id].bookmarked_by_user? current_user
+        end
+      else
+        @activities -= [activity]
+      end
+    end
   end
 
   # GET /recommendations/new
@@ -40,7 +56,9 @@ class RecommendationsController < ApplicationController
       recommendation = Recommendation.new(recommendation_params)
       recommendation.author = current_user
       recommendation.users.push(User.find(user_id))
-      recommendation.save!
+      if recommendation.save!
+        recommendation.create_activity key: 'recommendation.create', owner: current_user, recipient: recommendation.users.first, user_ids: [recommendation.users.first.id]
+      end
     end
 
     group_ids.each do |group_id|
@@ -50,7 +68,9 @@ class RecommendationsController < ApplicationController
       recommendation.group.users.each do |user|
         recommendation.users.push(user)
       end
-      recommendation.save!
+      if recommendation.save!
+        recommendation.create_activity key: 'recommendation.create', owner: current_user, recipient: recommendation.group, group_ids: [recommendation.group.id], user_ids: recommendation.group.user_ids
+      end
     end
 
     if params[:recommendation][:is_obligatory] == 'true'
@@ -84,23 +104,6 @@ class RecommendationsController < ApplicationController
   rescue ActiveRecord::RecordNotSaved
     flash[:error] = t('recommendation.creation_error')
     redirect_to root_path
-  end
-
-  def delete_user_from_recommendation
-    @recommendation.users -= [current_user]
-    if @recommendation.users.empty? && @recommendation.group.blank?
-      @recommendation.destroy
-    end
-    respond_to do |format|
-      format.html { redirect_to :back, notice: t('recommendation.successfully_destroyed') }
-    end
-  end
-
-  def delete_group_recommendation
-    @recommendation.destroy
-    respond_to do |format|
-      format.html { redirect_to :back, notice: t('recommendation.successfully_destroyed') }
-    end
   end
 
   private

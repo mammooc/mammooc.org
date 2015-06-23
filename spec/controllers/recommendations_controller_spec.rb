@@ -33,6 +33,54 @@ RSpec.describe RecommendationsController, type: :controller do
       get :index, {}
       expect(assigns(:recommendations)).to eq([recommendation])
     end
+
+    describe 'check activities' do
+      let!(:user2) { FactoryGirl.create(:user) }
+      let!(:group) { FactoryGirl.create(:group, users: [user, user2]) }
+
+      it 'only shows activities from my groups members' do
+        user3 = FactoryGirl.create(:user)
+        FactoryGirl.create(:group, users: [user, user3])
+        user4 = FactoryGirl.create(:user)
+        user4_activity = FactoryGirl.create(:activity_user_recommendation, owner: user4, user_ids: [user.id])
+        user3_activity = FactoryGirl.create(:activity_user_recommendation, owner: user3, user_ids: [user.id])
+        user2_activity = FactoryGirl.create(:activity_user_recommendation, owner: user2, user_ids: [user.id])
+        get :index
+        expect(assigns(:activities)).to include(user3_activity)
+        expect(assigns(:activities)).to include(user2_activity)
+        expect(assigns(:activities)).not_to include(user4_activity)
+      end
+
+      it 'filters out my own activities' do
+        my_activity = FactoryGirl.create(:activity_user_recommendation, owner: user, user_ids: [user.id])
+        get :index
+        expect(assigns(:activities)).not_to include(my_activity)
+      end
+
+      it 'filters out activities not directed at me or one of my groups' do
+        activity_to_me = FactoryGirl.create(:activity_user_recommendation, owner: user2, user_ids: [user.id])
+        activity_to_my_group = FactoryGirl.create(:activity_user_recommendation, owner: user2, group_ids: [group.id])
+        activity_without_me = FactoryGirl.create(:activity_user_recommendation, owner: user2)
+        get :index
+        expect(assigns(:activities)).to include(activity_to_me)
+        expect(assigns(:activities)).not_to include(activity_to_my_group)
+        expect(assigns(:activities)).not_to include(activity_without_me)
+      end
+
+      it 'filters out anything that is not a user_recommendation' do
+        activity_bookmark = FactoryGirl.create(:activity_bookmark, owner: user2, user_ids: [user.id])
+        activity_group_join = FactoryGirl.create(:activity_group_join, owner: user2, user_ids: [user.id])
+        activity_course_enroll = FactoryGirl.create(:activity_course_enroll, owner: user2, user_ids: [user.id])
+        activity_user_recommendation = FactoryGirl.create(:activity_user_recommendation, owner: user2, user_ids: [user.id])
+
+        get :index
+
+        expect(assigns(:activities)).not_to include(activity_bookmark)
+        expect(assigns(:activities)).not_to include(activity_group_join)
+        expect(assigns(:activities)).not_to include(activity_course_enroll)
+        expect(assigns(:activities)).to include(activity_user_recommendation)
+      end
+    end
   end
 
   describe 'GET new' do
@@ -45,6 +93,10 @@ RSpec.describe RecommendationsController, type: :controller do
   describe 'POST create' do
     it 'creates a new Recommendation' do
       expect { post :create, recommendation: valid_controller_attributes_user }.to change(Recommendation, :count).by(1)
+    end
+
+    it 'creates a new Activity' do
+      expect { post :create, recommendation: valid_controller_attributes_user }.to change(PublicActivity::Activity, :count).by(1)
     end
 
     it 'redirects to dashboard' do
@@ -98,35 +150,6 @@ RSpec.describe RecommendationsController, type: :controller do
         post :create, recommendation: valid_controller_attributes_group_obligatory
         expect(ActionMailer::Base.deliveries.count).to eq group_for_obligatory.users.count - 1
       end
-    end
-  end
-
-  describe 'delete user from recommendation' do
-    it 'destroys the requested recommendation of current user' do
-      request.env['HTTP_REFERER'] = dashboard_path
-      recommendation = FactoryGirl.create(:user_recommendation, users: [user])
-      expect do
-        get :delete_user_from_recommendation, id: recommendation.to_param
-      end.to change(Recommendation, :count).by(-1)
-    end
-
-    it 'removes current user from recommendation but do not delete recommendation' do
-      request.env['HTTP_REFERER'] = dashboard_path
-      recommendation = FactoryGirl.create(:user_recommendation, users: [user, second_user])
-      expect do
-        get :delete_user_from_recommendation, id: recommendation.to_param
-      end.to change(Recommendation, :count).by(0)
-      expect(Recommendation.find(recommendation.id).users).to match_array([second_user])
-    end
-  end
-
-  describe 'delete group recommendation' do
-    it 'destroys the requested recommendation of specified group' do
-      request.env['HTTP_REFERER'] = dashboard_path
-      recommendation = FactoryGirl.create(:group_recommendation, group: group)
-      expect do
-        get :delete_group_recommendation, id: recommendation.to_param
-      end.to change(Recommendation, :count).by(-1)
     end
   end
 end

@@ -1,6 +1,6 @@
 .profile-top {
   @extend .content-box;
-  height: 165px;
+  min-height: 165px;
   margin-bottom: 15px;
 
   .user-visual {
@@ -14,6 +14,7 @@
       height: 125px;
       width: 125px;
       margin-right: 10px;
+      margin-bottom: 10px;
     }
 
     .name {
@@ -37,5 +38,25 @@
       right: 20px;
     }
 
+  }
+}
+
+.user-details {
+  @include white-box;
+  @include box-shadow-light;
+  margin-bottom: 30px;
+
+  .title {
+    display: inline-block;
+    top: 0;
+    left: 0;
+    background-color: $gray;
+    padding: 5px 25px;
+    @extend .hd6;
+    color: white;
+  }
+
+  .content {
+    padding: 20px;
   }
 }

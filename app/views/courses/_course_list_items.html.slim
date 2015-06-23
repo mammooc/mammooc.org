@@ -1,0 +1,73 @@
+- @courses.each do |course|
+  .courses
+    .course-image
+      - if course.imageId
+        = image_tag(course.imageId)
+      - else
+        img src="/data/icons/courses-list-std.png"
+      - if user_signed_in?
+        - if @my_bookmarked_courses.include? course
+          .action-icon-wishlist data-toggle="tooltip" data-placement="auto" title="#{(t('courses.course-list.remove-bookmark'))}" toggle-title=title="#{(t('courses.course-list.bookmark'))}"
+            a href="" class='bookmark-icon' data-course_id='#{course.id}' data-user_id='#{current_user.id}'
+              i class="fa fa-bookmark action-icon-green"
+        - else
+          .action-icon-wishlist data-toggle="tooltip" data-placement="left" title="#{(t('courses.course-list.bookmark'))}" toggle-title=title="#{(t('courses.course-list.remove-bookmark'))}"
+            a href="" class='bookmark-icon-o' data-course_id='#{course.id}' data-user_id='#{current_user.id}'
+              i class="fa fa-bookmark action-icon-gray"
+        - if current_user.courses.include? course
+          .action-icon-enrollment data-toggle="tooltip" data-placement="left" title="#{(t('courses.course-list.unenroll'))}" toggle-title="#{(t('courses.course-list.enroll'))}"
+            a href="" class='unenroll-icon' data-course_id='#{course.id}'
+              i class="fa fa-sign-in action-icon-green"
+        - else
+          .action-icon-enrollment data-toggle="tooltip" data-placement="left" title="#{(t('courses.course-list.enroll'))}" toggle-title="#{(t('courses.course-list.unenroll'))}"
+            a href="" class='enroll-icon' data-course_id='#{course.id}'
+              i class="fa fa-sign-in action-icon-gray"
+      .additional-infos
+        .block.pr20.mb5
+          - if course.language
+            img src="/data/icons/globe-white.png" class="icon-small pr5"
+              = course.language
+        .block.pr20.course-instructors
+          = course.course_instructors
+    - if course.start_date
+      - if course.start_date > (Date.today - 1.weeks)
+        .course-status.green
+      - elsif course.end_date
+        - if course.start_date <= Date.today and Date.today < course.end_date
+          .course-status.orange
+        - else
+          .course-status.red
+      - else
+        .course-status.red
+    - else
+      .course-status.red
+    = link_to course
+      .course-info
+        .hd6.course-name
+          = course.name
+        img src="/data/icons/calendar.png" class="icon-small pr5"
+          .status
+            - if course.start_date
+              - if course.end_date
+                - if course.start_date < Date.today and Date.today < course.end_date
+                  = t('courses.course-list.already_running')
+                - elsif course.start_date > Date.today
+                  => t('courses.course-list.starting_soon')
+                  = I18n.l course.start_date, format: t('global.date_format_month_short')
+                - elsif course.start_date == Date.today
+                  = t('courses.starts_today')
+                - else
+                  = I18n.l course.start_date, format: t('global.date_format_month_short') + ' - '
+                  = I18n.l course.end_date, format: t('global.date_format_month_short')
+              - elsif course.start_date > Date.today
+                => t('courses.course-list.starting_soon')
+                = I18n.l course.start_date, format: t('global.date_format_month_short')
+              - elsif course.start_date == Date.today
+                = t('courses.course-list.starts_today')
+              - else
+                => t('courses.course-list.already_started')
+                = I18n.l course.start_date, format: t('global.date_format_month_short')
+            - else
+              = t('courses.no_dates_available')
+        .provider
+          img src = @provider_logos[course.mooc_provider.logo_id]

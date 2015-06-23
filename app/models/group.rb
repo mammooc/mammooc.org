@@ -6,6 +6,7 @@ class Group < ActiveRecord::Base
   has_many :recommendations
   has_many :course_requests
   has_many :group_invitations
+  include PublicActivity::Common
 
   has_attached_file :image,
     styles: {
@@ -20,6 +21,29 @@ class Group < ActiveRecord::Base
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
   validates_attachment_size :image, less_than: 1.megabyte
 
+  before_destroy :handle_activities
+  before_destroy :handle_recommendations
+
+  def handle_activities
+    PublicActivity::Activity.select {|activity| (activity.group_ids.present?) && (activity.group_ids.include? id) }.each do |activity|
+      delete_group_from_activity activity
+    end
+  end
+
+  def handle_recommendations
+    recommendations.destroy
+  end
+
+  def delete_group_from_activity(activity)
+    activity.group_ids -= [id]
+    activity.save
+    if activity.trackable_type == 'Recommendation'
+      Recommendation.find(activity.trackable_id).delete_group_recommendation
+    end
+    return unless (activity.user_ids.blank?) && (activity.group_ids.blank?)
+    activity.destroy
+  end
+
   def self.group_images_hash_for_groups(groups, images = {},  style = :medium, expire_time = 3600)
     groups.each do |group|
       unless images.key?(group.id)
@@ -27,6 +51,10 @@ class Group < ActiveRecord::Base
       end
     end
     images
+  end
+
+  def user_ids
+    users.collect(&:id)
   end
 
   def destroy
@@ -37,5 +65,34 @@ class Group < ActiveRecord::Base
 
   def admins
     User.find(UserGroup.where(group_id: id, is_admin: true).collect(&:user_id))
+  end
+
+  def average_enrollments
+    total_enrollments = 0
+    users.each do |user|
+      total_enrollments += user.courses.length
+    end
+    (total_enrollments.to_f / users.length.to_f).round(2)
+  end
+
+  def enrolled_courses_with_amount
+    enrolled_courses_array = []
+    users.each do |user|
+      enrolled_courses_array += user.courses
+    end
+    enrolled_courses = []
+    enrolled_courses_array.uniq.each do |enrolled_course|
+      enrolled_courses.push(course: enrolled_course, count: enrolled_courses_array.count(enrolled_course))
+    end
+    enrolled_courses = enrolled_courses.sort_by {|course_hash| course_hash[:name] }.reverse
+    enrolled_courses.sort_by {|course_hash| course_hash[:count] }.reverse
+  end
+
+  def enrolled_courses
+    enrolled_courses_array = []
+    users.each do |user|
+      enrolled_courses_array += user.courses
+    end
+    enrolled_courses_array.uniq
   end
 end

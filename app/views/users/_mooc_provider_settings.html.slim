@@ -41,6 +41,3 @@ h2
                 a href="#{provider[:oauth_link]}"
                   button.btn.btn-default data-mooc_provider="#{provider[:id]}" data-user_id="#{current_user.id}" id="sync-oauth-user-mooc_provider-connection-button"
                     = t('users.synchronization.establish_provider_connection')
-
-script type="text/javascript"
-  | bindClickEvents();
