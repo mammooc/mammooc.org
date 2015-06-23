@@ -293,6 +293,37 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'connected_users' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:second_user) { FactoryGirl.create(:user) }
+    let(:third_user) { FactoryGirl.create(:user) }
+    let(:userlist) do
+      result = FactoryGirl.create_list(:user, 5)
+      result += [user]
+      result += [third_user]
+      result
+    end
+    let!(:group1) { FactoryGirl.create(:group, users: userlist) }
+    let!(:group2) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
+
+    it 'returns all users of all my groups' do
+      result = user.connected_users
+      expect(result).to include second_user
+      userlist.each do |a|
+        expect(result).to include(a) unless a == user
+      end
+    end
+
+    it 'does not return the current user' do
+      expect(user.connected_users).not_to include user
+    end
+
+    it 'returns only unique users' do
+      result = user.connected_users
+      expect(result.detect {|e| result.count(e) > 1 }).to be_nil
+    end
+  end
+
   describe 'connected_groups_ids' do
     let(:user) { FactoryGirl.create(:user) }
     let!(:group1) { FactoryGirl.create(:group, users: [user]) }
