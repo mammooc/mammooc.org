@@ -156,7 +156,7 @@ addSetting = (event) ->
   user_id = button.data('user-id')
 
   ok_button = $('<button></button>')
-                .addClass('btn btn-default')
+                .addClass('btn btn-default new-item-ok')
                 .append($('<span></span>').addClass('glyphicon glyphicon-ok'))
   ok_button.on 'click', (event) ->
     event.preventDefault()
@@ -190,7 +190,7 @@ addSetting = (event) ->
       alert(I18n.t('flash.error.settings.input_empty', subject: I18n.t("flash.error.settings.#{subject}")))
 
   cancel_button = $('<button></button>')
-                    .addClass('btn btn-default')
+                    .addClass('btn btn-default new-item-cancel')
                     .append($('<span></span>').addClass('glyphicon glyphicon-remove'))
   cancel_button.on 'click', (event) ->
     event.preventDefault()
