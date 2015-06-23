@@ -1,0 +1,21 @@
+-if activity.trackable
+  .message
+    = link_to activity.owner
+      = "#{activity.owner.first_name} #{activity.owner.last_name}"
+    - if group_context
+      =<> t('newsfeed.group.join.group_context')
+    - else
+      =<> t('newsfeed.group.join.no_group_context1')
+      = link_to activity.trackable
+        = activity.trackable.name
+      =<> t('newsfeed.group.join.no_group_context2')
+  = I18n.l activity.created_at, format: t('global.date_format_month')
+  div
+  - if group_context == true && user_is_admin
+    span.remove-activity-group data-activity_id='#{activity.id}' data-group_id='#{group_id}'
+      a href=''
+        = t('newsfeed.button.ignore')
+  - elsif group_context == false
+    span.remove-activity-current-user.mr5 data-activity_id='#{activity.id}'
+      a href=''
+        = t('newsfeed.button.ignore')

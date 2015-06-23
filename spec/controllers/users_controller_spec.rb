@@ -155,10 +155,10 @@ RSpec.describe UsersController, type: :controller do
       expect_any_instance_of(OpenSAPUserWorker).to receive(:perform).with([user.id]).and_return(true)
       expect_any_instance_of(CourseraUserWorker).to receive(:perform).with([user.id]).and_return(true)
       get :synchronize_courses, format: :json, id: user.to_param
-      expect(assigns(:synchronization_state)[:open_hpi]).to eql true
-      expect(assigns(:synchronization_state)[:open_sap]).to eql true
+      expect(assigns(:synchronization_state)[:openHPI]).to eql true
+      expect(assigns(:synchronization_state)[:openSAP]).to eql true
       expect(assigns(:synchronization_state)[:coursera]).to eql true
-      expected_json = JSON.parse '{"partial":"No courses available","synchronization_state":{"open_hpi":true,"open_sap":true,"coursera":true}}'
+      expected_json = JSON.parse '{"partial":"No courses available","synchronization_state":{"openHPI":true,"openSAP":true,"coursera":true}}'
       expect(json).to eql expected_json
     end
   end

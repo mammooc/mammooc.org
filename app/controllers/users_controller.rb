@@ -17,7 +17,8 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @user_picture = current_user.profile_image.expiring_url(3600, :square)
+    @user_picture = @user.profile_image.expiring_url(3600, :square)
+    @bookmarks = current_user.bookmarks
   end
 
   # PATCH/PUT /users/1
@@ -49,8 +50,8 @@ class UsersController < ApplicationController
 
   def synchronize_courses
     @synchronization_state = {}
-    @synchronization_state[:open_hpi] = OpenHPIUserWorker.new.perform [current_user.id]
-    @synchronization_state[:open_sap] = OpenSAPUserWorker.new.perform [current_user.id]
+    @synchronization_state[:openHPI] = OpenHPIUserWorker.new.perform [current_user.id]
+    @synchronization_state[:openSAP] = OpenSAPUserWorker.new.perform [current_user.id]
     if CourseraUserWorker.new.perform [current_user.id]
       @synchronization_state[:coursera] = true
     else

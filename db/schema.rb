@@ -11,11 +11,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150611084826) do
+ActiveRecord::Schema.define(version: 20150616081527) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
+
+  create_table "activities", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.uuid     "trackable_id"
+    t.string   "trackable_type"
+    t.uuid     "owner_id"
+    t.string   "owner_type"
+    t.string   "key"
+    t.text     "parameters"
+    t.uuid     "recipient_id"
+    t.string   "recipient_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.uuid     "user_ids",       array: true
+    t.uuid     "group_ids",      array: true
+  end
+
+  add_index "activities", ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type", using: :btree
+  add_index "activities", ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type", using: :btree
+  add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
 
   create_table "approvals", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.datetime "date"
@@ -40,10 +59,12 @@ ActiveRecord::Schema.define(version: 20150611084826) do
 
   create_table "certificates", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "title"
-    t.string   "file_id"
     t.uuid     "completion_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.string   "download_url",     null: false
+    t.string   "verification_url"
+    t.string   "document_type"
   end
 
   add_index "certificates", ["completion_id"], name: "index_certificates_on_completion_id", using: :btree
@@ -61,14 +82,13 @@ ActiveRecord::Schema.define(version: 20150611084826) do
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "completions", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.integer  "position_in_course"
-    t.float    "points"
-    t.string   "permissions",                     array: true
-    t.datetime "date"
+    t.float    "quantile"
+    t.float    "points_achieved"
     t.uuid     "user_id"
     t.uuid     "course_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.float    "provider_percentage"
   end
 
   add_index "completions", ["course_id"], name: "index_completions_on_course_id", using: :btree
@@ -151,6 +171,9 @@ ActiveRecord::Schema.define(version: 20150611084826) do
     t.string   "subtitle_languages"
     t.integer  "calculated_duration_in_days"
     t.string   "provider_given_duration"
+    t.float    "calculated_rating"
+    t.integer  "rating_count"
+    t.float    "points_maximal"
   end
 
   add_index "courses", ["course_result_id"], name: "index_courses_on_course_result_id", using: :btree
@@ -162,15 +185,19 @@ ActiveRecord::Schema.define(version: 20150611084826) do
   end
 
   create_table "evaluations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.string   "title"
     t.float    "rating"
     t.boolean  "is_verified"
     t.text     "description"
-    t.datetime "date"
     t.uuid     "user_id"
     t.uuid     "course_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+    t.integer  "course_status"
+    t.boolean  "rated_anonymously"
+    t.integer  "evaluation_rating_count",         default: 0, null: false
+    t.integer  "evaluation_helpful_rating_count", default: 0, null: false
+    t.datetime "update_date"
+    t.datetime "creation_date"
   end
 
   add_index "evaluations", ["course_id"], name: "index_evaluations_on_course_id", using: :btree

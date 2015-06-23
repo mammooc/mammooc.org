@@ -1,0 +1,84 @@
+.certificates-download-box {
+  @extend .content-box;
+  margin-bottom: 30px;
+
+  .box {
+    float: left;
+    border-right: 2px solid #ddd;
+    text-align: center;
+    padding: 10px;
+    line-height: 36px;
+
+    span {
+      font-size: 24px;
+      vertical-align: -2px;
+    }
+
+    &:hover {
+      background-color: $gray-ultra-light;
+    }
+  }
+
+  .verify-entry {
+    @extend .box;
+    line-height: 3px;
+    border-top: 1px solid #ddd;
+  }
+
+  .no-verify-entry {
+    @extend .verify-entry;
+
+    &:hover {
+      background-color: initial;
+    }
+  }
+
+  .no-border {
+    border-right: 0px;
+  }
+
+  .certificates-3 {
+    width: 33.3%;
+  }
+
+  .certificates-3-no-border {
+    @extend .no-border;
+    width: 33.4%;
+  }
+
+  .certificates-2 {
+    width: 50.0%;
+  }
+
+  .certificates-2-no-border {
+    @extend .no-border;
+    width: 50.0%;
+  }
+
+  .certificates-1 {
+    width: 100.0%;
+  }
+
+  .certificates-1-no-border {
+    @extend .no-border;
+    width: 100.0%;
+  }
+}
+
+.white-background {
+  background: #fff;
+}
+
+.verify-true {
+  height: 82px;
+}
+
+.verify-false {
+  height: 58px;
+}
+
+img.provider-logo {
+  height: 35px;
+  position: relative;
+  top: -2.5px;
+}

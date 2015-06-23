@@ -44,4 +44,45 @@ RSpec.describe AbstractCourseWorker do
     allow(abstract_course_worker).to receive(:course_data).and_raise RestClient::ResourceNotFound
     expect { abstract_course_worker.load_courses }.not_to raise_error
   end
+
+  it 'parses markdown' do
+    markdown = '_Hello World_!'
+    html = "<p><em>Hello World</em>!</p>\n"
+    expect(abstract_course_worker.parse_markdown(markdown)).to eql html
+  end
+
+  context 'converts relative URLs to absolute ones' do
+    let(:relative_html) do
+      "<p><a href=''>JavaScript Method</a></p>\n<p><video src='https://youtube.example.com/watch/?v=123' /></p>\n<p><img src='/files/image01.jpg'/></p>"
+    end
+
+    let(:absolute_html) do
+      "<p><a href=\"\">JavaScript Method</a></p>\n<p><video src=\"https://youtube.example.com/watch/?v=123\"></video></p>\n<p><img src=\"https://www.example.com/files/image01.jpg\"></p>"
+    end
+
+    before(:each) do
+      stub_const('AbstractCourseWorker::COURSE_LINK_BODY', 'https://www.example.com/courses')
+    end
+
+    it 'does not add a DOCTYPE' do
+      expect(abstract_course_worker.convert_to_absolute_urls(relative_html)).not_to include('<html>')
+      expect(abstract_course_worker.convert_to_absolute_urls(relative_html)).not_to include('<head>')
+      expect(abstract_course_worker.convert_to_absolute_urls(relative_html)).not_to include('<body>')
+    end
+
+    it 'accepts empty URL attributes' do
+      expect { abstract_course_worker.convert_to_absolute_urls(relative_html) }.not_to raise_error
+      expect(abstract_course_worker.convert_to_absolute_urls(relative_html)).to include('<a href="">')
+    end
+
+    it 'does not change existing hosts' do
+      expect(abstract_course_worker.convert_to_absolute_urls(relative_html)).to include('<video src="https://youtube.example.com/watch/?v=123"></video>')
+    end
+
+    it 'changes relative URLs' do
+      expect(abstract_course_worker.convert_to_absolute_urls(relative_html)).to include('<img src="https://www.example.com/files/image01.jpg">')
+      expect(abstract_course_worker.convert_to_absolute_urls(relative_html)).not_to include('<img src="/files/image01.jpg">')
+      expect(abstract_course_worker.convert_to_absolute_urls(relative_html)).to eql absolute_html
+    end
+  end
 end

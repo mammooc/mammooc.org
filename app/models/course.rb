@@ -16,6 +16,7 @@ class Course < ActiveRecord::Base
                         :sorted_by,
                         :bookmarked]
   )
+  include PublicActivity::Common
 
   belongs_to :mooc_provider
   belongs_to :course_result
@@ -25,8 +26,8 @@ class Course < ActiveRecord::Base
   has_and_belongs_to_many :users
   has_many :course_requests
   has_many :progresses
-  has_many :bookmarks
-  has_many :evaluations
+  has_many :bookmarks, dependent: :destroy
+  has_many :evaluations, dependent: :destroy
   has_many :course_assignments
   has_many :user_assignments
   has_many :tracks, class_name: 'CourseTrack', dependent: :destroy
@@ -36,6 +37,7 @@ class Course < ActiveRecord::Base
   before_save :check_and_update_duration
   after_save :create_and_update_course_connections
   before_destroy :delete_dangling_course_connections
+  before_destroy :handle_activities, prepend: true
 
   scope :sorted_by, ->(sort_option) do
     direction = (sort_option =~ /desc$/) ? 'desc' : 'asc'
@@ -48,12 +50,13 @@ class Course < ActiveRecord::Base
         order("courses.calculated_duration_in_days IS NULL, courses.calculated_duration_in_days #{direction}")
       when /^relevance_/
         order("CASE
-                WHEN start_date = to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 1
-                WHEN start_date > to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') AND start_date < to_timestamp('#{(Time.zone.now + 2.weeks).strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 2
-                WHEN start_date < to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') AND end_date IS NOT NULL AND end_date > to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 3
+                WHEN start_date > to_timestamp('#{(Time.zone.now - 1.weeks).strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 1
+                WHEN start_date <= to_timestamp('#{(Time.zone.now - 1.weeks).strftime('%Y-%m-%d')}', 'YYYY-MM-DD') AND end_date IS NOT NULL AND end_date > to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 2
+                WHEN start_date <= to_timestamp('#{(Time.zone.now - 1.weeks).strftime('%Y-%m-%d')}', 'YYYY-MM-DD') AND end_date IS NOT NULL AND end_date <= to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 3
                 WHEN start_date IS NULL THEN 5
                 ELSE 4
-              END")
+              END,
+              start_date ASC")
       else
         raise ArgumentError.new "Invalid sort option: #{sort_option.inspect}"
     end
@@ -260,7 +263,11 @@ class Course < ActiveRecord::Base
      [I18n.t('courses.filter.sort.duration_desc'), 'duration_desc']]
   end
 
-  self.per_page = 10
+  self.per_page = 20
+
+  def bookmarked_by_user?(user)
+    bookmarks.where(user_id: user.id).any?
+  end
 
   def self.get_course_id_by_mooc_provider_id_and_provider_course_id(mooc_provider_id, provider_course_id)
     course = Course.find_by(provider_course_id: provider_course_id, mooc_provider_id: mooc_provider_id)
@@ -268,6 +275,31 @@ class Course < ActiveRecord::Base
       return course.id
     else
       return nil
+    end
+  end
+
+  def self.update_course_rating_attributes(course_id)
+    course = Course.find(course_id)
+    course_evaluations = Evaluation.find_by_course_id(course_id)
+    if course_evaluations.present?
+      course.calculated_rating = Evaluation.where(course_id: course_id).average(:rating)
+      course.rating_count = Evaluation.where(course_id: course_id).count
+    else
+      course.calculated_rating = 0
+      course.rating_count = 0
+    end
+    course.save
+  end
+
+  def handle_activities
+    PublicActivity::Activity.find_each do |activity|
+      case activity.trackable_type
+        when 'Recommendation' then course = Recommendation.find(activity.trackable_id).course
+        when 'Course' then course = Course.find(activity.trackable_id)
+        when 'Bookmark' then course = Bookmark.find(activity.trackable_id).course
+        else course = nil
+      end
+      activity.destroy if course == self
     end
   end
 

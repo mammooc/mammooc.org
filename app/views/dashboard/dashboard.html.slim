@@ -1,5 +1,5 @@
 - content_for :title
-  = t('dashboard.title') + " | " + "#{t('global.app_name')}"
+  = "#{t('dashboard.title')} | #{t('global.app_name')}"
 
 .main-section
   .dashboard-top
@@ -13,14 +13,15 @@
         => t('dashboard.last_time_active')
         = I18n.l current_user.last_sign_in_at, format: t('global.date_format_month')
     .user-info.hidden-xs.link-black-hover-green
+      - if @number_of_mandatory_recommendations != 0
+        = t('dashboard.you_have')
+          =< link_to t('dashboard.number_of_mandatory_recommendations', number: @number_of_mandatory_recommendations), recommendations_path
+        br
       = t('dashboard.you_have')
       =< link_to t('dashboard.number_of_recommendations', number: @number_of_recommendations), recommendations_path
       br
-        // not implemented yet
-      = t('dashboard.number_of_activities')
+      = t('dashboard.number_of_activities', number: @number_of_activities)
       br
-        // if we don't show recommendations / activities (because there are none), this would show up
-      | There are more news here.
 
   .dashboard-actions.hidden-xs
     = link_to current_user
@@ -36,13 +37,13 @@
         img src="/data/icons/certificate.png"
         = t('dashboard.search_courses')
 
-  - if @number_of_recommendations == 0
+  - if @number_of_activities == 0
     .element
       .no-content-alert
-        = t('recommendation.no_recommendation')
+        = t('newsfeed.no_activities')
   - else
     .recommendations-wrapper
-      - @recommendations.each_with_index do |recommendation, index|
-        = render 'recommendations/recommendation', recommendation: recommendation, id: "recommendation_number_#{index}", group_context: false
-
+      - if @activities.present?
+        - @activities.each do |activity|
+          = render_activity activity, layout: :activity, locals: {group_context: false, author: activity.owner, bookmarked: @activity_courses_bookmarked[activity.id], course: @activity_courses[activity.id], signed_in_user: current_user, user_is_admin: false}
 = render 'sidebar'

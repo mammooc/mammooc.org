@@ -2,42 +2,6 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-ready = ->
-  $('.remove-recommendation-group').click(delete_group_recommendation)
-  $('.remove-recommendation-current-user').click(delete_user_from_recommendation)
-  return
-
-$(document).ready(ready)
-
-delete_group_recommendation = () ->
-  recommendation_id = $(this).data('recommendation_id')
-  recommendation = $(this).closest('.recommendations')
-
-  $.ajax
-    url: "/recommendations/#{recommendation_id}/delete_group_recommendation"
-    method: 'GET'
-    error: (jqXHR, textStatus, errorThrown) ->
-      console.log('group delete recommendation error')
-      alert(I18n.t('global.ajax_failed'))
-    success: (data, textStatus, jqXHR) ->
-      recommendation.remove()
-  return false
-
-
-delete_user_from_recommendation = () ->
-  recommendation_id = $(this).data('recommendation_id')
-  recommendation = $(this).closest('.recommendations')
-
-  $.ajax
-    url: "/recommendations/#{recommendation_id}/delete_user_from_recommendation"
-    method: 'GET'
-    error: (jqXHR, textStatus, errorThrown) ->
-      console.log('user delete recommendation error')
-      alert(I18n.t('global.ajax_failed'))
-    success: (data, textStatus, jqXHR) ->
-      recommendation.remove()
-  return false
-
 group_ids = []
 groups_autocomplete = []
 users_autocomplete = []
@@ -64,7 +28,6 @@ get_my_groups = () ->
       console.log('error_get_my_groups')
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
-      console.log('success_get_my_groups')
       for group in data
         group_ids.push(group.id)
         groups_autocomplete.push({ value: group.id, label: group.name })
@@ -82,7 +45,6 @@ generate_users_autocomplete = () ->
         console.log('users error')
         alert(I18n.t('global.ajax_failed'))
       success: (data, textStatus, jqXHR) ->
-        console.log('users success')
         for user in data.group_members
           users_autocomplete.push({ value: user.id, label: user.first_name + ' ' + user.last_name })
 
@@ -113,7 +75,6 @@ get_my_admin_groups = () ->
       console.log('error_get_my_admin_groups')
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
-      console.log('success_get_my_admin_groups')
       for group in data
         group_ids.push(group.id)
         groups_autocomplete.push({ value: group.id, label: group.name })
@@ -131,7 +92,6 @@ generate_users_autocomplete_obligatory_recommendation = () ->
         console.log('users error')
         alert(I18n.t('global.ajax_failed'))
       success: (data, textStatus, jqXHR) ->
-        console.log('users success')
         for user in data.group_members
           users_autocomplete.push({ value: user.id, label: user.first_name + ' ' + user.last_name })
 
@@ -176,7 +136,6 @@ fill_in_with_params = () ->
         console.log('group id error')
         alert(I18n.t('global.ajax_failed'))
       success: (data, textStatus, jqXHR) ->
-        console.log('group id success')
         group_name = data.name
         $('#recommendation_related_group_ids').tokenfield('setTokens', [{value: group_id, label: group_name}])
 

@@ -8,17 +8,17 @@ class User < ActiveRecord::Base
   has_many :emails, class_name: 'UserEmail', dependent: :destroy
   has_many :user_groups, dependent: :destroy
   has_many :groups, through: :user_groups
-  has_many :recommendations
+  has_many :created_recommendations, foreign_key: 'author_id', class_name: 'Recommendation'
   has_and_belongs_to_many :recommendations
   has_many :comments
   has_many :mooc_provider_users, dependent: :destroy
   has_many :mooc_providers, through: :mooc_provider_users
-  has_many :completions
+  has_many :completions, dependent: :destroy
   has_and_belongs_to_many :courses
   has_many :course_requests
   has_many :approvals
   has_many :progresses
-  has_many :bookmarks
+  has_many :bookmarks, dependent: :destroy
   has_many :evaluations
   has_many :user_assignments
   has_many :identities, class_name: 'UserIdentity', dependent: :destroy
@@ -38,13 +38,26 @@ class User < ActiveRecord::Base
   validates_attachment_size :profile_image, less_than: 1.megabyte
 
   before_destroy :handle_group_memberships, prepend: true
+  before_destroy :handle_evaluations, prepend: true
+  before_destroy :handle_activities
+  before_destroy :handle_recommendations
   after_commit :save_primary_email, on: [:create, :update]
 
   def self.author_profile_images_hash_for_recommendations(recommendations, style = :square, expire_time = 3600)
     author_images = {}
     recommendations.each do |recommendation|
-      unless author_images.key?("#{recommendation.author.id} #{recommendation.author.profile_image_file_name}")
-        author_images["#{recommendation.author.id} #{recommendation.author.profile_image_file_name}"] = recommendation.author.profile_image.expiring_url(expire_time, style)
+      unless author_images.key?("#{recommendation.author.id}")
+        author_images["#{recommendation.author.id}"] = recommendation.author.profile_image.expiring_url(expire_time, style)
+      end
+    end
+    author_images
+  end
+
+  def self.author_profile_images_hash_for_activities(activities, style = :square, expire_time = 3600)
+    author_images = {}
+    activities.each do |activity|
+      unless author_images.key?("#{activity.owner_id}")
+        author_images["#{activity.owner_id}"] = activity.owner.profile_image.expiring_url(expire_time, style)
       end
     end
     author_images
@@ -52,8 +65,8 @@ class User < ActiveRecord::Base
 
   def self.user_profile_images_hash_for_users(users, images = {}, style = :square, expire_time = 3600)
     users.each do |user|
-      unless images.key?("#{user.id} #{user.profile_image_file_name}")
-        images["#{user.id} #{user.profile_image_file_name}"] = user.profile_image.expiring_url(expire_time, style)
+      unless images.key?("#{user.id}")
+        images["#{user.id}"] = user.profile_image.expiring_url(expire_time, style)
       end
     end
     images
@@ -71,6 +84,38 @@ class User < ActiveRecord::Base
         group.destroy
       end
     end
+  end
+
+  def handle_evaluations
+    evaluations.each do |evaluation|
+      evaluation.user_id = nil
+      evaluation.rated_anonymously = true
+      evaluation.save
+    end
+  end
+
+  def handle_recommendations
+    recommendations.each do |recommendation|
+      recommendation.delete_user_from_recommendation self
+    end
+    Recommendation.where(author: self).destroy_all
+  end
+
+  def handle_activities
+    PublicActivity::Activity.where(owner_id: id).find_each(&:destroy)
+    PublicActivity::Activity.select {|activity| (activity.user_ids.present?) && (activity.user_ids.include? id) }.each do |activity|
+      delete_user_from_activity activity
+    end
+  end
+
+  def delete_user_from_activity(activity)
+    activity.user_ids -= [id]
+    activity.save
+    if activity.trackable_type == 'Recommendation'
+      Recommendation.find(activity.trackable_id).delete_user_from_recommendation self
+    end
+    return unless (activity.user_ids.blank?) && (activity.group_ids.blank?)
+    activity.destroy
   end
 
   def common_groups_with_user(other_user)
@@ -188,9 +233,7 @@ class User < ActiveRecord::Base
   def connected_users_ids
     connected_users = []
     groups.each do |group|
-      group.users.each do |user|
-        connected_users << user.id if user.id != id
-      end
+      connected_users += group.users.reject {|user| user.id == id }.collect(&:id)
     end
     connected_users.uniq
   end
@@ -198,19 +241,13 @@ class User < ActiveRecord::Base
   def connected_users
     connected_users = []
     groups.each do |group|
-      group.users.each do |user|
-        connected_users << user if user.id != id
-      end
+      connected_users += group.users.reject {|user| user.id == id }
     end
     connected_users.uniq
   end
 
   def connected_groups_ids
-    connected_groups = []
-    groups.each do |group|
-      connected_groups << group.id
-    end
-    connected_groups.uniq
+    groups.collect(&:id)
   end
 
   def self.process_uri(uri)
@@ -238,7 +275,7 @@ class User < ActiveRecord::Base
 
   def setting(key, create_new = false)
     setting = settings.find_by(name: key)
-    if !setting && create_new
+    if setting.nil? && create_new
       setting = UserSetting.create!(name: key, user: self)
     end
     setting

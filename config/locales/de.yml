@@ -28,12 +28,13 @@ de:
     save: Speichern
     cancel: Abbrechen
     edit: Bearbeiten
-    by: 'von '
+    by: von
     ajax_failed: Hoppla! Bei der Anforderung ist etwas schief gelaufen. Bitte versuche es erneut.
     show_more: Mehr anzeigen
     show_less: Weniger anzeigen
     show_details: Details anzeigen
     date_format_month: '%-d. %B %Y'
+    date_format_month_short: '%d.%m.%y'
     search: Suche
 
   will_paginate:
@@ -81,7 +82,7 @@ de:
   footer:
     title: Mehr Informationen
     about: Über mammooc
-    about_text: "mammooc ist ein Projekt, das von sechs Bachelorstudenten des Hasso-Plattner-Instituts entwickelt worden ist. mammooc bietet die Möglichkeit, persönliche Lernerfolge zu sammeln und zu teilen. Nutzer können Online-Lernkurse, so genannte MOOCs, vormerken, belegen und empfehlen. Über Gruppen verbinden sie sich mit anderen."
+    about_text: mammooc ist ein Projekt, das von sechs Bachelorstudenten des Hasso-Plattner-Instituts entwickelt worden ist. mammooc bietet die Möglichkeit, persönliche Lernerfolge zu sammeln und zu teilen. Nutzer können Online-Lernkurse, so genannte MOOCs, vormerken, belegen und empfehlen. Über Gruppen verbinden sie sich mit anderen.
     hpi: Hasso-Plattner-Institut
     imprint: Impressum
 
@@ -94,8 +95,9 @@ de:
     edit_group: Gruppe bearbeiten
     no_courses: :courses.no_courses
     you_have: Du hast
+    number_of_mandatory_recommendations: '%{number} Vorschreibungen'
     number_of_recommendations: '%{number} Empfehlungen'
-    number_of_activities: Es gibt 2 neue Aktivitäten in deinen Gruppen
+    number_of_activities: Es gibt %{number} aktuelle Aktivitäten in deinen Gruppen
     complete_profile: Vervollständige dein Profil
     manage_groups: Verwalte deine Gruppen
     search_courses: Finde passende Kurse
@@ -103,10 +105,12 @@ de:
     bookmarks: :bookmarks.my_bookmarks
     no_bookmarks: :bookmarks.no_bookmarks
     course_starts_at: beginnt am
+    activities: Aktivitäten
+    error_synchronize_courses: Bei der Aktualisierung der Kurse bei %{provider} trat ein interner Fehler auf.
 
   home:
     welcome_heading: Willkommen bei mammooc!
-    welcome_title: "mammooc: Registriere Dich noch heute!"
+    welcome_title: "mammooc: Registriere dich noch heute!"
     hello: Hallo
 
   bookmarks:
@@ -139,8 +143,8 @@ de:
         login: Mit dem neuen Personalausweis anmelden
         notice: "Hinweis: Die %{link} muss gestartet sein, damit du dich mit dem neuen Personalausweis anmelden kannst."
         link: AusweisApp
-        success: Du hast Dich erfolgreich mit Deinem neuen Personalausweis angemeldet.
-        failure: Du konntest nicht mit Deinem Personalausweis angemeldet werden. Bitte versuche es erneut oder wähle ein anderes Anmeldeverfahren.
+        success: Du hast dich erfolgreich mit deinem neuen Personalausweis angemeldet.
+        failure: Du konntest nicht mit deinem Personalausweis angemeldet werden. Bitte versuche es erneut oder wähle ein anderes Anmeldeverfahren.
     password:
       forgot: Passwort vergessen?
       reset: Neues Passwort anfordern
@@ -159,6 +163,7 @@ de:
       new_password_confirmation: Passwortbestätigung
       new_password_info: Feld frei lassen, wenn das Passwort nicht geändert werden soll
       cancel_account: Account löschen
+      confirm_cancel_account: Bist du sicher, dass du deinen Accout löschen möchtest?
       update_account: Aktualisieren
       pending_mail_confirmation: 'Warte auf Bestätigung für:'
       still_admin_in_group_error: Account konnte nicht gelöscht werden. Du bist noch Administrator einer Gruppe.
@@ -195,12 +200,15 @@ de:
       establish_provider_connection: Verbindung herstellen
     profile:
       title: Dein Profil
-      about_me: "Über mich:"
+      about_me: Über mich
       groups: Gruppen
-      current_courses: Belegungen
-      currently_nothing: Keine
+      current_courses: Deine Belegungen
+      currently_no_courses: Du hast zurzeit keine Kurse belegt.
       edit_profile_title: Profil bearbeiten
       editing_profile: Profil bearbeiten
+      bookmarks: Deine Vormerkungen
+      currently_no_bookmarks: Du hast zurzeit keine Kurse vorgemerkt.
+      starts: beginnt am
 
   groups:
     title: Meine Gruppen | mammooc
@@ -231,7 +239,7 @@ de:
       title: Mitglieder zur Gruppe hinzufügen
       invite_members: Mitglieder einladen
       text: E-Mail-Adressen durch Komma getrennt eingeben
-      error: 'Fehler: Nicht alle Emails konnten zugestellt werden. Bitte überprüfe die verbleibenden E-Mails'
+      error: 'Fehler: Nicht alle E-Mails konnten zugestellt werden. Bitte überprüfe die verbleibenden E-Mails'
     all_members:
       administrator: AdministratorIn
       add_admin: Als AdministratorIn hinzufügen
@@ -251,6 +259,16 @@ de:
       confirm_leave_group: Gruppe verlassen
       confirm_remove_member: Mitglied entfernen
       yourself: dich
+    statistics:
+      average_enrollments: In dieser Gruppe gibt es durchschnittlich %{number} Kursbelegungen pro Mitglied.
+      average_enrollments_title: Durchschnittliche Anzahl der Kursbelegungen
+      enrolled_courses: Kursbelegungen
+      one_enrollment: 1 Mitglied
+      number_of_enrollments: '%{number} Mitglieder'
+      synchronize: Daten aller Mitglieder synchronisieren
+      information_title: 'Hinweis:'
+      information:  Für die Statistiken werden nur Daten von Nutzern verwendet, die diese freigegeben haben.
+      number_of_share_member: In dieser Gruppe haben %{number} Mitglieder ihre Daten freigegeben.
 
   activerecord:
     models:
@@ -299,10 +317,6 @@ de:
     title: Kursübersicht | mammooc
     heading: Kurse
     no_courses: Keine Kurse verfügbar
-    starting_soon: Kurs beginnt am
-    starts_today: Kurs beginnt heute
-    already_running: Kurs läuft
-    course_dates: 'Zeitraum:'
     about: Über diesen Kurs
     abstract: Zusammenfassung
     description: Kursbeschreibung
@@ -310,7 +324,6 @@ de:
     mooc_provider: Kursanbieter
     instructors: Lehrpersonen
     time: Zeitraum
-    starting_time: Startdatum
     language: Sprache
     requirements: Voraussetzungen
     achievement: Abschluss
@@ -327,11 +340,8 @@ de:
     recommend_course_obligatory: Kurs vorschreiben
     rate_course: Kurs bewerten
     recommendations: Empfehlungen
-    user_belongs_to_group: 'Gruppe: '
-    user_belongs_to_groups: 'Gruppen: '
     rating: Bewertung
     credit_points: Leistungspunkte
-    no_dates_available: Es wurde kein Zeitraum angegeben
     duration: Dauer
     subtitle_languages: Verfügbare Untertitel
     previous_iteration: Vorheriger Durchlauf
@@ -340,6 +350,24 @@ de:
     unenrollment_error: Das Entfernen der Belegung beim MOOC-Anbieter hat leider nicht funktioniert.
     require_login: Du musst angemeldet sein, um diese Funktionalität nutzen zu können.
     register_first: Bitte registriere dich.
+
+    # attention: this part is also used for recommendations
+    starting_soon: Kurs beginnt am
+    starts_today: Kurs beginnt heute
+    already_running: Kurs läuft
+    course_dates: 'Zeitraum:'
+    starting_time: Startdatum
+    no_dates_available: Kein Zeitraum verfügbar
+    course-list:
+      starting_soon: Startet am
+      already_started: Startete am
+      starts_today: Beginnt heute
+      already_running: Kurs läuft
+      load_more: Mehr anzeigen
+      bookmark: Vormerken
+      remove-bookmark: Vormerkung entfernen
+      enroll: Belegen
+      unenroll: Belegung entfernen
     sidebar:
       recommended: Dieser Kurs wurde dir empfohlen
       pledged: Dieser Kurs wurde dir vorgeschrieben
@@ -404,10 +432,9 @@ de:
         duration_desc: "Dauer: absteigend"
         duration_asc: "Dauer: aufsteigend"
         name_desc: "Titel: Z-A"
-        name_asc: "Titel"
+        name_asc: Titel
         start_date_relevance: Aktuellste zuerst
       reset: Filter zurücksetzen
-
     languages:
       ar: Arabisch
       cn: Chinesisch
@@ -437,6 +464,51 @@ de:
       zh-cn: Chinesisch (China)
       zh-tw: Chinesisch (Taiwan)
 
+  evaluations:
+    heading: Kursbewertung
+    please_sign_in: Bitte melde dich an, um diesen Kurs zu bewerten. Du hast noch keinen Account?
+    path_to_registration: Hier geht's zur Registrierung
+    users_found_evaluation_helpful: '%{helpful_rating_count} von %{rating_count} Nutzern fanden diese Bewertung hilfreich'
+    did_you_like_evaluation: Wie fandest du diese Bewertung?
+    helpful: Hilfreich
+    not_helpful: Nicht Hilfreich
+    no_evaluations: Leider gibt es noch keine Bewertungen für diesen Kurs :(
+    already_evaluated: Hi %{first_name}, du hast diesen Kurs bewertet. Vielen Dank für dein Feedback!
+    modify_evaluation: Bewertung anpassen
+    overall_evaluation: Gesamtbewertung
+    additional_notes: Anmerkungen
+    help_other_users: Hilf anderen Nutzern diesen Kurs besser einzuschätzen!
+    course_status: In welchem Verhältnis stehst du zum Kurs?
+    aborted: Abgebrochen
+    currently_enrolled: Gerade belegt
+    finished: Abgeschlossen
+    send_evaluation: Bewertung abschicken
+    update_evaluation: Bewertung aktualisieren
+    anonymous_evaluation: Gib meine Bewertung anonym ab
+    aborted_course: hat den Kurs abgebrochen
+    currently_enrolled_course: belegt den Kurs gerade
+    finished_course: hat den Kurs abgeschlossen
+    state_overall_rating: Die Gesamtbewertung muss angegeben werden!
+    state_course_status: Dein Kursstatus muss angegeben werden!
+    thanks_for_feedback: Danke für dein Feedback!
+    anonymous: Anonymous
+
+  newsfeed:
+    button:
+      ignore: Ignorieren
+      course_details: Details ansehen
+    bookmark:
+      create: hat eine Vormerkung erstellt
+    course:
+      enroll: hat sich in einen Kurs eingeschrieben
+    group:
+      join:
+        group_context: ist der Gruppe beigetreten
+        no_group_context1: ist der Gruppe
+        no_group_context2: beigetreten
+    successfully_destroyed: Eintrag erfolgreich gelöscht.
+    no_activities: Es gibt derzeit keine Aktivitäten in deinen Gruppen.
+
   recommendation:
     submit: Empfehlung erstellen
     placeholder: Gib deine persönliche Nachricht hier ein ...
@@ -464,16 +536,12 @@ de:
     successfully_destroyed: Empfehlung erfolgreich gelöscht.
     creation_error: Fehler beim Erstellen.
     update_error: Fehler beim Bearbeiten.
-    no_groups: Du braucht eine Gruppe um Empfehlungen zu erstellen.
+    no_groups: Du brauchst eine Gruppe, um Empfehlungen zu erstellen.
     no_admin_groups: Du hast keine Gruppen, für die du berechtigt bist Vorschreibungen zu erstellen.
     obligatory_recommendation:
       submit: Vorschreibung erstellen
       successfully_created: Vorschreibung erfolgreich erstellt.
       new: Neue Vorschreibung
-
-    button:
-      ignore: Empfehlung ignorieren
-      course_details: Details ansehen
     group:
       no_recommendation: Diese Gruppe hat momentan keine Empfehlungen.
       has_pledged: hat diesen Kurs vorgeschrieben.
@@ -484,6 +552,19 @@ de:
       recommended_course_to: hat diesen Kurs empfohlen für
     course:
       already_enrolled: Du belegst diesen Kurs bereits.
+
+  completions:
+    my_heading: Meine Abschlüsse
+    other_user_heading: Abschlüsse von %{user}
+    points_achieved: "%{points_achieved} Punkte erreicht"
+    points_achieved_of_maximal: "%{points_achieved} von %{points_maximal} Punkten erreicht"
+    verify: Verifizieren
+    unable_to_verify: Verifizierung (noch) nicht möglich
+    confirmation_of_participation: Teilnahmebestätigung
+    record_of_achievement: Leistungsnachweis
+    certificate: Zertifikat
+    no_visible: '%{user} hat keine Abschlüsse zur Anzeige freigegeben.'
+    no_completion: Du hast noch keinen Abschluss. Belege einen Kurs und schließe ihn ab, damit deine Erfolge hier angezeigt werden.
 
   flash:
     #success:

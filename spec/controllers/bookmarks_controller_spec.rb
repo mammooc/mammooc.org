@@ -26,6 +26,12 @@ RSpec.describe BookmarksController, type: :controller do
         end.to change(Bookmark, :count).by(1)
       end
 
+      it 'creates a new Bookmark Activity' do
+        expect do
+          post :create, bookmark: valid_attributes
+        end.to change(PublicActivity::Activity, :count).by(1)
+      end
+
       it 'assigns a newly created bookmark as @bookmark' do
         post :create, bookmark: valid_attributes
         expect(assigns(:bookmark)).to be_a(Bookmark)

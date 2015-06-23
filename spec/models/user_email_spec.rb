@@ -22,12 +22,12 @@ RSpec.describe UserEmail, type: :model do
 
     it 'does not create a second primary address' do
       FactoryGirl.create(:user_email, user: user)
-      expect { described_class.create!(user: user, is_primary: true, address: 'max@example.com') }.to raise_error
+      expect { described_class.create!(user: user, is_primary: true, address: 'max@example.com') }.to raise_error ActiveRecord::RecordInvalid
       expect(described_class.where(user: user, is_primary: true).count).to eql 1
     end
 
     it 'does not allow to create a non primary address if no primary address is saved yet' do
-      expect { described_class.create!(user: user, is_primary: false, address: 'max@example.com') }.to raise_error
+      expect { described_class.create!(user: user, is_primary: false, address: 'max@example.com') }.to raise_error ActiveRecord::RecordInvalid
     end
 
     it 'creates non primary addresses if a primary address is saved' do
@@ -41,7 +41,7 @@ RSpec.describe UserEmail, type: :model do
     it 'is not allowed to remove the is_primary attribute without changing another address to the primary' do
       email = FactoryGirl.create(:user_email, user: user)
       email.is_primary = false
-      expect { email.save! }.to raise_error
+      expect { email.save! }.to raise_error ActiveRecord::RecordInvalid
       expect(email).not_to be_valid
       expect(described_class.where(user: user, is_primary: true).count).to eql 1
     end
@@ -62,7 +62,7 @@ RSpec.describe UserEmail, type: :model do
       FactoryGirl.create(:user_email, user: user, is_primary: true)
       email2 = FactoryGirl.create(:user_email, user: user, is_primary: false)
       email2.is_primary = true
-      expect { email2.save! }.to raise_error
+      expect { email2.save! }.to raise_error ActiveRecord::RecordInvalid
       expect(email2).not_to be_valid
       expect(described_class.where(user: user, is_primary: true).count).to eql 1
     end
@@ -78,7 +78,7 @@ RSpec.describe UserEmail, type: :model do
 
     it 'is not allowed to destroy the primary address' do
       email = FactoryGirl.create(:user_email, user: user)
-      expect { email.destroy! }.to raise_error
+      expect { email.destroy! }.to raise_error NoMethodError
       restored_email = described_class.find_by(email.attributes.except('created_at', 'updated_at'))
       expect(restored_email.attributes.except('created_at', 'updated_at')).to eql email.attributes.except('created_at', 'updated_at')
       expect(described_class.where(user: user, is_primary: true).count).to eql 1
@@ -120,7 +120,7 @@ RSpec.describe UserEmail, type: :model do
       end
 
       it 'does not accepts nil' do
-        expect { described_class.create!(user: user, is_primary: true, address: 'max@example.com', is_verified: nil) }.to raise_error
+        expect { described_class.create!(user: user, is_primary: true, address: 'max@example.com', is_verified: nil) }.to raise_error ActiveRecord::RecordInvalid
       end
     end
 
@@ -131,33 +131,33 @@ RSpec.describe UserEmail, type: :model do
       end
 
       it 'does not accept invalid addresses without reciever' do
-        expect { described_class.create!(user: user, is_primary: true, address: '@example.com') }.to raise_error
+        expect { described_class.create!(user: user, is_primary: true, address: '@example.com') }.to raise_error ActiveRecord::RecordInvalid
       end
 
       it 'does not accept invalid addresses without @ or TLD' do
-        expect { described_class.create!(user: user, is_primary: true, address: 'max') }.to raise_error
+        expect { described_class.create!(user: user, is_primary: true, address: 'max') }.to raise_error ActiveRecord::RecordInvalid
       end
 
       it 'does not accept invalid addresses without @' do
-        expect { described_class.create!(user: user, is_primary: true, address: 'maxexample.com') }.to raise_error
+        expect { described_class.create!(user: user, is_primary: true, address: 'maxexample.com') }.to raise_error ActiveRecord::RecordInvalid
       end
 
       it 'does not accept invalid addresses without TLD' do
-        expect { described_class.create!(user: user, is_primary: true, address: 'max@examplecom') }.to raise_error
+        expect { described_class.create!(user: user, is_primary: true, address: 'max@examplecom') }.to raise_error ActiveRecord::RecordInvalid
       end
 
       it 'does not accept invalid addresses with TLDs shorter then two characters' do
-        expect { described_class.create!(user: user, is_primary: true, address: 'max@example.c') }.to raise_error
+        expect { described_class.create!(user: user, is_primary: true, address: 'max@example.c') }.to raise_error ActiveRecord::RecordInvalid
       end
 
       it 'does not accept invalid addresses starting with a dot or dash' do
-        expect { described_class.create!(user: user, is_primary: true, address: '.max@example.com') }.to raise_error
-        expect { described_class.create!(user: user, is_primary: true, address: '-max@example.com') }.to raise_error
+        expect { described_class.create!(user: user, is_primary: true, address: '.max@example.com') }.to raise_error ActiveRecord::RecordInvalid
+        expect { described_class.create!(user: user, is_primary: true, address: '-max@example.com') }.to raise_error ActiveRecord::RecordInvalid
       end
 
       it 'does not accept invalid domains starting with a dot or dash' do
-        expect { described_class.create!(user: user, is_primary: true, address: 'max@.example.com') }.to raise_error
-        expect { described_class.create!(user: user, is_primary: true, address: 'max@-example.com') }.to raise_error
+        expect { described_class.create!(user: user, is_primary: true, address: 'max@.example.com') }.to raise_error ActiveRecord::RecordInvalid
+        expect { described_class.create!(user: user, is_primary: true, address: 'max@-example.com') }.to raise_error ActiveRecord::RecordInvalid
       end
     end
   end

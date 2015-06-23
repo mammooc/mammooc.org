@@ -5,7 +5,7 @@ AllCops:
     - '**/*.gemspec'
     - '**/Rakefile'
   Exclude:
-    - 'vendor/**'
+    - 'vendor/**/*'
     - 'db/schema.rb'
   RunRailsCops: true
 
@@ -64,7 +64,7 @@ Metrics/MethodLength:
   Enabled: false
 
 Metrics/ClassLength:
-  Max: 300
+  Enabled: false
 
 Metrics/AbcSize:
   Enabled: false

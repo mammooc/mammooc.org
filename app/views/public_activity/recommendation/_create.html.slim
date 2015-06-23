@@ -1,0 +1,13 @@
+-if activity.trackable
+  .message
+    = link_to activity.trackable.author
+      = "#{activity.trackable.author.first_name} #{activity.trackable.author.last_name}"
+    - if activity.trackable.group
+      =<> t('recommendation.for_group')
+      = link_to activity.trackable.group.name, group_path(activity.trackable.group)
+    - else
+      =< t('recommendation.for_you')
+  = I18n.l activity.trackable.created_at, format: t('global.date_format_month')
+  - if activity.trackable.text.present?
+    .gradient-divider
+    = "#{activity.trackable.text}"

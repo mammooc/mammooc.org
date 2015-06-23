@@ -13,5 +13,7 @@ p
   = t('recommendation.group.no_recommendation')
 - else
   .recommendations-wrapper
-    - @recommendations.each_with_index do |recommendation, index|
-      = render 'recommendations/recommendation', recommendation: recommendation, id: "recommendation_number_#{index}", group_context: true
+    - if @activities
+      - @activities.each do |activity|
+        - if activity.trackable_type == 'Recommendation'
+          = render_activity activity, layout: :activity, locals: {group_context: true, author: activity.owner, bookmarked: @activity_courses_bookmarked[activity.id], course: @activity_courses[activity.id], signed_in_user: current_user, user_is_admin: (@group.admins.include? current_user), group_id: @group.id}

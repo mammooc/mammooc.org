@@ -19,9 +19,13 @@
         = f.label :current_password, t('users.settings.current_password'), :class => 'col-sm-2 control-label'
       .col-sm-10
         = f.password_field :current_password, :class => 'form-control', autocomplete: "off", placeholder: t('users.settings.password_confirmation_info')
-  .actions
-    .col-sm-offset-2.col-sm-10
-      = f.submit t('users.settings.update_account'), :class => 'btn btn-primary'
+  .form-group
+    .actions
+      .col-sm-offset-2.col-sm-10
+        = f.submit t('users.settings.update_account'), :class => 'btn btn-primary'
+br /
+br /
+br /
 h3
   = t('users.settings.manage_omniauth')
 p
@@ -45,4 +49,4 @@ p
 h3
   = t('users.settings.cancel_account')
 p
-  = button_to t('users.settings.cancel_account'), registration_path(resource_name), :class => "btn btn-primary", data: { confirm: "Are you sure?" },  method: :delete
+  = button_to t('users.settings.cancel_account'), registration_path(resource_name), :class => "btn btn-primary", data: { confirm: t('users.settings.confirm_cancel_account') },  method: :delete
