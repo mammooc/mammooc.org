@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe 'layouts/_activity', type: :view do
   let(:user) { FactoryGirl.create(:user) }
   let(:author) { FactoryGirl.create(:user) }
-  let!(:activity) { assign(:activity, FactoryGirl.create(:activity, user_ids: [user.id])) }
+  let!(:activity) { assign(:activity, FactoryGirl.create(:activity_bookmark, user_ids: [user.id])) }
   let(:course) { FactoryGirl.create(:course) }
   let!(:provider_logos) { assign(:provider_logos, {}) }
   let!(:profile_pictures) { assign(:profile_pictures, {}) }

@@ -96,6 +96,13 @@ RSpec.describe CoursesController, type: :controller do
       get :enroll_course, id: second_course.to_param
       expect(assigns(:has_enrolled)).to eq true
     end
+
+    it 'creates an enrollment-activity if everything was ok' do
+      allow_any_instance_of(OpenHPIConnector).to receive(:enroll_user_for_course).and_return(true)
+      expect do
+        get :enroll_course, id: second_course.to_param
+      end.to change(PublicActivity::Activity, :count).by(1)
+    end
   end
 
   describe 'GET unenroll_course' do

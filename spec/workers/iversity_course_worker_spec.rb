@@ -69,4 +69,19 @@ describe IversityCourseWorker do
     course = Course.find_by(provider_course_id: courses_json['courses'][0]['id'], mooc_provider_id: mooc_provider.id)
     expect(course.language).to eql 'en,es'
   end
+
+  it 'parses if only one plan is offered' do
+    courses_json['courses'][0]['plans'] = JSON.parse '{"title":"Audit Track","description":"\u003cul class=\'list-none\'\u003e\n\u003cli\u003eAll Course Material\u003c/li\u003e\n\u003cli\u003eCourse Community\u003c/li\u003e\n\u003cli\u003eStatement of Participation\u003c/li\u003e\n\u003cli\u003eFlexible Upgrade\u003c/li\u003e\n\u003c/ul\u003e","price":null,"credits":null}'
+    iversity_course_worker.handle_response_data courses_json
+    course = Course.find_by(provider_course_id: courses_json['courses'][0]['id'], mooc_provider_id: mooc_provider.id)
+    expect(course.tracks.count).to eql 1
+    expect(achievement_type? course.tracks, :iversity_record_of_achievement).to be_truthy
+  end
+
+  it 'parses if only one instructor is responsible for this course' do
+    courses_json['courses'][0]['instructors'] = JSON.parse '{"name":"Prof. Dr. Oliver Vornberger","biography":"\u003cp\u003e\u003cem\u003eProfessor f&uuml;r Informatik, Fachbereich Mathemathik/Informatik, Universit&auml;t Osnabr&uuml;ck\u003c/em\u003e\u003c/p\u003e\n\n\u003cp\u003eOliver Vornberger, Jahrgang 1951, leitet die Arbeitsgruppe Medieninformatik an der Universit&auml;t Osnabr&uuml;ck. Zusammen mit Kollegen gr&uuml;ndete er im Jahre 2002 das Zentrum zur Unterst&uuml;tzung der virtuellen Lehre an der Universit&auml;t Osnabr&uuml;ck, genannt virtUOS. Neben seinen Aktivit&auml;ten in Forschung und Lehre engagiert sich Vornberger auch in der Selbstverwaltung: Er leitet als Gesch&auml;ftsf&uuml;hrender Direktor das Institut f&uuml;r Informatik und ist Sprecher des Senats der Universit&auml;t Osnabr&uuml;ck. F&uuml;r sein Engagement in der Lehre erhielt Vornberger im Jahr 2009 auf Vorschlag der Hochschulrektorenkonferenz, finanziert vom Stifterverband f&uuml;r die Deutsche Wissenschaft, den \u0026quot;Ars Legendi Preis f&uuml;r exzellente Hochschullehre\u0026quot;. Im selben Jahr wurde er zusammen mit Karsten Morisse von der Hochschule Osnabr&uuml;ck f&uuml;r seine E-Learning-Aktivit&auml;ten mit dem Wissenschaftspreis des Landes Niedersachsen ausgezeichnet.\u003c/p\u003e\n","image":"https://d1wshrh2fwv7ib.cloudfront.net/users/2624/oliver-vornberger-600-800.jpg"}'
+    iversity_course_worker.handle_response_data courses_json
+    course = Course.find_by(provider_course_id: courses_json['courses'][0]['id'], mooc_provider_id: mooc_provider.id)
+    expect(course.course_instructors).to eql 'Prof. Dr. Oliver Vornberger'
+  end
 end

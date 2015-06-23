@@ -189,10 +189,11 @@ en:
       privacy:
         title: Privacy
         visible_to: '%{subject} visible to:'
-        course_enrollments: Course Enrollments
-        course_results: Course Results
-        course_progress: Course Progress
-        profile: Profile
+        course_enrollments: My Course Enrollments are
+        course_results: My Course Results are
+        course_progress: My Course Progress is
+        profile_title: Profile
+        profile: My Profile is
     synchronization:
       oauth_error: Sorry! We were unable to establish a connection to your account. Please check your settings and try again.
       revoke_provider_connection: Revoke connection
@@ -504,8 +505,9 @@ en:
       join:
         group_context: joined your group
         no_group_context1: joined group
-        no_group_context2:
+        no_group_context2: ''
     successfully_destroyed: Entry was successfully destroyed.
+    no_activities: There are no activities in your groups right now.
 
 
   recommendation:

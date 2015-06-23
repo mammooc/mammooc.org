@@ -1,6 +1,9 @@
-FROM ruby:2.2.0
+FROM ruby:2.2.2
 
 RUN apt-get update -qq && apt-get install -y build-essential
+
+# for imageMagick
+RUN apt-get install -y imagemagick
 
 # for postgres
 RUN apt-get install -y libpq-dev

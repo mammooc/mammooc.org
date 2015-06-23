@@ -8,48 +8,56 @@ RSpec.describe 'User', type: :feature do
   let!(:first_email) { FactoryGirl.create(:user_email, user: user) }
   let(:second_user) { FactoryGirl.create(:user) }
   let(:third_user) { FactoryGirl.create(:user) }
-  let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
+  let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user], name: 'Test Group') }
 
   let!(:course_enrollments_visibility_settings) do
     setting = FactoryGirl.create :user_setting, name: :course_enrollments_visibility, user: user
     FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
     FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    setting
   end
   let!(:course_results_visibility_settings) do
     setting = FactoryGirl.create :user_setting, name: :course_results_visibility, user: user
     FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
     FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    setting
   end
   let!(:course_progress_visibility_settings) do
     setting = FactoryGirl.create :user_setting, name: :course_progress_visibility, user: user
     FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
     FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    setting
   end
   let!(:profile_visibility_settings) do
     setting = FactoryGirl.create :user_setting, name: :profile_visibility, user: user
     FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
     FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    setting
   end
   let!(:second_course_enrollments_visibility_settings) do
     setting = FactoryGirl.create :user_setting, name: :course_enrollments_visibility, user: second_user
     FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
     FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    setting
   end
 
   let!(:second_course_results_visibility_settings) do
     setting = FactoryGirl.create :user_setting, name: :course_results_visibility, user: second_user
     FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
     FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    setting
   end
   let!(:second_course_progress_visibility_settings) do
     setting = FactoryGirl.create :user_setting, name: :course_progress_visibility, user: second_user
     FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
     FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    setting
   end
   let!(:second_profile_visibility_settings) do
     setting = FactoryGirl.create :user_setting, name: :profile_visibility, user: second_user
     FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
     FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    setting
   end
 
   before(:all) do
@@ -73,18 +81,29 @@ RSpec.describe 'User', type: :feature do
     end
 
     describe 'show settings' do
-      it 'navigate to account settings page', js: true do
+      it 'navigates to all sub pages', js: true do
         click_link "#{user.first_name} #{user.last_name}"
         click_link I18n.t('navbar.settings')
         wait_for_ajax
+
+        # MOOC provider settings
         uri = URI.parse(current_url)
         expect("#{uri.path}?#{uri.query}").to eq("#{user_settings_path(user.id)}?subsite=mooc_provider")
         expect(page).to have_content I18n.t('users.settings.mooc_provider_connection')
+
+        # Account settings
         click_button 'load-account-settings-button'
         wait_for_ajax
         uri = URI.parse(current_url)
         expect("#{uri.path}?#{uri.query}").to eq("#{user_settings_path(user.id)}?subsite=account")
         expect(page).to have_content I18n.t('users.settings.cancel_account')
+
+        # Privacy settings
+        click_button 'load-privacy-settings-button'
+        wait_for_ajax
+        uri = URI.parse(current_url)
+        expect("#{uri.path}?#{uri.query}").to eq("#{user_settings_path(user.id)}?subsite=privacy")
+        expect(page).to have_content I18n.t('users.settings.privacy.title')
       end
 
       it 'get error when trying to delete account but still admin in group', js: true do
@@ -331,6 +350,45 @@ RSpec.describe 'User', type: :feature do
         end
       end
     end
+
+    describe 'privacy settings' do
+      # login and go to privacy settings page
+      before(:each) do
+        visit "#{user_settings_path(user.id)}?subsite=privacy"
+        wait_for_ajax
+      end
+
+      describe 'course enrollments' do
+        let(:list_id) { 'course-enrollments-visibility-groups-list' }
+        let(:list) { find("##{list_id}", visible: false) }
+
+        context 'groups' do
+          it 'adds a group', js: true do
+            find("button[data-list-id='#{list_id}']").click
+            if ENV['PHANTOM_JS'] == 'true'
+              name_input = find('#new-groups-name')
+              name_input.click
+              name_input.native.send_keys 'Test'
+              wait_for_ajax
+              name_input.native.send_key(:Enter)
+            else
+              fill_in 'new-groups-name', with: 'Test'
+              wait_for_ajax
+              fill_in 'new-groups-name', with: "\t"
+            end
+            list.find('.new-item-ok').click
+            wait_for_ajax
+            expect(list).to have_content(group.name)
+            expect(course_enrollments_visibility_settings.value(:groups)).to eql [group.id]
+          end
+
+          # TODO: implement this
+          # it 'removes a group' do
+          #
+          # end
+        end
+      end
+    end
   end
 
   context 'second user' do
@@ -376,7 +434,7 @@ RSpec.describe 'User', type: :feature do
         expect(Recommendation.count).to eq 0
       end
 
-      it 'deletes account and removes recommendations where user is author', js: true do 
+      it 'deletes account and removes recommendations where user is author', js: true do
         FactoryGirl.create(:group_recommendation, author: second_user)
         FactoryGirl.create(:user_recommendation, author: second_user)
         FactoryGirl.create(:user_recommendation)
@@ -394,7 +452,7 @@ RSpec.describe 'User', type: :feature do
         expect(Recommendation.count).to eq 1
       end
 
-      it 'deletes account and removes user from his recommendations', js: true do 
+      it 'deletes account and removes user from his recommendations', js: true do
         FactoryGirl.create(:group_recommendation, users: [second_user, user])
         FactoryGirl.create(:user_recommendation, users: [second_user])
         FactoryGirl.create(:user_recommendation)
@@ -410,6 +468,55 @@ RSpec.describe 'User', type: :feature do
         expect(page).to have_content I18n.t('devise.registrations.destroyed')
         expect { User.find(second_user.id) }.to raise_error ActiveRecord::RecordNotFound
         expect(Recommendation.count).to eq 2
+      end
+
+      it 'deletes user account although user is owner of activity', js: true do
+        FactoryGirl.create(:activity_bookmark, owner_id: second_user.id)
+        visit "#{user_settings_path(second_user.id)}?subsite=account"
+        if ENV['PHANTOM_JS'] == 'true'
+          click_button I18n.t('users.settings.cancel_account')
+        else
+          accept_alert do
+            click_button I18n.t('users.settings.cancel_account')
+          end
+        end
+        expect(page).to have_content I18n.t('devise.registrations.destroyed')
+        expect { User.find(second_user.id) }.to raise_error ActiveRecord::RecordNotFound
+      end
+
+      it 'deletes user account and all activities where user is owner', js: true do
+        FactoryGirl.create(:activity_bookmark, owner_id: second_user.id)
+        FactoryGirl.create(:activity_bookmark)
+        expect(PublicActivity::Activity.count).to eq 2
+        visit "#{user_settings_path(second_user.id)}?subsite=account"
+        if ENV['PHANTOM_JS'] == 'true'
+          click_button I18n.t('users.settings.cancel_account')
+        else
+          accept_alert do
+            click_button I18n.t('users.settings.cancel_account')
+          end
+        end
+        expect(page).to have_content I18n.t('devise.registrations.destroyed')
+        expect { User.find(second_user.id) }.to raise_error ActiveRecord::RecordNotFound
+        expect(PublicActivity::Activity.count).to eq 1
+      end
+
+      it 'deletes user account and delete user from activites', js: true do
+        FactoryGirl.create(:activity_bookmark, user_ids: [second_user.id], group_ids: [])
+        FactoryGirl.create(:activity_bookmark, user_ids: [user.id, second_user.id])
+
+        expect(PublicActivity::Activity.count).to eq 2
+        visit "#{user_settings_path(second_user.id)}?subsite=account"
+        if ENV['PHANTOM_JS'] == 'true'
+          click_button I18n.t('users.settings.cancel_account')
+        else
+          accept_alert do
+            click_button I18n.t('users.settings.cancel_account')
+          end
+        end
+        expect(page).to have_content I18n.t('devise.registrations.destroyed')
+        expect { User.find(second_user.id) }.to raise_error ActiveRecord::RecordNotFound
+        expect(PublicActivity::Activity.count).to eq 1
       end
     end
   end

@@ -80,6 +80,39 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'handle recommendations when destroyed' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:second_user) { FactoryGirl.create(:user) }
+    let(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
+
+    it 'deletes recommendations where user is author' do
+      FactoryGirl.create(:user_recommendation, author: user)
+      FactoryGirl.create(:group_recommendation, author: user)
+      FactoryGirl.create(:group_recommendation)
+      expect(Recommendation.count).to eq 3
+      expect { user.destroy! }.not_to raise_error
+      expect(Recommendation.count).to eq 1
+    end
+
+    it 'deletes user from recommendations where user is recipient' do
+      FactoryGirl.create(:user_recommendation, users: [user])
+      FactoryGirl.create(:user_recommendation, users: [user, second_user])
+      FactoryGirl.create(:group_recommendation, group: group, users: group.users)
+      expect(Recommendation.count).to eq 3
+      expect { user.destroy! }.not_to raise_error
+      expect(Recommendation.count).to eq 2
+    end
+
+    it 'deletes recommendation if user was last recipient' do
+      FactoryGirl.create(:user_recommendation, users: [user])
+      FactoryGirl.create(:user_recommendation, users: [user])
+      FactoryGirl.create(:group_recommendation, group: group, users: group.users)
+      expect(Recommendation.count).to eq 3
+      expect { user.destroy! }.not_to raise_error
+      expect(Recommendation.count).to eq 1
+    end
+  end
+
   describe 'factories' do
     it 'has valid factory' do
       expect(FactoryGirl.build_stubbed(:user)).to be_valid
@@ -226,6 +259,85 @@ RSpec.describe User, type: :model do
       secondary_email = FactoryGirl.create(:user_email, user: user, address: 'abc@example.com', is_primary: false)
       expect(described_class.find_by_primary_email('abc@example.com')).to be_nil
       expect(UserEmail.find_by_address('abc@example.com')).to eql secondary_email
+    end
+  end
+
+  describe 'connected_users_ids' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:second_user) { FactoryGirl.create(:user) }
+    let(:third_user) { FactoryGirl.create(:user) }
+    let(:userlist) do
+      result = FactoryGirl.create_list(:user, 5)
+      result += [user]
+      result += [third_user]
+      result
+    end
+    let!(:group1) { FactoryGirl.create(:group, users: userlist) }
+    let!(:group2) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
+
+    it 'returns the ids of all users of all my groups' do
+      result = user.connected_users_ids
+      expect(result).to include second_user.id
+      userlist.each do |a|
+        expect(result).to include(a.id) unless a.id == user.id
+      end
+    end
+
+    it 'does not return my own id' do
+      expect(user.connected_users_ids).not_to include user.id
+    end
+
+    it 'returns only unique ids' do
+      result = user.connected_users_ids
+      expect(result.detect {|e| result.count(e) > 1 }).to be_nil
+    end
+  end
+
+  describe 'connected_users' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:second_user) { FactoryGirl.create(:user) }
+    let(:third_user) { FactoryGirl.create(:user) }
+    let(:userlist) do
+      result = FactoryGirl.create_list(:user, 5)
+      result += [user]
+      result += [third_user]
+      result
+    end
+    let!(:group1) { FactoryGirl.create(:group, users: userlist) }
+    let!(:group2) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
+
+    it 'returns all users of all my groups' do
+      result = user.connected_users
+      expect(result).to include second_user
+      userlist.each do |a|
+        expect(result).to include(a) unless a == user
+      end
+    end
+
+    it 'does not return the current user' do
+      expect(user.connected_users).not_to include user
+    end
+
+    it 'returns only unique users' do
+      result = user.connected_users
+      expect(result.detect {|e| result.count(e) > 1 }).to be_nil
+    end
+  end
+
+  describe 'connected_groups_ids' do
+    let(:user) { FactoryGirl.create(:user) }
+    let!(:group1) { FactoryGirl.create(:group, users: [user]) }
+    let!(:group2) { FactoryGirl.create(:group, users: [user]) }
+
+    it 'returns all group_ids' do
+      result = user.connected_groups_ids
+      expect(result).to include group1.id
+      expect(result).to include group2.id
+    end
+
+    it 'return only unique values' do
+      result = user.connected_groups_ids
+      expect(result.detect {|e| result.count(e) > 1 }).to be_nil
     end
   end
 

@@ -23,13 +23,19 @@ class RecommendationsController < ApplicationController
     @profile_pictures = User.author_profile_images_hash_for_recommendations(@recommendations)
     @rating_picture = AmazonS3.instance.get_url('five_stars.png')
 
-    @activities = PublicActivity::Activity.order('created_at desc').where(trackable_id: recommendations_ids, trackable_type: 'Recommendation')
+    @activities = PublicActivity::Activity.order('created_at desc').where(trackable_id: recommendations_ids, trackable_type: 'Recommendation', owner_id: current_user.connected_users_ids)
     @activity_courses = {}
     @activity_courses_bookmarked = {}
     return unless @activities
     @activities.each do |activity|
-      @activity_courses[activity.id] = Recommendation.find(activity.trackable_id).course
-      @activity_courses_bookmarked[activity.id] = @activity_courses[activity.id].bookmarked_by_user? current_user
+      if activity.user_ids.present? && (activity.user_ids.include? current_user.id)
+        @activity_courses[activity.id] = Recommendation.find(activity.trackable_id).course
+        if @activity_courses[activity.id].present?
+          @activity_courses_bookmarked[activity.id] = @activity_courses[activity.id].bookmarked_by_user? current_user
+        end
+      else
+        @activities -= [activity]
+      end
     end
   end
 
