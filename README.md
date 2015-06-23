@@ -43,6 +43,7 @@ These environment variables are for use in Production mode:
 |                    | `AMAZON_SECRET_KEY`       |
 | New Relic          | `NEW_RELIC_LICENSE_KEY`   |
 | SMTP with Mandrill | `MANDRILL_USERNAME`       |
+|                    | `MANDRILL_APIKEY`         |
 
 ----------------------------------------------------------------
 
