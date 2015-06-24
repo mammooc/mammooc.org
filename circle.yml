@@ -1,7 +1,7 @@
 general:
   artifacts:
     - "rubocop.html"
-    - "simplecov"
+    - "coverage"
 
 
 test:
