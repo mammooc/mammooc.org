@@ -6,7 +6,7 @@ RSpec.describe 'User', type: :feature do
 
   let!(:user) { User.create!(first_name: 'Max', last_name: 'Mustermann', password: '12345678')  }
   let!(:first_email) { FactoryGirl.create(:user_email, user: user) }
-  let(:second_user) { FactoryGirl.create(:user) }
+  let!(:second_user) { FactoryGirl.create(:user) }
   let(:third_user) { FactoryGirl.create(:user) }
   let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user], name: 'Test Group') }
 
