@@ -341,6 +341,7 @@ RSpec.describe 'User', type: :feature do
           click_button 'add_new_email_field'
           click_button 'remove_button_5'
           click_on 'cancel_change_email'
+          wait_for_ajax
           expect(UserEmail.where(user: user).count).to eql 3
           expect(UserEmail.where(id: third_email.id).length).to eql 1
           expect(UserEmail.find_by(address: 'max.muster@example.com')).to be_nil
