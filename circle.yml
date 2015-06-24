@@ -3,9 +3,11 @@ general:
     - "rubocop.html"
     - "simplecov"
 
+
 test:
   post:
     - bundle exec rake rubocop:show
+
 
 deployment:
   production:
@@ -17,8 +19,6 @@ deployment:
       - heroku run rake db:schema:load db:seed RAILS_ENV=development --app mammooc
       - heroku restart --app mammooc
       - heroku maintenance:off --app mammooc
-      # - heroku run rake mammooc:update_course_data --app mammooc
-
 
   development:
     branch: dev
@@ -29,7 +29,6 @@ deployment:
       - heroku run rake db:schema:load db:seed RAILS_ENV=development --app mammooc-dev
       - heroku restart --app mammooc-dev
       - heroku maintenance:off --app mammooc-dev
-      # - heroku run rake mammooc:update_course_data --app mammooc-dev
 
   teaser:
     branch: teaser
