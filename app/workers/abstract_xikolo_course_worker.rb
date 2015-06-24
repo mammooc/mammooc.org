@@ -10,7 +10,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
 
   def course_data
     response = RestClient.get(self.class::MOOC_PROVIDER_API_LINK, accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', authorization: 'token=\"78783786789\"')
-    JSON.parse response
+    response.present? ? JSON.parse(response) : []
   end
 
   def handle_response_data(response_data)
