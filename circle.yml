@@ -1,3 +1,12 @@
+general:
+  artifacts:
+    - "rubocop.html"
+    - "simplecov"
+
+test:
+  post:
+    - bundle exec rake rubocop:show
+
 deployment:
   production:
     branch: master
