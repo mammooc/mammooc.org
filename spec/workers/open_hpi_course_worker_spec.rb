@@ -213,4 +213,15 @@ RSpec.describe OpenHPICourseWorker do
     open_hpi_course_worker.load_courses
     expect { open_hpi_course_worker.load_courses }.to change { Course.count }.by(0)
   end
+
+  it 'handles an empty API response' do
+    allow(RestClient).to receive(:get).and_return('')
+    expect { open_hpi_course_worker.load_courses }.to change { Course.count }.by(0)
+  end
+
+  it 'does not parse an empty string' do
+    allow(RestClient).to receive(:get).and_return('')
+    expect { open_hpi_course_worker.course_data }.not_to raise_error
+    expect(open_hpi_course_worker.course_data).to eql []
+  end
 end
