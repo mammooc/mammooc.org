@@ -21,6 +21,7 @@ These environment variables are for use in Production mode:
 
 | Usage              | Environment variable      |
 |--------------------|---------------------------|
+| Domain Name        | `DOMAIN`                  |
 | Amazon S3          | `AWS_ACCESS_KEY_ID`       |
 |                    | `AWS_SECRET_ACCESS_KEY`   |
 |                    | `AWS_REGION`              |
