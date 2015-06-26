@@ -1,7 +1,7 @@
-[![Continuous Integration: Circle CI](https://circleci.com/gh/jprberlin/mammooc.svg?style=shield&circle-token=60a6a79493a571b2253594c37e9d92e0f9517298)](https://circleci.com/gh/jprberlin/mammooc)
+[![Continuous Integration: Circle CI](https://circleci.com/gh/jprberlin/mammooc.svg?style=shield&circle-token=60a6a79493a571b2253594c37e9d92e0f9517298)](https://circleci.com/gh/jprberlin/mammooc) 
 [![Dependency Status: Gemnasium](https://gemnasium.com/84d7945008fa3b98c265c0ba5cc37fa4.svg)](https://gemnasium.com/jprberlin/mammooc)
 
-## mammooc
+# mammooc
 _Please pay attention to the LICENSE file as well_
 
 mammooc is a student's project developed at the German Hasso Plattner Institute, Potsdam.
@@ -9,11 +9,59 @@ mammooc is a student's project developed at the German Hasso Plattner Institute,
 # Setup
 
 ## Docker:
+
+We use this docker image for deployment: https://registry.hub.docker.com/u/jprberlin/mammooc/
+
+You have to modify the `docker-compose.yml` and include your own environment variables. Run the following commands from the same working directory in order to set up your instance of mammooc:
+
 ```
-docker-compose run
+docker-compose pull jprberlin/mammooc
 docker-compose run web rake db:create db:setup
-docker-compose run web rake assets:precompile
+docker-compose up
 ```
+
+### Run as a service:
+
+Just create a new service file located in `/etc/init/mammooc.conf` with the following content:
+
+```
+description "mammooc init script"
+
+respawn
+respawn limit 10 5
+umask 022
+
+chdir <mammooc working directory>
+
+setuid <user name>
+setgid <group name>
+
+exec docker-compose up
+```
+
+Control this service using `service mammooc [start|stop|restart]`.
+
+### Update your mammooc installation:
+
+```
+#!/bin/bash
+
+docker pull jprberlin/mammooc
+service mammooc restart
+```
+
+### Connect to the docker image:
+
+`docker exec -it <docker container ID> bash`
+
+## SSL
+
+You can use an additional nginx to seucre connections or you may enable SSL in Passenger. Just add the following command line arguments to the Procfile and place a SSL certificate inside the docker image within the folder `ssl`. Pay attention if you update the image! 
+
+```
+--ssl --ssl-certificate ./ssl/mammooc.pem --ssl-certificate-key ./ssl/mammooc.key
+```
+
 
 ## Environment variables
 
@@ -21,6 +69,7 @@ These environment variables are for use in Production mode:
 
 | Usage              | Environment variable      |
 |--------------------|---------------------------|
+| Domain Name        | `DOMAIN`                  |
 | Amazon S3          | `AWS_ACCESS_KEY_ID`       |
 |                    | `AWS_SECRET_ACCESS_KEY`   |
 |                    | `AWS_REGION`              |
