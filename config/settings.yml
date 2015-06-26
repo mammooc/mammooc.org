@@ -12,7 +12,7 @@
 root_url: <%= (ENV['DOMAIN'].present? ? "https://#{ENV['SUBDOMAIN']}" : 'https://localhost:3000') %>
 
 # Mailers
-sender_notification_address: mammooc <notifications@<%= (ENV['DOMAIN'].present? ? "#{ENV['SUBDOMAIN']}" : 'mammooc.org') %>>
+sender_notification_address: mammooc <notifications@<%= (ENV['DOMAIN'].present? ? "#{ENV['DOMAIN']}" : 'mammooc.org') %>>
 
 # GroupInvitation
 token_length: 16
