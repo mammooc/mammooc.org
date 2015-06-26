@@ -19,4 +19,4 @@ token_length: 16
 token_expiry_date: <%= 1.week.from_now.in_time_zone %>
 
 # Heroku Deployment with New Relic
-subdomain: <%= (ENV['DOMAIN'].present? ? ENV['DOMAIN'] : ENV['USER']) %>
+domain: <%= (ENV['DOMAIN'].present? ? ENV['DOMAIN'] : ENV['USER']) %>
