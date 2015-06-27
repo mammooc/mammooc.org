@@ -5,6 +5,9 @@ RUN apt-get update -qq && apt-get install -y build-essential
 # for imageMagick
 RUN apt-get install -y imagemagick
 
+# for cronjobs
+RUN apt-get install -y cron
+
 # for postgres
 RUN apt-get install -y libpq-dev
 
@@ -28,3 +31,5 @@ RUN bundle install
 ADD . $APP_HOME
 
 RUN bundle exec rake assets:precompile
+
+RUN bundle exec whenever -w
