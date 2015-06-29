@@ -580,7 +580,7 @@ de:
       taken: ist bereits belegt.
       blank: muss ausgefüllt werden.
       login:
-        reqired: Du musst eingeloggt sein.
+        required: Du musst eingeloggt sein.
       sign_up:
         terms_and_conditions_failure: Bitte bestätige die AGBs von mammooc!
       user:
