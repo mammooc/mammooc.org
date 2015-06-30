@@ -1,5 +1,5 @@
 #!/bin/bash
 
-service start cron
+service cron start
 bundle exec rake db:migrate
 foreman start
