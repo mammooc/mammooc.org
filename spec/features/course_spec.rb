@@ -253,7 +253,7 @@ RSpec.describe 'Course', type: :feature do
       visit "/courses/#{course.id}"
       expect(page).to have_selector("div[class='course-rating']")
       expect(page).to have_content("(#{course.evaluations.count})")
-      expect(page).to have_content("#{user.first_name} #{user.last_name}#{I18n.t('evaluations.currently_enrolled_course')}")
+      expect(page).to have_content("#{user.first_name} #{user.last_name} #{I18n.t('evaluations.currently_enrolled_course')}")
       expect(page).to have_content(eval.description)
     end
 
