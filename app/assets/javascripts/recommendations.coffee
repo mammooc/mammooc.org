@@ -15,6 +15,8 @@ generate_groups_autocomplete = () ->
       source: groups_autocomplete
       delay: 100
       autoFocus: true
+      focus: (event) ->
+        event.preventDefault()
     showAutocompleteOnFocus: true
 
 get_my_groups = () ->
@@ -53,6 +55,8 @@ generate_users_autocomplete = () ->
       source: users_autocomplete
       delay: 100
       autoFocus: true
+      focus: (event) ->
+        event.preventDefault()
     showAutocompleteOnFocus: true
 
 generate_groups_autocomplete_obligatory_recommendation = () ->
@@ -62,6 +66,8 @@ generate_groups_autocomplete_obligatory_recommendation = () ->
       source: groups_autocomplete
       delay: 100
       autoFocus: true
+      focus: (event) ->
+        event.preventDefault()
     showAutocompleteOnFocus: true
 
 get_my_admin_groups = () ->
@@ -100,6 +106,8 @@ generate_users_autocomplete_obligatory_recommendation = () ->
       source: users_autocomplete
       delay: 100
       autoFocus: true
+      focus: (event) ->
+        event.preventDefault()
     showAutocompleteOnFocus: true
 
 generate_course_autocomplete = () ->
@@ -122,6 +130,8 @@ generate_course_autocomplete = () ->
             response(results)
       delay: 100
       autoFocus: true
+      focus: (event) ->
+        event.preventDefault()
     showAutocompleteOnFocus: true
     limit: 1
 
