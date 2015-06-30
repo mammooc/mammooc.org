@@ -153,7 +153,9 @@ class CoursesController < ApplicationController
   end
 
   def search
-    session['courses#index'] = {search_query: params[:query]}
+    if params[:query].present?
+      session['courses#index'] = {search_query: params[:query]}
+    end
     redirect_to courses_path
   end
 
