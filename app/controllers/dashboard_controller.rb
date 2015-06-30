@@ -28,9 +28,13 @@ class DashboardController < ApplicationController
       end
       @number_of_activities = @activities.length
     end
+
     @number_of_mandatory_recommendations = 0
-    @recommendations.each do |recommendation|
-      @number_of_mandatory_recommendations += 1 if recommendation.is_obligatory
+    all_my_sorted_recommendations.each do |recommendation|
+      if recommendation.is_obligatory
+        @number_of_mandatory_recommendations += 1
+        @number_of_recommendations -=1
+      end
     end
 
     @profile_pictures = User.author_profile_images_hash_for_activities(@activities)
