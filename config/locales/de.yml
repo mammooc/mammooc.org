@@ -419,7 +419,7 @@ de:
         range5: 150-200
         range6: '> 200'
       labels:
-        starts_after: Kurs beginnt nach dem
+        starts_after: Kurs beginnt
         ends_before: Kurs endet vor dem
         language: Sprache
         provider: Plattform
