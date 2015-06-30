@@ -46,7 +46,7 @@ web:
     - WINDOWS_LIVE_SECRET_KEY=
     - AMAZON_CLIENT_ID=
     - AMAZON_SECRET_KEY=
-  command: sh -c 'bundle exec rake db:migrate && foreman start'
+  command: sh 'start.sh'
   ports:
     - "<Host Port>:<Docker port>"
   links:
