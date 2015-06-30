@@ -49,7 +49,15 @@
         p
         - if @course.language
           img src="/data/icons/globe.png" class="icon-small pr5"
-          = @course.language
+          - language_array = @course.language.split(',')
+          - language_array.each do |language|
+            - if I18n.t("language.#{language}").include? 'translation missing'
+              = language
+            - else
+              = I18n.t("language.#{language}")
+            - unless language_array.last == language
+              = ', '
+
 
       .options
         img src=@provider_logos[@course.mooc_provider.logo_id]

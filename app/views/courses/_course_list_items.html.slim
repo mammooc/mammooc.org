@@ -26,7 +26,15 @@
         .block.pr20.mb5
           - if course.language
             img src="/data/icons/globe-white.png" class="icon-small pr5"
-              = course.language
+              - language_array = course.language.split(',')
+              - language_array.each do |language|
+                - if I18n.t("language.#{language}").include? 'translation missing'
+                  = language
+                - else
+                  = I18n.t("language.#{language}")
+                - unless language_array.last == language
+                  = ', '
+
         .block.pr20.course-instructors
           = course.course_instructors
     - if course.start_date

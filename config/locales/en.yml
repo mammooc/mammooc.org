@@ -42,30 +42,34 @@ en:
     next_label: 'Next &#187;'
 
   language:
-    english: English
-    german: German
-    french: French
-    spanish: Spanish
-    arabic: Arabic
-    italian: Italian
-    chinese: Chinese
-    portuguese: Portuguese
-    russian: Russian
-    swedish: Swedisch
-    hebrew: Hebrew
-    romanian: Romanian
-    greek: Griechisch
-    filipino: Filipino
-    ukrainian: Ukrainian
-    vietnamese: Vietnamese
-    turkish: Turkish
-    lithuanian: Lithuanian
-    kazakh: Kazakh
-    serbian: Serbian
-    korean: Korean
-    japanese: Japanese
-    dutch: Dutch
-    indonesian: Indonesian
+    ar: Arabic
+    cn: Chinese
+    de: German
+    el: Greek
+    en: English
+    es: Spanish
+    fil: Philippine languages
+    fr: French
+    he: Hebrew
+    id: Indonesian
+    it: Italian
+    ja: Japanese
+    kk: Kazakh
+    ko: Korean
+    lt: Lithuanian
+    nl: Dutch
+    pt: Portuguese
+    pt-br: Portuguese (Brasil)
+    ro: Romanian
+    ru: Russian
+    sr: Serbian
+    tr: Turkish
+    uk: Ukrainian
+    vi: Vietnamese
+    zh: Chinese
+    zh-cn: Chinese (China)
+    zh-tw: Chinese (Taiwan)
+
 
   navbar:
     home: Home
