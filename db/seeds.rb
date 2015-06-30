@@ -51,6 +51,9 @@ edx_xseries_track_type = CourseTrackType.create!(title: 'XSeries',
 edx_profed_track_type = CourseTrackType.create!(title: 'Professional Education',
                                                 description: 'You get a Professional Education certificate.',
                                                 type_of_achievement: 'edx_profed_certificate')
+iversity_student_track = CourseTrackType.create!(title: 'Schüler-Track',
+                                                 description: "<ul class=\"list-none\">\r\n<li>Benotete Präsenzprüfung</li>\r\n<li>Leistungsnachweis</li>\r\n<li>Zertifikatszusatz</li>\r\n<li>5 ECTS-Punkte</li>\r\n</ul>\r\n",
+                                                 type_of_achievement: 'iversity_ects_pupils')
 
 OpenHPICourseWorker.perform_async
 OpenSAPCourseWorker.perform_async

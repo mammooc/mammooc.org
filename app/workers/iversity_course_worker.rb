@@ -21,6 +21,8 @@ class IversityCourseWorker < AbstractCourseWorker
     free_track_type = CourseTrackType.find_by(type_of_achievement: 'iversity_record_of_achievement')
     certificate_track_type = CourseTrackType.find_by(type_of_achievement: 'iversity_certificate')
     ects_track_type = CourseTrackType.find_by(type_of_achievement: 'iversity_ects')
+    ects_pupils_track_type = CourseTrackType.find_by(type_of_achievement: 'iversity_ects_pupils')
+
 
     response_data['courses'].each do |course_element|
       course = Course.find_by(provider_course_id: course_element['id'].to_s, mooc_provider_id: mooc_provider.id) || Course.new
@@ -53,6 +55,9 @@ class IversityCourseWorker < AbstractCourseWorker
           when 'certificate' then track_attributes = {track_type: certificate_track_type, costs: price[0].to_f, costs_currency: price[1]}
           when 'ects'
             track_attributes = {track_type: ects_track_type, costs: price[0].to_f, costs_currency: price[1]}
+            track_attributes.merge!(credit_points: (plan['credits'].split(' '))[0].to_f) unless plan['credits'].blank?
+          when 'schüler'
+            track_attributes = {track_type: ects_pupils_track_type, costs: price[0].to_f, costs_currency: price[1]}
             track_attributes.merge!(credit_points: (plan['credits'].split(' '))[0].to_f) unless plan['credits'].blank?
         end
         track = CourseTrack.find_by(course_id: course.id, track_type: track_attributes[:track_type]) || CourseTrack.create!(track_attributes)

@@ -393,6 +393,7 @@ de:
           certificate: Zertifikat
           iversity_certificate: :courses.tracks.types.achievement_types.certificate
           iversity_ects: ECTS-Punkte
+          iversity_ects_pupils: ECTS-Punkte
           coursera_verified_certificate: Verifiziertes Zertifikat
           edx_verified_certificate: :courses.tracks.types.achievement_types.coursera_verified_certificate
           edx_xseries_certificate: edX XSeries Zertifikat
