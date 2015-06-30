@@ -158,9 +158,9 @@ RSpec.describe 'Course', type: :feature do
       fill_in 'new_search', with: 'nice name'
       fill_in 'filterrific_with_start_date_gte', with: (Time.zone.today).strftime('%d.%m.%Y')
       fill_in 'filterrific_with_end_date_lte', with: (Time.zone.today + 3.weeks).strftime('%d.%m.%Y')
-      select I18n.t('language.english'), from: 'filterrific_with_language'
+      select I18n.t('language.en'), from: 'filterrific_with_language'
       select open_hpi.name, from: 'filterrific_with_mooc_provider_id'
-      select I18n.t('language.english'), from: 'filterrific_with_subtitle_languages'
+      select I18n.t('language.en'), from: 'filterrific_with_subtitle_languages'
       select I18n.t('courses.filter.duration.short'), from: 'filterrific_duration_filter_options'
       select I18n.t('courses.filter.start.now'), from: 'filterrific_start_filter_options'
       select I18n.t('courses.filter.costs.free'), from: 'filterrific_with_tracks_costs'

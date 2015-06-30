@@ -145,13 +145,13 @@ RSpec.describe Course, type: :model do
     it 'returns an array of options for languages' do
       options = described_class.options_for_languages
       expect(options).to be_a Array
-      expect(options).to include([I18n.t('language.english'), 'en'])
+      expect(options).to include([I18n.t('language.en'), 'en'])
     end
 
     it 'returns an array of options for subtitle_languages' do
       options = described_class.options_for_subtitle_languages
       expect(options).to be_a Array
-      expect(options).to include([I18n.t('language.english'), 'en'])
+      expect(options).to include([I18n.t('language.en'), 'en'])
     end
   end
 

@@ -216,41 +216,41 @@ class Course < ActiveRecord::Base
   end
 
   def self.options_for_languages
-    [[I18n.t('language.english'), 'en'],
-     [I18n.t('language.german'), 'de'],
-     [I18n.t('language.spanish'), 'es'],
-     [I18n.t('language.french'), 'fr'],
-     [I18n.t('language.chinese'), 'zh'],
-     [I18n.t('language.portuguese'), 'pt'],
-     [I18n.t('language.russian'), 'ru'],
-     [I18n.t('language.hebrew'), 'he'],
-     [I18n.t('language.italian'), 'it'],
-     [I18n.t('language.arabic'), 'ar']]
+    [[I18n.t('language.en'), 'en'],
+     [I18n.t('language.de'), 'de'],
+     [I18n.t('language.es'), 'es'],
+     [I18n.t('language.fr'), 'fr'],
+     [I18n.t('language.zh'), 'zh'],
+     [I18n.t('language.pt'), 'pt'],
+     [I18n.t('language.ru'), 'ru'],
+     [I18n.t('language.he'), 'he'],
+     [I18n.t('language.it'), 'it'],
+     [I18n.t('language.ar'), 'ar']]
   end
 
   def self.options_for_subtitle_languages
-    [[I18n.t('language.english'), 'en'],
-     [I18n.t('language.german'), 'de'],
-     [I18n.t('language.spanish'), 'es'],
-     [I18n.t('language.french'), 'fr'],
-     [I18n.t('language.chinese'), 'zh'],
-     [I18n.t('language.portuguese'), 'pt'],
-     [I18n.t('language.russian'), 'ru'],
-     [I18n.t('language.italian'), 'it'],
-     [I18n.t('language.arabic'), 'ar'],
-     [I18n.t('language.romanian'), 'ro'],
-     [I18n.t('language.greek'), 'el'],
-     [I18n.t('language.filipino'), 'fil'],
-     [I18n.t('language.ukrainian'), 'uk'],
-     [I18n.t('language.vietnamese'), 'vi'],
-     [I18n.t('language.turkish'), 'tr'],
-     [I18n.t('language.lithuanian'), 'lt'],
-     [I18n.t('language.kazakh'), 'kk'],
-     [I18n.t('language.serbian'), 'sr'],
-     [I18n.t('language.korean'), 'ko'],
-     [I18n.t('language.japanese'), 'ja'],
-     [I18n.t('language.dutch'), 'nl'],
-     [I18n.t('language.indonesian'), 'id']]
+    [[I18n.t('language.en'), 'en'],
+     [I18n.t('language.de'), 'de'],
+     [I18n.t('language.es'), 'es'],
+     [I18n.t('language.fr'), 'fr'],
+     [I18n.t('language.zh'), 'zh'],
+     [I18n.t('language.pt'), 'pt'],
+     [I18n.t('language.ru'), 'ru'],
+     [I18n.t('language.it'), 'it'],
+     [I18n.t('language.ar'), 'ar'],
+     [I18n.t('language.ro'), 'ro'],
+     [I18n.t('language.el'), 'el'],
+     [I18n.t('language.fil'), 'fil'],
+     [I18n.t('language.uk'), 'uk'],
+     [I18n.t('language.vi'), 'vi'],
+     [I18n.t('language.tr'), 'tr'],
+     [I18n.t('language.lt'), 'lt'],
+     [I18n.t('language.kk'), 'kk'],
+     [I18n.t('language.sr'), 'sr'],
+     [I18n.t('language.ko'), 'ko'],
+     [I18n.t('language.ja'), 'ja'],
+     [I18n.t('language.nl'), 'nl'],
+     [I18n.t('language.id'), 'id']]
   end
 
   def self.options_for_sorted_by
