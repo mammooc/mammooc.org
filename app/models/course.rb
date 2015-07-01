@@ -111,38 +111,38 @@ class Course < ActiveRecord::Base
     if reference_track_options[:costs].present? && reference_track_options[:certificate].blank?
       case reference_track_options[:costs]
         when 'free'
-          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs = 0')).joins(:tracks)
+          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs = 0')).joins(:tracks)).collect(&:id).uniq)
         when 'range1'
-          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 30.0 AND course_tracks.costs > 0.0')).joins(:tracks)
+          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 30.0 AND course_tracks.costs > 0.0')).joins(:tracks)).collect(&:id).uniq)
         when 'range2'
-          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 60.0 AND course_tracks.costs > 30.0')).joins(:tracks)
+          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 60.0 AND course_tracks.costs > 30.0')).joins(:tracks)).collect(&:id).uniq)
         when 'range3'
-          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 90.0 AND course_tracks.costs > 60.0')).joins(:tracks)
+          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 90.0 AND course_tracks.costs > 60.0')).joins(:tracks)).collect(&:id).uniq)
         when 'range4'
-          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 150.0 AND course_tracks.costs > 90.0')).joins(:tracks)
+          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 150.0 AND course_tracks.costs > 90.0')).joins(:tracks)).collect(&:id).uniq)
         when 'range5'
-          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 200.0 AND course_tracks.costs > 150.0')).joins(:tracks)
+          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 200.0 AND course_tracks.costs > 150.0')).joins(:tracks)).collect(&:id).uniq)
         when 'range6'
-          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs > 200.0')).joins(:tracks)
+          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs > 200.0')).joins(:tracks)).collect(&:id).uniq)
       end
     elsif reference_track_options[:costs].blank? && reference_track_options[:certificate].present?
       where('course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks)
     elsif reference_track_options[:costs].present? && reference_track_options[:certificate].present?
       case reference_track_options[:costs]
         when 'free'
-          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs = 0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)
+          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs = 0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)).collect(&:id).uniq)
         when 'range1'
-          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 30.0 AND course_tracks.costs > 0.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)
+          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 30.0 AND course_tracks.costs > 0.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)).collect(&:id).uniq)
         when 'range2'
-          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 60.0 AND course_tracks.costs > 30.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)
+          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 60.0 AND course_tracks.costs > 30.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)).collect(&:id).uniq)
         when 'range3'
-          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 90.0 AND course_tracks.costs > 60.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)
+          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 90.0 AND course_tracks.costs > 60.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)).collect(&:id).uniq)
         when 'range4'
-          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 150.0 AND course_tracks.costs > 90.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)
+          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 150.0 AND course_tracks.costs > 90.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)).collect(&:id).uniq)
         when 'range5'
-          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 200.0 AND course_tracks.costs > 150.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)
+          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 200.0 AND course_tracks.costs > 150.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)).collect(&:id).uniq)
         when 'range6'
-          (where('course_tracks.costs IS NOT NULL AND course_tracks.costs > 200.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)
+          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs > 200.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)).collect(&:id).uniq)
       end
     end
   end
@@ -216,41 +216,41 @@ class Course < ActiveRecord::Base
   end
 
   def self.options_for_languages
-    [[I18n.t('language.english'), 'en'],
-     [I18n.t('language.german'), 'de'],
-     [I18n.t('language.spanish'), 'es'],
-     [I18n.t('language.french'), 'fr'],
-     [I18n.t('language.chinese'), 'zh'],
-     [I18n.t('language.portuguese'), 'pt'],
-     [I18n.t('language.russian'), 'ru'],
-     [I18n.t('language.hebrew'), 'he'],
-     [I18n.t('language.italian'), 'it'],
-     [I18n.t('language.arabic'), 'ar']]
+    [[I18n.t('language.en'), 'en'],
+     [I18n.t('language.de'), 'de'],
+     [I18n.t('language.es'), 'es'],
+     [I18n.t('language.fr'), 'fr'],
+     [I18n.t('language.zh'), 'zh'],
+     [I18n.t('language.pt'), 'pt'],
+     [I18n.t('language.ru'), 'ru'],
+     [I18n.t('language.he'), 'he'],
+     [I18n.t('language.it'), 'it'],
+     [I18n.t('language.ar'), 'ar']]
   end
 
   def self.options_for_subtitle_languages
-    [[I18n.t('language.english'), 'en'],
-     [I18n.t('language.german'), 'de'],
-     [I18n.t('language.spanish'), 'es'],
-     [I18n.t('language.french'), 'fr'],
-     [I18n.t('language.chinese'), 'zh'],
-     [I18n.t('language.portuguese'), 'pt'],
-     [I18n.t('language.russian'), 'ru'],
-     [I18n.t('language.italian'), 'it'],
-     [I18n.t('language.arabic'), 'ar'],
-     [I18n.t('language.romanian'), 'ro'],
-     [I18n.t('language.greek'), 'el'],
-     [I18n.t('language.filipino'), 'fil'],
-     [I18n.t('language.ukrainian'), 'uk'],
-     [I18n.t('language.vietnamese'), 'vi'],
-     [I18n.t('language.turkish'), 'tr'],
-     [I18n.t('language.lithuanian'), 'lt'],
-     [I18n.t('language.kazakh'), 'kk'],
-     [I18n.t('language.serbian'), 'sr'],
-     [I18n.t('language.korean'), 'ko'],
-     [I18n.t('language.japanese'), 'ja'],
-     [I18n.t('language.dutch'), 'nl'],
-     [I18n.t('language.indonesian'), 'id']]
+    [[I18n.t('language.en'), 'en'],
+     [I18n.t('language.de'), 'de'],
+     [I18n.t('language.es'), 'es'],
+     [I18n.t('language.fr'), 'fr'],
+     [I18n.t('language.zh'), 'zh'],
+     [I18n.t('language.pt'), 'pt'],
+     [I18n.t('language.ru'), 'ru'],
+     [I18n.t('language.it'), 'it'],
+     [I18n.t('language.ar'), 'ar'],
+     [I18n.t('language.ro'), 'ro'],
+     [I18n.t('language.el'), 'el'],
+     [I18n.t('language.fil'), 'fil'],
+     [I18n.t('language.uk'), 'uk'],
+     [I18n.t('language.vi'), 'vi'],
+     [I18n.t('language.tr'), 'tr'],
+     [I18n.t('language.lt'), 'lt'],
+     [I18n.t('language.kk'), 'kk'],
+     [I18n.t('language.sr'), 'sr'],
+     [I18n.t('language.ko'), 'ko'],
+     [I18n.t('language.ja'), 'ja'],
+     [I18n.t('language.nl'), 'nl'],
+     [I18n.t('language.id'), 'id']]
   end
 
   def self.options_for_sorted_by
