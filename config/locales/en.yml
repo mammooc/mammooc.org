@@ -42,30 +42,34 @@ en:
     next_label: 'Next &#187;'
 
   language:
-    english: English
-    german: German
-    french: French
-    spanish: Spanish
-    arabic: Arabic
-    italian: Italian
-    chinese: Chinese
-    portuguese: Portuguese
-    russian: Russian
-    swedish: Swedisch
-    hebrew: Hebrew
-    romanian: Romanian
-    greek: Griechisch
-    filipino: Filipino
-    ukrainian: Ukrainian
-    vietnamese: Vietnamese
-    turkish: Turkish
-    lithuanian: Lithuanian
-    kazakh: Kazakh
-    serbian: Serbian
-    korean: Korean
-    japanese: Japanese
-    dutch: Dutch
-    indonesian: Indonesian
+    ar: Arabic
+    cn: Chinese
+    de: German
+    el: Greek
+    en: English
+    es: Spanish
+    fil: Philippine languages
+    fr: French
+    he: Hebrew
+    id: Indonesian
+    it: Italian
+    ja: Japanese
+    kk: Kazakh
+    ko: Korean
+    lt: Lithuanian
+    nl: Dutch
+    pt: Portuguese
+    pt-br: Portuguese (Brasil)
+    ro: Romanian
+    ru: Russian
+    sr: Serbian
+    tr: Turkish
+    uk: Ukrainian
+    vi: Vietnamese
+    zh: Chinese
+    zh-cn: Chinese (China)
+    zh-tw: Chinese (Taiwan)
+
 
   navbar:
     home: Home
@@ -96,8 +100,13 @@ en:
     no_courses: :courses.no_courses
     you_have: You have
     number_of_recommendations: '%{number} recommendations'
+    no_recommendations: 'no recommendations'
+    one_recommendation: '1 recommendation'
     number_of_mandatory_recommendations: '%{number} mandatory recommendations'
+    one_mandatory_recommendation: '1 mandatory recommendation'
     number_of_activities: There are %{number} current activities in your groups
+    one_activity: There is 1 current activity in your groups
+    no_activities: There are no current activities in your groups
     complete_profile: Complete your profile
     manage_groups: Manage your groups
     search_courses: Search for courses
@@ -385,6 +394,7 @@ en:
           certificate: Certificate
           iversity_certificate: :courses.tracks.types.achievement_types.certificate
           iversity_ects: ECTS points
+          iversity_ects_pupils: ECTS points
           coursera_verified_certificate: Verified Certificate
           edx_verified_certificate: :courses.tracks.types.achievement_types.coursera_verified_certificate
           edx_xseries_certificate: edX XSeries Certificate
@@ -414,7 +424,7 @@ en:
         range5: 150-200
         range6: '> 200'
       labels:
-        starts_after: Course starts after
+        starts_after: Course starts
         ends_before: Course ends before
         language: Language
         provider: Platform
@@ -583,7 +593,7 @@ en:
       sign_up:
         terms_and_conditions_failure: Please confirm to mammooc's terms and conditions!
       login:
-        reqired: You must be logged in.
+        required: You must be logged in.
       user:
         password_too_short: is too short (minimum is %{count} characters).
         password_confirmation: doesn't match with password.

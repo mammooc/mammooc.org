@@ -44,6 +44,7 @@ RSpec.describe 'Bookmark', type: :feature do
   describe 'delete bookmark for a course on course detail page' do
     let(:course) { FactoryGirl.create(:course) }
     let!(:bookmark) { FactoryGirl.create(:bookmark, user: user, course: course) }
+    let!(:activity_bookmark) { FactoryGirl.create(:activity_bookmark, trackable_id: bookmark.id, owner_id: user.id) }
 
     it 'deletes the specified bookmark', js: true do
       visit course_path(course)
@@ -88,6 +89,7 @@ RSpec.describe 'Bookmark', type: :feature do
     let!(:group) { FactoryGirl.create(:group, users: [user, author]) }
     let!(:recommendation) { FactoryGirl.create(:user_recommendation, author: author, course: course, users: [user]) }
     let!(:bookmark) { FactoryGirl.create(:bookmark, user: user, course: course) }
+    let!(:activity_bookmark) { FactoryGirl.create(:activity_bookmark, trackable_id: bookmark.id, owner_id: user.id) }
 
     it 'deletes the specified bookmark', js: true do
       visit dashboard_dashboard_path
@@ -110,6 +112,8 @@ RSpec.describe 'Bookmark', type: :feature do
     let(:second_course) { FactoryGirl.create(:course, name: 'Kurs 2') }
     let!(:bookmark) { FactoryGirl.create(:bookmark, course: course, user: user) }
     let!(:second_bookmark) { FactoryGirl.create(:bookmark, course: second_course, user: user) }
+    let!(:activity_bookmark) { FactoryGirl.create(:activity_bookmark, trackable_id: bookmark.id, owner_id: user.id) }
+    let!(:activity_second_bookmark) { FactoryGirl.create(:activity_bookmark, trackable_id: second_bookmark.id, owner_id: user.id) }
 
     it 'deletes bookmark', js: true do
       visit bookmarks_path

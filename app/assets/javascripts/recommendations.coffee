@@ -15,7 +15,22 @@ generate_groups_autocomplete = () ->
       source: groups_autocomplete
       delay: 100
       autoFocus: true
+      focus: (event) ->
+        event.preventDefault()
     showAutocompleteOnFocus: true
+
+  $('.recommendation_related_group_ids').on('tokenfield:createtoken', (event) ->
+    available_tokens = groups_autocomplete
+    exists = true
+    $.each available_tokens, (index, token) ->
+      if (token.value == event.attrs.value)
+        exists = false
+    if(exists == true)
+      event.preventDefault()
+    existingTokens = $(this).tokenfield('getTokens')
+    $.each existingTokens, (index, token) ->
+      if token.value == event.attrs.value
+        event.preventDefault())
 
 get_my_groups = () ->
   group_ids = []
@@ -53,7 +68,22 @@ generate_users_autocomplete = () ->
       source: users_autocomplete
       delay: 100
       autoFocus: true
+      focus: (event) ->
+        event.preventDefault()
     showAutocompleteOnFocus: true
+
+  $('.recommendation_related_user_ids').on('tokenfield:createtoken', (event) ->
+    available_tokens = users_autocomplete
+    exists = true
+    $.each available_tokens, (index, token) ->
+      if (token.value == event.attrs.value)
+        exists = false
+    if(exists == true)
+      event.preventDefault()
+    existingTokens = $(this).tokenfield('getTokens')
+    $.each existingTokens, (index, token) ->
+      if token.value == event.attrs.value
+        event.preventDefault())
 
 generate_groups_autocomplete_obligatory_recommendation = () ->
   get_my_admin_groups()
@@ -62,7 +92,22 @@ generate_groups_autocomplete_obligatory_recommendation = () ->
       source: groups_autocomplete
       delay: 100
       autoFocus: true
+      focus: (event) ->
+        event.preventDefault()
     showAutocompleteOnFocus: true
+
+  $('.obligatory_recommendation_related_group_ids').on('tokenfield:createtoken', (event) ->
+    available_tokens = groups_autocomplete
+    exists = true
+    $.each available_tokens, (index, token) ->
+      if (token.value == event.attrs.value)
+        exists = false
+    if(exists == true)
+      event.preventDefault()
+    existingTokens = $(this).tokenfield('getTokens')
+    $.each existingTokens, (index, token) ->
+      if token.value == event.attrs.value
+        event.preventDefault())
 
 get_my_admin_groups = () ->
   group_ids = []
@@ -100,7 +145,22 @@ generate_users_autocomplete_obligatory_recommendation = () ->
       source: users_autocomplete
       delay: 100
       autoFocus: true
+      focus: (event) ->
+        event.preventDefault()
     showAutocompleteOnFocus: true
+
+  $('.obligatory_recommendation_related_user_ids').on('tokenfield:createtoken', (event) ->
+    available_tokens = users_autocomplete
+    exists = true
+    $.each available_tokens, (index, token) ->
+      if (token.value == event.attrs.value)
+        exists = false
+    if(exists == true)
+      event.preventDefault()
+    existingTokens = $(this).tokenfield('getTokens')
+    $.each existingTokens, (index, token) ->
+      if token.value == event.attrs.value
+        event.preventDefault())
 
 generate_course_autocomplete = () ->
   $('#recommendation_course_id').tokenfield
@@ -122,6 +182,8 @@ generate_course_autocomplete = () ->
             response(results)
       delay: 100
       autoFocus: true
+      focus: (event) ->
+        event.preventDefault()
     showAutocompleteOnFocus: true
     limit: 1
 
