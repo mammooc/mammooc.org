@@ -73,7 +73,7 @@ generate_users_autocomplete = () ->
     showAutocompleteOnFocus: true
 
   $('.recommendation_related_user_ids').on('tokenfield:createtoken', (event) ->
-    available_tokens = groups_autocomplete
+    available_tokens = users_autocomplete
     exists = true
     $.each available_tokens, (index, token) ->
       if (token.value == event.attrs.value)
@@ -150,7 +150,7 @@ generate_users_autocomplete_obligatory_recommendation = () ->
     showAutocompleteOnFocus: true
 
   $('.obligatory_recommendation_related_user_ids').on('tokenfield:createtoken', (event) ->
-    available_tokens = groups_autocomplete
+    available_tokens = users_autocomplete
     exists = true
     $.each available_tokens, (index, token) ->
       if (token.value == event.attrs.value)
