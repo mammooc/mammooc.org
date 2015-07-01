@@ -23,7 +23,6 @@ class IversityCourseWorker < AbstractCourseWorker
     ects_track_type = CourseTrackType.find_by(type_of_achievement: 'iversity_ects')
     ects_pupils_track_type = CourseTrackType.find_by(type_of_achievement: 'iversity_ects_pupils')
 
-
     response_data['courses'].each do |course_element|
       course = Course.find_by(provider_course_id: course_element['id'].to_s, mooc_provider_id: mooc_provider.id) || Course.new
       update_map[course.id] = true unless course.new_record?

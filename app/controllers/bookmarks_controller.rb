@@ -17,7 +17,7 @@ class BookmarksController < ApplicationController
   def delete
     bookmark = Bookmark.find_by(user_id: params[:user_id], course_id: params[:course_id])
     bookmark.destroy
-    PublicActivity::Activity.find_by(trackable_id: bookmark.id, trackable_type: 'Bookmark' , owner: params[:user_id], owner_type: 'User').destroy
+    PublicActivity::Activity.find_by(trackable_id: bookmark.id, trackable_type: 'Bookmark', owner: params[:user_id], owner_type: 'User').destroy
     redirect_to bookmarks_path
   end
 

@@ -33,7 +33,7 @@ class DashboardController < ApplicationController
     all_my_sorted_recommendations.each do |recommendation|
       if recommendation.is_obligatory
         @number_of_mandatory_recommendations += 1
-        @number_of_recommendations -=1
+        @number_of_recommendations -= 1
       end
     end
 
