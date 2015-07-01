@@ -49,7 +49,15 @@
         p
         - if @course.language
           img src="/data/icons/globe.png" class="icon-small pr5"
-          = @course.language
+          - language_array = @course.language.split(',')
+          - language_array.each do |language|
+            - if I18n.t("language.#{language}").include? 'translation missing'
+              = language
+            - else
+              = I18n.t("language.#{language}")
+            - unless language_array.last == language
+              = ', '
+
 
       .options
         img src=@provider_logos[@course.mooc_provider.logo_id]
@@ -125,18 +133,18 @@
           - else
             = render 'please_sign_in_rating_form'
 
-  - if @course.abstract or @course.description
+  - if @course.abstract.present? or @course.description.present?
     .course-details id="course-description"
       .about
         .title
           = t('courses.about')
         .content
-          - if @course.abstract
+          - if @course.abstract.present?
             .hd4
               = t('courses.abstract')
             p
               = raw @course.abstract
-          - if @course.description
+          - if @course.description.present?
             .hd4
               = t('courses.description')
             p

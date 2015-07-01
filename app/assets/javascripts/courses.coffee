@@ -49,8 +49,13 @@
     if event.which == 13
       event.preventDefault()
   $('#' + toId).on "change input": (event) ->
-    $('#' + fromId).val($('#' + toId).val())
-    $('#' + fromId).change()
+    window.clearTimeout(timer)
+    timer = window.setTimeout (-> changeValueOfSearchField(fromId, toId)), 600
+
+changeValueOfSearchField = (fromId, toId) ->
+  $('#' + fromId).val($('#' + toId).val())
+  $('#' + fromId).change()
+
 
 @load_more = () ->
   #  Retrieve original URL parameters and only replace page attribute with the next possible

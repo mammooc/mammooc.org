@@ -18,6 +18,12 @@ FactoryGirl.define do
     type_of_achievement 'iversity_ects'
   end
 
+  factory :ects_pupils_track_type, class: CourseTrackType do
+    title 'Schüler-Track'
+    description 'You get ECTS points.'
+    type_of_achievement 'iversity_ects_pupils'
+  end
+
   factory :signature_course_track_type, class: CourseTrackType do
     title 'Signature Track'
     description 'You get a Verified Certificate issued by Coursera and the participating university.'
