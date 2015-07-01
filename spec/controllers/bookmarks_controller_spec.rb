@@ -42,7 +42,8 @@ RSpec.describe BookmarksController, type: :controller do
 
   describe 'GET delete' do
     it 'destroys the bookmark of specified user and course' do
-      FactoryGirl.create(:bookmark, user: user, course: course)
+      bookmark = FactoryGirl.create(:bookmark, user: user, course: course)
+      FactoryGirl.create(:activity_bookmark, trackable_id: bookmark.id, owner_id: user.id)
       expect { post :delete, user_id: user.id, course_id: course.id }.to change(Bookmark, :count).by(-1)
     end
   end

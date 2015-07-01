@@ -119,7 +119,7 @@
             = category
         .gradient-divider
 
-      - if @course.tracks.size == 1
+      - if @course.tracks.size == 1 && @course.tracks[0].track_type.present?
         - if @course.tracks[0].track_type.type_of_achievement
           .hd6.pb5
             = t('courses.tracks.types.type_of_achievement')
@@ -147,30 +147,31 @@
           = t('courses.tracks.headline')
         .panel-group id="track-accordion" role="tablist" aria-multiselectable="true"
           - @course.tracks.each_with_index do |track, i|
-            .panel.panel-default.do-not-show-link
-              a data-toggle="collapse" data-parent="#track-accordion" href="#collapse#{i}" aria-expanded="true" aria-controls="collapse#{i}"
-                .panel-heading role="tab" id="heading#{i}"
-                  .panel-title
-                    = track.track_type.title
-                    span.pull-right.glyphicon.glyphicon-chevron-down aria-hidden="true"
-              div class=(["panel-collapse", "collapse", i == 0 ? "in" : nil].compact.join(' ')) id="collapse#{i}" role="tabpanel" aria-labelledby="heading#{i}"
-                .panel-body
-                  - if track.track_type.description
-                    .pb15
-                      = raw(track.track_type.description)
-                  .hd6.pb5
-                    = t('courses.tracks.types.type_of_achievement')
-                  .pb10
-                    = t("courses.tracks.types.achievement_types.#{track.track_type.type_of_achievement}")
-
-                  - if track.costs
+            - if track.track_type.present?
+              .panel.panel-default.do-not-show-link
+                a data-toggle="collapse" data-parent="#track-accordion" href="#collapse#{i}" aria-expanded="true" aria-controls="collapse#{i}"
+                  .panel-heading role="tab" id="heading#{i}"
+                    .panel-title
+                      = track.track_type.title
+                      span.pull-right.glyphicon.glyphicon-chevron-down aria-hidden="true"
+                div class=(["panel-collapse", "collapse", i == 0 ? "in" : nil].compact.join(' ')) id="collapse#{i}" role="tabpanel" aria-labelledby="heading#{i}"
+                  .panel-body
+                    - if track.track_type.description
+                      .pb15
+                        = raw(track.track_type.description)
                     .hd6.pb5
-                      = t('courses.tracks.types.costs')
+                      = t('courses.tracks.types.type_of_achievement')
                     .pb10
-                      = "#{format("%.2f", track.costs)} #{track.costs_currency}"
+                      = t("courses.tracks.types.achievement_types.#{track.track_type.type_of_achievement}")
 
-                  - if track.credit_points
-                    .hd6.pb5
-                      = t('courses.tracks.types.credit_points')
-                    .pb10
-                    = track.credit_points
+                    - if track.costs
+                      .hd6.pb5
+                        = t('courses.tracks.types.costs')
+                      .pb10
+                        = "#{format("%.2f", track.costs)} #{track.costs_currency}"
+
+                    - if track.credit_points
+                      .hd6.pb5
+                        = t('courses.tracks.types.credit_points')
+                      .pb10
+                      = track.credit_points

@@ -42,30 +42,33 @@ de:
     next_label: 'Nächste &#187;'
 
   language:
-    english: Englisch
-    german: Deutsch
-    french: Französisch
-    spanish: Spanisch
-    arabic: Arabisch
-    italian: Italienisch
-    chinese: Chinesisch
-    portuguese: Portugiesisch
-    russian: Russisch
-    swedish: Schwedisch
-    hebrew: Hebräisch
-    romanian: Rumänisch
-    greek: Griechisch
-    filipino: Filipino
-    ukrainian: Ukrainisch
-    vietnamese: Vietnamesisch
-    turkish: Türkisch
-    lithuanian: Litauisch
-    kazakh: Kasachisch
-    serbian: Serbisch
-    korean: Koreanisch
-    japanese: Japanisch
-    dutch: Niederländisch
-    indonesian: Indonesisch
+    ar: Arabisch
+    cn: Chinesisch
+    de: Deutsch
+    el: Griechisch
+    en: Englisch
+    es: Spanisch
+    fil: Philippinisch
+    fr: Französisch
+    he: Hebräisch
+    id: Indonesisch
+    it: Italienisch
+    ja: Japanaisch
+    kk: Kasachisch
+    ko: Koreanisch
+    lt: Litauisch
+    nl: Niederländisch
+    pt: Portugiesisch
+    pt-br: Portugiesisch (Brasilien)
+    ro: Rumänisch
+    ru: Russisch
+    sr: Serbisch
+    tr: Türkisch
+    uk: Ukrainisch
+    vi: Vietnamesisch
+    zh: Chinesisch
+    zh-cn: Chinesisch (China)
+    zh-tw: Chinesisch (Taiwan)
 
   navbar:
     home: Home
@@ -96,8 +99,13 @@ de:
     no_courses: :courses.no_courses
     you_have: Du hast
     number_of_mandatory_recommendations: '%{number} Vorschreibungen'
+    one_mandatory_recommendation: '1 Vorschreibung'
     number_of_recommendations: '%{number} Empfehlungen'
+    no_recommendations: 'keine Empfehlungen'
+    one_recommendation: '1 Empfehlung'
     number_of_activities: Es gibt %{number} aktuelle Aktivitäten in deinen Gruppen
+    no_activities: Es gibt keine aktuellen Aktivitäten in deinen Gruppen
+    one_activity: Es gibt 1 aktuelle Aktivität in deinen Gruppen
     complete_profile: Vervollständige dein Profil
     manage_groups: Verwalte deine Gruppen
     search_courses: Finde passende Kurse
@@ -385,6 +393,7 @@ de:
           certificate: Zertifikat
           iversity_certificate: :courses.tracks.types.achievement_types.certificate
           iversity_ects: ECTS-Punkte
+          iversity_ects_pupils: ECTS-Punkte
           coursera_verified_certificate: Verifiziertes Zertifikat
           edx_verified_certificate: :courses.tracks.types.achievement_types.coursera_verified_certificate
           edx_xseries_certificate: edX XSeries Zertifikat
@@ -414,7 +423,7 @@ de:
         range5: 150-200
         range6: '> 200'
       labels:
-        starts_after: Kurs beginnt nach dem
+        starts_after: Kurs beginnt
         ends_before: Kurs endet vor dem
         language: Sprache
         provider: Plattform
@@ -580,7 +589,7 @@ de:
       taken: ist bereits belegt.
       blank: muss ausgefüllt werden.
       login:
-        reqired: Du musst eingeloggt sein.
+        required: Du musst eingeloggt sein.
       sign_up:
         terms_and_conditions_failure: Bitte bestätige die AGBs von mammooc!
       user:

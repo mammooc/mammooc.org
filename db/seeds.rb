@@ -51,6 +51,9 @@ edx_xseries_track_type = CourseTrackType.create!(title: 'XSeries',
 edx_profed_track_type = CourseTrackType.create!(title: 'Professional Education',
                                                 description: 'You get a Professional Education certificate.',
                                                 type_of_achievement: 'edx_profed_certificate')
+iversity_student_track = CourseTrackType.create!(title: 'Schüler-Track',
+                                                 description: "<ul class=\"list-none\">\r\n<li>Benotete Präsenzprüfung</li>\r\n<li>Leistungsnachweis</li>\r\n<li>Zertifikatszusatz</li>\r\n<li>5 ECTS-Punkte</li>\r\n</ul>\r\n",
+                                                 type_of_achievement: 'iversity_ects_pupils')
 
 OpenHPICourseWorker.perform_async
 OpenSAPCourseWorker.perform_async
@@ -99,8 +102,8 @@ case Rails.env
     Kerstin: “I have to honestly say that I am impressed by what you’ve accomplished here. The course was totally professional and the tasks were set up so that it was possible to learn a lot. It was important for me to get an overview of the technologies and relationships between them. The class was taught really well and it was fun too.”
 
     Claudia; “I enjoyed this course so much. It gave me a chance to expand my horizons in web technologies a great deal. I really liked the practical homework exercises, especially the calculation task in Week 5. I’m already looking forward to the next course. Keep up the good work!”',
-                                 language: 'English',
-                                 subtitle_languages: 'English, German',
+                                 language: 'en,de',
+                                 subtitle_languages: 'en,de',
                                  imageId: 'https://open.hpi.de/files/45ce8877-d21b-4389-9032-c6525b4724d0',
                                  videoId: '',
                                  start_date: Time.zone.local(2015, 6, 1, 8),

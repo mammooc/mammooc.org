@@ -11,9 +11,9 @@
           .author
             - if evaluation[:user_id].present?
               / Here could be a link to the evaluating user's profile
-              = evaluation[:user_name]
+              => evaluation[:user_name]
             - else
-              = evaluation[:user_name]
+              => evaluation[:user_name]
           = evaluation[:course_status]
           .user-rating-value
             input.rating type='hidden' value="#{evaluation[:rating]}" data-start="0" data-stop="5" id="user-rating-output-#{index}" disabled="disabled"
@@ -27,7 +27,7 @@
         - if evaluation[:evaluation_rating_count].present? &&  evaluation[:evaluation_rating_count] > 0
           .evaluation-rating-notice
             = t('evaluations.users_found_evaluation_helpful',helpful_rating_count: evaluation[:evaluation_helpful_rating_count], rating_count: evaluation[:evaluation_rating_count])
-        - unless evaluation[:user_id] == current_user.id
+        - if user_signed_in? && evaluation[:user_id] != current_user.id
           div class="was-helpful-evaluation-#{evaluation[:evaluation_id]}"
             = t('evaluations.did_you_like_evaluation') + ' '
             a class="rate-evaluation-link" id="rate-evaluation-link-#{index}-true" data-helpful="true" data-evaluation_id="#{evaluation[:evaluation_id]}"

@@ -15,13 +15,35 @@
     .user-info.hidden-xs.link-black-hover-green
       - if @number_of_mandatory_recommendations != 0
         = t('dashboard.you_have')
+        - if @number_of_mandatory_recommendations == 1
+          =< link_to t('dashboard.one_mandatory_recommendation'), recommendations_path
+        - else
           =< link_to t('dashboard.number_of_mandatory_recommendations', number: @number_of_mandatory_recommendations), recommendations_path
         br
-      = t('dashboard.you_have')
-      =< link_to t('dashboard.number_of_recommendations', number: @number_of_recommendations), recommendations_path
-      br
-      = t('dashboard.number_of_activities', number: @number_of_activities)
-      br
+        = t('dashboard.you_have')
+        - if @number_of_recommendations == 0
+          =< link_to t('dashboard.no_recommendations'), recommendations_path
+        - elsif @number_of_recommendations == 1
+          =< link_to t('dashboard.one_recommendation'), recommendations_path
+        - else
+          =< link_to t('dashboard.number_of_recommendations', number: @number_of_recommendations), recommendations_path
+        br
+      - else
+        = t('dashboard.you_have')
+        - if @number_of_recommendations == 0
+          =< link_to t('dashboard.no_recommendations'), recommendations_path
+        - elsif @number_of_recommendations == 1
+          =< link_to t('dashboard.one_recommendation'), recommendations_path
+        - else
+          =< link_to t('dashboard.number_of_recommendations', number: @number_of_recommendations), recommendations_path
+        br
+        - if @number_of_activities == 0
+          = t('dashboard.no_activities')
+        - elsif @number_of_activities == 1
+          = t('dashboard.one_activity')
+        - else
+          = t('dashboard.number_of_activities', number: @number_of_activities)
+        br
 
   .dashboard-actions.hidden-xs
     = link_to current_user
