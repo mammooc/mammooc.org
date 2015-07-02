@@ -5,7 +5,7 @@ require 'singleton'
 class AmazonS3
   include Singleton
 
-  BUCKET_NAME = 'mammooc'
+  BUCKET_NAME = ENV['S3_BUCKET_NAME']
 
   def initialize
     new_aws_resource
