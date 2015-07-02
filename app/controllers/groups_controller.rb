@@ -43,7 +43,6 @@ class GroupsController < ApplicationController
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
 
     @group_picture = Group.group_images_hash_for_groups [@group]
-    @rating_picture = AmazonS3.instance.get_url('five_stars.png')
 
     @activities = PublicActivity::Activity.order('created_at desc').select {|activity| (@group.users.collect(&:id).include? activity.owner_id) && activity.group_ids.present? && (activity.group_ids.include? @group.id) }
     @activity_courses = {}
@@ -78,7 +77,6 @@ class GroupsController < ApplicationController
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
     @profile_pictures = User.author_profile_images_hash_for_recommendations(@recommendations)
     @group_picture = Group.group_images_hash_for_groups [@group]
-    @rating_picture = AmazonS3.instance.get_url('five_stars.png')
 
     @activities = PublicActivity::Activity.order('created_at desc').where(owner_id: @group.users, trackable_type: 'Recommendation')
     @activity_courses = {}
