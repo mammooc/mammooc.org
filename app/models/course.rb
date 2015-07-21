@@ -32,6 +32,17 @@ class Course < ActiveRecord::Base
   has_many :user_assignments
   has_many :tracks, class_name: 'CourseTrack', dependent: :destroy
 
+  has_attached_file :course_image,
+                    styles: {
+                        thumb: '100x100#',
+                        medium: 'x250',
+                        original: '300x300>'},
+                    s3_storage_class: :reduced_redundancy,
+                    s3_permissions: :private,
+                    default_url: '/data/course_picture_default.png'
+
+  validates_attachment_content_type :course_image, content_type: /\Aimage\/.*\Z/
+
   validates :tracks, length: {minimum: 1}
 
   before_save :check_and_update_duration
@@ -301,6 +312,13 @@ class Course < ActiveRecord::Base
       end
       activity.destroy if course == self
     end
+  end
+
+  def self.process_uri(uri)
+    return if uri.nil?
+    avatar_url = URI.parse(uri)
+    avatar_url.scheme = 'https'
+    avatar_url.to_s
   end
 
   private

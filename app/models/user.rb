@@ -28,7 +28,8 @@ class User < ActiveRecord::Base
     styles: {
       thumb: '100x100#',
       square: '300x300#',
-      medium: '300x300>'},
+      medium: '300x300>',
+      original: '300x300>'},
     s3_storage_class: :reduced_redundancy,
     s3_permissions: :private,
     default_url: '/data/profile_picture_default.png'

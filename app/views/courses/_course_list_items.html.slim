@@ -1,8 +1,8 @@
 - @courses.each do |course|
   .courses
     .course-image
-      - if course.imageId
-        = image_tag(course.imageId)
+      - if course.course_image
+        = image_tag(course.course_image.url)
       - else
         img src="/data/icons/courses-list-std.png"
       - if user_signed_in?

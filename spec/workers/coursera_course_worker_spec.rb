@@ -44,7 +44,7 @@ RSpec.describe CourseraCourseWorker do
     expect(course.calculated_duration_in_days).to eql 42
     expect(course.url).to include json_course['shortName']
     expect(course.language).to eql json_course['language']
-    expect(course.imageId).to eql json_course['photo']
+    expect(course.course_image).not_to eql nil
     expect(course.start_date).to eql Time.zone.parse Time.zone.local(json_session['startYear'], json_session['startMonth'], json_session['startDay']).to_s
     expect(course.abstract).to eql json_course['shortDescription']
     expect(course.course_instructors).to eql json_course['instructor']

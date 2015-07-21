@@ -25,9 +25,9 @@ br
   = t('groups.statistics.enrolled_courses')
 - @enrolled_courses_with_amount.each do |enrolled_course_hash|
   .enrollments
-    - if enrolled_course_hash[:course].imageId
+    - if enrolled_course_hash[:course].course_image
       .enrollment-picture
-        = image_tag(enrolled_course_hash[:course].imageId)
+        = image_tag(enrolled_course_hash[:course].course_image.url)
     .enrollment-text
       = link_to enrolled_course_hash[:course].name, course_path(enrolled_course_hash[:course].id)
       br

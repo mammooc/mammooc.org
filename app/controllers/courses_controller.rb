@@ -185,7 +185,7 @@ class CoursesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def course_params
-    params.require(:course).permit(:name, :url, :course_instructor, :abstract, :language, :imageId, :videoId, :start_date, :end_date, :duration, :costs, :type_of_achievement, :categories, :difficulty, :requirements, :workload, :provider_course_id, :mooc_provider_id, :course_result_id)
+    params.require(:course).permit(:name, :url, :course_instructor, :abstract, :language, :course_image, :videoId, :start_date, :end_date, :duration, :costs, :type_of_achievement, :categories, :difficulty, :requirements, :workload, :provider_course_id, :mooc_provider_id, :course_result_id)
   end
 
   def create_evaluation_object_for_course(course)

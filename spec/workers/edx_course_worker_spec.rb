@@ -37,7 +37,7 @@ RSpec.describe EdxCourseWorker do
     expect(course.provider_course_id).to eql json_course['course:id']
     expect(course.mooc_provider_id).to eql mooc_provider.id
     expect(course.url).to eql json_course['link']
-    expect(course.imageId).to eql json_course['course:image-thumbnail']
+    expect(course.course_image).not_to eql nil
     expect(course.start_date).to eq Time.zone.parse(json_course['course:start']).in_time_zone
     expect(course.end_date).to eq Time.zone.parse(json_course['course:end']).in_time_zone
     expect(course.provider_given_duration).to eql json_course['course:length']

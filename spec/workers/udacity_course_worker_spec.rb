@@ -35,7 +35,7 @@ describe UdacityCourseWorker do
     expect(course.url).to eql courses_json['courses'][0]['homepage']
     expect(course.abstract).to eql courses_json['courses'][0]['summary']
     expect(course.language).to eql 'en'
-    expect(course.imageId).to eql courses_json['courses'][0]['image']
+    expect(course.course_image).not_to eql nil
     expect(course.videoId).to eql courses_json['courses'][0]['teaser_video']['youtube_url']
     expect(course.difficulty).to eql courses_json['courses'][0]['level'].capitalize
 
