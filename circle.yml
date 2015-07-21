@@ -28,6 +28,7 @@ database:
 test:
   post:
     - bundle exec rake rubocop:show
+    - mv config/database.yml config/database.yml.circleci
     - mv config/database.yml.backup config/database.yml
 
 
@@ -56,6 +57,8 @@ deployment:
       - heroku run rake db:schema:load db:seed RAILS_ENV=development --app mammooc-dev
       - heroku restart --app mammooc-dev
       - heroku maintenance:off --app mammooc-dev
+      # Gemnasium Auto-Update
+      - mv config/database.yml.circleci config/database.yml
       - gemnasium autoupdate run
 
   teaser:
