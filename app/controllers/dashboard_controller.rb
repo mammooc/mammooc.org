@@ -25,6 +25,12 @@ class DashboardController < ApplicationController
         if @activity_courses[activity.id].present?
           @activity_courses_bookmarked[activity.id] = @activity_courses[activity.id].bookmarked_by_user? current_user
         end
+        #privacy settings
+        if activity.key == 'course.enroll'
+          unless activity.owner.course_enrollments_visible_for_user(current_user)
+            @activities -= [activity]
+          end
+        end
       end
       @number_of_activities = @activities.length
     end

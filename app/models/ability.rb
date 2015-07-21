@@ -35,11 +35,11 @@ class Ability
     end
 
     can [:show], User do |checked_user|
-      checked_user.profile_visible_for(user)
+      checked_user.profile_visible_for_user(user)
     end
 
     can [:completions], User do |checked_user|
-      checked_user.course_results_visible_for(user)
+      checked_user.course_results_visible_for_user(user)
     end
 
   end

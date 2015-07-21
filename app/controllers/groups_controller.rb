@@ -44,6 +44,7 @@ class GroupsController < ApplicationController
 
     @group_picture = Group.group_images_hash_for_groups [@group]
 
+    #ACTIVITIES
     @activities = PublicActivity::Activity.order('created_at desc').select {|activity| (@group.users.collect(&:id).include? activity.owner_id) && activity.group_ids.present? && (activity.group_ids.include? @group.id) }
     @activity_courses = {}
     @activity_courses_bookmarked = {}
@@ -57,8 +58,16 @@ class GroupsController < ApplicationController
         if @activity_courses[activity.id].present?
           @activity_courses_bookmarked[activity.id] = @activity_courses[activity.id].bookmarked_by_user? current_user
         end
+        #privacy settings
+        if activity.key == 'course.enroll'
+          unless activity.owner.course_enrollments_visible_for_group(@group)
+            @activities -= [activity]
+          end
+        end
       end
     end
+
+    #PICTURES
     @profile_pictures = User.author_profile_images_hash_for_activities(@activities)
     @profile_pictures = User.user_profile_images_hash_for_users(@group.users, @profile_pictures)
   end

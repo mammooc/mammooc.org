@@ -19,8 +19,8 @@ class UsersController < ApplicationController
   def show
     @user_picture = @user.profile_image.expiring_url(3600, :square)
     @bookmarks = current_user.bookmarks
-    @enrollments_visible = @user.course_enrollments_visible_for(current_user)
-    @completions_visible = @user.course_results_visible_for(current_user)
+    @enrollments_visible = @user.course_enrollments_visible_for_user(current_user)
+    @completions_visible = @user.course_results_visible_for_user(current_user)
   end
 
   # PATCH/PUT /users/1

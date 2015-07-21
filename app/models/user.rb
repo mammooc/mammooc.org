@@ -281,33 +281,46 @@ class User < ActiveRecord::Base
     setting
   end
 
-  def course_enrollments_visible_for(user)
-    visibility_for(user, :course_enrollments_visibility)
+  def course_enrollments_visible_for_user(user)
+    visibility_for_user(user, :course_enrollments_visibility)
   end
 
   def course_enrollments_visible_for_group(group)
     visibility_for_group(group, :course_enrollments_visibility)
   end
 
-  def course_results_visible_for(user)
-    visibility_for(user, :course_results_visibility)
+  def course_results_visible_for_user(user)
+    visibility_for_user(user, :course_results_visibility)
   end
 
-  def profile_visible_for(user)
-    visibility_for(user, :profile_visibility)
+  def course_results_visible_for_group(group)
+    visibility_for_group(group, :course_results_visibility)
   end
 
-  def visibility_for(user, setting)
+  def profile_visible_for_user(user)
+    visibility_for_user(user, :profile_visibility)
+  end
+
+  def visibility_for_user(user, setting)
     user_is_able = id == user.id
     unless user_is_able
       UserSettingEntry.where(setting: (settings.where(name: setting))).each do |user_setting_entry|
         if user_setting_entry.key == 'groups'
           common_groups_with_user(user).collect(&:id).each do |group_id|
-            user_is_able = user_setting_entry.value.include? group_id
+          if user_setting_entry.present?
+            if user_setting_entry.value.present?
+              user_is_able = user_setting_entry.value.include? group_id
+            end
+          end
             break if user_is_able
           end
         elsif user_setting_entry.key == 'users'
-          user_is_able = user_setting_entry.value.include? user.id
+          if user_setting_entry.present?
+            if user_setting_entry.value.present?
+              user_is_able = user_setting_entry.value.include? user.id
+            end
+          end
+
         end
         break if user_is_able
       end
