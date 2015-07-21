@@ -8,7 +8,7 @@ if ENV['CIRCLE_ARTIFACTS']
   require 'coveralls'
   formatters << Coveralls::SimpleCov::Formatter
   SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[*formatters]
-  dir = File.join("..", "..", "..", ENV['CIRCLE_ARTIFACTS'], "coverage")
+  dir = File.join('..', '..', '..', ENV['CIRCLE_ARTIFACTS'], 'coverage')
   SimpleCov.coverage_dir(dir)
 end
 SimpleCov.start do
