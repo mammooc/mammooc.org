@@ -4,8 +4,6 @@ FactoryGirl.define do
     description 'Blub'
     user { FactoryGirl.create(:user) }
     course { FactoryGirl.create(:course) }
-    creation_date Time.zone.now
-    update_date Time.zone.now
     course_status :enrolled
     rated_anonymously false
     total_feedback_count { rand(1..2) }
@@ -16,8 +14,6 @@ FactoryGirl.define do
     rating { rand(1..5) }
     user { FactoryGirl.create(:user) }
     course { FactoryGirl.create(:course) }
-    creation_date Time.zone.now
-    update_date Time.zone.now
     course_status :enrolled
     rated_anonymously true
   end

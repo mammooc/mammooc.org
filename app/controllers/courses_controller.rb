@@ -121,13 +121,11 @@ class CoursesController < ApplicationController
       evaluation = Evaluation.find_by(user_id: current_user.id, course_id: @course.id)
       if evaluation.blank?
         evaluation = Evaluation.new(user_id: current_user.id, course_id: @course.id)
-        evaluation.creation_date = Time.zone.now
       end
       evaluation.rating = params[:rating].to_i
       evaluation.description = params[:rating_textarea]
       evaluation.course_status = params[:course_status].to_sym
       evaluation.rated_anonymously = params[:rate_anonymously]
-      evaluation.update_date = Time.zone.now
       evaluation.save
     end
     @current_user_evaluation = current_user.evaluations.find_by(course_id: @course.id)
@@ -196,7 +194,7 @@ class CoursesController < ApplicationController
           evaluation_id: evaluation.id,
           rating: evaluation.rating,
           description: evaluation.description,
-          creation_date: evaluation.creation_date,
+          creation_date: evaluation.created_at,
           total_feedback_count: evaluation.total_feedback_count,
           positive_feedback_count: evaluation.positive_feedback_count
         }

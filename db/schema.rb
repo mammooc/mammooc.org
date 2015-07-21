@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150721084258) do
+ActiveRecord::Schema.define(version: 20150721093633) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -196,8 +196,6 @@ ActiveRecord::Schema.define(version: 20150721084258) do
     t.boolean  "rated_anonymously"
     t.integer  "total_feedback_count",    default: 0, null: false
     t.integer  "positive_feedback_count", default: 0, null: false
-    t.datetime "update_date"
-    t.datetime "creation_date"
   end
 
   add_index "evaluations", ["course_id"], name: "index_evaluations_on_course_id", using: :btree
