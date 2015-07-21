@@ -276,7 +276,7 @@ de:
       synchronize: Daten aller Mitglieder synchronisieren
       information_title: 'Hinweis:'
       information:  Für die Statistiken werden nur Daten von Nutzern verwendet, die diese freigegeben haben.
-      number_of_share_member: In dieser Gruppe haben %{number} Mitglieder ihre Daten freigegeben.
+      number_of_share_member: In dieser Gruppe haben %{number} Mitglieder ihre Kursbelegungen freigegeben.
 
   activerecord:
     models:

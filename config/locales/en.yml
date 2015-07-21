@@ -277,7 +277,7 @@ en:
       synchronize: Synchronize data of all members
       information_title: 'Please Note:'
       information: To calculate the following statistics we only use data from group members who decided to share their data.
-      number_of_share_member: In this group %{number} members share their data.
+      number_of_share_member: In this group %{number} members share their course enrollments.
 
   activerecord:
     models:

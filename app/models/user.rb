@@ -285,6 +285,10 @@ class User < ActiveRecord::Base
     visibility_for(user, :course_enrollments_visibility)
   end
 
+  def course_enrollments_visible_for_group(group)
+    visibility_for_group(group, :course_enrollments_visibility)
+  end
+
   def course_results_visible_for(user)
     visibility_for(user, :course_results_visibility)
   end
@@ -309,6 +313,17 @@ class User < ActiveRecord::Base
       end
     end
     user_is_able
+  end
+
+  def visibility_for_group(group, setting)
+    group_is_able = false
+    user_setting_entry = UserSettingEntry.find_by(setting: (settings.where(name: setting)), key: 'groups')
+    if user_setting_entry.present?
+      if user_setting_entry.value.present?
+        group_is_able = user_setting_entry.value.include? group.id
+      end
+    end
+    group_is_able
   end
 
   private

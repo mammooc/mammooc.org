@@ -105,6 +105,7 @@ class GroupsController < ApplicationController
     @average_enrollments = @group.average_enrollments
     @enrolled_courses_with_amount = @group.enrolled_courses_with_amount
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(@group.enrolled_courses)
+    @number_of_users_share_course_enrollments = @group.number_of_users_who_share_course_enrollments
   end
 
   # POST /groups
