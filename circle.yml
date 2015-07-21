@@ -1,7 +1,6 @@
 general:
   artifacts:
     - "rubocop.html"
-    - "coverage"
 
 
 machine:
