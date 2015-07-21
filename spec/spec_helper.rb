@@ -3,10 +3,12 @@ require 'simplecov'
 if ENV['CIRCLE_ARTIFACTS']
   require 'codeclimate-test-reporter'
   CodeClimate::TestReporter.start
-  require 'pullreview/coverage'
   formatters = []
   formatters << SimpleCov::Formatter::HTMLFormatter
+  require 'pullreview/coverage'
   formatters << PullReview::Coverage::Formatter
+  require 'coveralls'
+  formatters << Coveralls::SimpleCov::Formatter
   SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[*formatters]
   dir = File.join("..", "..", "..", ENV['CIRCLE_ARTIFACTS'], "coverage")
   SimpleCov.coverage_dir(dir)
