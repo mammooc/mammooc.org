@@ -27,7 +27,6 @@ database:
 
 test:
   post:
-    - gemnasium autoupdate run
     - bundle exec rake rubocop:show
     - mv config/database.yml.backup config/database.yml
 
