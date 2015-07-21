@@ -15,16 +15,14 @@ machine:
 
 
 deployment:
-  production-docker:
+  production:
     branch: master
     commands:
+      # Docker
       - docker build -t mammooc/mammooc.org .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push mammooc/mammooc.org
-
-  production-heroku:
-    branch: master
-    commands:
+      # Heroku
       - heroku maintenance:on --app mammooc
       - git push git@heroku.com:mammooc.git
       - heroku pg:reset DATABASE --app mammooc --confirm mammooc
@@ -32,7 +30,7 @@ deployment:
       - heroku restart --app mammooc
       - heroku maintenance:off --app mammooc
 
-  development-heroku:
+  development:
     branch: dev
     commands:
       - heroku maintenance:on --app mammooc-dev
@@ -42,7 +40,7 @@ deployment:
       - heroku restart --app mammooc-dev
       - heroku maintenance:off --app mammooc-dev
 
-  teaser-heroku:
+  teaser:
     branch: teaser
     commands:
       - heroku maintenance:on --app mammooc-teaser
