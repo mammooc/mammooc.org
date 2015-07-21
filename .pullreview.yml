@@ -1,4 +1,4 @@
 ---
 notifications:
   pullrequest:
-    comment: verbose
+    comment: enabled
