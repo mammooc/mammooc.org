@@ -85,6 +85,7 @@ RSpec.configure do |config|
     allow_any_instance_of(AmazonS3).to receive(:put_data).and_return(true)
     allow_any_instance_of(AmazonS3).to receive(:get_url).and_return('/data/icons/courses.png')
     allow(User).to receive(:process_uri).and_return(nil)
+    allow(Course).to receive(:process_uri).and_return(nil)
   end
 
   # rspec-expectations config goes here. You can use an alternate
