@@ -655,7 +655,7 @@ de:
       recommendation: :unauthorized.create.recommendation
     show:
       group: Du hast keinen Zugriff auf diese Gruppe.
-      user: Du hast keinen Zugriff auf diesen Nutzer.
+      user: Der Nutzer hat sein Profil für dich nicht freigeschaltet.
     edit:
       group: Du kannst diese Gruppe nicht bearbeiten.
       user: Du kannst diesen Nutzer nicht bearbeiten.

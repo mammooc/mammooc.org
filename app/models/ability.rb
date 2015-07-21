@@ -29,11 +29,27 @@ class Ability
 
     # Users
     cannot [:create, :show, :update, :destroy, :finish_signup], User
-    can [:show, :update, :destroy, :finish_signup], User do |checked_user|
+
+    can [:update, :destroy, :finish_signup], User do |checked_user|
+     checked_user.id == user.id
+    end
+
+    can [:show], User do |checked_user|
       user_is_able = checked_user.id == user.id
-      user.groups.each do |group|
-        user_is_able = true if group.users.include? checked_user
-        break if user_is_able
+      unless user_is_able
+        UserSettingEntry.where(setting: (checked_user.settings.where(name: :profile_visibility))).each do |user_setting_entry|
+          if user_setting_entry.key == 'groups'
+            checked_user.common_groups_with_user(user).collect(&:id).each do |group_id|
+              user_is_able = user_setting_entry.value.include? group_id
+              if user_is_able
+              end
+              break if user_is_able
+            end
+          elsif user_setting_entry.key == 'users'
+            user_is_able = user_setting_entry.value.include? user.id
+          end
+          break if user_is_able
+        end
       end
       user_is_able
     end
