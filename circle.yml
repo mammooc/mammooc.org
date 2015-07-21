@@ -4,15 +4,43 @@ general:
     - "coverage"
 
 
+machine:
+  environment:
+    GEMNASIUM_TESTSUITE: "bundle exec rake"
+    GEMNASIUM_PROJECT_SLUG: "mammooc/mammooc.org"
+  services:
+    - docker
+
+
+dependencies:
+  pre:
+    - sudo sh -c 'echo "deb http://apt.gemnasium.com stable main" > /etc/apt/sources.list.d/gemnasium.list'
+    - sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com E5CEAB0AC5F1CA2A
+    - sudo apt-get update
+    - sudo apt-get install gemnasium-toolbelt
+
+
+database:
+  pre:
+    - mv config/database.yml config/database.yml.backup
+
+
 test:
   post:
+    - gemnasium autoupdate run
     - bundle exec rake rubocop:show
+    - mv config/database.yml.backup config/database.yml
 
 
 deployment:
   production:
     branch: master
     commands:
+      # Docker
+      - docker build -t mammooc/mammooc.org .
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push mammooc/mammooc.org
+      # Heroku
       - heroku maintenance:on --app mammooc
       - git push git@heroku.com:mammooc.git
       - heroku pg:reset DATABASE --app mammooc --confirm mammooc
@@ -29,6 +57,7 @@ deployment:
       - heroku run rake db:schema:load db:seed RAILS_ENV=development --app mammooc-dev
       - heroku restart --app mammooc-dev
       - heroku maintenance:off --app mammooc-dev
+      - gemnasium autoupdate run
 
   teaser:
     branch: teaser
