@@ -35,7 +35,7 @@ class IversityCourseWorker < AbstractCourseWorker
         when 'English' then course.language = 'en'
         when %w(en es) then course.language = 'en,es'
       end
-      course.course_image = course.process_uri(course_element['image'])
+      course.course_image = Course.process_uri(course_element['image'])
       course.videoId = course_element['trailer_video']
       course.start_date = course_element['start_date']
       course.end_date = course_element['end_date']

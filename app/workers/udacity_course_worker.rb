@@ -29,7 +29,7 @@ class UdacityCourseWorker < AbstractCourseWorker
       course.url = course_element['homepage']
       course.abstract = course_element['summary']
       course.language = 'en'
-      course.course_image = course.process_uri(course_element['image'])
+      course.course_image = course.process_uri(Course_element['image'])
       course.videoId = course_element['teaser_video']['youtube_url'] if course_element['teaser_video']['youtube_url']
       course.difficulty = course_element['level'].capitalize
 
