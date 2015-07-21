@@ -119,6 +119,7 @@ group :development, :test do
   gem 'rubocop', require: false
   gem 'rubocop-rspec', require: false
   gem 'pullreview-coverage', require: false
+  gem 'codeclimate-test-reporter', require: false
 
   gem 'quiet_assets'
 end

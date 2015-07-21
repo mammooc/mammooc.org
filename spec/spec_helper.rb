@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
 require 'simplecov'
 if ENV['CIRCLE_ARTIFACTS']
+  require 'codeclimate-test-reporter'
+  CodeClimate::TestReporter.start
   require 'pullreview/coverage'
   formatters = []
   formatters << SimpleCov::Formatter::HTMLFormatter
