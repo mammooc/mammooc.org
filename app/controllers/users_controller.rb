@@ -277,8 +277,6 @@ class UsersController < ApplicationController
   end
 
   def completions
-    puts '##################################'
-    puts @user.first_name
     @completions = Completion.where(user: @user).sort_by(&:created_at).reverse
     courses = []
     @completions.each do |completion|

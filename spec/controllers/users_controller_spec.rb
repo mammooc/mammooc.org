@@ -614,4 +614,19 @@ RSpec.describe UsersController, type: :controller do
       expect(UserEmail.find(primary_email.id).address).to eq primary_email.address
     end
   end
+
+  describe 'GET completions' do
+    let(:course) { FactoryGirl.create(:course) }
+
+    let(:valid_attributes) do
+      {user: user, course: course}
+    end
+
+    it 'assigns all completions as @completions' do
+      completion = Completion.create! valid_attributes
+      get :completions, id: user
+      expect(assigns(:completions)).to eq([completion])
+    end
+  end
+
 end
