@@ -38,7 +38,7 @@ class Course < ActiveRecord::Base
                         medium: 'x250',
                         original: '300x300>'},
                     s3_storage_class: :reduced_redundancy,
-                    s3_permissions: :private,
+                    s3_permissions: :public_read,
                     default_url: '/data/course_picture_default.png'
 
   validates_attachment_content_type :course_image, content_type: /\Aimage\/.*\Z/
