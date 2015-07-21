@@ -1,10 +1,10 @@
 # -*- encoding : utf-8 -*-
 class EvaluationsController < ApplicationController
-  before_action :set_evaluation, only: [:process_evaluation_rating]
+  before_action :set_evaluation, only: [:process_feedback]
 
   respond_to :html
 
-  def process_evaluation_rating
+  def process_feedback
     unless @evaluation.user == current_user
       if params['helpful'] == 'true'
         @evaluation.positive_feedback_count += 1
@@ -18,7 +18,7 @@ class EvaluationsController < ApplicationController
     respond_to do |format|
       begin
         format.html { redirect_to dashboard_path }
-        format.json { render :process_evaluation_rating_result, status: :ok }
+        format.json { render :process_feedback_result, status: :ok }
       rescue StandardError => e
         format.html { redirect_to dashboard_path }
         format.json { render json: e.to_json, status: :unprocessable_entity }
