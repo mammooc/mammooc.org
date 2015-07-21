@@ -478,7 +478,7 @@ en:
     heading: Course Evaluation
     please_sign_in: Please sign in to evaluate the course. Don't have an account yet?
     path_to_registration: Sign up here!
-    users_found_evaluation_helpful: '%{helpful_rating_count} of %{rating_count} people found the review helpful'
+    users_found_evaluation_helpful: '%{positive_feedback_count} of %{feedback_count} people found the review helpful'
     did_you_like_evaluation: How did you like this evaluation?
     helpful: Helpful
     not_helpful: Not Helpful
