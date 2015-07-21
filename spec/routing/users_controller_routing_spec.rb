@@ -16,7 +16,7 @@ RSpec.describe UsersController, type: :routing do
     end
 
     it 'routes to #completions' do
-      expect(get: 'users/1/completions').to route_to('users#completions', user_id: '1')
+      expect(get: 'users/1/completions').to route_to('users#completions', id: '1')
     end
   end
 end
