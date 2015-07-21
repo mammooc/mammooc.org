@@ -4,6 +4,11 @@ general:
     - "coverage"
 
 
+database:
+  pre:
+    - mv config/database.yml config/database.yml.backup
+
+
 test:
   post:
     - bundle exec rake rubocop:show
@@ -15,6 +20,9 @@ machine:
 
 
 deployment:
+  pre:
+    - mv config/database.yml.backup config/database.yml
+
   production:
     branch: master
     commands:
