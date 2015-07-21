@@ -281,6 +281,36 @@ class User < ActiveRecord::Base
     setting
   end
 
+  def course_enrollments_visible_for(user)
+    visibility_for(user, :course_enrollments_visibility)
+  end
+
+  def course_results_visible_for(user)
+    visibility_for(user, :course_results_visibility)
+  end
+
+  def profile_visible_for(user)
+    visibility_for(user, :profile_visibility)
+  end
+
+  def visibility_for(user, setting)
+    user_is_able = id == user.id
+    unless user_is_able
+      UserSettingEntry.where(setting: (settings.where(name: setting))).each do |user_setting_entry|
+        if user_setting_entry.key == 'groups'
+          common_groups_with_user(user).collect(&:id).each do |group_id|
+            user_is_able = user_setting_entry.value.include? group_id
+            break if user_is_able
+          end
+        elsif user_setting_entry.key == 'users'
+          user_is_able = user_setting_entry.value.include? user.id
+        end
+        break if user_is_able
+      end
+    end
+    user_is_able
+  end
+
   private
 
   def save_primary_email

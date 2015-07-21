@@ -1,0 +1,74 @@
+= content_for :title
+  - if current_user == @user
+    = "#{t('completions.my_heading')} | #{t('global.app_name')}"
+  - else
+    = "#{t('completions.other_user_heading', user: @user.first_name)} | #{t('global.app_name')}"
+
+.page-header
+  h1
+    - if current_user == @user
+      = t('completions.my_heading')
+    - else
+      = t('completions.other_user_heading', user: @user.first_name)
+div
+  - if @completions.present?
+    - @completions.each_with_index do |completion, completion_index|
+      div
+        h3.bold.link-black-hover-green.pull-left.mb0.mt0.mr5
+          = link_to course_path(completion.course)
+            = completion.course.name
+        span
+          img.provider-logo src = @provider_logos[completion.course.mooc_provider.logo_id]
+        - if completion.points_achieved
+          div.mt5
+            div.pull-left.mr20
+              - if completion.course.points_maximal
+                = t('completions.points_achieved_of_maximal', points_achieved: completion.points_achieved, points_maximal: completion.course.points_maximal)
+              - else
+                = t('completions.points_achieved', points_achieved: completion.points_achieved)
+            - if completion.provider_percentage
+              div.progress.mb0.white-background
+                div.progress-bar role="progressbar" aria-valuenow="#{completion.provider_percentage}" aria-valuemin="0" aria-valuemax="100" style="width:#{completion.provider_percentage}%;"
+                  - if completion.provider_percentage >= 25
+                    span
+                      = "#{completion.provider_percentage} %"
+                - if completion.provider_percentage < 25
+                  span.ml10
+                    = "#{completion.provider_percentage} %"
+            - else
+              br /
+        - if @number_of_certificates[completion_index] > 0 && @number_of_certificates[completion_index] <= 3
+          div.certificates-download-box.mt10 class="verify-#{@verify_available[completion_index]}"
+            - completion.sorted_certificates.each_with_index do |certificate, index|
+              = link_to certificate.download_url
+                - if index == completion.certificates.size - 1
+                  div.box class="certificates-#{@number_of_certificates[completion_index]}-no-border"
+                    span.fa.fa-file-pdf-o.mr10
+                    = certificate.title.present? ? certificate.title : t("completions.#{certificate.document_type}")
+                - else
+                  div.box class="certificates-#{@number_of_certificates[completion_index]}"
+                    span.fa.fa-file-pdf-o.mr10
+                    = certificate.title.present? ? certificate.title : t("completions.#{certificate.document_type}")
+            - if @verify_available[completion_index]
+              - completion.sorted_certificates.each_with_index do |certificate, index|
+                - if certificate.verification_url.present?
+                  = link_to certificate.verification_url
+                    - if index == completion.certificates.size - 1
+                      div.verify-entry class="certificates-#{@number_of_certificates[completion_index]}-no-border"
+                        = t('completions.verify')
+                    - else
+                      div.verify-entry class="certificates-#{@number_of_certificates[completion_index]}"
+                        = t('completions.verify')
+                - else
+                  - if index == completion.certificates.size - 1
+                    div.no-verify-entry class="certificates-#{@number_of_certificates[completion_index]}-no-border"
+                      = t('completions.unable_to_verify')
+                  - else
+                    div.no-verify-entry class="certificates-#{@number_of_certificates[completion_index]}"
+                      = t('completions.unable_to_verify')
+      hr
+  - else
+    - if current_user == @user
+      = t('completions.no_completion')
+    - else
+      = t('completions.no_visible', user: @user.first_name)

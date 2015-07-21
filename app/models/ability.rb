@@ -35,23 +35,12 @@ class Ability
     end
 
     can [:show], User do |checked_user|
-      user_is_able = checked_user.id == user.id
-      unless user_is_able
-        UserSettingEntry.where(setting: (checked_user.settings.where(name: :profile_visibility))).each do |user_setting_entry|
-          if user_setting_entry.key == 'groups'
-            checked_user.common_groups_with_user(user).collect(&:id).each do |group_id|
-              user_is_able = user_setting_entry.value.include? group_id
-              if user_is_able
-              end
-              break if user_is_able
-            end
-          elsif user_setting_entry.key == 'users'
-            user_is_able = user_setting_entry.value.include? user.id
-          end
-          break if user_is_able
-        end
-      end
-      user_is_able
+      checked_user.profile_visible_for(user)
     end
+
+    can [:completions], User do |checked_user|
+      checked_user.course_results_visible_for(user)
+    end
+
   end
 end
