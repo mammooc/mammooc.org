@@ -197,8 +197,8 @@ class CoursesController < ApplicationController
           rating: evaluation.rating,
           description: evaluation.description,
           creation_date: evaluation.creation_date,
-          evaluation_rating_count: evaluation.evaluation_rating_count,
-          evaluation_helpful_rating_count: evaluation.evaluation_helpful_rating_count
+          total_feedback_count: evaluation.total_feedback_count,
+          positive_feedback_count: evaluation.positive_feedback_count
         }
         case evaluation.course_status.to_sym
           when :aborted

@@ -7,11 +7,11 @@ class EvaluationsController < ApplicationController
   def process_evaluation_rating
     unless @evaluation.user == current_user
       if params['helpful'] == 'true'
-        @evaluation.evaluation_helpful_rating_count += 1
-        @evaluation.evaluation_rating_count += 1
+        @evaluation.positive_feedback_count += 1
+        @evaluation.total_feedback_count += 1
         @evaluation.save
       elsif params['helpful'] == 'false'
-        @evaluation.evaluation_rating_count += 1
+        @evaluation.total_feedback_count += 1
         @evaluation.save
       end
     end

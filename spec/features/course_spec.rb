@@ -282,7 +282,7 @@ RSpec.describe 'Course', type: :feature do
       expect(page.find("div[id='course-evaluations']")).to have_content(I18n.t('evaluations.thanks_for_feedback'))
       visit "/courses/#{course.id}"
       eval1.reload
-      expect(page.find("div[id='course-evaluations']")).to have_content(I18n.t('evaluations.users_found_evaluation_helpful', helpful_rating_count: eval1.evaluation_helpful_rating_count, rating_count: eval1.evaluation_rating_count))
+      expect(page.find("div[id='course-evaluations']")).to have_content(I18n.t('evaluations.users_found_evaluation_helpful', positive_feedback_count: eval1.positive_feedback_count, feedback_count: eval1.total_feedback_count))
     end
 
     it 'mark an evaluation as not helpful', js: true do
@@ -293,7 +293,7 @@ RSpec.describe 'Course', type: :feature do
       expect(page.find("div[id='course-evaluations']")).to have_content(I18n.t('evaluations.thanks_for_feedback'))
       visit "/courses/#{course.id}"
       eval1.reload
-      expect(page.find("div[id='course-evaluations']")).to have_content(I18n.t('evaluations.users_found_evaluation_helpful', helpful_rating_count: eval1.evaluation_helpful_rating_count, rating_count: eval1.evaluation_rating_count))
+      expect(page.find("div[id='course-evaluations']")).to have_content(I18n.t('evaluations.users_found_evaluation_helpful', positive_feedback_count: eval1.positive_feedback_count, feedback_count: eval1.total_feedback_count))
     end
 
     it 'shows different rating form when not logged in', skip_before: true, js: true do

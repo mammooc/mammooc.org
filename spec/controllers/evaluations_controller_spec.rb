@@ -31,30 +31,30 @@ RSpec.describe EvaluationsController, type: :controller do
     let(:own_evaluation) { FactoryGirl.create(:full_evaluation, user_id: user.id) }
 
     it 'increases rating_count by one when evaluation is marked as not helpful' do
-      evaluation_rating_count = evaluation.evaluation_rating_count
-      evaluation_helpful_rating_count = evaluation.evaluation_helpful_rating_count
+      total_feedback_count = evaluation.total_feedback_count
+      positive_feedback_count = evaluation.positive_feedback_count
       post :process_evaluation_rating, id: evaluation.id, helpful: 'false'
       evaluation.reload
-      expect(evaluation.evaluation_rating_count).to eq(evaluation_rating_count + 1)
-      expect(evaluation.evaluation_helpful_rating_count).to eq(evaluation_helpful_rating_count)
+      expect(evaluation.total_feedback_count).to eq(total_feedback_count + 1)
+      expect(evaluation.positive_feedback_count).to eq(positive_feedback_count)
     end
 
     it 'increases rating_count and helpful_rating_count by one when evaluation is marked as helpful' do
-      evaluation_rating_count = evaluation.evaluation_rating_count
-      evaluation_helpful_rating_count = evaluation.evaluation_helpful_rating_count
+      total_feedback_count = evaluation.total_feedback_count
+      positive_feedback_count = evaluation.positive_feedback_count
       post :process_evaluation_rating, id: evaluation.id, helpful: 'true'
       evaluation.reload
-      expect(evaluation.evaluation_rating_count).to eq(evaluation_rating_count + 1)
-      expect(evaluation.evaluation_helpful_rating_count).to eq(evaluation_helpful_rating_count + 1)
+      expect(evaluation.total_feedback_count).to eq(total_feedback_count + 1)
+      expect(evaluation.positive_feedback_count).to eq(positive_feedback_count + 1)
     end
 
     it 'does not increase anything when rated an own evaluation' do
-      evaluation_rating_count = own_evaluation.evaluation_rating_count
-      evaluation_helpful_rating_count = own_evaluation.evaluation_helpful_rating_count
+      total_feedback_count = own_evaluation.total_feedback_count
+      positive_feedback_count = own_evaluation.positive_feedback_count
       post :process_evaluation_rating, id: own_evaluation.id, helpful: 'true'
       own_evaluation.reload
-      expect(own_evaluation.evaluation_rating_count).not_to eq(evaluation_rating_count + 1)
-      expect(own_evaluation.evaluation_helpful_rating_count).not_to eq(evaluation_helpful_rating_count + 1)
+      expect(own_evaluation.total_feedback_count).not_to eq(total_feedback_count + 1)
+      expect(own_evaluation.positive_feedback_count).not_to eq(positive_feedback_count + 1)
     end
   end
 end
