@@ -1,8 +1,11 @@
-[![Stories in progress: Waffle.io](https://badge.waffle.io/mammooc/mammooc.org.png?label=In%20Progress&title=In%20Progress)](https://waffle.io/mammooc/mammooc.org)
-[![Continuous Integration: Circle CI](https://circleci.com/gh/mammooc/mammooc.org.svg?style=shield)](https://circleci.com/gh/mammooc/mammooc.org) 
-[![Dependency Status: Gemnasium](https://gemnasium.com/mammooc/mammooc.org.svg)](https://gemnasium.com/mammooc/mammooc.org)
-
 # mammooc
+
+[![Continuous Integration: Circle CI](https://circleci.com/gh/mammooc/mammooc.org.svg?style=shield)](https://circleci.com/gh/mammooc/mammooc.org) 
+[![Code Climate](https://codeclimate.com/github/mammooc/mammooc.org/badges/gpa.svg)](https://codeclimate.com/github/mammooc/mammooc.org)
+[![Test Coverage](https://codeclimate.com/github/mammooc/mammooc.org/badges/coverage.svg)](https://codeclimate.com/github/mammooc/mammooc.org/coverage)
+[![Dependency Status: Gemnasium](https://gemnasium.com/mammooc/mammooc.org.svg)](https://gemnasium.com/mammooc/mammooc.org)
+[![Stories in progress: Waffle.io](https://badge.waffle.io/mammooc/mammooc.org.png?label=In%20Progress&title=In%20Progress)](https://waffle.io/mammooc/mammooc.org)
+
 _Please pay attention to the LICENSE file as well_
 
 mammooc is a student's project developed at the German Hasso Plattner Institute, Potsdam.
