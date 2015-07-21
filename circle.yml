@@ -9,8 +9,20 @@ test:
     - bundle exec rake rubocop:show
 
 
+machine:
+  services:
+    - docker
+
+
 deployment:
-  production:
+  production-docker:
+    branch: master
+    commands:
+      - docker build -t mammooc/mammooc.org .
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push mammooc/mammooc.org
+
+  production-heroku:
     branch: master
     commands:
       - heroku maintenance:on --app mammooc
@@ -20,7 +32,7 @@ deployment:
       - heroku restart --app mammooc
       - heroku maintenance:off --app mammooc
 
-  development:
+  development-heroku:
     branch: dev
     commands:
       - heroku maintenance:on --app mammooc-dev
@@ -30,7 +42,7 @@ deployment:
       - heroku restart --app mammooc-dev
       - heroku maintenance:off --app mammooc-dev
 
-  teaser:
+  teaser-heroku:
     branch: teaser
     commands:
       - heroku maintenance:on --app mammooc-teaser
