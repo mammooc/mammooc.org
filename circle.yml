@@ -12,7 +12,7 @@ database:
 test:
   post:
     - bundle exec rake rubocop:show
-
+    - mv config/database.yml.backup config/database.yml
 
 machine:
   services:
@@ -20,9 +20,6 @@ machine:
 
 
 deployment:
-  pre:
-    - mv config/database.yml.backup config/database.yml
-
   production:
     branch: master
     commands:
