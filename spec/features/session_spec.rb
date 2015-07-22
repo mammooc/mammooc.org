@@ -33,7 +33,7 @@ RSpec.describe 'Users::Session', type: :feature do
     expect(page).to have_text(I18n.t('devise.failure.invalid', authentication_keys: 'email'))
   end
 
-  it 'does not work if password is wrong' do
+  it 'does not work if email is wrong' do
     fill_in 'login_email', with: 'wrongemail@example.com'
     fill_in 'login_password', with: 'wrongpassword'
     click_button 'submit_sign_in'

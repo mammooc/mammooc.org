@@ -2,7 +2,7 @@
 module Users
   class SessionsController < Devise::SessionsController
     def new
-      flash['error'] = []
+      flash['error'] ||= []
       self.resource = resource_class.new(sign_in_params)
       identity_mergable = false
       resource_class.omniauth_providers.each do |provider|
@@ -16,9 +16,9 @@ module Users
       end
       yield resource if block_given?
       session_infos = {}
-      session_infos['first_name'] = session[:resource]['first_name']
-      session_infos['last_name'] = session[:resource]['last_name']
-      session_infos['primary_email'] = sign_in_params[:primary_email] || session[:resource]['primary_email']
+      session_infos['first_name'] = session[:resource]['first_name'] if session[:resource].present?
+      session_infos['last_name'] = session[:resource]['last_name'] if session[:resource].present?
+      session_infos['primary_email'] = sign_in_params[:primary_email] || (session[:resource].present? ? session[:resource]['primary_email'] : nil)
       session[:resource] = session_infos
       respond_with(resource, serialize_options(resource))
     end
