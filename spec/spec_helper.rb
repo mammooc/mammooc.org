@@ -5,15 +5,16 @@ if ENV['CIRCLE_ARTIFACTS']
   require 'coveralls'
   require 'pullreview/coverage'
 
-  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
-      SimpleCov::Formatter::HTMLFormatter,
-      Coveralls::SimpleCov::Formatter,
-      PullReview::Coverage::Formatter
-  ]
+  formatters = []
+  formatters << SimpleCov::Formatter::HTMLFormatter
+  formatters << Coveralls::SimpleCov::Formatter
+  formatters << PullReview::Coverage::Formatter
+  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[*formatters]
 
   dir = File.join('..', '..', '..', ENV['CIRCLE_ARTIFACTS'], 'coverage')
   SimpleCov.coverage_dir(dir)
 end
+
 SimpleCov.start do
   add_filter '/spec/'
   add_filter '/config'
