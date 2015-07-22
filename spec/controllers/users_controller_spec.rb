@@ -628,5 +628,4 @@ RSpec.describe UsersController, type: :controller do
       expect(assigns(:completions)).to eq([completion])
     end
   end
-
 end

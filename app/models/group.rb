@@ -107,11 +107,8 @@ class Group < ActiveRecord::Base
   def number_of_users_who_share_course_enrollments
     number = 0
     users.each do |user|
-      if user.course_enrollments_visible_for_group(self)
-        number += 1
-      end
+      number += 1 if user.course_enrollments_visible_for_group(self)
     end
     number
   end
-
 end

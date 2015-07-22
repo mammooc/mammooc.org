@@ -6,36 +6,36 @@ RSpec.describe 'users/completions', type: :view do
   let(:course) { FactoryGirl.create(:course) }
   let(:first_completion) do
     Completion.create!(
-        quantile: 0.1,
-        points_achieved: 84,
-        provider_percentage: 97,
-        user: user,
-        course: course)
+      quantile: 0.1,
+      points_achieved: 84,
+      provider_percentage: 97,
+      user: user,
+      course: course)
   end
   let(:completions) do
     [first_completion,
      Completion.create!(
-         quantile: 0.5,
-         points_achieved: 35.4,
-         provider_percentage: 23.7,
-         user: user,
-         course: course
+       quantile: 0.5,
+       points_achieved: 35.4,
+       provider_percentage: 23.7,
+       user: user,
+       course: course
      )]
   end
   let(:certificates) do
     [Certificate.create!(
-         title: 'Procotored Certificate',
-         download_url: 'https://example.com/get_certificate',
-         verification_url: nil,
-         type: 'certificate',
-         completion: first_completion
-     ),
+      title: 'Procotored Certificate',
+      download_url: 'https://example.com/get_certificate',
+      verification_url: nil,
+      type: 'certificate',
+      completion: first_completion
+    ),
      Certificate.create!(
-         title: nil,
-         download_url: 'https://example.com/get_certificate',
-         verification_url: 'https://example.com/verify',
-         type: 'record_of_achievement',
-         completion: first_completion
+       title: nil,
+       download_url: 'https://example.com/get_certificate',
+       verification_url: 'https://example.com/verify',
+       type: 'record_of_achievement',
+       completion: first_completion
      )]
   end
 

@@ -31,7 +31,7 @@ class Ability
     cannot [:create, :show, :update, :destroy, :finish_signup], User
 
     can [:update, :destroy, :finish_signup], User do |checked_user|
-     checked_user.id == user.id
+      checked_user.id == user.id
     end
 
     can [:show], User do |checked_user|
@@ -41,6 +41,5 @@ class Ability
     can [:completions], User do |checked_user|
       checked_user.course_results_visible_for_user(user)
     end
-
   end
 end

@@ -304,23 +304,18 @@ class User < ActiveRecord::Base
   def visibility_for_user(user, setting)
     user_is_able = id == user.id
     unless user_is_able
-      UserSettingEntry.where(setting: (settings.where(name: setting))).each do |user_setting_entry|
+      UserSettingEntry.where(setting: (settings.where(name: setting))).find_each do |user_setting_entry|
         if user_setting_entry.key == 'groups'
           common_groups_with_user(user).collect(&:id).each do |group_id|
-          if user_setting_entry.present?
             if user_setting_entry.value.present?
               user_is_able = user_setting_entry.value.include? group_id
             end
-          end
             break if user_is_able
           end
         elsif user_setting_entry.key == 'users'
-          if user_setting_entry.present?
-            if user_setting_entry.value.present?
-              user_is_able = user_setting_entry.value.include? user.id
-            end
+          if user_setting_entry.value.present?
+            user_is_able = user_setting_entry.value.include? user.id
           end
-
         end
         break if user_is_able
       end
