@@ -82,6 +82,12 @@ RSpec.describe Group, type: :model do
     let(:second_user) { FactoryGirl.create(:user, courses: [course2, course3]) }
     let(:third_user) { FactoryGirl.create(:user, courses: [course3]) }
     let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
+    let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: user) }
+    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
+    let(:user_setting2) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
+    let!(:user_setting_entry2) { FactoryGirl.create(:user_setting_entry, setting: user_setting2, key: 'groups', value: [group.id]) }
+    let(:user_setting3) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: third_user) }
+    let!(:user_setting_entry3) { FactoryGirl.create(:user_setting_entry, setting: user_setting3, key: 'groups', value: [group.id]) }
 
     it 'returns average of all course enrollments per group member' do
       average = group.average_enrollments
@@ -104,6 +110,12 @@ RSpec.describe Group, type: :model do
     let(:second_user) { FactoryGirl.create(:user, courses: [course2, course3]) }
     let(:third_user) { FactoryGirl.create(:user, courses: [course3]) }
     let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
+    let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: user) }
+    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
+    let(:user_setting2) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
+    let!(:user_setting_entry2) { FactoryGirl.create(:user_setting_entry, setting: user_setting2, key: 'groups', value: [group.id]) }
+    let(:user_setting3) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: third_user) }
+    let!(:user_setting_entry3) { FactoryGirl.create(:user_setting_entry, setting: user_setting3, key: 'groups', value: [group.id]) }
 
     it 'returns all enrolled course and total number of enrollments of group members' do
       enrolled_courses = group.enrolled_courses_with_amount
@@ -120,6 +132,12 @@ RSpec.describe Group, type: :model do
     let(:second_user) { FactoryGirl.create(:user, courses: [course2, course3]) }
     let(:third_user) { FactoryGirl.create(:user, courses: [course3]) }
     let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
+    let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: user) }
+    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
+    let(:user_setting2) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
+    let!(:user_setting_entry2) { FactoryGirl.create(:user_setting_entry, setting: user_setting2, key: 'groups', value: [group.id]) }
+    let(:user_setting3) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: third_user) }
+    let!(:user_setting_entry3) { FactoryGirl.create(:user_setting_entry, setting: user_setting3, key: 'groups', value: [group.id]) }
 
     it 'returns all enrolled courses' do
       enrolled_courses = group.enrolled_courses

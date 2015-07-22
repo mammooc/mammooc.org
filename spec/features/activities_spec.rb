@@ -212,6 +212,8 @@ RSpec.describe 'Activities', type: :feature do
     let(:openHPI) { FactoryGirl.create(:mooc_provider, name: 'openHPI', api_support_state: 'naive') }
     let(:course) { FactoryGirl.create(:course, mooc_provider: openHPI) }
     let!(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
+    let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
+    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
 
     before(:each) do
       expect_any_instance_of(OpenHPIConnector).to receive(:enroll_user_for_course).and_return(true)
