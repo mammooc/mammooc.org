@@ -1,12 +1,10 @@
 # -*- encoding : utf-8 -*-
 require 'simplecov'
 require 'coveralls'
-require 'pullreview/coverage'
 
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
     SimpleCov::Formatter::HTMLFormatter,
-    Coveralls::SimpleCov::Formatter,
-    PullReview::Coverage::Formatter
+    Coveralls::SimpleCov::Formatter
 ]
 if ENV['CIRCLE_ARTIFACTS']
   dir = File.join('..', '..', '..', ENV['CIRCLE_ARTIFACTS'], 'coverage')
