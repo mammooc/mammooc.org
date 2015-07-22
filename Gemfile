@@ -118,6 +118,8 @@ group :development, :test do
   gem 'simplecov', require: false
   gem 'rubocop', require: false
   gem 'rubocop-rspec', require: false
+  gem 'pullreview-coverage', require: false
+  gem 'coveralls', require: false
 
   gem 'quiet_assets'
 end

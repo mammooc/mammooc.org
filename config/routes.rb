@@ -56,7 +56,7 @@ Rails.application.routes.draw do
   get 'dashboard' => 'dashboard#dashboard'
 
   # Evaluations
-  post 'evaluations/:id/process_evaluation_rating' => 'evaluations#process_evaluation_rating'
+  post 'evaluations/:id/process_feedback' => 'evaluations#process_feedback'
 
   # Groups
   get 'groups_where_user_is_admin' => 'groups#groups_where_user_is_admin'

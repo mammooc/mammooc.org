@@ -24,9 +24,9 @@
           .user-rating-description
             = "\"#{evaluation[:description]}\""
       .user-rating-evaluation
-        - if evaluation[:evaluation_rating_count].present? &&  evaluation[:evaluation_rating_count] > 0
+        - if evaluation[:total_feedback_count].present? &&  evaluation[:total_feedback_count] > 0
           .evaluation-rating-notice
-            = t('evaluations.users_found_evaluation_helpful',helpful_rating_count: evaluation[:evaluation_helpful_rating_count], rating_count: evaluation[:evaluation_rating_count])
+            = t('evaluations.users_found_evaluation_helpful',positive_feedback_count: evaluation[:positive_feedback_count], feedback_count: evaluation[:total_feedback_count])
         - if user_signed_in? && evaluation[:user_id] != current_user.id
           div class="was-helpful-evaluation-#{evaluation[:evaluation_id]}"
             = t('evaluations.did_you_like_evaluation') + ' '
