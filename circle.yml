@@ -65,7 +65,7 @@ deployment:
       - heroku maintenance:off --app mammooc-dev
       # Gemnasium Auto-Update
       - mv config/database.yml.circleci config/database.yml
-      - gemnasium autoupdate run
+      - sh - c 'gemnasium autoupdate run; exit 0'
 
   teaser:
     branch: teaser
