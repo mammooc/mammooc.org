@@ -10,7 +10,11 @@ RSpec.describe CnmoocHouseCourseWorker do
     expect(cnmooc_house_course_worker.mooc_provider).to eql mooc_provider
   end
 
-  it 'gets an API response' do
+  it 'gets an API courses response' do
     expect(cnmooc_house_course_worker.course_data).not_to be_nil
+  end
+
+  it 'gets an API categories response' do
+    expect(cnmooc_house_course_worker.prepare_categories_hash).not_to be_nil
   end
 end
