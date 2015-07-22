@@ -40,6 +40,14 @@ RSpec.describe 'UserSettings', type: :feature do
       let(:user_setting3) { FactoryGirl.create(:user_setting, name: :profile_visibility, user: second_user) }
       let!(:user_setting_entry3) { FactoryGirl.create(:user_setting_entry, setting: user_setting3, key: 'groups', value: [group.id, second_group.id]) }
 
+      it 'is visible for user himself' do
+        capybara_sign_in second_user
+        visit user_path(second_user)
+        expect(current_path).to eql user_path(second_user)
+        expect(page).to have_content I18n.t('users.own_profile.current_courses')
+        expect(page).to have_content course1.name
+      end
+
       it 'are visible for users who are whitelisted' do
         capybara_sign_in user
         visit user_path(second_user)
@@ -141,6 +149,16 @@ RSpec.describe 'UserSettings', type: :feature do
       let(:user_setting4) { FactoryGirl.create(:user_setting, name: :profile_visibility, user: second_user) }
       let!(:user_setting_entry4) { FactoryGirl.create(:user_setting_entry, setting: user_setting4, key: 'groups', value: [group.id, second_group.id]) }
 
+      it 'is visible for user himself' do
+        capybara_sign_in second_user
+        visit user_path(second_user)
+        expect(current_path).to eql user_path(second_user)
+        expect(page).to have_content I18n.t('users.own_profile.course_completions')
+        expect(page).to have_content I18n.t('users.profile.course_completions_link')
+        click_on I18n.t('users.profile.course_completions_link')
+        expect(current_path).to eql completions_path(second_user)
+      end
+
       it 'are visible for users who are whitelisted' do
         capybara_sign_in user
         visit user_path(second_user)
@@ -179,6 +197,13 @@ RSpec.describe 'UserSettings', type: :feature do
     end
 
     context 'on completions page' do
+
+      it 'page is accessable for user himself' do
+        capybara_sign_in second_user
+        visit completions_path(second_user)
+        expect(current_path).to eql completions_path(second_user)
+      end
+
       it 'page is accessable for users who are whitelisted' do
         capybara_sign_in user
         visit completions_path(second_user)
@@ -216,6 +241,12 @@ RSpec.describe 'UserSettings', type: :feature do
     let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'users', value: [user.id]) }
     let(:user_setting2) { FactoryGirl.create(:user_setting, name: :profile_visibility, user: second_user) }
     let!(:user_setting_entry2) { FactoryGirl.create(:user_setting_entry, setting: user_setting2, key: 'groups', value: [group.id]) }
+
+    it 'page is accessable for user himself' do
+      capybara_sign_in second_user
+      visit user_path(second_user)
+      expect(current_path).to eql user_path(second_user)
+    end
 
     it 'page is accessable for users who are whitelisted' do
       capybara_sign_in user
