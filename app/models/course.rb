@@ -37,9 +37,12 @@ class Course < ActiveRecord::Base
                         thumb: '100x100#',
                         medium: 'x250',
                         original: '300x300>'},
+                    :convert_options => { :all => "-quality 95" },
                     s3_storage_class: :reduced_redundancy,
                     s3_permissions: :public_read,
                     default_url: '/data/course_picture_default.png'
+
+  #before_post_process :set_content_type
 
   validates_attachment_content_type :course_image, content_type: /\Aimage\/.*\Z/
 
