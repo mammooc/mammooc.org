@@ -2,5 +2,5 @@
 class OpenSAPChinaCourseWorker < AbstractXikoloCourseWorker
   MOOC_PROVIDER_NAME = 'openSAP China'
   MOOC_PROVIDER_API_LINK = 'https://open.sap.cn/api/v2/'
-  COURSE_LINK_BODY = 'https://open.sap.cn/courses/'
+  ROOT_URL = 'https://open.sap.cn'
 end

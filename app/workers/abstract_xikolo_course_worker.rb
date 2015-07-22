@@ -34,9 +34,9 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
       course.name = course_element['name'].strip
       course.provider_course_id = course_element['id']
       course.mooc_provider_id = mooc_provider.id
-      course.url = self.class::COURSE_LINK_BODY + course_element['urls']['details']
+      course.url = self.class::ROOT_URL + course_element['urls']['details']
       course.language = course_element['language']
-      course.imageId = self.class::COURSE_LINK_BODY + course_element['image']
+      course.imageId = self.class::ROOT_URL + course_element['image']
       course.start_date = course_element['displayStartDate']
       course.end_date = course_element['endDate']
       course.abstract = convert_to_absolute_urls(parse_markdown(course_element['abstract']))
