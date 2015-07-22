@@ -7,6 +7,7 @@ machine:
   environment:
     GEMNASIUM_TESTSUITE: "bundle exec rspec"
     GEMNASIUM_PROJECT_SLUG: "mammooc/mammooc.org"
+    COVERALLS_PARALLEL: "true"
   services:
     - docker
 
@@ -29,6 +30,11 @@ test:
     - bundle exec rake rubocop:show
     - mv config/database.yml config/database.yml.circleci
     - mv config/database.yml.backup config/database.yml
+
+
+notify:
+  webhooks:
+    - url: https://coveralls.io/webhook?repo_token=ZgW6tvGP2hrQInuZLErCADQ95Hj8AvOkK
 
 
 deployment:
