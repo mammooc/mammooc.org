@@ -30,35 +30,57 @@
             span.glyphicon.glyphicon-pencil
             = t('global.edit')
 
-  - if current_user.id == @user.id
-    .user-details
-      .title
+  .user-details
+    .title
+      - if @user == current_user
+        => t('users.own_profile.bookmarks')
+      - else
         => t('users.profile.bookmarks')
-        - unless @bookmarks.blank?
-          = "(#{@bookmarks.size})"
-      .content
-        - if @bookmarks.blank?
-          = t('users.profile.currently_no_bookmarks')
+      - unless @bookmarks.blank?
+        = "(#{@bookmarks.size})"
+    .content
+      - if @bookmarks.blank?
+        - if @user == current_user
+          = t('users.own_profile.currently_no_bookmarks')
         - else
-          - @bookmarks.each do |bookmark|
-            p
-              = link_to bookmark.course.name, course_path(bookmark.course.id)
-              - unless bookmark.course.start_date.blank?
-                | ,
-                =< t('users.profile.starts')
-                =< I18n.l bookmark.course.start_date, format: t('global.date_format_month')
+          = t('users.profile.currently_no_bookmarks', name: "#{@user.first_name} #{@user.last_name}")
+      - else
+        - @bookmarks.each do |bookmark|
+          p
+            = link_to bookmark.course.name, course_path(bookmark.course.id)
+            - unless bookmark.course.start_date.blank?
+              | ,
+              =< t('users.profile.starts')
+              =< I18n.l bookmark.course.start_date, format: t('global.date_format_month')
+
   - if @enrollments_visible
     .user-details
       .title
-        = t('users.profile.current_courses')
-        - unless current_user.courses.empty?
-          = "(#{current_user.courses.size})"
-      .content
-        - if current_user.courses.empty?
-          = t('users.profile.currently_no_courses')
+        - if @user == current_user
+          => t('users.own_profile.current_courses')
         - else
-          - current_user.courses.each do |course|
+          => t('users.profile.current_courses')
+        - unless @enrollments.empty?
+          = "(#{@enrollments.size})"
+      .content
+        - if @enrollments.empty?
+          - if @user == current_user
+            = t('users.own_profile.currently_no_courses')
+          - else
+            = t('users.profile.currently_no_courses', name: "#{@user.first_name} #{@user.last_name}")
+        - else
+          - @enrollments.each do |course|
             p
               = link_to course.name, course_path(course)
+
+  - if @completions_visible
+    .user-details
+      .title
+        - if @user == current_user
+          => t('users.own_profile.course_completions')
+        - else
+          => t('users.profile.course_completions')
+      .content
+        = link_to t('users.profile.course_completions_link'), completions_path(@user)
 
 = render 'sidebar'
