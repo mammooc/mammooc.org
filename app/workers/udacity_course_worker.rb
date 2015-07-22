@@ -51,7 +51,9 @@ class UdacityCourseWorker < AbstractCourseWorker
       end
 
       course.description = course_element['expected_learning']
-      course.calculated_duration_in_days = calculate_duration(course_element['expected_duration'], course_element['expected_duration_unit'])
+      if course_element['expected_duration'] && course_element['expected_duration_unit']
+        course.calculated_duration_in_days = calculate_duration(course_element['expected_duration'], course_element['expected_duration_unit'])
+      end
       course.provider_given_duration = "#{course_element['expected_duration']} #{course_element['expected_duration_unit']}"
 
       course.save!
@@ -62,6 +64,7 @@ class UdacityCourseWorker < AbstractCourseWorker
 
   def calculate_duration value, unit
     factor = case unit
+               when 'days' then 1
                when 'weeks' then 7
                when 'months' then 30
              end
