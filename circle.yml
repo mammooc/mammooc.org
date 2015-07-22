@@ -34,7 +34,7 @@ test:
 
 notify:
   webhooks:
-    - url: https://coveralls.io/webhook?repo_token=DaqieMZ8A6vQg5GUU6VsMzcNFmj79SHFu
+    - url: https://coveralls.io/webhook?repo_token=NoVVC6URLE57BQme3cZVlFMRlvgwmwN04
 
 
 deployment:
