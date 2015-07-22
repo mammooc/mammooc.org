@@ -62,12 +62,12 @@ class UdacityCourseWorker < AbstractCourseWorker
     evaluate_update_map update_map
   end
 
-  def calculate_duration value, unit
+  def calculate_duration(value, unit)
     factor = case unit
                when 'days' then 1
                when 'weeks' then 7
                when 'months' then 30
              end
-    return value * factor
+    value * factor
   end
 end
