@@ -5,7 +5,7 @@ general:
 
 machine:
   environment:
-    GEMNASIUM_TESTSUITE: "bundle exec rake"
+    GEMNASIUM_TESTSUITE: "bundle exec rspec"
     GEMNASIUM_PROJECT_SLUG: "mammooc/mammooc.org"
     COVERALLS_PARALLEL: "true"
   services:
@@ -28,6 +28,7 @@ database:
 test:
   post:
     - bundle exec rake rubocop:show
+    - mv config/database.yml config/database.yml.circleci
     - mv config/database.yml.backup config/database.yml
 
 
@@ -41,6 +42,7 @@ deployment:
     branch: master
     commands:
       # Docker
+      - rm config/database.yml.circleci
       - docker build -t mammooc/mammooc.org .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push mammooc/mammooc.org
@@ -61,6 +63,8 @@ deployment:
       - heroku run rake db:schema:load db:seed RAILS_ENV=development --app mammooc-dev
       - heroku restart --app mammooc-dev
       - heroku maintenance:off --app mammooc-dev
+      # Gemnasium Auto-Update
+      - mv config/database.yml.circleci config/database.yml
       - gemnasium autoupdate run
 
   teaser:
