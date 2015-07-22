@@ -3,13 +3,15 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
   MOOC_PROVIDER_NAME = ''
   MOOC_PROVIDER_API_LINK = ''
   COURSE_LINK_BODY = ''
+  MOOC_PROVIDER_COURSES_API = 'courses'
+  MOOC_PROVIDER_CATEGORIES_API = 'categories'
 
   def mooc_provider
     MoocProvider.find_by_name(self.class::MOOC_PROVIDER_NAME)
   end
 
   def course_data
-    response = RestClient.get(self.class::MOOC_PROVIDER_API_LINK, accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', authorization: 'token=\"78783786789\"')
+    response = RestClient.get(self.class::MOOC_PROVIDER_API_LINK + MOOC_PROVIDER_COURSES_API, accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', authorization: 'token=\"78783786789\"')
     response.present? ? JSON.parse(response) : []
   end
 
@@ -18,6 +20,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
     course_track_type = CourseTrackType.find_by(type_of_achievement: 'xikolo_record_of_achievement')
 
     all_teachers = prepare_teachers_hash(response_data['teachers'])
+    all_categories = prepare_categories_hash
 
     response_data['courses'].each do |course_element|
       next if course_element['isExternal'] || course_element['isHidden'] || course_element['isInviteOnly']
@@ -37,9 +40,10 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
       course.start_date = course_element['displayStartDate']
       course.end_date = course_element['endDate']
       course.abstract = convert_to_absolute_urls(parse_markdown(course_element['abstract']))
-      course.description = convert_to_absolute_urls(parse_markdown(course_element['description']))
+      # course.description = convert_to_absolute_urls(parse_markdown(course_element['description']))
       course.course_instructors = translate_teachers(course_element['teachers'], all_teachers)
-      # course.open_for_registration = !course_element['locked']
+      course.categories = translate_categories(course_element['categories'], all_categories)
+      course.open_for_registration = course_element['status'] == 'active' || course_element[''] == 'archive'
       # course.points_maximal = course_element['points_maximal']
       track = CourseTrack.find_by(course_id: course.id, track_type: course_track_type) || CourseTrack.create!(track_type: course_track_type, costs: 0.0, costs_currency: "\xe2\x82\xac")
       course.tracks.push(track)
@@ -51,7 +55,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
   def prepare_teachers_hash(all_teachers)
     hash = {}
     all_teachers.each do |teacher|
-      hash[teacher.id] = teacher.name
+      hash[teacher['id']] = teacher['name']
     end
     hash
   end
@@ -62,5 +66,23 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
       string += "#{all_teachers[teacher]}, "
     end
     string.present? ? string[0...-2] : string
+  end
+
+  def prepare_categories_hash
+    response = RestClient.get(self.class::MOOC_PROVIDER_API_LINK + MOOC_PROVIDER_CATEGORIES_API, accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', authorization: 'token=\"78783786789\"')
+    categories = response.present? ? JSON.parse(response) : {}
+    hash = {}
+    categories['categories'].each do |category|
+      hash[category['id']] = category['name']
+    end
+    hash
+  end
+
+  def translate_categories(course_categories, all_categories)
+    categories = []
+    course_categories.each do |category|
+      categories << all_categories[category]
+    end
+    categories
   end
 end
