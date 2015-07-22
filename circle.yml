@@ -37,6 +37,7 @@ deployment:
     branch: master
     commands:
       # Docker
+      - rm config/database.yml.circleci
       - docker build -t mammooc/mammooc.org .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push mammooc/mammooc.org
