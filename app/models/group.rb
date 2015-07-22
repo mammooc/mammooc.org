@@ -69,12 +69,14 @@ class Group < ActiveRecord::Base
 
   def average_enrollments
     total_enrollments = 0
+    total_members = 0
     users.each do |user|
       if user.course_enrollments_visible_for_group(self)
         total_enrollments += user.courses.length
+        total_members += 1
       end
     end
-    (total_enrollments.to_f / users.length.to_f).round(2)
+    (total_enrollments.to_f / total_members.to_f).round(2)
   end
 
   def enrolled_courses_with_amount
