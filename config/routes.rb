@@ -109,7 +109,7 @@ Rails.application.routes.draw do
   patch 'users/:id/change_email' => 'users#change_email', as: 'change_email'
   get 'users/:id/cancel_change_email' => 'users#cancel_change_email'
   get 'users/:id/connected_users_autocomplete' => 'users#connected_users_autocomplete'
-  get 'users/:user_id/completions' => 'completions#index', as: 'completions'
+  get 'users/:id/completions' => 'users#completions', as: 'completions'
 
   # UserEmails
   get 'user_emails/:id/mark_as_deleted' => 'user_emails#mark_as_deleted'

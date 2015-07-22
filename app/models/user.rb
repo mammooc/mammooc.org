@@ -281,6 +281,59 @@ class User < ActiveRecord::Base
     setting
   end
 
+  def course_enrollments_visible_for_user(user)
+    visibility_for_user(user, :course_enrollments_visibility)
+  end
+
+  def course_enrollments_visible_for_group(group)
+    visibility_for_group(group, :course_enrollments_visibility)
+  end
+
+  def course_results_visible_for_user(user)
+    visibility_for_user(user, :course_results_visibility)
+  end
+
+  def course_results_visible_for_group(group)
+    visibility_for_group(group, :course_results_visibility)
+  end
+
+  def profile_visible_for_user(user)
+    visibility_for_user(user, :profile_visibility)
+  end
+
+  def visibility_for_user(user, setting)
+    user_is_able = id == user.id
+    unless user_is_able
+      UserSettingEntry.where(setting: (settings.where(name: setting))).find_each do |user_setting_entry|
+        if user_setting_entry.key == 'groups'
+          common_groups_with_user(user).collect(&:id).each do |group_id|
+            if user_setting_entry.value.present?
+              user_is_able = user_setting_entry.value.include? group_id
+            end
+            break if user_is_able
+          end
+        elsif user_setting_entry.key == 'users'
+          if user_setting_entry.value.present?
+            user_is_able = user_setting_entry.value.include? user.id
+          end
+        end
+        break if user_is_able
+      end
+    end
+    user_is_able
+  end
+
+  def visibility_for_group(group, setting)
+    group_is_able = false
+    user_setting_entry = UserSettingEntry.find_by(setting: (settings.where(name: setting)), key: 'groups')
+    if user_setting_entry.present?
+      if user_setting_entry.value.present?
+        group_is_able = user_setting_entry.value.include? group.id
+      end
+    end
+    group_is_able
+  end
+
   private
 
   def save_primary_email

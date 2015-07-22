@@ -29,13 +29,17 @@ class Ability
 
     # Users
     cannot [:create, :show, :update, :destroy, :finish_signup], User
-    can [:show, :update, :destroy, :finish_signup], User do |checked_user|
-      user_is_able = checked_user.id == user.id
-      user.groups.each do |group|
-        user_is_able = true if group.users.include? checked_user
-        break if user_is_able
-      end
-      user_is_able
+
+    can [:update, :destroy, :finish_signup], User do |checked_user|
+      checked_user.id == user.id
+    end
+
+    can [:show], User do |checked_user|
+      checked_user.profile_visible_for_user(user)
+    end
+
+    can [:completions], User do |checked_user|
+      checked_user.course_results_visible_for_user(user)
     end
   end
 end
