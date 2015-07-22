@@ -139,6 +139,12 @@ RSpec.describe Ability do
   describe 'Users' do
     let(:user) { FactoryGirl.create :user }
     let(:another_user) { FactoryGirl.create :user }
+    let(:second_user) { FactoryGirl.create :user }
+    let(:user_setting) { FactoryGirl.create(:user_setting, name: :profile_visibility, user: second_user) }
+    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'users', value: [user.id]) }
+    let(:user_setting2) { FactoryGirl.create(:user_setting, name: :course_results_visibility, user: second_user) }
+    let!(:user_setting_entry2) { FactoryGirl.create(:user_setting_entry, setting: user_setting2, key: 'users', value: [user.id]) }
+
     describe 'create' do
       it { is_expected.to_not be_able_to(:create, User) }
     end
@@ -146,12 +152,21 @@ RSpec.describe Ability do
     describe 'show' do
       it { is_expected.to be_able_to(:show, user) }
       it { is_expected.to_not be_able_to(:show, another_user) }
+      it { is_expected.to be_able_to(:show, second_user) }
 
       context 'in user\'s groups' do
         let!(:group) { FactoryGirl.create :group, users: [user, another_user] }
+        let(:user_setting) { FactoryGirl.create(:user_setting, name: :profile_visibility, user: another_user) }
+        let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
 
         it { is_expected.to be_able_to(:show, another_user) }
       end
+    end
+
+    describe 'completions' do
+      it { is_expected.to be_able_to(:completions, user) }
+      it { is_expected.to be_able_to(:completions, second_user) }
+      it { is_expected.to_not be_able_to(:completions, another_user) }
     end
 
     describe 'update' do

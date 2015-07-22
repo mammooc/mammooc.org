@@ -12,6 +12,7 @@ class DashboardController < ApplicationController
     @bookmarks = current_user.bookmarks
 
     # Activities
+    # rubocop:disable Style/Next
     @activities = PublicActivity::Activity.order('created_at desc').select {|activity| (current_user.connected_users_ids.include? activity.owner_id) && activity.user_ids.present? && (activity.user_ids.include? current_user.id) }
     @activity_courses = {}
     @activity_courses_bookmarked = {}
@@ -25,9 +26,16 @@ class DashboardController < ApplicationController
         if @activity_courses[activity.id].present?
           @activity_courses_bookmarked[activity.id] = @activity_courses[activity.id].bookmarked_by_user? current_user
         end
+        # privacy settings
+        if activity.key == 'course.enroll'
+          unless activity.owner.course_enrollments_visible_for_user(current_user)
+            @activities -= [activity]
+          end
+        end
       end
       @number_of_activities = @activities.length
     end
+    # rubocop:enable Style/Next
 
     @number_of_mandatory_recommendations = 0
     all_my_sorted_recommendations.each do |recommendation|

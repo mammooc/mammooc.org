@@ -52,6 +52,8 @@ RSpec.describe DashboardController, type: :controller do
         activity_course_enroll = FactoryGirl.create(:activity_course_enroll, owner: user2, user_ids: [user.id])
         activity_group_recommendation = FactoryGirl.create(:activity_group_recommendation, owner: user2, user_ids: [user.id])
         activity_user_recommendation = FactoryGirl.create(:activity_user_recommendation, owner: user2, user_ids: [user.id])
+        user_setting = FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: user2)
+        FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id])
 
         get :dashboard
 
