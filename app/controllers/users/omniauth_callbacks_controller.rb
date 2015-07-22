@@ -8,13 +8,15 @@ module Users
       def #{provider}
         @user = User.find_for_omniauth(env["omniauth.auth"], current_user)
 
-        if @user.persisted?
+        if @user.present?
           session[:user_original_url] = user_settings_path(current_user.id) + "?subsite=account" if request.referer.present? && request.referer.include?("settings?subsite=account")
           sign_in_and_redirect @user, event: :authentication
           set_flash_message(:notice, :success, kind: "#{provider}".titleize) if is_navigational_format?
         else
-          session["devise.#{provider}_data"] = env["omniauth.auth"]
-          redirect_to new_user_registration_url
+          session["devise.#{provider}_data"] = env["omniauth.auth"].slice('uid', 'provider')
+          session["devise.#{provider}_data"]["info"] = env["omniauth.auth"]["info"].slice('email', 'verified', 'verified_info', 'image')
+          session["devise.#{provider}_data"]["valid_until"] = Time.zone.now + 10.minutes
+          redirect_to new_user_session_url
         end
       end
     }

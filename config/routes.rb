@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     get '/users/cancel' => 'users/registrations#cancel', :as => 'cancel_user_registration'
     post '/users' => 'users/registrations#create', :as => 'user_registration'
     get '/users/sign_up' => 'users/registrations#new', :as => 'new_user_registration'
+    get '/users/cancel_add_identity' => 'users/sessions#cancel_add_identity', :as => 'cancel_add_identity'
     patch '/users' => 'users/registrations#update'
     put '/users' => 'users/registrations#update'
     delete '/users' => 'users/registrations#destroy'

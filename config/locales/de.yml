@@ -147,6 +147,9 @@ de:
       forgot_password: Passwort vergessen?
       omniauth: Mit %{provider} anmelden
       terms_and_conditions_omniauth: "Du bestätigst die AGBs, falls du dich mithilfe von Single-Sign-On anmeldest:"
+      identity_merged: Dein Konto ist jetzt mit %{providers} verbunden.
+      identity_mergable: Es existiert bereits ein Konto mit der erhaltenen E-Mail-Adresse. Bitte melde dich an, um diesen Provider deinem Konto hinzuzufügen. %{cancel}
+      identity_cancel_merge: Abbrechen und Konto nicht verknüpfen.
       easyID:
         login: Mit dem neuen Personalausweis anmelden
         notice: "Hinweis: Die %{link} muss gestartet sein, damit du dich mit dem neuen Personalausweis anmelden kannst."
