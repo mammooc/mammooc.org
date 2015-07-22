@@ -156,8 +156,10 @@ RSpec.describe Ability do
 
       context 'in user\'s groups' do
         let!(:group) { FactoryGirl.create :group, users: [user, another_user] }
+        let(:user_setting) { FactoryGirl.create(:user_setting, name: :profile_visibility, user: another_user) }
+        let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
 
-        it { is_expected.to_not be_able_to(:show, another_user) }
+        it { is_expected.to be_able_to(:show, another_user) }
       end
     end
 
