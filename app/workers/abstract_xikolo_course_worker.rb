@@ -30,6 +30,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
       course.mooc_provider_id = mooc_provider.id
       course.url = self.class::COURSE_LINK_BODY + course_element['course_code']
       course.language = course_element['language']
+      #if course.course_image
       course.course_image = Course.process_uri(course_element['visual_url'])
       course.start_date = course_element['available_from']
       course.end_date = course_element['available_to']

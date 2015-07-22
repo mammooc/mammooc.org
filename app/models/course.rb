@@ -318,7 +318,7 @@ class Course < ActiveRecord::Base
   end
 
   def self.process_uri(uri)
-    return if uri.nil?
+    return if uri.nil? # || Settings.domain != 'mammooc.org'
     avatar_url = URI.parse(uri)
     avatar_url.scheme = 'https'
     avatar_url.to_s
