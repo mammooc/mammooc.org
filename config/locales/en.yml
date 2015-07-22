@@ -478,7 +478,7 @@ en:
     heading: Course Evaluation
     please_sign_in: Please sign in to evaluate the course. Don't have an account yet?
     path_to_registration: Sign up here!
-    users_found_evaluation_helpful: '%{helpful_rating_count} of %{rating_count} people found the review helpful'
+    users_found_evaluation_helpful: '%{positive_feedback_count} of %{feedback_count} people found the review helpful'
     did_you_like_evaluation: How did you like this evaluation?
     helpful: Helpful
     not_helpful: Not Helpful
@@ -643,8 +643,8 @@ en:
 
   static:
     about:
-      heading: About us
-      title: About us | mammooc
+      heading: About mammooc
+      title: About mammooc
       text_1: We are six students of the HPI, working on mammooc as the last phase of our bachelors-degree.
       text_2: We are continuously trying to provide you with the best experience! You have feedback, questions, wishes or anything else to say about mammooc? We’d be glad to hear from you!
       text_3: Write us at

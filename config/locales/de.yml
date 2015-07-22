@@ -477,7 +477,7 @@ de:
     heading: Kursbewertung
     please_sign_in: Bitte melde dich an, um diesen Kurs zu bewerten. Du hast noch keinen Account?
     path_to_registration: Hier geht's zur Registrierung
-    users_found_evaluation_helpful: '%{helpful_rating_count} von %{rating_count} Nutzern fanden diese Bewertung hilfreich'
+    users_found_evaluation_helpful: '%{positive_feedback_count} von %{feedback_count} Nutzern fanden diese Bewertung hilfreich'
     did_you_like_evaluation: Wie fandest du diese Bewertung?
     helpful: Hilfreich
     not_helpful: Nicht Hilfreich
@@ -641,8 +641,8 @@ de:
 
   static:
     about:
-      heading: Über uns
-      title: Über uns | mammooc
+      heading: Über mammooc
+      title: Über mammooc
       text_1: Wir sind 6 Studenten des HPI, die als Abschlussprojekt unseres Bachelorstudiums mammooc entwickeln.
       text_2: Wir bemühen uns euch stets die bestmögliche Erfahrung zu bieten. Daher freuen wir uns immer über Feedback, Fragen, Wünsche und sonstige Kommentare!
       text_3: Schreibt uns einfach an

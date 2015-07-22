@@ -1,18 +1,52 @@
 general:
   artifacts:
     - "rubocop.html"
-    - "coverage"
+
+
+machine:
+  environment:
+    GEMNASIUM_TESTSUITE: "bundle exec rspec"
+    GEMNASIUM_PROJECT_SLUG: "mammooc/mammooc.org"
+    COVERALLS_PARALLEL: "true"
+  services:
+    - docker
+
+
+dependencies:
+  pre:
+    - sudo sh -c 'echo "deb http://apt.gemnasium.com stable main" > /etc/apt/sources.list.d/gemnasium.list'
+    - sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com E5CEAB0AC5F1CA2A
+    - sudo apt-get update
+    - sudo apt-get install gemnasium-toolbelt
+
+
+database:
+  pre:
+    - mv config/database.yml config/database.yml.backup
 
 
 test:
   post:
     - bundle exec rake rubocop:show
+    - mv config/database.yml config/database.yml.circleci
+    - mv config/database.yml.backup config/database.yml
+
+
+notify:
+  webhooks:
+    - url: https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN
 
 
 deployment:
   production:
     branch: master
     commands:
+      # Docker
+      - rm config/database.yml.circleci
+      - docker build -t mammooc/mammooc.org .
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push mammooc/mammooc.org
+      # Heroku
       - heroku maintenance:on --app mammooc
       - git push git@heroku.com:mammooc.git
       - heroku pg:reset DATABASE --app mammooc --confirm mammooc
@@ -29,6 +63,9 @@ deployment:
       - heroku run rake db:schema:load db:seed RAILS_ENV=development --app mammooc-dev
       - heroku restart --app mammooc-dev
       - heroku maintenance:off --app mammooc-dev
+      # Gemnasium Auto-Update
+      - mv config/database.yml.circleci config/database.yml
+      - gemnasium autoupdate run
 
   teaser:
     branch: teaser
