@@ -1,16 +1,20 @@
 # -*- encoding : utf-8 -*-
 require 'simplecov'
+
 if ENV['CIRCLE_ARTIFACTS']
+  require 'coveralls'
+  require 'pullreview/coverage'
+
   formatters = []
   formatters << SimpleCov::Formatter::HTMLFormatter
-  require 'pullreview/coverage'
-  formatters << PullReview::Coverage::Formatter
-  require 'coveralls'
   formatters << Coveralls::SimpleCov::Formatter
+  formatters << PullReview::Coverage::Formatter
   SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[*formatters]
+
   dir = File.join('..', '..', '..', ENV['CIRCLE_ARTIFACTS'], 'coverage')
   SimpleCov.coverage_dir(dir)
 end
+
 SimpleCov.start do
   add_filter '/spec/'
   add_filter '/config'
