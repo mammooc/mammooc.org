@@ -31,11 +31,6 @@ test:
     - mv config/database.yml.backup config/database.yml
 
 
-notify:
-  webhooks:
-    - url: https://coveralls.io/webhook?repo_token=NoVVC6URLE57BQme3cZVlFMRlvgwmwN04
-
-
 deployment:
   production:
     branch: master
