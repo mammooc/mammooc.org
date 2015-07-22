@@ -626,4 +626,107 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe 'course_enrollments_visible_for_user' do
+    let(:user) { FactoryGirl.create(:user)}
+    let(:second_user) { FactoryGirl.create(:user)}
+    let(:third_user) { FactoryGirl.create(:user)}
+    let(:fourth_user) { FactoryGirl.create(:user)}
+    let(:group) { FactoryGirl.create(:group, users: [user, fourth_user]) }
+    let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: user) }
+    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'users', value: [second_user.id]) }
+    let!(:user_setting_entry2) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
+
+    it 'returns true if the user is allowed to see course enrollments' do
+      expect(user.course_enrollments_visible_for_user(second_user)).to eql true
+    end
+
+    it 'returns false if the user is not allowed to see course enrollments' do
+      expect(user.course_enrollments_visible_for_user(third_user)).to eql false
+    end
+
+    it 'returns true if the user is in whitelisted group' do
+      expect(user.course_enrollments_visible_for_user(fourth_user)).to eql true
+    end
+  end
+
+  describe 'course_results_visible_for_user' do
+    let(:user) { FactoryGirl.create(:user)}
+    let(:second_user) { FactoryGirl.create(:user)}
+    let(:third_user) { FactoryGirl.create(:user)}
+    let(:fourth_user) { FactoryGirl.create(:user)}
+    let(:group) { FactoryGirl.create(:group, users: [user, fourth_user]) }
+    let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_results_visibility, user: user) }
+    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'users', value: [second_user.id]) }
+    let!(:user_setting_entry2) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
+
+    it 'returns true if the user is allowed to see course results' do
+      expect(user.course_results_visible_for_user(second_user)).to eql true
+    end
+
+    it 'returns false if the user is not allowed to see course results' do
+      expect(user.course_results_visible_for_user(third_user)).to eql false
+    end
+
+    it 'returns true if the user is in whitelisted group' do
+      expect(user.course_results_visible_for_user(fourth_user)).to eql true
+    end
+
+  end
+
+  describe 'profile_visible_for_user' do
+    let(:user) { FactoryGirl.create(:user)}
+    let(:second_user) { FactoryGirl.create(:user)}
+    let(:third_user) { FactoryGirl.create(:user)}
+    let(:fourth_user) { FactoryGirl.create(:user)}
+    let(:group) { FactoryGirl.create(:group, users: [user, fourth_user]) }
+    let(:user_setting) { FactoryGirl.create(:user_setting, name: :profile_visibility, user: user) }
+    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'users', value: [second_user.id]) }
+    let!(:user_setting_entry2) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
+
+    it 'returns true if the user is allowed to see the profile' do
+      expect(user.profile_visible_for_user(second_user)).to eql true
+    end
+
+    it 'returns false if the user is not allowed to see the profile' do
+      expect(user.profile_visible_for_user(third_user)).to eql false
+    end
+
+    it 'returns true if the user is in whitelisted group' do
+      expect(user.profile_visible_for_user(fourth_user)).to eql true
+    end
+
+  end
+
+  describe 'course_enrollments_visible_for_group' do
+    let(:user) { FactoryGirl.create(:user)}
+    let(:group) { FactoryGirl.create(:group, users: [user]) }
+    let(:second_group) { FactoryGirl.create(:group, users: [user]) }
+    let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: user) }
+    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
+
+    it 'returns true if the group is allowed to see course enrollments' do
+      expect(user.course_enrollments_visible_for_group(group)).to eql true
+    end
+
+    it 'returns false if the group is not allowed to see course enrollments' do
+      expect(user.course_enrollments_visible_for_group(second_group)).to eql false
+    end
+  end
+
+  describe 'course_results_visible_for_group' do
+    let(:user) { FactoryGirl.create(:user)}
+    let(:group) { FactoryGirl.create(:group, users: [user]) }
+    let(:second_group) { FactoryGirl.create(:group, users: [user]) }
+    let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_results_visibility, user: user) }
+    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
+
+    it 'returns true if the group is allowed to see course enrollments' do
+      expect(user.course_results_visible_for_group(group)).to eql true
+    end
+
+    it 'returns false if the group is not allowed to see course enrollments' do
+      expect(user.course_results_visible_for_group(second_group)).to eql false
+    end
+  end
 end
