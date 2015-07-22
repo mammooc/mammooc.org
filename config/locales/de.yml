@@ -689,4 +689,6 @@ de:
       group: :unauthorized.show.group
     index:
       recommendations: Du bist nicht berechtigt auf Empfehlungen zuzugreifen.
-      users: Du bist nicht berechtigt auf Nutzer zuzugreifen.
+      user: Du bist nicht berechtigt auf Nutzer zuzugreifen.
+    completions:
+      user: Der Nutzer hat dir keinen Zugriff auf seine/ihre Kursabschlüsse gegeben.

@@ -692,3 +692,5 @@ en:
     index:
       recommendations: You are not allowed to access any recommendations.
       user: You are not allowed to access any users.
+    completions:
+      user: The user did not grant you access to his/her course completions.
