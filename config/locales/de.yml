@@ -147,6 +147,9 @@ de:
       forgot_password: Passwort vergessen?
       omniauth: Mit %{provider} anmelden
       terms_and_conditions_omniauth: "Du bestätigst die AGBs, falls du dich mithilfe von Single-Sign-On anmeldest:"
+      identity_merged: Dein Konto ist jetzt mit %{providers} verbunden.
+      identity_mergable: Bitte melde dich an, um diesen Provider deinem Konto hinzuzufügen. %{cancel}
+      identity_cancel_merge: Abbrechen und Konto nicht verknüpfen.
       easyID:
         login: Mit dem neuen Personalausweis anmelden
         notice: "Hinweis: Die %{link} muss gestartet sein, damit du dich mit dem neuen Personalausweis anmelden kannst."
@@ -210,13 +213,21 @@ de:
       title: Dein Profil
       about_me: Über mich
       groups: Gruppen
-      current_courses: Deine Belegungen
-      currently_no_courses: Du hast zurzeit keine Kurse belegt.
+      current_courses: Belegungen
+      currently_no_courses: "%{name} hat zurzeit keine Kurse belegt."
       edit_profile_title: Profil bearbeiten
       editing_profile: Profil bearbeiten
+      bookmarks: Vormerkungen
+      currently_no_bookmarks: "%{name} hat zurzeit keine Kurse vorgemerkt."
+      starts: beginnt am
+      course_completions: Kursabschlüsse
+      course_completions_link: Hier geht es zu den Kursabschlüssen ...
+    own_profile:
+      current_courses: Deine Belegungen
+      currently_no_courses: Du hast zurzeit keine Kurse belegt.
       bookmarks: Deine Vormerkungen
       currently_no_bookmarks: Du hast zurzeit keine Kurse vorgemerkt.
-      starts: beginnt am
+      course_completions: Meine Kursabschlüsse
 
   groups:
     title: Meine Gruppen | mammooc

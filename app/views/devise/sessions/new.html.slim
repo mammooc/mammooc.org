@@ -4,7 +4,7 @@ h2
     .form-group
       = f.label :primary_email, t('users.sign_in_up.email')
       br
-      = f.email_field :primary_email, autofocus: true, :class => 'form-control', :id => 'login_email'
+      = f.email_field :primary_email, autofocus: true, :class => 'form-control', :id => 'login_email', :value => session.has_key?(:resource) ? session[:resource]['primary_email'] : ''
     .form-group
       = f.label :password, t('users.sign_in_up.password')
       br

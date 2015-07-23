@@ -4,10 +4,10 @@ namespace :mammooc do
     OpenHPICourseWorker.perform_async
     OpenSAPCourseWorker.perform_async
     CourseraCourseWorker.perform_async
-    # OpenUNECourseWorker.perform_async
-    # MoocHouseCourseWorker.perform_async
-    # OpenSAPChinaCourseWorker.perform_async
-    # OpenHPIChinaCourseWorker.perform_async
+    OpenUNECourseWorker.perform_async
+    MoocHouseCourseWorker.perform_async
+    OpenSAPChinaCourseWorker.perform_async
+    OpenHPIChinaCourseWorker.perform_async
     EdxCourseWorker.perform_async
     IversityCourseWorker.perform_async
     UdacityCourseWorker.perform_async
@@ -16,10 +16,10 @@ namespace :mammooc do
   task update_user_data: :environment do
     OpenHPIUserWorker.perform_async
     OpenSAPUserWorker.perform_async
-    # OpenUNEUserWorker.perform_async
-    # MoocHouseUserWorker.perform_async
-    # OpenSAPChinaUserWorker.perform_async
-    # OpenHPIChinaUserWorker.perform_async
+    OpenUNEUserWorker.perform_async
+    MoocHouseUserWorker.perform_async
+    OpenSAPChinaUserWorker.perform_async
+    OpenHPIChinaUserWorker.perform_async
     CourseraUserWorker.perform_async
   end
 
