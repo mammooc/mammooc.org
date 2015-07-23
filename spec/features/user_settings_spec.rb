@@ -39,7 +39,7 @@ RSpec.describe 'UserSettings', type: :feature do
       let(:user_setting3) { FactoryGirl.create(:user_setting, name: :profile_visibility, user: second_user) }
       let!(:user_setting_entry3) { FactoryGirl.create(:user_setting_entry, setting: user_setting3, key: 'groups', value: [group.id, second_group.id]) }
 
-      it 'is visible for user himself' do
+      it 'are visible for user himself' do
         capybara_sign_in second_user
         visit user_path(second_user)
         expect(current_path).to eql user_path(second_user)
@@ -63,7 +63,7 @@ RSpec.describe 'UserSettings', type: :feature do
         expect(page).not_to have_content course1.name
       end
 
-      it 'is visible to users who are in groups which are whitelisted' do
+      it 'are visible to users who are in groups which are whitelisted' do
         capybara_sign_in fourth_user
         visit user_path(second_user)
         expect(current_path).to eql user_path(second_user)
@@ -71,7 +71,7 @@ RSpec.describe 'UserSettings', type: :feature do
         expect(page).to have_content course1.name
       end
 
-      it 'is not visible to users who are in groups which are not whitelisted' do
+      it 'are not visible to users who are in groups which are not whitelisted' do
         capybara_sign_in fifth_user
         visit user_path(second_user)
         expect(current_path).to eql user_path(second_user)
@@ -83,42 +83,42 @@ RSpec.describe 'UserSettings', type: :feature do
     context 'in newsfeed' do
       let!(:activity) { FactoryGirl.create(:activity_course_enroll, owner: second_user, trackable: course1, user_ids: [user.id, third_user.id, fourth_user.id, fifth_user.id], group_ids: [group.id, second_group.id]) }
 
-      it 'is visible for users who are whitelisted' do
+      it 'are visible for users who are whitelisted' do
         capybara_sign_in user
         visit dashboard_path
         expect(page).to have_content I18n.t('newsfeed.course.enroll')
         expect(page).to have_content course1.name
       end
 
-      it 'is not visible for users who are not whitelisted' do
+      it 'are not visible for users who are not whitelisted' do
         capybara_sign_in third_user
         visit dashboard_path
         expect(page).not_to have_content I18n.t('newsfeed.course.enroll')
         expect(page).not_to have_content course1.name
       end
 
-      it 'is visible to users who are in groups which are whitelisted' do
+      it 'are visible to users who are in groups which are whitelisted' do
         capybara_sign_in fourth_user
         visit dashboard_path
         expect(page).to have_content I18n.t('newsfeed.course.enroll')
         expect(page).to have_content course1.name
       end
 
-      it 'is not visible to users who are in groups which are not whitelisted' do
+      it 'are not visible to users who are in groups which are not whitelisted' do
         capybara_sign_in fifth_user
         visit dashboard_path
         expect(page).not_to have_content I18n.t('newsfeed.course.enroll')
         expect(page).not_to have_content course1.name
       end
 
-      it 'is visible for groups which are whitelisted' do
+      it 'are visible for groups which are whitelisted' do
         capybara_sign_in fourth_user
         visit group_path(group)
         expect(page).to have_content I18n.t('newsfeed.course.enroll')
         expect(page).to have_content course1.name
       end
 
-      it 'is not visible for groups which are not whitelisted' do
+      it 'are not visible for groups which are not whitelisted' do
         capybara_sign_in fifth_user
         visit group_path(second_group)
         expect(page).not_to have_content I18n.t('newsfeed.course.enroll')
@@ -147,7 +147,7 @@ RSpec.describe 'UserSettings', type: :feature do
       let(:user_setting4) { FactoryGirl.create(:user_setting, name: :profile_visibility, user: second_user) }
       let!(:user_setting_entry4) { FactoryGirl.create(:user_setting_entry, setting: user_setting4, key: 'groups', value: [group.id, second_group.id]) }
 
-      it 'is visible for user himself' do
+      it 'are visible for user himself' do
         capybara_sign_in second_user
         visit user_path(second_user)
         expect(current_path).to eql user_path(second_user)
@@ -175,7 +175,7 @@ RSpec.describe 'UserSettings', type: :feature do
         expect(page).not_to have_content I18n.t('users.profile.course_completions_link')
       end
 
-      it 'is visible to users who are in groups which are whitelisted' do
+      it 'are visible to users who are in groups which are whitelisted' do
         capybara_sign_in fourth_user
         visit user_path(second_user)
         expect(current_path).to eql user_path(second_user)
@@ -185,7 +185,7 @@ RSpec.describe 'UserSettings', type: :feature do
         expect(current_path).to eql completions_path(second_user)
       end
 
-      it 'is not visible to users who are in groups which are not whitelisted' do
+      it 'are not visible to users who are in groups which are not whitelisted' do
         capybara_sign_in fifth_user
         visit user_path(second_user)
         expect(current_path).to eql user_path(second_user)
