@@ -533,16 +533,15 @@ RSpec.describe User, type: :model do
       expect(identity).to eql UserIdentity.count(user: user)
     end
 
-
     it 'does not return a user if identity is unknown' do
       user = FactoryGirl.create(:user)
       authentication_info = OmniAuth::AuthHash.new(
-          provider: 'openProvider',
-          uid: '123',
-          info: {
-              email: user.primary_email,
-              verified: false
-          }
+        provider: 'openProvider',
+        uid: '123',
+        info: {
+          email: user.primary_email,
+          verified: false
+        }
       )
       identity = UserIdentity.count(user: user)
       expect { described_class.find_for_omniauth(authentication_info, nil) }.not_to change { described_class.count }
