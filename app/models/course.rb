@@ -35,7 +35,6 @@ class Course < ActiveRecord::Base
   has_attached_file :course_image,
                     styles: {
                         thumb: '100x100#',
-                        medium: 'x250',
                         original: '300x300>'},
                     :convert_options => { :all => "-quality 95" },
                     s3_storage_class: :reduced_redundancy,
