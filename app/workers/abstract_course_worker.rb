@@ -2,7 +2,6 @@
 class AbstractCourseWorker
   include Sidekiq::Worker
   require 'rest_client'
-  require 'open-uri'
 
   def perform
     load_courses

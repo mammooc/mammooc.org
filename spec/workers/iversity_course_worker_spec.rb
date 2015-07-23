@@ -37,7 +37,6 @@ describe IversityCourseWorker do
     expect(course.url).to include courses_json['courses'][0]['url']
     expect(course.abstract).to eql courses_json['courses'][0]['subtitle']
     expect(course.language).to eql 'de'
-    expect(course.course_image).not_to eql nil
     expect(course.videoId).to eql courses_json['courses'][0]['trailer_video']
     expect(course.start_date.to_datetime).to eql courses_json['courses'][0]['start_date'].to_datetime
     expect(course.end_date.to_datetime).to eql courses_json['courses'][0]['end_date'].to_datetime
