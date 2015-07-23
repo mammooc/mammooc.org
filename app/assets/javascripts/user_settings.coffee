@@ -73,7 +73,7 @@ loadAccountSettings = (event) ->
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       $("div.settings-container").html(data.partial)
-      bindClickEvents()
+      bindMoocProviderConnectionClickEvents()
       window.history.pushState({id: 'set_account_subsite'}, '', 'settings?subsite=account');
   event.preventDefault()
 
@@ -89,7 +89,7 @@ loadMoocProviderSettings = (event) ->
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       $("div.settings-container").html(data.partial)
-      bindClickEvents()
+      bindMoocProviderConnectionClickEvents()
       window.history.pushState({id: 'set_mooc_provider_subsite'}, '', 'settings?subsite=mooc_provider');
   event.preventDefault()
 
@@ -105,7 +105,7 @@ loadPrivacySettings = (event) ->
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
       $("div.settings-container").html(data.partial)
-      bindClickEvents()
+      bindMoocProviderConnectionClickEvents()
       window.history.pushState({id: 'set_privacy_subsite'}, '', 'settings?subsite=privacy');
   event.preventDefault()
 
@@ -271,7 +271,7 @@ getExistingIDs = (setting, key) ->
 
   return existing_ids
 
-@bindClickEvents = () ->
+@bindMoocProviderConnectionClickEvents = () ->
   $('button[id="sync-naive-user-mooc_provider-connection-button"]').on 'click', (event) ->
     synchronizeNaiveUserMoocProviderConnection(event)
   $('button[id="revoke-naive-user-mooc_provider-connection-button"]').on 'click', (event) ->
