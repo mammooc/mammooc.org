@@ -18,7 +18,8 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     @user_picture = @user.profile_image.expiring_url(3600, :square)
-    @bookmarks = current_user.bookmarks
+    @bookmarks = @user.bookmarks
+    @enrollments = @user.courses
     @enrollments_visible = @user.course_enrollments_visible_for_user(current_user)
     @completions_visible = @user.course_results_visible_for_user(current_user)
   end

@@ -210,13 +210,21 @@ de:
       title: Dein Profil
       about_me: Über mich
       groups: Gruppen
-      current_courses: Deine Belegungen
-      currently_no_courses: Du hast zurzeit keine Kurse belegt.
+      current_courses: Belegungen
+      currently_no_courses: "%{name} hat zurzeit keine Kurse belegt."
       edit_profile_title: Profil bearbeiten
       editing_profile: Profil bearbeiten
+      bookmarks: Vormerkungen
+      currently_no_bookmarks: "%{name} hat zurzeit keine Kurse vorgemerkt."
+      starts: beginnt am
+      course_completions: Kursabschlüsse
+      course_completions_link: Hier geht es zu den Kursabschlüssen ...
+    own_profile:
+      current_courses: Deine Belegungen
+      currently_no_courses: Du hast zurzeit keine Kurse belegt.
       bookmarks: Deine Vormerkungen
       currently_no_bookmarks: Du hast zurzeit keine Kurse vorgemerkt.
-      starts: beginnt am
+      course_completions: Meine Kursabschlüsse
 
   groups:
     title: Meine Gruppen | mammooc
