@@ -29,7 +29,17 @@ class UdacityCourseWorker < AbstractCourseWorker
       course.url = course_element['homepage']
       course.abstract = course_element['summary']
       course.language = 'en'
-      course.imageId = course_element['image']
+
+      if course_element['image'][/[\?&#]/]
+        filename = File.basename(course_element['image'])[/.*?(?=[\?&#])/]
+        filename = filename.gsub! '=', '_'
+      else
+        filename = File.basename(course_element['image'])
+      end
+
+      if course_element['image'] && course.course_image_file_name != filename
+        course.course_image = Course.process_uri(course_element['image'])
+      end
       course.videoId = course_element['teaser_video']['youtube_url'] if course_element['teaser_video']['youtube_url']
       course.difficulty = course_element['level'].capitalize
 
@@ -51,11 +61,23 @@ class UdacityCourseWorker < AbstractCourseWorker
       end
 
       course.description = course_element['expected_learning']
+      if course_element['expected_duration'] && course_element['expected_duration_unit']
+        course.calculated_duration_in_days = calculate_duration(course_element['expected_duration'], course_element['expected_duration_unit'])
+      end
       course.provider_given_duration = "#{course_element['expected_duration']} #{course_element['expected_duration_unit']}"
 
       course.save!
     end
 
     evaluate_update_map update_map
+  end
+
+  def calculate_duration(value, unit)
+    factor = case unit
+               when 'days' then 1
+               when 'weeks' then 7
+               when 'months' then 30
+             end
+    value * factor
   end
 end

@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     get '/users/cancel' => 'users/registrations#cancel', :as => 'cancel_user_registration'
     post '/users' => 'users/registrations#create', :as => 'user_registration'
     get '/users/sign_up' => 'users/registrations#new', :as => 'new_user_registration'
+    get '/users/cancel_add_identity' => 'users/sessions#cancel_add_identity', :as => 'cancel_add_identity'
     patch '/users' => 'users/registrations#update'
     put '/users' => 'users/registrations#update'
     delete '/users' => 'users/registrations#destroy'
@@ -109,7 +110,7 @@ Rails.application.routes.draw do
   patch 'users/:id/change_email' => 'users#change_email', as: 'change_email'
   get 'users/:id/cancel_change_email' => 'users#cancel_change_email'
   get 'users/:id/connected_users_autocomplete' => 'users#connected_users_autocomplete'
-  get 'users/:user_id/completions' => 'completions#index', as: 'completions'
+  get 'users/:id/completions' => 'users#completions', as: 'completions'
 
   # UserEmails
   get 'user_emails/:id/mark_as_deleted' => 'user_emails#mark_as_deleted'

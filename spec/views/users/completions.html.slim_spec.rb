@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'rails_helper'
 
-RSpec.describe 'completions/index', type: :view do
+RSpec.describe 'users/completions', type: :view do
   let(:user) { FactoryGirl.create(:user) }
   let(:course) { FactoryGirl.create(:course) }
   let(:first_completion) do

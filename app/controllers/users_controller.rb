@@ -2,7 +2,7 @@
 class UsersController < ApplicationController
   include ConnectorMapper
   before_action :set_provider_logos, only: [:settings, :mooc_provider_settings]
-  load_and_authorize_resource only: [:show, :edit, :update, :destroy, :finish_signup]
+  load_and_authorize_resource only: [:show, :edit, :update, :destroy, :finish_signup, :completions]
 
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
@@ -18,7 +18,10 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     @user_picture = @user.profile_image.expiring_url(3600, :square)
-    @bookmarks = current_user.bookmarks
+    @bookmarks = @user.bookmarks
+    @enrollments = @user.courses
+    @enrollments_visible = @user.course_enrollments_visible_for_user(current_user)
+    @completions_visible = @user.course_results_visible_for_user(current_user)
   end
 
   # PATCH/PUT /users/1
@@ -150,10 +153,10 @@ class UsersController < ApplicationController
 
   def oauth_callback
     code = params[:code]
-    state = params[:state].split(/~/)
-    mooc_provider = MoocProvider.find_by_name(state.first)
-    destination_path = state.second
-    csrf_token = state.third
+    state = params[:state].split(/~/) if params[:state].present?
+    mooc_provider = MoocProvider.find_by_name(state.first) if state.present?
+    destination_path = state.second if state.present?
+    csrf_token = state.third if state.present?
     flash['error'] ||= []
 
     return oauth_error_and_redirect(destination_path) if mooc_provider.blank?
@@ -173,6 +176,7 @@ class UsersController < ApplicationController
 
   def oauth_error_and_redirect(destination_path)
     flash['error'] << "#{t('users.synchronization.oauth_error')}"
+    destination_path.present? ? destination_path : destination_path = dashboard_path
     redirect_to destination_path
   end
 
@@ -272,6 +276,23 @@ class UsersController < ApplicationController
   def cancel_change_email
     session.delete(:deleted_user_emails)
     redirect_to "#{user_settings_path(current_user)}?subsite=account"
+  end
+
+  def completions
+    @completions = Completion.where(user: @user).sort_by(&:created_at).reverse
+    courses = []
+    @completions.each do |completion|
+      courses.push(completion.course)
+    end
+    @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(courses)
+    @number_of_certificates = []
+    @completions.each do |completion|
+      @number_of_certificates.push completion.certificates.count
+    end
+    @verify_available = []
+    @completions.each do |completion|
+      @verify_available.push completion.certificates.pluck(:verification_url).reject(&:blank?).present? ? true : false
+    end
   end
 
   private

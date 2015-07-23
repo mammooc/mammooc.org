@@ -150,7 +150,6 @@ ActiveRecord::Schema.define(version: 20150721093633) do
     t.string   "url",                         null: false
     t.text     "abstract"
     t.string   "language"
-    t.string   "imageId"
     t.string   "videoId"
     t.datetime "start_date"
     t.datetime "end_date"
@@ -174,6 +173,10 @@ ActiveRecord::Schema.define(version: 20150721093633) do
     t.float    "calculated_rating"
     t.integer  "rating_count"
     t.float    "points_maximal"
+    t.string   "course_image_file_name"
+    t.string   "course_image_content_type"
+    t.integer  "course_image_file_size"
+    t.datetime "course_image_updated_at"
   end
 
   add_index "courses", ["course_result_id"], name: "index_courses_on_course_result_id", using: :btree
