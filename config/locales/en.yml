@@ -355,8 +355,10 @@ en:
     subtitle_languages: Available Subtitles
     previous_iteration: Previous Iteration
     following_iteration: Following Iteration
-    enrollment_error: Sorry, the enrollment for this course has failed.
-    unenrollment_error: Sorry, the unenrollment for this course has failed.
+    enrollment_error: Sorry, the enrollment for this course has failed. Please check in your settings whether you are connected to this provider and try again.
+    unenrollment_error: Sorry, the unenrollment for this course has failed. Please check in your settings whether you are connected to this provider and try again.
+    permanent_enrollment_error: Sorry, the enrollment for this course has failed because the provider does not support enrollments.
+    permanent_unenrollment_error: Sorry, the unenrollment for this course has failed because the provider does not support unenrollments.
     require_login: You have to be signed in to use this feature.
     register_first: Please register first.
 

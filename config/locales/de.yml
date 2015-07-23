@@ -354,8 +354,9 @@ de:
     subtitle_languages: Verfügbare Untertitel
     previous_iteration: Vorheriger Durchlauf
     following_iteration: Nachfolgender Durchlauf
-    enrollment_error: Die Belegung beim MOOC-Anbieter hat leider nicht funktioniert.
-    unenrollment_error: Das Entfernen der Belegung beim MOOC-Anbieter hat leider nicht funktioniert.
+    enrollment_error: Die Belegung beim MOOC-Anbieter hat leider nicht funktioniert. Bitte prüfe, ob du in den Einstellungen eine Verbindung zu diesem Anbieter hergestellt hast und versuche es anschließend erneut.
+    unenrollment_error: Das Entfernen der Belegung beim MOOC-Anbieter hat leider nicht funktioniert. Bitte prüfe, ob du in den Einstellungen eine Verbindung zu diesem Anbieter hergestellt hast und versuche es anschließend erneut.
+    permanent_enrollment_error: Die Belegung beim MOOC-Anbieter hat leider nicht funktioniert, da dieser MOOC-Anbieter dafür leider keine Unterstützung anbietet.
     require_login: Du musst angemeldet sein, um diese Funktionalität nutzen zu können.
     register_first: Bitte registriere dich.
 

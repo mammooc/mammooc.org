@@ -157,6 +157,10 @@ changeValueOfSearchField = (fromId, toId) ->
             .removeClass('enroll-icon').addClass('unenroll-icon')
             .children('i').removeClass('action-icon-gray').addClass('action-icon-green')
         target.on 'click', (event) -> removeFromEnrollments(event)
+      else if data.status == false
+        alert(I18n.t('courses.enrollment_error'))
+      else
+        alert(I18n.t('courses.permanent_enrollment_error'))
   event.preventDefault()
 
 @removeFromEnrollments = (event) ->
@@ -169,11 +173,16 @@ changeValueOfSearchField = (fromId, toId) ->
     error: (jqXHR, textStatus, errorThrown) ->
       alert(I18n.t('global.ajax_failed'))
     success: (data, textStatus, jqXHR) ->
-      toggle_title(target.parent())
-      target.unbind('click')
-            .removeClass('unenroll-icon').addClass('enroll-icon')
-            .children('i').removeClass('action-icon-green').addClass('action-icon-gray')
-      target.on 'click', (event) -> addToEnrollments(event)
+      if data.status == true
+        toggle_title(target.parent())
+        target.unbind('click')
+              .removeClass('unenroll-icon').addClass('enroll-icon')
+              .children('i').removeClass('action-icon-green').addClass('action-icon-gray')
+        target.on 'click', (event) -> addToEnrollments(event)
+      else if data.status == false
+        alert(I18n.t('courses.unenrollment_error'))
+      else
+        alert(I18n.t('courses.permanent_unenrollment_error'))
   event.preventDefault()
 
 $ =>
