@@ -33,13 +33,13 @@ class Course < ActiveRecord::Base
   has_many :tracks, class_name: 'CourseTrack', dependent: :destroy
 
   has_attached_file :course_image,
-                    styles: {
-                        thumb: '100x100#',
-                        original: '300x300>'},
-                    :convert_options => { :all => "-quality 95" },
-                    s3_storage_class: :reduced_redundancy,
-                    s3_permissions: :public_read,
-                    default_url: '/data/course_picture_default.png'
+    styles: {
+      thumb: '100x100#',
+      original: '300x300>'},
+    convert_options: {all: '-quality 95'},
+    s3_storage_class: :reduced_redundancy,
+    s3_permissions: :public_read,
+    default_url: '/data/course_picture_default.png'
 
   validates_attachment_content_type :course_image, content_type: /\Aimage\/.*\Z/
 

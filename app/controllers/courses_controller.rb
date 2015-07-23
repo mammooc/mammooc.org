@@ -229,13 +229,14 @@ class CoursesController < ApplicationController
           provider_worker = get_worker_by_mooc_provider @course.mooc_provider
           provider_worker.perform_async([current_user.id])
         end
-        @course.create_activity key: 'course.enroll', owner: current_user, group_ids: current_user.connected_groups_ids, user_ids: current_user.connected_users_ids
+        @has_enrolled = (@has_enrolled ? true : false)
+        @course.create_activity key: 'course.enroll', owner: current_user, group_ids: current_user.connected_groups_ids, user_ids: current_user.connected_users_ids if @has_enrolled
       rescue NotImplementedError
-        @has_enrolled = false
+        @has_enrolled = nil
       end
     else
       # We didn't implement a provider_connector for this mooc_provider
-      @has_enrolled = false
+      @has_enrolled = nil
     end
   end
 
@@ -248,12 +249,13 @@ class CoursesController < ApplicationController
           provider_worker = get_worker_by_mooc_provider @course.mooc_provider
           provider_worker.perform_async([current_user.id])
         end
+        @has_unenrolled = (@has_unenrolled ? true : false)
       rescue NotImplementedError
-        @has_unenrolled = false
+        @has_unenrolled = nil
       end
     else
       # We didn't implement a provider_connector for this mooc_provider
-      @has_unenrolled = false
+      @has_unenrolled = nil
     end
   end
 

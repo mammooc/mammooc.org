@@ -70,10 +70,10 @@ Metrics/AbcSize:
   Enabled: false
 
 Metrics/CyclomaticComplexity:
-  Max: 25
+  Max: 30
 
 Metrics/PerceivedComplexity:
-  Max: 30
+  Max: 35
 
 Rails/HasAndBelongsToMany:
   Enabled: false
