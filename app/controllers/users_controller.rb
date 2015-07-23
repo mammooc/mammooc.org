@@ -153,10 +153,10 @@ class UsersController < ApplicationController
 
   def oauth_callback
     code = params[:code]
-    state = params[:state].split(/~/)
-    mooc_provider = MoocProvider.find_by_name(state.first)
-    destination_path = state.second
-    csrf_token = state.third
+    state = params[:state].split(/~/) if params[:state].present?
+    mooc_provider = MoocProvider.find_by_name(state.first) if state.present?
+    destination_path = state.second if state.present?
+    csrf_token = state.third if state.present?
     flash['error'] ||= []
 
     return oauth_error_and_redirect(destination_path) if mooc_provider.blank?
@@ -176,6 +176,7 @@ class UsersController < ApplicationController
 
   def oauth_error_and_redirect(destination_path)
     flash['error'] << "#{t('users.synchronization.oauth_error')}"
+    destination_path.present? ? destination_path : destination_path = dashboard_path
     redirect_to destination_path
   end
 
