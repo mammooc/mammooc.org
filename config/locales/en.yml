@@ -148,6 +148,9 @@ en:
       forgot_password: Forgot your password?
       omniauth: Sign in with %{provider}
       terms_and_conditions_omniauth: "You confirm to mammooc's terms and conditions if you sign up via Single-Sign-On:"
+      identity_merged: You are now connected to %{providers}.
+      identity_mergable: Please sign in to connect the provider to your account. %{cancel}
+      identity_cancel_merge: "Cancel and don't add connection to provider"
       easyID:
         login: Sign in with a German National Identity Card
         notice: "Please note: In order to sign in with a German National Identity Card, the %{link} must be set up properly."

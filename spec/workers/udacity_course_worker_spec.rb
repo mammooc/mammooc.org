@@ -53,4 +53,3 @@ describe UdacityCourseWorker do
     expect(course.provider_given_duration).to eql "#{courses_json['courses'][0]['expected_duration']} #{courses_json['courses'][0]['expected_duration_unit']}"
   end
 end
-
