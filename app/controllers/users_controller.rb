@@ -2,7 +2,7 @@
 class UsersController < ApplicationController
   include ConnectorMapper
   before_action :set_provider_logos, only: [:settings, :mooc_provider_settings]
-  load_and_authorize_resource only: [:show, :edit, :update, :destroy, :finish_signup]
+  load_and_authorize_resource only: [:show, :edit, :update, :destroy, :finish_signup, :completions]
 
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
@@ -19,6 +19,8 @@ class UsersController < ApplicationController
   def show
     @user_picture = @user.profile_image.expiring_url(3600, :square)
     @bookmarks = current_user.bookmarks
+    @enrollments_visible = @user.course_enrollments_visible_for_user(current_user)
+    @completions_visible = @user.course_results_visible_for_user(current_user)
   end
 
   # PATCH/PUT /users/1
@@ -272,6 +274,23 @@ class UsersController < ApplicationController
   def cancel_change_email
     session.delete(:deleted_user_emails)
     redirect_to "#{user_settings_path(current_user)}?subsite=account"
+  end
+
+  def completions
+    @completions = Completion.where(user: @user).sort_by(&:created_at).reverse
+    courses = []
+    @completions.each do |completion|
+      courses.push(completion.course)
+    end
+    @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(courses)
+    @number_of_certificates = []
+    @completions.each do |completion|
+      @number_of_certificates.push completion.certificates.count
+    end
+    @verify_available = []
+    @completions.each do |completion|
+      @verify_available.push completion.certificates.pluck(:verification_url).reject(&:blank?).present? ? true : false
+    end
   end
 
   private

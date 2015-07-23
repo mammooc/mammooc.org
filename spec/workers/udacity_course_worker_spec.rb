@@ -49,6 +49,8 @@ describe UdacityCourseWorker do
     expect(course.requirements).to match_array [courses_json['courses'][0]['required_knowledge']]
     expect(course.description).to eql courses_json['courses'][0]['expected_learning']
     expect(course.course_instructors).to eql 'Dave Evans'
+    expect(course.calculated_duration_in_days).to eql 90
     expect(course.provider_given_duration).to eql "#{courses_json['courses'][0]['expected_duration']} #{courses_json['courses'][0]['expected_duration_unit']}"
   end
 end
+

@@ -276,7 +276,7 @@ de:
       synchronize: Daten aller Mitglieder synchronisieren
       information_title: 'Hinweis:'
       information:  Für die Statistiken werden nur Daten von Nutzern verwendet, die diese freigegeben haben.
-      number_of_share_member: In dieser Gruppe haben %{number} Mitglieder ihre Daten freigegeben.
+      number_of_share_member: In dieser Gruppe haben %{number} Mitglieder ihre Kursbelegungen freigegeben.
 
   activerecord:
     models:
@@ -477,7 +477,7 @@ de:
     heading: Kursbewertung
     please_sign_in: Bitte melde dich an, um diesen Kurs zu bewerten. Du hast noch keinen Account?
     path_to_registration: Hier geht's zur Registrierung
-    users_found_evaluation_helpful: '%{helpful_rating_count} von %{rating_count} Nutzern fanden diese Bewertung hilfreich'
+    users_found_evaluation_helpful: '%{positive_feedback_count} von %{feedback_count} Nutzern fanden diese Bewertung hilfreich'
     did_you_like_evaluation: Wie fandest du diese Bewertung?
     helpful: Hilfreich
     not_helpful: Nicht Hilfreich
@@ -655,7 +655,7 @@ de:
       recommendation: :unauthorized.create.recommendation
     show:
       group: Du hast keinen Zugriff auf diese Gruppe.
-      user: Du hast keinen Zugriff auf diesen Nutzer.
+      user: Der Nutzer hat sein Profil für dich nicht freigeschaltet.
     edit:
       group: Du kannst diese Gruppe nicht bearbeiten.
       user: Du kannst diesen Nutzer nicht bearbeiten.
@@ -689,4 +689,6 @@ de:
       group: :unauthorized.show.group
     index:
       recommendations: Du bist nicht berechtigt auf Empfehlungen zuzugreifen.
-      users: Du bist nicht berechtigt auf Nutzer zuzugreifen.
+      user: Du bist nicht berechtigt auf Nutzer zuzugreifen.
+    completions:
+      user: Der Nutzer hat dir keinen Zugriff auf seine/ihre Kursabschlüsse gegeben.

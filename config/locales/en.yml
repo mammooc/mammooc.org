@@ -277,7 +277,7 @@ en:
       synchronize: Synchronize data of all members
       information_title: 'Please Note:'
       information: To calculate the following statistics we only use data from group members who decided to share their data.
-      number_of_share_member: In this group %{number} members share their data.
+      number_of_share_member: In this group %{number} members share their course enrollments.
 
   activerecord:
     models:
@@ -478,7 +478,7 @@ en:
     heading: Course Evaluation
     please_sign_in: Please sign in to evaluate the course. Don't have an account yet?
     path_to_registration: Sign up here!
-    users_found_evaluation_helpful: '%{helpful_rating_count} of %{rating_count} people found the review helpful'
+    users_found_evaluation_helpful: '%{positive_feedback_count} of %{feedback_count} people found the review helpful'
     did_you_like_evaluation: How did you like this evaluation?
     helpful: Helpful
     not_helpful: Not Helpful
@@ -657,7 +657,7 @@ en:
       recommendation: :unauthorized.create.recommendation
     show:
       group: You do not have access to this group.
-      user: You do not have access to this user.
+      user: The user did not allow you to see his profile.
     edit:
       group: You are not able to edit this group.
       user: You are not able to edit this user.
@@ -692,3 +692,5 @@ en:
     index:
       recommendations: You are not allowed to access any recommendations.
       user: You are not allowed to access any users.
+    completions:
+      user: The user did not grant you access to his/her course completions.

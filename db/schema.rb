@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150721092431) do
+ActiveRecord::Schema.define(version: 20150721093633) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -193,14 +193,12 @@ ActiveRecord::Schema.define(version: 20150721092431) do
     t.text     "description"
     t.uuid     "user_id"
     t.uuid     "course_id"
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.integer  "course_status"
     t.boolean  "rated_anonymously"
-    t.integer  "evaluation_rating_count",         default: 0, null: false
-    t.integer  "evaluation_helpful_rating_count", default: 0, null: false
-    t.datetime "update_date"
-    t.datetime "creation_date"
+    t.integer  "total_feedback_count",    default: 0, null: false
+    t.integer  "positive_feedback_count", default: 0, null: false
   end
 
   add_index "evaluations", ["course_id"], name: "index_evaluations_on_course_id", using: :btree
