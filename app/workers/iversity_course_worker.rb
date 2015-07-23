@@ -35,7 +35,17 @@ class IversityCourseWorker < AbstractCourseWorker
         when 'English' then course.language = 'en'
         when %w(en es) then course.language = 'en,es'
       end
-      course.imageId = course_element['image']
+
+      if course_element['image'][/[\?&#]/]
+        filename = File.basename(course_element['image'])[/.*?(?=[\?&#])/]
+        filename = filename.gsub! '=', '_'
+      else
+        filename = File.basename(course_element['image'])
+      end
+
+      if course_element['image'] && course.course_image_file_name != filename
+        course.course_image = Course.process_uri(course_element['image'])
+      end
       course.videoId = course_element['trailer_video']
       course.start_date = course_element['start_date']
       course.end_date = course_element['end_date']

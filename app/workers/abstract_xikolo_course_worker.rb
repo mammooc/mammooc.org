@@ -30,7 +30,15 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
       course.mooc_provider_id = mooc_provider.id
       course.url = self.class::COURSE_LINK_BODY + course_element['course_code']
       course.language = course_element['language']
-      course.imageId = course_element['visual_url']
+      if course_element['visual_url'][/[\?&#]/]
+        filename = File.basename(course_element['visual_url'])[/.*?(?=[\?&#])/]
+      else
+        filename = File.basename(course_element['visual_url'])
+      end
+
+      if course_element['visual_url'] && course.course_image_file_name != filename
+        course.course_image = Course.process_uri(course_element['visual_url'])
+      end
       course.start_date = course_element['available_from']
       course.end_date = course_element['available_to']
       course.description = convert_to_absolute_urls(parse_markdown(course_element['description']))

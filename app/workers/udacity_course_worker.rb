@@ -29,7 +29,17 @@ class UdacityCourseWorker < AbstractCourseWorker
       course.url = course_element['homepage']
       course.abstract = course_element['summary']
       course.language = 'en'
-      course.imageId = course_element['image']
+
+      if course_element['image'][/[\?&#]/]
+        filename = File.basename(course_element['image'])[/.*?(?=[\?&#])/]
+        filename = filename.gsub! '=', '_'
+      else
+        filename = File.basename(course_element['image'])
+      end
+
+      if course_element['image'] && course.course_image_file_name != filename
+        course.course_image = Course.process_uri(course_element['image'])
+      end
       course.videoId = course_element['teaser_video']['youtube_url'] if course_element['teaser_video']['youtube_url']
       course.difficulty = course_element['level'].capitalize
 
