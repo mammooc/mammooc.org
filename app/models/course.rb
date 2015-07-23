@@ -41,8 +41,6 @@ class Course < ActiveRecord::Base
                     s3_permissions: :public_read,
                     default_url: '/data/course_picture_default.png'
 
-  #before_post_process :set_content_type
-
   validates_attachment_content_type :course_image, content_type: /\Aimage\/.*\Z/
 
   validates :tracks, length: {minimum: 1}
