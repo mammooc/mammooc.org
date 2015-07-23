@@ -51,7 +51,7 @@ RSpec.describe CoursesController, type: :controller do
 
     it 'assigns all courses as @courses' do
       get :index, {}
-      expect(assigns(:courses)).to eq([course, second_course, third_course])
+      expect(assigns(:courses)).to match_array([course, second_course, third_course])
     end
 
     it 'filters the courses after given parameters in URL' do
