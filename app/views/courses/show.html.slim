@@ -6,8 +6,7 @@
   .course-infobox
     .wrapper
       .course-image.hidden-xs
-        - if @course.course_image
-          = image_tag(@course.course_image.url)
+        = image_tag(@course.course_image.url)
       .content
         .title
           = link_to @course.url, target: "_blank"

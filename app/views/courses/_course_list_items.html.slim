@@ -1,10 +1,7 @@
 - @courses.each do |course|
   .courses
     .course-image
-      - if course.course_image
-        = image_tag(course.course_image.url)
-      - else
-        img src="/data/icons/courses-list-std.png"
+      = image_tag(course.course_image.url)
       - if user_signed_in?
         - if @my_bookmarked_courses.include? course
           .action-icon-wishlist data-toggle="tooltip" data-placement="auto" title="#{(t('courses.course-list.remove-bookmark'))}" toggle-title=title="#{(t('courses.course-list.bookmark'))}"

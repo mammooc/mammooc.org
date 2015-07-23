@@ -10,10 +10,7 @@
           span.glyphicon.glyphicon-remove
         = link_to course
           .course-image
-            - if course.course_image
-              = image_tag(course.course_image.url)
-            - else
-              img src="/data/icons/courses-list-std.png"
+            = image_tag(course.course_image.url)
           .course-info
             .hd6.course-name
               = course.name

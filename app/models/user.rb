@@ -209,6 +209,9 @@ class User < ActiveRecord::Base
       if email.present? && !user.emails.pluck(:address).include?(email.downcase)
         begin
           UserEmail.create!(user: user, address: email.downcase, is_primary: false)
+          user.profile_image = process_uri(auth.info.image)
+          user.save!
+
         rescue ActiveRecord::RecordInvalid
           # TODO: Merge accounts!
           Rails.logger.error "This email address is associated to another user. The found identity will be changed later so that the existing account won't be accessible any longer."
