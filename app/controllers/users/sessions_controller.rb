@@ -7,9 +7,12 @@ module Users
       identity_mergable = false
       resource_class.omniauth_providers.each do |provider|
         next if session["devise.#{provider}_data"].blank?
-        next unless Time.zone.now < session["devise.#{provider}_data"]['valid_until']
-        session["devise.#{provider}_data"]['valid_until'] = Time.zone.now + 10.minutes
-        identity_mergable = true
+        if Time.zone.now < session["devise.#{provider}_data"]['valid_until']
+          session["devise.#{provider}_data"]['valid_until'] = Time.zone.now + 10.minutes
+          identity_mergable = true
+        else
+          session.delete("devise.#{provider}_data")
+        end
       end
       if identity_mergable
         flash['error'] << t('users.sign_in_up.identity_mergable', cancel: view_context.link_to(t('users.sign_in_up.identity_cancel_merge'), cancel_add_identity_path))
@@ -52,6 +55,7 @@ module Users
         flash['success'] ||= []
         flash['success'] << t('users.sign_in_up.identity_merged', providers: merged_providers[0...-2])
       end
+
       sign_in(resource_name, resource)
       yield resource if block_given?
       respond_with resource, location: after_sign_in_path_for(resource)

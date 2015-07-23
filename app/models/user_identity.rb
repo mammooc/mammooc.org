@@ -4,6 +4,6 @@ class UserIdentity < ActiveRecord::Base
   validates :omniauth_provider, presence: true, uniqueness: {scope: :user}
 
   def self.find_for_omniauth(authentication_info)
-    find_or_create_by(provider_user_id: authentication_info.uid, omniauth_provider: authentication_info.provider)
+    find_or_initialize_by(provider_user_id: authentication_info.uid, omniauth_provider: authentication_info.provider)
   end
 end
