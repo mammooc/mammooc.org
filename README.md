@@ -11,61 +11,52 @@ _Please pay attention to the LICENSE file as well_
 
 mammooc is a student's project developed at the German Hasso Plattner Institute, Potsdam.
 
-# Setup
+## How To Contribute
+We are happy about everyone who contributes to mammooc!
+Here is a little guide to simplify contributing: 
 
-## Docker:
+1. Fork the Repository 
+2. Implement a new feature or fix a bug (have a look at our [Issues](https://github.com/mammooc/mammooc.org/issues))
+3. Add tests for your code
+ - we use rspec for model and controller tests
+ - for our feature tests we use capybara (with selenium)
+ - You can find all tests in the spec directory
+ - To run all tests: ```bundle exec rspec```
+4. Create Pull request
+ - if your request gets two times a +1, we will merge your request 
 
-We use this docker image for deployment: https://registry.hub.docker.com/u/jprberlin/mammooc/
+If you want to do a perfect job:
+- have a look at our [Code Style Guideline](Code Style Guidelines)
+- we use rubocop to automatically correct the code: ```rake rubocop:run``` 
 
-You have to modify the `docker-compose.yml` and include your own environment variables. Run the following commands from the same working directory in order to set up your instance of mammooc:
+How you run the application on localhost:
 
-```
-docker-compose pull jprberlin/mammooc
-docker-compose run web rake db:create db:setup
-docker-compose up
-```
+1. please have a look at our environment variables below
+ - some of them are marked as necessary, these have to be set for running the application
+2. we use passenger
+ - to start the application: ```passenger start```
+ - the application is available at: ```localhost:3000``` 
+ - stop the application: ```passenger stop```
 
-### Run as a service:
+For manual test in a deployed version:
+- Our dev-branch is deployed under: https://mammooc-dev.herokuapp.com/
+- Username: ```max@example.com``` or ```maxi@example.com```
+- Password: ```12345678```
+- the database will be reset after each deployment  
 
-Just create a new service file located in `/etc/init/mammooc.conf` with the following content:
+For any questions:
 
-```
-description "mammooc init script"
+1. open a new issue
+2. add the label 'question'
+3. Write down your question
+4. we will answer as soon as possible :)
 
-respawn
-respawn limit 10 5
-umask 022
 
-chdir <mammooc working directory>
-
-setuid <user name>
-setgid <group name>
-
-exec docker-compose up
-```
-
-Control this service using `service mammooc [start|stop|restart]`.
-
-### Update your mammooc installation:
-
-```
-#!/bin/bash
-
-docker pull jprberlin/mammooc
-service mammooc restart
-```
-
-### Connect to the docker image:
-
-`docker exec -it <docker container ID> bash`
-
-## SSL
-
-You can use an additional nginx to seucre connections or you may enable SSL in Passenger. Just add the following command line arguments to the Procfile and place a SSL certificate inside the docker image within the folder `ssl`. Pay attention if you update the image! 
-
-```
---ssl --ssl-certificate ./ssl/mammooc.pem --ssl-certificate-key ./ssl/mammooc.key
-```
+## How to report a bug
+1. open a new issue
+2. add label 'bug'
+3. describe the problem in a way that we can reconstruct what you have done
+4. add information about the browser you are using
 
 
 ## Environment variables
