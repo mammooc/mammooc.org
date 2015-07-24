@@ -36,14 +36,14 @@ class IversityCourseWorker < AbstractCourseWorker
         when %w(en es) then course.language = 'en,es'
       end
 
-      if course_element['image'][/[\?&#]/]
+      if course_element['image'].present? && course_element['image'][/[\?&#]/]
         filename = File.basename(course_element['image'])[/.*?(?=[\?&#])/]
         filename = filename.gsub! '=', '_'
-      else
+      elsif course_element['image'].present?
         filename = File.basename(course_element['image'])
       end
 
-      if course_element['image'] && course.course_image_file_name != filename
+      if course_element['image'].present? && course.course_image_file_name != filename
         course.course_image = Course.process_uri(course_element['image'])
       end
       course.videoId = course_element['trailer_video']

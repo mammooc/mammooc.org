@@ -49,14 +49,14 @@ class CourseraCourseWorker < AbstractCourseWorker
       course.url = COURSE_LINK_BODY + corresponding_course['shortName']
       course.language = corresponding_course['language']
 
-      if corresponding_course['photo'][/[\?&#]/]
+      if corresponding_course['photo'].present? && corresponding_course['photo'][/[\?&#]/]
         filename = File.basename(corresponding_course['photo'])[/.*?(?=[\?&#])/]
         filename = filename.gsub! '=', '_'
-      else
+      elsif corresponding_course['photo'].present?
         filename = File.basename(corresponding_course['photo'])
       end
 
-      if corresponding_course['photo'] && course.course_image_file_name != filename
+      if corresponding_course['photo'].present? && course.course_image_file_name != filename
         course.course_image = Course.process_uri(corresponding_course['photo'])
       end
       course.abstract = corresponding_course['shortDescription']
