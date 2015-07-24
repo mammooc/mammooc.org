@@ -90,12 +90,12 @@ Rails.application.configure do
 
   # mail configurations
   ActionMailer::Base.smtp_settings = {
-    port: '587',
-    address: 'smtp.mandrillapp.com',
-    user_name: ENV['MANDRILL_USERNAME'],
-    password: ENV['MANDRILL_APIKEY'],
-    domain: 'heroku.com',
-    authentication: :plain
+    port: (ENV['SMTP_PORT'].present? ? ENV['SMTP_PORT'] : '587'),
+    address: ENV['SMTP_HOST'],
+    user_name: ENV['SMTP_USERNAME'],
+    password: ENV['SMTP_PASSWORD'],
+    domain: ENV['SMTP_DOMAIN'],
+    authentication: (ENV['SMTP_AUTHENTICATION'].present? ? ENV['SMTP_AUTHENTICATION'].to_sym : :plain)
   }
 
   ActionMailer::Base.delivery_method = :smtp
