@@ -43,12 +43,12 @@ GEM
     autoprefixer-rails (5.2.1.1)
       execjs
       json
-    aws-sdk (2.1.7)
-      aws-sdk-resources (= 2.1.7)
-    aws-sdk-core (2.1.7)
+    aws-sdk (2.1.8)
+      aws-sdk-resources (= 2.1.8)
+    aws-sdk-core (2.1.8)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.1.7)
-      aws-sdk-core (= 2.1.7)
+    aws-sdk-resources (2.1.8)
+      aws-sdk-core (= 2.1.8)
     aws-sdk-v1 (1.64.0)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
@@ -390,7 +390,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aws-sdk (~> 2)
+  aws-sdk (~> 2.1)
   aws-sdk-v1
   bootstrap-datepicker-rails
   bootstrap-generators
@@ -452,6 +452,3 @@ DEPENDENCIES
   whenever
   will_paginate
   will_paginate-bootstrap
-
-BUNDLED WITH
-   1.10.5

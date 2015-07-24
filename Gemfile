@@ -57,7 +57,7 @@ gem 'rest-client'
 gem 'paperclip'
 
 # amazon S3 connection
-gem 'aws-sdk', '~> 2'
+gem 'aws-sdk', '~> 2.1'
 gem 'aws-sdk-v1'
 # cron job
 gem 'redis'
