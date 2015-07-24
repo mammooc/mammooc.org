@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'simplecov'
 
-if ENV['CIRCLE_ARTIFACTS'].present?
+if ENV['CIRCLE_ARTIFACTS'] && ENV['GEMNASIUM'] != 'true'
   require 'coveralls'
   require 'pullreview/coverage'
 
