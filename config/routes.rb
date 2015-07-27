@@ -36,7 +36,6 @@ Rails.application.routes.draw do
 
   resources :recommendations, except: [:edit, :show, :update, :destroy]
 
-  resources :statistics
 
   resources :groups
 
