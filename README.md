@@ -33,12 +33,12 @@ How you run the application on localhost:
 
 1. please have a look at our environment variables below
  - some of them are marked as necessary, these have to be set for running the application
-2. we use passenger
+2. we use passenger as application server
  - to start the application: ```passenger start```
  - the application is available at: ```localhost:3000``` 
  - stop the application: ```passenger stop```
 
-For manual test in a deployed version:
+If you want to test out stuff feel free to use our dev deployment (so you don't polute the production data):
 - Our dev-branch is deployed under: https://mammooc-dev.herokuapp.com/
 - Username: ```max@example.com``` or ```maxi@example.com```
 - Password: ```12345678```
