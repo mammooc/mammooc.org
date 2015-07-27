@@ -27,7 +27,6 @@ Rails.application.routes.draw do
 
   resources :bookmarks, except: [:edit, :new, :show, :update, :destroy]
 
-  resources :progresses
 
 
 
