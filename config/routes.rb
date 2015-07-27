@@ -28,8 +28,6 @@ Rails.application.routes.draw do
 
   resources :bookmarks, except: [:edit, :new, :show, :update, :destroy]
 
-  resources :comments
-
   resources :recommendations, except: [:edit, :show, :update, :destroy]
 
   resources :groups
