@@ -216,7 +216,6 @@ class User < ActiveRecord::Base
           user.save!
 
         rescue ActiveRecord::RecordInvalid
-          # TODO: Merge accounts!
           Rails.logger.error "This email address is associated to another user. The found identity will be changed later so that the existing account won't be accessible any longer."
         end
       end

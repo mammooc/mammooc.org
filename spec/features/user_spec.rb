@@ -382,11 +382,6 @@ RSpec.describe 'User', type: :feature do
             expect(list).to have_content(group.name)
             expect(course_enrollments_visibility_settings.value(:groups)).to eql [group.id]
           end
-
-          # TODO: implement this
-          # it 'removes a group' do
-          #
-          # end
         end
       end
     end
