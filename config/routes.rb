@@ -30,7 +30,6 @@ Rails.application.routes.draw do
   resources :progresses
 
 
-  resources :course_requests
 
   resources :user_groups
 
