@@ -30,7 +30,6 @@ Rails.application.routes.draw do
 
   resources :progresses
 
-  resources :approvals
 
   resources :course_requests
 
