@@ -22,22 +22,13 @@ Rails.application.routes.draw do
     get '/users/deauth/:provider' => 'users/omniauth_callbacks#deauthorize', as: :omniauth_deauthorize
   end
 
-
-
   resources :bookmarks, except: [:edit, :new, :show, :update, :destroy]
-
-
-
-
-  resources :user_groups
 
   resources :comments
 
   resources :recommendations, except: [:edit, :show, :update, :destroy]
 
-
   resources :groups
-
 
   resources :mooc_providers
 
