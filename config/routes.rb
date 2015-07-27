@@ -41,7 +41,6 @@ Rails.application.routes.draw do
 
   resources :groups
 
-  resources :course_results
 
   resources :mooc_providers
 
