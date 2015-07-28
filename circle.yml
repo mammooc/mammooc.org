@@ -5,7 +5,7 @@ general:
 
 machine:
   environment:
-    GEMNASIUM_TESTSUITE: "bundle outdated"
+    GEMNASIUM_TESTSUITE: "sh-c 'bundle outdated; exit 0'"
     GEMNASIUM_PROJECT_SLUG: "mammooc/mammooc.org"
     COVERALLS_PARALLEL: "true"
   services:
