@@ -70,7 +70,6 @@ en:
     zh-cn: Chinese (China)
     zh-tw: Chinese (Taiwan)
 
-
   navbar:
     home: Home
     courses: Courses
@@ -93,7 +92,7 @@ en:
   dashboard:
     title: Dashboard
     my_groups: :groups.my_groups
-    my_current_courses: My Current Coursese
+    my_current_courses: My Current Courses
     no_groups: :groups.no_groups
     new_group: Creating Group
     edit_group: Editing Group
