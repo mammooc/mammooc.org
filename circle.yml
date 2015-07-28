@@ -5,7 +5,7 @@ general:
 
 machine:
   environment:
-    GEMNASIUM_TESTSUITE: "bundle exec rspec"
+    GEMNASIUM_TESTSUITE: "bundle outdated"
     GEMNASIUM_PROJECT_SLUG: "mammooc/mammooc.org"
     COVERALLS_PARALLEL: "true"
   services:
