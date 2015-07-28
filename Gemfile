@@ -44,7 +44,7 @@ gem 'omniauth-google-oauth2'
 gem 'omniauth-github'
 gem 'omniauth-linkedin-oauth2'
 gem 'omniauth-twitter'
-gem 'omniauth-windowslive'
+gem 'omniauth-windowslive', '~> 0.0.9'
 gem 'omniauth-amazon'
 
 # authorization
