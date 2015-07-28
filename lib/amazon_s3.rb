@@ -69,7 +69,7 @@ class AmazonS3
   private
 
   def new_aws_resource
-    if ENV['WITH_S3'] == true
+    if ENV['WITH_S3'] == 'true'
       s3 = Aws::S3::Resource.new
       @bucket = s3.bucket(BUCKET_NAME)
     end
