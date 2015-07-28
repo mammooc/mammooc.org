@@ -36,17 +36,6 @@ ActiveRecord::Schema.define(version: 20150721093633) do
   add_index "activities", ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type", using: :btree
   add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
 
-  create_table "approvals", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.datetime "date"
-    t.boolean  "is_approved"
-    t.string   "description"
-    t.uuid     "user_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "approvals", ["user_id"], name: "index_approvals_on_user_id", using: :btree
-
   create_table "bookmarks", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "user_id"
     t.uuid     "course_id"
@@ -69,18 +58,6 @@ ActiveRecord::Schema.define(version: 20150721093633) do
 
   add_index "certificates", ["completion_id"], name: "index_certificates_on_completion_id", using: :btree
 
-  create_table "comments", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.datetime "date"
-    t.text     "content"
-    t.uuid     "user_id"
-    t.uuid     "recommendation_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-  end
-
-  add_index "comments", ["recommendation_id"], name: "index_comments_on_recommendation_id", using: :btree
-  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
-
   create_table "completions", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.float    "quantile"
     t.float    "points_achieved"
@@ -93,40 +70,6 @@ ActiveRecord::Schema.define(version: 20150721093633) do
 
   add_index "completions", ["course_id"], name: "index_completions_on_course_id", using: :btree
   add_index "completions", ["user_id"], name: "index_completions_on_user_id", using: :btree
-
-  create_table "course_assignments", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "deadline"
-    t.float    "maximum_score"
-    t.float    "average_score"
-    t.uuid     "course_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-  end
-
-  add_index "course_assignments", ["course_id"], name: "index_course_assignments_on_course_id", using: :btree
-
-  create_table "course_requests", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.datetime "date"
-    t.text     "description"
-    t.uuid     "course_id"
-    t.uuid     "user_id"
-    t.uuid     "group_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "course_requests", ["course_id"], name: "index_course_requests_on_course_id", using: :btree
-  add_index "course_requests", ["group_id"], name: "index_course_requests_on_group_id", using: :btree
-  add_index "course_requests", ["user_id"], name: "index_course_requests_on_user_id", using: :btree
-
-  create_table "course_results", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.float    "maximum_score"
-    t.float    "average_score"
-    t.float    "best_score"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-  end
 
   create_table "course_track_types", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string "type_of_achievement", null: false
@@ -253,18 +196,6 @@ ActiveRecord::Schema.define(version: 20150721093633) do
 
   add_index "mooc_providers", ["name"], name: "index_mooc_providers_on_name", unique: true, using: :btree
 
-  create_table "progresses", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.float    "percentage"
-    t.string   "permissions",              array: true
-    t.uuid     "course_id"
-    t.uuid     "user_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "progresses", ["course_id"], name: "index_progresses_on_course_id", using: :btree
-  add_index "progresses", ["user_id"], name: "index_progresses_on_user_id", using: :btree
-
   create_table "recommendations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.boolean  "is_obligatory"
     t.uuid     "course_id"
@@ -283,30 +214,6 @@ ActiveRecord::Schema.define(version: 20150721093633) do
     t.uuid "recommendation_id"
     t.uuid "user_id"
   end
-
-  create_table "statistics", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.string   "name"
-    t.text     "result"
-    t.uuid     "group_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "statistics", ["group_id"], name: "index_statistics_on_group_id", using: :btree
-
-  create_table "user_assignments", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.datetime "date"
-    t.float    "score"
-    t.uuid     "user_id"
-    t.uuid     "course_id"
-    t.uuid     "course_assignment_id"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
-  end
-
-  add_index "user_assignments", ["course_assignment_id"], name: "index_user_assignments_on_course_assignment_id", using: :btree
-  add_index "user_assignments", ["course_id"], name: "index_user_assignments_on_course_id", using: :btree
-  add_index "user_assignments", ["user_id"], name: "index_user_assignments_on_user_id", using: :btree
 
   create_table "user_emails", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "address"
@@ -385,36 +292,22 @@ ActiveRecord::Schema.define(version: 20150721093633) do
 
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
-  add_foreign_key "approvals", "users"
   add_foreign_key "bookmarks", "courses"
   add_foreign_key "bookmarks", "users"
   add_foreign_key "certificates", "completions"
-  add_foreign_key "comments", "recommendations"
-  add_foreign_key "comments", "users"
   add_foreign_key "completions", "courses"
   add_foreign_key "completions", "users"
-  add_foreign_key "course_assignments", "courses"
-  add_foreign_key "course_requests", "courses"
-  add_foreign_key "course_requests", "groups"
-  add_foreign_key "course_requests", "users"
   add_foreign_key "course_tracks", "course_track_types"
   add_foreign_key "course_tracks", "courses"
-  add_foreign_key "courses", "course_results"
   add_foreign_key "courses", "mooc_providers"
   add_foreign_key "evaluations", "courses"
   add_foreign_key "evaluations", "users"
   add_foreign_key "group_invitations", "groups"
   add_foreign_key "mooc_provider_users", "mooc_providers"
   add_foreign_key "mooc_provider_users", "users"
-  add_foreign_key "progresses", "courses"
-  add_foreign_key "progresses", "users"
   add_foreign_key "recommendations", "courses"
   add_foreign_key "recommendations", "groups"
   add_foreign_key "recommendations", "users", column: "author_id"
-  add_foreign_key "statistics", "groups"
-  add_foreign_key "user_assignments", "course_assignments"
-  add_foreign_key "user_assignments", "courses"
-  add_foreign_key "user_assignments", "users"
   add_foreign_key "user_emails", "users"
   add_foreign_key "user_groups", "groups"
   add_foreign_key "user_groups", "users"
