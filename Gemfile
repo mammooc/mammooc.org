@@ -80,7 +80,7 @@ gem 'i18n-js'
 
 gem 'http_accept_language'
 
-gem 'rails_config', '~> 0.4.2'
+gem 'config'
 
 gem 'newrelic_rpm'
 

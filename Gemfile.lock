@@ -95,6 +95,9 @@ GEM
       execjs
     coffee-script-source (1.9.1.1)
     columnize (0.9.0)
+    config (1.0.0.beta3)
+      activesupport (>= 3.0)
+      deep_merge (~> 1.0.0)
     connection_pool (2.2.0)
     coveralls (0.8.2)
       json (~> 1.8)
@@ -104,6 +107,7 @@ GEM
       thor (~> 0.19.1)
     database_cleaner (1.4.1)
     debug_inspector (0.0.2)
+    deep_merge (1.0.1)
     devise (3.5.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -258,8 +262,6 @@ GEM
     rails-i18n (4.0.4)
       i18n (~> 0.6)
       railties (~> 4.0)
-    rails_config (0.4.2)
-      activesupport (>= 3.0)
     railties (4.2.3)
       actionpack (= 4.2.3)
       activesupport (= 4.2.3)
@@ -401,6 +403,7 @@ DEPENDENCIES
   capybara
   capybara-selenium
   coffee-rails (~> 4.1.0)
+  config
   coveralls
   database_cleaner
   devise
@@ -432,7 +435,6 @@ DEPENDENCIES
   quiet_assets
   rails (= 4.2.3)
   rails-i18n
-  rails_config (~> 0.4.2)
   redcarpet
   redis
   rest-client
