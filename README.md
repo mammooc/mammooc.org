@@ -106,4 +106,5 @@ These environment variables are for use in Production mode:
 |                    | `SMTP_PORT`               | default value: `'587'` |
 |                    | `SMTP_USERNAME`           |  |
 |                    | `SMTP_PASSWORD`           |  |
+|                    | `SMTP_DOMAIN`             |  |
 |                    | `SMTP_AUTHENTICATION`     | default value: `:plain`; possible values: `'plain', 'login', 'cram_md5'` |
