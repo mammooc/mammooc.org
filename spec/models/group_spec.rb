@@ -83,6 +83,7 @@ RSpec.describe Group, type: :model do
     let(:third_user) { FactoryGirl.create(:user, courses: [course3]) }
     let(:fourth_user) { FactoryGirl.create(:user, courses: [course4]) }
     let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user, fourth_user]) }
+    let(:group2) { FactoryGirl.create(:group, users: []) }
     let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: user) }
     let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
     let(:user_setting2) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
@@ -93,6 +94,8 @@ RSpec.describe Group, type: :model do
     it 'returns average of all course enrollments per group member' do
       average = group.average_enrollments
       expect(average).to eq 2
+      average2 = group2.average_enrollments
+      expect(average2).to eq 0
     end
 
     it 'returns a float with two decimal places' do
