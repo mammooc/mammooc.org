@@ -2,7 +2,7 @@
 class ChangeMoocProviderUsersTable < ActiveRecord::Migration
   def change
     drop_table :mooc_providers_users
-    create_table :mooc_provider_users, id: :uuid  do |t|
+    create_table :mooc_provider_users, id: :uuid do |t|
       t.uuid :user_id
       t.references :user, type: 'uuid', index: true
       t.references :mooc_provider, type: 'uuid', index: true

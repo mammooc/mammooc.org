@@ -74,14 +74,14 @@ class Course < ActiveRecord::Base
   end
 
   scope :search_query, ->(query) do
-    return nil  if query.blank?
+    return nil if query.blank?
 
     terms = query.mb_chars.downcase.to_s.split(/\s+/)
 
     # rubocop:disable Style/BlockDelimiters
     terms = terms.map { |e|
       e.prepend('%')
-      (e.gsub('*', '%') + '%').gsub(/%+/, '%')
+      (e.tr('*', '%') + '%').gsub(/%+/, '%')
     }
     # rubocop:enable Style/BlockDelimiters
 

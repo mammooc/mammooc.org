@@ -52,7 +52,7 @@ RSpec.describe Recommendation, type: :model do
     let(:course) { FactoryGirl.create(:course) }
 
     it 'destroys the recommendation' do
-      group_recommendation =  FactoryGirl.create(:group_recommendation, users: [user, second_user], group: group, course: course)
+      group_recommendation = FactoryGirl.create(:group_recommendation, users: [user, second_user], group: group, course: course)
       expect do
         group_recommendation.delete_group_recommendation
       end.to change(described_class, :count).by(-1)

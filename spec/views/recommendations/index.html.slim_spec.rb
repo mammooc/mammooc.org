@@ -5,8 +5,8 @@ RSpec.describe 'recommendations/index', type: :view do
   let!(:course) { FactoryGirl.create(:course) }
   let!(:author) { FactoryGirl.create(:user) }
   let!(:group) { FactoryGirl.create(:group, users: [user, author]) }
-  let!(:first_recommendation) { FactoryGirl.create(:user_recommendation, author: author, course: course,  users: [user]) }
-  let!(:second_recommendation) { FactoryGirl.create(:user_recommendation, author: author, course: course,  users: [user]) }
+  let!(:first_recommendation) { FactoryGirl.create(:user_recommendation, author: author, course: course, users: [user]) }
+  let!(:second_recommendation) { FactoryGirl.create(:user_recommendation, author: author, course: course, users: [user]) }
 
   before(:each) do
     assign(:recommendations, [first_recommendation, second_recommendation])

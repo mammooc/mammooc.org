@@ -546,7 +546,7 @@ RSpec.describe UsersController, type: :controller do
   describe 'POST set_setting' do
     let(:old_value) { course_enrollments_visibility_settings.value(:groups) }
     let(:new_value) { [FactoryGirl.create(:group).id] }
-    subject { ->  { post :set_setting, id: user.id, setting: course_enrollments_visibility_settings.name, key: :groups, value: new_value, format: :json } }
+    subject { -> { post :set_setting, id: user.id, setting: course_enrollments_visibility_settings.name, key: :groups, value: new_value, format: :json } }
 
     it 'updates the setting entry' do
       expect { subject.call }.to change { course_enrollments_visibility_settings.value(:groups) }.from(old_value).to(new_value)

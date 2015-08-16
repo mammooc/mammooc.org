@@ -44,7 +44,7 @@ class Group < ActiveRecord::Base
     activity.destroy
   end
 
-  def self.group_images_hash_for_groups(groups, images = {},  style = :medium, expire_time = 3600)
+  def self.group_images_hash_for_groups(groups, images = {}, style = :medium, expire_time = 3600)
     groups.each do |group|
       unless images.key?(group.id)
         images[group.id] = group.image.expiring_url(expire_time, style)

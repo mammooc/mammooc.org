@@ -35,7 +35,7 @@ class EdxCourseWorker < AbstractCourseWorker
 
       if course_element['course:image-thumbnail'].present? && course_element['course:image-thumbnail'][/[\?&#]/]
         filename = File.basename(course_element['course:image-thumbnail'])[/.*?(?=[\?&#])/]
-        filename = filename.gsub! '=', '_'
+        filename = filename.tr!('=', '_')
       elsif course_element['course:image-thumbnail'].present?
         filename = File.basename(course_element['course:image-thumbnail'])
       end

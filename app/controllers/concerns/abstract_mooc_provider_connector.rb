@@ -5,7 +5,7 @@ require 'oauth2'
 class AbstractMoocProviderConnector
   def initialize_connection(user, credentials)
     send_connection_request user, credentials
-  rescue RestClient::InternalServerError, RestClient::Unauthorized, RestClient::BadRequest  => e
+  rescue RestClient::InternalServerError, RestClient::Unauthorized, RestClient::BadRequest => e
     Rails.logger.error "#{e.class}: #{e.message}"
     return false
   else

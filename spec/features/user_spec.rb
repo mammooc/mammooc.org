@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe 'User', type: :feature do
   self.use_transactional_fixtures = false
 
-  let!(:user) { User.create!(first_name: 'Max', last_name: 'Mustermann', password: '12345678')  }
+  let!(:user) { User.create!(first_name: 'Max', last_name: 'Mustermann', password: '12345678') }
   let!(:first_email) { FactoryGirl.create(:user_email, user: user) }
   let!(:second_user) { FactoryGirl.create(:user) }
   let(:third_user) { FactoryGirl.create(:user) }
