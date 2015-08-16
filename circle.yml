@@ -8,6 +8,8 @@ machine:
     GEMNASIUM_TESTSUITE: "bundle check"
     GEMNASIUM_PROJECT_SLUG: "mammooc/mammooc.org"
     COVERALLS_PARALLEL: "true"
+    COVERALLS_REPO_TOKEN: "ZgW6tvGP2hrQInuZLErCADQ95Hj8AvOkK"
+    PULLREVIEW_REPO_TOKEN: "528fdb57300dc3262f4e37424a36b2bf"
   services:
     - docker
 
