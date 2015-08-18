@@ -1,5 +1,9 @@
 # License
 
+The software is licensed under the MIT license. 
+
+The source repository may include logos, names or other trademarks of other entities; potential usage restrictions for these elements still apply and are not touched by the software license.
+
 ```
 The MIT License (MIT)
 

@@ -7,7 +7,7 @@
 [![Stories in progress: Waffle.io](https://badge.waffle.io/mammooc/mammooc.org.png?label=In%20Progress&title=In%20Progress)](https://waffle.io/mammooc/mammooc.org)
 [![PullReview stats](https://www.pullreview.com/github/mammooc/mammooc.org/badges/master.svg?)](https://www.pullreview.com/github/mammooc/mammooc.org/reviews/master)
 
-_Please pay attention to the LICENSE file as well_
+_Please pay attention to the [LICENSE](https://github.com/mammooc/mammooc.org/blob/master/LICENSE.md) as well_
 
 mammooc is a student's project developed at the German Hasso Plattner Institute, Potsdam.
 
