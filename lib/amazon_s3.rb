@@ -31,9 +31,7 @@ class AmazonS3
   end
 
   def get_url(key)
-    if ENV['WITH_S3'] == 'true'
-      @bucket.object(key).presigned_url 'GET'
-    end
+    @bucket.object(key).presigned_url 'GET' if ENV['WITH_S3'] == 'true'
   end
 
   def all_provider_logos_hash
@@ -69,9 +67,8 @@ class AmazonS3
   private
 
   def new_aws_resource
-    if ENV['WITH_S3'] == 'true'
-      s3 = Aws::S3::Resource.new
-      @bucket = s3.bucket(BUCKET_NAME)
-    end
+    return unless ENV['WITH_S3'] == 'true'
+    s3 = Aws::S3::Resource.new
+    @bucket = s3.bucket(BUCKET_NAME)
   end
 end

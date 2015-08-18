@@ -32,7 +32,7 @@ class UdacityCourseWorker < AbstractCourseWorker
 
       if course_element['image'].present? && course_element['image'][/[\?&#]/]
         filename = File.basename(course_element['image'])[/.*?(?=[\?&#])/]
-        filename = filename.gsub! '=', '_'
+        filename = filename.tr!('=', '_')
       elsif course_element['image'].present?
         filename = File.basename(course_element['image'])
       end

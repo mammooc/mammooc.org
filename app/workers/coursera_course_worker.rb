@@ -51,7 +51,7 @@ class CourseraCourseWorker < AbstractCourseWorker
 
       if corresponding_course['photo'].present? && corresponding_course['photo'][/[\?&#]/]
         filename = File.basename(corresponding_course['photo'])[/.*?(?=[\?&#])/]
-        filename = filename.gsub! '=', '_'
+        filename = filename.tr!('=', '_')
       elsif corresponding_course['photo'].present?
         filename = File.basename(corresponding_course['photo'])
       end
