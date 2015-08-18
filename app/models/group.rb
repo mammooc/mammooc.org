@@ -44,7 +44,7 @@ class Group < ActiveRecord::Base
     activity.destroy
   end
 
-  def self.group_images_hash_for_groups(groups, images = {},  style = :medium, expire_time = 3600)
+  def self.group_images_hash_for_groups(groups, images = {}, style = :medium, expire_time = 3600)
     groups.each do |group|
       unless images.key?(group.id)
         images[group.id] = group.image.expiring_url(expire_time, style)
@@ -69,16 +69,22 @@ class Group < ActiveRecord::Base
 
   def average_enrollments
     total_enrollments = 0
+    total_members = 0
     users.each do |user|
-      total_enrollments += user.courses.length
+      if user.course_enrollments_visible_for_group(self)
+        total_enrollments += user.courses.length
+        total_members += 1
+      end
     end
-    (total_enrollments.to_f / users.length.to_f).round(2)
+    total_members.zero? ? 0.0 : (total_enrollments.to_f / total_members.to_f).round(2)
   end
 
   def enrolled_courses_with_amount
     enrolled_courses_array = []
     users.each do |user|
-      enrolled_courses_array += user.courses
+      if user.course_enrollments_visible_for_group(self)
+        enrolled_courses_array += user.courses
+      end
     end
     enrolled_courses = []
     enrolled_courses_array.uniq.each do |enrolled_course|
@@ -91,8 +97,18 @@ class Group < ActiveRecord::Base
   def enrolled_courses
     enrolled_courses_array = []
     users.each do |user|
-      enrolled_courses_array += user.courses
+      if user.course_enrollments_visible_for_group(self)
+        enrolled_courses_array += user.courses
+      end
     end
     enrolled_courses_array.uniq
+  end
+
+  def number_of_users_who_share_course_enrollments
+    number = 0
+    users.each do |user|
+      number += 1 if user.course_enrollments_visible_for_group(self)
+    end
+    number
   end
 end

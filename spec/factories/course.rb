@@ -25,7 +25,6 @@ Kerstin: “I have to honestly say that I am impressed by what you’ve accompli
 
 Claudia; “I enjoyed this course so much. It gave me a chance to expand my horizons in web technologies a great deal. I really liked the practical homework exercises, especially the calculation task in Week 5. I’m already looking forward to the next course. Keep up the good work!”'
     language 'en'
-    imageId 'https://open.hpi.de/files/45ce8877-d21b-4389-9032-c6525b4724d0'
     videoId ''
     start_date Time.zone.local(2015, 6, 1, 8)
     end_date Time.zone.local(2015, 7, 20, 23, 30)

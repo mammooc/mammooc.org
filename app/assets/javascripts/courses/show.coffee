@@ -64,8 +64,10 @@ enrollCourse = (event) ->
                        .unbind('click')
                        .attr('id','unenroll-course-link')
                        .on 'click', (event) -> unenrollCourse(event)
-      else
+      else if data.status == false
         alert(I18n.t('courses.enrollment_error'))
+      else
+        alert(I18n.t('courses.permanent_enrollment_error'))
   event.preventDefault()
 
 unenrollCourse = (event) ->
@@ -83,8 +85,10 @@ unenrollCourse = (event) ->
                        .unbind('click')
                        .attr('id','enroll-course-link')
                        .on 'click', (event) -> enrollCourse(event)
-      else
+      else if data.status == false
         alert(I18n.t('courses.unenrollment_error'))
+      else
+        alert(I18n.t('courses.permanent_unenrollment_error'))
   event.preventDefault()
 
 rememberCourse = (event) ->

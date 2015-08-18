@@ -6,12 +6,11 @@
     span.glyphicon.glyphicon-refresh data-group_id='#{@group.id}'
     = t('groups.statistics.synchronize')
 
-/TODO: add number of members who share their data
 .hd3
   = t('groups.statistics.information_title')
   br
 = t('groups.statistics.information')
-=< t('groups.statistics.number_of_share_member', number: 'xxx')
+=< t('groups.statistics.number_of_share_member', number: @number_of_users_share_course_enrollments)
 br
 br
 
@@ -25,9 +24,9 @@ br
   = t('groups.statistics.enrolled_courses')
 - @enrolled_courses_with_amount.each do |enrolled_course_hash|
   .enrollments
-    - if enrolled_course_hash[:course].imageId
+    - if enrolled_course_hash[:course].course_image
       .enrollment-picture
-        = image_tag(enrolled_course_hash[:course].imageId)
+        = image_tag(enrolled_course_hash[:course].course_image.url)
     .enrollment-text
       = link_to enrolled_course_hash[:course].name, course_path(enrolled_course_hash[:course].id)
       br

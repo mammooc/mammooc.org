@@ -81,14 +81,24 @@ RSpec.describe Group, type: :model do
     let(:user) { FactoryGirl.create(:user, courses: [course1, course2, course3]) }
     let(:second_user) { FactoryGirl.create(:user, courses: [course2, course3]) }
     let(:third_user) { FactoryGirl.create(:user, courses: [course3]) }
-    let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
+    let(:fourth_user) { FactoryGirl.create(:user, courses: [course4]) }
+    let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user, fourth_user]) }
+    let(:group2) { FactoryGirl.create(:group, users: []) }
+    let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: user) }
+    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
+    let(:user_setting2) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
+    let!(:user_setting_entry2) { FactoryGirl.create(:user_setting_entry, setting: user_setting2, key: 'groups', value: [group.id]) }
+    let(:user_setting3) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: third_user) }
+    let!(:user_setting_entry3) { FactoryGirl.create(:user_setting_entry, setting: user_setting3, key: 'groups', value: [group.id]) }
 
     it 'returns average of all course enrollments per group member' do
       average = group.average_enrollments
       expect(average).to eq 2
+      average2 = group2.average_enrollments
+      expect(average2).to eq 0
     end
 
-    it 'returns a float with two ' do
+    it 'returns a float with two decimal places' do
       third_user.courses = []
       average = group.average_enrollments
       expect(average).to eq 1.67
@@ -100,14 +110,23 @@ RSpec.describe Group, type: :model do
     let(:course2) { FactoryGirl.create(:course) }
     let(:course3) { FactoryGirl.create(:course) }
     let!(:course4) { FactoryGirl.create(:course) }
+    let!(:course5) { FactoryGirl.create(:course) }
     let(:user) { FactoryGirl.create(:user, courses: [course1, course2, course3]) }
     let(:second_user) { FactoryGirl.create(:user, courses: [course2, course3]) }
     let(:third_user) { FactoryGirl.create(:user, courses: [course3]) }
-    let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
+    let(:fourth_user) { FactoryGirl.create(:user, courses: [course4]) }
+    let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user, fourth_user]) }
+    let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: user) }
+    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
+    let(:user_setting2) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
+    let!(:user_setting_entry2) { FactoryGirl.create(:user_setting_entry, setting: user_setting2, key: 'groups', value: [group.id]) }
+    let(:user_setting3) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: third_user) }
+    let!(:user_setting_entry3) { FactoryGirl.create(:user_setting_entry, setting: user_setting3, key: 'groups', value: [group.id]) }
 
-    it 'returns all enrolled course and total number of enrollments of group members' do
+    it 'returns all enrolled course and total number of enrollments of group members for all member who share course enrollments' do
       enrolled_courses = group.enrolled_courses_with_amount
       expect(enrolled_courses).to match_array([{course: course1, count: 1}, {course: course2, count: 2}, {course: course3, count: 3}])
+      expect(enrolled_courses).not_to include(course4)
     end
   end
 
@@ -116,14 +135,40 @@ RSpec.describe Group, type: :model do
     let(:course2) { FactoryGirl.create(:course) }
     let(:course3) { FactoryGirl.create(:course) }
     let!(:course4) { FactoryGirl.create(:course) }
+    let!(:course5) { FactoryGirl.create(:course) }
     let(:user) { FactoryGirl.create(:user, courses: [course1, course2, course3]) }
     let(:second_user) { FactoryGirl.create(:user, courses: [course2, course3]) }
     let(:third_user) { FactoryGirl.create(:user, courses: [course3]) }
-    let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
+    let(:fourth_user) { FactoryGirl.create(:user, courses: [course4]) }
+    let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user, fourth_user]) }
+    let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: user) }
+    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
+    let(:user_setting2) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
+    let!(:user_setting_entry2) { FactoryGirl.create(:user_setting_entry, setting: user_setting2, key: 'groups', value: [group.id]) }
+    let(:user_setting3) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: third_user) }
+    let!(:user_setting_entry3) { FactoryGirl.create(:user_setting_entry, setting: user_setting3, key: 'groups', value: [group.id]) }
 
-    it 'returns all enrolled courses' do
+    it 'returns all enrolled courses from users who share their data' do
       enrolled_courses = group.enrolled_courses
       expect(enrolled_courses).to match_array([course1, course2, course3])
+      expect(enrolled_courses).not_to include(course4)
+    end
+  end
+
+  describe 'number_of_users_who_share_course_enrollments' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:second_user) { FactoryGirl.create(:user) }
+    let(:third_user) { FactoryGirl.create(:user) }
+    let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
+    let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: user) }
+    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
+    let(:user_setting2) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
+    let!(:user_setting_entry2) { FactoryGirl.create(:user_setting_entry, setting: user_setting2, key: 'groups', value: [group.id]) }
+    let(:user_setting3) { FactoryGirl.create(:user_setting, name: :course_results_visibility, user: third_user) }
+    let!(:user_setting_entry3) { FactoryGirl.create(:user_setting_entry, setting: user_setting3, key: 'groups', value: [group.id]) }
+
+    it 'returns the number of group members who share their course enrollments with the group' do
+      expect(group.number_of_users_who_share_course_enrollments).to eql 2
     end
   end
 end

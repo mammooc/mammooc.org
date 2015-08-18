@@ -9,10 +9,7 @@
         = link_to course_path(course)
           .course
             .picture
-              - if course.imageId
-                = image_tag(course.imageId)
-              - else
-                img src="/data/icons/courses-list-std.png"
+              = image_tag(course.course_image.url)
             .info
               .hd4.mt5
                 = course.name

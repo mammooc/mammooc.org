@@ -183,7 +183,7 @@ class CoursesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def course_params
-    params.require(:course).permit(:name, :url, :course_instructor, :abstract, :language, :imageId, :videoId, :start_date, :end_date, :duration, :costs, :type_of_achievement, :categories, :difficulty, :requirements, :workload, :provider_course_id, :mooc_provider_id, :course_result_id)
+    params.require(:course).permit(:name, :url, :course_instructor, :abstract, :language, :course_image, :videoId, :start_date, :end_date, :duration, :costs, :type_of_achievement, :categories, :difficulty, :requirements, :workload, :provider_course_id, :mooc_provider_id, :course_result_id)
   end
 
   def create_evaluation_object_for_course(course)
@@ -229,13 +229,14 @@ class CoursesController < ApplicationController
           provider_worker = get_worker_by_mooc_provider @course.mooc_provider
           provider_worker.perform_async([current_user.id])
         end
-        @course.create_activity key: 'course.enroll', owner: current_user, group_ids: current_user.connected_groups_ids, user_ids: current_user.connected_users_ids
+        @has_enrolled = (@has_enrolled ? true : false)
+        @course.create_activity key: 'course.enroll', owner: current_user, group_ids: current_user.connected_groups_ids, user_ids: current_user.connected_users_ids if @has_enrolled
       rescue NotImplementedError
-        @has_enrolled = false
+        @has_enrolled = nil
       end
     else
       # We didn't implement a provider_connector for this mooc_provider
-      @has_enrolled = false
+      @has_enrolled = nil
     end
   end
 
@@ -248,12 +249,13 @@ class CoursesController < ApplicationController
           provider_worker = get_worker_by_mooc_provider @course.mooc_provider
           provider_worker.perform_async([current_user.id])
         end
+        @has_unenrolled = (@has_unenrolled ? true : false)
       rescue NotImplementedError
-        @has_unenrolled = false
+        @has_unenrolled = nil
       end
     else
       # We didn't implement a provider_connector for this mooc_provider
-      @has_unenrolled = false
+      @has_unenrolled = nil
     end
   end
 

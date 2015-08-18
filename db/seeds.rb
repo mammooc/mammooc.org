@@ -3,17 +3,17 @@
 
 # seeds for all environments
 
-open_hpi = MoocProvider.create!(name: 'openHPI', logo_id: 'logo_openHPI.png', api_support_state: :naive)
-MoocProvider.create!(name: 'openHPI China', logo_id: 'logo_openHPI.png', api_support_state: :naive)
-MoocProvider.create!(name: 'mooc.house', logo_id: 'logo_mooc_house.png', api_support_state: :naive)
-MoocProvider.create!(name: 'cnmooc.house', logo_id: 'logo_cnmooc_house.png', api_support_state: :naive)
-open_sap = MoocProvider.create!(name: 'openSAP', logo_id: 'logo_openSAP.png', api_support_state: :naive)
-MoocProvider.create!(name: 'edX', logo_id: 'logo_edx.png', api_support_state: :nil)
-MoocProvider.create!(name: 'coursera', logo_id: 'logo_coursera.png', api_support_state: :oauth)
-MoocProvider.create!(name: 'openSAP China', logo_id: 'logo_openSAP.png', api_support_state: :naive)
-MoocProvider.create!(name: 'openUNE', logo_id: 'logo_openUNE.png', api_support_state: :naive)
-MoocProvider.create!(name: 'iversity', logo_id: 'logo_iversity.png', api_support_state: :nil)
-MoocProvider.create!(name: 'Udacity', logo_id: 'logo_udacity.png', api_support_state: :nil)
+open_hpi = MoocProvider.create!(name: 'openHPI', logo_id: 'logo_openHPI.svg', api_support_state: :naive)
+MoocProvider.create!(name: 'openHPI China', logo_id: 'logo_openHPI.svg', api_support_state: :naive)
+MoocProvider.create!(name: 'mooc.house', logo_id: 'logo_mooc_house.svg', api_support_state: :naive)
+MoocProvider.create!(name: 'cnmooc.house', logo_id: 'logo_cnmooc_house.svg', api_support_state: :naive)
+open_sap = MoocProvider.create!(name: 'openSAP', logo_id: 'logo_openSAP.svg', api_support_state: :naive)
+MoocProvider.create!(name: 'edX', logo_id: 'logo_edX.svg', api_support_state: :nil)
+MoocProvider.create!(name: 'coursera', logo_id: 'logo_coursera.svg', api_support_state: :oauth)
+MoocProvider.create!(name: 'openSAP China', logo_id: 'logo_openSAP.svg', api_support_state: :naive)
+MoocProvider.create!(name: 'openUNE', logo_id: 'logo_openUNE.svg', api_support_state: :naive)
+MoocProvider.create!(name: 'iversity', logo_id: 'logo_iversity.svg', api_support_state: :nil)
+MoocProvider.create!(name: 'Udacity', logo_id: 'logo_UDACITY.svg', api_support_state: :nil)
 
 xikolo_audit_track_type = CourseTrackType.create!(title: 'Audit',
                                                   description: 'You get a record of Achievement.',
@@ -104,7 +104,6 @@ case Rails.env
     Claudia; “I enjoyed this course so much. It gave me a chance to expand my horizons in web technologies a great deal. I really liked the practical homework exercises, especially the calculation task in Week 5. I’m already looking forward to the next course. Keep up the good work!”',
                                  language: 'en,de',
                                  subtitle_languages: 'en,de',
-                                 imageId: 'https://open.hpi.de/files/45ce8877-d21b-4389-9032-c6525b4724d0',
                                  videoId: '',
                                  start_date: Time.zone.local(2015, 6, 1, 8),
                                  end_date: Time.zone.local(2015, 7, 20, 23, 30),

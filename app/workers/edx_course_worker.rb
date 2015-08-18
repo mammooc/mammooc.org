@@ -32,7 +32,17 @@ class EdxCourseWorker < AbstractCourseWorker
       course.provider_course_id = course_element['course:id']
       course.mooc_provider_id = mooc_provider.id
       course.url = course_element['link']
-      course.imageId = course_element['course:image-thumbnail']
+
+      if course_element['course:image-thumbnail'].present? && course_element['course:image-thumbnail'][/[\?&#]/]
+        filename = File.basename(course_element['course:image-thumbnail'])[/.*?(?=[\?&#])/]
+        filename = filename.tr!('=', '_')
+      elsif course_element['course:image-thumbnail'].present?
+        filename = File.basename(course_element['course:image-thumbnail'])
+      end
+
+      if course_element['course:image-thumbnail'].present? && course.course_image_file_name != filename
+        course.course_image = Course.process_uri(course_element['course:image-thumbnail'])
+      end
       if course_element['course:start']
         course.start_date = course_element['course:start']
       end

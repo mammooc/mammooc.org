@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe 'User', type: :feature do
   self.use_transactional_fixtures = false
 
-  let!(:user) { User.create!(first_name: 'Max', last_name: 'Mustermann', password: '12345678')  }
+  let!(:user) { User.create!(first_name: 'Max', last_name: 'Mustermann', password: '12345678') }
   let!(:first_email) { FactoryGirl.create(:user_email, user: user) }
   let!(:second_user) { FactoryGirl.create(:user) }
   let(:third_user) { FactoryGirl.create(:user) }
@@ -382,11 +382,6 @@ RSpec.describe 'User', type: :feature do
             expect(list).to have_content(group.name)
             expect(course_enrollments_visibility_settings.value(:groups)).to eql [group.id]
           end
-
-          # TODO: implement this
-          # it 'removes a group' do
-          #
-          # end
         end
       end
     end

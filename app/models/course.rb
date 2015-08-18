@@ -32,6 +32,17 @@ class Course < ActiveRecord::Base
   has_many :user_assignments
   has_many :tracks, class_name: 'CourseTrack', dependent: :destroy
 
+  has_attached_file :course_image,
+    styles: {
+      thumb: '100x100#',
+      original: '300x300>'},
+    convert_options: {all: '-quality 95'},
+    s3_storage_class: :reduced_redundancy,
+    s3_permissions: :public_read,
+    default_url: '/data/course_picture_default.png'
+
+  validates_attachment_content_type :course_image, content_type: /\Aimage\/.*\Z/
+
   validates :tracks, length: {minimum: 1}
 
   before_save :check_and_update_duration
@@ -63,14 +74,14 @@ class Course < ActiveRecord::Base
   end
 
   scope :search_query, ->(query) do
-    return nil  if query.blank?
+    return nil if query.blank?
 
     terms = query.mb_chars.downcase.to_s.split(/\s+/)
 
     # rubocop:disable Style/BlockDelimiters
     terms = terms.map { |e|
       e.prepend('%')
-      (e.gsub('*', '%') + '%').gsub(/%+/, '%')
+      (e.tr('*', '%') + '%').gsub(/%+/, '%')
     }
     # rubocop:enable Style/BlockDelimiters
 
@@ -301,6 +312,13 @@ class Course < ActiveRecord::Base
       end
       activity.destroy if course == self
     end
+  end
+
+  def self.process_uri(uri)
+    return if uri.nil? || Settings.domain != 'mammooc.org'
+    image_url = URI.parse(uri)
+    image_url.scheme = 'https'
+    image_url.to_s
   end
 
   private

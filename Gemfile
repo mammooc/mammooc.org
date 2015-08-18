@@ -44,7 +44,7 @@ gem 'omniauth-google-oauth2'
 gem 'omniauth-github'
 gem 'omniauth-linkedin-oauth2'
 gem 'omniauth-twitter'
-gem 'omniauth-windowslive'
+gem 'omniauth-windowslive', '~> 0.0.9'
 gem 'omniauth-amazon'
 
 # authorization
@@ -68,7 +68,7 @@ gem 'whenever'
 gem 'public_activity'
 
 gem 'bootstrap-sass'
-gem 'font-awesome-sass', '~> 4.3.0'
+gem 'font-awesome-sass'
 
 gem 'bootstrap_tokenfield_rails'
 gem 'bootstrap-datepicker-rails'
@@ -80,7 +80,7 @@ gem 'i18n-js'
 
 gem 'http_accept_language'
 
-gem 'rails_config'
+gem 'config'
 
 gem 'newrelic_rpm'
 

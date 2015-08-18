@@ -36,19 +36,19 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    arel (6.0.2)
-    ast (2.0.0)
+    arel (6.0.3)
+    ast (2.1.0)
     astrolabe (1.3.1)
       parser (~> 2.2)
-    autoprefixer-rails (5.2.1.1)
+    autoprefixer-rails (5.2.1.2)
       execjs
       json
-    aws-sdk (2.1.7)
-      aws-sdk-resources (= 2.1.7)
-    aws-sdk-core (2.1.7)
+    aws-sdk (2.1.14)
+      aws-sdk-resources (= 2.1.14)
+    aws-sdk-core (2.1.14)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.1.7)
-      aws-sdk-core (= 2.1.7)
+    aws-sdk-resources (2.1.14)
+      aws-sdk-core (= 2.1.14)
     aws-sdk-v1 (1.64.0)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
@@ -64,8 +64,7 @@ GEM
       sass (>= 3.3.0)
     bootstrap_tokenfield_rails (0.0.9)
     builder (3.2.2)
-    byebug (5.0.0)
-      columnize (= 0.9.0)
+    byebug (6.0.0)
     cancancan (1.12.0)
     capybara (2.4.4)
       mime-types (>= 1.16)
@@ -76,9 +75,9 @@ GEM
     capybara-selenium (0.0.6)
       capybara
       selenium-webdriver
-    celluloid (0.16.0)
+    celluloid (0.16.1)
       timers (~> 4.0.0)
-    certifi (14.5.14)
+    certifi (2015.08.10)
     childprocess (0.5.6)
       ffi (~> 1.0, >= 1.0.11)
     chronic (0.10.2)
@@ -94,7 +93,9 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.9.1.1)
-    columnize (0.9.0)
+    config (1.0.0)
+      activesupport (>= 3.0)
+      deep_merge (~> 1.0.0)
     connection_pool (2.2.0)
     coveralls (0.8.2)
       json (~> 1.8)
@@ -104,7 +105,8 @@ GEM
       thor (~> 0.19.1)
     database_cleaner (1.4.1)
     debug_inspector (0.0.2)
-    devise (3.5.1)
+    deep_merge (1.0.1)
+    devise (3.5.2)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
@@ -116,7 +118,7 @@ GEM
     domain_name (0.5.24)
       unf (>= 0.0.5, < 1.0.0)
     erubis (2.7.0)
-    execjs (2.5.2)
+    execjs (2.6.0)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
     factory_girl_rails (4.5.0)
@@ -127,12 +129,12 @@ GEM
     ffi (1.9.10)
     filterrific (2.0.5)
       rails (>= 3.1.0)
-    font-awesome-sass (4.3.2.1)
-      sass (~> 3.2)
-    globalid (0.3.5)
+    font-awesome-sass (4.4.0)
+      sass (>= 3.2)
+    globalid (0.3.6)
       activesupport (>= 4.1.0)
     hashie (3.4.2)
-    headless (2.1.0)
+    headless (2.2.0)
     hitimes (1.2.2)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
@@ -153,19 +155,19 @@ GEM
       railties (>= 3.2.16)
     json (1.8.3)
     jwt (1.5.1)
-    loofah (2.0.2)
+    loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     mime-types (2.6.1)
     mimemagic (0.3.0)
     mini_portile (0.6.2)
-    minitest (5.7.0)
+    minitest (5.8.0)
     multi_json (1.11.2)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     netrc (0.10.3)
-    newrelic_rpm (3.12.1.298)
+    newrelic_rpm (3.13.0.299)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
     oauth (0.4.7)
@@ -198,10 +200,10 @@ GEM
     omniauth-oauth2 (1.3.1)
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
-    omniauth-twitter (1.2.0)
+    omniauth-twitter (1.2.1)
       json (~> 1.3)
       omniauth-oauth (~> 1.1)
-    omniauth-windowslive (0.0.9)
+    omniauth-windowslive (0.0.9.1)
       multi_json (>= 1.0.3)
       omniauth-oauth2 (~> 1.0)
     orm_adapter (0.5.0)
@@ -213,7 +215,7 @@ GEM
       mimemagic (= 0.3.0)
     parser (2.2.2.6)
       ast (>= 1.1, < 3.0)
-    passenger (5.0.14)
+    passenger (5.0.15)
       rack
       rake (>= 0.8.1)
     pg (0.18.2)
@@ -249,7 +251,7 @@ GEM
       sprockets-rails
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
-    rails-dom-testing (1.0.6)
+    rails-dom-testing (1.0.7)
       activesupport (>= 4.2.0.beta, < 5.0)
       nokogiri (~> 1.6.0)
       rails-deprecated_sanitizer (>= 1.0.1)
@@ -258,8 +260,6 @@ GEM
     rails-i18n (4.0.4)
       i18n (~> 0.6)
       railties (~> 4.0)
-    rails_config (0.4.2)
-      activesupport (>= 3.0)
     railties (4.2.3)
       actionpack (= 4.2.3)
       activesupport (= 4.2.3)
@@ -298,7 +298,7 @@ GEM
     rspec_junit_formatter (0.2.3)
       builder (< 4)
       rspec-core (>= 2, < 4, != 2.12.0)
-    rubocop (0.32.1)
+    rubocop (0.33.0)
       astrolabe (~> 1.3)
       parser (>= 2.2.2.5, < 3.0)
       powerpack (~> 0.1)
@@ -318,7 +318,7 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
-    selenium-webdriver (2.46.2)
+    selenium-webdriver (2.47.1)
       childprocess (~> 0.5)
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
@@ -344,7 +344,7 @@ GEM
       railties (>= 3.1, < 5.0)
       slim (~> 3.0)
     spring (1.3.6)
-    sprockets (3.2.0)
+    sprockets (3.3.1)
       rack (~> 1.0)
     sprockets-rails (2.3.2)
       actionpack (>= 3.0)
@@ -358,7 +358,7 @@ GEM
     tilt (1.4.1)
     timers (4.0.1)
       hitimes
-    tins (1.5.4)
+    tins (1.6.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.7.1)
@@ -401,12 +401,13 @@ DEPENDENCIES
   capybara
   capybara-selenium
   coffee-rails (~> 4.1.0)
+  config
   coveralls
   database_cleaner
   devise
   factory_girl_rails
   filterrific
-  font-awesome-sass (~> 4.3.0)
+  font-awesome-sass
   headless
   http_accept_language
   i18n-js
@@ -422,7 +423,7 @@ DEPENDENCIES
   omniauth-google-oauth2
   omniauth-linkedin-oauth2
   omniauth-twitter
-  omniauth-windowslive
+  omniauth-windowslive (~> 0.0.9)
   paperclip
   passenger
   pg
@@ -432,7 +433,6 @@ DEPENDENCIES
   quiet_assets
   rails (= 4.2.3)
   rails-i18n
-  rails_config
   redcarpet
   redis
   rest-client

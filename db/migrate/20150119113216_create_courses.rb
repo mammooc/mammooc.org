@@ -25,6 +25,5 @@ class CreateCourses < ActiveRecord::Migration
       t.timestamps null: false
     end
     add_foreign_key :courses, :mooc_providers
-    add_foreign_key :courses, :course_results
   end
 end

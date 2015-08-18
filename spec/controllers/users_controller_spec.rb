@@ -219,6 +219,13 @@ RSpec.describe UsersController, type: :controller do
       expect(flash[:error]).to include(I18n.t('users.synchronization.oauth_error'))
     end
 
+    it 'handles a negative response without state' do
+      allow_any_instance_of(ActionController::RequestForgeryProtection).to receive(:valid_authenticity_token?).and_return(true)
+      get :oauth_callback, error: 'access_denied'
+      expect(response).to redirect_to(dashboard_path)
+      expect(flash[:error]).to include(I18n.t('users.synchronization.oauth_error'))
+    end
+
     it 'handles unknown mooc provider' do
       expect_any_instance_of(ConnectorMapper).not_to receive(:get_connector_by_mooc_provider)
       get :oauth_callback, code: 'abc123', state: 'unknown~/dashboard~my_csrf_token'
@@ -539,7 +546,7 @@ RSpec.describe UsersController, type: :controller do
   describe 'POST set_setting' do
     let(:old_value) { course_enrollments_visibility_settings.value(:groups) }
     let(:new_value) { [FactoryGirl.create(:group).id] }
-    subject { ->  { post :set_setting, id: user.id, setting: course_enrollments_visibility_settings.name, key: :groups, value: new_value, format: :json } }
+    subject { -> { post :set_setting, id: user.id, setting: course_enrollments_visibility_settings.name, key: :groups, value: new_value, format: :json } }
 
     it 'updates the setting entry' do
       expect { subject.call }.to change { course_enrollments_visibility_settings.value(:groups) }.from(old_value).to(new_value)
@@ -612,6 +619,20 @@ RSpec.describe UsersController, type: :controller do
       expect(UserEmail.find(primary_email.id).is_primary).to be false
       expect(UserEmail.find(third_email.id).address).to eq 'newAddress@example.com'
       expect(UserEmail.find(primary_email.id).address).to eq primary_email.address
+    end
+  end
+
+  describe 'GET completions' do
+    let(:course) { FactoryGirl.create(:course) }
+
+    let(:valid_attributes) do
+      {user: user, course: course}
+    end
+
+    it 'assigns all completions as @completions' do
+      completion = Completion.create! valid_attributes
+      get :completions, id: user
+      expect(assigns(:completions)).to eq([completion])
     end
   end
 end

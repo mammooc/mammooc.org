@@ -48,7 +48,17 @@ class CourseraCourseWorker < AbstractCourseWorker
       course.mooc_provider_id = mooc_provider.id
       course.url = COURSE_LINK_BODY + corresponding_course['shortName']
       course.language = corresponding_course['language']
-      course.imageId = corresponding_course['photo']
+
+      if corresponding_course['photo'].present? && corresponding_course['photo'][/[\?&#]/]
+        filename = File.basename(corresponding_course['photo'])[/.*?(?=[\?&#])/]
+        filename = filename.tr!('=', '_')
+      elsif corresponding_course['photo'].present?
+        filename = File.basename(corresponding_course['photo'])
+      end
+
+      if corresponding_course['photo'].present? && course.course_image_file_name != filename
+        course.course_image = Course.process_uri(corresponding_course['photo'])
+      end
       course.abstract = corresponding_course['shortDescription']
       course.course_instructors = corresponding_course['instructor']
       course.subtitle_languages = corresponding_course['subtitleLanguagesCsv']

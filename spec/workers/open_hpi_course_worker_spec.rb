@@ -257,7 +257,6 @@ RSpec.describe OpenHPICourseWorker do
     expect(course.mooc_provider_id).to eql mooc_provider.id
     expect(course.url).to include json_course['urls']['details']
     expect(course.language).to eql json_course['language']
-    expect(course.imageId).to include json_course['image']
     expect(course.start_date).to eql Time.zone.parse(json_course['displayStartDate'])
     expect(course.end_date).to eql Time.zone.parse(json_course['endDate'])
     # expect(course.description).to eql html_course_description
