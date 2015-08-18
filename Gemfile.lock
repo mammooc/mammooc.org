@@ -64,8 +64,7 @@ GEM
       sass (>= 3.3.0)
     bootstrap_tokenfield_rails (0.0.9)
     builder (3.2.2)
-    byebug (5.0.0)
-      columnize (= 0.9.0)
+    byebug (6.0.0)
     cancancan (1.12.0)
     capybara (2.4.4)
       mime-types (>= 1.16)
@@ -94,7 +93,6 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.9.1.1)
-    columnize (0.9.0)
     config (1.0.0)
       activesupport (>= 3.0)
       deep_merge (~> 1.0.0)
@@ -157,7 +155,7 @@ GEM
       railties (>= 3.2.16)
     json (1.8.3)
     jwt (1.5.1)
-    loofah (2.0.2)
+    loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
