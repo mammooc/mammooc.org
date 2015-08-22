@@ -87,3 +87,17 @@ nav .navbar-header img {
 .login-form input[type=checkbox]{
   margin-right: 5px;
 }
+
+// Color of Navbar Items
+.navbar-inverse .navbar-nav > li > a {
+  color: white;
+}
+.navbar-inverse .navbar-nav > li > a:hover {
+  color: #449918;
+}
+.navbar-inverse .navbar-nav > .active > a {
+  color: #449918;
+}
+.navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
+  color: #449918;
+}
