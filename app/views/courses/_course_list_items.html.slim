@@ -2,6 +2,7 @@
   .courses
     .course-image
       - if course.imageId
+        /img src="/data/icons/courses-list-std.png"
         = image_tag(course.imageId)
       - else
         img src="/data/icons/courses-list-std.png"
@@ -78,4 +79,5 @@
             - else
               = t('courses.no_dates_available')
         .provider
+          /img src="/data/profile_picture_default.png"
           img src = @provider_logos[course.mooc_provider.logo_id]

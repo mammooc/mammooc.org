@@ -58,11 +58,12 @@ changeValueOfSearchField = (fromId, toId) ->
 
 
 @load_more = () ->
+  console.log('blub')
+
   #  Retrieve original URL parameters and only replace page attribute with the next possible
   set_filter_options_to_param(()->
     $('.loading_spinner').css('visibility', 'visible')
     current_page++
-
     refresh_load_button()
 
     url = '/courses/load_more'
