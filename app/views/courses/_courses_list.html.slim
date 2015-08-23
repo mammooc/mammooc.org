@@ -5,7 +5,7 @@
         = t('courses.no_courses')
 - else
   .courses-wrapper
-    = render "course_list_items"
+    = render "courses/course_items_list_view"
   .loadmore-wrapper.do-not-show-link
     a href="" id="loadMore" onclick="load_more(); return false;" style="#{'display: none' if @courses.total_entries <= 10}"
       .load-more-courses

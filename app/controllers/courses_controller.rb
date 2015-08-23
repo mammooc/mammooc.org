@@ -23,10 +23,20 @@ class CoursesController < ApplicationController
 
   def load_more
     load_courses
-
-    respond_to do |format|
-      format.html { render partial: '/courses/course_list_items' }
+    puts cookies[:view_status]
+    if cookies[:view_status] == 'tile'
+      respond_to do |format|
+        format.html { render partial: '/courses/course_items_tile_view' }
+      end
+    else # cookies[:view_status] == 'list' oder cookie nicht gesetzt
+      unless cookies[:view_status] == 'list'
+        cookies.permanent[:view_status] == 'list'
+      end
+      respond_to do |format|
+        format.html { render partial: '/courses/course_items_list_view' }
+      end
     end
+
   end
 
   # GET /courses/1
@@ -166,6 +176,10 @@ class CoursesController < ApplicationController
   end
 
   private
+
+  def get_course_item_view
+
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def ranking_valid?(rating)
