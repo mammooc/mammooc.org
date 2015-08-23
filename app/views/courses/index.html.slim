@@ -3,15 +3,24 @@
 
 - content_for :header
   .site-header
-    .wrapper
-      .logo
-        img src="/data/icons/courses.png"
-      .title
-        = t('courses.heading')
-        |  (
-        span id="result_count"
-          = @courses.total_entries
-        | )
+    .col-md-9
+      .wrapper
+        .logo
+          img src="/data/icons/courses.png"
+        .title
+          = t('courses.heading')
+          |  (
+          span id="result_count"
+            = @courses.total_entries
+          | )
+      .view-toggle
+        .btn-group
+          button.btn.btn-default
+
+          button.btn.btn-default
+
+    /.col-md-3
+
 
 - content_for :content
   .filter-options-top

@@ -54,11 +54,11 @@
   @include white-box;
   @include box-shadow-light;
   margin-bottom: 30px;
-
+  overflow: auto;
   .wrapper {
     height: 60px;
     padding: 10px 15px;
-
+    float:left;
     .logo {
       display: inline-block;
       background-color: white;
