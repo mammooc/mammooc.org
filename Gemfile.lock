@@ -43,12 +43,12 @@ GEM
     autoprefixer-rails (6.0.2)
       execjs
       json
-    aws-sdk (2.1.19)
-      aws-sdk-resources (= 2.1.19)
-    aws-sdk-core (2.1.19)
+    aws-sdk (2.1.20)
+      aws-sdk-resources (= 2.1.20)
+    aws-sdk-core (2.1.20)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.1.19)
-      aws-sdk-core (= 2.1.19)
+    aws-sdk-resources (2.1.20)
+      aws-sdk-core (= 2.1.20)
     aws-sdk-v1 (1.66.0)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
