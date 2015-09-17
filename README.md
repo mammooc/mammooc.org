@@ -6,7 +6,6 @@
 [![Dependency Status: Gemnasium](https://gemnasium.com/mammooc/mammooc.org.svg)](https://gemnasium.com/mammooc/mammooc.org)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mammooc/mammooc.org/blob/master/LICENSE.md)
 [![Stories in progress: Waffle.io](https://badge.waffle.io/mammooc/mammooc.org.png?label=In%20Progress&title=In%20Progress)](https://waffle.io/mammooc/mammooc.org)
-[![PullReview stats](https://www.pullreview.com/github/mammooc/mammooc.org/badges/master.svg?)](https://www.pullreview.com/github/mammooc/mammooc.org/reviews/master)
 
 _Please pay attention to the [LICENSE](https://github.com/mammooc/mammooc.org/blob/master/LICENSE.md) as well; the software is licensed under the MIT license._
 
