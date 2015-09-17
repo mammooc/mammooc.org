@@ -21,7 +21,7 @@ dependencies:
 test:
   post:
     - bundle exec rake rubocop:show
-    - curl -H "Content-Type: application/json" --data '{"payload": {"build_num": $CIRCLE_BUILD_NUM, "status": "done"} }' -X POST https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN
+    - "curl -H \"Content-Type: application/json\" --data '{\"payload\": {\"build_num\": $CIRCLE_BUILD_NUM, \"status\": \"done\"} }' -X POST https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN"
 
 
 deployment:
@@ -29,7 +29,7 @@ deployment:
     branch: master
     commands:
       # Docker
-      - curl -H "Content-Type: application/json" --data '{"build": true}' -X POST $DOCKER_HUB_TRIGGER_URL
+      - "curl -H \"Content-Type: application/json\" --data '{\"build\": true}' -X POST $DOCKER_HUB_TRIGGER_URL"
       # Heroku
       - heroku maintenance:on --app mammooc
       - git push git@heroku.com:mammooc.git
