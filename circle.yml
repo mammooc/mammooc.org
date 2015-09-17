@@ -8,35 +8,20 @@ machine:
     GEMNASIUM_TESTSUITE: "bundle check"
     GEMNASIUM_PROJECT_SLUG: "mammooc/mammooc.org"
     COVERALLS_PARALLEL: "true"
-    COVERALLS_REPO_TOKEN: "ZgW6tvGP2hrQInuZLErCADQ95Hj8AvOkK"
-    PULLREVIEW_REPO_TOKEN: "528fdb57300dc3262f4e37424a36b2bf"
-  services:
-    - docker
 
 
 dependencies:
   pre:
-    - sudo sh -c 'echo "deb http://apt.gemnasium.com stable main" > /etc/apt/sources.list.d/gemnasium.list'
-    - sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com E5CEAB0AC5F1CA2A
-    - sudo apt-get update
-    - sudo apt-get install gemnasium-toolbelt
-
-
-database:
-  pre:
-    - mv config/database.yml config/database.yml.backup
+    - "if [[ $CIRCLE_BRANCH == dev ]]; then sudo sh -c 'echo \"deb http://apt.gemnasium.com stable main\" > /etc/apt/sources.list.d/gemnasium.list'; else exit 0; fi;"
+    - "if [[ $CIRCLE_BRANCH == dev ]]; then sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com E5CEAB0AC5F1CA2A; else exit 0; fi;"
+    - "if [[ $CIRCLE_BRANCH == dev ]]; then sudo apt-get update; else exit 0; fi;"
+    - "if [[ $CIRCLE_BRANCH == dev ]]; then sudo apt-get install gemnasium-toolbelt; else exit 0; fi;"
 
 
 test:
   post:
     - bundle exec rake rubocop:show
-    - mv config/database.yml config/database.yml.circleci
-    - mv config/database.yml.backup config/database.yml
-
-
-notify:
-  webhooks:
-    - url: https://coveralls.io/webhook?repo_token=ZgW6tvGP2hrQInuZLErCADQ95Hj8AvOkK
+    - "curl -H \"Content-Type: application/json\" --data \"{\\\"payload\\\": {\\\"build_num\\\": $CIRCLE_BUILD_NUM, \\\"status\\\": \\\"done\\\"} }\" -X POST https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN"
 
 
 deployment:
@@ -44,10 +29,7 @@ deployment:
     branch: master
     commands:
       # Docker
-      - rm config/database.yml.circleci
-      - docker build -t mammooc/mammooc.org .
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - docker push mammooc/mammooc.org
+      - "curl -H \"Content-Type: application/json\" --data '{\"build\": true}' -X POST $DOCKER_HUB_TRIGGER_URL"
       # Heroku
       - heroku maintenance:on --app mammooc
       - git push git@heroku.com:mammooc.git
@@ -66,7 +48,6 @@ deployment:
       - heroku restart --app mammooc-dev
       - heroku maintenance:off --app mammooc-dev
       # Gemnasium Auto-Update
-      - mv config/database.yml.circleci config/database.yml
       - sh -c 'GEMNASIUM=true; gemnasium autoupdate run; exit 0'
 
   teaser:

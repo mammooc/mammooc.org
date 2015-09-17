@@ -5,8 +5,8 @@
 module WaitForAjax
   def wait_for_ajax
     endtime = Time.zone.now + 15.seconds
-    Capybara.using_wait_time(Capybara.default_wait_time * 2) do
-      Timeout.timeout(Capybara.default_wait_time) do
+    Capybara.using_wait_time(Capybara.default_max_wait_time * 2) do
+      Timeout.timeout(Capybara.default_max_wait_time) do
         loop until finished_all_ajax_requests? || Time.zone.now > endtime
       end
     end
