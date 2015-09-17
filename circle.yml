@@ -12,10 +12,10 @@ machine:
 
 dependencies:
   pre:
-    - "[[ $CIRCLE_BRANCH == dev ]] && sudo sh -c 'echo \"deb http://apt.gemnasium.com stable main\" > /etc/apt/sources.list.d/gemnasium.list'"
-    - "[[ $CIRCLE_BRANCH == dev ]] && sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com E5CEAB0AC5F1CA2A"
-    - "[[ $CIRCLE_BRANCH == dev ]] && sudo apt-get update"
-    - "[[ $CIRCLE_BRANCH == dev ]] && sudo apt-get install gemnasium-toolbelt"
+    - "if [[ $CIRCLE_BRANCH == dev ]]; then sudo sh -c 'echo \"deb http://apt.gemnasium.com stable main\" > /etc/apt/sources.list.d/gemnasium.list'; else exit 0; fi;"
+    - "if [[ $CIRCLE_BRANCH == dev ]]; then sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com E5CEAB0AC5F1CA2A; else exit 0; fi;"
+    - "if [[ $CIRCLE_BRANCH == dev ]]; then sudo apt-get update; else exit 0; fi;"
+    - "if [[ $CIRCLE_BRANCH == dev ]]; then sudo apt-get install gemnasium-toolbelt; else exit 0; fi;"
 
 
 test:
