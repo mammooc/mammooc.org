@@ -8,10 +8,6 @@ machine:
     GEMNASIUM_TESTSUITE: "bundle check"
     GEMNASIUM_PROJECT_SLUG: "mammooc/mammooc.org"
     COVERALLS_PARALLEL: "true"
-    COVERALLS_REPO_TOKEN: "ZgW6tvGP2hrQInuZLErCADQ95Hj8AvOkK"
-    PULLREVIEW_REPO_TOKEN: "528fdb57300dc3262f4e37424a36b2bf"
-  services:
-    - docker
 
 
 dependencies:
@@ -22,21 +18,10 @@ dependencies:
     - sudo apt-get install gemnasium-toolbelt
 
 
-database:
-  pre:
-    - mv config/database.yml config/database.yml.backup
-
-
 test:
   post:
     - bundle exec rake rubocop:show
-    - mv config/database.yml config/database.yml.circleci
-    - mv config/database.yml.backup config/database.yml
-
-
-notify:
-  webhooks:
-    - url: https://coveralls.io/webhook?repo_token=ZgW6tvGP2hrQInuZLErCADQ95Hj8AvOkK
+    - $COVERALLS_TRIGGER
 
 
 deployment:
@@ -44,10 +29,7 @@ deployment:
     branch: master
     commands:
       # Docker
-      - rm config/database.yml.circleci
-      - docker build -t mammooc/mammooc.org .
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - docker push mammooc/mammooc.org
+      - $DOCKER_HUB_TRIGGER
       # Heroku
       - heroku maintenance:on --app mammooc
       - git push git@heroku.com:mammooc.git
@@ -66,7 +48,6 @@ deployment:
       - heroku restart --app mammooc-dev
       - heroku maintenance:off --app mammooc-dev
       # Gemnasium Auto-Update
-      - mv config/database.yml.circleci config/database.yml
       - sh -c 'GEMNASIUM=true; gemnasium autoupdate run; exit 0'
 
   teaser:
