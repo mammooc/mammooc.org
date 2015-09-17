@@ -21,7 +21,7 @@ dependencies:
 test:
   post:
     - bundle exec rake rubocop:show
-    - "curl -H \"Content-Type: application/json\" --data '{\"payload\": {\"build_num\": $CIRCLE_BUILD_NUM, \"status\": \"done\"} }' -X POST https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN"
+    - "curl -H \"Content-Type: application/json\" --data \"{\\\"payload\\\": {\\\"build_num\\\": $CIRCLE_BUILD_NUM, \\\"status\\\": \\\"done\\\"} }\" -X POST https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN"
 
 
 deployment:
