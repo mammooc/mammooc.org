@@ -75,6 +75,7 @@ class UsersController < ApplicationController
   def synchronize_dates
     @synchronization_state = {}
     @synchronization_state[:openHPI] = OpenHPIConnector.new.load_dates_for_user current_user
+    @synchronization_state[:openSAP] = OpenSAPConnector.new.load_dates_for_user current_user
     @partial = render_to_string partial: 'dashboard/user_dates', formats: [:html]
     respond_to do |format|
       begin
