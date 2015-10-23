@@ -1,0 +1,55 @@
+.page-header
+  = link_to new_user_date_path, :class => 'btn btn-primary' do 
+    span.glyphicon.glyphicon-plus
+    |  New User date
+  h1
+    | Listing user_dates
+
+.table-responsive
+  table.table.table-striped.table-bordered.table-hover
+    thead
+      tr
+        th
+          | User
+        th
+          | Course
+        th
+          | Mooc provider
+        th
+          | Date
+        th
+          | Title
+        th
+          | Kind
+        th
+          | Relevant
+        th
+          | Ressource id from provider
+        th
+        th
+        th
+    tbody
+      - @user_dates.each do | user_date |
+        tr
+          td
+            = user_date.user
+          td
+            = user_date.course
+          td
+            = user_date.mooc_provider
+          td
+            = user_date.date
+          td
+            = user_date.title
+          td
+            = user_date.kind
+          td
+            = user_date.relevant
+          td
+            = user_date.ressource_id_from_provider
+          td
+            = link_to 'Show', user_date
+          td
+            = link_to 'Edit', edit_user_date_path(user_date) 
+          td
+            = link_to 'Destroy', user_date, method: :delete, data: { confirm: 'Are you sure?' } 

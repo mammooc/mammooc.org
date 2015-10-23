@@ -4,6 +4,7 @@
 # See how all your routes lay out with "rake routes".
 
 Rails.application.routes.draw do
+  resources :user_dates
   get 'api_connection/index'
   get 'api_connection/send_request'
   get 'api_connection/update_user'
