@@ -93,6 +93,8 @@ en:
     title: Dashboard
     my_groups: :groups.my_groups
     my_current_courses: My Current Courses
+    my_current_dates: My Current Dates
+    no_current_dates: You do not have any current dates.
     no_groups: :groups.no_groups
     new_group: Creating Group
     edit_group: Editing Group
@@ -115,6 +117,7 @@ en:
     course_starts_at: starts at
     activities: Activities
     error_synchronize_courses: An internal error occoured while synchronizing your enrollments with %{provider}.
+    error_synchronize_dates: An internal error occoured while synchronizing your dates with %{provider}.
 
   home:
     welcome_heading: Welcome to mammooc!

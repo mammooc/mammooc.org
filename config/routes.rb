@@ -87,6 +87,7 @@ Rails.application.routes.draw do
 
   # Users
   get 'users/:id/synchronize_courses' => 'users#synchronize_courses', as: 'synchronize_courses'
+  get 'users/:id/synchronize_dates' => 'users#synchronize_dates', as: 'synchronize_dates'
   get 'users/:id/settings' => 'users#settings', as: 'user_settings'
   post 'users/:id/set_setting' => 'users#set_setting'
   get 'users/:id/account_settings' => 'users#account_settings'

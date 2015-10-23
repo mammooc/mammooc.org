@@ -93,6 +93,8 @@ de:
     title: Dashboard
     my_groups: :groups.my_groups
     my_current_courses: Meine aktuellen Kurse
+    my_current_dates: Meine aktuellen Kursdaten
+    no_current_dates: Du hast keine aktuellen Kursdaten.
     no_groups: :groups.no_groups
     new_group: Gruppe erstellen
     edit_group: Gruppe bearbeiten
@@ -114,7 +116,8 @@ de:
     no_bookmarks: :bookmarks.no_bookmarks
     course_starts_at: beginnt am
     activities: Aktivitäten
-    error_synchronize_courses: Bei der Aktualisierung der Kurse bei %{provider} trat ein interner Fehler auf.
+    error_synchronize_courses: Bei der Aktualisierung deiner Kurse bei %{provider} trat ein interner Fehler auf.
+    error_synchronize_dates: Bei der Aktualisierung deiner Kursdaten bei %{provider} trat ein interner Fehler auf.
 
   home:
     welcome_heading: Willkommen bei mammooc!

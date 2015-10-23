@@ -32,3 +32,12 @@
             span.glyphicon.glyphicon-refresh data-user_id='#{current_user.id}'
         .user-courses-container
           = render 'user_courses'
+
+    .element
+      .content
+        .hd5.pb5
+          = t('dashboard.my_current_dates')
+          button.btn.btn-xs.btn-default id='sync-user-dates-button' data-user_id='#{current_user.id}' style="margin-bottom: 0px"
+            span.glyphicon.glyphicon-refresh data-user_id='#{current_user.id}'
+        .user-dates-container
+          = render 'user_dates'
