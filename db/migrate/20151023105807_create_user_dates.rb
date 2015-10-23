@@ -1,9 +1,9 @@
 class CreateUserDates < ActiveRecord::Migration
   def change
-    create_table :user_dates do |t|
-      t.references :user, index: true, foreign_key: true
-      t.references :course, index: true, foreign_key: true
-      t.references :mooc_provider, index: true, foreign_key: true
+    create_table :user_dates, id: :uuid do |t|
+      t.references :user, type: :uuid, index: true, foreign_key: true
+      t.references :course, type: :uuid, index: true, foreign_key: true
+      t.references :mooc_provider, type: :uuid, index: true, foreign_key: true
       t.datetime :date
       t.string :title
       t.string :kind
