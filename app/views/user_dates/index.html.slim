@@ -1,55 +1,22 @@
-.page-header
-  = link_to new_user_date_path, :class => 'btn btn-primary' do 
-    span.glyphicon.glyphicon-plus
-    |  New User date
-  h1
-    | Listing user_dates
+- content_for :title
+  = "#{t('dashboard.my_current_dates')} | #{t('global.app_name')}"
 
-.table-responsive
-  table.table.table-striped.table-bordered.table-hover
-    thead
-      tr
-        th
-          | User
-        th
-          | Course
-        th
-          | Mooc provider
-        th
-          | Date
-        th
-          | Title
-        th
-          | Kind
-        th
-          | Relevant
-        th
-          | Ressource id from provider
-        th
-        th
-        th
-    tbody
-      - @user_dates.each do | user_date |
-        tr
-          td
-            = user_date.user
-          td
-            = user_date.course
-          td
-            = user_date.mooc_provider
-          td
-            = user_date.date
-          td
-            = user_date.title
-          td
-            = user_date.kind
-          td
-            = user_date.relevant
-          td
-            = user_date.ressource_id_from_provider
-          td
-            = link_to 'Show', user_date
-          td
-            = link_to 'Edit', edit_user_date_path(user_date) 
-          td
-            = link_to 'Destroy', user_date, method: :delete, data: { confirm: 'Are you sure?' } 
+button.btn.btn-default.pull-right.mb50.ml20
+  span.glyphicon.glyphicon-refresh
+  | refresh dates
+
+.hd3
+  = t('user_dates.my_current_dates')
+- @user_dates.each do |user_date|
+  .enrollments
+    b
+      = "#{user_date.date.strftime(t('global.date_format_month'))}: "
+    = user_date.title
+    br
+    - if user_date.course.course_image
+      .enrollment-picture
+        = image_tag(user_date.course.course_image.url)
+    .enrollment-text
+      = user_date.kind
+      br
+      = "#{user_date.course.name} (#{user_date.mooc_provider.name})"

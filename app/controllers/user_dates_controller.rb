@@ -4,7 +4,7 @@ class UserDatesController < ApplicationController
   # GET /user_dates
   # GET /user_dates.json
   def index
-    @user_dates = UserDate.all
+    @user_dates = current_user.dates.sort_by(&:date)
   end
 
   # GET /user_dates/1
