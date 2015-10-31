@@ -36,7 +36,7 @@ Rails.application.routes.draw do
 
   resources :users, except: [:new, :create, :index, :edit]
 
-  resources :user_dates
+  resources :user_dates, except: [:new, :create, :edit, :show, :update, :destroy]
 
   get 'dashboard/dashboard'
 
