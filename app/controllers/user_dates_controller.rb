@@ -2,11 +2,12 @@ require 'icalendar'
 
 class UserDatesController < ApplicationController
   before_action :set_user_date, only: [:show, :edit, :update, :destroy]
-  skip_before_action :require_login, only: [:calendar_feed]
+  skip_before_action :require_login, only: [:get_my_dates]
 
   # GET /user_dates
   # GET /user_dates.json
   def index
+    UserDate.generate_token_for_user current_user
     @user_dates = current_user.dates.sort_by(&:date)
   end
 
@@ -38,7 +39,7 @@ class UserDatesController < ApplicationController
     end
   end
 
-  def calendar_feed
+  def create_calendar_feed
 
     respond_to do |format|
       format.html
@@ -46,6 +47,23 @@ class UserDatesController < ApplicationController
         calendar = UserDate.create_current_calendar current_user
         calendar.publish
         render :text => calendar.to_ical
+      end
+    end
+  end
+
+  def get_my_dates
+    user = User.find_by(token_for_user_dates: params[:token])
+
+    respond_to do |format|
+      format.html
+      format.ics do
+        if user.blank?
+          render :text => 'Not Found', :status => '404'
+        else
+          calendar = UserDate.create_current_calendar user
+          calendar.publish
+          render :text => calendar.to_ical
+        end
       end
     end
   end

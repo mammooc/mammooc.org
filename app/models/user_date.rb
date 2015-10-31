@@ -26,4 +26,15 @@ class UserDate < ActiveRecord::Base
     calendar
   end
 
+  def self.generate_token_for_user user
+    if user.token_for_user_dates.blank?
+      token = SecureRandom.urlsafe_base64(Settings.token_length)
+      until User.find_by(token_for_user_dates: token).nil?
+        token = SecureRandom.urlsafe_base64(Settings.token_length)
+      end
+      user.token_for_user_dates = token
+      user.save
+    end
+  end
+
 end

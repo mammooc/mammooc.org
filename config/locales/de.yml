@@ -712,3 +712,5 @@ de:
   user_dates:
     my_current_dates: Meine aktuellen Kursdaten
     no_current_dates: Du hast keine aktuellen Kursdaten.
+    refresh: Daten aktualisieren
+    copy_link: URL um Kalender zu abonnieren

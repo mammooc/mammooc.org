@@ -3,11 +3,16 @@
 
 button.btn.btn-default.pull-right.mb50.ml20 id='sync-user-dates'
   span.glyphicon.glyphicon-refresh
-  | refresh dates
+  = t('user_dates.refresh')
 
 .hd3
   = t('user_dates.my_current_dates')
 p
-  = link_to 'my dates as ical', :controller => 'user_dates', :action => :calendar_feed, :format => :ics, :id => 1
+  = link_to 'download my_dates.ics', controller: 'user_dates', action: :create_calendar_feed, format: :ics, id: 1
+p
+  = t('user_dates.copy_link')
+  br
+  = link_to "#{root_url}user_dates/1/get_my_dates/#{current_user.token_for_user_dates}.ics", "#{root_url}user_dates/1/get_my_dates/#{current_user.token_for_user_dates}.ics"
+
 .my-dates
   = render 'user_dates/my_dates'

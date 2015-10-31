@@ -714,3 +714,5 @@ en:
   user_dates:
     my_current_dates: My Current Dates
     no_current_dates: You do not have any current dates.
+    refresh: refresh dates
+    copy_link: URL to subscribe to calender
