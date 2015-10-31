@@ -1,7 +1,7 @@
 
 ready = ->
   $('#sync-user-course-button').on 'click', (event) -> synchronizeCourse(event)
-  $('#sync-user-dates-button').on 'click', (event) -> synchronizeDates(event)
+  $('#sync-user-dates-button').on 'click', (event) -> synchronizeDatesDashboard(event)
   $('.delete_bookmark_on_dashboard').on 'click', (event) -> deleteBookmarkOnDashboard(event)
   return
 
@@ -26,10 +26,8 @@ synchronizeCourse = (event) ->
       $("div.user-courses-container").html(data.partial)
   event.preventDefault()
 
-synchronizeDates = (event) ->
-  button = $(event.target)
-  user_id = button.data('user_id')
-  url = "/users/#{user_id}/synchronize_dates.json"
+synchronizeDatesDashboard = (event) ->
+  url = "/user_dates/1/synchronize_dates_on_dashboard.json"
   $.ajax
     url: url
     method: 'GET'

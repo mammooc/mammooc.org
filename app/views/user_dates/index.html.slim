@@ -1,22 +1,11 @@
 - content_for :title
-  = "#{t('dashboard.my_current_dates')} | #{t('global.app_name')}"
+  = "#{t('user_dates.my_current_dates')} | #{t('global.app_name')}"
 
-button.btn.btn-default.pull-right.mb50.ml20
+button.btn.btn-default.pull-right.mb50.ml20 id='sync-user-dates'
   span.glyphicon.glyphicon-refresh
   | refresh dates
 
 .hd3
   = t('user_dates.my_current_dates')
-- @user_dates.each do |user_date|
-  .enrollments
-    b
-      = "#{user_date.date.strftime(t('global.date_format_month'))}: "
-    = user_date.title
-    br
-    - if user_date.course.course_image
-      .enrollment-picture
-        = image_tag(user_date.course.course_image.url)
-    .enrollment-text
-      = user_date.kind
-      br
-      = "#{user_date.course.name} (#{user_date.mooc_provider.name})"
+.my-dates
+  = render 'user_dates/my_dates'

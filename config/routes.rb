@@ -4,7 +4,6 @@
 # See how all your routes lay out with "rake routes".
 
 Rails.application.routes.draw do
-  resources :user_dates
   get 'api_connection/index'
   get 'api_connection/send_request'
   get 'api_connection/update_user'
@@ -36,6 +35,8 @@ Rails.application.routes.draw do
   resources :mooc_providers
 
   resources :users, except: [:new, :create, :index, :edit]
+
+  resources :user_dates
 
   get 'dashboard/dashboard'
 
@@ -87,7 +88,6 @@ Rails.application.routes.draw do
 
   # Users
   get 'users/:id/synchronize_courses' => 'users#synchronize_courses', as: 'synchronize_courses'
-  get 'users/:id/synchronize_dates' => 'users#synchronize_dates', as: 'synchronize_dates'
   get 'users/:id/settings' => 'users#settings', as: 'user_settings'
   post 'users/:id/set_setting' => 'users#set_setting'
   get 'users/:id/account_settings' => 'users#account_settings'
@@ -99,6 +99,10 @@ Rails.application.routes.draw do
   get 'users/:id/cancel_change_email' => 'users#cancel_change_email'
   get 'users/:id/connected_users_autocomplete' => 'users#connected_users_autocomplete'
   get 'users/:id/completions' => 'users#completions', as: 'completions'
+
+  #UserDates
+  get 'user_dates/:id/synchronize_dates_on_dashboard' => 'user_dates#synchronize_dates_on_dashboard'
+  get 'user_dates/:id/synchronize_dates_on_index_page' => 'user_dates#synchronize_dates_on_index_page'
 
   # UserEmails
   get 'user_emails/:id/mark_as_deleted' => 'user_emails#mark_as_deleted'
