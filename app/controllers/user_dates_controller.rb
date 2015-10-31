@@ -1,5 +1,8 @@
+require 'icalendar'
+
 class UserDatesController < ApplicationController
   before_action :set_user_date, only: [:show, :edit, :update, :destroy]
+  skip_before_action :require_login, only: [:calendar_feed]
 
   # GET /user_dates
   # GET /user_dates.json
@@ -34,6 +37,19 @@ class UserDatesController < ApplicationController
       end
     end
   end
+
+  def calendar_feed
+
+    respond_to do |format|
+      format.html
+      format.ics do
+        calendar = UserDate.create_current_calendar current_user
+        calendar.publish
+        render :text => calendar.to_ical
+      end
+    end
+  end
+
 
   # GET /user_dates/1
   # GET /user_dates/1.json

@@ -103,6 +103,7 @@ Rails.application.routes.draw do
   #UserDates
   get 'user_dates/:id/synchronize_dates_on_dashboard' => 'user_dates#synchronize_dates_on_dashboard'
   get 'user_dates/:id/synchronize_dates_on_index_page' => 'user_dates#synchronize_dates_on_index_page'
+  get 'user_dates/:id/calendar_feed' => 'user_dates#calendar_feed'
 
   # UserEmails
   get 'user_emails/:id/mark_as_deleted' => 'user_emails#mark_as_deleted'

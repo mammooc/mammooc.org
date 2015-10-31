@@ -7,5 +7,7 @@ button.btn.btn-default.pull-right.mb50.ml20 id='sync-user-dates'
 
 .hd3
   = t('user_dates.my_current_dates')
+p
+  = link_to 'my dates as ical', :controller => 'user_dates', :action => :calendar_feed, :format => :ics, :id => 1
 .my-dates
   = render 'user_dates/my_dates'

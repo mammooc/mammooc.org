@@ -59,6 +59,7 @@ gem 'paperclip'
 # amazon S3 connection
 gem 'aws-sdk', '~> 2'
 gem 'aws-sdk-v1'
+
 # cron job
 gem 'redis'
 gem 'sidekiq'
@@ -88,6 +89,9 @@ gem 'newrelic_rpm'
 gem 'filterrific'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
+
+# for ical-Feed
+gem 'icalendar'
 
 gem 'oauth2'
 
