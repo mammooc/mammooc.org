@@ -27,7 +27,7 @@ synchronizeCourse = (event) ->
   event.preventDefault()
 
 synchronizeDatesDashboard = (event) ->
-  url = "/user_dates/1/synchronize_dates_on_dashboard.json"
+  url = "/user_dates/synchronize_dates_on_dashboard.json"
   $.ajax
     url: url
     method: 'GET'

@@ -5,7 +5,7 @@ ready = ->
 $(document).ready(ready)
 
 synchronizeDatesIndexPage = (event) ->
-  url = "/user_dates/1/synchronize_dates_on_index_page.json"
+  url = "/user_dates/synchronize_dates_on_index_page.json"
   $.ajax
     url: url
     method: 'GET'
