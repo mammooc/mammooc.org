@@ -59,9 +59,18 @@ class AbstractMoocProviderConnector
     end
   end
 
-  def load_dates_for_user(user)
-    result = fetch_dates_for_user user if connection_to_mooc_provider? user
-    return result
+  def load_dates_for_users(users = nil)
+    if users.blank?
+      User.find_each do |user|
+        fetch_dates_for_user user if connection_to_mooc_provider? user
+      end
+    else
+      result = true
+      users.each do |user|
+        result &= fetch_dates_for_user user if connection_to_mooc_provider? user
+      end
+      return result
+    end
   end
 
 
