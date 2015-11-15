@@ -1,13 +1,1 @@
-- current_user.dates.each do |user_date|
-  .user-date
-    b
-      = "#{user_date.date.strftime(t('global.date_format_month'))}: "
-    = user_date.title
-    br
-    - if user_date.course.course_image
-      .user-date-course-picture
-        = image_tag(user_date.course.course_image.url)
-    .user-date-description
-      = user_date.kind
-      br
-      = "#{user_date.course.name} (#{user_date.mooc_provider.name})"
+.calendar

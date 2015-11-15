@@ -93,6 +93,10 @@ gem 'will_paginate-bootstrap'
 # for ical-Feed
 gem 'icalendar'
 
+#calendar widget
+gem 'fullcalendar-rails'
+gem 'momentjs-rails'
+
 gem 'oauth2'
 
 group :development, :test do

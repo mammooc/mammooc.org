@@ -10,6 +10,16 @@ class UserDatesController < ApplicationController
     @user_dates = current_user.dates.sort_by(&:date)
   end
 
+  def events_for_calendar_view
+    start_param = params[:start].to_datetime
+    end_param = params[:end].to_datetime
+    @current_user_dates = UserDate.where("date >= ? AND date <= ? AND user_id = ?", start_param, end_param, current_user.id)
+    respond_to do |format|
+      format.html
+      format.json {render :events_for_calendar_view, status: :ok}
+    end
+  end
+
   def synchronize_dates_on_dashboard
     @synchronization_state = UserDate.synchronize current_user
     @partial = render_to_string partial: 'dashboard/user_dates', formats: [:html]
