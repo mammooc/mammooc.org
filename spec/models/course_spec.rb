@@ -158,9 +158,9 @@ RSpec.describe Course, type: :model do
   describe 'scopes for filtering' do
     context 'sorted_by' do
       let!(:course_today) { FactoryGirl.create(:course, name: 'AAA', calculated_duration_in_days: 800, start_date: Time.zone.now) }
-      let!(:course_soon) { FactoryGirl.create(:course, name: 'ZZZ', calculated_duration_in_days: 60, start_date: Time.zone.now + 1.weeks) }
-      let!(:course_current) { FactoryGirl.create(:course, name: 'CCC', start_date: Time.zone.now - 1.weeks, end_date: Time.zone.now + 1.weeks) } # calculated_duration_in_days will be 14
-      let!(:course_past) { FactoryGirl.create(:course, name: 'BBB', start_date: Time.zone.now - 4.weeks, end_date: Time.zone.now - 1.weeks) } # calculated_duration_in_days will be 21
+      let!(:course_soon) { FactoryGirl.create(:course, name: 'ZZZ', calculated_duration_in_days: 60, start_date: Time.zone.now + 1.week) }
+      let!(:course_current) { FactoryGirl.create(:course, name: 'CCC', start_date: Time.zone.now - 1.week, end_date: Time.zone.now + 1.week) } # calculated_duration_in_days will be 14
+      let!(:course_past) { FactoryGirl.create(:course, name: 'BBB', start_date: Time.zone.now - 4.weeks, end_date: Time.zone.now - 1.week) } # calculated_duration_in_days will be 21
       let!(:course_without_dates) { FactoryGirl.create(:course, name: 'FFF', start_date: nil, end_date: nil) }
 
       it 'sorts for name asc' do
@@ -401,7 +401,7 @@ RSpec.describe Course, type: :model do
       let(:current_date) { Time.zone.now.strftime('%d.%m.%Y').to_s }
       let!(:current_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date), end_date: Time.zone.parse(current_date) + 2.weeks) }
       let!(:past_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date) - 4.weeks, end_date: Time.zone.parse(current_date) - 2.weeks) }
-      let!(:soon_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date) + 1.weeks, end_date: Time.zone.parse(current_date) + 3.weeks) }
+      let!(:soon_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date) + 1.week, end_date: Time.zone.parse(current_date) + 3.weeks) }
       let!(:future_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date) + 4.weeks, end_date: Time.zone.parse(current_date) + 6.weeks) }
       let!(:without_start_course) { FactoryGirl.create(:course, start_date: nil, end_date: Time.zone.parse(current_date) + 3.weeks) }
       let!(:without_end_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date), end_date: nil) }
