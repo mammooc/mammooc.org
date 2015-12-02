@@ -20,7 +20,7 @@ RSpec.describe UserDatesController, type: :routing do
     end
 
     it 'route to #get_my_dates' do
-      expect(get: 'user_dates/get_my_dates/:token').to  route_to('user_dates#get_my_dates')
+      expect(get: 'user_dates/get_my_dates/1234').to  route_to('user_dates#get_my_dates', token: '1234')
     end
 
     it 'routes to #events_for_calendar_view' do
