@@ -100,11 +100,11 @@ Rails.application.routes.draw do
   get 'users/:id/connected_users_autocomplete' => 'users#connected_users_autocomplete'
   get 'users/:id/completions' => 'users#completions', as: 'completions'
 
-  #UserDates
+  # UserDates
   get 'user_dates/synchronize_dates_on_dashboard' => 'user_dates#synchronize_dates_on_dashboard'
   get 'user_dates/synchronize_dates_on_index_page' => 'user_dates#synchronize_dates_on_index_page'
   get 'user_dates/calendar_feed' => 'user_dates#create_calendar_feed'
-  get 'user_dates/get_my_dates/:token' => 'user_dates#get_my_dates'
+  get 'user_dates/my_dates/:token' => 'user_dates#my_dates'
   get 'user_dates/events_for_calendar_view' => 'user_dates#events_for_calendar_view'
 
   # UserEmails

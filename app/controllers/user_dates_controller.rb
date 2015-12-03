@@ -1,7 +1,7 @@
 require 'icalendar'
 
 class UserDatesController < ApplicationController
-  skip_before_action :require_login, only: [:get_my_dates]
+  skip_before_action :require_login, only: [:my_dates]
 
   # GET /user_dates
   # GET /user_dates.json
@@ -13,10 +13,10 @@ class UserDatesController < ApplicationController
   def events_for_calendar_view
     start_param = params[:start].to_datetime
     end_param = params[:end].to_datetime
-    @current_user_dates = UserDate.where("date >= ? AND date <= ? AND user_id = ?", start_param, end_param, current_user.id)
+    @current_user_dates = UserDate.where('date >= ? AND date <= ? AND user_id = ?', start_param, end_param, current_user.id)
     respond_to do |format|
       format.html
-      format.json {render :events_for_calendar_view, status: :ok}
+      format.json { render :events_for_calendar_view, status: :ok }
     end
   end
 
@@ -49,37 +49,37 @@ class UserDatesController < ApplicationController
   end
 
   def create_calendar_feed
-
     respond_to do |format|
       format.html
       format.ics do
         calendar = UserDate.create_current_calendar current_user
         calendar.publish
-        render :text => calendar.to_ical
+        render text: calendar.to_ical
       end
     end
   end
 
-  def get_my_dates
+  def my_dates
     user = User.find_by(token_for_user_dates: params[:token])
 
     respond_to do |format|
       format.html
       format.ics do
         if user.blank?
-          render :text => 'Not Found', :status => '404'
+          render text: 'Not Found', status: '404'
         else
           calendar = UserDate.create_current_calendar user
           calendar.publish
-          render :text => calendar.to_ical
+          render text: calendar.to_ical
         end
       end
     end
   end
 
   private
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def user_date_params
-      params.require(:user_date).permit(:user_id, :course_id, :mooc_provider_id, :date, :title, :kind, :relevant, :ressource_id_from_provider)
-    end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def user_date_params
+    params.require(:user_date).permit(:user_id, :course_id, :mooc_provider_id, :date, :title, :kind, :relevant, :ressource_id_from_provider)
+  end
 end

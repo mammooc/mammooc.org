@@ -1,29 +1,26 @@
 require 'rails_helper'
 
 RSpec.describe UserDate, type: :model do
-  let (:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryGirl.create(:user) }
 
   describe 'synchronize user' do
-
-    it 'should call openHPI and openSAP Connectors to load the dates for the given user' do
+    it 'calls openHPI and openSAP Connectors to load the dates for the given user' do
       expect_any_instance_of(OpenHPIConnector).to receive(:load_dates_for_users).with([user])
       expect_any_instance_of(OpenSAPConnector).to receive(:load_dates_for_users).with([user])
       described_class.synchronize(user)
     end
 
-    it 'should set for each called Connector the synchronization_state to true' do
+    it 'sets for each called Connector the synchronization_state to true' do
       expect_any_instance_of(OpenHPIConnector).to receive(:load_dates_for_users).with([user]).and_return(true)
       expect_any_instance_of(OpenSAPConnector).to receive(:load_dates_for_users).with([user]).and_return(true)
-      synchronization_state = UserDate.synchronize(user)
-      expect(synchronization_state[:openHPI]).to eql (true)
-      expect(synchronization_state[:openSAP]).to eql (true)
+      synchronization_state = described_class.synchronize(user)
+      expect(synchronization_state[:openHPI]).to eql(true)
+      expect(synchronization_state[:openSAP]).to eql(true)
     end
-
   end
 
   describe 'create current calendar for a given user' do
-
-    let(:user_date) {FactoryGirl.create(:user_date, user: user)}
+    let(:user_date) { FactoryGirl.create(:user_date, user: user) }
 
     context 'returns a calendar with an event representing the user_date' do
       it 'sets the start time correctly' do
@@ -73,8 +70,7 @@ RSpec.describe UserDate, type: :model do
   end
 
   describe 'generate token for a user' do
-
-    let(:user) {FactoryGirl.create(:user)}
+    let(:user) { FactoryGirl.create(:user) }
 
     it 'does not create a token if there is already one defined' do
       token = '1234567890'

@@ -100,11 +100,10 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
 
   def change_existing_no_longer_relevant_entries(update_map)
     update_map.each do |user_date_id, updated|
-      unless updated
-        user_date = UserDate.find(user_date_id)
-        user_date.relevant = false
-        user_date.save
-      end
+      next if updated
+      user_date = UserDate.find(user_date_id)
+      user_date.relevant = false
+      user_date.save
     end
   end
 end

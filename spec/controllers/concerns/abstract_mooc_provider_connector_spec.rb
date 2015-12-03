@@ -15,7 +15,6 @@ RSpec.describe AbstractMoocProviderConnector do
   let(:abstract_mooc_provider_connector) { described_class.new }
 
   context 'synchronize user enrollments' do
-
     let(:mooc_provider) { FactoryGirl.create(:mooc_provider) }
     let(:course) { FactoryGirl.create(:full_course, mooc_provider_id: mooc_provider.id) }
     let(:second_course) { FactoryGirl.create(:full_course, mooc_provider_id: mooc_provider.id) }
@@ -122,7 +121,6 @@ RSpec.describe AbstractMoocProviderConnector do
     end
 
     describe 'load dates for user' do
-
       it 'calls fetch_dates_for_user for every user if no user is given' do
         5.times do
           FactoryGirl.create(:user)
@@ -166,7 +164,6 @@ RSpec.describe AbstractMoocProviderConnector do
 
         map = abstract_mooc_provider_connector.send(:create_update_map_for_user_dates, user, mooc_provider)
         expect(map.length).to eql 2
-
       end
 
       it 'does not create an entry for user dates that does not belong to the given provider' do

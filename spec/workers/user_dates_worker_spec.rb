@@ -2,7 +2,6 @@
 require 'rails_helper'
 
 RSpec.describe UserDatesWorker do
-
   let(:user) { FactoryGirl.create(:user) }
 
   before(:each) do
@@ -14,5 +13,4 @@ RSpec.describe UserDatesWorker do
     expect_any_instance_of(OpenSAPConnector).to receive(:load_dates_for_users)
     described_class.perform_async
   end
-
 end

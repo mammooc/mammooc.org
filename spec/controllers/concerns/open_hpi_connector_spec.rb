@@ -202,7 +202,6 @@ RSpec.describe OpenHPIConnector do
   end
 
   context 'synchronize user dates' do
-
     let(:course) { FactoryGirl.create(:course, mooc_provider: mooc_provider) }
 
     let(:received_dates) do
@@ -248,7 +247,6 @@ RSpec.describe OpenHPIConnector do
     end
 
     describe 'handle dates response' do
-
       let(:response_data) { json_user_dates }
 
       it 'calls create_new_entry if there is a date in response data which not yet exists in database' do
@@ -277,7 +275,7 @@ RSpec.describe OpenHPIConnector do
       let(:user_date_data) { json_user_dates['dates'].first }
 
       it 'creates a new entry in database' do
-        expect { open_hpi_connector.send(:create_new_entry, user, user_date_data) }.to change{ UserDate.all.count }.by(1)
+        expect { open_hpi_connector.send(:create_new_entry, user, user_date_data) }.to change { UserDate.all.count }.by(1)
       end
 
       it 'sets attribute date to the corresponding value' do
@@ -347,9 +345,8 @@ RSpec.describe OpenHPIConnector do
 
       it 'does not create new entry' do
         user_date.date = user_date_data['title'] + 'for testing'
-        expect{ open_hpi_connector.send(:update_existing_entry, user_date, user_date_data) }.to change{ UserDate.count }.by(0)
+        expect { open_hpi_connector.send(:update_existing_entry, user_date, user_date_data) }.to change { UserDate.count }.by(0)
       end
-
     end
 
     describe 'change existing no longer relevant entries' do
@@ -373,7 +370,4 @@ RSpec.describe OpenHPIConnector do
       end
     end
   end
-
-
-
 end

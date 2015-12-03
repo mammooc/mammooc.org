@@ -19,29 +19,27 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe UserDatesController, type: :controller do
-
   # This should return the minimal set of attributes required to create a valid
   # UserDate. As you add validations to UserDate, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
+  let(:valid_attributes) do
+    skip('Add a hash of attributes valid for your model')
+  end
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
+  let(:invalid_attributes) do
+    skip('Add a hash of attributes invalid for your model')
+  end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # UserDatesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET #index" do
-    it "assigns all user_dates as @user_dates" do
+  describe 'GET #index' do
+    it 'assigns all user_dates as @user_dates' do
       user_date = UserDate.create! valid_attributes
       get :index, {}, valid_session
       expect(assigns(:user_dates)).to eq([user_date])
     end
   end
-
 end

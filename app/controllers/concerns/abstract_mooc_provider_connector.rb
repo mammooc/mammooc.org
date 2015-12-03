@@ -73,7 +73,6 @@ class AbstractMoocProviderConnector
     end
   end
 
-
   def connection_to_mooc_provider?(user)
     user.mooc_providers.where(id: mooc_provider).present?
   end
@@ -203,5 +202,4 @@ class AbstractMoocProviderConnector
     end
     update_map
   end
-
 end
