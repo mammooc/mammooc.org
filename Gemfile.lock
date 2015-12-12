@@ -76,7 +76,6 @@ GEM
     capybara-selenium (0.0.6)
       capybara
       selenium-webdriver
-    certifi (2015.11.20)
     childprocess (0.5.8)
       ffi (~> 1.0, >= 1.0.11)
     chronic (0.10.2)
@@ -232,9 +231,6 @@ GEM
       activerecord (>= 3.0)
       i18n (>= 0.5.0)
       railties (>= 3.0.0)
-    pullreview-coverage (0.0.5)
-      certifi
-      simplecov (>= 0.7.1, < 1.0.0)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.4)
@@ -427,7 +423,6 @@ DEPENDENCIES
   pg
   poltergeist
   public_activity
-  pullreview-coverage
   quiet_assets
   rails (= 4.2.5)
   rails-i18n
