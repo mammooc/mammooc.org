@@ -54,7 +54,7 @@ GEM
       json (~> 1.4)
       nokogiri (>= 1.4.4)
     bcrypt (3.1.10)
-    bootstrap-datepicker-rails (1.5.0)
+    bootstrap-datepicker-rails (1.4.0)
       railties (>= 3.0)
     bootstrap-generators (3.3.4)
       railties (>= 3.1.0)
