@@ -393,6 +393,22 @@ RSpec.describe GroupsController, type: :controller do
       expect(ActionMailer::Base.deliveries.count).to eq 3
     end
 
+    context 'with first token not valid' do
+      let(:group) { FactoryGirl.create :group }
+      let!(:group_invitation) { FactoryGirl.create :group_invitation_with_fixed_token, group: group }
+      before do
+        allow(SecureRandom).to receive(:urlsafe_base64).and_return('b4GOKm4pOYU_-BOXcrUGDg', 'ZLdOkzop70Ddx-IJR0ABg')
+      end
+
+      it 'invites member' do
+        email_string = 'valid@example.org'
+        expect { post :invite_group_members, format: :json, id: group_with_admin.id, members: email_string }.to change { GroupInvitation.count }.by(1)
+        expect(response.body).to have_content('"error_email":[]')
+        expect(ActionMailer::Base.deliveries.count).to eq 1
+      end
+    end
+
+
     context 'without authorization' do
       context 'user is not in group' do
         before(:each) { put :invite_group_members, id: group_without_user.id, group: valid_attributes }
