@@ -199,7 +199,20 @@ RSpec.describe Course, type: :model do
       end
     end
 
-    context 'search query' do
+    context 'sorted_by relevance' do
+      let!(:course_case_1) { FactoryGirl.create(:course, name: 'AAA', start_date: Time.zone.now + 2.weeks) }
+      let!(:course_case_2) { FactoryGirl.create(:course, name: 'BBB', start_date: Time.zone.now - 2.weeks, end_date: Time.zone.now + 2.weeks) }
+      let!(:course_case_3) { FactoryGirl.create(:course, name: 'CCC', start_date: Time.zone.now - 3.weeks, end_date: Time.zone.now - 2.weeks) }
+      let!(:course_case_5) { FactoryGirl.create(:course, name: 'DDD', start_date: nil, end_date: nil) }
+      let!(:course_case_4) { FactoryGirl.create(:course, name: 'EEE', start_date: Time.zone.now - 2.weeks, end_date: nil) }
+
+      it 'show relevant courses starts current first' do
+        result = described_class.sorted_by('relevance_asc')
+        expect(result).to match([course_case_1, course_case_2, course_case_3, course_case_4, course_case_5])
+      end
+    end
+
+      context 'search query' do
       let!(:course_match_name) { FactoryGirl.create(:course, name: 'Web Technologies') }
       let!(:course_not_match_name) { FactoryGirl.create(:course, name: 'Wob Technochicks') }
       let!(:course_match_instructors) { FactoryGirl.create(:course, name: 'Java course', course_instructors: 'Jan Renz, Thomas Staubitz') }
