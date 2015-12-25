@@ -54,7 +54,7 @@ GEM
       json (~> 1.4)
       nokogiri (>= 1.4.4)
     bcrypt (3.1.10)
-    bootstrap-datepicker-rails (1.4.0)
+    bootstrap-datepicker-rails (1.5.0)
       railties (>= 3.0)
     bootstrap-generators (3.3.4)
       railties (>= 3.1.0)
@@ -268,7 +268,6 @@ GEM
     rainbow (2.0.0)
     rake (10.4.2)
     rdoc (4.2.1)
-      json (~> 1.4)
     redcarpet (3.3.3)
     redis (3.2.2)
     responders (2.1.1)
@@ -318,7 +317,7 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
-    selenium-webdriver (2.47.1)
+    selenium-webdriver (2.48.1)
       childprocess (~> 0.5)
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
@@ -451,4 +450,4 @@ DEPENDENCIES
   will_paginate-bootstrap
 
 BUNDLED WITH
-   1.10.6
+   1.11.2
