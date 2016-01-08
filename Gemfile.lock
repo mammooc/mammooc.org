@@ -385,7 +385,7 @@ PLATFORMS
 DEPENDENCIES
   aws-sdk (~> 2)
   aws-sdk-v1
-  bootstrap-datepicker-rails
+  bootstrap-datepicker-rails (= 1.4.0)
   bootstrap-generators
   bootstrap-sass
   bootstrap_tokenfield_rails
@@ -435,6 +435,7 @@ DEPENDENCIES
   ruby-debug-passenger
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
+  selenium-webdriver (= 2.47.1)
   sidekiq
   simplecov
   slim-rails
