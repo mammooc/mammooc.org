@@ -264,7 +264,6 @@ GEM
     rainbow (2.0.0)
     rake (10.4.2)
     rdoc (4.2.1)
-      json (~> 1.4)
     redcarpet (3.3.3)
     redis (3.2.2)
     responders (2.1.1)
@@ -447,4 +446,4 @@ DEPENDENCIES
   will_paginate-bootstrap
 
 BUNDLED WITH
-   1.10.6
+   1.11.2
