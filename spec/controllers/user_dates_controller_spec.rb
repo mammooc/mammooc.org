@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe UserDatesController, type: :controller do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryGirl.create(:user, token_for_user_dates: '1234567890') }
   let(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI') }
   let(:course) { FactoryGirl.create(:course, mooc_provider: mooc_provider) }
   let(:valid_attributes) { {user_id: user.id, course_id: course.id, mooc_provider_id: mooc_provider.id, date: Time.now, title: 'Assignment 1', kind: 'submission deadline', relevant: true }}
@@ -76,4 +76,45 @@ RSpec.describe UserDatesController, type: :controller do
       expect(assigns(:current_dates_to_show)).not_to include(old_user_date)
     end
   end
+
+
+  describe 'GET synchronize_dates_on_index_page' do
+    it 'assings synchronization_state to @synchronization_state' do
+      expect(UserDate).to receive(:synchronize).with(user).and_return(true).once
+      get :synchronize_dates_on_index_page, {format: :json}
+      expect(assigns(:synchronization_state)).to eq(true)
+    end
+  end
+
+  describe 'GET create_calendar_feed' do
+    it 'renders calendar feed including user_date' do
+      user_date = FactoryGirl.create(:user_date, user: user, course: course, mooc_provider: mooc_provider, date: Time.now)
+      get :create_calendar_feed, {format: :ics}
+      expect(response.body).to include(user_date.title)
+    end
+  end
+
+  describe 'GET my_dates' do
+
+    it 'renders calendar feed including user_date' do
+      user_date = FactoryGirl.create(:user_date, user: user, course: course, mooc_provider: mooc_provider, date: Time.now)
+      get :my_dates, {format: :ics, token: user.token_for_user_dates}
+      expect(response.body).to include(user_date.title)
+    end
+
+    it 'renders calendar feed for correct user' do
+      user2 = FactoryGirl.create(:user)
+      user_date = FactoryGirl.create(:user_date, user: user, course: course, mooc_provider: mooc_provider, date: Time.now, title: 'correct event')
+      user_date2 = FactoryGirl.create(:user_date, user: user2, course: course, mooc_provider: mooc_provider, date: Time.now, title: 'wrong event')
+      get :my_dates, {format: :ics, token: user.token_for_user_dates}
+      expect(response.body).to include(user_date.title)
+      expect(response.body).not_to include(user_date2.title)
+    end
+
+    it 'renders 404 if token is invalid' do
+      get :my_dates, {format: :ics, token: 'noValidToken'}
+      expect(response.body).to include('Not Found')
+    end
+  end
+
 end
