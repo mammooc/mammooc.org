@@ -1,7 +1,7 @@
 # encoding: utf-8
 source 'https://rubygems.org'
 
-ruby '2.2.3'
+ruby '2.3.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5'
@@ -11,7 +11,7 @@ gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
@@ -72,7 +72,8 @@ gem 'bootstrap-sass'
 gem 'font-awesome-sass'
 
 gem 'bootstrap_tokenfield_rails'
-gem 'bootstrap-datepicker-rails'
+gem 'bootstrap-datepicker-rails', '1.4.0' # Please remove the version info as soon as GitHub issue # 578 is solved
+gem 'selenium-webdriver', '2.47.1' # Please remove this line completely as soon as GitHub issue # 585 is solved
 
 gem 'factory_girl_rails'
 
@@ -104,9 +105,6 @@ group :development, :test do
   gem 'byebug'
   gem 'ruby-debug-passenger'
 
-  # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
-
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 
@@ -126,8 +124,12 @@ group :development, :test do
   gem 'simplecov', require: false
   gem 'rubocop', require: false
   gem 'rubocop-rspec', require: false
-  gem 'pullreview-coverage', require: false
   gem 'coveralls', require: false
 
   gem 'quiet_assets'
+end
+
+group :development do
+  # Access an IRB console on exception pages or by using <%= console %> in views
+  gem 'web-console'
 end
