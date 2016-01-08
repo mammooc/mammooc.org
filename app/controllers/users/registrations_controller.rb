@@ -73,7 +73,7 @@ module Users
     end
 
     def update(redirection_success = "#{user_settings_path(current_user.id)}?subsite=account",
-               redirection_failure = "#{user_settings_path(current_user.id)}?subsite=account")
+      redirection_failure = "#{user_settings_path(current_user.id)}?subsite=account")
       flash['error'] ||= []
       exception = ''
       self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)

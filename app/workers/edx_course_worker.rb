@@ -60,9 +60,7 @@ class EdxCourseWorker < AbstractCourseWorker
         if course_element['course:staff'].class == Array
           course_element['course:staff'].each_with_index do |staff_member, index|
             temp += staff_member
-            unless (index == course_element['course:staff'].size - 1)
-              temp += ', '
-            end
+            temp += ', ' unless index == course_element['course:staff'].size - 1
           end
         elsif course_element['course:staff'].class == String
           temp = course_element['course:staff']
