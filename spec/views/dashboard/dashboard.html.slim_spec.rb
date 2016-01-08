@@ -31,6 +31,7 @@ RSpec.describe 'dashboard/dashboard.html.slim', type: :view do
 
     @provider_logos = {}
     @profile_pictures = {}
+    @current_dates_to_show = []
   end
 
   it 'renders my enrollments' do

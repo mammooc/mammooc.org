@@ -4,7 +4,6 @@ FactoryGirl.define do
     sequence(:first_name) {|n| "Max_#{n}" }
     last_name 'Mustermann'
     password '12345678'
-    sequence(:token_for_user_dates) {|n| "unique_token_#{n}"}
 
     after(:create) do |user, evaluator|
       if evaluator.primary_email.nil?

@@ -103,7 +103,7 @@ RSpec.describe UserDatesController, type: :controller do
     end
 
     it 'renders calendar feed for correct user' do
-      user2 = FactoryGirl.create(:user)
+      user2 = FactoryGirl.create(:user, token_for_user_dates: '987654321')
       user_date = FactoryGirl.create(:user_date, user: user, course: course, mooc_provider: mooc_provider, date: Time.now, title: 'correct event')
       user_date2 = FactoryGirl.create(:user_date, user: user2, course: course, mooc_provider: mooc_provider, date: Time.now, title: 'wrong event')
       get :my_dates, {format: :ics, token: user.token_for_user_dates}
