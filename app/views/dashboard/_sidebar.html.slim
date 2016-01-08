@@ -35,8 +35,8 @@
 
     .element
       .content
-        .hd5.pb5
-          => t('dashboard.my_current_dates')
+        .hd5.pb5.do-not-show-link
+          = link_to t('dashboard.my_current_dates'), user_dates_path
           button.btn.btn-xs.btn-default id='sync-user-dates-button' style="margin-bottom: 0px"
             span.glyphicon.glyphicon-refresh
         .user-dates-container
