@@ -72,7 +72,6 @@ gem 'font-awesome-sass'
 
 gem 'bootstrap_tokenfield_rails'
 gem 'bootstrap-datepicker-rails', '1.4.0' # Please remove the version info as soon as GitHub issue # 578 is solved
-gem 'selenium-webdriver', '2.47.1' # Please remove this line completely as soon as GitHub issue # 585 is solved
 
 gem 'factory_girl_rails'
 
