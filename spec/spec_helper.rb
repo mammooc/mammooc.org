@@ -4,10 +4,10 @@ require 'simplecov'
 if ENV['CIRCLE_ARTIFACTS'] && ENV['GEMNASIUM'] != 'true'
   require 'coveralls'
 
-  formatters = []
-  formatters << SimpleCov::Formatter::HTMLFormatter
-  formatters << Coveralls::SimpleCov::Formatter
-  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[*formatters]
+  SimpleCov.formatters = [
+    SimpleCov::Formatter::HTMLFormatter,
+    Coveralls::SimpleCov::Formatter
+  ]
 
   dir = File.join('..', '..', '..', ENV['CIRCLE_ARTIFACTS'], 'coverage')
   SimpleCov.coverage_dir(dir)
