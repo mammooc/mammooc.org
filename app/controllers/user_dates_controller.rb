@@ -37,7 +37,6 @@ class UserDatesController < ApplicationController
 
   def synchronize_dates_on_index_page
     @synchronization_state = UserDate.synchronize current_user
-    @partial = render_to_string partial: 'my_dates', formats: [:html]
     respond_to do |format|
       begin
         format.html { redirect_to user_dates_path }

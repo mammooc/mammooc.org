@@ -20,7 +20,7 @@ synchronizeDatesIndexPage = (event) ->
           alert(I18n.t('dashboard.error_synchronize_dates', provider: mooc_provider))
         else if result != true
           window.location.replace(result)
-      $("div.my-dates").html(data.partial)
+      location.reload()
   event.preventDefault()
 
 get_events_for_view = () ->
@@ -36,6 +36,6 @@ get_events_for_view = () ->
       textColor: 'white'
       error: (jqXHR, textStatus, errorThrown) ->
         console.log('error_synchronize_dates')
-        #alert(I18n.t('global.ajax_failed'))
+        alert(I18n.t('global.ajax_failed'))
       success: (data, textStatus, jqXHR) ->
         console.log('success_synchronize_dates')
