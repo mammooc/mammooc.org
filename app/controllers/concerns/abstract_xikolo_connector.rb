@@ -76,7 +76,7 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
     user_date = UserDate.new
     user_date.user = user
     user_date.mooc_provider = mooc_provider
-    user_date.course = Course.find_by(provider_course_id: response_user_date['course_id'])
+    user_date.course = Course.get_course_id_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, response_user_date['course_id'])
     user_date.date = response_user_date['date']
     user_date.title = response_user_date['title']
     user_date.kind = response_user_date['kind']

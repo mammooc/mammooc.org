@@ -36,7 +36,7 @@ en:
     date_format_month: '%B %-d, %Y'
     date_format_month_short: '%d.%m.%y'
     search: Search
-    more: mehr...
+    more: more...
 
   will_paginate:
     previous_label: '&#171; Previous'
