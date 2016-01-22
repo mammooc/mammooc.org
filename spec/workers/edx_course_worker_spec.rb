@@ -34,10 +34,10 @@ This module will explore how people use your mobile application in daily life, o
 This course is part of a five-part Mobile Application Experiences series:
 
 21W.789.1x: Mobile Application Experiences Part 1: From a Domain to an App Idea
-	21W.789.2x: Mobile Application Experiences Part 2: Mobile App Design
-	21W.789.3x: Mobile Application Experiences Part 3: Building Mobile Apps
-	21W.789.4x: Mobile Application Experiences Part 4: Understanding Use
-	21w.789.5.x: Mobile Application Experiences Part 5: Reporting Research Findings
+  21W.789.2x: Mobile Application Experiences Part 2: Mobile App Design
+  21W.789.3x: Mobile Application Experiences Part 3: Building Mobile Apps
+  21W.789.4x: Mobile Application Experiences Part 4: Understanding Use
+  21w.789.5.x: Mobile Application Experiences Part 5: Reporting Research Findings
 </description>
             <pubDate>Tue, 12 Jan 2016 11:52:58 -0500</pubDate>
             <course:id>course-v1:MITx+21W.789.4x+1T2016</course:id>

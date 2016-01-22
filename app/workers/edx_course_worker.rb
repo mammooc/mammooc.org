@@ -13,15 +13,15 @@ class EdxCourseWorker < AbstractCourseWorker
   def course_data
     data = []
     data.push(Nokogiri::XML(open(MOOC_PROVIDER_API_LINK)))
-    i=0
+    i = 0
     last_page = data[i].xpath("//channel/atom:link[@rel='last']/@href").text
     next_page = data[i].xpath("//channel/atom:link[@rel='next']/@href").text
-    while last_page != next_page do
+    while last_page != next_page
       next_page = data[i].xpath("//channel/atom:link[@rel='next']/@href").text
       i += 1
       data.push(Nokogiri::XML(open(next_page)))
     end
-    return data
+    data
   end
 
   def handle_response_data(response_data)
@@ -77,9 +77,7 @@ class EdxCourseWorker < AbstractCourseWorker
         instructors = ''
         all_staff.each do |staff_name|
           instructors += staff_name
-          if staff_name != all_staff.last
-            instructors += ', '
-          end
+          instructors += ', ' if staff_name != all_staff.last
         end
         course.course_instructors = instructors
 
@@ -124,4 +122,3 @@ class EdxCourseWorker < AbstractCourseWorker
     evaluate_update_map update_map
   end
 end
-
