@@ -22,7 +22,7 @@ class UserDatesController < ApplicationController
 
   def synchronize_dates_on_dashboard
     @synchronization_state = UserDate.synchronize current_user
-    @current_dates_to_show = current_user.dates.where('date >= ?', Date.today).sort_by(&:date).first(3)
+    @current_dates_to_show = current_user.dates.where('date >= ?', Time.zone.today).sort_by(&:date).first(3)
     @partial = render_to_string partial: 'dashboard/user_dates', formats: [:html]
     respond_to do |format|
       begin

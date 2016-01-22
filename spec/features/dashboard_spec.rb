@@ -58,11 +58,10 @@ RSpec.describe 'Dashboard', type: :feature do
   describe 'current user dates' do
     let(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI') }
 
-
     it 'shows three current dates on dashboard' do
-      date1 = Date.today+1.day
-      date2 = Date.today+3.days
-      date3 = Date.today+5.days
+      date1 = Time.zone.today + 1.day
+      date2 = Time.zone.today + 3.days
+      date3 = Time.zone.today + 5.days
       FactoryGirl.create(:user_date, date: date1, user: user)
       FactoryGirl.create(:user_date, date: date2, user: user)
       FactoryGirl.create(:user_date, date: date3, user: user)
@@ -73,11 +72,11 @@ RSpec.describe 'Dashboard', type: :feature do
       expect(page).to have_content(date3.strftime(I18n.t('global.date_format_month_short')))
     end
 
-    it 'refreshes dates', js: true  do
-      date1 = Date.today+1.day
-      date2 = Date.today+3.days
-      date3 = Date.today+5.days
-      date4 = Date.today+4.days
+    it 'refreshes dates', js: true do
+      date1 = Time.zone.today + 1.day
+      date2 = Time.zone.today + 3.days
+      date3 = Time.zone.today + 5.days
+      date4 = Time.zone.today + 4.days
       FactoryGirl.create(:user_date, date: date1, user: user)
       FactoryGirl.create(:user_date, date: date2, user: user)
       FactoryGirl.create(:user_date, date: date3, user: user)
@@ -95,6 +94,5 @@ RSpec.describe 'Dashboard', type: :feature do
       expect(page).to have_no_content(date3.strftime(I18n.t('global.date_format_month_short')))
       expect(page).to have_content(date4.strftime(I18n.t('global.date_format_month_short')))
     end
-
   end
 end
