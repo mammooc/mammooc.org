@@ -135,7 +135,7 @@ This course is part of a five-part Mobile Application Experiences series:
   it 'assigns all instructors to course' do
     xml_course = xml_course_data[0].xpath('//channel/item')
     edx_course_worker.handle_response_data xml_course_data
-    course = Course.find_by(provider_course_id: xml_course.xpath('course:id').text, mooc_provider_id: mooc_provider.id)
+    course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, xml_course.xpath('course:id').text)
     xml_course.xpath('course:instructors/course:staff').each do |staff|
       expect(course.course_instructors).to include staff.xpath('staff:name').text
     end
@@ -144,7 +144,7 @@ This course is part of a five-part Mobile Application Experiences series:
   it 'assigns all subjects to course' do
     xml_course = xml_course_data[0].xpath('//channel/item')
     edx_course_worker.handle_response_data xml_course_data
-    course = Course.find_by(provider_course_id: xml_course.xpath('course:id').text, mooc_provider_id: mooc_provider.id)
+    course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, xml_course.xpath('course:id').text)
     xml_course.xpath('course:subject').each do |subject|
       expect(course.categories).to include subject.text
     end
@@ -154,7 +154,7 @@ This course is part of a five-part Mobile Application Experiences series:
     xml_course = xml_course_data[0].xpath('//channel/item')
     xml_course.xpath('course:verified').first.content = '1'
     edx_course_worker.handle_response_data xml_course_data
-    course = Course.find_by(provider_course_id: xml_course.xpath('course:id').text, mooc_provider_id: mooc_provider.id)
+    course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, xml_course.xpath('course:id').text)
     expect(course.tracks.count).to eql 2
     (course.tracks).each do |course_track|
       case course_track.track_type

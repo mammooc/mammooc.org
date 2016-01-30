@@ -41,10 +41,10 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
     update_map = create_enrollments_update_map mooc_provider, user
 
     response_data.each do |course_element|
-      course_id = Course.get_course_id_by_mooc_provider_id_and_provider_course_id mooc_provider.id, course_element['course_id']
-      if course_id.present?
-        enrolled_course = user.courses.find_by(id: course_id)
-        enrolled_course.nil? ? user.courses << Course.find(course_id) : update_map[enrolled_course.id] = true
+      course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, course_element['course_id'])
+      if course.present?
+        enrolled_course = user.courses.find_by(id: course.id)
+        enrolled_course.nil? ? user.courses << course : update_map[enrolled_course.id] = true
       end
     end
     evaluate_enrollments_update_map update_map, user

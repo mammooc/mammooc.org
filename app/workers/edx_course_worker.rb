@@ -34,7 +34,7 @@ class EdxCourseWorker < AbstractCourseWorker
 
     response_data.each do |xml_doc|
       xml_doc.xpath('//channel/item').each do |course_element|
-        course = Course.find_by(provider_course_id: course_element.xpath('course:id').text, mooc_provider_id: mooc_provider.id)
+        course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, course_element.xpath('course:id').text)
         if course.nil?
           course = Course.new
         else
