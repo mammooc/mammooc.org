@@ -73,7 +73,7 @@ class UdacityCourseWorker < AbstractCourseWorker
   end
 
   def calculate_duration(value, unit)
-    return nil if value == 0 && unit == ''
+    return nil if value == 0 || unit.blank?
 
     factor = case unit
                when 'days' then 1
