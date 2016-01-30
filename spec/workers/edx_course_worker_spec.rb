@@ -174,7 +174,7 @@ This course is part of a five-part Mobile Application Experiences series:
     xml_course = xml_course_data[0].xpath('//channel/item')
     xml_course.xpath('course:xseries').first.content = '1'
     edx_course_worker.handle_response_data xml_course_data
-    course = Course.find_by(provider_course_id: xml_course.xpath('course:id').text, mooc_provider_id: mooc_provider.id)
+    course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, xml_course.xpath('course:id').text)
     expect(course.tracks.count).to eql 2
     (course.tracks).each do |course_track|
       case course_track.track_type
@@ -194,7 +194,7 @@ This course is part of a five-part Mobile Application Experiences series:
     xml_course = xml_course_data[0].xpath('//channel/item')
     xml_course.xpath('course:profed').first.content = '1'
     edx_course_worker.handle_response_data xml_course_data
-    course = Course.find_by(provider_course_id: xml_course.xpath('course:id').text, mooc_provider_id: mooc_provider.id)
+    course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, xml_course.xpath('course:id').text)
     expect(course.tracks.count).to eql 1
     expect(course.tracks[0].track_type.type_of_achievement).to eql profed_course_track_type.type_of_achievement
     expect(course.tracks[0].costs).to be_nil
