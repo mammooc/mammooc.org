@@ -47,3 +47,4 @@ ratings:
 exclude_paths:
   - spec/**
   - vendor/**
+  - db/**
