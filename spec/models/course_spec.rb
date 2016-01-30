@@ -90,14 +90,14 @@ RSpec.describe Course, type: :model do
       expect { course1.save! }.not_to raise_error
     end
 
-    it 'returns our course id for a given mooc provider and its provider course id' do
-      course_id = described_class.get_course_id_by_mooc_provider_id_and_provider_course_id provider, '123'
-      expect(course_id).to eq course1.id
+    it 'returns our course for a given mooc provider and its provider course id' do
+      course = described_class.get_course_by_mooc_provider_id_and_provider_course_id provider, '123'
+      expect(course).to eq course1
     end
 
     it 'returns nil for an invalid set of mooc provider and its provider course id' do
-      course_id = described_class.get_course_id_by_mooc_provider_id_and_provider_course_id provider, '456'
-      expect(course_id).to eq nil
+      course = described_class.get_course_by_mooc_provider_id_and_provider_course_id provider, '456'
+      expect(course).to eq nil
     end
   end
 

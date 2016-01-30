@@ -281,10 +281,10 @@ class Course < ActiveRecord::Base
     bookmarks.where(user_id: user.id).any?
   end
 
-  def self.get_course_id_by_mooc_provider_id_and_provider_course_id(mooc_provider_id, provider_course_id)
+  def self.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider_id, provider_course_id)
     course = Course.find_by(provider_course_id: provider_course_id, mooc_provider_id: mooc_provider_id)
     if course.present?
-      return course.id
+      return course
     else
       return nil
     end
