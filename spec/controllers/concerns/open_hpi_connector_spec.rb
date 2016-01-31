@@ -218,7 +218,7 @@ RSpec.describe OpenHPIConnector do
                   },
                   {
                     \"course_code\": \"ws-privacy2016\",
-                    \"course_id\": \"12500848-0925-4deb-880c-d1b4cff88713\",
+                    \"course_id\": \"#{course.provider_course_id}\",
                     \"date\": \"2016-01-18T08:00:00Z\",
                     \"title\": \"Social Media - What No One has Told You about Privacy\",
                     \"resource_type\": \"course\",
@@ -231,6 +231,10 @@ RSpec.describe OpenHPIConnector do
 
     let(:json_user_dates) do
       JSON.parse received_dates
+    end
+
+    before(:each) do
+      user.courses.push(course)
     end
 
     describe 'get dates for user' do
@@ -257,7 +261,7 @@ RSpec.describe OpenHPIConnector do
 
       it 'calls update_existing_entry if in response data there is user dates which already exists in database' do
         response_data['dates'].each do |user_date|
-          FactoryGirl.create(:user_date, user: user, mooc_provider: mooc_provider, ressource_id_from_provider: user_date['resource_id'], kind: user_date['kind'])
+          FactoryGirl.create(:user_date, user: user, course: course, ressource_id_from_provider: user_date['resource_id'], kind: user_date['kind'])
         end
         expect(open_hpi_connector).to receive(:update_existing_entry).twice
         allow(open_hpi_connector).to receive(:change_existing_no_longer_relevant_entries)
@@ -314,12 +318,6 @@ RSpec.describe OpenHPIConnector do
         expect(user_date.user).to eql(user)
       end
 
-      it 'sets attribute mooc_provider to the corresponding value' do
-        open_hpi_connector.send(:create_new_entry, user, user_date_data)
-        user_date = UserDate.first
-        expect(user_date.mooc_provider).to eql(mooc_provider)
-      end
-
       it 'sets attribute course to the corresponding value' do
         open_hpi_connector.send(:create_new_entry, user, user_date_data)
         user_date = UserDate.first
@@ -329,7 +327,7 @@ RSpec.describe OpenHPIConnector do
 
     describe 'update existing entry' do
       let(:user_date_data) { json_user_dates['dates'].first }
-      let(:user_date) { FactoryGirl.create(:user_date, user: user, mooc_provider: mooc_provider, ressource_id_from_provider: user_date_data['resource_id'], kind: user_date_data['kind']) }
+      let(:user_date) { FactoryGirl.create(:user_date, user: user, course: course, ressource_id_from_provider: user_date_data['resource_id'], kind: user_date_data['kind']) }
 
       it 'changes attribute date if necessary' do
         user_date.date = user_date_data['date'].to_date + 1.day
@@ -350,8 +348,8 @@ RSpec.describe OpenHPIConnector do
     end
 
     describe 'change existing no longer relevant entries' do
-      let(:first_user_date) { FactoryGirl.create(:user_date, user: user, mooc_provider: mooc_provider) }
-      let(:second_user_date) { FactoryGirl.create(:user_date, user: user, mooc_provider: mooc_provider) }
+      let(:first_user_date) { FactoryGirl.create(:user_date, user: user, course: course) }
+      let(:second_user_date) { FactoryGirl.create(:user_date, user: user, course: course) }
       let(:update_map) do
         map = {}
         map.store(first_user_date.id, false)

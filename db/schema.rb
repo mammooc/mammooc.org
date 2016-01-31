@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151031125307) do
+ActiveRecord::Schema.define(version: 20160131153052) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -218,7 +218,6 @@ ActiveRecord::Schema.define(version: 20151031125307) do
   create_table "user_dates", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "user_id"
     t.uuid     "course_id"
-    t.uuid     "mooc_provider_id"
     t.datetime "date"
     t.string   "title"
     t.string   "kind"
@@ -229,7 +228,6 @@ ActiveRecord::Schema.define(version: 20151031125307) do
   end
 
   add_index "user_dates", ["course_id"], name: "index_user_dates_on_course_id", using: :btree
-  add_index "user_dates", ["mooc_provider_id"], name: "index_user_dates_on_mooc_provider_id", using: :btree
   add_index "user_dates", ["user_id"], name: "index_user_dates_on_user_id", using: :btree
 
   create_table "user_emails", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
@@ -327,7 +325,6 @@ ActiveRecord::Schema.define(version: 20151031125307) do
   add_foreign_key "recommendations", "groups"
   add_foreign_key "recommendations", "users", column: "author_id"
   add_foreign_key "user_dates", "courses"
-  add_foreign_key "user_dates", "mooc_providers"
   add_foreign_key "user_dates", "users"
   add_foreign_key "user_emails", "users"
   add_foreign_key "user_groups", "groups"

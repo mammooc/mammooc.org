@@ -80,6 +80,6 @@ class UserDatesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_date_params
-    params.require(:user_date).permit(:user_id, :course_id, :mooc_provider_id, :date, :title, :kind, :relevant, :ressource_id_from_provider)
+    params.require(:user_date).permit(:user_id, :course_id, :date, :title, :kind, :relevant, :ressource_id_from_provider)
   end
 end

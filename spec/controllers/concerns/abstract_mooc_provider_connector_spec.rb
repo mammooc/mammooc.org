@@ -143,11 +143,12 @@ RSpec.describe AbstractMoocProviderConnector do
 
     describe 'create update map for user dates' do
       let(:mooc_provider) { FactoryGirl.create(:mooc_provider) }
-      let(:user) { FactoryGirl.create(:user) }
+      let(:course) { FactoryGirl.create(:course, mooc_provider: mooc_provider) }
+      let(:user) { FactoryGirl.create(:user, courses: [course]) }
 
       it 'creates one entry in update map for every user dates with the given user and mooc_provider' do
         5.times do
-          FactoryGirl.create(:user_date, user: user, mooc_provider: mooc_provider)
+          FactoryGirl.create(:user_date, user: user, course: course)
         end
         map = abstract_mooc_provider_connector.send(:create_update_map_for_user_dates, user, mooc_provider)
         expect(map.length).to eql 5
@@ -155,11 +156,11 @@ RSpec.describe AbstractMoocProviderConnector do
 
       it 'does not create an entry for user dates that does not belong to the given user' do
         2.times do
-          FactoryGirl.create(:user_date, user: user, mooc_provider: mooc_provider)
+          FactoryGirl.create(:user_date, user: user, course: course)
         end
 
         3.times do
-          FactoryGirl.create(:user_date, mooc_provider: mooc_provider)
+          FactoryGirl.create(:user_date, course: course)
         end
 
         map = abstract_mooc_provider_connector.send(:create_update_map_for_user_dates, user, mooc_provider)
@@ -168,7 +169,7 @@ RSpec.describe AbstractMoocProviderConnector do
 
       it 'does not create an entry for user dates that does not belong to the given provider' do
         2.times do
-          FactoryGirl.create(:user_date, user: user, mooc_provider: mooc_provider)
+          FactoryGirl.create(:user_date, user: user, course: course)
         end
 
         3.times do
@@ -181,7 +182,7 @@ RSpec.describe AbstractMoocProviderConnector do
 
       it 'sets every entry to false' do
         5.times do
-          FactoryGirl.create(:user_date, user: user, mooc_provider: mooc_provider)
+          FactoryGirl.create(:user_date, user: user, course: course)
         end
         map = abstract_mooc_provider_connector.send(:create_update_map_for_user_dates, user, mooc_provider)
         map.each do |_, updated|

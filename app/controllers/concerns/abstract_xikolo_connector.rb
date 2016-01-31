@@ -61,7 +61,8 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
   def handle_dates_response(response_data, user)
     update_map = create_update_map_for_user_dates user, mooc_provider
     response_data['dates'].each do |response_user_date|
-      user_date = UserDate.find_by(user: user, mooc_provider: mooc_provider, ressource_id_from_provider: response_user_date['resource_id'], kind: response_user_date['kind'])
+      course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, response_user_date['course_id'])
+      user_date = UserDate.find_by(user: user, course: course, ressource_id_from_provider: response_user_date['resource_id'], kind: response_user_date['kind'])
       if user_date.present?
         update_map[user_date.id] = true
         update_existing_entry user_date, response_user_date
@@ -75,7 +76,6 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
   def create_new_entry(user, response_user_date)
     user_date = UserDate.new
     user_date.user = user
-    user_date.mooc_provider = mooc_provider
     user_date.course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, response_user_date['course_id'])
     user_date.date = response_user_date['date']
     user_date.title = response_user_date['title']

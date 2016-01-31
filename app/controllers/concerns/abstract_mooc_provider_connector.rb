@@ -197,7 +197,8 @@ class AbstractMoocProviderConnector
 
   def create_update_map_for_user_dates(user, mooc_provider)
     update_map = {}
-    UserDate.where(user: user, mooc_provider: mooc_provider).each do |existing_date|
+    courses = user.courses.where(mooc_provider: mooc_provider)
+    UserDate.where(user: user, course: courses ).each do |existing_date|
       update_map.store(existing_date.id, false)
     end
     update_map
