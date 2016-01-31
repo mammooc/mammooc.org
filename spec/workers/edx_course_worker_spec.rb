@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 require 'rails_helper'
+require 'nokogiri'
 
 RSpec.describe EdxCourseWorker do
   let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'edX') }
@@ -7,9 +8,84 @@ RSpec.describe EdxCourseWorker do
   let(:edx_course_worker) { described_class.new }
 
   let(:course_data) do
-    '{"count":475,"value":{"title":"EdX RSS to JSON pipe","description":"Pipes Output","link":"http:\/\/pipes.yahoo.com\/pipes\/pipe.info?_id=74859f52b084a75005251ae7a119f371","pubDate":"Tue, 07 Apr 2015 12:16:40 +0000","generator":"http:\/\/pipes.yahoo.com\/pipes\/","callback":"","items":[{"guid":"https:\/\/www.edx.org\/node\/4116","title":"DemoX","link":"https:\/\/www.edx.org\/course\/demox-edx-demox-1","description":"This brief course is designed to show new students how to take a course on edX. You will learn how to navigate the edX platform and complete your first course! From there, we will help you get started choosing the course that best fits your interests, needs, and dreams.\n\nHave questions before taking the demo course? Check our student FAQs.","pubDate":"Mon, 06 Apr 2015 18:13:23 -0400","course:id":"edX\/DemoX.1\/2014","course:code":"DemoX.1","course:created":"Mon, 15 Sep 2014 10:37:30 -0400","course:start":"2013-07-07 00:00:00","course:end":"2013-08-08 00:00:00","course:subtitle":"<p>A fun and interactive course designed to help you explore the edX learning experience.  Perfect to take before you start your course.<\/p>","course:subject":["Biology & Life Sciences","Business & Management","Chemistry","Computer Science","Economics & Finance","Electronics","Energy & Earth Sciences","Engineering","Environmental Studies","Food & Nutrition","Health & Safety","History","Humanities","Law","Literature","Math","Medicine","Philosophy & Ethics","Physics","Science","Social Sciences","Statistics & Data Analysis"],"course:school":"edX","course:staff":["Raphael Valenti","James Donald","Erik Brown"],"course:video-youtube":"http:\/\/www.youtube.com\/watch?v=1u_QKOrXyMM","course:video-file":null,"course:image-banner":"https:\/\/www.edx.org\/sites\/default\/files\/course\/image\/banner\/demox_608x211_0.jpg","course:image-thumbnail":"https:\/\/www.edx.org\/sites\/default\/files\/course\/image\/promoted\/demox_378x225_0.jpg","course:verified":"0","course:xseries":"0","course:highschool":"0","course:profed":"0","course:effort":"From 10 - 30 minutes, or as much time as you want.","course:length":"2 Weeks","course:prerequisites":"None","y:published":{"hour":"22","timezone":"UTC","second":"23","month":"4","month_name":"April","minute":"13","utime":"1428358403","day":"6","day_ordinal_suffix":"th","day_of_week":"1","day_name":"Monday","year":"2015"},"y:id":{"permalink":"false","value":"https:\/\/www.edx.org\/node\/4116"},"y:title":"DemoX"}]}}'
+    '<?xml version="1.0" encoding="UTF-8" ?>
+    <rss version="2.0"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:atom="http://www.w3.org/2005/Atom"
+    xmlns:course="https://www.edx.org/api/course/elements/1.0/"
+    xmlns:staff="https://www.edx.org/api/staff/elements/1.0/">
+        <channel>
+            <title>edX.org course feed</title>
+            <link>https://www.edx.org/api/v2/report/course-feed/rss</link>
+            <atom:link rel="first" href="https://www.edx.org/api/v2/report/course-feed/rss"/>
+            <atom:link rel="last" href="https://www.edx.org/api/v2/report/course-feed/rss?page=8"/>
+            <atom:link rel="next" href="https://www.edx.org/api/v2/report/course-feed/rss?page=1"/>
+            <atom:link href="https://www.edx.org/api/v2/report/course-feed/rss" rel="self" type="application/rss+xml" />
+            <description>edX.org - course catalog feed</description>
+            <language>en</language>
+                    <item>
+            <guid>https://www.edx.org/node/17751</guid>
+            <title>Mobile Application Experiences Part 4: Understanding Use</title>
+            <link>https://www.edx.org/course/mobile-application-experiences-part-4-mitx-21w-789-4x</link>
+            <description>Want to create the next big app, grounded in the needs of real users? Mobile Application Experiences Part 4: Understanding Use will teach you Human Computer Interaction (HCI) methods to understand current behavior in the domain, and then design, develop, and deploy your new application.
+
+This module will explore how people use your mobile application in daily life, over an extended period of time.  You will deploy and run quantitative and qualitative studies of use to understand not only what users are doing, but how and why they are using your application the way that they are.
+
+This course is part of a five-part Mobile Application Experiences series:
+
+21W.789.1x: Mobile Application Experiences Part 1: From a Domain to an App Idea
+  21W.789.2x: Mobile Application Experiences Part 2: Mobile App Design
+  21W.789.3x: Mobile Application Experiences Part 3: Building Mobile Apps
+  21W.789.4x: Mobile Application Experiences Part 4: Understanding Use
+  21w.789.5.x: Mobile Application Experiences Part 5: Reporting Research Findings
+</description>
+            <pubDate>Tue, 12 Jan 2016 11:52:58 -0500</pubDate>
+            <course:id>course-v1:MITx+21W.789.4x+1T2016</course:id>
+            <course:code>21W.789.4x</course:code>
+            <course:created>Fri, 08 Jan 2016 10:42:58 -0500</course:created>
+            <course:start>2016-04-25 00:00:00</course:start>
+            <course:end>2016-05-23 00:00:00</course:end>
+            <course:self_paced>0</course:self_paced>
+            <course:subtitle>&lt;p&gt;Learn to create your own mobile app using HCI principles and discover how people use apps in their daily lives through user feedback and data analysis.&lt;/p&gt;
+</course:subtitle>
+            <course:subject>Computer Science</course:subject>
+            <course:subject>Business &amp; Management</course:subject>
+            <course:subject>Social Sciences</course:subject>
+            <course:subject>Engineering</course:subject>
+            <course:school>MITx</course:school>
+            <course:instructors>
+                <course:staff>
+                    <staff:name>Frank Bentley</staff:name>
+                    <staff:title></staff:title>
+                    <staff:bio>Frank is a Principal Researcher at Yahoo in Sunnyvale, CA and a Visiting Lecturer in Comparative Media Studies at MIT. He works daily to ensure that new products are built to match actual user needs and that those products ship with designs that people can understand and enjoy. He has taught a local version of this class at MIT for the past 10 years, and will be teaching a new class Understanding Users at Stanford in 2016.</staff:bio>
+                    <staff:image>https://www.edx.org/sites/default/files/person/image/mobile_bentley_x110.jpg</staff:image>
+
+                </course:staff>
+                <course:staff>
+                    <staff:name>Ed Barrett</staff:name>
+                    <staff:title></staff:title>
+                    <staff:bio>Ed Barrett is Senior Lecturer in Comparative Media Studies and Writing at MIT and author of several books on digital media published by MIT Press. His work at MIT focuses on a range of topics including social media, digital humanities and corporate communications.</staff:bio>
+                    <staff:image>https://www.edx.org/sites/default/files/person/image/mobile_barrett_x110.jpg</staff:image>
+
+                </course:staff>
+            </course:instructors>
+            <course:video-youtube></course:video-youtube>
+            <course:video-file></course:video-file>
+            <course:image-banner>https://www.edx.org/sites/default/files/course/image/promoted/21w.789.4x-course_card-378x225.png</course:image-banner>
+            <course:image-thumbnail>https://www.edx.org/sites/default/files/course/image/promoted/21w.789.4x-course_card-378x225.png</course:image-thumbnail>
+            <course:verified>0</course:verified>
+            <course:xseries>0</course:xseries>
+            <course:highschool>0</course:highschool>
+            <course:profed>0</course:profed>
+            <course:effort>10-12 hours/week</course:effort>
+            <course:length>4 weeks</course:length>
+            <course:prerequisites>Having a working app that you have the source code for.</course:prerequisites>
+
+        </item>
+        </channel>
+    </rss>'
   end
-  let(:json_course_data) { JSON.parse course_data }
+  let(:xml_course_data) { [Nokogiri::XML(course_data)] }
   let!(:free_course_track_type) { FactoryGirl.create :course_track_type, type_of_achievement: 'nothing' }
   let!(:certificate_course_track_type) { FactoryGirl.create :course_track_type, type_of_achievement: 'edx_verified_certificate' }
   let!(:xseries_course_track_type) { FactoryGirl.create :course_track_type, type_of_achievement: 'edx_xseries_verified_certificate' }
@@ -20,31 +96,30 @@ RSpec.describe EdxCourseWorker do
   end
 
   it 'gets an API response' do
-    pending 'This test should be re-activated as soon as the edX worker has been fixed!'
     expect(edx_course_worker.course_data).not_to be_nil
   end
 
   it 'loads new course into database' do
-    expect { edx_course_worker.handle_response_data json_course_data }.to change(Course, :count).by(1)
+    expect { edx_course_worker.handle_response_data xml_course_data }.to change(Course, :count).by(1)
   end
 
   it 'loads course attributes into database' do
-    edx_course_worker.handle_response_data json_course_data
+    edx_course_worker.handle_response_data xml_course_data
 
-    json_course = json_course_data['value']['items'][0]
-    course = Course.find_by(provider_course_id: json_course['course:id'], mooc_provider_id: mooc_provider.id)
+    xml_course = xml_course_data[0].xpath('//channel/item')
+    course = Course.find_by(provider_course_id: xml_course.xpath('course:id').text, mooc_provider_id: mooc_provider.id)
 
-    expect(course.name).to eql json_course['title']
-    expect(course.provider_course_id).to eql json_course['course:id']
+    expect(course.name).to eql xml_course.xpath('title').text
+    expect(course.provider_course_id).to eql xml_course.xpath('course:id').text
     expect(course.mooc_provider_id).to eql mooc_provider.id
-    expect(course.url).to eql json_course['link']
-    expect(course.start_date).to eq Time.zone.parse(json_course['course:start']).in_time_zone
-    expect(course.end_date).to eq Time.zone.parse(json_course['course:end']).in_time_zone
-    expect(course.provider_given_duration).to eql json_course['course:length']
-    expect(course.requirements).to include json_course['course:prerequisites']
-    expect(course.categories).to include json_course['course:subject'][0]
-    expect(course.description).to eql json_course['description']
-    expect(course.course_instructors).to include json_course['course:staff'][0]
+    expect(course.url).to eql xml_course.xpath('link').text
+    expect(course.start_date).to eq Time.zone.parse(xml_course.xpath('course:start').text).in_time_zone
+    expect(course.end_date).to eq Time.zone.parse(xml_course.xpath('course:end').text).in_time_zone
+    expect(course.provider_given_duration).to eql xml_course.xpath('course:length').text
+    expect(course.requirements).to include xml_course.xpath('course:prerequisites').text
+    expect(course.categories).to include xml_course.xpath('course:subject').first.text
+    expect(course.description).to eql xml_course.xpath('description').text
+    expect(course.course_instructors).to include xml_course.xpath('course:instructors/course:staff').first.xpath('staff:name').text
     expect(course.tracks.count).to eql 1
     expect(course.tracks[0].track_type.type_of_achievement).to eql free_course_track_type.type_of_achievement
     expect(course.tracks[0].costs).to eql 0.0
@@ -57,21 +132,30 @@ RSpec.describe EdxCourseWorker do
     expect { edx_course_worker.load_courses }.to change { Course.count }.by(0)
   end
 
-  it 'creates courses with other data types for instructires, categories as well' do
-    json_course = json_course_data['value']['items'][0]
-    json_course['course:staff'] = 'Person A, Person B'
-    json_course['course:subject'] = 'Topic'
-    edx_course_worker.handle_response_data json_course_data
-    course = Course.find_by(provider_course_id: json_course['course:id'], mooc_provider_id: mooc_provider.id)
-    expect(course.course_instructors).to eql json_course['course:staff']
-    expect(course.categories).to eql [json_course['course:subject']]
+  it 'assigns all instructors to course' do
+    xml_course = xml_course_data[0].xpath('//channel/item')
+    edx_course_worker.handle_response_data xml_course_data
+    course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, xml_course.xpath('course:id').text)
+    xml_course.xpath('course:instructors/course:staff').each do |staff|
+      expect(course.course_instructors).to include staff.xpath('staff:name').text
+    end
+  end
+
+  it 'assigns all subjects to course' do
+    xml_course = xml_course_data[0].xpath('//channel/item')
+    edx_course_worker.handle_response_data xml_course_data
+    course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, xml_course.xpath('course:id').text)
+    xml_course.xpath('course:subject').each do |subject|
+      expect(course.categories).to include subject.text
+    end
   end
 
   it 'creates a certificate course track type' do
-    json_course = json_course_data['value']['items'][0]
-    json_course['course:verified'] = '1'
-    edx_course_worker.handle_response_data json_course_data
-    course = Course.find_by(provider_course_id: json_course['course:id'], mooc_provider_id: mooc_provider.id)
+    xml_course = xml_course_data[0].xpath('//channel/item')
+    xml_course.xpath('course:verified').first.content = '1'
+    edx_course_worker.handle_response_data xml_course_data
+    course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, xml_course.xpath('course:id').text)
+    expect(course.tracks.count).to eql 2
     (course.tracks).each do |course_track|
       case course_track.track_type
         when free_course_track_type then
@@ -87,10 +171,11 @@ RSpec.describe EdxCourseWorker do
   end
 
   it 'creates a xseries course track type' do
-    json_course = json_course_data['value']['items'][0]
-    json_course['course:xseries'] = '1'
-    edx_course_worker.handle_response_data json_course_data
-    course = Course.find_by(provider_course_id: json_course['course:id'], mooc_provider_id: mooc_provider.id)
+    xml_course = xml_course_data[0].xpath('//channel/item')
+    xml_course.xpath('course:xseries').first.content = '1'
+    edx_course_worker.handle_response_data xml_course_data
+    course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, xml_course.xpath('course:id').text)
+    expect(course.tracks.count).to eql 2
     (course.tracks).each do |course_track|
       case course_track.track_type
         when free_course_track_type then
@@ -106,10 +191,11 @@ RSpec.describe EdxCourseWorker do
   end
 
   it 'creates a profed course track type' do
-    json_course = json_course_data['value']['items'][0]
-    json_course['course:profed'] = '1'
-    edx_course_worker.handle_response_data json_course_data
-    course = Course.find_by(provider_course_id: json_course['course:id'], mooc_provider_id: mooc_provider.id)
+    xml_course = xml_course_data[0].xpath('//channel/item')
+    xml_course.xpath('course:profed').first.content = '1'
+    edx_course_worker.handle_response_data xml_course_data
+    course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, xml_course.xpath('course:id').text)
+    expect(course.tracks.count).to eql 1
     expect(course.tracks[0].track_type.type_of_achievement).to eql profed_course_track_type.type_of_achievement
     expect(course.tracks[0].costs).to be_nil
     expect(course.tracks[0].credit_points).to be_nil
