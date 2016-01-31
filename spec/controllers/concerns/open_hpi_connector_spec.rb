@@ -44,8 +44,8 @@ RSpec.describe OpenHPIConnector do
     open_hpi_connector.send(:handle_enrollments_response, json_enrollment_data, user)
 
     json_enrollment = json_enrollment_data[1]
-    course_id = Course.get_course_id_by_mooc_provider_id_and_provider_course_id mooc_provider.id, json_enrollment['course_id']
-    enrollment_array = user.courses.where(id: course_id)
+    enrolled_course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, json_enrollment['course_id'])
+    enrollment_array = user.courses.where(id: enrolled_course.id)
     expect(enrollment_array).not_to be_empty
     expect(user.courses).to contain_exactly(course, second_course)
   end
