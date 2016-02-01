@@ -23,6 +23,7 @@ class User < ActiveRecord::Base
   has_many :user_assignments
   has_many :identities, class_name: 'UserIdentity', dependent: :destroy
   has_many :settings, class_name: 'UserSetting', dependent: :destroy
+  has_many :dates, class_name: 'UserDate', dependent: :destroy
 
   has_attached_file :profile_image,
     styles: {

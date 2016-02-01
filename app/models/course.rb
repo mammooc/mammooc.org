@@ -31,6 +31,7 @@ class Course < ActiveRecord::Base
   has_many :course_assignments
   has_many :user_assignments
   has_many :tracks, class_name: 'CourseTrack', dependent: :destroy
+  has_many :user_dates
 
   has_attached_file :course_image,
     styles: {

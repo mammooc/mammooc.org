@@ -64,7 +64,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       begin
         format.html { redirect_to dashboard_path }
-        format.json { render :synchronization_result, status: :ok }
+        format.json { render :synchronization_result_enrollments, status: :ok }
       rescue StandardError => e
         format.html { redirect_to dashboard_path }
         format.json { render json: e.to_json, status: :unprocessable_entity }

@@ -59,6 +59,20 @@ class AbstractMoocProviderConnector
     end
   end
 
+  def load_dates_for_users(users = nil)
+    if users.blank?
+      User.find_each do |user|
+        fetch_dates_for_user user if connection_to_mooc_provider? user
+      end
+    else
+      result = true
+      users.each do |user|
+        result &= fetch_dates_for_user user if connection_to_mooc_provider? user
+      end
+      return result
+    end
+  end
+
   def connection_to_mooc_provider?(user)
     user.mooc_providers.where(id: mooc_provider).present?
   end
@@ -102,6 +116,20 @@ class AbstractMoocProviderConnector
     return false
   else
     handle_enrollments_response response_data, user
+    return true
+  end
+
+  def fetch_dates_for_user(user)
+    response_data = get_dates_for_user user
+  rescue SocketError, RestClient::ResourceNotFound, RestClient::SSLCertificateNotVerified => e
+    Rails.logger.error "#{e.class}: #{e.message}"
+    return false
+  rescue RestClient::Unauthorized => e
+    # This would be the case, when the user's authorization token is invalid
+    Rails.logger.error "#{e.class}: #{e.message}"
+    return false
+  else
+    handle_dates_response response_data, user
     return true
   end
 
@@ -157,5 +185,22 @@ class AbstractMoocProviderConnector
     update_map.each do |course_id, updated|
       user.courses.destroy(course_id) unless updated
     end
+  end
+
+  def get_dates_for_user(_user)
+    raise NotImplementedError
+  end
+
+  def handle_dates_response(_response_data, _user)
+    raise NotImplementedError
+  end
+
+  def create_update_map_for_user_dates(user, mooc_provider)
+    update_map = {}
+    courses = user.courses.where(mooc_provider: mooc_provider)
+    UserDate.where(user: user, course: courses ).each do |existing_date|
+      update_map.store(existing_date.id, false)
+    end
+    update_map
   end
 end

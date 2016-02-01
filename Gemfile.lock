@@ -129,6 +129,10 @@ GEM
       rails (>= 3.1.0)
     font-awesome-sass (4.5.0)
       sass (>= 3.2)
+    fullcalendar-rails (2.6.0.0)
+      jquery-rails (>= 4.0.5, < 5.0.0)
+      jquery-ui-rails (>= 5.0.2)
+      momentjs-rails (>= 2.9.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     hashie (3.4.3)
@@ -139,6 +143,7 @@ GEM
     i18n (0.7.0)
     i18n-js (2.1.2)
       i18n
+    icalendar (2.3.0)
     jbuilder (2.4.0)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
@@ -159,6 +164,8 @@ GEM
     mimemagic (0.3.0)
     mini_portile2 (2.0.0)
     minitest (5.8.3)
+    momentjs-rails (2.11.0)
+      railties (>= 3.1)
     multi_json (1.11.2)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
@@ -399,12 +406,15 @@ DEPENDENCIES
   factory_girl_rails
   filterrific
   font-awesome-sass
+  fullcalendar-rails
   headless
   http_accept_language
   i18n-js
+  icalendar
   jbuilder (~> 2.0)
   jquery-rails
   jquery-ui-rails
+  momentjs-rails
   newrelic_rpm
   oauth2
   omniauth

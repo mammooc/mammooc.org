@@ -27,3 +27,7 @@ every 1.day, at: '1:00 am' do
   rake 'mammooc:update_user_data'
   rake 'mammooc:send_reminders'
 end
+
+every 1.hour do
+  rake 'mammooc:synchronize_dates_for_all_users'
+end
