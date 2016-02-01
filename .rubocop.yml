@@ -7,7 +7,9 @@ AllCops:
   Exclude:
     - 'vendor/**/*'
     - 'db/schema.rb'
-  RunRailsCops: true
+
+Rails:
+  Enabled: true
 
 Style/AlignParameters:
   EnforcedStyle: with_fixed_indentation
