@@ -56,8 +56,8 @@ RSpec.describe CourseraCourseWorker do
     expect(course.difficulty).to eql 'Advanced undergraduates or beginning graduates'
     expect(course.requirements).to eql nil
     expect(course.tracks.count).to eql 2
-    expect(achievement_type? course.tracks, :nothing).to be_truthy
-    expect(achievement_type? course.tracks, :certificate).to be_truthy
+    expect(achievement_type?(course.tracks, :nothing)).to be_truthy
+    expect(achievement_type?(course.tracks, :certificate)).to be_truthy
   end
 
   it 'links iterations in correct order' do

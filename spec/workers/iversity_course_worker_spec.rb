@@ -44,10 +44,10 @@ describe IversityCourseWorker do
     expect(course.difficulty).to eql courses_json['courses'][0]['knowledge_level ']
 
     expect(course.tracks.count).to eql 4
-    expect(achievement_type? course.tracks, :iversity_record_of_achievement).to be_truthy
-    expect(achievement_type? course.tracks, :iversity_certificate).to be_truthy
-    expect(achievement_type? course.tracks, :iversity_ects).to be_truthy
-    expect(achievement_type? course.tracks, :iversity_ects_pupils).to be_truthy
+    expect(achievement_type?(course.tracks, :iversity_record_of_achievement)).to be_truthy
+    expect(achievement_type?(course.tracks, :iversity_certificate)).to be_truthy
+    expect(achievement_type?(course.tracks, :iversity_ects)).to be_truthy
+    expect(achievement_type?(course.tracks, :iversity_ects_pupils)).to be_truthy
 
     expect(course.provider_course_id).to eql courses_json['courses'][0]['id'].to_s
     expect(course.mooc_provider_id).to eql mooc_provider.id
@@ -77,7 +77,7 @@ describe IversityCourseWorker do
     iversity_course_worker.handle_response_data courses_json
     course = Course.find_by(provider_course_id: courses_json['courses'][0]['id'], mooc_provider_id: mooc_provider.id)
     expect(course.tracks.count).to eql 1
-    expect(achievement_type? course.tracks, :iversity_record_of_achievement).to be_truthy
+    expect(achievement_type?(course.tracks, :iversity_record_of_achievement)).to be_truthy
   end
 
   it 'parses if only one instructor is responsible for this course' do

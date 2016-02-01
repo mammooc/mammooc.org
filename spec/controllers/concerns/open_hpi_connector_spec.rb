@@ -26,12 +26,12 @@ RSpec.describe OpenHPIConnector do
 
   describe 'connection to mooc provider' do
     it 'returns false when user has no connection to mooc provider' do
-      expect(open_hpi_connector.connection_to_mooc_provider? user).to eql false
+      expect(open_hpi_connector.connection_to_mooc_provider?(user)).to eql false
     end
 
     it 'returns true when user has connection to mooc provider' do
       user.mooc_providers << mooc_provider
-      expect(open_hpi_connector.connection_to_mooc_provider? user).to eql true
+      expect(open_hpi_connector.connection_to_mooc_provider?(user)).to eql true
     end
   end
 
@@ -120,19 +120,19 @@ RSpec.describe OpenHPIConnector do
 
     describe 'enroll user for course' do
       it 'returns nil when trying to enroll and user has no mooc provider connection' do
-        expect(open_hpi_connector.enroll_user_for_course user, course).to eql nil
+        expect(open_hpi_connector.enroll_user_for_course(user, course)).to eql nil
       end
 
       it 'returns false when trying to enroll and user has mooc provider connection but something went wrong' do
         user.mooc_providers << mooc_provider
         allow(RestClient).to receive(:post).and_raise RestClient::Unauthorized
-        expect(open_hpi_connector.enroll_user_for_course user, course).to eql false
+        expect(open_hpi_connector.enroll_user_for_course(user, course)).to eql false
       end
 
       it 'returns true when trying to enroll and everything was ok' do
         user.mooc_providers << mooc_provider
         allow(RestClient).to receive(:post).and_return('{"success"}')
-        expect(open_hpi_connector.enroll_user_for_course user, course).to eql true
+        expect(open_hpi_connector.enroll_user_for_course(user, course)).to eql true
       end
 
       it 'handles internal server error for course enrollments' do
@@ -144,19 +144,19 @@ RSpec.describe OpenHPIConnector do
 
     describe 'unenroll user for course' do
       it 'returns nil when trying to unenroll and user has no mooc provider connection' do
-        expect(open_hpi_connector.unenroll_user_for_course user, course).to eql nil
+        expect(open_hpi_connector.unenroll_user_for_course(user, course)).to eql nil
       end
 
       it 'returns false when trying to unenroll and user has mooc provider connection but something went wrong' do
         user.mooc_providers << mooc_provider
         allow(RestClient).to receive(:delete).and_raise RestClient::Unauthorized
-        expect(open_hpi_connector.unenroll_user_for_course user, course).to eql false
+        expect(open_hpi_connector.unenroll_user_for_course(user, course)).to eql false
       end
 
       it 'returns true when trying to unenroll and everything was ok' do
         user.mooc_providers << mooc_provider
         allow(RestClient).to receive(:delete).and_return('{"success"}')
-        expect(open_hpi_connector.unenroll_user_for_course user, course).to eql true
+        expect(open_hpi_connector.unenroll_user_for_course(user, course)).to eql true
       end
 
       it 'handles internal server error for course unenrollments' do

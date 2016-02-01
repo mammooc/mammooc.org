@@ -7,48 +7,48 @@ RSpec.describe ConnectorMapper do
   let(:mooc_provider) { FactoryGirl.create(:mooc_provider) }
 
   it 'returns no connector for unknown mooc_provider' do
-    expect(get_connector_by_mooc_provider mooc_provider).to eql nil
+    expect(get_connector_by_mooc_provider(mooc_provider)).to eql nil
   end
 
   it 'returns correspondent connector for known mooc_provider' do
     mooc_provider.name = 'openHPI'
-    expect((get_connector_by_mooc_provider mooc_provider).class).to eql OpenHPIConnector
+    expect(get_connector_by_mooc_provider(mooc_provider).class).to eql OpenHPIConnector
     mooc_provider.name = 'openSAP'
-    expect((get_connector_by_mooc_provider mooc_provider).class).to eql OpenSAPConnector
+    expect(get_connector_by_mooc_provider(mooc_provider).class).to eql OpenSAPConnector
     mooc_provider.name = 'openHPI China'
-    expect((get_connector_by_mooc_provider mooc_provider).class).to eql OpenHPIChinaConnector
+    expect(get_connector_by_mooc_provider(mooc_provider).class).to eql OpenHPIChinaConnector
     mooc_provider.name = 'openSAP China'
-    expect((get_connector_by_mooc_provider mooc_provider).class).to eql OpenSAPChinaConnector
+    expect(get_connector_by_mooc_provider(mooc_provider).class).to eql OpenSAPChinaConnector
     mooc_provider.name = 'mooc.house'
-    expect((get_connector_by_mooc_provider mooc_provider).class).to eql MoocHouseConnector
+    expect(get_connector_by_mooc_provider(mooc_provider).class).to eql MoocHouseConnector
     mooc_provider.name = 'cnmooc.house'
-    expect((get_connector_by_mooc_provider mooc_provider).class).to eql CnmoocHouseConnector
+    expect(get_connector_by_mooc_provider(mooc_provider).class).to eql CnmoocHouseConnector
     mooc_provider.name = 'openUNE'
-    expect((get_connector_by_mooc_provider mooc_provider).class).to eql OpenUNEConnector
+    expect(get_connector_by_mooc_provider(mooc_provider).class).to eql OpenUNEConnector
     mooc_provider.name = 'coursera'
-    expect((get_connector_by_mooc_provider mooc_provider).class).to eql CourseraConnector
+    expect(get_connector_by_mooc_provider(mooc_provider).class).to eql CourseraConnector
   end
 
   it 'returns no worker for unknown mooc_provider' do
-    expect(get_worker_by_mooc_provider mooc_provider).to eql nil
+    expect(get_worker_by_mooc_provider(mooc_provider)).to eql nil
   end
 
   it 'returns correspondent worker for known mooc_provider' do
     mooc_provider.name = 'openHPI'
-    expect(get_worker_by_mooc_provider mooc_provider).to eql OpenHPIUserWorker
+    expect(get_worker_by_mooc_provider(mooc_provider)).to eql OpenHPIUserWorker
     mooc_provider.name = 'openSAP'
-    expect(get_worker_by_mooc_provider mooc_provider).to eql OpenSAPUserWorker
+    expect(get_worker_by_mooc_provider(mooc_provider)).to eql OpenSAPUserWorker
     mooc_provider.name = 'openHPI China'
-    expect(get_worker_by_mooc_provider mooc_provider).to eql OpenHPIChinaUserWorker
+    expect(get_worker_by_mooc_provider(mooc_provider)).to eql OpenHPIChinaUserWorker
     mooc_provider.name = 'openSAP China'
-    expect(get_worker_by_mooc_provider mooc_provider).to eql OpenSAPChinaUserWorker
+    expect(get_worker_by_mooc_provider(mooc_provider)).to eql OpenSAPChinaUserWorker
     mooc_provider.name = 'mooc.house'
-    expect(get_worker_by_mooc_provider mooc_provider).to eql MoocHouseUserWorker
+    expect(get_worker_by_mooc_provider(mooc_provider)).to eql MoocHouseUserWorker
     mooc_provider.name = 'cnmooc.house'
-    expect(get_worker_by_mooc_provider mooc_provider).to eql CnmoocHouseUserWorker
+    expect(get_worker_by_mooc_provider(mooc_provider)).to eql CnmoocHouseUserWorker
     mooc_provider.name = 'openUNE'
-    expect(get_worker_by_mooc_provider mooc_provider).to eql OpenUNEUserWorker
+    expect(get_worker_by_mooc_provider(mooc_provider)).to eql OpenUNEUserWorker
     mooc_provider.name = 'coursera'
-    expect(get_worker_by_mooc_provider mooc_provider).to eql CourseraUserWorker
+    expect(get_worker_by_mooc_provider(mooc_provider)).to eql CourseraUserWorker
   end
 end

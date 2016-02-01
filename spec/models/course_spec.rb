@@ -8,7 +8,7 @@ RSpec.describe Course, type: :model do
       user = FactoryGirl.create(:user)
       bookmark = FactoryGirl.create(:bookmark, user: user)
       expect(
-        bookmark.course.bookmarked_by_user? user
+        bookmark.course.bookmarked_by_user?(user)
       ).to be true
     end
 
@@ -16,7 +16,7 @@ RSpec.describe Course, type: :model do
       user = FactoryGirl.create(:user)
       bookmark = FactoryGirl.create(:bookmark)
       expect(
-        bookmark.course.bookmarked_by_user? user
+        bookmark.course.bookmarked_by_user?(user)
       ).to be false
     end
   end

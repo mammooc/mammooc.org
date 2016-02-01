@@ -45,7 +45,7 @@ RSpec.describe 'Dashboard', type: :feature do
 
     it 'removes a currently enrolled course after synchronization request', js: true do
       FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
-      allow_any_instance_of(OpenHPIConnector).to receive(:get_enrollments_for_user).and_return(JSON.parse '{}')
+      allow_any_instance_of(OpenHPIConnector).to receive(:get_enrollments_for_user).and_return(JSON.parse('{}'))
       user.courses << course
 
       visit '/dashboard'
