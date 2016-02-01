@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 class GroupsController < ApplicationController
   load_and_authorize_resource only: [:index, :show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :recommendations, :statistics, :demote_administrator, :remove_group_member, :leave, :condition_for_changing_member_status, :all_members_to_administrators, :recommendations, :synchronize_courses]
 
@@ -380,10 +382,10 @@ class GroupsController < ApplicationController
 
   def demote_admin
     UserGroup.set_is_admin(@group.id, demoted_admin, false)
-    if User.find(demoted_admin) == current_user
-      @status = 'demote myself'
-    else
-      @status = 'demote another member'
+    @status = if User.find(demoted_admin) == current_user
+                'demote myself'
+              else
+                'demote another member'
     end
   end
 
@@ -392,12 +394,12 @@ class GroupsController < ApplicationController
   end
 
   def condition_for_changing_member
-    if @group.users.count == 1
-      @status = 'last_member'
-    elsif admins.count == 1 && admins.include?(User.find(changing_member))
-      @status = 'last_admin'
-    else
-      @status = 'ok'
+    @status = if @group.users.count == 1
+                'last_member'
+              elsif admins.count == 1 && admins.include?(User.find(changing_member))
+                'last_admin'
+              else
+                'ok'
     end
   end
 

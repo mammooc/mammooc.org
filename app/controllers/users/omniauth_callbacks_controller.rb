@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 module Users
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     protect_from_forgery except: :easy_id
@@ -33,23 +35,23 @@ module Users
         begin
           UserIdentity.find_by(user: current_user, omniauth_provider: deauthorize_params[:provider]).destroy!
         rescue
-          if deauthorize_params[:provider] == 'easyID'
-            flash['error'] << t('users.settings.easyID.identity_not_deleted')
-          else
-            flash['error'] << t('users.settings.identity_not_deleted', provider: deauthorize_params[:provider].titleize)
+          flash['error'] << if deauthorize_params[:provider] == 'easyID'
+                              t('users.settings.easyID.identity_not_deleted')
+                            else
+                              t('users.settings.identity_not_deleted', provider: deauthorize_params[:provider].titleize)
           end
         else
-          if deauthorize_params[:provider] == 'easyID'
-            flash['success'] << t('users.settings.easyID.identity_deleted')
-          else
-            flash['success'] << t('users.settings.identity_deleted', provider: deauthorize_params[:provider].titleize)
+          flash['success'] << if deauthorize_params[:provider] == 'easyID'
+                                t('users.settings.easyID.identity_deleted')
+                              else
+                                t('users.settings.identity_deleted', provider: deauthorize_params[:provider].titleize)
           end
         end
       else
-        if deauthorize_params[:provider] == 'easyID'
-          flash['error'] << t('users.settings.easyID.identity_not_deleted')
-        else
-          flash['error'] << t('users.settings.identity_not_deleted', provider: deauthorize_params[:provider].titleize)
+        flash['error'] << if deauthorize_params[:provider] == 'easyID'
+                            t('users.settings.easyID.identity_not_deleted')
+                          else
+                            t('users.settings.identity_not_deleted', provider: deauthorize_params[:provider].titleize)
         end
       end
       redirect_to "#{user_settings_path(current_user.id)}?subsite=account"

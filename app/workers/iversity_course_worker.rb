@@ -1,10 +1,12 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 class IversityCourseWorker < AbstractCourseWorker
   include Sidekiq::Worker
   require 'rest_client'
 
-  MOOC_PROVIDER_NAME = 'iversity'
-  MOOC_PROVIDER_API_LINK = 'https://iversity.org/api/v1/courses'
+  MOOC_PROVIDER_NAME = 'iversity'.freeze
+  MOOC_PROVIDER_API_LINK = 'https://iversity.org/api/v1/courses'.freeze
 
   def mooc_provider
     MoocProvider.find_by_name(MOOC_PROVIDER_NAME)
@@ -51,10 +53,10 @@ class IversityCourseWorker < AbstractCourseWorker
       course.end_date = course_element['end_date']
       course.difficulty = course_element['knowledge_level ']
 
-      if course_element['plans'].is_a?(Array)
-        plan_array = course_element['plans']
-      else
-        plan_array = [course_element['plans']]
+      plan_array = if course_element['plans'].is_a?(Array)
+                     course_element['plans']
+                   else
+                     [course_element['plans']]
       end
       plan_array.each do |plan|
         price = plan['price'].split(' ') unless plan['price'].blank?
@@ -64,10 +66,10 @@ class IversityCourseWorker < AbstractCourseWorker
           when 'certificate' then track_attributes = {track_type: certificate_track_type, costs: price[0].to_f, costs_currency: price[1]}
           when 'ects'
             track_attributes = {track_type: ects_track_type, costs: price[0].to_f, costs_currency: price[1]}
-            track_attributes.merge!(credit_points: (plan['credits'].split(' '))[0].to_f) unless plan['credits'].blank?
+            track_attributes[:credit_points] = plan['credits'].split(' ')[0].to_f unless plan['credits'].blank?
           when 'schüler'
             track_attributes = {track_type: ects_pupils_track_type, costs: price[0].to_f, costs_currency: price[1]}
-            track_attributes.merge!(credit_points: (plan['credits'].split(' '))[0].to_f) unless plan['credits'].blank?
+            track_attributes[:credit_points] = plan['credits'].split(' ')[0].to_f unless plan['credits'].blank?
         end
         track = CourseTrack.find_by(course_id: course.id, track_type: track_attributes[:track_type]) || CourseTrack.create!(track_attributes)
         course.tracks.push track
@@ -79,10 +81,10 @@ class IversityCourseWorker < AbstractCourseWorker
 
       course.course_instructors = ''
 
-      if course_element['instructors'].is_a?(Array)
-        instructor_array = course_element['instructors']
-      else
-        instructor_array = [course_element['instructors']]
+      instructor_array = if course_element['instructors'].is_a?(Array)
+                           course_element['instructors']
+                         else
+                           [course_element['instructors']]
       end
 
       instructor_array.each_with_index do |instructor, i|

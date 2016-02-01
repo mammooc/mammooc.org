@@ -1,14 +1,16 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 class CourseraCourseWorker < AbstractCourseWorker
-  MOOC_PROVIDER_NAME = 'coursera'
-  MOOC_PROVIDER_COURSE_API_LINK = 'https://api.coursera.org/api/catalog.v1/courses'
-  MOOC_PROVIDER_COURSE_FIELDS = '?fields=language,subtitleLanguagesCsv,shortDescription,photo,aboutTheCourse,video,targetAudience,instructor,estimatedClassWorkload,recommendedBackground'
-  MOOC_PROVIDER_SESSIONS_API_LINK = 'https://api.coursera.org/api/catalog.v1/sessions'
-  MOOC_PROVIDER_SESSIONS_FIELDS = '?fields=courseId,startDay,startMonth,startYear,durationString,active,eligibleForCertificates,eligibleForSignatureTrack,signatureTrackPrice,signatureTrackRegularPrice'
-  COURSE_LINK_BODY = 'https://www.coursera.org/course/'
-  TARGET_AUDIENCE_0 = 'Basic Undergraduates'
-  TARGET_AUDIENCE_1 = 'Advanced undergraduates or beginning graduates'
-  TARGET_AUDIENCE_2 = 'Advanced graduates'
+  MOOC_PROVIDER_NAME = 'coursera'.freeze
+  MOOC_PROVIDER_COURSE_API_LINK = 'https://api.coursera.org/api/catalog.v1/courses'.freeze
+  MOOC_PROVIDER_COURSE_FIELDS = '?fields=language,subtitleLanguagesCsv,shortDescription,photo,aboutTheCourse,video,targetAudience,instructor,estimatedClassWorkload,recommendedBackground'.freeze
+  MOOC_PROVIDER_SESSIONS_API_LINK = 'https://api.coursera.org/api/catalog.v1/sessions'.freeze
+  MOOC_PROVIDER_SESSIONS_FIELDS = '?fields=courseId,startDay,startMonth,startYear,durationString,active,eligibleForCertificates,eligibleForSignatureTrack,signatureTrackPrice,signatureTrackRegularPrice'.freeze
+  COURSE_LINK_BODY = 'https://www.coursera.org/course/'.freeze
+  TARGET_AUDIENCE_0 = 'Basic Undergraduates'.freeze
+  TARGET_AUDIENCE_1 = 'Advanced undergraduates or beginning graduates'.freeze
+  TARGET_AUDIENCE_2 = 'Advanced graduates'.freeze
 
   def mooc_provider
     MoocProvider.find_by_name(MOOC_PROVIDER_NAME)
@@ -76,11 +78,9 @@ class CourseraCourseWorker < AbstractCourseWorker
         course.start_date = Time.zone.local(session_element['startYear'], session_element['startMonth'], session_element['startDay'])
       end
 
-      if corresponding_course['recommendedBackground'].length > 0
-        course.requirements = [corresponding_course['recommendedBackground']]
-      else
-        course.requirements = nil
-      end
+      course.requirements = if corresponding_course['recommendedBackground'].length > 0
+                              [corresponding_course['recommendedBackground']]
+                            end
 
       free_track = CourseTrack.find_by(course_id: course.id, track_type: free_track_type) || CourseTrack.create!(track_type: free_track_type, costs: 0.0, costs_currency: '$')
       course.tracks.push(free_track)
@@ -90,10 +90,10 @@ class CourseraCourseWorker < AbstractCourseWorker
       end
       if session_element['eligibleForSignatureTrack']
         signature_track = CourseTrack.find_by(course_id: course.id, track_type: signature_track_type) || CourseTrack.create!(track_type: signature_track_type)
-        if session_element['signatureTrackPrice']
-          signature_track.costs = session_element['signatureTrackPrice'].to_f
-        else
-          signature_track.costs = session_element['signatureTrackRegularPrice'].to_f
+        signature_track.costs = if session_element['signatureTrackPrice']
+                                  session_element['signatureTrackPrice'].to_f
+                                else
+                                  session_element['signatureTrackRegularPrice'].to_f
         end
         signature_track.costs_currency = '$'
         signature_track.save!

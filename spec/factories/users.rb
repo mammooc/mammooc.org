@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 FactoryGirl.define do
   factory :user do
     sequence(:first_name) {|n| "Max_#{n}" }
@@ -13,10 +15,10 @@ FactoryGirl.define do
       end
     end
     after(:stub) do |user, evaluator|
-      if evaluator.primary_email.nil?
-        user.emails = [build_stubbed(:user_email, user: user)]
-      else
-        user.emails = [build_stubbed(:user_email, user: user, address: evaluator.primary_email)]
+      user.emails = if evaluator.primary_email.nil?
+                      [build_stubbed(:user_email, user: user)]
+                    else
+                      [build_stubbed(:user_email, user: user, address: evaluator.primary_email)]
       end
       allow(user).to receive(:primary_email).and_return(user.emails.first.address)
     end

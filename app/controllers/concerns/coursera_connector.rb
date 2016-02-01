@@ -1,18 +1,20 @@
-# -*- encoding : utf-8 -*-
-class CourseraConnector < AbstractMoocProviderConnector
-  NAME = 'coursera'
-  COURSE_LINK = 'https://www.coursera.org/course/'
+# encoding: utf-8
+# frozen_string_literal: true
 
-  OAUTH_API = 'https://accounts.coursera.org/oauth2/v1/'
-  AUTHENTICATE_API = 'auth'
-  TOKEN_API = 'token'
+class CourseraConnector < AbstractMoocProviderConnector
+  NAME = 'coursera'.freeze
+  COURSE_LINK = 'https://www.coursera.org/course/'.freeze
+
+  OAUTH_API = 'https://accounts.coursera.org/oauth2/v1/'.freeze
+  AUTHENTICATE_API = 'auth'.freeze
+  TOKEN_API = 'token'.freeze
   OAUTH_CLIENT_ID = ENV['COURSERA_CLIENT_ID']
   OAUTH_SECRET_KEY = ENV['COURSERA_SECRET_KEY']
-  REDIRECT_URI = "#{Settings.root_url}/oauth/callback"
+  REDIRECT_URI = "#{Settings.root_url}/oauth/callback".freeze
 
-  ROOT_API = 'https://api.coursera.org/api/'
-  ENROLLMENTS_API = 'users/v1/me/enrollments'
-  COURSES_API = 'catalog.v1/courses'
+  ROOT_API = 'https://api.coursera.org/api/'.freeze
+  ENROLLMENTS_API = 'users/v1/me/enrollments'.freeze
+  COURSES_API = 'catalog.v1/courses'.freeze
 
   def oauth_link(destination, csrf_token)
     response_type = 'code'

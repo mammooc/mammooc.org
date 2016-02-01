@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 require 'devise_helper'
 
 module Users
@@ -88,10 +90,10 @@ module Users
       yield resource if block_given?
       if resource_updated && exception.blank? && flash['error'].blank?
         if is_flashing_format?
-          if update_needs_confirmation?(resource, prev_unconfirmed_email)
-            flash_key = :update_needs_confirmation
-          else
-            flash_key = :updated
+          flash_key = if update_needs_confirmation?(resource, prev_unconfirmed_email)
+                        :update_needs_confirmation
+                      else
+                        :updated
           end
           set_flash_message :notice, flash_key
         end
@@ -143,7 +145,7 @@ module Users
         respond_with_navigational(resource) { redirect_to after_sign_out_path_for(resource_name) }
       else
         flash['error'] ||= []
-        flash['error'] << "#{t('users.settings.still_admin_in_group_error')}"
+        flash['error'] << t('users.settings.still_admin_in_group_error').to_s
         redirect_to "#{user_settings_path(current_user.id)}?subsite=account"
       end
     end

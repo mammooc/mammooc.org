@@ -1,9 +1,11 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 class AbstractXikoloConnector < AbstractMoocProviderConnector
-  AUTHENTICATE_API = 'authenticate/'
-  ENROLLMENTS_API = 'users/me/enrollments/'
-  DATES_API = 'dates/'
-  COURSES_API = 'courses/'
+  AUTHENTICATE_API = 'authenticate/'.freeze
+  ENROLLMENTS_API = 'users/me/enrollments/'.freeze
+  DATES_API = 'dates/'.freeze
+  COURSES_API = 'courses/'.freeze
 
   private
 

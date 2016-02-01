@@ -1,3 +1,6 @@
+# encoding: utf-8
+# frozen_string_literal: true
+
 class CreateUserDates < ActiveRecord::Migration
   def change
     create_table :user_dates, id: :uuid do |t|
