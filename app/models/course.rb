@@ -284,11 +284,7 @@ class Course < ActiveRecord::Base
 
   def self.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider_id, provider_course_id)
     course = Course.find_by(provider_course_id: provider_course_id, mooc_provider_id: mooc_provider_id)
-    if course.present?
-      return course
-    else
-      return nil
-    end
+    return course if course.present?
   end
 
   def self.update_course_rating_attributes(course_id)
