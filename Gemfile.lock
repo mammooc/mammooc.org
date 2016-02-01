@@ -219,7 +219,7 @@ GEM
       mimemagic (= 0.3.0)
     parser (2.3.0.2)
       ast (~> 2.2)
-    passenger (5.0.23)
+    passenger (5.0.24)
       rack
       rake (>= 0.8.1)
     pg (0.18.4)
