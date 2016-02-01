@@ -94,7 +94,7 @@ module Users
                         :update_needs_confirmation
                       else
                         :updated
-          end
+                      end
           set_flash_message :notice, flash_key
         end
         sign_in resource_name, resource, bypass: true

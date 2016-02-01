@@ -94,7 +94,7 @@ class CourseraCourseWorker < AbstractCourseWorker
                                   session_element['signatureTrackPrice'].to_f
                                 else
                                   session_element['signatureTrackRegularPrice'].to_f
-        end
+                                end
         signature_track.costs_currency = '$'
         signature_track.save!
         course.tracks.push(signature_track)

@@ -19,7 +19,7 @@ FactoryGirl.define do
                       [build_stubbed(:user_email, user: user)]
                     else
                       [build_stubbed(:user_email, user: user, address: evaluator.primary_email)]
-      end
+                    end
       allow(user).to receive(:primary_email).and_return(user.emails.first.address)
     end
   end

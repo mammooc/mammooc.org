@@ -61,7 +61,7 @@ class UsersController < ApplicationController
                                           true
                                         else
                                           CourseraConnector.new.oauth_link(synchronize_courses_path(current_user), masked_authenticity_token(session))
-    end
+                                        end
     @partial = render_to_string partial: 'dashboard/user_courses', formats: [:html]
     respond_to do |format|
       begin

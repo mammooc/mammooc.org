@@ -280,6 +280,6 @@ class CoursesController < ApplicationController
                                current_user.bookmarks.collect(&:course)
                              else
                                []
-    end
+                             end
   end
 end

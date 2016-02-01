@@ -57,7 +57,7 @@ class IversityCourseWorker < AbstractCourseWorker
                      course_element['plans']
                    else
                      [course_element['plans']]
-      end
+                   end
       plan_array.each do |plan|
         price = plan['price'].split(' ') unless plan['price'].blank?
         track_attributes = {}
@@ -85,7 +85,7 @@ class IversityCourseWorker < AbstractCourseWorker
                            course_element['instructors']
                          else
                            [course_element['instructors']]
-      end
+                         end
 
       instructor_array.each_with_index do |instructor, i|
         course.course_instructors += "#{(i > 0) ? ', ' : ''}#{instructor['name']}"

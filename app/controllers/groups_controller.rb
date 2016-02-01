@@ -386,7 +386,7 @@ class GroupsController < ApplicationController
                 'demote myself'
               else
                 'demote another member'
-    end
+              end
   end
 
   def remove_member(member_id)
@@ -400,7 +400,7 @@ class GroupsController < ApplicationController
                 'last_admin'
               else
                 'ok'
-    end
+              end
   end
 
   def sort_by_name(members)

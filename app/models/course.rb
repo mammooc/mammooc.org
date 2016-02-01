@@ -307,10 +307,10 @@ class Course < ActiveRecord::Base
   def handle_activities
     PublicActivity::Activity.find_each do |activity|
       course = case activity.trackable_type
-          when 'Recommendation' then Recommendation.find(activity.trackable_id).course
-          when 'Course' then Course.find(activity.trackable_id)
-          when 'Bookmark' then Bookmark.find(activity.trackable_id).course
-        end
+                 when 'Recommendation' then Recommendation.find(activity.trackable_id).course
+                 when 'Course' then Course.find(activity.trackable_id)
+                 when 'Bookmark' then Bookmark.find(activity.trackable_id).course
+               end
       activity.destroy if course == self
     end
   end
