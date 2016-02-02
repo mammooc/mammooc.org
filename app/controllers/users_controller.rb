@@ -161,19 +161,31 @@ class UsersController < ApplicationController
     csrf_token = state.third if state.present?
     flash['error'] ||= []
 
-    return oauth_error_and_redirect(destination_path) if mooc_provider.blank?
+    begin
+      root_uri = URI(Settings.root_url)
+      destination_uri = destination_path.present? ? URI(destination_path) : URI(dashboard_path)
+      destination_uri.scheme = root_uri.scheme
+      destination_uri.host = root_uri.host
+      destination_uri.port = root_uri.port
+      destination_url = destination_uri.to_s
+    rescue URI::ERROR => e
+      Rails.logger.error "#{e.class}: #{e.message}"
+      destination_url = dashboard_url
+    end
+
+    return oauth_error_and_redirect(destination_url) if mooc_provider.blank?
 
     provider_connector = get_connector_by_mooc_provider mooc_provider
 
-    return oauth_error_and_redirect(destination_path) if provider_connector.blank? && mooc_provider.api_support_state != 'oauth'
+    return oauth_error_and_redirect(destination_url) if provider_connector.blank? && mooc_provider.api_support_state != 'oauth'
 
-    if params[:error].present? || !valid_authenticity_token?(session, csrf_token)
-      provider_connector.destroy_connection(current_user)
-      return oauth_error_and_redirect(destination_path)
-    elsif code.present?
-      provider_connector.initialize_connection(current_user, code: code)
-      redirect_to destination_path
+    if code.present? && params[:error].blank? && valid_authenticity_token?(session, csrf_token)
+      result = provider_connector.initialize_connection(current_user, code: code)
+      redirect_to destination_url if result
+      return
     end
+    provider_connector.destroy_connection(current_user)
+    oauth_error_and_redirect(destination_url)
   end
 
   def oauth_error_and_redirect(destination_path)
