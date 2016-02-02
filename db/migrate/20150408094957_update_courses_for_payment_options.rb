@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 class UpdateCoursesForPaymentOptions < ActiveRecord::Migration
   def change
     add_column(:courses, :has_paid_version, :boolean)

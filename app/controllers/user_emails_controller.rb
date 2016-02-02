@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 class UserEmailsController < ApplicationController
   before_action :set_email, only: [:destroy, :mark_as_deleted]
 

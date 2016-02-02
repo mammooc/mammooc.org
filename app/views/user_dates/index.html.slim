@@ -1,0 +1,18 @@
+- content_for :title
+  = "#{t('user_dates.my_current_dates')} | #{t('global.app_name')}"
+
+button.btn.btn-default.pull-right.mb50.ml20 id='sync-user-dates'
+  span.glyphicon.glyphicon-refresh
+  = t('user_dates.refresh')
+
+.hd3
+  = t('user_dates.my_current_dates')
+p
+  = link_to 'download my_dates.ics', controller: 'user_dates', action: :create_calendar_feed, format: :ics
+p
+  = t('user_dates.copy_link')
+  br
+  = link_to "#{root_url}user_dates/my_dates/#{current_user.token_for_user_dates}.ics", "#{root_url}user_dates/my_dates/#{current_user.token_for_user_dates}.ics"
+
+.my-dates
+  = render 'user_dates/my_dates'

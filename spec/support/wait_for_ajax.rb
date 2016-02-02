@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 # spec/support/wait_for_ajax.rb
 # borrowed from https://robots.thoughtbot.com/automatically-wait-for-ajax-with-capybara
 

@@ -1,10 +1,12 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 class UdacityCourseWorker < AbstractCourseWorker
   include Sidekiq::Worker
   require 'rest_client'
 
-  MOOC_PROVIDER_NAME = 'Udacity'
-  MOOC_PROVIDER_API_LINK = 'https://www.udacity.com/public-api/v0/courses'
+  MOOC_PROVIDER_NAME = 'Udacity'.freeze
+  MOOC_PROVIDER_API_LINK = 'https://www.udacity.com/public-api/v0/courses'.freeze
 
   def mooc_provider
     MoocProvider.find_by_name(MOOC_PROVIDER_NAME)

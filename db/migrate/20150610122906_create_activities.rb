@@ -1,3 +1,6 @@
+# encoding: utf-8
+# frozen_string_literal: true
+
 # Migration responsible for creating a table with activities
 class CreateActivities < ActiveRecord::Migration
   # Create table

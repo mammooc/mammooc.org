@@ -1,4 +1,5 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe Course, type: :model do
@@ -7,7 +8,7 @@ RSpec.describe Course, type: :model do
       user = FactoryGirl.create(:user)
       bookmark = FactoryGirl.create(:bookmark, user: user)
       expect(
-        bookmark.course.bookmarked_by_user? user
+        bookmark.course.bookmarked_by_user?(user)
       ).to be true
     end
 
@@ -15,7 +16,7 @@ RSpec.describe Course, type: :model do
       user = FactoryGirl.create(:user)
       bookmark = FactoryGirl.create(:bookmark)
       expect(
-        bookmark.course.bookmarked_by_user? user
+        bookmark.course.bookmarked_by_user?(user)
       ).to be false
     end
   end

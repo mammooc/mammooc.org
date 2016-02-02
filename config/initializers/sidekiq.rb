@@ -1,4 +1,5 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
 require 'sidekiq'
 
 uri = URI.parse(ENV['REDIS_PORT'] || ENV['REDIS_PROVIDER'] || 'redis://localhost:6379/')
