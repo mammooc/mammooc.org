@@ -78,8 +78,8 @@ class FutureLearnCourseWorker < AbstractCourseWorker
           if sorted_runs[index-1]['start_date']
             previous_iteration_uuid = sorted_runs[index-1]['uuid']
             previous_course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, previous_iteration_uuid)
-            course.previous_iteration_id = previous_course.id
-            previous_course.following_iteration_id = course.id
+            course.previous_iteration = previous_course
+            previous_course.following_iteration = course
             previous_course.save!
           end
         end
