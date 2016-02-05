@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 class MoocProviderUser < ActiveRecord::Base
   belongs_to :user
   belongs_to :mooc_provider

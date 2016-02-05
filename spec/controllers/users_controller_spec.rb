@@ -1,4 +1,5 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
@@ -427,8 +428,8 @@ RSpec.describe UsersController, type: :controller do
         expect(json['status']).to eql true
         get :revoke_mooc_provider_connection, format: :json, id: user.to_param, mooc_provider: open_hpi.to_param
         expect(assigns(:revoked_connection)).to eql false
-        expect(JSON.parse response.body).to include 'partial'
-        expect((JSON.parse response.body)['status']).to eql false
+        expect(JSON.parse(response.body)).to include 'partial'
+        expect(JSON.parse(response.body)['status']).to eql false
       end
     end
 
@@ -471,7 +472,7 @@ RSpec.describe UsersController, type: :controller do
         expect(json['status']).to eql true
         get :revoke_mooc_provider_connection, format: :json, id: user.to_param, mooc_provider: open_sap.to_param
         expect(assigns(:revoked_connection)).to eql false
-        expect(JSON.parse response.body).to include 'partial'
+        expect(JSON.parse(response.body)).to include 'partial'
         expect((JSON.parse response.body)['status']).to eql false
       end
     end

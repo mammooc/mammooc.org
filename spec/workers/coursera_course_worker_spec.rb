@@ -1,4 +1,5 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
 require 'rails_helper'
 require 'support/course_worker_spec_helper'
 
@@ -55,8 +56,8 @@ RSpec.describe CourseraCourseWorker do
     expect(course.difficulty).to eql 'Advanced undergraduates or beginning graduates'
     expect(course.requirements).to eql nil
     expect(course.tracks.count).to eql 2
-    expect(achievement_type? course.tracks, :nothing).to be_truthy
-    expect(achievement_type? course.tracks, :certificate).to be_truthy
+    expect(achievement_type?(course.tracks, :nothing)).to be_truthy
+    expect(achievement_type?(course.tracks, :certificate)).to be_truthy
   end
 
   it 'links iterations in correct order' do
@@ -95,7 +96,7 @@ RSpec.describe CourseraCourseWorker do
     allow(RestClient).to receive(:get).and_return(course_fields)
     coursera_course_worker.handle_response_data json_session_data
     course = Course.find_by(provider_course_id: json_course['id'].to_s + '|' + json_session['id'].to_s, mooc_provider_id: mooc_provider.id)
-    (course.tracks).each do |course_track|
+    course.tracks.each do |course_track|
       case course_track.track_type
         when free_course_track_type then
           expect(course_track.track_type.type_of_achievement).to eql free_course_track_type.type_of_achievement
@@ -122,7 +123,7 @@ RSpec.describe CourseraCourseWorker do
     allow(RestClient).to receive(:get).and_return(course_fields)
     coursera_course_worker.handle_response_data json_session_data
     course = Course.find_by(provider_course_id: json_course['id'].to_s + '|' + json_session['id'].to_s, mooc_provider_id: mooc_provider.id)
-    (course.tracks).each do |course_track|
+    course.tracks.each do |course_track|
       case course_track.track_type
         when free_course_track_type then
           expect(course_track.track_type.type_of_achievement).to eql free_course_track_type.type_of_achievement

@@ -1,4 +1,5 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe 'Course', type: :feature do
@@ -156,7 +157,7 @@ RSpec.describe 'Course', type: :feature do
       visit courses_path
       expect(page).to have_content course.name
       fill_in 'new_search', with: 'nice name'
-      fill_in 'filterrific_with_start_date_gte', with: (Time.zone.today).strftime('%d.%m.%Y')
+      fill_in 'filterrific_with_start_date_gte', with: Time.zone.today.strftime('%d.%m.%Y')
       fill_in 'filterrific_with_end_date_lte', with: (Time.zone.today + 3.weeks).strftime('%d.%m.%Y')
       select I18n.t('language.en'), from: 'filterrific_with_language'
       select open_hpi.name, from: 'filterrific_with_mooc_provider_id'
@@ -265,7 +266,7 @@ RSpec.describe 'Course', type: :feature do
       wait_for_ajax
       expect(page.find("div[class='user-rate-course-value']").all("span[class='glyphicon glyphicon-star']").count).to eq(eval.rating)
       expect(page.find("textarea[id='rating-textarea']")).to have_content(eval.description)
-      expect(page.find("label[class='btn btn-default active']")['data-value']).to eql("#{eval.course_status}")
+      expect(page.find("label[class='btn btn-default active']")['data-value']).to eql(eval.course_status.to_s)
       find("div[class='user-rate-course-value']").first('span').all("div[class='rating-symbol']").last.click
       fill_in 'rating-textarea', with: 'Great Course!'
       find("label[id='option_aborted']").click

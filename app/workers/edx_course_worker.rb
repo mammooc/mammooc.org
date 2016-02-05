@@ -1,10 +1,11 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
 require 'nokogiri'
 require 'open-uri'
 
 class EdxCourseWorker < AbstractCourseWorker
-  MOOC_PROVIDER_NAME = 'edX'
-  MOOC_PROVIDER_API_LINK = 'https://www.edx.org/api/v2/report/course-feed/rss'
+  MOOC_PROVIDER_NAME = 'edX'.freeze
+  MOOC_PROVIDER_API_LINK = 'https://www.edx.org/api/v2/report/course-feed/rss'.freeze
 
   def mooc_provider
     MoocProvider.find_by_name(self.class::MOOC_PROVIDER_NAME)
@@ -47,7 +48,7 @@ class EdxCourseWorker < AbstractCourseWorker
         course.url = course_element.xpath('link').text
 
         course_thumbnail = course_element.xpath('course:image-thumbnail')
-        if course_thumbnail.present? && (course_thumbnail.text)[/[\?&#]/]
+        if course_thumbnail.present? && course_thumbnail.text[/[\?&#]/]
           filename = File.basename(course_thumbnail.text)[/.*?(?=[\?&#])/]
           filename = filename.tr!('=', '_')
         elsif course_thumbnail.present?
