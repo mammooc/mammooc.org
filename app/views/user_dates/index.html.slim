@@ -12,7 +12,7 @@ p
 p
   = t('user_dates.copy_link')
   br
-  = link_to "#{root_url}user_dates/my_dates/#{current_user.token_for_user_dates}.ics", "#{root_url}user_dates/my_dates/#{current_user.token_for_user_dates}.ics"
+  = "#{root_url}user_dates/my_dates/#{current_user.token_for_user_dates}.ics"
 
 .my-dates
   = render 'user_dates/my_dates'
