@@ -53,10 +53,10 @@ if ENV['PHANTOM_JS'] == 'true'
 else
   Capybara.register_driver :selenium do |app|
     profile = Selenium::WebDriver::Firefox::Profile.new
-    profile['intl.accept_languages'] =  'en'
+    profile['intl.accept_languages'] = 'en'
     capabilities = Selenium::WebDriver::Remote::Capabilities.firefox(elementScrollBehavior: 1)
     driver = Capybara::Selenium::Driver.new(app, browser: :firefox, profile: profile, desired_capabilities: capabilities)
-    driver.browser.manage.window.resize_to(1280,960)
+    driver.browser.manage.window.resize_to(1280, 960)
     driver
   end
   Capybara.javascript_driver = :selenium
