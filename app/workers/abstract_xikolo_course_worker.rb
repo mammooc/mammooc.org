@@ -2,9 +2,9 @@
 # frozen_string_literal: true
 
 class AbstractXikoloCourseWorker < AbstractCourseWorker
-  MOOC_PROVIDER_NAME = ''.freeze
-  MOOC_PROVIDER_API_LINK = ''.freeze
-  COURSE_LINK_BODY = ''.freeze
+  MOOC_PROVIDER_NAME = ''
+  MOOC_PROVIDER_API_LINK = ''
+  COURSE_LINK_BODY = ''
 
   def mooc_provider
     MoocProvider.find_by_name(self.class::MOOC_PROVIDER_NAME)

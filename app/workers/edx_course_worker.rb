@@ -4,8 +4,8 @@ require 'nokogiri'
 require 'open-uri'
 
 class EdxCourseWorker < AbstractCourseWorker
-  MOOC_PROVIDER_NAME = 'edX'.freeze
-  MOOC_PROVIDER_API_LINK = 'https://www.edx.org/api/v2/report/course-feed/rss'.freeze
+  MOOC_PROVIDER_NAME = 'edX'
+  MOOC_PROVIDER_API_LINK = 'https://www.edx.org/api/v2/report/course-feed/rss'
 
   def mooc_provider
     MoocProvider.find_by_name(self.class::MOOC_PROVIDER_NAME)
