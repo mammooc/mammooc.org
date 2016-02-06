@@ -1,3 +1,6 @@
+# encoding: utf-8
+# frozen_string_literal: true
+
 def capybara_sign_in(user)
   visit new_user_session_path
   fill_in 'login_email', with: user.primary_email

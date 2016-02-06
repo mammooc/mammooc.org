@@ -1,4 +1,5 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
 require 'rails_helper'
 require 'support/course_worker_spec_helper'
 
@@ -39,8 +40,8 @@ describe UdacityCourseWorker do
     expect(course.difficulty).to eql courses_json['courses'][0]['level'].capitalize
 
     expect(course.tracks.count).to eql 2
-    expect(achievement_type? course.tracks, :udacity_nothing).to be_truthy
-    expect(achievement_type? course.tracks, :udacity_verified_certificate).to be_truthy
+    expect(achievement_type?(course.tracks, :udacity_nothing)).to be_truthy
+    expect(achievement_type?(course.tracks, :udacity_verified_certificate)).to be_truthy
 
     expect(course.provider_course_id).to eql courses_json['courses'][0]['key']
     expect(course.mooc_provider_id).to eql mooc_provider.id

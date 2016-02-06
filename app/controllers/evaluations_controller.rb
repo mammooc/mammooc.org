@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 class EvaluationsController < ApplicationController
   before_action :set_evaluation, only: [:process_feedback]
 

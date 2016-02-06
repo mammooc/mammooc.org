@@ -1,13 +1,22 @@
 require: rubocop-rspec
 
 AllCops:
+  TargetRubyVersion: 2.3
   Include:
     - '**/*.gemspec'
     - '**/Rakefile'
   Exclude:
     - 'vendor/**/*'
     - 'db/schema.rb'
-  RunRailsCops: true
+
+Rails:
+  Enabled: true
+
+Style/Encoding:
+  Enabled: true
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
 
 Style/AlignParameters:
   EnforcedStyle: with_fixed_indentation
@@ -79,5 +88,11 @@ Rails/HasAndBelongsToMany:
   Enabled: false
 
 RSpec/DescribeClass:
- Exclude:
+  Exclude:
    - 'spec/views/**/*'
+
+# the following cop has been temporary disabled until rubocop-rspec has been updated.
+# Check for updates here: https://github.com/nevir/rubocop-rspec
+# latest release: RuboCop RSpec v1.3.1 on Sep 4, 2015
+RSpec/FilePath:
+  Enabled: false

@@ -1,4 +1,5 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe 'Users::Registration', type: :feature do
@@ -97,14 +98,14 @@ RSpec.describe 'Users::Registration', type: :feature do
 
   context 'German' do
     before(:each) do
-      if page.text.match(/EN/)
+      if page.text =~ /EN/
         click_on 'language_selection'
         click_on 'Deutsch'
       end
     end
 
     after(:each) do
-      if page.text.match(/DE/)
+      if page.text =~ /DE/
         click_on 'language_selection'
         click_on 'English'
       end

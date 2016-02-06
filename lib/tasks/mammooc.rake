@@ -1,4 +1,6 @@
 # encoding: utf-8
+# frozen_string_literal: true
+
 namespace :mammooc do
   task update_course_data: :environment do
     OpenHPICourseWorker.perform_async

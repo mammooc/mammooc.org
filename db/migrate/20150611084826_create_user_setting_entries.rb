@@ -1,3 +1,6 @@
+# encoding: utf-8
+# frozen_string_literal: true
+
 class CreateUserSettingEntries < ActiveRecord::Migration
   def change
     create_table :user_setting_entries, id: :uuid do |t|

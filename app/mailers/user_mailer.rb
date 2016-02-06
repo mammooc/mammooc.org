@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 class UserMailer < ApplicationMailer
   def group_invitation_mail(email_adress, link, group, user, root_url)
     @group = group

@@ -1,11 +1,13 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 require 'rest_client'
 require 'oauth2'
 
 class AbstractMoocProviderConnector
   def initialize_connection(user, credentials)
     send_connection_request user, credentials
-  rescue RestClient::InternalServerError, RestClient::Unauthorized, RestClient::BadRequest => e
+  rescue RestClient::InternalServerError, RestClient::Unauthorized, RestClient::BadRequest, OAuth2::Error => e
     Rails.logger.error "#{e.class}: #{e.message}"
     return false
   else
@@ -133,6 +135,7 @@ class AbstractMoocProviderConnector
     return true
   end
 
+  # rubocop:disable Style/GuardClause
   def get_access_token(user)
     connection = MoocProviderUser.find_by(user_id: user, mooc_provider_id: mooc_provider)
     return unless connection.present?
@@ -149,6 +152,7 @@ class AbstractMoocProviderConnector
       return nil
     end
   end
+  # rubocop:enable Style/GuardClause
 
   def refresh_access_token(_user)
     raise NotImplementedError
@@ -198,7 +202,7 @@ class AbstractMoocProviderConnector
   def create_update_map_for_user_dates(user, mooc_provider)
     update_map = {}
     courses = user.courses.where(mooc_provider: mooc_provider)
-    UserDate.where(user: user, course: courses ).each do |existing_date|
+    UserDate.where(user: user, course: courses).each do |existing_date|
       update_map.store(existing_date.id, false)
     end
     update_map
