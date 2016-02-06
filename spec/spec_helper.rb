@@ -54,7 +54,8 @@ else
   Capybara.register_driver :selenium do |app|
     profile = Selenium::WebDriver::Firefox::Profile.new
     profile['intl.accept_languages'] =  'en'
-    Capybara::Selenium::Driver.new(app, browser: :firefox, profile: profile)
+    capabilities = Selenium::WebDriver::Remote::Capabilities.firefox(elementScrollBehavior: 1)
+    Capybara::Selenium::Driver.new(app, browser: :firefox, profile: profile, desired_capabilities: capabilities)
   end
   Capybara.javascript_driver = :selenium
 end
