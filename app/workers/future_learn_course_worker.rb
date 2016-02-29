@@ -30,6 +30,7 @@ class FutureLearnCourseWorker < AbstractCourseWorker
       categories = course_element['categories']
       instructors = course_element['educator']
       workload = "#{course_element['hours_per_week']} hours per week"
+      organisation_name = course_element['organisation']['name']
 
       sorted_runs = course_element['runs'].sort_by{|run| run['start_date'] ? run['start_date'] : run['uuid']}
       sorted_runs.each_with_index do |run, index|
@@ -41,6 +42,7 @@ class FutureLearnCourseWorker < AbstractCourseWorker
         course.abstract = abstract
         course.description = description
         course.language = language
+        course.organisation = organisation_name
 
         if image_url[/[\?&#]/]
           filename = File.basename(image_url)[/.*?(?=[\?&#])/]
@@ -56,12 +58,12 @@ class FutureLearnCourseWorker < AbstractCourseWorker
         course.videoId = trailer
         course.start_date = run['start_date']
 
-        #course tracks setzen ...
-        free_track = CourseTrack.find_by(course_id: course.id, track_type: free_track_type) || CourseTrack.create!(track_type: free_track_type, costs: 0.0, costs_currency: '$')
-        course.tracks.push free_track
         if course_element['has_certificates']
           certificate_track = CourseTrack.find_by(course_id: course.id, track_type: certificate_track_type) || CourseTrack.create!(track_type: certificate_track_type)
           course.tracks.push certificate_track
+        else
+          free_track = CourseTrack.find_by(course_id: course.id, track_type: free_track_type) || CourseTrack.create!(track_type: free_track_type, costs: 0.0, costs_currency: '$')
+          course.tracks.push free_track
         end
 
         course.provider_course_id = run['uuid']
