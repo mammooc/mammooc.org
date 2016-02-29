@@ -33,6 +33,7 @@ class EdxCourseWorker < AbstractCourseWorker
     profed_track_type = CourseTrackType.find_by(type_of_achievement: 'edx_profed_certificate')
 
     response_data.each do |xml_doc|
+      language = xml_doc.xpath('//channel/language')
       xml_doc.xpath('//channel/item').each do |course_element|
         course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, course_element.xpath('course:id').text)
         if course.nil?
@@ -45,6 +46,7 @@ class EdxCourseWorker < AbstractCourseWorker
         course.provider_course_id = course_element.xpath('course:id').text
         course.mooc_provider_id = mooc_provider.id
         course.url = course_element.xpath('link').text
+        course.language = language
 
         course_thumbnail = course_element.xpath('course:image-thumbnail')
         if course_thumbnail.present? && (course_thumbnail.text)[/[\?&#]/]
