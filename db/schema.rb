@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160229083711) do
+ActiveRecord::Schema.define(version: 20160301172138) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -120,12 +120,13 @@ ActiveRecord::Schema.define(version: 20160229083711) do
     t.datetime "course_image_updated_at"
     t.uuid     "previous_iteration_id"
     t.uuid     "following_iteration_id"
-    t.string   "organisation"
+    t.uuid     "organisation_id"
   end
 
   add_index "courses", ["course_result_id"], name: "index_courses_on_course_result_id", using: :btree
   add_index "courses", ["following_iteration_id"], name: "index_courses_on_following_iteration_id", using: :btree
   add_index "courses", ["mooc_provider_id"], name: "index_courses_on_mooc_provider_id", using: :btree
+  add_index "courses", ["organisation_id"], name: "index_courses_on_organisation_id", using: :btree
   add_index "courses", ["previous_iteration_id"], name: "index_courses_on_previous_iteration_id", using: :btree
 
   create_table "courses_users", id: false, force: :cascade do |t|
@@ -198,6 +199,13 @@ ActiveRecord::Schema.define(version: 20160229083711) do
   end
 
   add_index "mooc_providers", ["name"], name: "index_mooc_providers_on_name", unique: true, using: :btree
+
+  create_table "organisations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.string   "name"
+    t.string   "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "recommendations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.boolean  "is_obligatory"
@@ -305,6 +313,7 @@ ActiveRecord::Schema.define(version: 20160229083711) do
   add_foreign_key "courses", "courses", column: "following_iteration_id"
   add_foreign_key "courses", "courses", column: "previous_iteration_id"
   add_foreign_key "courses", "mooc_providers"
+  add_foreign_key "courses", "organisations"
   add_foreign_key "evaluations", "courses"
   add_foreign_key "evaluations", "users"
   add_foreign_key "group_invitations", "groups"

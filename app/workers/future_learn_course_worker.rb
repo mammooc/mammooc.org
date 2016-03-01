@@ -31,6 +31,8 @@ class FutureLearnCourseWorker < AbstractCourseWorker
       instructors = course_element['educator']
       workload = "#{course_element['hours_per_week']} hours per week"
       organisation_name = course_element['organisation']['name']
+      organisation_url = course_element['organisation']['url']
+      organisation = Organisation.find_or_create_by(name: organisation_name, url: organisation_url)
 
       sorted_runs = course_element['runs'].sort_by{|run| run['start_date'] ? run['start_date'] : run['uuid']}
       sorted_runs.each_with_index do |run, index|
@@ -42,7 +44,7 @@ class FutureLearnCourseWorker < AbstractCourseWorker
         course.abstract = abstract
         course.description = description
         course.language = language
-        course.organisation = organisation_name
+        course.organisation = organisation
 
         if image_url[/[\?&#]/]
           filename = File.basename(image_url)[/.*?(?=[\?&#])/]
