@@ -5,8 +5,8 @@ class IversityCourseWorker < AbstractCourseWorker
   include Sidekiq::Worker
   require 'rest_client'
 
-  MOOC_PROVIDER_NAME = 'iversity'.freeze
-  MOOC_PROVIDER_API_LINK = 'https://iversity.org/api/v1/courses'.freeze
+  MOOC_PROVIDER_NAME = 'iversity'
+  MOOC_PROVIDER_API_LINK = 'https://iversity.org/api/v1/courses'
 
   def mooc_provider
     MoocProvider.find_by_name(MOOC_PROVIDER_NAME)

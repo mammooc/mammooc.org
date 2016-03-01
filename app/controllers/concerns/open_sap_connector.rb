@@ -2,8 +2,8 @@
 # frozen_string_literal: true
 
 class OpenSAPConnector < AbstractXikoloConnector
-  NAME = 'openSAP'.freeze
-  ROOT_API = 'https://open.sap.com/api/'.freeze
-  ROOT_API_V2 = 'https://open.sap.com/api/v2/'.freeze
-  COURSE_LINK = 'https://open.sap.com/courses/'.freeze
+  NAME = 'openSAP'
+  ROOT_API = 'https://open.sap.com/api/'
+  ROOT_API_V2 = 'https://open.sap.com/api/v2/'
+  COURSE_LINK = 'https://open.sap.com/courses/'
 end
