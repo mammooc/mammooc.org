@@ -34,7 +34,7 @@
 
       .hd6.pb5
         = t('courses.mooc_provider')
-      = @course.mooc_provider.name
+      = link_to @course.mooc_provider.name, @course.mooc_provider.url
 
       .gradient-divider
 
