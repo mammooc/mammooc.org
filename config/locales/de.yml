@@ -340,7 +340,8 @@ de:
     abstract: Zusammenfassung
     description: Kursbeschreibung
     reviews: Rezensionen
-    mooc_provider: Kursanbieter
+    mooc_provider: Plattform
+    organisation: Kursanbieter
     instructors: Lehrpersonen
     time: Zeitraum
     language: Sprache

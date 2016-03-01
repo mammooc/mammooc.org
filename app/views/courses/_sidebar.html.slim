@@ -38,6 +38,13 @@
 
       .gradient-divider
 
+      - if @course.organisation.present?
+        .hd6.pb5
+          = t('courses.organisation')
+        = @course.organisation
+
+        .gradient-divider
+
       - if @course.course_instructors.present?
         .hd6.pb5
           = t('courses.instructors')
