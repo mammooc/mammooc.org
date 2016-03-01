@@ -14,7 +14,7 @@ MoocProvider.create!(name: 'openSAP China', logo_id: 'logo_openSAP.svg', api_sup
 MoocProvider.create!(name: 'openUNE', logo_id: 'logo_openUNE.svg', api_support_state: :naive)
 MoocProvider.create!(name: 'iversity', logo_id: 'logo_iversity.svg', api_support_state: :nil)
 MoocProvider.create!(name: 'Udacity', logo_id: 'logo_UDACITY.svg', api_support_state: :nil)
-MoocProvider.create!(name: 'FutureLearn', logo_id: 'logo_FutureLearn.svg', api_support_state: :nil)
+MoocProvider.create!(name: 'FutureLearn', logo_id: 'logo_FutureLearn.svg', url: 'https://www.futurelearn.com' ,api_support_state: :nil)
 
 xikolo_audit_track_type = CourseTrackType.create!(title: 'Audit',
                                                   description: 'You get a record of Achievement.',
