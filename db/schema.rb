@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160131153052) do
+ActiveRecord::Schema.define(version: 20160206035823) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,10 +26,10 @@ ActiveRecord::Schema.define(version: 20160131153052) do
     t.text     "parameters"
     t.uuid     "recipient_id"
     t.string   "recipient_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.uuid     "user_ids",       array: true
-    t.uuid     "group_ids",      array: true
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.uuid     "user_ids",                    array: true
+    t.uuid     "group_ids",                   array: true
   end
 
   add_index "activities", ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type", using: :btree
