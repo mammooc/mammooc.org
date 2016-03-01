@@ -8,6 +8,5 @@ class ChangeColumnPreviousIterationIdAndFollowingIterationIdToForeignKeys < Acti
 
     add_reference :courses, :following_iteration, references: :courses, index: true, type: 'uuid'
     add_foreign_key :courses, :courses, column: :following_iteration_id
-
   end
 end

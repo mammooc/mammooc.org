@@ -9,7 +9,8 @@ describe FutureLearnCourseWorker do
     described_class.new
   end
 
-  let(:courses_response) {'[
+  let(:courses_response) do
+    '[
   {
     "uuid": "d3995b4d-3aa4-469b-abe8-3de3bfa43657",
     "url": "http://www.futurelearn.com/courses/begin-programming?utm_campaign=Courses+feed&utm_medium=courses-feed&utm_source=courses-feed",
@@ -44,7 +45,8 @@ describe FutureLearnCourseWorker do
         "uuid": "ed6a9426-6518-453f-9a13-6e6b1b8779ca",
         "start_date": "2014-10-20",
         "duration_in_weeks": 7}]
-  }]'}
+  }]'
+  end
 
   let(:courses_json) { JSON.parse courses_response }
   let!(:free_course_track_type) { FactoryGirl.create :course_track_type, type_of_achievement: 'nothing' }
@@ -126,5 +128,4 @@ describe FutureLearnCourseWorker do
     future_learn_course_worker.handle_response_data courses_json
     expect { future_learn_course_worker.handle_response_data courses_json }.to change { Course.count }.by(0)
   end
-
 end

@@ -16,7 +16,7 @@ class FutureLearnCourseWorker < AbstractCourseWorker
   def handle_response_data(response_data)
     update_map = create_update_map mooc_provider
 
-    free_track_type = CourseTrackType.find_by(type_of_achievement: 'nothing') #check what you get when finishing a course
+    free_track_type = CourseTrackType.find_by(type_of_achievement: 'nothing')
     certificate_track_type = CourseTrackType.find_by(type_of_achievement: 'certificate')
 
     response_data.each do |course_element|
@@ -34,7 +34,7 @@ class FutureLearnCourseWorker < AbstractCourseWorker
       organisation_url = course_element['organisation']['url']
       organisation = Organisation.find_or_create_by(name: organisation_name, url: organisation_url)
 
-      sorted_runs = course_element['runs'].sort_by{|run| run['start_date'] ? run['start_date'] : run['uuid']}
+      sorted_runs = course_element['runs'].sort_by {|run| run['start_date'] ? run['start_date'] : run['uuid'] }
       sorted_runs.each_with_index do |run, index|
         course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, run['uuid']) || Course.new
         update_map[course.id] = true unless course.new_record?
@@ -79,8 +79,8 @@ class FutureLearnCourseWorker < AbstractCourseWorker
         course.calculated_duration_in_days = calculate_duration(run['duration_in_weeks'])
 
         if index > 0 && run['start_date']
-          if sorted_runs[index-1]['start_date']
-            previous_iteration_uuid = sorted_runs[index-1]['uuid']
+          if sorted_runs[index - 1]['start_date']
+            previous_iteration_uuid = sorted_runs[index - 1]['uuid']
             previous_course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, previous_iteration_uuid)
             course.previous_iteration = previous_course
             previous_course.following_iteration = course
@@ -96,6 +96,6 @@ class FutureLearnCourseWorker < AbstractCourseWorker
   end
 
   def calculate_duration(duration)
-    return duration * 7
+    duration * 7
   end
 end
