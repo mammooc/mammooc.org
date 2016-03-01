@@ -52,7 +52,7 @@ GEM
       json (~> 1.4)
       nokogiri (>= 1.4.4)
     bcrypt (3.1.10)
-    bootstrap-datepicker-rails (1.4.0)
+    bootstrap-datepicker-rails (1.5.0)
       railties (>= 3.0)
     bootstrap-generators (3.3.4)
       railties (>= 3.1.0)
@@ -317,7 +317,7 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
-    selenium-webdriver (2.47.1)
+    selenium-webdriver (2.51.0)
       childprocess (~> 0.5)
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
@@ -388,7 +388,7 @@ PLATFORMS
 DEPENDENCIES
   aws-sdk (~> 2)
   aws-sdk-v1
-  bootstrap-datepicker-rails (= 1.4.0)
+  bootstrap-datepicker-rails
   bootstrap-generators
   bootstrap-sass
   bootstrap_tokenfield_rails
@@ -441,7 +441,6 @@ DEPENDENCIES
   ruby-debug-passenger
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
-  selenium-webdriver (= 2.47.1)
   sidekiq
   simplecov
   slim-rails

@@ -97,13 +97,17 @@ class Course < ActiveRecord::Base
   end
 
   scope :with_start_date_gte, ->(reference_time) do
+    parsed_date = Time.zone.parse(reference_time.to_s)
+    return nil if parsed_date.blank?
     where('courses.start_date IS NOT NULL AND (courses.start_date >= ?) ',
-      Time.zone.parse(reference_time).strftime('%Y-%m-%d %H:%M:%S.%6N'))
+      parsed_date.strftime('%Y-%m-%d %H:%M:%S.%6N'))
   end
 
   scope :with_end_date_lte, ->(reference_time) do
+    parsed_date = Time.zone.parse(reference_time.to_s)
+    return nil if parsed_date.blank?
     where('courses.end_date IS NOT NULL AND (courses.end_date <= ?) ',
-      Time.zone.parse(reference_time).strftime('%Y-%m-%d %H:%M:%S.%6N'))
+      parsed_date.strftime('%Y-%m-%d %H:%M:%S.%6N'))
   end
 
   scope :with_language, ->(reference_language) do
