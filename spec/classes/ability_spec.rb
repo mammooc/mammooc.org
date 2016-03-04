@@ -21,7 +21,7 @@ RSpec.describe Ability do
     describe 'read' do
       it { is_expected.to be_able_to(:read, group_with_user) }
       it { is_expected.to be_able_to(:read, group_with_admin) }
-      it { is_expected.to_not be_able_to(:read, group_without_user) }
+      it { is_expected.not_to be_able_to(:read, group_without_user) }
     end
 
     describe 'create' do
@@ -30,14 +30,14 @@ RSpec.describe Ability do
 
     describe 'update' do
       it { is_expected.to be_able_to(:update, group_with_admin) }
-      it { is_expected.to_not be_able_to(:update, group_without_user) }
-      it { is_expected.to_not be_able_to(:update, group_with_user) }
+      it { is_expected.not_to be_able_to(:update, group_without_user) }
+      it { is_expected.not_to be_able_to(:update, group_with_user) }
     end
 
     describe 'destroy' do
       it { is_expected.to be_able_to(:destroy, group_with_admin) }
-      it { is_expected.to_not be_able_to(:destroy, group_without_user) }
-      it { is_expected.to_not be_able_to(:destroy, group_with_user) }
+      it { is_expected.not_to be_able_to(:destroy, group_without_user) }
+      it { is_expected.not_to be_able_to(:destroy, group_with_user) }
     end
 
     describe 'join' do
@@ -47,55 +47,55 @@ RSpec.describe Ability do
     describe 'members' do
       it { is_expected.to be_able_to(:members, group_with_user) }
       it { is_expected.to be_able_to(:members, group_with_admin) }
-      it { is_expected.to_not be_able_to(:members, group_without_user) }
+      it { is_expected.not_to be_able_to(:members, group_without_user) }
     end
 
     describe 'admins' do
       it { is_expected.to be_able_to(:admins, group_with_user) }
       it { is_expected.to be_able_to(:admins, group_with_admin) }
-      it { is_expected.to_not be_able_to(:admins, group_without_user) }
+      it { is_expected.not_to be_able_to(:admins, group_without_user) }
     end
 
     describe 'leave' do
       it { is_expected.to be_able_to(:leave, group_with_user) }
       it { is_expected.to be_able_to(:leave, group_with_admin) }
-      it { is_expected.to_not be_able_to(:leave, group_without_user) }
+      it { is_expected.not_to be_able_to(:leave, group_without_user) }
     end
 
     describe 'condition_for_changing_member_status' do
       it { is_expected.to be_able_to(:condition_for_changing_member_status, group_with_admin) }
       it { is_expected.to be_able_to(:condition_for_changing_member_status, group_with_user) }
-      it { is_expected.to_not be_able_to(:condition_for_changing_member_status, group_without_user) }
+      it { is_expected.not_to be_able_to(:condition_for_changing_member_status, group_without_user) }
     end
 
     describe 'invite_group_members' do
       it { is_expected.to be_able_to(:invite_group_members, group_with_admin) }
-      it { is_expected.to_not be_able_to(:invite_group_members, group_without_user) }
-      it { is_expected.to_not be_able_to(:invite_group_members, group_with_user) }
+      it { is_expected.not_to be_able_to(:invite_group_members, group_without_user) }
+      it { is_expected.not_to be_able_to(:invite_group_members, group_with_user) }
     end
 
     describe 'add_administrator' do
       it { is_expected.to be_able_to(:add_administrator, group_with_admin) }
-      it { is_expected.to_not be_able_to(:add_administrator, group_without_user) }
-      it { is_expected.to_not be_able_to(:add_administrator, group_with_user) }
+      it { is_expected.not_to be_able_to(:add_administrator, group_without_user) }
+      it { is_expected.not_to be_able_to(:add_administrator, group_with_user) }
     end
 
     describe 'demote_administrator' do
       it { is_expected.to be_able_to(:demote_administrator, group_with_admin) }
-      it { is_expected.to_not be_able_to(:demote_administrator, group_without_user) }
-      it { is_expected.to_not be_able_to(:demote_administrator, group_with_user) }
+      it { is_expected.not_to be_able_to(:demote_administrator, group_without_user) }
+      it { is_expected.not_to be_able_to(:demote_administrator, group_with_user) }
     end
 
     describe 'remove_group_member' do
       it { is_expected.to be_able_to(:remove_group_member, group_with_admin) }
-      it { is_expected.to_not be_able_to(:remove_group_member, group_without_user) }
-      it { is_expected.to_not be_able_to(:remove_group_member, group_with_user) }
+      it { is_expected.not_to be_able_to(:remove_group_member, group_without_user) }
+      it { is_expected.not_to be_able_to(:remove_group_member, group_with_user) }
     end
 
     describe 'all_members_to_administrators' do
       it { is_expected.to be_able_to(:all_members_to_administrators, group_with_admin) }
-      it { is_expected.to_not be_able_to(:all_members_to_administrators, group_without_user) }
-      it { is_expected.to_not be_able_to(:all_members_to_administrators, group_with_user) }
+      it { is_expected.not_to be_able_to(:all_members_to_administrators, group_without_user) }
+      it { is_expected.not_to be_able_to(:all_members_to_administrators, group_with_user) }
     end
   end
 
@@ -124,17 +124,17 @@ RSpec.describe Ability do
 
     describe 'delete_user_from_recommendation' do
       it { is_expected.to be_able_to(:delete_user_from_recommendation, recommendation_of_user) }
-      it { is_expected.to_not be_able_to(:delete_user_from_recommendation, recommendation_of_another_user) }
+      it { is_expected.not_to be_able_to(:delete_user_from_recommendation, recommendation_of_another_user) }
     end
 
     describe 'delete_group_recommendation' do
-      it { is_expected.to_not be_able_to(:delete_group_recommendation, recommendation_of_group) }
+      it { is_expected.not_to be_able_to(:delete_group_recommendation, recommendation_of_group) }
       it { is_expected.to be_able_to(:delete_group_recommendation, recommendation_of_group_admin) }
     end
 
     describe 'create as user without groups' do
       subject(:ability) { described_class.new(third_user) }
-      it { is_expected.to_not be_able_to(:create, Recommendation.new) }
+      it { is_expected.not_to be_able_to(:create, Recommendation.new) }
     end
   end
 
@@ -148,12 +148,12 @@ RSpec.describe Ability do
     let!(:user_setting_entry2) { FactoryGirl.create(:user_setting_entry, setting: user_setting2, key: 'users', value: [user.id]) }
 
     describe 'create' do
-      it { is_expected.to_not be_able_to(:create, User) }
+      it { is_expected.not_to be_able_to(:create, User) }
     end
 
     describe 'show' do
       it { is_expected.to be_able_to(:show, user) }
-      it { is_expected.to_not be_able_to(:show, another_user) }
+      it { is_expected.not_to be_able_to(:show, another_user) }
       it { is_expected.to be_able_to(:show, second_user) }
 
       context 'in user\'s groups' do
@@ -168,17 +168,17 @@ RSpec.describe Ability do
     describe 'completions' do
       it { is_expected.to be_able_to(:completions, user) }
       it { is_expected.to be_able_to(:completions, second_user) }
-      it { is_expected.to_not be_able_to(:completions, another_user) }
+      it { is_expected.not_to be_able_to(:completions, another_user) }
     end
 
     describe 'update' do
       it { is_expected.to be_able_to(:update, user) }
-      it { is_expected.to_not be_able_to(:update, another_user) }
+      it { is_expected.not_to be_able_to(:update, another_user) }
     end
 
     describe 'destroy' do
       it { is_expected.to be_able_to(:destroy, user) }
-      it { is_expected.to_not be_able_to(:destroy, another_user) }
+      it { is_expected.not_to be_able_to(:destroy, another_user) }
     end
   end
 end

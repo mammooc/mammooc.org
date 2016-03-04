@@ -21,12 +21,12 @@ RSpec.describe Evaluation, type: :model do
     end
 
     it 'not call update_course_rating_and_count after save when nothing changed' do
-      expect(evaluation).to_not receive(:update_course_rating_and_count)
+      expect(evaluation).not_to receive(:update_course_rating_and_count)
       evaluation.save!
     end
 
     it 'not call update_course_rating_attributes when rating has not changed' do
-      expect(Course).to_not receive(:update_course_rating_attributes).with(course.id)
+      expect(Course).not_to receive(:update_course_rating_attributes).with(course.id)
       evaluation.description = 'changed'
       evaluation.course_status = 2
       evaluation.rating = 1

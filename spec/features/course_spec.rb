@@ -245,8 +245,8 @@ RSpec.describe 'Course', type: :feature do
       find("label[id='option_aborted']").click
       click_button('submit-rating-button')
       wait_for_ajax
-      expect(page).to_not have_content(I18n.t('evaluations.state_overall_rating'))
-      expect(page).to_not have_content(I18n.t('evaluations.state_course_status'))
+      expect(page).not_to have_content(I18n.t('evaluations.state_overall_rating'))
+      expect(page).not_to have_content(I18n.t('evaluations.state_course_status'))
     end
 
     it 'shows my already submitted evaluation in _ratings', js: true do

@@ -22,7 +22,7 @@ describe IversityCourseWorker do
   end
 
   it 'gets an API response' do
-    expect(iversity_course_worker.course_data).to_not be_nil
+    expect(iversity_course_worker.course_data).not_to be_nil
   end
 
   it 'loads new course into database' do

@@ -135,7 +135,6 @@ class AbstractMoocProviderConnector
     return true
   end
 
-  # rubocop:disable Style/GuardClause
   def get_access_token(user)
     connection = MoocProviderUser.find_by(user_id: user, mooc_provider_id: mooc_provider)
     return unless connection.present?
@@ -152,7 +151,6 @@ class AbstractMoocProviderConnector
       return nil
     end
   end
-  # rubocop:enable Style/GuardClause
 
   def refresh_access_token(_user)
     raise NotImplementedError
