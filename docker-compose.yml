@@ -1,59 +1,61 @@
-db:
-  image: postgres
-  ports:
-    - "5432"
-  volumes_from: 
-    - dbvolume
-dbvolume:
-  image: busybox
-  volumes:
-    - /var/lib/postgresql/data
-redis:
-  image: redis
-  ports:
-    - "6379"
-web:
-  image: mammooc/mammooc.org
-  environment:
-    - RAILS_ENV=production
-    - RACK_ENV=production
-    - PORT=3000
-    - PASSENGER_MAX_POOL_SIZE=3
-    - AUTO_START_SIDEKIQ=false
-    - FORCE_SSL=false
-    - DOMAIN=
-    - SECRET_KEY_BASE=
-    - SMTP_PORT=
-    - SMTP_HOST=
-    - SMTP_USERNAME=
-    - SMTP_PASSWORD=
-    - SMTP_DOMAIN=
-    - SMTP_AUTHENTICATION=
-    - WITH_S3=
-    - AWS_ACCESS_KEY_ID=
-    - AWS_SECRET_ACCESS_KEY=
-    - AWS_REGION=
-    - S3_BUCKET_NAME=
-    - NEW_RELIC_LICENSE_KEY=
-    - COURSERA_CLIENT_ID=
-    - COURSERA_SECRET_KEY=
-    - FACEBOOK_CLIENT_ID=
-    - FACEBOOK_SECRET_KEY=
-    - GOOGLE_CLIENT_ID=
-    - GOOGLE_SECRET_KEY=
-    - GITHUB_CLIENT_ID=
-    - GITHUB_SECRET_KEY=
-    - LINKEDIN_CLIENT_ID=
-    - LINKEDIN_SECRET_KEY=
-    - TWITTER_CLIENT_ID=
-    - TWITTER_SECRET_KEY=
-    - WINDOWS_LIVE_CLIENT_ID=
-    - WINDOWS_LIVE_SECRET_KEY=
-    - AMAZON_CLIENT_ID=
-    - AMAZON_SECRET_KEY=
-  command: sh 'start.sh'
-  ports:
-    - "<Host Port>:<Docker port>"
-  links:
-    - db
-    - redis
+version: '2'
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432"
+    volumes_from:
+      - dbvolume
+  dbvolume:
+    image: busybox
+    volumes:
+      - /var/lib/postgresql/data
+  redis:
+    image: redis
+    ports:
+      - "6379"
+  web:
+    image: mammooc/mammooc.org
+    environment:
+      - RAILS_ENV=production
+      - RACK_ENV=production
+      - PORT=3000
+      - PASSENGER_MAX_POOL_SIZE=3
+      - AUTO_START_SIDEKIQ=false
+      - FORCE_SSL=false
+      - DOMAIN=
+      - SECRET_KEY_BASE=
+      - SMTP_PORT=
+      - SMTP_HOST=
+      - SMTP_USERNAME=
+      - SMTP_PASSWORD=
+      - SMTP_DOMAIN=
+      - SMTP_AUTHENTICATION=
+      - WITH_S3=
+      - AWS_ACCESS_KEY_ID=
+      - AWS_SECRET_ACCESS_KEY=
+      - AWS_REGION=
+      - S3_BUCKET_NAME=
+      - NEW_RELIC_LICENSE_KEY=
+      - COURSERA_CLIENT_ID=
+      - COURSERA_SECRET_KEY=
+      - FACEBOOK_CLIENT_ID=
+      - FACEBOOK_SECRET_KEY=
+      - GOOGLE_CLIENT_ID=
+      - GOOGLE_SECRET_KEY=
+      - GITHUB_CLIENT_ID=
+      - GITHUB_SECRET_KEY=
+      - LINKEDIN_CLIENT_ID=
+      - LINKEDIN_SECRET_KEY=
+      - TWITTER_CLIENT_ID=
+      - TWITTER_SECRET_KEY=
+      - WINDOWS_LIVE_CLIENT_ID=
+      - WINDOWS_LIVE_SECRET_KEY=
+      - AMAZON_CLIENT_ID=
+      - AMAZON_SECRET_KEY=
+    command: sh 'start.sh'
+    ports:
+      - "<Host Port>:<Docker port>"
+    links:
+      - db
+      - redis
