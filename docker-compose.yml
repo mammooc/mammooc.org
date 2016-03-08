@@ -1,19 +1,8 @@
 version: "2"
 services:
-  db:
-    image: postgres
-    ports:
-      - "5432"
-    volumes_from:
-      - dbvolume
-  dbvolume:
-    image: busybox
-    volumes:
-      - /var/lib/postgresql/data
   redis:
     image: redis
-    ports:
-      - "6379"
+    restart: always
   web:
     image: mammooc/mammooc.org
     environment:
@@ -24,6 +13,8 @@ services:
       - AUTO_START_SIDEKIQ=false
       - FORCE_SSL=false
       - DOMAIN=
+      - DATABASE_URL=
+      - REDIS_PROVIDER=
       - SECRET_KEY_BASE=
       - SMTP_PORT=
       - SMTP_HOST=
@@ -57,5 +48,5 @@ services:
     ports:
       - "<Host Port>:<Docker port>"
     links:
-      - db
       - redis
+    restart: always
