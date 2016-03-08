@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 FactoryGirl.define do
   factory :group_invitation do
     association :group_id, factory: :group

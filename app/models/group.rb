@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 class Group < ActiveRecord::Base
   has_many :user_groups
   has_many :users, through: :user_groups
@@ -25,7 +27,7 @@ class Group < ActiveRecord::Base
   before_destroy :handle_recommendations
 
   def handle_activities
-    PublicActivity::Activity.select {|activity| (activity.group_ids.present?) && (activity.group_ids.include? id) }.each do |activity|
+    PublicActivity::Activity.select {|activity| activity.group_ids.present? && (activity.group_ids.include? id) }.each do |activity|
       delete_group_from_activity activity
     end
   end
@@ -40,7 +42,7 @@ class Group < ActiveRecord::Base
     if activity.trackable_type == 'Recommendation'
       Recommendation.find(activity.trackable_id).delete_group_recommendation
     end
-    return unless (activity.user_ids.blank?) && (activity.group_ids.blank?)
+    return unless activity.user_ids.blank? && activity.group_ids.blank?
     activity.destroy
   end
 
