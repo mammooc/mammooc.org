@@ -12,7 +12,7 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
 
   def send_connection_request(user, credentials)
     request_parameters = "email=#{credentials[:email]}&password=#{credentials[:password]}"
-    authentication_url = self.class::ROOT_API + AUTHENTICATE_API
+    authentication_url = self.class::ROOT_API_V1 + AUTHENTICATE_API
     response = RestClient.post(authentication_url, request_parameters, accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', authorization: 'token=\"78783786789\"')
     json_response = JSON.parse response
     return unless json_response['token'].present?
