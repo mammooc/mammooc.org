@@ -41,12 +41,13 @@ gem 'passenger'
 # authentication
 gem 'devise'
 gem 'omniauth'
+gem 'omniauth-oauth2', '1.3.1'
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-github'
 gem 'omniauth-linkedin-oauth2'
 gem 'omniauth-twitter'
-gem 'omniauth-windowslive', '~> 0.0.9'
+gem 'omniauth-windowslive'
 gem 'omniauth-amazon'
 
 # authorization
