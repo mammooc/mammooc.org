@@ -1,3 +1,6 @@
+# encoding: utf-8
+# frozen_string_literal: true
+
 class ChangeColumnPreviousIterationIdAndFollowingIterationIdToForeignKeys < ActiveRecord::Migration
   def change
     remove_column :courses, :previous_iteration_id

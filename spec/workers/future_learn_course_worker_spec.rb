@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 require 'rails_helper'
 require 'support/course_worker_spec_helper'
 
@@ -57,7 +59,7 @@ describe FutureLearnCourseWorker do
   end
 
   it 'gets an API response' do
-    expect(future_learn_course_worker.course_data).to_not be_nil
+    expect(future_learn_course_worker.course_data).not_to be_nil
   end
 
   it 'loads new course into database' do

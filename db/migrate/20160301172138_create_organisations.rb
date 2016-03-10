@@ -1,3 +1,6 @@
+# encoding: utf-8
+# frozen_string_literal: true
+
 class CreateOrganisations < ActiveRecord::Migration
   def change
     create_table :organisations, id: :uuid do |t|
