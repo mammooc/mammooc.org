@@ -81,7 +81,7 @@ describe FutureLearnCourseWorker do
     expect(course.workload).to eql "#{courses_json[0]['hours_per_week']} hours per week"
 
     expect(course.tracks.count).to eql 1
-    expect(achievement_type? course.tracks, :certificate).to be_truthy
+    expect(achievement_type?(course.tracks, :certificate)).to be_truthy
 
     expect(course.provider_course_id).to eql courses_json[0]['runs'].first['uuid'].to_s
     expect(course.mooc_provider_id).to eql mooc_provider.id
