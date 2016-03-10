@@ -1,4 +1,5 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe CourseraConnector do
@@ -81,12 +82,12 @@ RSpec.describe CourseraConnector do
   end
 
   it 'returns false when user has no connection to mooc provider' do
-    expect(coursera_connector.connection_to_mooc_provider? user).to eql false
+    expect(coursera_connector.connection_to_mooc_provider?(user)).to eql false
   end
 
   it 'returns true when user has connection to mooc provider' do
     user.mooc_providers << mooc_provider
-    expect(coursera_connector.connection_to_mooc_provider? user).to eql true
+    expect(coursera_connector.connection_to_mooc_provider?(user)).to eql true
   end
 
   it 'returns a new instance of the OAuth2 Client' do

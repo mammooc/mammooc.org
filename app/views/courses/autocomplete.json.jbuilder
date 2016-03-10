@@ -1,4 +1,6 @@
 # encoding: utf-8
+# frozen_string_literal: true
+
 json.array!(@courses) do |course|
   json.extract! course, :id, :name, :url, :course_instructors, :abstract, :language, :course_image, :videoId, :start_date,
                 :end_date, :calculated_duration_in_days, :provider_given_duration,

@@ -1,4 +1,5 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe 'dashboard/dashboard.html.slim', type: :view do
@@ -9,21 +10,21 @@ RSpec.describe 'dashboard/dashboard.html.slim', type: :view do
 
   before(:each) do
     assign(:groups, [
-      Group.create!(
-        name: 'Name',
-        description: 'MyText',
-        primary_statistics: ''
-      ),
-      Group.create!(
-        name: 'Name',
-        description: 'MyText',
-        primary_statistics: ''
-      )
-    ])
+             Group.create!(
+               name: 'Name',
+               description: 'MyText',
+               primary_statistics: ''
+             ),
+             Group.create!(
+               name: 'Name',
+               description: 'MyText',
+               primary_statistics: ''
+             )
+           ])
     assign(:courses, [
-      FactoryGirl.create(:full_course),
-      FactoryGirl.create(:full_course)
-    ])
+             FactoryGirl.create(:full_course),
+             FactoryGirl.create(:full_course)
+           ])
     @recommendations = [recommendation]
     sign_in user
     user.courses << course
@@ -31,6 +32,7 @@ RSpec.describe 'dashboard/dashboard.html.slim', type: :view do
 
     @provider_logos = {}
     @profile_pictures = {}
+    @current_dates_to_show = []
   end
 
   it 'renders my enrollments' do

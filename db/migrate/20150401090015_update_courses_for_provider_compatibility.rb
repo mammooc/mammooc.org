@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 class UpdateCoursesForProviderCompatibility < ActiveRecord::Migration
   def change
     change_column(:courses, :start_date, :datetime, null: true)

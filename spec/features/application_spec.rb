@@ -1,4 +1,5 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe 'Application', type: :feature do
@@ -110,7 +111,7 @@ RSpec.describe 'Application', type: :feature do
       fill_in 'login_email', with: user.primary_email
       fill_in 'login_password', with: user.password
       click_button 'submit_sign_in'
-      if page.text.match(/DE/)
+      if page.text =~ /DE/
         click_on 'language_selection'
         click_on 'English'
       end

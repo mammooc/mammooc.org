@@ -1,0 +1,7 @@
+- if @current_dates_to_show.empty?
+  = t('dashboard.no_current_dates')
+- else
+  - @current_dates_to_show.each do |date|
+    p
+      = "#{date.date.strftime(t('global.date_format_month_short'))} #{date.title} (#{date.kind})"
+  = link_to t('global.more'), user_dates_path
