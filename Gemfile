@@ -41,7 +41,7 @@ gem 'passenger'
 # authentication
 gem 'devise'
 gem 'omniauth'
-gem 'omniauth-oauth2', '1.3.1'
+gem 'omniauth-oauth2', '1.3.1' # See issue for details: https://github.com/mammooc/mammooc.org/issues/626
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-github'
