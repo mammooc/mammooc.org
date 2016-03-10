@@ -120,6 +120,7 @@ This course is part of a five-part Mobile Application Experiences series:
     expect(course.requirements).to include xml_course.xpath('course:prerequisites').text
     expect(course.categories).to include xml_course.xpath('course:subject').first.text
     expect(course.description).to eql xml_course.xpath('description').text
+    expect(course.language).to eql xml_course_data[0].xpath('//channel/language').text
     expect(course.course_instructors).to include xml_course.xpath('course:instructors/course:staff').first.xpath('staff:name').text
     expect(course.tracks.count).to eql 1
     expect(course.tracks[0].track_type.type_of_achievement).to eql free_course_track_type.type_of_achievement
