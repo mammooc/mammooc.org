@@ -11,7 +11,7 @@ class AbstractCourseWorker
 
   def load_courses
     response_data = course_data
-  rescue SocketError, RestClient::ResourceNotFound, RestClient::SSLCertificateNotVerified => e
+  rescue SocketError, Errno::ECONNREFUSED, RestClient::ResourceNotFound, RestClient::SSLCertificateNotVerified => e
     Rails.logger.error "#{e.class}: #{e.message}"
   else
     handle_response_data response_data
