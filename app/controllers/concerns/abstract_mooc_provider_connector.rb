@@ -19,7 +19,7 @@ class AbstractMoocProviderConnector
     begin
       send_enrollment_for_course user, course
     rescue RestClient::InternalServerError, RestClient::BadGateway, Errno::ECONNREFUSED,
-      RestClient::ResourceNotFound, RestClient::BadRequest => e
+           RestClient::ResourceNotFound, RestClient::BadRequest => e
       Rails.logger.error "#{e.class}: #{e.message}"
       return false
     rescue RestClient::Unauthorized => e
@@ -36,7 +36,7 @@ class AbstractMoocProviderConnector
     begin
       send_unenrollment_for_course user, course
     rescue RestClient::InternalServerError, RestClient::BadGateway, Errno::ECONNREFUSED,
-        RestClient::ResourceNotFound, RestClient::BadRequest => e
+           RestClient::ResourceNotFound, RestClient::BadRequest => e
       Rails.logger.error "#{e.class}: #{e.message}"
       return false
     rescue RestClient::Unauthorized => e

@@ -1,4 +1,4 @@
-require: rubocop-rspec
+# require: rubocop-rspec
 
 AllCops:
   TargetRubyVersion: 2.3
@@ -87,6 +87,6 @@ Metrics/PerceivedComplexity:
 Rails/HasAndBelongsToMany:
   Enabled: false
 
-RSpec/DescribeClass:
-  Exclude:
-   - 'spec/views/**/*'
+# RSpec/DescribeClass:
+#   Exclude:
+#    - 'spec/views/**/*'
