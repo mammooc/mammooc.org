@@ -38,6 +38,16 @@
 
       .gradient-divider
 
+      - if @course.organisation.present?
+        .hd6.pb5
+          = t('courses.organisation')
+        - if @course.organisation.url.present?
+          = link_to @course.organisation.name, @course.organisation.url
+        - else
+          = @course.organisation.name
+
+        .gradient-divider
+
       - if @course.course_instructors.present?
         .hd6.pb5
           = t('courses.instructors')

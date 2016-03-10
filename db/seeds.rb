@@ -15,6 +15,7 @@ MoocProvider.create!(name: 'openSAP China', logo_id: 'logo_openSAP.svg', url: 'h
 MoocProvider.create!(name: 'openUNE', logo_id: 'logo_openUNE.svg', url: 'https://openune.cn', api_support_state: :naive)
 MoocProvider.create!(name: 'iversity', logo_id: 'logo_iversity.svg', url: 'https://iversity.org', api_support_state: :nil)
 MoocProvider.create!(name: 'Udacity', logo_id: 'logo_UDACITY.svg', url: 'https://www.udacity.com', api_support_state: :nil)
+MoocProvider.create!(name: 'FutureLearn', logo_id: 'logo_FutureLearn.svg', url: 'https://www.futurelearn.com', api_support_state: :nil)
 
 xikolo_audit_track_type = CourseTrackType.create!(title: 'Audit',
                                                   description: 'You get a record of Achievement.',
@@ -67,6 +68,7 @@ EdxCourseWorker.perform_async
 CourseraCourseWorker.perform_async
 IversityCourseWorker.perform_async
 UdacityCourseWorker.perform_async
+FutureLearnCourseWorker.perform_async
 
 # specific seeds for different environments
 

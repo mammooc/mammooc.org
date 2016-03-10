@@ -20,8 +20,10 @@ class Course < ActiveRecord::Base
   include PublicActivity::Common
 
   belongs_to :mooc_provider
+  belongs_to :organisation
   belongs_to :course_result
-  has_many :courses
+  has_one :previous_iteration, foreign_key: 'previous_iteration_id', class_name: 'Course'
+  has_one :following_iteration, foreign_key: 'following_iteration_id', class_name: 'Course'
   has_many :recommendations, dependent: :destroy
   has_many :completions
   has_and_belongs_to_many :users

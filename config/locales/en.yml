@@ -345,6 +345,7 @@ en:
     description: Description
     reviews: Reviews
     mooc_provider: MOOC Provider
+    organisation: Organisation
     instructors: Instructors
     time: Time
     language: Language

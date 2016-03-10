@@ -7,7 +7,7 @@ require 'oauth2'
 class AbstractMoocProviderConnector
   def initialize_connection(user, credentials)
     send_connection_request user, credentials
-  rescue RestClient::InternalServerError, RestClient::Unauthorized, RestClient::BadRequest, OAuth2::Error => e
+  rescue RestClient::InternalServerError, Errno::ECONNREFUSED, RestClient::Unauthorized, RestClient::BadRequest, OAuth2::Error => e
     Rails.logger.error "#{e.class}: #{e.message}"
     return false
   else
@@ -18,8 +18,8 @@ class AbstractMoocProviderConnector
     return unless connection_to_mooc_provider? user
     begin
       send_enrollment_for_course user, course
-    rescue RestClient::InternalServerError, RestClient::BadGateway,
-           RestClient::ResourceNotFound, RestClient::BadRequest => e
+    rescue RestClient::InternalServerError, RestClient::BadGateway, Errno::ECONNREFUSED,
+      RestClient::ResourceNotFound, RestClient::BadRequest => e
       Rails.logger.error "#{e.class}: #{e.message}"
       return false
     rescue RestClient::Unauthorized => e
@@ -35,7 +35,8 @@ class AbstractMoocProviderConnector
     return unless connection_to_mooc_provider? user
     begin
       send_unenrollment_for_course user, course
-    rescue RestClient::InternalServerError => e
+    rescue RestClient::InternalServerError, RestClient::BadGateway, Errno::ECONNREFUSED,
+        RestClient::ResourceNotFound, RestClient::BadRequest => e
       Rails.logger.error "#{e.class}: #{e.message}"
       return false
     rescue RestClient::Unauthorized => e
@@ -109,7 +110,7 @@ class AbstractMoocProviderConnector
 
   def fetch_user_data(user)
     response_data = get_enrollments_for_user user
-  rescue SocketError, RestClient::ResourceNotFound, RestClient::SSLCertificateNotVerified => e
+  rescue SocketError, Errno::ECONNREFUSED, RestClient::ResourceNotFound, RestClient::SSLCertificateNotVerified => e
     Rails.logger.error "#{e.class}: #{e.message}"
     return false
   rescue RestClient::Unauthorized => e
@@ -123,7 +124,7 @@ class AbstractMoocProviderConnector
 
   def fetch_dates_for_user(user)
     response_data = get_dates_for_user user
-  rescue SocketError, RestClient::ResourceNotFound, RestClient::SSLCertificateNotVerified => e
+  rescue SocketError, Errno::ECONNREFUSED, RestClient::ResourceNotFound, RestClient::SSLCertificateNotVerified => e
     Rails.logger.error "#{e.class}: #{e.message}"
     return false
   rescue RestClient::Unauthorized => e
