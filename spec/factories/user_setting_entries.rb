@@ -1,3 +1,6 @@
+# encoding: utf-8
+# frozen_string_literal: true
+
 FactoryGirl.define do
   factory :user_setting_entry do
     sequence(:key) {|n| "my_key_#{n}" }

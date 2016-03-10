@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 class ChangeRelationBetweenGroupsAndRecommendations < ActiveRecord::Migration
   def change
     drop_join_table :groups, :recommendations

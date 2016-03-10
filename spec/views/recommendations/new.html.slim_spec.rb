@@ -1,4 +1,5 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe 'recommendations/new', type: :view do
@@ -14,14 +15,14 @@ RSpec.describe 'recommendations/new', type: :view do
   it 'renders new recommendation form' do
     render
 
-    assert_select 'form[action=?][method=?]', recommendations_path, 'post' do
-      assert_select 'input#recommendation_related_user_ids[name=?]', 'recommendation[related_user_ids]'
+    assert_select 'form[action=?][method=?]'.dup, recommendations_path, 'post' do
+      assert_select 'input#recommendation_related_user_ids[name=?]'.dup, 'recommendation[related_user_ids]'
 
-      assert_select 'input#recommendation_related_group_ids[name=?]', 'recommendation[related_group_ids]'
+      assert_select 'input#recommendation_related_group_ids[name=?]'.dup, 'recommendation[related_group_ids]'
 
-      assert_select 'input#recommendation_course_id[name=?]', 'recommendation[course_id]'
+      assert_select 'input#recommendation_course_id[name=?]'.dup, 'recommendation[course_id]'
 
-      assert_select 'textarea#recommendation_text[name=?]', 'recommendation[text]'
+      assert_select 'textarea#recommendation_text[name=?]'.dup, 'recommendation[text]'
     end
   end
 end

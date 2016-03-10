@@ -1,3 +1,6 @@
+# encoding: utf-8
+# frozen_string_literal: true
+
 class AddOAuthRefreshTokenAndAccessTokenToMoocProviderUsers < ActiveRecord::Migration
   def change
     remove_column(:mooc_provider_users, :authentication_token)

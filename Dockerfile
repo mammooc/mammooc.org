@@ -21,7 +21,7 @@ RUN apt-get install -y libqt4-webkit libqt4-dev xvfb
 RUN apt-get install -y nodejs
 RUN gem install foreman
 
-ENV APP_HOME /myapp
+ENV APP_HOME /mammooc
 RUN mkdir $APP_HOME
 WORKDIR $APP_HOME
 
