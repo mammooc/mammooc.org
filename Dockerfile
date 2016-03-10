@@ -35,3 +35,7 @@ RUN bundle exec rake assets:precompile
 
 # Create cronjobs based on config/schedule.rb
 RUN bundle exec whenever -w
+
+# Download Root CA Certificates
+RUN curl https://curl.haxx.se/ca/cacert.pem > cacert.pem
+ENV SSL_CERT_FILE $APP_HOME/cacert.pem
