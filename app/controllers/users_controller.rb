@@ -318,6 +318,7 @@ class UsersController < ApplicationController
         oauth_link = provider_connector.oauth_link("#{user_settings_path(current_user)}?subsite=mooc_provider", masked_authenticity_token(session))
       end
       {id: mooc_provider.id,
+       url: mooc_provider.url,
        logo_id: mooc_provider.logo_id,
        api_support_state: mooc_provider.api_support_state,
        oauth_link: oauth_link}

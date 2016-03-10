@@ -59,7 +59,8 @@
 
 
       .options
-        img src=@provider_logos[@course.mooc_provider.logo_id]
+        a href="#{@course.mooc_provider.url}"
+          img src=@provider_logos[@course.mooc_provider.logo_id]
 
       - if user_signed_in?
         .actions
