@@ -13,6 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require moment
+//= require fullcalendar
 //= require bootstrap
 //= require bootstrap-tokenfield
 //= require bootstrap-rating.min

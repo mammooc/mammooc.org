@@ -1,3 +1,6 @@
+# encoding: utf-8
+# frozen_string_literal: true
+
 class AddAttributesToEvaluations < ActiveRecord::Migration
   def change
     add_column(:evaluations, :course_status, :integer)

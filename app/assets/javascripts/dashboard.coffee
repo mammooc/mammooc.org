@@ -1,6 +1,7 @@
 
 ready = ->
   $('#sync-user-course-button').on 'click', (event) -> synchronizeCourse(event)
+  $('#sync-user-dates-button').on 'click', (event) -> synchronizeDatesDashboard(event)
   $('.delete_bookmark_on_dashboard').on 'click', (event) -> deleteBookmarkOnDashboard(event)
   return
 
@@ -23,6 +24,18 @@ synchronizeCourse = (event) ->
         else if result != true
           window.location.replace(result)
       $("div.user-courses-container").html(data.partial)
+  event.preventDefault()
+
+synchronizeDatesDashboard = (event) ->
+  url = "/user_dates/synchronize_dates_on_dashboard.json"
+  $.ajax
+    url: url
+    method: 'GET'
+    error: (jqXHR, textStatus, errorThrown) ->
+      console.log('error_synchronize_dates')
+      alert(I18n.t('global.ajax_failed'))
+    success: (data, textStatus, jqXHR) ->
+      $("div.user-dates-container").html(data.partial)
   event.preventDefault()
 
 deleteBookmarkOnDashboard = (event) ->

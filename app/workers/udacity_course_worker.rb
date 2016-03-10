@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 class UdacityCourseWorker < AbstractCourseWorker
   include Sidekiq::Worker
   require 'rest_client'
@@ -73,11 +75,14 @@ class UdacityCourseWorker < AbstractCourseWorker
   end
 
   def calculate_duration(value, unit)
+    return nil if value == 0 || unit.blank?
+
     factor = case unit
                when 'days' then 1
                when 'weeks' then 7
                when 'months' then 30
              end
+
     value * factor
   end
 end

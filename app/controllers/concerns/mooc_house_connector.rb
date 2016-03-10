@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 class MoocHouseConnector < AbstractXikoloConnector
   NAME = 'mooc.house'
   ROOT_API_V1 = 'https://mooc.house/api/'

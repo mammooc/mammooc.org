@@ -1,4 +1,5 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe Course, type: :model do
@@ -7,7 +8,7 @@ RSpec.describe Course, type: :model do
       user = FactoryGirl.create(:user)
       bookmark = FactoryGirl.create(:bookmark, user: user)
       expect(
-        bookmark.course.bookmarked_by_user? user
+        bookmark.course.bookmarked_by_user?(user)
       ).to be true
     end
 
@@ -15,7 +16,7 @@ RSpec.describe Course, type: :model do
       user = FactoryGirl.create(:user)
       bookmark = FactoryGirl.create(:bookmark)
       expect(
-        bookmark.course.bookmarked_by_user? user
+        bookmark.course.bookmarked_by_user?(user)
       ).to be false
     end
   end
@@ -90,14 +91,14 @@ RSpec.describe Course, type: :model do
       expect { course1.save! }.not_to raise_error
     end
 
-    it 'returns our course id for a given mooc provider and its provider course id' do
-      course_id = described_class.get_course_id_by_mooc_provider_id_and_provider_course_id provider, '123'
-      expect(course_id).to eq course1.id
+    it 'returns our course for a given mooc provider and its provider course id' do
+      course = described_class.get_course_by_mooc_provider_id_and_provider_course_id provider, '123'
+      expect(course).to eq course1
     end
 
     it 'returns nil for an invalid set of mooc provider and its provider course id' do
-      course_id = described_class.get_course_id_by_mooc_provider_id_and_provider_course_id provider, '456'
-      expect(course_id).to eq nil
+      course = described_class.get_course_by_mooc_provider_id_and_provider_course_id provider, '456'
+      expect(course).to eq nil
     end
   end
 
@@ -158,9 +159,9 @@ RSpec.describe Course, type: :model do
   describe 'scopes for filtering' do
     context 'sorted_by' do
       let!(:course_today) { FactoryGirl.create(:course, name: 'AAA', calculated_duration_in_days: 800, start_date: Time.zone.now) }
-      let!(:course_soon) { FactoryGirl.create(:course, name: 'ZZZ', calculated_duration_in_days: 60, start_date: Time.zone.now + 1.weeks) }
-      let!(:course_current) { FactoryGirl.create(:course, name: 'CCC', start_date: Time.zone.now - 1.weeks, end_date: Time.zone.now + 1.weeks) } # calculated_duration_in_days will be 14
-      let!(:course_past) { FactoryGirl.create(:course, name: 'BBB', start_date: Time.zone.now - 4.weeks, end_date: Time.zone.now - 1.weeks) } # calculated_duration_in_days will be 21
+      let!(:course_soon) { FactoryGirl.create(:course, name: 'ZZZ', calculated_duration_in_days: 60, start_date: Time.zone.now + 1.week) }
+      let!(:course_current) { FactoryGirl.create(:course, name: 'CCC', start_date: Time.zone.now - 1.week, end_date: Time.zone.now + 1.week) } # calculated_duration_in_days will be 14
+      let!(:course_past) { FactoryGirl.create(:course, name: 'BBB', start_date: Time.zone.now - 4.weeks, end_date: Time.zone.now - 1.week) } # calculated_duration_in_days will be 21
       let!(:course_without_dates) { FactoryGirl.create(:course, name: 'FFF', start_date: nil, end_date: nil) }
 
       it 'sorts for name asc' do
@@ -401,7 +402,7 @@ RSpec.describe Course, type: :model do
       let(:current_date) { Time.zone.now.strftime('%d.%m.%Y').to_s }
       let!(:current_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date), end_date: Time.zone.parse(current_date) + 2.weeks) }
       let!(:past_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date) - 4.weeks, end_date: Time.zone.parse(current_date) - 2.weeks) }
-      let!(:soon_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date) + 1.weeks, end_date: Time.zone.parse(current_date) + 3.weeks) }
+      let!(:soon_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date) + 1.week, end_date: Time.zone.parse(current_date) + 3.weeks) }
       let!(:future_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date) + 4.weeks, end_date: Time.zone.parse(current_date) + 6.weeks) }
       let!(:without_start_course) { FactoryGirl.create(:course, start_date: nil, end_date: Time.zone.parse(current_date) + 3.weeks) }
       let!(:without_end_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date), end_date: nil) }

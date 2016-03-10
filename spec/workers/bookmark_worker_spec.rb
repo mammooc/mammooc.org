@@ -1,4 +1,5 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe BookmarkWorker do
@@ -10,7 +11,7 @@ RSpec.describe BookmarkWorker do
   end
 
   describe 'send_reminder_for_bookmarked_courses' do
-    let(:reminder_course) { FactoryGirl.create(:course, start_date: Time.zone.today + 1.weeks) }
+    let(:reminder_course) { FactoryGirl.create(:course, start_date: Time.zone.today + 1.week) }
     let(:earlier_course) { FactoryGirl.create(:course, start_date: Time.zone.today + 2.days) }
     let(:later_course) { FactoryGirl.create(:course, start_date: Time.zone.today + 2.weeks) }
     let!(:reminder_bookmark) { FactoryGirl.create(:bookmark, user: user, course: reminder_course) }

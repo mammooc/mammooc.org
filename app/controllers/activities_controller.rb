@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 class ActivitiesController < ApplicationController
   def delete_group_from_newsfeed_entry
     @activity = PublicActivity::Activity.find(params[:id])
@@ -7,9 +9,7 @@ class ActivitiesController < ApplicationController
     if @activity.trackable_type == 'Recommendation'
       Recommendation.find(@activity.trackable_id).delete_group_recommendation
     end
-    if (@activity.user_ids.blank?) && (@activity.group_ids.blank?)
-      @activity.destroy
-    end
+    @activity.destroy if @activity.user_ids.blank? && @activity.group_ids.blank?
     respond_to do |format|
       format.html { redirect_to :back, notice: t('newsfeed.successfully_destroyed') }
     end

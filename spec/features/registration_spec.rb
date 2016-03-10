@@ -1,4 +1,5 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe 'Users::Registration', type: :feature do
@@ -29,7 +30,7 @@ RSpec.describe 'Users::Registration', type: :feature do
       check 'terms_and_conditions_confirmation'
       click_button 'submit_sign_up'
       expect(page).to have_text(I18n.t('devise.registrations.signed_up'))
-      expect(User.find_by_primary_email(user.primary_email)).to_not be_nil
+      expect(User.find_by_primary_email(user.primary_email)).not_to be_nil
     end
 
     it 'does not work if email already taken' do
@@ -97,14 +98,14 @@ RSpec.describe 'Users::Registration', type: :feature do
 
   context 'German' do
     before(:each) do
-      if page.text.match(/EN/)
+      if page.text =~ /EN/
         click_on 'language_selection'
         click_on 'Deutsch'
       end
     end
 
     after(:each) do
-      if page.text.match(/DE/)
+      if page.text =~ /DE/
         click_on 'language_selection'
         click_on 'English'
       end
@@ -119,7 +120,7 @@ RSpec.describe 'Users::Registration', type: :feature do
       check 'terms_and_conditions_confirmation'
       click_button 'submit_sign_up'
       expect(page).to have_text(I18n.t('devise.registrations.signed_up'))
-      expect(User.find_by_primary_email(user.primary_email)).to_not be_nil
+      expect(User.find_by_primary_email(user.primary_email)).not_to be_nil
     end
 
     it 'does not work if email already taken' do

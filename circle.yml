@@ -32,7 +32,7 @@ deployment:
       - "curl -H \"Content-Type: application/json\" --data '{\"build\": true}' -X POST $DOCKER_HUB_TRIGGER_URL"
       # Heroku
       - heroku maintenance:on --app mammooc
-      - git push git@heroku.com:mammooc.git
+      - git push git@heroku.com:mammooc.git master:master
       - heroku pg:reset DATABASE --app mammooc --confirm mammooc
       - heroku run rake db:schema:load db:seed RAILS_ENV=development --app mammooc
       - heroku restart --app mammooc
@@ -49,12 +49,3 @@ deployment:
       - heroku maintenance:off --app mammooc-dev
       # Gemnasium Auto-Update
       - sh -c 'GEMNASIUM=true; gemnasium autoupdate run; exit 0'
-
-  teaser:
-    branch: teaser
-    commands:
-      - heroku maintenance:on --app mammooc-teaser
-      - git push git@heroku.com:mammooc-teaser.git teaser:master
-      - heroku run rake db:migrate --app mammooc-teaser
-      - heroku restart --app mammooc-teaser
-      - heroku maintenance:off --app mammooc-teaser

@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 class OpenUNEConnector < AbstractXikoloConnector
   NAME = 'openUNE'
   ROOT_API_V1 = 'https://openune.cn/api/'

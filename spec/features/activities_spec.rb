@@ -1,4 +1,5 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
 require 'rails_helper'
 require 'support/feature_support'
 
@@ -323,6 +324,7 @@ RSpec.describe 'Activities', type: :feature do
       else
         fill_in 'recommendation_related_group_ids-tokenfield', with: "#{group.name}\n"
       end
+      wait_for_ajax
       click_on I18n.t('recommendation.submit')
       capybara_sign_out second_user
       capybara_sign_in user

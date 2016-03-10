@@ -1,17 +1,19 @@
 # encoding: utf-8
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
-ruby '2.2.3'
+ruby '2.3.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.4'
+gem 'rails', '4.2.6'
 # Use sqlite3 as the database for Active Record
 gem 'pg'
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
@@ -59,6 +61,7 @@ gem 'paperclip'
 # amazon S3 connection
 gem 'aws-sdk', '~> 2'
 gem 'aws-sdk-v1'
+
 # cron job
 gem 'redis'
 gem 'sidekiq'
@@ -89,15 +92,19 @@ gem 'filterrific'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 
+# for ical-Feed
+gem 'icalendar'
+
+#calendar widget
+gem 'fullcalendar-rails'
+gem 'momentjs-rails'
+
 gem 'oauth2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   gem 'ruby-debug-passenger'
-
-  # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
@@ -118,8 +125,12 @@ group :development, :test do
   gem 'simplecov', require: false
   gem 'rubocop', require: false
   gem 'rubocop-rspec', require: false
-  gem 'pullreview-coverage', require: false
   gem 'coveralls', require: false
 
   gem 'quiet_assets'
+end
+
+group :development do
+  # Access an IRB console on exception pages or by using <%= console %> in views
+  gem 'web-console'
 end

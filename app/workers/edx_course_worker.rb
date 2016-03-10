@@ -1,15 +1,28 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+require 'nokogiri'
+require 'open-uri'
+
 class EdxCourseWorker < AbstractCourseWorker
   MOOC_PROVIDER_NAME = 'edX'
-  MOOC_PROVIDER_API_LINK = 'http://pipes.yahoo.com/pipes/pipe.run?_id=74859f52b084a75005251ae7a119f371&_render=json'
+  MOOC_PROVIDER_API_LINK = 'https://www.edx.org/api/v2/report/course-feed/rss'
 
   def mooc_provider
     MoocProvider.find_by_name(self.class::MOOC_PROVIDER_NAME)
   end
 
   def course_data
-    response = RestClient.get(self.class::MOOC_PROVIDER_API_LINK)
-    JSON.parse response
+    data = []
+    data.push(Nokogiri::XML(open(MOOC_PROVIDER_API_LINK)))
+    i = 0
+    last_page = data[i].xpath("//channel/atom:link[@rel='last']/@href").text
+    next_page = data[i].xpath("//channel/atom:link[@rel='next']/@href").text
+    while last_page != next_page
+      next_page = data[i].xpath("//channel/atom:link[@rel='next']/@href").text
+      i += 1
+      data.push(Nokogiri::XML(open(next_page)))
+    end
+    data
   end
 
   def handle_response_data(response_data)
@@ -20,94 +33,95 @@ class EdxCourseWorker < AbstractCourseWorker
     xseries_track_type = CourseTrackType.find_by(type_of_achievement: 'edx_xseries_verified_certificate')
     profed_track_type = CourseTrackType.find_by(type_of_achievement: 'edx_profed_certificate')
 
-    response_data['value']['items'].each do |course_element|
-      course = Course.find_by(provider_course_id: course_element['course:id'], mooc_provider_id: mooc_provider.id)
-      if course.nil?
-        course = Course.new
-      else
-        update_map[course.id] = true
-      end
+    response_data.each do |xml_doc|
+      language = xml_doc.xpath('//channel/language').text
+      xml_doc.xpath('//channel/item').each do |course_element|
+        course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, course_element.xpath('course:id').text)
+        if course.nil?
+          course = Course.new
+        else
+          update_map[course.id] = true
+        end
 
-      course.name = course_element['title'].strip
-      course.provider_course_id = course_element['course:id']
-      course.mooc_provider_id = mooc_provider.id
-      course.url = course_element['link']
+        course.name = course_element.xpath('title').text.strip
+        course.provider_course_id = course_element.xpath('course:id').text
+        course.mooc_provider_id = mooc_provider.id
+        course.url = course_element.xpath('link').text
+        course.language = language
 
-      if course_element['course:image-thumbnail'].present? && course_element['course:image-thumbnail'][/[\?&#]/]
-        filename = File.basename(course_element['course:image-thumbnail'])[/.*?(?=[\?&#])/]
-        filename = filename.tr!('=', '_')
-      elsif course_element['course:image-thumbnail'].present?
-        filename = File.basename(course_element['course:image-thumbnail'])
-      end
+        course_thumbnail = course_element.xpath('course:image-thumbnail')
+        if course_thumbnail.present? && course_thumbnail.text[/[\?&#]/]
+          filename = File.basename(course_thumbnail.text)[/.*?(?=[\?&#])/]
+          filename = filename.tr!('=', '_')
+        elsif course_thumbnail.present?
+          filename = File.basename(course_thumbnail.text)
+        end
 
-      if course_element['course:image-thumbnail'].present? && course.course_image_file_name != filename
-        course.course_image = Course.process_uri(course_element['course:image-thumbnail'])
-      end
-      if course_element['course:start']
-        course.start_date = course_element['course:start']
-      end
-      if course_element['course:end']
-        course.end_date = course_element['course:end']
-      end
-      if course_element['course:length']
-        course.provider_given_duration = course_element['course:length']
-      end
-      course.abstract = course_element['course:subtitle']
-      course.description = course_element['description']
+        if course_thumbnail.present? && course.course_image_file_name != filename
+          course.course_image = Course.process_uri(course_thumbnail.text)
+        end
 
-      temp = ''
-      if course_element['course:staff']
-        if course_element['course:staff'].class == Array
-          course_element['course:staff'].each_with_index do |staff_member, index|
-            temp += staff_member
-            unless (index == course_element['course:staff'].size - 1)
-              temp += ', '
-            end
+        if course_element.xpath('course:start').present?
+          course.start_date = course_element.xpath('course:start').text
+        end
+        if course_element.xpath('course:end').present?
+          course.end_date = course_element.xpath('course:end').text
+        end
+        if course_element.xpath('course:length').present?
+          course.provider_given_duration = course_element.xpath('course:length').text
+        end
+        course.abstract = course_element.xpath('course:subtitle').text
+        course.description = course_element.xpath('description').text
+
+        all_staff = []
+        course_element.xpath('course:instructors/course:staff').each do |staff_member|
+          all_staff.push(staff_member.xpath('staff:name').text)
+        end
+        instructors = ''
+        all_staff.each do |staff_name|
+          instructors += staff_name
+          instructors += ', ' if staff_name != all_staff.last
+        end
+        course.course_instructors = instructors
+
+        course.requirements = nil
+        unless course_element.xpath('course:prerequisites').text == 'None'
+          course.requirements = [course_element.xpath('course:prerequisites').text]
+        end
+
+        if course_element.xpath('course:subject').present?
+          course.categories = []
+          course_element.xpath('course:subject').each do |subject|
+            course.categories.push(subject.text)
           end
-        elsif course_element['course:staff'].class == String
-          temp = course_element['course:staff']
+        else
+          course.categories = nil
         end
-        course.course_instructors = temp
-      end
 
-      course.requirements = nil
-      if course_element['course:prerequisites']
-        unless course_element['course:prerequisites'].empty?
-          course.requirements = [course_element['course:prerequisites']]
+        if course_element.xpath('course:effort').present?
+          course.workload = course_element.xpath('course:effort').text
         end
-      end
 
-      course.categories = nil
-      if course_element['course:subject']
-        if course_element['course:subject'].class == Array
-          course.categories = course_element['course:subject']
-        elsif course_element['course:subject'].class == String
-          course.categories = [course_element['course:subject']]
+        if course_element.xpath('course:profed').text == '1'
+          profed_track = CourseTrack.find_by(course_id: course.id, track_type: profed_track_type) || CourseTrack.create!(track_type: profed_track_type)
+          course.tracks.push profed_track
+        else
+          free_track = CourseTrack.find_by(course_id: course.id, track_type: free_track_type) || CourseTrack.create!(track_type: free_track_type, costs: 0.0, costs_currency: '$')
+          course.tracks.push free_track
+          if course_element.xpath('course:verified').text == '1'
+            certificate_track = CourseTrack.find_by(course_id: course.id, track_type: certificate_track_type) || CourseTrack.create!(track_type: certificate_track_type)
+            course.tracks.push certificate_track
+          end
+          if course_element.xpath('course:xseries').text == '1'
+            xseries_track = CourseTrack.find_by(course_id: course.id, track_type: xseries_track_type) || CourseTrack.create!(track_type: xseries_track_type)
+            course.tracks.push xseries_track
+          end
         end
-      end
 
-      if course_element['course:effort']
-        course.workload = course_element['course:effort']
+        course.save!
       end
-
-      if course_element['course:profed'] && course_element['course:profed'] == '1'
-        profed_track = CourseTrack.find_by(course_id: course.id, track_type: profed_track_type) || CourseTrack.create!(track_type: profed_track_type)
-        course.tracks.push profed_track
-      else
-        free_track = CourseTrack.find_by(course_id: course.id, track_type: free_track_type) || CourseTrack.create!(track_type: free_track_type, costs: 0.0, costs_currency: '$')
-        course.tracks.push free_track
-        if course_element['course:verified'] && course_element['course:verified'] == '1'
-          certificate_track = CourseTrack.find_by(course_id: course.id, track_type: certificate_track_type) || CourseTrack.create!(track_type: certificate_track_type)
-          course.tracks.push certificate_track
-        end
-        if course_element['course:xseries'] && course_element['course:xseries'] == '1'
-          xseries_track = CourseTrack.find_by(course_id: course.id, track_type: xseries_track_type) || CourseTrack.create!(track_type: xseries_track_type)
-          course.tracks.push xseries_track
-        end
-      end
-
-      course.save!
     end
+
     evaluate_update_map update_map
   end
 end
