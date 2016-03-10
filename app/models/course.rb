@@ -1,4 +1,5 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
 # rubocop:disable Style/Lambda
 
 class Course < ActiveRecord::Base
@@ -33,6 +34,7 @@ class Course < ActiveRecord::Base
   has_many :course_assignments
   has_many :user_assignments
   has_many :tracks, class_name: 'CourseTrack', dependent: :destroy
+  has_many :user_dates
 
   has_attached_file :course_image,
     styles: {
@@ -97,13 +99,17 @@ class Course < ActiveRecord::Base
   end
 
   scope :with_start_date_gte, ->(reference_time) do
+    parsed_date = Time.zone.parse(reference_time.to_s)
+    return nil if parsed_date.blank?
     where('courses.start_date IS NOT NULL AND (courses.start_date >= ?) ',
-      Time.zone.parse(reference_time).strftime('%Y-%m-%d %H:%M:%S.%6N'))
+      parsed_date.strftime('%Y-%m-%d %H:%M:%S.%6N'))
   end
 
   scope :with_end_date_lte, ->(reference_time) do
+    parsed_date = Time.zone.parse(reference_time.to_s)
+    return nil if parsed_date.blank?
     where('courses.end_date IS NOT NULL AND (courses.end_date <= ?) ',
-      Time.zone.parse(reference_time).strftime('%Y-%m-%d %H:%M:%S.%6N'))
+      parsed_date.strftime('%Y-%m-%d %H:%M:%S.%6N'))
   end
 
   scope :with_language, ->(reference_language) do
@@ -124,38 +130,38 @@ class Course < ActiveRecord::Base
     if reference_track_options[:costs].present? && reference_track_options[:certificate].blank?
       case reference_track_options[:costs]
         when 'free'
-          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs = 0')).joins(:tracks)).collect(&:id).uniq)
+          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs = 0').joins(:tracks).collect(&:id).uniq)
         when 'range1'
-          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 30.0 AND course_tracks.costs > 0.0')).joins(:tracks)).collect(&:id).uniq)
+          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 30.0 AND course_tracks.costs > 0.0').joins(:tracks).collect(&:id).uniq)
         when 'range2'
-          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 60.0 AND course_tracks.costs > 30.0')).joins(:tracks)).collect(&:id).uniq)
+          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 60.0 AND course_tracks.costs > 30.0').joins(:tracks).collect(&:id).uniq)
         when 'range3'
-          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 90.0 AND course_tracks.costs > 60.0')).joins(:tracks)).collect(&:id).uniq)
+          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 90.0 AND course_tracks.costs > 60.0').joins(:tracks).collect(&:id).uniq)
         when 'range4'
-          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 150.0 AND course_tracks.costs > 90.0')).joins(:tracks)).collect(&:id).uniq)
+          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 150.0 AND course_tracks.costs > 90.0').joins(:tracks).collect(&:id).uniq)
         when 'range5'
-          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 200.0 AND course_tracks.costs > 150.0')).joins(:tracks)).collect(&:id).uniq)
+          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 200.0 AND course_tracks.costs > 150.0').joins(:tracks).collect(&:id).uniq)
         when 'range6'
-          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs > 200.0')).joins(:tracks)).collect(&:id).uniq)
+          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs > 200.0').joins(:tracks).collect(&:id).uniq)
       end
     elsif reference_track_options[:costs].blank? && reference_track_options[:certificate].present?
       where('course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks)
     elsif reference_track_options[:costs].present? && reference_track_options[:certificate].present?
       case reference_track_options[:costs]
         when 'free'
-          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs = 0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)).collect(&:id).uniq)
+          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs = 0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
         when 'range1'
-          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 30.0 AND course_tracks.costs > 0.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)).collect(&:id).uniq)
+          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 30.0 AND course_tracks.costs > 0.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
         when 'range2'
-          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 60.0 AND course_tracks.costs > 30.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)).collect(&:id).uniq)
+          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 60.0 AND course_tracks.costs > 30.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
         when 'range3'
-          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 90.0 AND course_tracks.costs > 60.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)).collect(&:id).uniq)
+          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 90.0 AND course_tracks.costs > 60.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
         when 'range4'
-          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 150.0 AND course_tracks.costs > 90.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)).collect(&:id).uniq)
+          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 150.0 AND course_tracks.costs > 90.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
         when 'range5'
-          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 200.0 AND course_tracks.costs > 150.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)).collect(&:id).uniq)
+          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 200.0 AND course_tracks.costs > 150.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
         when 'range6'
-          where(id: ((where('course_tracks.costs IS NOT NULL AND course_tracks.costs > 200.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)).collect(&:id).uniq)
+          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs > 200.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
       end
     end
   end
@@ -284,11 +290,7 @@ class Course < ActiveRecord::Base
 
   def self.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider_id, provider_course_id)
     course = Course.find_by(provider_course_id: provider_course_id, mooc_provider_id: mooc_provider_id)
-    if course.present?
-      return course
-    else
-      return nil
-    end
+    return course if course.present?
   end
 
   def self.update_course_rating_attributes(course_id)
@@ -306,12 +308,11 @@ class Course < ActiveRecord::Base
 
   def handle_activities
     PublicActivity::Activity.find_each do |activity|
-      case activity.trackable_type
-        when 'Recommendation' then course = Recommendation.find(activity.trackable_id).course
-        when 'Course' then course = Course.find(activity.trackable_id)
-        when 'Bookmark' then course = Bookmark.find(activity.trackable_id).course
-        else course = nil
-      end
+      course = case activity.trackable_type
+                 when 'Recommendation' then Recommendation.find(activity.trackable_id).course
+                 when 'Course' then Course.find(activity.trackable_id)
+                 when 'Bookmark' then Bookmark.find(activity.trackable_id).course
+               end
       activity.destroy if course == self
     end
   end

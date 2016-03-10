@@ -280,6 +280,7 @@ $course-listing-img-height: 130px;
 
 .courses-wrapper {
   overflow: auto;
+  padding-top: 5px;
 
   .courses {
     @include white-box;
@@ -343,13 +344,13 @@ $course-listing-img-height: 130px;
 
       .action-icon-wishlist {
         @extend .action-icons;
-        top: 10px;
+        top: -9px;
         right: 10px;
       }
 
       .action-icon-enrollment {
         @extend .action-icons;
-        top: 35px;
+        top: 15px;
         right: 10px;
       }
     }

@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 FactoryGirl.define do
   factory :course do
     name 'Minimal Technologies'
@@ -32,7 +34,7 @@ Claudia; “I enjoyed this course so much. It gave me a chance to expand my hori
     requirements %w(Computer Brain Strength)
     difficulty 'medium'
     workload '4-8 hours a week'
-    sequence(:provider_course_id) {|n| "#{n}" }
+    sequence(:provider_course_id, &:to_s)
     open_for_registration true
     provider_given_duration '6 weeks'
     subtitle_languages 'en,de'

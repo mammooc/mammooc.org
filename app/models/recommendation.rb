@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 class Recommendation < ActiveRecord::Base
   belongs_to :author, class_name: 'User'
   belongs_to :course

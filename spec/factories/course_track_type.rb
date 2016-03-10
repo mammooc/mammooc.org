@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 FactoryGirl.define do
   factory :course_track_type do
     title 'Audit'

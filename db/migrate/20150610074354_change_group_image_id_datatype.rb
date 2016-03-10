@@ -1,3 +1,6 @@
+# encoding: utf-8
+# frozen_string_literal: true
+
 class ChangeGroupImageIdDatatype < ActiveRecord::Migration
   def self.up
     remove_column :groups, :image_id

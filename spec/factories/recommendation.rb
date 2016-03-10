@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 FactoryGirl.define do
   factory :user_recommendation, class: Recommendation do
     is_obligatory false

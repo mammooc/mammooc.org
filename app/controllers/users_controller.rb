@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
   include ConnectorMapper
   before_action :set_provider_logos, only: [:settings, :mooc_provider_settings]
@@ -55,16 +57,16 @@ class UsersController < ApplicationController
     @synchronization_state = {}
     @synchronization_state[:openHPI] = OpenHPIUserWorker.new.perform [current_user.id]
     @synchronization_state[:openSAP] = OpenSAPUserWorker.new.perform [current_user.id]
-    if CourseraUserWorker.new.perform [current_user.id]
-      @synchronization_state[:coursera] = true
-    else
-      @synchronization_state[:coursera] = CourseraConnector.new.oauth_link(synchronize_courses_path(current_user), masked_authenticity_token(session))
-    end
+    @synchronization_state[:coursera] = if CourseraUserWorker.new.perform [current_user.id]
+                                          true
+                                        else
+                                          CourseraConnector.new.oauth_link(synchronize_courses_path(current_user), masked_authenticity_token(session))
+                                        end
     @partial = render_to_string partial: 'dashboard/user_courses', formats: [:html]
     respond_to do |format|
       begin
         format.html { redirect_to dashboard_path }
-        format.json { render :synchronization_result, status: :ok }
+        format.json { render :synchronization_result_enrollments, status: :ok }
       rescue StandardError => e
         format.html { redirect_to dashboard_path }
         format.json { render json: e.to_json, status: :unprocessable_entity }
@@ -144,7 +146,7 @@ class UsersController < ApplicationController
   def connected_users_autocomplete
     search = params[:q].downcase
     users = current_user.connected_users.select {|u| u.first_name.downcase.include?(search) || u.last_name.downcase.include?(search) }
-            .collect {|u| {id: u.id, first_name: u.first_name, last_name: u.last_name} }
+                        .collect {|u| {id: u.id, first_name: u.first_name, last_name: u.last_name} }
 
     respond_to do |format|
       format.json { render json: users }
@@ -159,23 +161,35 @@ class UsersController < ApplicationController
     csrf_token = state.third if state.present?
     flash['error'] ||= []
 
-    return oauth_error_and_redirect(destination_path) if mooc_provider.blank?
+    begin
+      root_uri = URI(Settings.root_url)
+      destination_uri = destination_path.present? ? URI(destination_path) : URI(dashboard_path)
+      destination_uri.scheme = root_uri.scheme
+      destination_uri.host = root_uri.host
+      destination_uri.port = root_uri.port
+      destination_url = destination_uri.to_s
+    rescue URI::ERROR => e
+      Rails.logger.error "#{e.class}: #{e.message}"
+      destination_url = dashboard_url
+    end
+
+    return oauth_error_and_redirect(destination_url) if mooc_provider.blank?
 
     provider_connector = get_connector_by_mooc_provider mooc_provider
 
-    return oauth_error_and_redirect(destination_path) if provider_connector.blank? && mooc_provider.api_support_state != 'oauth'
+    return oauth_error_and_redirect(destination_url) if provider_connector.blank? && mooc_provider.api_support_state != 'oauth'
 
-    if params[:error].present? || !valid_authenticity_token?(session, csrf_token)
-      provider_connector.destroy_connection(current_user)
-      return oauth_error_and_redirect(destination_path)
-    elsif code.present?
-      provider_connector.initialize_connection(current_user, code: code)
-      redirect_to destination_path
+    if code.present? && params[:error].blank? && valid_authenticity_token?(session, csrf_token)
+      result = provider_connector.initialize_connection(current_user, code: code)
+      redirect_to destination_url if result
+      return
     end
+    provider_connector.destroy_connection(current_user)
+    oauth_error_and_redirect(destination_url)
   end
 
   def oauth_error_and_redirect(destination_path)
-    flash['error'] << "#{t('users.synchronization.oauth_error')}"
+    flash['error'] << t('users.synchronization.oauth_error')
     destination_path.present? ? destination_path : destination_path = dashboard_path
     redirect_to destination_path
   end

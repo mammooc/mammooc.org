@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 class CoursesController < ApplicationController
   before_action :set_course, only: [:show, :enroll_course, :unenroll_course, :send_evaluation]
   skip_before_action :require_login, only: [:index, :show, :filter_options, :search, :load_more]
@@ -39,8 +41,8 @@ class CoursesController < ApplicationController
       @following_course_name = Course.find(@course.following_iteration_id).name
     end
 
-    @course_languages = (@course.language.blank?) ? nil : @course.language.split(',')
-    @subtitle_languages = (@course.subtitle_languages.blank?) ? nil : @course.subtitle_languages.split(',')
+    @course_languages = @course.language.blank? ? nil : @course.language.split(',')
+    @subtitle_languages = @course.subtitle_languages.blank? ? nil : @course.subtitle_languages.split(',')
 
     @recommendation = Recommendation.new(course: @course)
 
@@ -274,10 +276,10 @@ class CoursesController < ApplicationController
     @courses = @filterrific.find.page(params[:page])
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(@courses)
 
-    if current_user.present?
-      @my_bookmarked_courses = current_user.bookmarks.collect(&:course)
-    else
-      @my_bookmarked_courses = []
-    end
+    @my_bookmarked_courses = if current_user.present?
+                               current_user.bookmarks.collect(&:course)
+                             else
+                               []
+                             end
   end
 end

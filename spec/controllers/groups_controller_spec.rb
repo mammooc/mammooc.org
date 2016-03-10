@@ -1,4 +1,5 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe GroupsController, type: :controller do
@@ -307,7 +308,7 @@ RSpec.describe GroupsController, type: :controller do
     it 'destroys the membership of all users of the deleted group and only of the deleted group' do
       user_1 = FactoryGirl.create(:user)
       user_2 = FactoryGirl.create(:user)
-      group_with_admin.update(users: [user, user_1, user_2])
+      group_with_admin.users = [user, user_1, user_2]
       group_2 = FactoryGirl.create(:group, users: [user, user_1, user_2])
       expect do
         delete :destroy, id: group_with_admin.to_param

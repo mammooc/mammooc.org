@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
@@ -35,6 +37,7 @@ RSpec.configure do |config|
 
   config.include Devise::TestHelpers, type: :controller
   config.include Devise::TestHelpers, type: :view
+  config.include Warden::Test::Helpers, type: :request
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false

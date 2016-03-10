@@ -32,7 +32,7 @@ deployment:
       - "curl -H \"Content-Type: application/json\" --data '{\"build\": true}' -X POST $DOCKER_HUB_TRIGGER_URL"
       # Heroku
       - heroku maintenance:on --app mammooc
-      - git push git@heroku.com:mammooc.git
+      - git push git@heroku.com:mammooc.git master:master
       - heroku pg:reset DATABASE --app mammooc --confirm mammooc
       - heroku run rake db:schema:load db:seed RAILS_ENV=development --app mammooc
       - heroku restart --app mammooc
