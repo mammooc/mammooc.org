@@ -184,6 +184,7 @@ de:
       only_one_provider: Du musst entweder ein Passwort setzen oder dich über einen anderen Anbieter anmelden, damit du deine bestehende Verbindung entfernen kannst.
       identity_deleted: Deine Verbindung mit %{provider} wurde erfolgreich aufgehoben.
       identity_not_deleted: Deine Verbindung mit %{provider} konnte nicht entfernt werden.
+      success: Einstellungen erfolgreich aktualisiert.
       easyID:
         add_identity: Mit dem neuen Personalausweis verknüpfen
         remove_identity: Verknüpfung mit meinem neuen Personalausweis aufheben
@@ -205,6 +206,15 @@ de:
         course_progress: Mein Kursfortschritt ist
         profile_title: Profil
         profile: Mein Profil ist
+      newsletter:
+        interval:
+          one: jeden Tag
+          week: jede Woche
+          two_weeks: alle zwei Wochen
+          month: jeden Monat
+        receive_no: kein Newsletter
+        define_interval: 'Email erhalten:'
+        new_courses: Regelmäßige Email mit neuen Kursen
     synchronization:
       oauth_error: Fehler! Wir konnten keine Verbindung zu deinem Account herstellen. Bitte überprüfe deine Einstellungen und versuche es erneut.
       revoke_provider_connection: Verbindung aufheben

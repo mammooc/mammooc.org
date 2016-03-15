@@ -1,0 +1,49 @@
+doctype html
+html
+  head
+    meta charset="utf-8"
+    meta http-equiv="X-UA-Compatible" content="IE=edge"
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    meta name="description" content=""
+    meta name="author" content="#{t('global.app_name')}"
+  body
+    | (English Version below)
+    br
+    br
+    p
+      | Hallo #{@user.first_name} #{@user.last_name},
+    p
+      | die folgenden Kurse sind seit dem #{@user.last_newsletter_send_at} veröffentlicht worden:
+
+    - @courses.each do |course|
+      .course-infobox
+        .wrapper
+          .course-image.hidden-xs
+            = image_tag(course.course_image.url)
+          .content
+            .title
+              = course.name
+              - if course.calculated_rating.present? && course.calculated_rating > 0
+                .course-rating
+                  span.course-rating-value
+                    input.rating type='hidden' value="#{course.calculated_rating}" data-start="0" data-stop="5" id="course-rating-output" disabled="disabled"
+                  .course-rating-count
+                    = "(#{course.rating_count})"
+            - if course.course_instructors.present?
+              => t('global.by')
+              = course.course_instructors
+            p
+            - if course.language
+              img src="/data/icons/globe.png" class="icon-small pr5"
+              - language_array = course.language.split(',')
+              - language_array.each do |language|
+                - if I18n.t("language.#{language}").include? 'translation missing'
+                  = language
+                - else
+                = I18n.t("language.#{language}")
+                - unless language_array.last == language
+                  = ', '
+    p
+      | Viel Spaß,
+    p
+      | dein mammooc-Team

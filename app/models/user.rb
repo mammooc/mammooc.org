@@ -340,6 +340,10 @@ class User < ActiveRecord::Base
     group_is_able
   end
 
+  def self.collect_new_courses(user)
+    Course.where('created_at > ?', user.last_newsletter_send_at)
+  end
+
   private
 
   def save_primary_email

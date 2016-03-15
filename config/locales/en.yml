@@ -184,6 +184,7 @@ en:
       only_one_provider: You must choose a password or add another provider in order to remove your existing connection.
       identity_deleted: Your connection with %{provider} was successfully removed.
       identity_not_deleted: Your connection with %{provider} could not be removed.
+      success: Einstellungen erfolgreich aktualisiert.
       easyID:
         add_identity: Link with a German National Identity Card
         remove_identity: Remove link with my German National Identity Card
@@ -205,6 +206,15 @@ en:
         course_progress: My Course Progress is
         profile_title: Profile
         profile: My Profile is
+      newsletter:
+        interval:
+          one: each day
+          week: each week
+          two_weeks: every second week
+          month: each month
+        receive_no: no newsletter
+        define_interval: 'Receive email:'
+        new_courses: Regular Email with New Courses
     synchronization:
       oauth_error: Sorry! We were unable to establish a connection to your account. Please check your settings and try again.
       revoke_provider_connection: Revoke connection
@@ -706,3 +716,4 @@ en:
       user: You are not allowed to access any users.
     completions:
       user: The user did not grant you access to his/her course completions.
+

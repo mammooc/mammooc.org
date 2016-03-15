@@ -1,3 +1,6 @@
+h3
+  | Persönliche Daten
+
 = form_for(@user, html: { class: 'form-horizontal', role: 'form', multipart: true }) do |f|
   - if @user.errors.any?
     .alert.alert-danger.alert-dismissable role="alert"
