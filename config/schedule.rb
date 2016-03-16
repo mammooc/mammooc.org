@@ -23,7 +23,7 @@
 set :job_template, "bash -c ':job'"
 
 every 1.day, at: '1:00 am' do
-  command 'echo Cronjob every day at 1:00 am. Executed: `date`', :output => '/var/log/cron.log'
+  command 'echo Cronjob every day at 1:00 am. Executed: `date`', output: '/var/log/cron.log'
   rake 'mammooc:update_course_data'
   rake 'mammooc:update_user_data'
   rake 'mammooc:send_reminders'

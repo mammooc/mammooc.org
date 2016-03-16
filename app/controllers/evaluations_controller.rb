@@ -32,10 +32,10 @@ class EvaluationsController < ApplicationController
       mooc_provider = MoocProvider.find_by(name: params[:provider])
       if mooc_provider.present?
         courses = Course.where(mooc_provider: mooc_provider)
-      else #given provider not valid
+      else # given provider not valid
         courses = Course.all
       end
-    else #no provider given
+    else # no provider given
       courses = Course.all
     end
     @courses_with_evaluations = []
@@ -43,13 +43,13 @@ class EvaluationsController < ApplicationController
       course_evaluations = Set.new
       course.evaluations.each do |evaluation|
         evaluation_object = {
-            rating: evaluation.rating,
-            description: evaluation.description,
-            creation_date: evaluation.created_at,
-            total_feedback_count: evaluation.total_feedback_count,
-            helpful_feedback_count: evaluation.positive_feedback_count,
-            course_status: evaluation.course_status.to_sym,
-            is_verified: evaluation.is_verified
+          rating: evaluation.rating,
+          description: evaluation.description,
+          creation_date: evaluation.created_at,
+          total_feedback_count: evaluation.total_feedback_count,
+          helpful_feedback_count: evaluation.positive_feedback_count,
+          course_status: evaluation.course_status.to_sym,
+          is_verified: evaluation.is_verified
         }
 
         if evaluation.rated_anonymously
@@ -61,11 +61,11 @@ class EvaluationsController < ApplicationController
       end
 
       course_with_evaluations = {
-          course_id_from_provider: course.provider_course_id,
-          mooc_provider: course.mooc_provider.name,
-          overall_rating: course.calculated_rating,
-          number_of_evaluations: course.rating_count,
-          evaluations: course_evaluations
+        course_id_from_provider: course.provider_course_id,
+        mooc_provider: course.mooc_provider.name,
+        overall_rating: course.calculated_rating,
+        number_of_evaluations: course.rating_count,
+        evaluations: course_evaluations
       }
 
       @courses_with_evaluations.push course_with_evaluations
