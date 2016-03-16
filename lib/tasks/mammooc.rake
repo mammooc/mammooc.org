@@ -27,4 +27,8 @@ namespace :mammooc do
     BookmarkWorker.perform_async
   end
 
+  task send_newsletters: :environment do
+    NewsletterWorker.perform_async
+  end
+
 end
