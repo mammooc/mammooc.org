@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 # Use this file to easily define all of your cron jobs.
 #
 # It's helpful, but not entirely necessary to understand cron before proceeding.
@@ -27,4 +29,9 @@ every 1.day, at: '1:00 am' do
   rake 'mammooc:update_course_data'
   rake 'mammooc:update_user_data'
   rake 'mammooc:send_reminders'
+end
+
+every 1.hour do
+  command 'echo Cronjob every hour. Executed: `date`', output: '/var/log/cron.log'
+  rake 'mammooc:synchronize_dates_for_all_users'
 end

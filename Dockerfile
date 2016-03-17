@@ -21,7 +21,7 @@ RUN apt-get install -y libqt4-webkit libqt4-dev xvfb
 RUN apt-get install -y nodejs
 RUN gem install foreman
 
-ENV APP_HOME /myapp
+ENV APP_HOME /mammooc
 RUN mkdir $APP_HOME
 WORKDIR $APP_HOME
 
@@ -35,3 +35,11 @@ RUN bundle exec rake assets:precompile
 
 # Create cronjobs based on config/schedule.rb
 RUN bundle exec whenever -w
+
+# Download Root CA Certificates, add GTE for Windows Live Login and use this bundle for curl
+RUN curl https://curl.haxx.se/ca/cacert.pem > cacert.pem
+RUN curl https://www.digicert.com/CACerts/GTECyberTrustGlobalRoot.crt >> GTECyberTrustGlobalRoot.crt
+RUN openssl x509 -inform DER -in GTECyberTrustGlobalRoot.crt -out GTECyberTrustGlobalRoot.pem -outform PEM
+RUN cat GTECyberTrustGlobalRoot.pem >> cacert.pem
+RUN rm GTECyberTrustGlobalRoot.crt GTECyberTrustGlobalRoot.pem
+ENV SSL_CERT_FILE $APP_HOME/cacert.pem

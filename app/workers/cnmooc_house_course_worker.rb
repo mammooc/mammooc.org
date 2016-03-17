@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 class CnmoocHouseCourseWorker < AbstractXikoloCourseWorker
   MOOC_PROVIDER_NAME = 'cnmooc.house'
   MOOC_PROVIDER_API_LINK = 'https://cnmooc.house/api/courses'

@@ -1,4 +1,6 @@
 # encoding: utf-8
+# frozen_string_literal: true
+
 namespace :mammooc do
   task update_course_data: :environment do
     OpenHPICourseWorker.perform_async
@@ -11,6 +13,7 @@ namespace :mammooc do
     EdxCourseWorker.perform_async
     IversityCourseWorker.perform_async
     UdacityCourseWorker.perform_async
+    FutureLearnCourseWorker.perform_async
   end
 
   task update_user_data: :environment do
@@ -25,6 +28,10 @@ namespace :mammooc do
 
   task send_reminders: :environment do
     BookmarkWorker.perform_async
+  end
+
+  task synchronize_dates_for_all_users: :environment do
+    UserDatesWorker.perform_async
   end
 
 end

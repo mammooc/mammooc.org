@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 class CreateUsers < ActiveRecord::Migration
   def change
     create_table :users, id: :uuid do |t|

@@ -1,3 +1,6 @@
+# encoding: utf-8
+# frozen_string_literal: true
+
 FactoryGirl.define do
   factory :full_evaluation, class: Evaluation do
     rating { rand(1..5) }
