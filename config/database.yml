@@ -3,17 +3,15 @@ development:
   encoding: utf8
   database: mammooc_development
   pool: 5
-  username: postgres
+  username:
   password:
-  #host: db
-  #port: <%= ENV["DB_PORT_5432_TCP_PORT"] %>
 
 test: &TEST
   adapter: postgresql
   encoding: utf8
   database: mammooc_test
   pool: 5
-  username:
+  username: 
   password:
 
 production:
