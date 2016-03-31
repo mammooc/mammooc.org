@@ -52,8 +52,7 @@ Rails.application.configure do
     }
   }
 
-  # mail configurations
-  # ActionMailer::Base.perform_deliveries = false
+  # mail configuration
   ActionMailer::Base.smtp_settings = {
     port: '587',
     address: 'smtp.mandrillapp.com',
