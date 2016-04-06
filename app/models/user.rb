@@ -89,6 +89,12 @@ class User < ActiveRecord::Base
       end
     end
   end
+  
+  def self.set_no_email(user_id, no_email)
+    user = User.find_by(user_id: user_id)
+    user.no_email = no_email
+    user.save
+  end
 
   def handle_evaluations
     evaluations.each do |evaluation|
