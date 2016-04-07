@@ -91,7 +91,7 @@ class User < ActiveRecord::Base
   end
   
   def self.set_no_email(user_id, no_email)
-    user = User.find_by(user_id: user_id)
+    user = User.find_by(id: user_id)
     user.no_email = no_email
     user.save
   end

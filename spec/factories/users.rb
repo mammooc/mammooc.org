@@ -55,4 +55,13 @@ FactoryGirl.define do
       allow(user).to receive(:primary_email).and_return(user.emails.first.address)
     end
   end
+  
+  factory :noEmailUser, class: User do
+    sequence(:first_name) {|n| "Max_#{n}" }
+    last_name 'Mustermann'
+    password '12345678'
+    after(:create) do |user|
+      User.set_no_email(user.id, true)
+    end
+  end
 end
