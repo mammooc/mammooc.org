@@ -43,6 +43,3 @@ rubocop.html
 
 # Ignore auto-generated assets
 /public/assets
-
-# Ignore ssl certificates
-/ssl

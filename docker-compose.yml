@@ -26,6 +26,7 @@ services:
         - RACK_ENV=development
         - WITH_S3=false
         - DATABASE_URL=postgres://postgres@db:5432/
+        - FORCE_SSL=true
       links:
         - db
         - redis
