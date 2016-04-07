@@ -14,12 +14,12 @@ services:
       - FORCE_SSL=false
       - DOMAIN=
       - DATABASE_URL=
-      - REDIS_PROVIDER=
       - SECRET_KEY_BASE=
+      - REDIS_PROVIDER=redis://redis:6379/
       - SMTP_PORT=
       - SMTP_HOST=
-      - SMTP_USERNAME=
-      - SMTP_PASSWORD=
+      # - SMTP_USERNAME=
+      # - SMTP_PASSWORD=
       - SMTP_DOMAIN=
       - SMTP_AUTHENTICATION=
       - WITH_S3=
@@ -45,8 +45,8 @@ services:
       - AMAZON_CLIENT_ID=
       - AMAZON_SECRET_KEY=
     command: sh 'start.sh'
-    #ports:
-    #  - "<Host Port>:<Docker port>"
-    #links:
-    #  - redis
+    ports:
+      - "3000:3000"
+    # links:
+    #   - redis
     restart: always
