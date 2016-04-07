@@ -96,6 +96,15 @@ RSpec.describe Users::RegistrationsController, type: :controller do
       patch :update, user: {password: '12345678', password_confirmation: '87654321'}
       expect(session[:resource]['primary_email']).to be_nil
     end
+    
+    it 'removes the no_email indicator if an email is added' do
+      user2 = FactoryGirl.create(:noEmailUser)
+      sign_in user2
+      patch :update, user: {primary_email: 'new@example.com', current_password: user2.password}
+      expect(user2.primary_email).to eql 'new@example.com'
+      no_email_users = User.where(no_email: true).collect(&:id)
+      expect(no_email_users).not_to include(user2.id)
+    end
   end
 
   context 'update OmniAuth user' do

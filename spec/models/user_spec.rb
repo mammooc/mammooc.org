@@ -164,6 +164,23 @@ RSpec.describe User, type: :model do
       expect(UserEmail.where(user: user).count).to eql 0
     end
   end
+  
+  describe 'set no email' do
+    it 'sets attribute no email to true' do
+      user = FactoryGirl.create(:user)
+      described_class.set_no_email(user.id, true)
+      no_email_users = described_class.where(no_email: true).collect(&:id)
+      expect(no_email_users).to include(user.id)
+    end
+    
+    it 'sets attribute no email to false' do
+      user = FactoryGirl.create(:user)
+      described_class.set_no_email(user.id, true)
+      described_class.set_no_email(user.id, false)
+      no_email_users = described_class.where(no_email: true).collect(&:id)
+      expect(no_email_users).not_to include(user.id)
+    end
+  end
 
   describe 'common_groups_with_user(other_user)' do
     let(:user) { FactoryGirl.create(:user) }
