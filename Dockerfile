@@ -28,10 +28,10 @@ WORKDIR $APP_HOME
 ADD Gemfile* $APP_HOME/
 RUN bundle install
 
-ADD . $APP_HOME
-
 #install vim for easier in container file inspection
 RUN apt-get install -y vim
+
+ADD . $APP_HOME
 
 # Prepare assets for production
 RUN bundle exec rake assets:precompile
@@ -49,6 +49,6 @@ ENV SSL_CERT_FILE $APP_HOME/cacert.pem
 
 # Make sure phantomjs is in the right place
 # for this to work the script install_phantomjs.sh should be run
-ENV PHANTOM_JS_NAME phantomjs-1.9.8-linux-x86_64
+ENV PHANTOM_JS_NAME phantomjs-2.1.1-linux-x86_64
 RUN mv $PHANTOM_JS_NAME/ /usr/local/share/
 RUN ln -sf /usr/local/share/$PHANTOM_JS_NAME/bin/phantomjs /usr/local/bin
