@@ -357,6 +357,7 @@ class User < ActiveRecord::Base
     return unless @primary_email_object.present?
     if @primary_email_object.user.blank?
       @primary_email_object.user = self
+      self.class.set_no_email(self.id, false)
     elsif @primary_email_object.user != self
       raise ActiveRecord::RecordNotSaved('The provided user does not belongs to the email address')
     end
