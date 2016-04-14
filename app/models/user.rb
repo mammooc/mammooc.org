@@ -90,8 +90,9 @@ class User < ActiveRecord::Base
     end
   end
   
-  def self.set_no_email(user_id, no_email)
-    user = User.find_by(id: user_id)
+  def self.set_no_email(user_id, no_email, user_object = nil)
+    user = user_object || User.find_by(id: user_id)
+    return unless user.id == user_id
     user.no_email = no_email
     user.save
   end
@@ -357,7 +358,7 @@ class User < ActiveRecord::Base
     return unless @primary_email_object.present?
     if @primary_email_object.user.blank?
       @primary_email_object.user = self
-      self.class.set_no_email(self.id, false)
+      self.class.set_no_email(self.id, false, self)
     elsif @primary_email_object.user != self
       raise ActiveRecord::RecordNotSaved('The provided user does not belongs to the email address')
     end

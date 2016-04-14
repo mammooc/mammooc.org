@@ -142,7 +142,7 @@ RSpec.describe User, type: :model do
       user.primary_email = primary_email
     end
 
-    it 'allows to users to be created without a primary email' do
+    it 'allows to users to be created without providing a primary email' do
       user1 = FactoryGirl.create(:user)
       user2 = FactoryGirl.create(:user)
       expect(user1).to be_valid
@@ -162,6 +162,7 @@ RSpec.describe User, type: :model do
       user = FactoryGirl.create(:noEmailUser)
       expect(user).to be_valid
       expect(UserEmail.where(user: user).count).to eql 0
+      expect(user.primary_email).to eql nil
     end
   end
   
@@ -313,6 +314,13 @@ RSpec.describe User, type: :model do
     it 'returns only unique ids' do
       result = user.connected_users_ids
       expect(result.detect {|e| result.count(e) > 1 }).to be_nil
+    end
+    
+    it 'works with no_email users' do
+      fourth_user = FactoryGirl.create(:noEmailUser)
+      group3 = FactoryGirl.create(:group, users: [fourth_user, user, third_user])
+      result = user.connected_users_ids
+      expect(result).to include fourth_user.id
     end
   end
 
