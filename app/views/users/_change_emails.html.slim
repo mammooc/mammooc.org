@@ -15,7 +15,7 @@
           tr id="row_user_email_address_#{email.id}"
             = f.fields_for email do |email_fields|
               td
-                = email_fields.email_field :"address_#{email.id}", :class => 'form-control', autofocus: true, value: email.address
+                = email_fields.email_field :"address_#{email.id}", :class => 'form-control', value: email.address
               - if email.address == @user.primary_email
                 td
                   = email_fields.radio_button :is_primary, email.id, checked: true
