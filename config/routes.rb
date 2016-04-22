@@ -46,7 +46,7 @@ Rails.application.routes.draw do
   get 'dashboard' => 'dashboard#dashboard'
 
   # Evaluations
-  get 'evaluations/export' => 'evaluations#export'
+  get 'evaluations/export' => 'evaluations#export', defaults: { format: 'json' }
   post 'evaluations/:id/process_feedback' => 'evaluations#process_feedback'
 
   # Groups
