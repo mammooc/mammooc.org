@@ -55,7 +55,7 @@ class EvaluationsController < ApplicationController
         }
 
         if evaluation.rated_anonymously
-          evaluation_object[:user_name] = t('evaluations.anonymous')
+          evaluation_object[:user_name] = 'Anonymous'
         else
           evaluation_object[:user_name] = "#{evaluation.user.first_name} #{evaluation.user.last_name}"
         end
