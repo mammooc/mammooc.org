@@ -1,0 +1,9 @@
+FROM mammooc_base
+#install vim for easier in container file inspection
+RUN apt-get install -y vim
+
+# Make sure phantomjs is in the right place
+# for this to work the script install_phantomjs.sh should be run
+ENV PHANTOM_JS_NAME phantomjs-2.1.1-linux-x86_64
+RUN mv $PHANTOM_JS_NAME/ /usr/local/share/
+RUN ln -sf /usr/local/share/$PHANTOM_JS_NAME/bin/phantomjs /usr/local/bin
