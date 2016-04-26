@@ -16,14 +16,19 @@ services:
         service: redis
       ports:
         - "6379:6379"
+    base:
+      build: .
+      image: mammooc_base
     web:
       extends:
         file: docker-compose-template.yml
         service: web
-      build: .
+      build:
+        context: .
+        dockerfile: DevDockerfile
       environment:
-        - RAILS_ENV=development
-        - RACK_ENV=development
+        - RAILS_ENV=test
+        - RACK_ENV=test
         - WITH_S3=false
         - DATABASE_URL=postgres://postgres@db:5432/
         - FORCE_SSL=false
