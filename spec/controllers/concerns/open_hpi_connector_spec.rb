@@ -207,24 +207,22 @@ RSpec.describe OpenHPIConnector do
 
     let(:received_dates) do
       "{
-        \"dates\": [
+        \"next_dates\": [
                   {
-                    \"course_code\": \"javawork2015\",
-                    \"course_id\": \"#{course.provider_course_id}\",
-                    \"date\": \"2015-11-30T11:00:00Z\",
-                    \"title\": \"I like, I wish: Umfrage zum Kursabschluss\",
-                    \"resource_type\": \"item\",
-                    \"resource_id\": \"d5ceceda-060e-4797-a08d-53c9bd7f0edd\",
-                    \"kind\": \"submission_deadline\"
+                    \"id\": \"ebdee8e82476e378ff0e0164feca7653\",
+                    \"title\": \"Java Workshop - Einführung in die Testgetriebene Entwicklung mit JUnit\",
+                    \"date\": \"2016-05-02T08:00:00Z\",
+                    \"type\": \"course_start\",
+                    \"url\": \"/courses/javawork2016\",
+                    \"course\": \"#{course.provider_course_id}\"
                   },
                   {
-                    \"course_code\": \"ws-privacy2016\",
-                    \"course_id\": \"#{course.provider_course_id}\",
-                    \"date\": \"2016-01-18T08:00:00Z\",
-                    \"title\": \"Social Media - What No One has Told You about Privacy\",
-                    \"resource_type\": \"course\",
-                    \"resource_id\": \"12500848-0925-4deb-880c-d1b4cff88713\",
-                    \"kind\": \"start\"
+                    \"id\": \"666f52643ae77da0e4f5272d4a81c8e3\",
+                    \"title\": \"Embedded Smart Home\",
+                    \"date\": \"2016-06-06T08:00:00Z\",
+                    \"type\": \"course_start\",
+                    \"url\": \"/courses/smarthome2016\",
+                    \"course\": \"#{course.provider_course_id}\"
                   }
                  ]
       }"
@@ -240,7 +238,6 @@ RSpec.describe OpenHPIConnector do
 
     describe 'get dates for user' do
       it 'gets an API response' do
-        pending 'fix problems with openHPI API'
         FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
         expect { open_hpi_connector.send(:get_dates_for_user, user) }.to raise_error RestClient::InternalServerError
       end
@@ -262,8 +259,8 @@ RSpec.describe OpenHPIConnector do
       end
 
       it 'calls update_existing_entry if in response data there is user dates which already exists in database' do
-        response_data['dates'].each do |user_date|
-          FactoryGirl.create(:user_date, user: user, course: course, ressource_id_from_provider: user_date['resource_id'], kind: user_date['kind'])
+        response_data['next_dates'].each do |user_date|
+          FactoryGirl.create(:user_date, user: user, course: course, ressource_id_from_provider: user_date['id'], kind: user_date['type'])
         end
         expect(open_hpi_connector).to receive(:update_existing_entry).twice
         allow(open_hpi_connector).to receive(:change_existing_no_longer_relevant_entries)
@@ -278,7 +275,7 @@ RSpec.describe OpenHPIConnector do
     end
 
     describe 'create new entry' do
-      let(:user_date_data) { json_user_dates['dates'].first }
+      let(:user_date_data) { json_user_dates['next_dates'].first }
 
       it 'creates a new entry in database' do
         expect { open_hpi_connector.send(:create_new_entry, user, user_date_data) }.to change { UserDate.all.count }.by(1)
@@ -299,7 +296,7 @@ RSpec.describe OpenHPIConnector do
       it 'sets attribute kind to the corresponding value' do
         open_hpi_connector.send(:create_new_entry, user, user_date_data)
         user_date = UserDate.first
-        expect(user_date.kind).to eq(user_date_data['kind'])
+        expect(user_date.kind).to eq(user_date_data['type'])
       end
 
       it 'sets attribute relevant to the corresponding value' do
@@ -311,7 +308,7 @@ RSpec.describe OpenHPIConnector do
       it 'sets attribute ressource_id_from_provider to the corresponding value' do
         open_hpi_connector.send(:create_new_entry, user, user_date_data)
         user_date = UserDate.first
-        expect(user_date.ressource_id_from_provider).to eq(user_date_data['resource_id'])
+        expect(user_date.ressource_id_from_provider).to eq(user_date_data['id'])
       end
 
       it 'sets attribute user to the corresponding value' do
@@ -328,8 +325,8 @@ RSpec.describe OpenHPIConnector do
     end
 
     describe 'update existing entry' do
-      let(:user_date_data) { json_user_dates['dates'].first }
-      let(:user_date) { FactoryGirl.create(:user_date, user: user, course: course, ressource_id_from_provider: user_date_data['resource_id'], kind: user_date_data['kind']) }
+      let(:user_date_data) { json_user_dates['next_dates'].first }
+      let(:user_date) { FactoryGirl.create(:user_date, user: user, course: course, ressource_id_from_provider: user_date_data['id'], kind: user_date_data['kind']) }
 
       it 'changes attribute date if necessary' do
         user_date.date = user_date_data['date'].to_date + 1.day
