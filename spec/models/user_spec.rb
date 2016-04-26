@@ -163,6 +163,9 @@ RSpec.describe User, type: :model do
       expect(user).to be_valid
       expect(UserEmail.where(user: user).count).to eql 0
       expect(user.primary_email).to eql nil
+      no_email_users = described_class.where(no_email: true).collect(&:id)
+      expect(no_email_users).to include(user.id)
+      expect(user.no_email).to eql true
     end
   end
   
@@ -795,6 +798,22 @@ RSpec.describe User, type: :model do
 
     it 'returns false if the group is not allowed to see course enrollments' do
       expect(user.course_results_visible_for_group(second_group)).to eql false
+    end
+  end
+  
+  describe 'assigning emails to noEmailUsers' do
+    let(:user) {FactoryGirl.create(:noEmailUser)}
+    
+    it 'removes the no_email flag, if a primary email is created' do
+      expect(user.no_email).to eql true
+      email = FactoryGirl.create(:user_email, user: user, address: 'test@example.com', is_primary: true)
+      expect do
+        user.update!(primary_email: 'test@example.com')
+        user.save!
+      end.not_to raise_error
+      expect(described_class.find_by_primary_email('test@example.com')).to eql user
+      expect(user.primary_email).to eql 'test@example.com'
+      expect(user.no_email).to eql false
     end
   end
 end

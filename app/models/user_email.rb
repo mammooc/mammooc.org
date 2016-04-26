@@ -17,6 +17,7 @@ class UserEmail < ActiveRecord::Base
     format:     {with: EMAIL}
 
   after_commit :validate_destroy, on: [:destroy]
+  after_commit :user_hooks, on: [:create, :update]
 
   # Please note: If you're deleting one address and change another one in a transaction, you must first destroy and update or create others afterwards!
 
@@ -66,5 +67,9 @@ class UserEmail < ActiveRecord::Base
     return if User.where(id: user).blank?
     UserEmail.new(attributes.except('created_at', 'updated_at')).save!
     raise ActiveRecord::RecordNotDestroyed('There must be exactly one primary address for a user')
+  end
+  
+  def user_hooks
+    user.class.set_no_email(user.id, false, user) if user.no_email
   end
 end
