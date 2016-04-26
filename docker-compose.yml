@@ -32,7 +32,6 @@ services:
         - WITH_S3=false
         - DATABASE_URL=postgres://postgres@db:5432/
         - FORCE_SSL=false
-        - HEADLESS_TEST=true
         - PHANTOM_JS=true
       volumes:
         - ./:/mammooc/
