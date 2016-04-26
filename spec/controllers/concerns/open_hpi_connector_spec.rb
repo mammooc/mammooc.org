@@ -326,7 +326,7 @@ RSpec.describe OpenHPIConnector do
 
     describe 'update existing entry' do
       let(:user_date_data) { json_user_dates['next_dates'].first }
-      let(:user_date) { FactoryGirl.create(:user_date, user: user, course: course, ressource_id_from_provider: user_date_data['id'], kind: user_date_data['kind']) }
+      let(:user_date) { FactoryGirl.create(:user_date, user: user, course: course, ressource_id_from_provider: user_date_data['id'], kind: user_date_data['type']) }
 
       it 'changes attribute date if necessary' do
         user_date.date = user_date_data['date'].to_date + 1.day
