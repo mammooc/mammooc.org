@@ -30,6 +30,9 @@
 # Ignore code coverage files
 /coverage
 
+# Ignore PhantomJS binary
+/phantomjs-2.1.1-linux-x86_64
+
 # Ignore RuboCop report
 rubocop.html
 
@@ -43,6 +46,3 @@ rubocop.html
 
 # Ignore auto-generated assets
 /public/assets
-
-# Ignore ssl certificates
-/ssl
