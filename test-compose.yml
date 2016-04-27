@@ -30,7 +30,7 @@ services:
         - PHANTOM_JS=true
       volumes:
         - ./:/mammooc/
-      command: sh 'rspec'
+      command: 'rspec'
       links:
         - db
         - redis
