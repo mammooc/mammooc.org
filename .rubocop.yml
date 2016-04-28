@@ -1,4 +1,4 @@
-# require: rubocop-rspec # See issue for details: https://github.com/mammooc/mammooc.org/issues/627
+require: rubocop-rspec # See issue for details: https://github.com/mammooc/mammooc.org/issues/627
 
 AllCops:
   TargetRubyVersion: 2.3
@@ -87,7 +87,6 @@ Metrics/PerceivedComplexity:
 Rails/HasAndBelongsToMany:
   Enabled: false
 
-# See issue for details: https://github.com/mammooc/mammooc.org/issues/627
-# RSpec/DescribeClass:
-#   Exclude:
-#    - 'spec/views/**/*'
+RSpec/DescribeClass:
+  Exclude:
+   - 'spec/views/**/*'
