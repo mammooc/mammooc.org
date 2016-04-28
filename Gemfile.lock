@@ -60,7 +60,7 @@ GEM
       sass (>= 3.3.4)
     bootstrap_tokenfield_rails (0.12.1)
     builder (3.2.2)
-    byebug (8.2.4)
+    byebug (8.2.5)
     cancancan (1.13.1)
     capybara (2.7.0)
       addressable
@@ -450,6 +450,3 @@ DEPENDENCIES
   whenever
   will_paginate
   will_paginate-bootstrap
-
-BUNDLED WITH
-   1.11.2
