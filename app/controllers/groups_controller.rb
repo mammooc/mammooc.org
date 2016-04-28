@@ -354,7 +354,7 @@ class GroupsController < ApplicationController
     @error_emails ||= []
     return if invited_members.blank?
     emails = invited_members.split(/[^[:alpha:]]\s+|\s+|;\s*|,\s*/)
-    expiry_date = Settings.token_expiry_date
+    expiry_date = Time.zone.now + Settings.token_expiry_duration
     emails.each do |email_address|
       if email_address == UserEmail::EMAIL.match(email_address).to_s
         token = SecureRandom.urlsafe_base64(Settings.token_length)
