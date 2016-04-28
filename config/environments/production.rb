@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -88,14 +90,14 @@ Rails.application.configure do
     }
   }
 
-  # mail configurations
+  # mail configuration
   ActionMailer::Base.smtp_settings = {
-    port: (ENV['SMTP_PORT'].present? ? ENV['SMTP_PORT'] : '587'),
+    port: (ENV['SMTP_PORT'].present? ? ENV['SMTP_PORT'] : '25'),
     address: ENV['SMTP_HOST'],
     user_name: ENV['SMTP_USERNAME'],
     password: ENV['SMTP_PASSWORD'],
     domain: ENV['SMTP_DOMAIN'],
-    authentication: (ENV['SMTP_AUTHENTICATION'].present? ? ENV['SMTP_AUTHENTICATION'].to_sym : :plain)
+    authentication: (ENV['SMTP_AUTHENTICATION'].present? ? ENV['SMTP_AUTHENTICATION'].to_sym : nil)
   }
 
   ActionMailer::Base.delivery_method = :smtp

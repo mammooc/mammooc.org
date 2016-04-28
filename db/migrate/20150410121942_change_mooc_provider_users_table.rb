@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 class ChangeMoocProviderUsersTable < ActiveRecord::Migration
   def change
     drop_table :mooc_providers_users

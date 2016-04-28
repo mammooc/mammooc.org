@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 class RecommendationsController < ApplicationController
   load_and_authorize_resource only: [:create, :delete_user_from_recommendation, :delete_group_recommendation, :index, :new]
 

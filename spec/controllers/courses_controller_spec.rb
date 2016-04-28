@@ -1,4 +1,5 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe CoursesController, type: :controller do
@@ -154,7 +155,7 @@ RSpec.describe CoursesController, type: :controller do
 
     it 'does not create a new evaluation when it is already present' do
       evaluation.save
-      expect { post :send_evaluation, rating: 2, course_status: :finished, id: course.id }.to_not change(Evaluation, :count)
+      expect { post :send_evaluation, rating: 2, course_status: :finished, id: course.id }.not_to change(Evaluation, :count)
     end
 
     it 'updates the evaluation when params are correct and evaluation is already present' do

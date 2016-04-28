@@ -1,4 +1,5 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
 require 'rails_helper'
 require 'nokogiri'
 
@@ -119,6 +120,7 @@ This course is part of a five-part Mobile Application Experiences series:
     expect(course.requirements).to include xml_course.xpath('course:prerequisites').text
     expect(course.categories).to include xml_course.xpath('course:subject').first.text
     expect(course.description).to eql xml_course.xpath('description').text
+    expect(course.language).to eql xml_course_data[0].xpath('//channel/language').text
     expect(course.course_instructors).to include xml_course.xpath('course:instructors/course:staff').first.xpath('staff:name').text
     expect(course.tracks.count).to eql 1
     expect(course.tracks[0].track_type.type_of_achievement).to eql free_course_track_type.type_of_achievement
@@ -156,7 +158,7 @@ This course is part of a five-part Mobile Application Experiences series:
     edx_course_worker.handle_response_data xml_course_data
     course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, xml_course.xpath('course:id').text)
     expect(course.tracks.count).to eql 2
-    (course.tracks).each do |course_track|
+    course.tracks.each do |course_track|
       case course_track.track_type
         when free_course_track_type then
           expect(course_track.track_type.type_of_achievement).to eql free_course_track_type.type_of_achievement
@@ -176,7 +178,7 @@ This course is part of a five-part Mobile Application Experiences series:
     edx_course_worker.handle_response_data xml_course_data
     course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, xml_course.xpath('course:id').text)
     expect(course.tracks.count).to eql 2
-    (course.tracks).each do |course_track|
+    course.tracks.each do |course_track|
       case course_track.track_type
         when free_course_track_type then
           expect(course_track.track_type.type_of_achievement).to eql free_course_track_type.type_of_achievement

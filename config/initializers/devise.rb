@@ -1,4 +1,6 @@
-# -*- encoding : utf-8 -*-
+# encoding: utf-8
+# frozen_string_literal: true
+
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 # require 'google'
@@ -54,7 +56,7 @@ Devise.setup do |config|
   # modifying a user and when used to authenticate or find a user. Default is :email.
   #
   # Don't enable if custom find_first_by_auth_conditions method is set!
-  # config.strip_whitespace_keys = [:primary_email]
+  config.strip_whitespace_keys = []
 
   # Tell if authentication through request.params is enabled. True by default.
   # It can be set to an array that will enable params authentication only for the
@@ -156,7 +158,7 @@ Devise.setup do |config|
   # Email regex used to validate email formats. It simply asserts that
   # one (and only one) @ exists in the given string. This is mainly
   # to give user feedback and not to assert the e-mail validity.
-  # config.email_regexp = /\A[^@]+@[^@]+\z/
+  config.email_regexp = /\A[^@\s]+@[^@\s]+\z/
 
   # ==> Configuration for :timeoutable
   # The time you want to timeout the user session without activity. After this
@@ -249,7 +251,7 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth :facebook, ENV['FACEBOOK_CLIENT_ID'], ENV['FACEBOOK_SECRET_KEY'], scope: 'email'
-  config.omniauth :google, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_SECRET_KEY'], scope: 'profile email', strategy_class: OmniAuth::Strategies::Google
+  config.omniauth :google, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_SECRET_KEY'], scope: 'profile email', strategy_class: OmniAuth::Strategies::Google, skip_jwt: true
   config.omniauth :github, ENV['GITHUB_CLIENT_ID'], ENV['GITHUB_SECRET_KEY'], scope: 'user:email'
   config.omniauth :linkedin, ENV['LINKEDIN_CLIENT_ID'], ENV['LINKEDIN_SECRET_KEY'], scope: 'r_basicprofile r_emailaddress'
   config.omniauth :twitter, ENV['TWITTER_CLIENT_ID'], ENV['TWITTER_SECRET_KEY']

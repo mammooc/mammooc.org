@@ -1,10 +1,12 @@
 # encoding: utf-8
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 ruby '2.3.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.5'
+gem 'rails', '4.2.6'
 # Use sqlite3 as the database for Active Record
 gem 'pg'
 gem 'sass-rails', '~> 5.0'
@@ -39,12 +41,13 @@ gem 'passenger'
 # authentication
 gem 'devise'
 gem 'omniauth'
+gem 'omniauth-oauth2', '1.3.1' # See issue for details: https://github.com/mammooc/mammooc.org/issues/626
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-github'
 gem 'omniauth-linkedin-oauth2'
 gem 'omniauth-twitter'
-gem 'omniauth-windowslive', '~> 0.0.9'
+gem 'omniauth-windowslive'
 gem 'omniauth-amazon'
 
 # authorization
@@ -59,6 +62,7 @@ gem 'paperclip'
 # amazon S3 connection
 gem 'aws-sdk', '~> 2'
 gem 'aws-sdk-v1'
+
 # cron job
 gem 'redis'
 gem 'sidekiq'
@@ -71,8 +75,7 @@ gem 'bootstrap-sass'
 gem 'font-awesome-sass'
 
 gem 'bootstrap_tokenfield_rails'
-gem 'bootstrap-datepicker-rails', '1.4.0' # Please remove the version info as soon as GitHub issue # 578 is solved
-gem 'selenium-webdriver', '2.47.1' # Please remove this line completely as soon as GitHub issue # 585 is solved
+gem 'bootstrap-datepicker-rails'
 
 gem 'factory_girl_rails'
 
@@ -89,6 +92,13 @@ gem 'newrelic_rpm'
 gem 'filterrific'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
+
+# for ical-Feed
+gem 'icalendar'
+
+#calendar widget
+gem 'fullcalendar-rails'
+gem 'momentjs-rails'
 
 gem 'oauth2'
 

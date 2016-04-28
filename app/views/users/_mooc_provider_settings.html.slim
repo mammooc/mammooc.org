@@ -6,9 +6,11 @@ h2
     - if @mooc_provider_connections.include? provider[:id]
       .panel.panel-success id="panel-#{provider[:id]}"
         .panel-heading
-          .provider
+          .provider.do-not-show-link
             a data-toggle="collapse" href="#collapse-#{provider[:id]}"
-              img src = @provider_logos[provider[:logo_id]]
+              p
+                img src = @provider_logos[provider[:logo_id]]
+              = " #{provider[:url]}"
         .panel-collapse.collapse id="collapse-#{provider[:id]}"
           .panel-body
             .form-group
@@ -18,9 +20,11 @@ h2
     - else
       .panel.panel-default id="panel-#{provider[:id]}"
         .panel-heading
-          .provider
+          .provider.do-not-show-link
             a data-toggle="collapse" href="#collapse-#{provider[:id]}"
-              img src = @provider_logos[provider[:logo_id]]
+              p
+                img src = @provider_logos[provider[:logo_id]]
+              = " #{provider[:url]}"
         .panel-collapse.collapse id="collapse-#{provider[:id]}"
           .panel-body
             - if provider[:api_support_state] == 'naive'
