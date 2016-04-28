@@ -216,9 +216,9 @@ GEM
       cocaine (~> 0.5.5)
       mime-types
       mimemagic (= 0.3.0)
-    parser (2.3.0.7)
+    parser (2.3.1.0)
       ast (~> 2.2)
-    passenger (5.0.27)
+    passenger (5.0.28)
       rack
       rake (>= 0.8.1)
     pg (0.18.4)
@@ -450,3 +450,6 @@ DEPENDENCIES
   whenever
   will_paginate
   will_paginate-bootstrap
+
+BUNDLED WITH
+   1.11.2
