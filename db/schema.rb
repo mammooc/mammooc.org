@@ -26,10 +26,10 @@ ActiveRecord::Schema.define(version: 20160313134919) do
     t.text     "parameters"
     t.uuid     "recipient_id"
     t.string   "recipient_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.uuid     "user_ids",       array: true
-    t.uuid     "group_ids",      array: true
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.uuid     "user_ids",                    array: true
+    t.uuid     "group_ids",                   array: true
   end
 
   add_index "activities", ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type", using: :btree
@@ -226,6 +226,21 @@ ActiveRecord::Schema.define(version: 20160313134919) do
     t.uuid "user_id"
   end
 
+  create_table "user_dates", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.uuid     "user_id"
+    t.uuid     "course_id"
+    t.datetime "date"
+    t.string   "title"
+    t.string   "kind"
+    t.boolean  "relevant"
+    t.string   "ressource_id_from_provider"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "user_dates", ["course_id"], name: "index_user_dates_on_course_id", using: :btree
+  add_index "user_dates", ["user_id"], name: "index_user_dates_on_user_id", using: :btree
+
   create_table "user_emails", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "address"
     t.boolean  "is_primary"
@@ -299,6 +314,7 @@ ActiveRecord::Schema.define(version: 20160313134919) do
     t.string   "profile_image_content_type"
     t.integer  "profile_image_file_size"
     t.datetime "profile_image_updated_at"
+    t.string   "token_for_user_dates"
     t.datetime "last_newsletter_send_at"
     t.integer  "newsletter_interval"
   end
@@ -324,6 +340,8 @@ ActiveRecord::Schema.define(version: 20160313134919) do
   add_foreign_key "recommendations", "courses"
   add_foreign_key "recommendations", "groups"
   add_foreign_key "recommendations", "users", column: "author_id"
+  add_foreign_key "user_dates", "courses"
+  add_foreign_key "user_dates", "users"
   add_foreign_key "user_emails", "users"
   add_foreign_key "user_groups", "groups"
   add_foreign_key "user_groups", "users"

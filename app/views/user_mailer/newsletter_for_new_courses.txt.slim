@@ -1,0 +1,21 @@
+| (English Version below)
+
+| Hallo <%= @user.first_name %> <%= @user.last_name %>,
+
+| die folgenden Kurse sind seit dem <%= @user.last_newsletter_send_at.strftime(t('global.date_format_month'))} %> veröffentlicht worden:
+| <%= @courses.each { |course| link_to course.name, course_url(course) } %>
+
+| Viel Spaß,
+| dein mammooc-Team
+
+
+
+
+| Hello <%= @user.first_name %> <%= @user.last_name %>,
+
+| the following courses are offered since <%= @user.last_newsletter_send_at.strftime(t('global.date_format_month'))}%>:
+
+| <%= @courses.each { |course| link_to course.name, course_url(course) } %>
+
+| Have fun,
+| your mammooc-Team

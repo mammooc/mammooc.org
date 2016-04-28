@@ -60,7 +60,7 @@ GEM
       sass (>= 3.3.4)
     bootstrap_tokenfield_rails (0.12.1)
     builder (3.2.2)
-    byebug (8.2.4)
+    byebug (8.2.5)
     cancancan (1.13.1)
     capybara (2.7.0)
       addressable
@@ -216,7 +216,7 @@ GEM
       cocaine (~> 0.5.5)
       mime-types
       mimemagic (= 0.3.0)
-    parser (2.3.0.7)
+    parser (2.3.1.0)
       ast (~> 2.2)
     passenger (5.0.27)
       rack
