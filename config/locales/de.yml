@@ -211,6 +211,7 @@ de:
         profile_title: Profil
         profile: Mein Profil ist
       newsletter:
+        title: Newsletter
         interval:
           one: jeden Tag
           week: jede Woche

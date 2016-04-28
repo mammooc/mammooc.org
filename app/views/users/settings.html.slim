@@ -12,7 +12,7 @@
     button.btn.btn-default id='load-privacy-settings-button' data-user_id='#{current_user.id}'
       = t('users.settings.privacy.title')
     button.btn.btn-default id='load-newsletter-settings-button' data-user_id='#{current_user.id}'
-      | Newsletter
+      = t('users.settings.newsletter.title')
 
 .settings-container
   - case @subsite

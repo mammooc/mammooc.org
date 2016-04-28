@@ -188,7 +188,7 @@ en:
       only_one_provider: You must choose a password or add another provider in order to remove your existing connection.
       identity_deleted: Your connection with %{provider} was successfully removed.
       identity_not_deleted: Your connection with %{provider} could not be removed.
-      success: Einstellungen erfolgreich aktualisiert.
+      success: Settings successfully changed.
       easyID:
         add_identity: Link with a German National Identity Card
         remove_identity: Remove link with my German National Identity Card
@@ -211,6 +211,7 @@ en:
         profile_title: Profile
         profile: My Profile is
       newsletter:
+        title: Newsletter
         interval:
           one: each day
           week: each week
