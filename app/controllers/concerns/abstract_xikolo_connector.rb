@@ -4,7 +4,7 @@
 class AbstractXikoloConnector < AbstractMoocProviderConnector
   AUTHENTICATE_API = 'authenticate/'
   ENROLLMENTS_API = 'users/me/enrollments/'
-  DATES_API = 'dates/'
+  DATES_API = 'next_dates/'
   COURSES_API = 'courses/'
 
   private
@@ -62,9 +62,9 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
 
   def handle_dates_response(response_data, user)
     update_map = create_update_map_for_user_dates user, mooc_provider
-    response_data['dates'].each do |response_user_date|
-      course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, response_user_date['course_id'])
-      user_date = UserDate.find_by(user: user, course: course, ressource_id_from_provider: response_user_date['resource_id'], kind: response_user_date['kind'])
+    response_data['next_dates'].each do |response_user_date|
+      course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, response_user_date['course'])
+      user_date = UserDate.find_by(user: user, course: course, ressource_id_from_provider: response_user_date['id'], kind: response_user_date['type'])
       if user_date.present?
         update_map[user_date.id] = true
         update_existing_entry user_date, response_user_date
@@ -78,12 +78,12 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
   def create_new_entry(user, response_user_date)
     user_date = UserDate.new
     user_date.user = user
-    user_date.course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, response_user_date['course_id'])
+    user_date.course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, response_user_date['course'])
     user_date.date = response_user_date['date']
     user_date.title = response_user_date['title']
-    user_date.kind = response_user_date['kind']
+    user_date.kind = response_user_date['type']
     user_date.relevant = true
-    user_date.ressource_id_from_provider = response_user_date['resource_id']
+    user_date.ressource_id_from_provider = response_user_date['id']
     user_date.save
   end
 
@@ -94,8 +94,8 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
     if user_date.title != response_user_date['title']
       user_date.title = response_user_date['title']
     end
-    if user_date.kind != response_user_date['kind']
-      user_date.kind = response_user_date['kind']
+    if user_date.kind != response_user_date['type']
+      user_date.kind = response_user_date['type']
     end
     user_date.save
   end
