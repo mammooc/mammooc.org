@@ -170,6 +170,8 @@ de:
       mooc_provider_connection: Verbindungen mit MOOC-Providern
       email: :users.sign_in_up.email
       enter_mail: E-Mail eingeben
+      change_password: Passwort ändern
+      personal_data: Persönliche Daten
       current_password: Altes Passwort
       password: :users.sign_in_up.password
       password_confirmation: :users.sign_in_up.password_confirmation
@@ -196,6 +198,7 @@ de:
         identity_deleted: Die Verknüpfung mit deinem neuen Personalausweis wurde erfolgreich aufgehoben.
         identity_not_deleted: Die Verknüpfung mit deinem neuen Personalausweis konnte nicht entfernt werden.
       change_emails:
+        title: Emailadressen
         address: Emailadresse
         primary: Wähle primäre
         delete: Löschen

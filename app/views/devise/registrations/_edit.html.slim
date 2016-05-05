@@ -1,5 +1,5 @@
 h3
-  | Passwort ändern
+  = t('users.settings.change_password')
 = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'form-horizontal', method: :put }) do |f|
   - if devise_mapping.confirmable? && resource.pending_reconfirmation?
     div

@@ -1,5 +1,5 @@
 h3
-  | Emailadressen
+  = t('users.settings.change_emails.title')
 
 = form_for(@user, url: change_email_path(@user), html: { class: 'form-horizontal', role: 'form'}) do |f|
   .col-sm-offset-2.col-sm-10

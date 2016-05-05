@@ -1,5 +1,5 @@
 h3
-  | Persönliche Daten
+  = t('users.settings.personal_data')
 
 = form_for(@user, html: { class: 'form-horizontal', role: 'form', multipart: true }) do |f|
   - if @user.errors.any?
