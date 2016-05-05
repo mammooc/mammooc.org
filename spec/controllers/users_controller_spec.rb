@@ -671,11 +671,9 @@ RSpec.describe UsersController, type: :controller do
       get :newsletter_settings, id: user.id, format: :json
       expect(JSON.parse(response.body)).to include 'partial'
     end
-
   end
 
   describe 'change newsletter settings' do
-
     it 'redirects to newsletter settings page' do
       patch :change_newsletter_settings, id: user.id, user: {newsletter_interval: 5}
       expect(response).to redirect_to "#{user_settings_path(user)}?subsite=newsletter"
@@ -695,5 +693,4 @@ RSpec.describe UsersController, type: :controller do
       expect(User.find(user.id).newsletter_interval).to be_nil
     end
   end
-
 end

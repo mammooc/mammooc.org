@@ -1,3 +1,5 @@
+# encoding: utf-8
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe NewsletterWorker do
@@ -21,10 +23,10 @@ RSpec.describe NewsletterWorker do
 
     it 'sends email only if the defined newsletter_interval is reached again' do
       user.newsletter_interval = 5
-      user.last_newsletter_send_at = Date.today - 5.days
+      user.last_newsletter_send_at = Time.zone.today - 5.days
       user.save
       another_user.newsletter_interval = 5
-      another_user.last_newsletter_send_at = Date.today - 4.days
+      another_user.last_newsletter_send_at = Time.zone.today - 4.days
       another_user.save
       described_class.perform_async
       expect(ActionMailer::Base.deliveries.count).to eq 1
@@ -37,6 +39,5 @@ RSpec.describe NewsletterWorker do
       described_class.perform_async
       expect(ActionMailer::Base.deliveries.count).to eq 1
     end
-
   end
 end

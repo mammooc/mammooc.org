@@ -342,9 +342,7 @@ class User < ActiveRecord::Base
   end
 
   def self.collect_new_courses(user)
-    if user.last_newsletter_send_at.blank?
-      return nil
-    end
+    return nil if user.last_newsletter_send_at.blank?
     Course.where('created_at > ?', user.last_newsletter_send_at)
   end
 
