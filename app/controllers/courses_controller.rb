@@ -190,8 +190,30 @@ class CoursesController < ApplicationController
 
   def create_evaluation_object_for_course(course)
     if course.evaluations.present?
-      @course_evaluations = Set.new
-      course.evaluations.each do |evaluation|
+      @evaluations_from_previous_course = nil
+      evaluations = course.evaluations
+    elsif course.previous_iteration_id.present?
+      previous_course = Course.find(course.previous_iteration_id)
+      while previous_course.present? do
+        if previous_course.evaluations.present?
+          evaluations = previous_course.evaluations
+          @evaluations_from_previous_course = previous_course
+          break
+        end
+        if previous_course.previous_iteration_id.present?
+          previous_course = Course.find(previous_course.previous_iteration_id)
+        else
+          previous_course = nil
+        end
+      end
+    else
+      @evaluations_from_previous_course = nil
+      evaluations = nil
+    end
+
+    if evaluations.present?
+      @evaluations = Set.new
+      evaluations.each do |evaluation|
         evaluation_object = {
           evaluation_id: evaluation.id,
           rating: evaluation.rating,
@@ -215,10 +237,10 @@ class CoursesController < ApplicationController
           evaluation_object[:user_id] = evaluation.user_id
           evaluation_object[:user_name] = "#{evaluation.user.first_name} #{evaluation.user.last_name}"
         end
-        @course_evaluations << evaluation_object
+        @evaluations << evaluation_object
       end
     else
-      @course_evaluations = nil
+      @evaluations = nil
     end
   end
 

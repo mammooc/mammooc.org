@@ -518,6 +518,7 @@ de:
     state_course_status: Dein Kursstatus muss angegeben werden!
     thanks_for_feedback: Danke für dein Feedback!
     anonymous: Anonymous
+    previous_course_evaluations: 'Für den aktuellen Kurs gibt es noch keine Bewertungen. Aber der Kurs wurde bereits schon einmal gehalten. Hier sind die Bewertungen für den vorherigen Kurs '
 
   newsfeed:
     button:
