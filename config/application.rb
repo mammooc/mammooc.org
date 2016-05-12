@@ -51,5 +51,9 @@ module MAMMOOC
 
     # Force SSL for all connections in single-mode
     config.force_ssl = true if ENV['FORCE_SSL'] == 'true'
+
+    config.action_dispatch.default_headers = {
+        'Access-Control-Allow-Origin' => '*'
+    }
   end
 end
