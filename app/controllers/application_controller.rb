@@ -23,8 +23,8 @@ class ApplicationController < ActionController::Base
   end
 
   def ensure_signup_complete
-    # Ensure we don't go into an infinite loop
-    return if action_name == 'finish_signup'
+    # Ensure we don't go into an infinite loop and we allow the update method to be called
+    return if (action_name == 'finish_signup' or action_name == 'update') && controller_name == 'registrations'
 
     # Redirect to the 'finish_signup' page if the user
     # email, first name or last name hasn't been saved
