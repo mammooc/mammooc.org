@@ -25,9 +25,9 @@ class Evaluation < ActiveRecord::Base
     end
 
     if course_evaluations.present?
-      evaluations = Set.new
+      evaluations = []
       course_evaluations.each do |evaluation|
-        evaluation_object = Evaluation.create_evaluation_object_to_show(evaluation)
+        evaluation_object = Evaluation.evaluation_to_hash(evaluation)
         evaluations << evaluation_object
       end
     else
@@ -36,7 +36,7 @@ class Evaluation < ActiveRecord::Base
     [evaluations, evaluations_from_previous_course]
   end
 
-  def self.create_evaluation_object_to_show(evaluation)
+  def self.evaluation_to_hash(evaluation)
     evaluation_object = {
       evaluation_id: evaluation.id,
       rating: evaluation.rating,
