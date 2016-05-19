@@ -188,7 +188,6 @@ class CoursesController < ApplicationController
     params.require(:course).permit(:name, :url, :course_instructor, :abstract, :language, :course_image, :videoId, :start_date, :end_date, :duration, :costs, :type_of_achievement, :categories, :difficulty, :requirements, :workload, :provider_course_id, :mooc_provider_id, :course_result_id)
   end
 
-
   def create_enrollment
     provider_connector = get_connector_by_mooc_provider @course.mooc_provider
     if provider_connector.present?
