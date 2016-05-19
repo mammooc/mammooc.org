@@ -71,7 +71,7 @@ class CoursesController < ApplicationController
       @has_rated_course = Evaluation.find_by(user_id: current_user.id, course_id: @course.id).present?
     end
 
-    create_evaluation_object_for_course @course
+    @evaluations, @evaluations_from_previous_course = Evaluation.collect_evaluation_objects_for_course(@course)
     evaluating_users = User.find(@course.evaluations.pluck(:user_id))
     @profile_pictures ||= {}
     @profile_pictures = User.user_profile_images_hash_for_users(evaluating_users, @profile_pictures)
@@ -188,61 +188,6 @@ class CoursesController < ApplicationController
     params.require(:course).permit(:name, :url, :course_instructor, :abstract, :language, :course_image, :videoId, :start_date, :end_date, :duration, :costs, :type_of_achievement, :categories, :difficulty, :requirements, :workload, :provider_course_id, :mooc_provider_id, :course_result_id)
   end
 
-  def create_evaluation_object_for_course(course)
-    if course.evaluations.present?
-      @evaluations_from_previous_course = nil
-      evaluations = course.evaluations
-    elsif course.previous_iteration_id.present?
-      previous_course = Course.find(course.previous_iteration_id)
-      while previous_course.present? do
-        if previous_course.evaluations.present?
-          evaluations = previous_course.evaluations
-          @evaluations_from_previous_course = previous_course
-          break
-        end
-        if previous_course.previous_iteration_id.present?
-          previous_course = Course.find(previous_course.previous_iteration_id)
-        else
-          previous_course = nil
-        end
-      end
-    else
-      @evaluations_from_previous_course = nil
-      evaluations = nil
-    end
-
-    if evaluations.present?
-      @evaluations = Set.new
-      evaluations.each do |evaluation|
-        evaluation_object = {
-          evaluation_id: evaluation.id,
-          rating: evaluation.rating,
-          description: evaluation.description,
-          creation_date: evaluation.created_at,
-          total_feedback_count: evaluation.total_feedback_count,
-          positive_feedback_count: evaluation.positive_feedback_count
-        }
-        case evaluation.course_status.to_sym
-          when :aborted
-            evaluation_object[:course_status] = t('evaluations.aborted_course')
-          when :enrolled
-            evaluation_object[:course_status] = t('evaluations.currently_enrolled_course')
-          when :finished
-            evaluation_object[:course_status] = t('evaluations.finished_course')
-        end
-        if evaluation.rated_anonymously
-          evaluation_object[:user_id] = nil
-          evaluation_object[:user_name] = t('evaluations.anonymous')
-        else
-          evaluation_object[:user_id] = evaluation.user_id
-          evaluation_object[:user_name] = "#{evaluation.user.first_name} #{evaluation.user.last_name}"
-        end
-        @evaluations << evaluation_object
-      end
-    else
-      @evaluations = nil
-    end
-  end
 
   def create_enrollment
     provider_connector = get_connector_by_mooc_provider @course.mooc_provider
