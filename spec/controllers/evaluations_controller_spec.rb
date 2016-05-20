@@ -54,43 +54,53 @@ RSpec.describe EvaluationsController, type: :controller do
 
     render_views
 
-    it 'returns all evaluations for specific course and specific provider' do
-      get :export, format: :json, provider: mooc_provider.name, course_id: course.provider_course_id
-      expect(JSON.parse(response.body)['evaluations'].first['user_evaluations'].first['rating']).to eql evaluation.rating
-      expect(JSON.parse(response.body)['evaluations'].first['user_evaluations'].second['rating']).to eql evaluation2.rating
-      expect(JSON.parse(response.body)['evaluations'].first['user_evaluations'].count).to eql 2
+    context 'specifiv course' do
+      subject { JSON.parse(response.body)['evaluations'].first['user_evaluations'] }
+
+      it 'returns all evaluations for specific course and specific provider' do
+        get :export, format: :json, provider: mooc_provider.name, course_id: course.provider_course_id
+        expect(subject.first['rating']).to eql evaluation.rating
+        expect(subject.second['rating']).to eql evaluation2.rating
+        expect(subject.count).to eql 2
+      end
     end
 
-    it 'returns all evaluations for all courses for specific provider' do
-      get :export, format: :json, provider: mooc_provider.name
-      expect(JSON.parse(response.body)['evaluations'].count).to eql 2
-      expect(JSON.parse(response.body)['evaluations'].first['user_evaluations'].count).to eql 1
-      expect(JSON.parse(response.body)['evaluations'].second['user_evaluations'].count).to eql 2
+    context 'all courses' do
+      subject { JSON.parse(response.body)['evaluations'] }
+
+      it 'returns all evaluations for all courses' do
+        get :export, format: :json
+        expect(subject.count).to eql 3
+        expect(subject.first['user_evaluations'].count).to eql 2
+        expect(subject.second['user_evaluations'].count).to eql 1
+        expect(subject.third['user_evaluations'].count).to eql 1
+      end
+
+      it 'returns all evaluations for all courses for specific provider' do
+        get :export, format: :json, provider: mooc_provider.name
+        expect(subject.count).to eql 2
+        expect(subject.first['user_evaluations'].count).to eql 1
+        expect(subject.second['user_evaluations'].count).to eql 2
+      end
     end
 
-    it 'raises error if only course_id is given' do
-      get :export, format: :json, course_id: course.provider_course_id
-      expect(JSON.parse(response.body)['error']).to include 'no provider given for the course'
-    end
+    context 'error' do
+      subject { JSON.parse(response.body)['error'] }
 
-    it 'returns all evaluations for all courses' do
-      get :export, format: :json
-      expect(JSON.parse(response.body)['evaluations'].count).to eql 3
-      expect(JSON.parse(response.body)['evaluations'].first['user_evaluations'].count).to eql 2
-      expect(JSON.parse(response.body)['evaluations'].second['user_evaluations'].count).to eql 1
-      expect(JSON.parse(response.body)['evaluations'].third['user_evaluations'].count).to eql 1
-    end
+      it 'raises error if only course_id is given' do
+        get :export, format: :json, course_id: course.provider_course_id
+        expect(subject).to include 'no provider given for the course'
+      end
 
-    it 'returns an error if specific course is not present ' do
-      get :export, format: :json, provider: mooc_provider.name, course_id: '12345678901'
-      expect(JSON.parse(response.body)['error']).to eql "Couldn't find Course"
-    end
+      it 'returns an error if specific course is not present ' do
+        get :export, format: :json, provider: mooc_provider.name, course_id: '12345678901'
+        expect(subject).to eql "Couldn't find Course"
+      end
 
-    it 'returns an error if specific provider is not present ' do
-      get :export, format: :json, provider: 'assdaddsdad'
-      expect(JSON.parse(response.body)['error']).to eql "Couldn't find MoocProvider"
+      it 'returns an error if specific provider is not present ' do
+        get :export, format: :json, provider: 'assdaddsdad'
+        expect(subject).to eql "Couldn't find MoocProvider"
+      end
     end
-
   end
-
 end
