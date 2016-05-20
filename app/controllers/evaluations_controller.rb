@@ -36,7 +36,7 @@ class EvaluationsController < ApplicationController
       mooc_provider = MoocProvider.find_by!(name: params[:provider])
       courses = Course.where(mooc_provider: mooc_provider)
     elsif params[:course_id].present?
-      raise ActionController::ParameterMissing, 'no provider given for the course'
+      raise ActionController::ParameterMissing.new('no provider given for the course')
     else
       courses = Course.all
     end
