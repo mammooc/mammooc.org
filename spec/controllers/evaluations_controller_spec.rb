@@ -40,4 +40,57 @@ RSpec.describe EvaluationsController, type: :controller do
       expect(own_evaluation.positive_feedback_count).not_to eq(positive_feedback_count + 1)
     end
   end
+
+  describe 'GET export' do
+    let!(:mooc_provider) { MoocProvider.create(name: 'openHPI', logo_id: 'logo_openHPI.svg', url: 'https://example.com', api_support_state: :naive) }
+    let!(:other_mooc_provider) { MoocProvider.create(name: 'openSAP', logo_id: 'logo_openSAP.svg', url: 'https://example.com', api_support_state: :naive) }
+    let!(:course) { FactoryGirl.create(:course, mooc_provider: mooc_provider) }
+    let!(:evaluation) { FactoryGirl.create(:full_evaluation, course: course, rating: 5) }
+    let!(:evaluation2) { FactoryGirl.create(:full_evaluation, course: course, rating: 10) }
+    let!(:course2) { FactoryGirl.create(:course, mooc_provider: mooc_provider) }
+    let!(:evaluation3) { FactoryGirl.create(:full_evaluation, course: course2, rating: 2) }
+    let!(:other_course) { FactoryGirl.create(:course, mooc_provider: other_mooc_provider) }
+    let!(:evaluation4) { FactoryGirl.create(:full_evaluation, course: other_course, rating: 4) }
+
+    render_views
+
+    it 'returns all evaluations for specific course and specific provider' do
+      get :export, format: :json, provider: mooc_provider.name, course_id: course.provider_course_id
+      expect(JSON.parse(response.body)['evaluations'].first['user_evaluations'].first['rating']).to eql evaluation.rating
+      expect(JSON.parse(response.body)['evaluations'].first['user_evaluations'].second['rating']).to eql evaluation2.rating
+      expect(JSON.parse(response.body)['evaluations'].first['user_evaluations'].count).to eql 2
+    end
+
+    it 'returns all evaluations for all courses for specific provider' do
+      get :export, format: :json, provider: mooc_provider.name
+      expect(JSON.parse(response.body)['evaluations'].count).to eql 2
+      expect(JSON.parse(response.body)['evaluations'].first['user_evaluations'].count).to eql 1
+      expect(JSON.parse(response.body)['evaluations'].second['user_evaluations'].count).to eql 2
+    end
+
+    it 'raises error if only course_id is given' do
+      get :export, format: :json, course_id: course.provider_course_id
+      expect(JSON.parse(response.body)['error']).to include 'no provider given for the course'
+    end
+
+    it 'returns all evaluations for all courses' do
+      get :export, format: :json
+      expect(JSON.parse(response.body)['evaluations'].count).to eql 3
+      expect(JSON.parse(response.body)['evaluations'].first['user_evaluations'].count).to eql 2
+      expect(JSON.parse(response.body)['evaluations'].second['user_evaluations'].count).to eql 1
+      expect(JSON.parse(response.body)['evaluations'].third['user_evaluations'].count).to eql 1
+    end
+
+    it 'returns an error if specific course is not present ' do
+      get :export, format: :json, provider: mooc_provider.name, course_id: '12345678901'
+      expect(JSON.parse(response.body)['error']).to eql "Couldn't find Course"
+    end
+
+    it 'returns an error if specific provider is not present ' do
+      get :export, format: :json, provider: 'assdaddsdad'
+      expect(JSON.parse(response.body)['error']).to eql "Couldn't find MoocProvider"
+    end
+
+  end
+
 end
