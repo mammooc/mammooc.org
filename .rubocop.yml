@@ -90,3 +90,6 @@ Rails/HasAndBelongsToMany:
 RSpec/DescribeClass:
   Exclude:
    - 'spec/views/**/*'
+
+RSpec/ExampleLength:
+  Enabled: false

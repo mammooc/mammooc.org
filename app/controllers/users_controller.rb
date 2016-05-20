@@ -1,4 +1,3 @@
-# encoding: utf-8
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
@@ -201,7 +200,8 @@ class UsersController < ApplicationController
       provider_connector = get_connector_by_mooc_provider mooc_provider
       if provider_connector.present?
         @got_connection = provider_connector.initialize_connection(
-          current_user, email: params[:email], password: params[:password])
+          current_user, email: params[:email], password: params[:password]
+        )
         provider_connector.load_user_data([current_user])
       end
     end
