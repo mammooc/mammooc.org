@@ -37,7 +37,7 @@ class EvaluationsController < ApplicationController
       mooc_provider = MoocProvider.find_by!(name: params[:provider])
       courses = Course.where(mooc_provider: mooc_provider)
     elsif params[:course_id].present?
-      raise 'no provider given for the course'
+      raise ActionController::ParameterMissing, 'no provider given for the course'
     else
       courses = Course.all
     end
@@ -79,7 +79,7 @@ class EvaluationsController < ApplicationController
       format.json { render :export }
     end
 
-  rescue StandardError => e
+  rescue ActionController::ParameterMissing, ActiveRecord::RecordNotFound => e
     respond_to do |format|
       format.json { render json: e.to_json, status: :recordNotFound }
     end
