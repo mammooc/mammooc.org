@@ -56,11 +56,11 @@ class EvaluationsController < ApplicationController
           is_verified: evaluation.is_verified
         }
 
-        if evaluation.rated_anonymously
-          evaluation_object[:user_name] = 'Anonymous'
-        else
-          evaluation_object[:user_name] = "#{evaluation.user.first_name} #{evaluation.user.last_name}"
-        end
+        evaluation_object[:user_name] = if evaluation.rated_anonymously
+                                          'Anonymous'
+                                        else
+                                          "#{evaluation.user.first_name} #{evaluation.user.last_name}"
+                                        end
         course_evaluations << evaluation_object
       end
 

@@ -52,10 +52,10 @@ module MAMMOOC
     # Force SSL for all connections in single-mode
     config.force_ssl = true if ENV['FORCE_SSL'] == 'true'
 
-    config.middleware.insert_before 0, "Rack::Cors" do
+    config.middleware.insert_before 0, 'Rack::Cors' do
       allow do
         origins '*'
-        resource '/evaluations/export*', :headers => :any, :methods => [:get]
+        resource '/evaluations/export*', headers: :any, methods: [:get]
       end
     end
   end
