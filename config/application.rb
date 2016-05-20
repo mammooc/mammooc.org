@@ -55,7 +55,7 @@ module MAMMOOC
     config.middleware.insert_before 0, "Rack::Cors" do
       allow do
         origins '*'
-        resource '/evaluations/export', :headers => :any, :methods => [:get]
+        resource '/evaluations/export*', :headers => :any, :methods => [:get]
       end
     end
   end
