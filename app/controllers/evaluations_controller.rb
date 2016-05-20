@@ -1,4 +1,3 @@
-# encoding: utf-8
 # frozen_string_literal: true
 
 class EvaluationsController < ApplicationController
@@ -32,11 +31,11 @@ class EvaluationsController < ApplicationController
   def export
     if params[:provider].present?
       mooc_provider = MoocProvider.find_by(name: params[:provider])
-      if mooc_provider.present?
-        courses = Course.where(mooc_provider: mooc_provider)
-      else # given provider not valid
-        courses = Course.all
-      end
+      courses = if mooc_provider.present?
+                  Course.where(mooc_provider: mooc_provider)
+                else # given provider not valid
+                  Course.all
+                end
     else # no provider given
       courses = Course.all
     end
@@ -54,11 +53,11 @@ class EvaluationsController < ApplicationController
           is_verified: evaluation.is_verified
         }
 
-        if evaluation.rated_anonymously
-          evaluation_object[:user_name] = 'Anonymous'
-        else
-          evaluation_object[:user_name] = "#{evaluation.user.first_name} #{evaluation.user.last_name}"
-        end
+        evaluation_object[:user_name] = if evaluation.rated_anonymously
+                                          'Anonymous'
+                                        else
+                                          "#{evaluation.user.first_name} #{evaluation.user.last_name}"
+                                        end
         course_evaluations << evaluation_object
       end
 
