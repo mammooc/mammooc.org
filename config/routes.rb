@@ -1,4 +1,3 @@
-# encoding: utf-8
 # frozen_string_literal: true
 
 # The priority is based upon order of creation: first created -> highest priority.
@@ -46,7 +45,7 @@ Rails.application.routes.draw do
   get 'dashboard' => 'dashboard#dashboard'
 
   # Evaluations
-  get 'evaluations/export' => 'evaluations#export', defaults: { format: 'json' }
+  get 'evaluations/export' => 'evaluations#export', defaults: {format: 'json'}
   post 'evaluations/:id/process_feedback' => 'evaluations#process_feedback'
 
   # Groups

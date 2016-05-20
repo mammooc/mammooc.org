@@ -1,4 +1,3 @@
-# encoding: utf-8
 # frozen_string_literal: true
 
 class CoursesController < ApplicationController
@@ -270,8 +269,7 @@ class CoursesController < ApplicationController
                        start_filter_options: Course.options_for_start,
                        options_for_costs: Course.options_for_costs,
                        options_for_certificate: CourseTrackType.options_for_select,
-                       options_for_sorted_by: Course.options_for_sorted_by
-      }) || return
+                       options_for_sorted_by: Course.options_for_sorted_by}) || return
 
     @courses = @filterrific.find.page(params[:page])
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(@courses)

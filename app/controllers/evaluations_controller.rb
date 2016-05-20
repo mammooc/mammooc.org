@@ -1,4 +1,3 @@
-# encoding: utf-8
 # frozen_string_literal: true
 
 class EvaluationsController < ApplicationController
@@ -30,16 +29,18 @@ class EvaluationsController < ApplicationController
   end
 
   def export
-    if params[:provider].present?
-      mooc_provider = MoocProvider.find_by(name: params[:provider])
-      if mooc_provider.present?
-        courses = Course.where(mooc_provider: mooc_provider)
-      else # given provider not valid
-        courses = Course.all
-      end
-    else # no provider given
+    if params[:provider].present? && params[:course_id].present?
+      mooc_provider = MoocProvider.find_by!(name: params[:provider])
+      courses = [Course.find_by!(provider_course_id: params[:course_id], mooc_provider: mooc_provider)]
+    elsif  params[:provider].present?
+      mooc_provider = MoocProvider.find_by!(name: params[:provider])
+      courses = Course.where(mooc_provider: mooc_provider)
+    elsif params[:course_id].present?
+      raise ActionController::ParameterMissing, 'no provider given for the course'
+    else
       courses = Course.all
     end
+
     @courses_with_evaluations = []
     courses.each do |course|
       course_evaluations = Set.new
@@ -54,11 +55,11 @@ class EvaluationsController < ApplicationController
           is_verified: evaluation.is_verified
         }
 
-        if evaluation.rated_anonymously
-          evaluation_object[:user_name] = 'Anonymous'
-        else
-          evaluation_object[:user_name] = "#{evaluation.user.first_name} #{evaluation.user.last_name}"
-        end
+        evaluation_object[:user_name] = if evaluation.rated_anonymously
+                                          'Anonymous'
+                                        else
+                                          "#{evaluation.user.first_name} #{evaluation.user.last_name}"
+                                        end
         course_evaluations << evaluation_object
       end
 
@@ -67,7 +68,7 @@ class EvaluationsController < ApplicationController
         mooc_provider: course.mooc_provider.name,
         overall_rating: course.calculated_rating,
         number_of_evaluations: course.rating_count,
-        evaluations: course_evaluations
+        user_evaluations: course_evaluations
       }
 
       @courses_with_evaluations.push course_with_evaluations
@@ -75,6 +76,11 @@ class EvaluationsController < ApplicationController
 
     respond_to do |format|
       format.json { render :export }
+    end
+
+  rescue ActionController::ParameterMissing, ActiveRecord::RecordNotFound => e
+    respond_to do |format|
+      format.json { render json: {error: e.message}, status: :recordNotFound }
     end
   end
 
