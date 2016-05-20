@@ -1,4 +1,3 @@
-# encoding: utf-8
 # frozen_string_literal: true
 
 # Add your own tasks in files placed in lib/tasks ending in .rake,

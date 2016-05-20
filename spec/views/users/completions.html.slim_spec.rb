@@ -1,4 +1,3 @@
-# encoding: utf-8
 # frozen_string_literal: true
 require 'rails_helper'
 
@@ -11,7 +10,8 @@ RSpec.describe 'users/completions', type: :view do
       points_achieved: 84,
       provider_percentage: 97,
       user: user,
-      course: course)
+      course: course
+    )
   end
   let(:completions) do
     [first_completion,

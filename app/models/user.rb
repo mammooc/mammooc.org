@@ -1,4 +1,3 @@
-# encoding: utf-8
 # frozen_string_literal: true
 
 class User < ActiveRecord::Base
@@ -32,7 +31,8 @@ class User < ActiveRecord::Base
       thumb: '100x100#',
       square: '300x300#',
       medium: '300x300>',
-      original: '300x300>'},
+      original: '300x300>'
+    },
     s3_storage_class: :reduced_redundancy,
     s3_permissions: :private,
     default_url: '/data/profile_picture_default.png'
