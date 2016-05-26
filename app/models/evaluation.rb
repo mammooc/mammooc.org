@@ -15,12 +15,12 @@ class Evaluation < ActiveRecord::Base
 
   def self.collect_evaluation_objects_for_course(course)
     if course.evaluations.present?
-      evaluations_from_previous_course = nil
+      previous_course = nil
       course_evaluations = course.evaluations
     elsif course.previous_iteration_id.present?
-      course_evaluations, evaluations_from_previous_course = Evaluation.collect_evaluations_from_a_previous_course_iteration(course)
+      course_evaluations, previous_course = Evaluation.collect_evaluations_from_a_previous_course_iteration(course)
     else
-      evaluations_from_previous_course = nil
+      previous_course = nil
       course_evaluations = nil
     end
 
@@ -33,7 +33,7 @@ class Evaluation < ActiveRecord::Base
     else
       evaluations = nil
     end
-    [evaluations, evaluations_from_previous_course]
+    [evaluations, previous_course]
   end
 
   def self.evaluation_to_hash(evaluation)
@@ -64,17 +64,17 @@ class Evaluation < ActiveRecord::Base
   end
 
   def self.collect_evaluations_from_a_previous_course_iteration(course)
-    previous_course = Course.find(course.previous_iteration_id)
-    while previous_course.present?
-      if previous_course.evaluations.present?
-        course_evaluations = previous_course.evaluations
-        evaluations_from_previous_course = previous_course
+    previous_course_iteration = Course.find(course.previous_iteration_id)
+    while previous_course_iteration.present?
+      if previous_course_iteration.evaluations.present?
+        course_evaluations = previous_course_iteration.evaluations
+        previous_course = previous_course_iteration
         break
       end
-      previous_course = if previous_course.previous_iteration_id.present?
-                          Course.find(previous_course.previous_iteration_id)
+      previous_course_iteration = if previous_course_iteration.previous_iteration_id.present?
+                          Course.find(previous_course_iteration.previous_iteration_id)
                         end
     end
-    [course_evaluations, evaluations_from_previous_course]
+    [course_evaluations, previous_course]
   end
 end

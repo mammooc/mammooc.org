@@ -71,7 +71,7 @@ class CoursesController < ApplicationController
       @has_rated_course = Evaluation.find_by(user_id: current_user.id, course_id: @course.id).present?
     end
 
-    @evaluations, @evaluations_from_previous_course = Evaluation.collect_evaluation_objects_for_course(@course)
+    @evaluations, @previous_course = Evaluation.collect_evaluation_objects_for_course(@course)
     evaluating_users = User.find(@course.evaluations.pluck(:user_id))
     @profile_pictures ||= {}
     @profile_pictures = User.user_profile_images_hash_for_users(evaluating_users, @profile_pictures)

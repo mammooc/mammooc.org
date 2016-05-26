@@ -147,32 +147,32 @@ RSpec.describe Evaluation, type: :model do
   end
 
   describe 'collect_evaluations_from_a_previous_course_iteration' do
-    let(:previous_course) { FactoryGirl.create(:course) }
+    let(:previous_course_iteration) { FactoryGirl.create(:course) }
     let(:course) do
       course = FactoryGirl.create(:course)
-      course.previous_iteration_id = previous_course.id
+      course.previous_iteration_id = previous_course_iteration.id
       course.save
       course
     end
 
     it 'returns all evaluations for the previous course iteration' do
-      FactoryGirl.create(:full_evaluation, course: previous_course)
-      FactoryGirl.create(:full_evaluation, course: previous_course)
+      FactoryGirl.create(:full_evaluation, course: previous_course_iteration)
+      FactoryGirl.create(:full_evaluation, course: previous_course_iteration)
       evaluations, = described_class.collect_evaluations_from_a_previous_course_iteration(course)
-      expect(evaluations).to eq previous_course.evaluations
+      expect(evaluations).to eq previous_course_iteration.evaluations
     end
 
     it 'returns the previous course for which the evaluations are' do
-      FactoryGirl.create(:full_evaluation, course: previous_course)
-      FactoryGirl.create(:full_evaluation, course: previous_course)
-      _, evaluations_from_previous_course = described_class.collect_evaluations_from_a_previous_course_iteration(course)
-      expect(evaluations_from_previous_course).to eq previous_course
+      FactoryGirl.create(:full_evaluation, course: previous_course_iteration)
+      FactoryGirl.create(:full_evaluation, course: previous_course_iteration)
+      _, previous_course = described_class.collect_evaluations_from_a_previous_course_iteration(course)
+      expect(previous_course).to eq previous_course_iteration
     end
 
     it 'returns the evaluations from the first previous iteration with evaluations' do
       previous_previous_course = FactoryGirl.create(:course)
-      previous_course.previous_iteration_id = previous_previous_course.id
-      previous_course.save
+      previous_course_iteration.previous_iteration_id = previous_previous_course.id
+      previous_course_iteration.save
       pre_pre_pre_course = FactoryGirl.create(:course)
       previous_previous_course.previous_iteration_id = pre_pre_pre_course.id
       previous_previous_course.save
@@ -180,14 +180,14 @@ RSpec.describe Evaluation, type: :model do
       FactoryGirl.create(:full_evaluation, course: previous_previous_course)
       FactoryGirl.create(:full_evaluation, course: pre_pre_pre_course)
       FactoryGirl.create(:full_evaluation, course: pre_pre_pre_course)
-      evaluations, evaluations_from_previous_course = described_class.collect_evaluations_from_a_previous_course_iteration(course)
-      expect(evaluations_from_previous_course).to eq previous_previous_course
+      evaluations, previous_course = described_class.collect_evaluations_from_a_previous_course_iteration(course)
+      expect(previous_course).to eq previous_previous_course
       expect(evaluations).to eq previous_previous_course.evaluations
     end
 
     it 'returns nil if no previous iteration has evaluations' do
-      evaluations, evaluations_from_previous_course = described_class.collect_evaluations_from_a_previous_course_iteration(course)
-      expect(evaluations_from_previous_course).to be_nil
+      evaluations, previous_course = described_class.collect_evaluations_from_a_previous_course_iteration(course)
+      expect(previous_course).to be_nil
       expect(evaluations).to be_nil
     end
   end

@@ -1,7 +1,7 @@
-- if @evaluations_from_previous_course.present?
+- if @previous_course.present?
   = t('evaluations.previous_course_evaluations')
   | (
-  = link_to @evaluations_from_previous_course.name, course_path(@evaluations_from_previous_course.id)
+  = link_to @previous_course.name, course_path(@previous_course.id)
   | ):
   .gradient-divider
 

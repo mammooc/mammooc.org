@@ -519,7 +519,7 @@ en:
     state_course_status: Please state your course status!
     thanks_for_feedback: Thank you for your feedback!
     anonymous: Anonymous
-    previous_course_evaluations: 'For the current course there are no evaluations. But there was a previous iteration of the course. Have a look at the evaluations for the previous course '
+    previous_course_evaluations: "Unfortunately, there isn't any evaluation for the current course but there are some for a previous iteration. Have a look at the evaluations for the previous course "
 
   newsfeed:
     button:
