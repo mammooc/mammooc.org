@@ -1,4 +1,3 @@
-# encoding: utf-8
 # frozen_string_literal: true
 # rubocop:disable Lint/UselessAssignment
 
@@ -80,15 +79,13 @@ case Rails.env
                                              url: 'https://open.hpi.de/courses/pythonjunior2015',
                                              provider_course_id: 2,
                                              mooc_provider_id: open_mammooc.id,
-                                             tracks: [CourseTrack.create!(track_type: xikolo_audit_track_type)]
-                                            )
+                                             tracks: [CourseTrack.create!(track_type: xikolo_audit_track_type)])
 
     minimal_following_course = Course.create!(name: 'Minimal Following Technologies',
                                               url: 'https://open.hpi.de/courses/pythonjunior2015',
                                               provider_course_id: 3,
                                               mooc_provider_id: open_mammooc.id,
-                                              tracks: [CourseTrack.create!(track_type: xikolo_audit_track_type)]
-                                             )
+                                              tracks: [CourseTrack.create!(track_type: xikolo_audit_track_type)])
 
     full_course = Course.create!(name: 'Web Technologies',
                                  url: 'https://open.hpi.de/courses/webtech2015',
@@ -122,8 +119,7 @@ case Rails.env
                                  tracks: [CourseTrack.create!(track_type: xikolo_audit_track_type),
                                           CourseTrack.create!(track_type: certificate_track_type, costs: 20.0, costs_currency: '€'),
                                           CourseTrack.create!(track_type: iversity_ects_track_type, costs: 50.0, costs_currency: '€')],
-                                 points_maximal: 105.7
-                                )
+                                 points_maximal: 105.7)
 
     user1 = User.create!(first_name: 'Max', last_name: 'Mustermann', primary_email: 'max@example.com', password: '12345678')
     user2 = User.create!(first_name: 'Maxi', last_name: 'Musterfrau', primary_email: 'maxi@example.com', password: '12345678')

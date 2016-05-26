@@ -1,4 +1,3 @@
-# encoding: utf-8
 # frozen_string_literal: true
 # rubocop:disable Style/Lambda
 
@@ -39,7 +38,8 @@ class Course < ActiveRecord::Base
   has_attached_file :course_image,
     styles: {
       thumb: '100x100#',
-      original: '300x300>'},
+      original: '300x300>'
+    },
     convert_options: {all: '-quality 95'},
     s3_storage_class: :reduced_redundancy,
     s3_permissions: :public_read,
@@ -214,16 +214,14 @@ class Course < ActiveRecord::Base
      [I18n.t('courses.filter.costs.range3'), 'range3'],
      [I18n.t('courses.filter.costs.range4'), 'range4'],
      [I18n.t('courses.filter.costs.range5'), 'range5'],
-     [I18n.t('courses.filter.costs.range6'), 'range6']
-    ]
+     [I18n.t('courses.filter.costs.range6'), 'range6']]
   end
 
   def self.options_for_start
     [[I18n.t('courses.filter.start.now'), 'now'],
      [I18n.t('courses.filter.start.past'), 'past'],
      [I18n.t('courses.filter.start.soon'), 'soon'],
-     [I18n.t('courses.filter.start.future'), 'future']
-    ]
+     [I18n.t('courses.filter.start.future'), 'future']]
   end
 
   def self.options_for_duration
