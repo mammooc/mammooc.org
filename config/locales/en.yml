@@ -216,7 +216,7 @@ en:
       newsletter:
         title: Newsletter
         interval:
-          one: each day
+          daily: each day
           week: each week
           two_weeks: every second week
           month: each month

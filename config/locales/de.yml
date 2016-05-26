@@ -216,7 +216,7 @@ de:
       newsletter:
         title: Newsletter
         interval:
-          one: jeden Tag
+          daily: jeden Tag
           week: jede Woche
           two_weeks: alle zwei Wochen
           month: jeden Monat

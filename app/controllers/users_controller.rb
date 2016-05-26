@@ -365,7 +365,7 @@ class UsersController < ApplicationController
   def prepare_newsletter_settings
     @user = current_user
     @newsletter_interval = current_user.newsletter_interval
-    @interval_options = [[I18n.t('users.settings.newsletter.interval.one'), '1'],
+    @interval_options = [[I18n.t('users.settings.newsletter.interval.daily'), '1'],
                          [I18n.t('users.settings.newsletter.interval.week'), '7'],
                          [I18n.t('users.settings.newsletter.interval.two_weeks'), '14'],
                          [I18n.t('users.settings.newsletter.interval.month'), '30']
