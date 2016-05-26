@@ -498,7 +498,7 @@ de:
     did_you_like_evaluation: Wie fandest du diese Bewertung?
     helpful: Hilfreich
     not_helpful: Nicht Hilfreich
-    no_evaluations: Leider gibt es noch keine Bewertungen für diesen Kurs :(
+    no_evaluations: Leider gibt es noch keine Bewertungen für diesen Kurs (oder eine frühere Iteration des Kurses) :(
     already_evaluated: Hi %{first_name}, du hast diesen Kurs bewertet. Vielen Dank für dein Feedback!
     modify_evaluation: Bewertung anpassen
     overall_evaluation: Gesamtbewertung
