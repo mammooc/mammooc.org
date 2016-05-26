@@ -341,6 +341,11 @@ class User < ActiveRecord::Base
     group_is_able
   end
 
+  def self.collect_new_courses(user)
+    return nil if user.last_newsletter_send_at.blank?
+    Course.where('created_at > ?', user.last_newsletter_send_at)
+  end
+
   private
 
   def save_primary_email

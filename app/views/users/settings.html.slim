@@ -11,6 +11,8 @@
       = t('users.settings.account')
     button.btn.btn-default id='load-privacy-settings-button' data-user_id='#{current_user.id}'
       = t('users.settings.privacy.title')
+    button.btn.btn-default id='load-newsletter-settings-button' data-user_id='#{current_user.id}'
+      = t('users.settings.newsletter.title')
 
 .settings-container
   - case @subsite
@@ -22,3 +24,5 @@
       = render partial: 'users/mooc_provider_settings'
     - when 'privacy'
       = render partial: 'users/privacy_settings'
+    - when 'newsletter'
+      = render partial: 'users/newsletter_settings'

@@ -657,4 +657,39 @@ RSpec.describe UsersController, type: :controller do
       expect(assigns(:completions)).to eq([completion])
     end
   end
+
+  describe 'newsletter settings' do
+    render_views
+
+    it 'redirects to dashboard path' do
+      get :newsletter_settings, id: user.id
+      expect(response).to redirect_to dashboard_path
+    end
+
+    it 'renders partial to string' do
+      get :newsletter_settings, id: user.id, format: :json
+      expect(JSON.parse(response.body)).to include 'partial'
+    end
+  end
+
+  describe 'change newsletter settings' do
+    it 'redirects to newsletter settings page' do
+      patch :change_newsletter_settings, id: user.id, user: {newsletter_interval: 5}
+      expect(response).to redirect_to "#{user_settings_path(user)}?subsite=newsletter"
+    end
+
+    it 'sets the required attributes' do
+      expect(user.newsletter_interval).not_to eql 5
+      patch :change_newsletter_settings, id: user.id, user: {newsletter_interval: 5}
+      expect(User.find(user.id).newsletter_interval).to eql 5
+    end
+
+    it 'sets attribute even if param is nil' do
+      user.newsletter_interval = 5
+      user.save
+      expect(User.find(user.id).newsletter_interval).to eql 5
+      patch :change_newsletter_settings, id: user.id, user: {newsletter_interval: nil}
+      expect(User.find(user.id).newsletter_interval).to be_nil
+    end
+  end
 end

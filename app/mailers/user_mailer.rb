@@ -16,6 +16,13 @@ class UserMailer < ApplicationMailer
     mail(to: email_adress, subject: 'A bookmarked course starts soon')
   end
 
+  def newsletter_for_new_courses(email_adress, user, courses)
+    @courses = courses
+    @user = user
+
+    mail(to: email_adress, subject: 'New MOOCs available')
+  end
+
   # rubocop:disable ParameterLists
 
   def obligatory_recommendation_user_notification(email_adress, user, course, current_user, root_url)
