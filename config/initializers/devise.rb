@@ -256,6 +256,7 @@ Devise.setup do |config|
   config.omniauth :twitter, ENV['TWITTER_CLIENT_ID'], ENV['TWITTER_SECRET_KEY']
   config.omniauth :windows_live, ENV['WINDOWS_LIVE_CLIENT_ID'], ENV['WINDOWS_LIVE_SECRET_KEY'], scope: 'wl.basic wl.emails wl.signin', strategy_class: OmniAuth::Strategies::WindowsLive
   config.omniauth :amazon, ENV['AMAZON_CLIENT_ID'], ENV['AMAZON_SECRET_KEY'], scope: 'profile'
+  config.omniauth :xikolo, ENV['XIKOLO_CLIENT_ID'], ENV['XIKOLO_SECRET_KEY'], scope: 'public write', strategy_class: OmniAuth::Strategies::Xikolo
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

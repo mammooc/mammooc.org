@@ -23,7 +23,7 @@ module Users
     }
     end
 
-    [:facebook, :google, :github, :linkedin, :twitter, :windows_live, :amazon].each do |provider|
+    [:facebook, :google, :github, :linkedin, :twitter, :windows_live, :amazon, :xikolo].each do |provider|
       provides_callback_for provider
     end
 
