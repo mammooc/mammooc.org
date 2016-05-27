@@ -106,6 +106,21 @@ RSpec.describe Users::RegistrationsController, type: :controller do
       expect(no_email_users).not_to include(user2.id)
     end
   end
+  
+  context 'update noEmailUser' do
+    let (:user) { FactoryGirl.create(:noEmailUser) }
+    
+    before(:each) do
+      sign_in user
+    end
+    
+    it 'removes the no_email indicator if an email is added' do
+      put :update, user: {primary_email: 'nouveau@example.com', current_password: user.password}
+      expect(user.primary_email).to eql 'nouveau@example.com'
+      no_email_users = User.where(no_email: true).collect(&:id)
+      expect(no_email_users).not_to include(user.id)
+    end
+  end
 
   context 'update OmniAuth user' do
     let(:user) { FactoryGirl.create(:OmniAuthUser) }

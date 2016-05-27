@@ -270,6 +270,7 @@ class UsersController < ApplicationController
     if params[:user][:user_email][:is_primary].include? 'new_email_index'
       splitted_string = params[:user][:user_email][:is_primary].split('_')
       new_primary_email_address = params[:user][:user_email][:"address_#{splitted_string[3]}"]
+      byebug
       UserEmail.find_by(address: new_primary_email_address).change_to_primary_email
     elsif params[:user][:user_email][:is_primary] != UserEmail.find_by(address: @user.primary_email).id
       UserEmail.find(params[:user][:user_email][:is_primary]).change_to_primary_email

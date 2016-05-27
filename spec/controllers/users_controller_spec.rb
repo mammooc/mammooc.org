@@ -90,6 +90,15 @@ RSpec.describe UsersController, type: :controller do
         put :update, id: user.to_param, user: FactoryGirl.attributes_for(:user)
         expect(response).to redirect_to(user)
       end
+      
+      it 'removes the no_email flag' do
+        user2 = FactoryGirl.create(:noEmailUser)
+        expect(user2.no_email?).to eql true
+        #newemail = FactoryGirl.create(:user_email, user: user2, is_primary: true)
+        put :update, id: user.to_param, user: {primary_email: 'lalalaemail@lalala.com'}
+        expect(user2.no_email?).to eql false
+        expect(user2.primary_email).to eq('lalalaemail@lalala.com')
+      end
     end
 
     context 'without authorization' do
@@ -619,8 +628,8 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it 'adds new email address and makes it primary' do
-      get :change_email, id: user.id, user: {user_email: {address_3: 'this_is_a_new_email@example.com', is_primary: 'new_email_index_3'}, index: 3}
-      expect(UserEmail.find_by(address: 'this_is_a_new_email@example.com', user: user).is_primary).to be true
+      get :change_email, id: user.id, user: {user_email: {address_3: 'this_is_a_new_email2@example.com', is_primary: 'new_email_index_3'}, index: 3}
+      expect(UserEmail.find_by(address: 'this_is_a_new_email2@example.com', user: user).is_primary).to be true
     end
 
     it 'deletes emails defined in session variable' do
@@ -641,6 +650,16 @@ RSpec.describe UsersController, type: :controller do
       expect(UserEmail.find(primary_email.id).is_primary).to be false
       expect(UserEmail.find(third_email.id).address).to eq 'newAddress@example.com'
       expect(UserEmail.find(primary_email.id).address).to eq primary_email.address
+    end
+          
+    it 'removes the no_email flag' do
+      user2 = FactoryGirl.create(:noEmailUser)
+      expect(user2.no_email?).to eql true
+      expect(UserEmail.where(user: user2).count).to eql 1
+      #newemail = FactoryGirl.create(:user_email, user: user2, is_primary: true)
+      get :change_email, id: user2.id, user: {user_email: {address_2: 'uniquenewaddress@example.com', is_primary: 'new_email_index_2'}, index: 2}
+      expect(user2.primary_email).to eq('newaddress@example.com')
+      expect(user2.no_email?).to eql false
     end
   end
 

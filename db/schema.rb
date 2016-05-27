@@ -315,7 +315,6 @@ ActiveRecord::Schema.define(version: 20160406145634) do
     t.integer  "profile_image_file_size"
     t.datetime "profile_image_updated_at"
     t.string   "token_for_user_dates"
-    t.boolean  "no_email",                   default: false
   end
 
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
