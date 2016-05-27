@@ -1,4 +1,3 @@
-# encoding: utf-8
 # frozen_string_literal: true
 require 'rails_helper'
 
@@ -742,6 +741,27 @@ RSpec.describe User, type: :model do
 
     it 'returns false if the group is not allowed to see course enrollments' do
       expect(user.course_results_visible_for_group(second_group)).to eql false
+    end
+  end
+
+  describe 'collect new courses' do
+    let!(:user) { FactoryGirl.create(:user, last_newsletter_send_at: Time.zone.today - 5.days, newsletter_interval: 5) }
+    let!(:new_course) { FactoryGirl.create(:course, created_at: Time.zone.today) }
+    let!(:another_new_course) { FactoryGirl.create(:course, created_at: Time.zone.today - 3.days) }
+    let!(:old_course) { FactoryGirl.create(:course, created_at: Time.zone.today - 10.days) }
+
+    it 'returns courses created since last newsletter send for a user' do
+      expect(described_class.collect_new_courses(user)).to include(new_course)
+      expect(described_class.collect_new_courses(user)).to include(another_new_course)
+    end
+
+    it 'does not return courses which are created before last newsletter send' do
+      expect(described_class.collect_new_courses(user)).not_to include(old_course)
+    end
+
+    it 'returns nil if there was no newsletter send for a user' do
+      user.last_newsletter_send_at = nil
+      expect(described_class.collect_new_courses(user)).to be_nil
     end
   end
 end

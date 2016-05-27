@@ -1,4 +1,3 @@
-# encoding: utf-8
 # frozen_string_literal: true
 
 class UserMailer < ApplicationMailer
@@ -15,6 +14,13 @@ class UserMailer < ApplicationMailer
     @user = user
 
     mail(to: email_adress, subject: 'A bookmarked course starts soon')
+  end
+
+  def newsletter_for_new_courses(email_adress, user, courses)
+    @courses = courses
+    @user = user
+
+    mail(to: email_adress, subject: 'New MOOCs available')
   end
 
   # rubocop:disable ParameterLists

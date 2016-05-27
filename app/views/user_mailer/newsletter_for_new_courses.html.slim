@@ -1,0 +1,40 @@
+doctype html
+html
+  head
+    meta charset="utf-8"
+    meta http-equiv="X-UA-Compatible" content="IE=edge"
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    meta name="description" content=""
+    meta name="author" content="#{t('global.app_name')}"
+    style type="text/css" media="screen"
+  body
+    | (English Version below)
+    br
+    br
+    p
+      | Hallo #{@user.first_name} #{@user.last_name},
+    p
+      | die folgenden Kurse sind seit dem #{@user.last_newsletter_send_at.strftime(t('global.date_format_month'))} veröffentlicht worden:
+      - @courses.each do |course|
+        p
+          = link_to course.name, course_url(course)
+    p
+      | Viel Spaß,
+    p
+      | dein mammooc-Team
+    br
+    br
+    br
+    p
+      | Hello #{@user.first_name} #{@user.last_name},
+    p
+      | the following courses are offered since #{@user.last_newsletter_send_at.strftime(t('global.date_format_month'))}:
+      - @courses.each do |course|
+        p
+          = link_to course.name, course_url(course)
+
+
+    p
+      | Have fun,
+    p
+      | your mammooc-Team
