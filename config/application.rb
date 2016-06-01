@@ -1,4 +1,3 @@
-# encoding: utf-8
 # frozen_string_literal: true
 require File.expand_path('../boot', __FILE__)
 
@@ -51,5 +50,12 @@ module MAMMOOC
 
     # Force SSL for all connections in single-mode
     config.force_ssl = true if ENV['FORCE_SSL'] == 'true'
+
+    config.middleware.insert_before 0, 'Rack::Cors' do
+      allow do
+        origins '*'
+        resource '/evaluations/export*', headers: :any, methods: [:get]
+      end
+    end
   end
 end

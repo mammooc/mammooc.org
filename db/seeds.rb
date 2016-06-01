@@ -1,4 +1,3 @@
-# encoding: utf-8
 # frozen_string_literal: true
 # rubocop:disable Lint/UselessAssignment
 
@@ -80,15 +79,13 @@ case Rails.env
                                              url: 'https://open.hpi.de/courses/pythonjunior2015',
                                              provider_course_id: 2,
                                              mooc_provider_id: open_mammooc.id,
-                                             tracks: [CourseTrack.create!(track_type: xikolo_audit_track_type)]
-                                            )
+                                             tracks: [CourseTrack.create!(track_type: xikolo_audit_track_type)])
 
     minimal_following_course = Course.create!(name: 'Minimal Following Technologies',
                                               url: 'https://open.hpi.de/courses/pythonjunior2015',
                                               provider_course_id: 3,
                                               mooc_provider_id: open_mammooc.id,
-                                              tracks: [CourseTrack.create!(track_type: xikolo_audit_track_type)]
-                                             )
+                                              tracks: [CourseTrack.create!(track_type: xikolo_audit_track_type)])
 
     full_course = Course.create!(name: 'Web Technologies',
                                  url: 'https://open.hpi.de/courses/webtech2015',
@@ -122,14 +119,28 @@ case Rails.env
                                  tracks: [CourseTrack.create!(track_type: xikolo_audit_track_type),
                                           CourseTrack.create!(track_type: certificate_track_type, costs: 20.0, costs_currency: '€'),
                                           CourseTrack.create!(track_type: iversity_ects_track_type, costs: 50.0, costs_currency: '€')],
-                                 points_maximal: 105.7
-                                )
+                                 points_maximal: 105.7)
 
     user1 = User.create!(first_name: 'Max', last_name: 'Mustermann', primary_email: 'max@example.com', password: '12345678')
     user2 = User.create!(first_name: 'Maxi', last_name: 'Musterfrau', primary_email: 'maxi@example.com', password: '12345678')
+    user3 = User.create!(first_name: 'Ronny', last_name: 'Gonzales', primary_email: 'ronny@example.com', password: '12345678')
+    user4 = User.create!(first_name: 'Peter', last_name: 'Mayer', primary_email: 'peter@example.com', password: '12345678')
+    user5 = User.create!(first_name: 'Klara', last_name: 'Wolff', primary_email: 'klara@example.com', password: '12345678')
+    user6 = User.create!(first_name: 'Thomas', last_name: 'Suess', primary_email: 'thomas@example.com', password: '12345678')
+    user7 = User.create!(first_name: 'Victoria', last_name: 'Geheimnis', primary_email: 'victoria@example.com', password: '12345678')
+    user8 = User.create!(first_name: 'Johnny', last_name: 'Genie', primary_email: 'johnny@example.com', password: '12345678')
+    user9 = User.create!(first_name: 'Rocky', last_name: 'Stein', primary_email: 'rocky@example.com', password: '12345678')
 
     Evaluation.create!(user_id: user1.id, course_id: full_course.id, rating: 5, description: 'Super Kurs!', course_status: :finished, rated_anonymously: false, total_feedback_count: 101, positive_feedback_count: 101)
     Evaluation.create!(user_id: user2.id, course_id: full_course.id, rating: 2, course_status: :aborted, rated_anonymously: true)
+    Evaluation.create!(user_id: user3.id, course_id: full_course.id, rating: 1, description: 'Richtig ****!', course_status: :finished, rated_anonymously: false, total_feedback_count: 7, positive_feedback_count: 2)
+    Evaluation.create!(user_id: user4.id, course_id: full_course.id, rating: 3, description: 'Angenehmer Zeitvertreib', course_status: :finished, rated_anonymously: false, total_feedback_count: 12, positive_feedback_count: 6)
+    Evaluation.create!(user_id: user5.id, course_id: full_course.id, rating: 4, description: 'Kleinere Fehler, aber sehr enthusiastisch vermittelt!', course_status: :finished, rated_anonymously: false, total_feedback_count: 34, positive_feedback_count: 25)
+    Evaluation.create!(user_id: user6.id, course_id: full_course.id, rating: 5, description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', course_status: :finished, rated_anonymously: false, total_feedback_count: 56, positive_feedback_count: 56)
+    Evaluation.create!(user_id: user7.id, course_id: full_course.id, rating: 4, description: 'Kann man nichts falsch machen!', course_status: :finished, rated_anonymously: false, total_feedback_count: 4, positive_feedback_count: 2)
+    Evaluation.create!(user_id: user8.id, course_id: full_course.id, rating: 3, description: 'Leider ein bisschen langweilig!', course_status: :finished, rated_anonymously: false, total_feedback_count: 13, positive_feedback_count: 5)
+    Evaluation.create!(user_id: user9.id, course_id: full_course.id, rating: 5, description: 'Super duper Kurs!', course_status: :finished, rated_anonymously: false, total_feedback_count: 1, positive_feedback_count: 0)
+
 
     group1 = Group.create!(name: 'Testgruppe1', description: 'Testgruppe1 ist die Beste!')
 

@@ -1,4 +1,3 @@
-# encoding: utf-8
 # frozen_string_literal: true
 require 'rails_helper'
 
@@ -39,6 +38,156 @@ RSpec.describe Evaluation, type: :model do
       evaluation.course_status = 2
       evaluation.rating = 2
       evaluation.save!
+    end
+  end
+
+  describe 'collect_evaluation_objects_for_course' do
+    it 'returns all evaluations for a course' do
+      course =  FactoryGirl.create(:course)
+      evaluation1 = FactoryGirl.create(:full_evaluation, course: course)
+      evaluation2 = FactoryGirl.create(:full_evaluation, course: course)
+      FactoryGirl.create(:full_evaluation)
+      evaluations, = described_class.collect_evaluation_objects_for_course(course)
+      expect(evaluations.first[:evaluation_id]).to eql evaluation1.id
+      expect(evaluations.second[:evaluation_id]).to eql evaluation2.id
+      expect(evaluations.count).to eql 2
+    end
+
+    it 'returns nil for the previous course if the evaluations are for the current course' do
+      course =  FactoryGirl.create(:course)
+      FactoryGirl.create(:full_evaluation, course: course)
+      _, previous_course = described_class.collect_evaluation_objects_for_course(course)
+      expect(previous_course).to be_nil
+    end
+
+    it 'does not return evaluations from a previous iteration if the current course have some' do
+      course = FactoryGirl.create(:course)
+      previous_course = FactoryGirl.create(:course)
+      course.previous_iteration_id = previous_course.id
+      course.save
+      evaluation1 = FactoryGirl.create(:full_evaluation, course: course)
+      evaluation2 = FactoryGirl.create(:full_evaluation, course: course)
+      FactoryGirl.create(:full_evaluation, course: previous_course)
+      evaluations, = described_class.collect_evaluation_objects_for_course(course)
+      expect(evaluations.first[:evaluation_id]).to eql evaluation1.id
+      expect(evaluations.second[:evaluation_id]).to eql evaluation2.id
+      expect(evaluations.count).to eql 2
+    end
+
+    it 'returns all evaluations for a previous course iteration' do
+      course =  FactoryGirl.create(:course)
+      previous_course = FactoryGirl.create(:course)
+      course.previous_iteration_id = previous_course.id
+      course.save
+      evaluation1 = FactoryGirl.create(:full_evaluation, course: previous_course)
+      evaluation2 = FactoryGirl.create(:full_evaluation, course: previous_course)
+      evaluations, = described_class.collect_evaluation_objects_for_course(course)
+      expect(evaluations.first[:evaluation_id]).to eql evaluation1.id
+      expect(evaluations.second[:evaluation_id]).to eql evaluation2.id
+    end
+
+    it 'returns the previous course if there are evaluations for a previous iteration' do
+      course =  FactoryGirl.create(:course)
+      previous_course = FactoryGirl.create(:course)
+      course.previous_iteration_id = previous_course.id
+      course.save
+      FactoryGirl.create(:full_evaluation, course: previous_course)
+      _, evaluations_for_previous_course = described_class.collect_evaluation_objects_for_course(course)
+      expect(evaluations_for_previous_course).to eql previous_course
+    end
+
+    it 'returns nil if no evaluations are present' do
+      course =  FactoryGirl.create(:course)
+      evaluations, evaluations_for_previous_course = described_class.collect_evaluation_objects_for_course(course)
+      expect(evaluations).to be_nil
+      expect(evaluations_for_previous_course).to be_nil
+    end
+  end
+
+  describe 'evaluation_to_hash' do
+    it 'returns a hash with all relevant values from an evaluations' do
+      evaluation = FactoryGirl.create(:full_evaluation, course_status: :finished)
+      evaluation_hash = described_class.evaluation_to_hash(evaluation)
+      expect(evaluation_hash[:evaluation_id]).to eql evaluation.id
+      expect(evaluation_hash[:rating]).to eql evaluation.rating
+      expect(evaluation_hash[:description]).to eql evaluation.description
+      expect(evaluation_hash[:creation_date]).to eql evaluation.created_at
+      expect(evaluation_hash[:total_feedback_count]).to eql evaluation.total_feedback_count
+      expect(evaluation_hash[:positive_feedback_count]).to eql evaluation.positive_feedback_count
+      expect(evaluation_hash[:course_status]).to eql I18n.t('evaluations.finished_course')
+      expect(evaluation_hash[:user_id]).to eql evaluation.user.id
+      expect(evaluation_hash[:user_name]).to eql "#{evaluation.user.first_name} #{evaluation.user.last_name}"
+    end
+
+    it 'sets the user to anonymous if the corresponding flag is set to true' do
+      evaluation = FactoryGirl.create(:full_evaluation, rated_anonymously: true)
+      evaluation_hash = described_class.evaluation_to_hash(evaluation)
+      expect(evaluation_hash[:user_id]).to be_nil
+      expect(evaluation_hash[:user_name]).to eql I18n.t('evaluations.anonymous')
+    end
+
+    it 'translates the course status for :finished' do
+      evaluation = FactoryGirl.create(:full_evaluation, course_status: :finished)
+      evaluation_hash = described_class.evaluation_to_hash(evaluation)
+      expect(evaluation_hash[:course_status]).to eql I18n.t('evaluations.finished_course')
+    end
+
+    it 'translates the course status for :aborted' do
+      evaluation = FactoryGirl.create(:full_evaluation, course_status: :aborted)
+      evaluation_hash = described_class.evaluation_to_hash(evaluation)
+      expect(evaluation_hash[:course_status]).to eql I18n.t('evaluations.aborted_course')
+    end
+
+    it 'translates the course status for :enrolled' do
+      evaluation = FactoryGirl.create(:full_evaluation, course_status: :enrolled)
+      evaluation_hash = described_class.evaluation_to_hash(evaluation)
+      expect(evaluation_hash[:course_status]).to eql I18n.t('evaluations.currently_enrolled_course')
+    end
+  end
+
+  describe 'collect_evaluations_from_a_previous_course_iteration' do
+    let(:previous_course_iteration) { FactoryGirl.create(:course) }
+    let(:course) do
+      course = FactoryGirl.create(:course)
+      course.previous_iteration_id = previous_course_iteration.id
+      course.save
+      course
+    end
+
+    it 'returns all evaluations for the previous course iteration' do
+      FactoryGirl.create(:full_evaluation, course: previous_course_iteration)
+      FactoryGirl.create(:full_evaluation, course: previous_course_iteration)
+      evaluations, = described_class.collect_evaluations_from_a_previous_course_iteration(course)
+      expect(evaluations).to eq previous_course_iteration.evaluations
+    end
+
+    it 'returns the previous course for which the evaluations are' do
+      FactoryGirl.create(:full_evaluation, course: previous_course_iteration)
+      FactoryGirl.create(:full_evaluation, course: previous_course_iteration)
+      _, previous_course = described_class.collect_evaluations_from_a_previous_course_iteration(course)
+      expect(previous_course).to eq previous_course_iteration
+    end
+
+    it 'returns the evaluations from the first previous iteration with evaluations' do
+      previous_previous_course = FactoryGirl.create(:course)
+      previous_course_iteration.previous_iteration_id = previous_previous_course.id
+      previous_course_iteration.save
+      pre_pre_pre_course = FactoryGirl.create(:course)
+      previous_previous_course.previous_iteration_id = pre_pre_pre_course.id
+      previous_previous_course.save
+      FactoryGirl.create(:full_evaluation, course: previous_previous_course)
+      FactoryGirl.create(:full_evaluation, course: previous_previous_course)
+      FactoryGirl.create(:full_evaluation, course: pre_pre_pre_course)
+      FactoryGirl.create(:full_evaluation, course: pre_pre_pre_course)
+      evaluations, previous_course = described_class.collect_evaluations_from_a_previous_course_iteration(course)
+      expect(previous_course).to eq previous_previous_course
+      expect(evaluations).to eq previous_previous_course.evaluations
+    end
+
+    it 'returns nil if no previous iteration has evaluations' do
+      evaluations, previous_course = described_class.collect_evaluations_from_a_previous_course_iteration(course)
+      expect(previous_course).to be_nil
+      expect(evaluations).to be_nil
     end
   end
 end

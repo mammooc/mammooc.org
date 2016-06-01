@@ -1,4 +1,3 @@
-# encoding: utf-8
 # frozen_string_literal: true
 require 'rails_helper'
 
@@ -105,6 +104,13 @@ RSpec.describe 'User', type: :feature do
         uri = URI.parse(current_url)
         expect("#{uri.path}?#{uri.query}").to eq("#{user_settings_path(user.id)}?subsite=privacy")
         expect(page).to have_content I18n.t('users.settings.privacy.title')
+
+        # Newsletter settings
+        click_button 'load-newsletter-settings-button'
+        wait_for_ajax
+        uri = URI.parse(current_url)
+        expect("#{uri.path}?#{uri.query}").to eq("#{user_settings_path(user.id)}?subsite=newsletter")
+        expect(page).to have_content I18n.t('users.settings.newsletter.title')
       end
 
       it 'get error when trying to delete account but still admin in group', js: true do
@@ -384,6 +390,28 @@ RSpec.describe 'User', type: :feature do
             expect(course_enrollments_visibility_settings.value(:groups)).to eql [group.id]
           end
         end
+      end
+    end
+
+    describe 'newsletter settings' do
+      # login and go to newsletter settings page
+      before(:each) do
+        visit "#{user_settings_path(user.id)}?subsite=newsletter"
+        wait_for_ajax
+      end
+
+      it 'sets newsletter_interval to 7 days', js: true do
+        select I18n.t('users.settings.newsletter.interval.week'), from: 'user_newsletter_interval'
+        click_button I18n.t('global.save')
+        expect(User.find(user.id).newsletter_interval).to eql 7
+      end
+
+      it 'unsubscribes newsletter for user', js: true do
+        user.newsletter_interval = 7
+        user.save
+        select I18n.t('users.settings.newsletter.receive_no'), from: 'user_newsletter_interval'
+        click_button I18n.t('global.save')
+        expect(User.find(user.id).newsletter_interval).to be_nil
       end
     end
   end

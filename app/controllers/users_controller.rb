@@ -1,4 +1,3 @@
-# encoding: utf-8
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
@@ -123,9 +122,31 @@ class UsersController < ApplicationController
     end
   end
 
+  def newsletter_settings
+    prepare_newsletter_settings
+    @partial = render_to_string partial: 'users/newsletter_settings', formats: [:html]
+
+    respond_to do |format|
+      begin
+        format.html { redirect_to dashboard_path }
+        format.json { render :settings, status: :ok }
+      rescue StandardError => e
+        format.html { redirect_to dashboard_path }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def change_newsletter_settings
+    current_user.newsletter_interval = params[:user][:newsletter_interval]
+    current_user.save
+    redirect_to "#{user_settings_path(current_user)}?subsite=newsletter", notice: t('users.settings.success')
+  end
+
   def settings
     prepare_mooc_provider_settings
     prepare_privacy_settings
+    prepare_newsletter_settings
     @subsite = params['subsite']
     @user = current_user
     @emails = @user.emails.sort_by do |email|
@@ -201,7 +222,8 @@ class UsersController < ApplicationController
       provider_connector = get_connector_by_mooc_provider mooc_provider
       if provider_connector.present?
         @got_connection = provider_connector.initialize_connection(
-          current_user, email: params[:email], password: params[:password])
+          current_user, email: params[:email], password: params[:password]
+        )
         provider_connector.load_user_data([current_user])
       end
     end
@@ -338,6 +360,15 @@ class UsersController < ApplicationController
 
     @profile_visibility_groups = Group.find(current_user.setting(:profile_visibility, true).value(:groups) || [])
     @profile_visibility_users = User.find(current_user.setting(:profile_visibility, true).value(:users) || [])
+  end
+
+  def prepare_newsletter_settings
+    @user = current_user
+    @newsletter_interval = current_user.newsletter_interval
+    @interval_options = [[I18n.t('users.settings.newsletter.interval.daily'), '1'],
+                         [I18n.t('users.settings.newsletter.interval.week'), '7'],
+                         [I18n.t('users.settings.newsletter.interval.two_weeks'), '14'],
+                         [I18n.t('users.settings.newsletter.interval.month'), '30']]
   end
 
   def set_provider_logos

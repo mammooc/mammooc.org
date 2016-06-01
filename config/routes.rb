@@ -1,4 +1,3 @@
-# encoding: utf-8
 # frozen_string_literal: true
 
 # The priority is based upon order of creation: first created -> highest priority.
@@ -46,7 +45,7 @@ Rails.application.routes.draw do
   get 'dashboard' => 'dashboard#dashboard'
 
   # Evaluations
-  get 'evaluations/export' => 'evaluations#export', defaults: { format: 'json' }
+  get 'evaluations/export' => 'evaluations#export', defaults: {format: 'json'}
   post 'evaluations/:id/process_feedback' => 'evaluations#process_feedback'
 
   # Groups
@@ -95,9 +94,11 @@ Rails.application.routes.draw do
   get 'users/:id/account_settings' => 'users#account_settings'
   get 'users/:id/mooc_provider_settings' => 'users#mooc_provider_settings'
   get 'users/:id/privacy_settings' => 'users#privacy_settings'
+  get 'users/:id/newsletter_settings' => 'users#newsletter_settings'
   get 'users/:id/set_mooc_provider_connection' => 'users#set_mooc_provider_connection'
   get 'users/:id/revoke_mooc_provider_connection' => 'users#revoke_mooc_provider_connection'
   patch 'users/:id/change_email' => 'users#change_email', as: 'change_email'
+  patch 'users/:id/change_newsletter_settings' => 'users#change_newsletter_settings', as: 'change_newsletter_settings'
   get 'users/:id/cancel_change_email' => 'users#cancel_change_email'
   get 'users/:id/connected_users_autocomplete' => 'users#connected_users_autocomplete'
   get 'users/:id/completions' => 'users#completions', as: 'completions'

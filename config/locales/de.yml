@@ -170,6 +170,8 @@ de:
       mooc_provider_connection: Verbindungen mit MOOC-Providern
       email: :users.sign_in_up.email
       enter_mail: E-Mail eingeben
+      change_password: Passwort ändern
+      personal_data: Persönliche Daten
       current_password: Altes Passwort
       password: :users.sign_in_up.password
       password_confirmation: :users.sign_in_up.password_confirmation
@@ -188,6 +190,7 @@ de:
       only_one_provider: Du musst entweder ein Passwort setzen oder dich über einen anderen Anbieter anmelden, damit du deine bestehende Verbindung entfernen kannst.
       identity_deleted: Deine Verbindung mit %{provider} wurde erfolgreich aufgehoben.
       identity_not_deleted: Deine Verbindung mit %{provider} konnte nicht entfernt werden.
+      success: Einstellungen erfolgreich aktualisiert.
       easyID:
         add_identity: Mit dem neuen Personalausweis verknüpfen
         remove_identity: Verknüpfung mit meinem neuen Personalausweis aufheben
@@ -195,6 +198,7 @@ de:
         identity_deleted: Die Verknüpfung mit deinem neuen Personalausweis wurde erfolgreich aufgehoben.
         identity_not_deleted: Die Verknüpfung mit deinem neuen Personalausweis konnte nicht entfernt werden.
       change_emails:
+        title: Emailadressen
         address: Emailadresse
         primary: Wähle primäre
         delete: Löschen
@@ -209,6 +213,16 @@ de:
         course_progress: Mein Kursfortschritt ist
         profile_title: Profil
         profile: Mein Profil ist
+      newsletter:
+        title: Newsletter
+        interval:
+          daily: jeden Tag
+          week: jede Woche
+          two_weeks: alle zwei Wochen
+          month: jeden Monat
+        receive_no: kein Newsletter
+        define_interval: 'Email erhalten:'
+        new_courses: Regelmäßige Email mit neuen Kursen
     synchronization:
       oauth_error: Fehler! Wir konnten keine Verbindung zu deinem Account herstellen. Bitte überprüfe deine Einstellungen und versuche es erneut.
       revoke_provider_connection: Verbindung aufheben
@@ -498,7 +512,7 @@ de:
     did_you_like_evaluation: Wie fandest du diese Bewertung?
     helpful: Hilfreich
     not_helpful: Nicht Hilfreich
-    no_evaluations: Leider gibt es noch keine Bewertungen für diesen Kurs :(
+    no_evaluations: Leider gibt es noch keine Bewertungen für diesen Kurs (oder eine frühere Iteration des Kurses) :(
     already_evaluated: Hi %{first_name}, du hast diesen Kurs bewertet. Vielen Dank für dein Feedback!
     modify_evaluation: Bewertung anpassen
     overall_evaluation: Gesamtbewertung
@@ -518,6 +532,7 @@ de:
     state_course_status: Dein Kursstatus muss angegeben werden!
     thanks_for_feedback: Danke für dein Feedback!
     anonymous: Anonymous
+    previous_course_evaluations: 'Für den aktuellen Kurs gibt es noch keine Bewertungen. Aber der Kurs wurde bereits schon einmal gehalten. Hier sind die Bewertungen für den vorherigen Kurs '
 
   newsfeed:
     button:
