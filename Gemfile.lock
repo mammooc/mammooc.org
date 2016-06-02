@@ -60,7 +60,7 @@ GEM
       sass (>= 3.3.4)
     bootstrap_tokenfield_rails (0.12.1)
     builder (3.2.2)
-    byebug (9.0.4)
+    byebug (9.0.5)
     cancancan (1.14.0)
     capybara (2.7.1)
       addressable
@@ -140,7 +140,7 @@ GEM
     i18n-js (2.1.2)
       i18n
     icalendar (2.3.0)
-    jbuilder (2.4.1)
+    jbuilder (2.5.0)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
     jmespath (1.2.4)
@@ -453,5 +453,8 @@ DEPENDENCIES
   will_paginate
   will_paginate-bootstrap
 
+RUBY VERSION
+   ruby 2.3.0p0
+
 BUNDLED WITH
-   1.11.2
+   1.12.4
