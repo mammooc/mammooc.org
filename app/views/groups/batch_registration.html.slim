@@ -1,0 +1,36 @@
+= form_for(@group, :html => { class: "form-horizontal", role: "form", multipart: true}) do |f|
+  - if @group.errors.any?
+    .alert.alert-danger.alert-dismissable role="alert"
+      button.close type="button" data-dismiss="alert"
+        span aria-hidden="true"
+          | &times;
+        span.sr-only
+          | Close
+      h4= "#{pluralize(@group.errors.count,"error")} prohibited this group from being saved:"
+      ul
+        - @group.errors.full_messages.each do |msg|
+          li= msg
+
+  .form-group
+    .text-left
+      = f.label :name, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_field :name, class: 'form-control'
+  .form-group
+    .text-left
+      = f.label :description, class: "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_area :description, class: "form-control"
+  .form-group
+    .text-left
+      = f.label :student_list, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_area :student_list, class: 'form-control'
+  .form-group
+    .text-left
+      = f.label :image, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.file_field :image
+  .form-group
+    .col-sm-offset-2.col-sm-10
+      = f.submit class: "btn btn-primary"

@@ -106,6 +106,13 @@ class Group < ActiveRecord::Base
     enrolled_courses_array.uniq
   end
 
+  def student_list
+  end
+
+  def set_initial_group_passwords(passwords)
+    @initial_group_passwords = passwords
+  end
+
   def number_of_users_who_share_course_enrollments
     number = 0
     users.each do |user|

@@ -26,6 +26,8 @@ Rails.application.routes.draw do
     get '/users/deauth/:provider' => 'users/omniauth_callbacks#deauthorize', as: :omniauth_deauthorize
   end
 
+  get 'groups/batch_registration' => 'groups#batch_registration'
+
   resources :bookmarks, except: [:edit, :new, :show, :update, :destroy]
 
   resources :recommendations, except: [:edit, :show, :update, :destroy]

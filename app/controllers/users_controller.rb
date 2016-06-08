@@ -244,7 +244,6 @@ class UsersController < ApplicationController
 
   def change_email
     @user = current_user
-
     # update existing emails
     @user.emails.each do |email|
       if params[:user][:user_email][:"address_#{email.id}"] != email.address
@@ -256,7 +255,6 @@ class UsersController < ApplicationController
     # create new emails
     total_number_of_emails = params[:user][:index].to_i
     number_of_new_emails = total_number_of_emails - @user.emails.length
-
     number_of_new_emails.times do |index|
       index_of_new_email = total_number_of_emails - index
       next unless params[:user][:user_email][:"address_#{index_of_new_email}"].present?
@@ -270,7 +268,6 @@ class UsersController < ApplicationController
     if params[:user][:user_email][:is_primary].include? 'new_email_index'
       splitted_string = params[:user][:user_email][:is_primary].split('_')
       new_primary_email_address = params[:user][:user_email][:"address_#{splitted_string[3]}"]
-      byebug
       UserEmail.find_by(address: new_primary_email_address).change_to_primary_email
     elsif params[:user][:user_email][:is_primary] != UserEmail.find_by(address: @user.primary_email).id
       UserEmail.find(params[:user][:user_email][:is_primary]).change_to_primary_email

@@ -89,7 +89,7 @@ class User < ActiveRecord::Base
       end
     end
   end
-  
+
   def self.set_no_email(user_id, no_email, user_object = nil)
     user = User.find_by(id: user_id) || user_object
     return unless user.id == user_id
@@ -154,7 +154,7 @@ class User < ActiveRecord::Base
     return unless primary_email_object.present?
     primary_email_object.address
   end
-  
+
   def no_email?
     no_email_users = self.class.where(no_email: true).collect(&:id)
     return no_email_users.include?(self.id)
@@ -162,7 +162,6 @@ class User < ActiveRecord::Base
 
   def primary_email=(primary_email_address)
     @primary_email_object = emails.find_by(is_primary: true)
-    self.class.set_no_email(self.id, false, self) if self.no_email
     if @primary_email_object.present?
       @primary_email_object.address = primary_email_address
     else

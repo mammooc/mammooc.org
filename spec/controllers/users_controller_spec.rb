@@ -93,9 +93,10 @@ RSpec.describe UsersController, type: :controller do
       
       it 'removes the no_email flag' do
         user2 = FactoryGirl.create(:noEmailUser)
+        sign_in user2
         expect(user2.no_email?).to eql true
         #newemail = FactoryGirl.create(:user_email, user: user2, is_primary: true)
-        put :update, id: user.to_param, user: {primary_email: 'lalalaemail@lalala.com'}
+        put :update, id: user2.to_param, user: {primary_email: 'lalalaemail@lalala.com'}
         expect(user2.no_email?).to eql false
         expect(user2.primary_email).to eq('lalalaemail@lalala.com')
       end
@@ -652,14 +653,19 @@ RSpec.describe UsersController, type: :controller do
       expect(UserEmail.find(primary_email.id).address).to eq primary_email.address
     end
           
-    it 'removes the no_email flag' do
-      user2 = FactoryGirl.create(:noEmailUser)
-      expect(user2.no_email?).to eql true
-      expect(UserEmail.where(user: user2).count).to eql 1
-      #newemail = FactoryGirl.create(:user_email, user: user2, is_primary: true)
-      get :change_email, id: user2.id, user: {user_email: {address_2: 'uniquenewaddress@example.com', is_primary: 'new_email_index_2'}, index: 2}
-      expect(user2.primary_email).to eq('newaddress@example.com')
-      expect(user2.no_email?).to eql false
+    
+  end
+  
+  describe 'no_email flag is removed and a primary email is added' do
+    let(:noEmail) { FactoryGirl.create(:noEmailUser) }
+    
+    it 'if change_email is executed' do
+      sign_in noEmail
+      expect(noEmail.no_email?).to eql true
+      expect(UserEmail.where(user: noEmail).count).to eql 1
+      get :change_email, id: noEmail.id, user: {user_email: {address_3: 'uniquenewaddress@example.com', is_primary: 'new_email_index_3'}, index: 3}
+      expect(noEmail.primary_email).to eq('uniquenewaddress@example.com')
+      expect(noEmail.no_email?).to eql false
     end
   end
 
