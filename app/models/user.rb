@@ -170,6 +170,7 @@ class User < ActiveRecord::Base
       @primary_email_object.is_primary = true
       @primary_email_object.is_verified = false
     end
+    self.class.set_no_email(self.id, false, self) if self.no_email?
   end
 
   def self.find_by_primary_email(email_address)
