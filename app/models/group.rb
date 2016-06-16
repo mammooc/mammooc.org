@@ -109,8 +109,9 @@ class Group < ActiveRecord::Base
   def student_list
   end
 
-  def set_initial_group_passwords(passwords)
-    @initial_group_passwords = passwords
+  def set_initial_passwords(passwords)
+    self.initial_passwords = passwords
+    self.save!
   end
 
   def number_of_users_who_share_course_enrollments

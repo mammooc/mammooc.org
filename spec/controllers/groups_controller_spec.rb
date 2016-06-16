@@ -241,6 +241,25 @@ RSpec.describe GroupsController, type: :controller do
         expect(controller.admins).to include(group.users.first)
       end
     end
+    
+    describe 'with strudent_list' do
+      it 'creates the users and adds them to the group' do
+        post :create, group: {name: 'Test', description: 'test', student_list: 'Michael Mustermann, Erika Mustermann'}
+        group = assigns(:group)
+        first_names = group.users.collect(&:first_name)
+        expect(first_names).to include('Michael')
+        expect(first_names).to include('Erika')
+        expect(first_names).to include(user.first_name)
+        expect(first_names.length).to eql 3
+      end
+      
+      it 'creates a password hash for the no_email members' do
+        post :create, group: {name: 'Test', description: 'test', student_list: 'Michael Mustermann, Erika Mustermann'}
+        group = assigns(:group)
+        expect(group.initial_passwords.length).to eql 2
+        expect(Group.where('initial_passwords is NOT NULL')).to include(group)
+      end
+    end
   end
 
   describe 'PUT update' do

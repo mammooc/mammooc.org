@@ -404,7 +404,7 @@ class GroupsController < ApplicationController
       initial_group_passwords[user.id] = user_password
 
     end
-    @group.set_initial_group_passwords(initial_group_passwords)
+    @group.set_initial_passwords(initial_group_passwords)
   end
 
   def add_admin
