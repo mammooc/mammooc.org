@@ -49,5 +49,14 @@
               -else
                 a href="/groups/#{@group.id}/statistics"
                   = t('groups.subnav.statistics')
+           
+          .entry
+            - if @group.initial_passwords.present?
+                div class=(current_page?("/groups/#{@group.id}/initial_passwords") ? 'active' : '')
+                  - if current_page?("/groups/#{@group.id}/initial_passwords")
+                    = t('groups.subnav.initial_passwords')
+                  -else
+                    a href="/groups/#{@group.id}/initial_passwords"
+                      = t('groups.subnav.initial_passwords')
 
 = render 'add_members'

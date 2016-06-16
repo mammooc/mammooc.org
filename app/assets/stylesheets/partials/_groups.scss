@@ -209,6 +209,28 @@ $members_image_height: 100px;
   }
 }
 
+//Initial Passwords
+
+.initialpw-wrapper {
+  .passwords {
+    display: table;
+    margin-top: 0px;
+    margin-left: $group-logo-margin-left - $entry-padding-left;
+      
+    .entry {
+      display: table-cell;
+      padding-left: $entry-padding-left;
+      padding-right: 10px;
+      padding-top: 5px;
+      font-size: 13px;
+
+      a {
+        @include link-black-hover-green;
+      }
+    }
+  }
+}
+
 // Sidebar
 
 .list-members {

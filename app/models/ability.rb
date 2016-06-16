@@ -9,7 +9,7 @@ class Ability
     can [:read, :members, :admins, :leave, :condition_for_changing_member_status, :recommendations, :statistics], Group do |group|
       user.groups.include? group
     end
-    can [:update, :destroy, :invite_group_members, :add_administrator, :demote_administrator, :remove_group_member, :all_members_to_administrators, :synchronize_courses], Group do |group|
+    can [:update, :destroy, :invite_group_members, :add_administrator, :demote_administrator, :remove_group_member, :all_members_to_administrators, :synchronize_courses, :initial_passwords], Group do |group|
       UserGroup.where(user_id: user.id, group_id: group.id, is_admin: true).any?
     end
 

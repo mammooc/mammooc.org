@@ -62,6 +62,7 @@ Rails.application.routes.draw do
   get 'groups/:id/members' => 'groups#members'
   get 'groups/:id/recommendations' => 'groups#recommendations'
   get 'groups/:id/statistics' => 'groups#statistics'
+  get 'groups/:id/initial_passwords' => 'groups#initial_passwords'
   get 'groups/:id/all_members_to_administrators' => 'groups#all_members_to_administrators'
   get 'groups/:id/synchronize_courses' => 'groups#synchronize_courses'
 
