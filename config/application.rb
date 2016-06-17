@@ -47,6 +47,7 @@ module MAMMOOC
     end
 
     config.action_mailer.default_url_options = {host: Settings.root_url}
+    config.action_mailer.asset_host = Settings.root_url
 
     # Force SSL for all connections in single-mode
     config.force_ssl = true if ENV['FORCE_SSL'] == 'true'
