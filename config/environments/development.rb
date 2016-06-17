@@ -41,6 +41,9 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
+  config.action_controller.asset_host = Settings.root_url
+  config.action_mailer.asset_host = Settings.root_url
+
   # paperclip file upload configurations
   config.paperclip_defaults = {
     storage: :s3,
