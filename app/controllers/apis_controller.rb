@@ -17,21 +17,21 @@ class ApisController < ApplicationController
         raise ActionController::ParameterMissing.new('no provider or course given')
       end
 
-      @evaluation = current_user.evaluations.where(course: course).first
+      @evaluation = current_user.evaluations.where(course: course).first.attributes.slice('rating', 'is_verified', 'description', 'course_status', 'rated_anonymously')
     else
       @logged_in = false
     end
 
     result[:logged_in] = @logged_in
     result[:user] = @user
-    result[:evaluation] = @evaluation.attributes.slice('rating', 'is_verified', 'description', 'course_status', 'rated_anonymously')
+    result[:evaluation] = @evaluation
 
 
     respond_to do |format|
       format.js do
         render json: result, :callback => params[:callback]
       end
-      format.json { render :user_with_evaluation }
+      format.json { render json: result }
     end
 
   rescue ActionController::ParameterMissing, ActiveRecord::RecordNotFound => e
