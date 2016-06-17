@@ -12,6 +12,7 @@ ready = ->
   $('#remove_last_member_confirm_button').on 'click', (event) -> delete_group(event)
   $('#confirm_delete_group_last_admin_button').on 'click', (event) -> delete_group(event)
   $('#confirm_leave_group_last_admin_button').on 'click', (event) -> remove_last_admin(event)
+  $('#password_submit_button').on 'click', (event) -> reset_member_password(event)
   return
 
 $(document).ready(ready)

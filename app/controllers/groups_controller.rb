@@ -2,7 +2,7 @@
 
 class GroupsController < ApplicationController
   load_and_authorize_resource only: [:index, :show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :recommendations, :statistics, :demote_administrator, 
-  :remove_group_member, :leave, :condition_for_changing_member_status, :all_members_to_administrators, :recommendations, :synchronize_courses, :initial_passwords]
+  :remove_group_member, :leave, :condition_for_changing_member_status, :all_members_to_administrators, :recommendations, :synchronize_courses, :initial_passwords, :reset_member_password]
 
   NUMBER_OF_SHOWN_RECOMMENDATIONS = 2
   NUMBER_OF_SHOWN_USERS = 10
@@ -231,6 +231,19 @@ class GroupsController < ApplicationController
       end
     end
   end
+  
+  def reset_member_password
+    respond_to do |format|
+      begin
+        reset_pasword resetted_member
+        format.html {redirect_to @group, notice: t('flash.notice.groups.successfully_reset_password')}
+        fromat.json {render :initial_passwords, status: :ok, location: @group}
+      rescue StandardError => e
+        format.html { redirect_to @group, notice: t('flash.error.groups.update') }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
 
   def condition_for_changing_member_status
     respond_to do |format|
@@ -270,10 +283,6 @@ class GroupsController < ApplicationController
         format.json { render json: e.to_json, status: :unprocessable_entity }
       end
     end
-  end
-  
-  def see_passwords
-  
   end
 
   def groups_where_user_is_admin
@@ -366,6 +375,10 @@ class GroupsController < ApplicationController
   def changing_member
     params[:changing_member]
   end
+  
+  def resetted_member
+    params [:resetted_member]
+  end
 
   def invite_members
     @error_emails ||= []
@@ -436,6 +449,19 @@ class GroupsController < ApplicationController
               else
                 'demote another member'
               end
+  end
+  
+  def reset_password(member_id, new_password=nil)
+    user = UserGroup.find_by(group_id: @group.id, user_id: member_id)
+    if user.no_email?
+      current_password = @group.initial_passwords[member_id]
+      if not new_password.present?
+        new_password = Devise.friendly_token[0, 8]
+      end
+      patch :update, user: {current_password: current_password, password: new_password, password_confirmation: new_password}
+      @group.initial_passwords[member_id] = new_password
+      @group.save!
+    end
   end
 
   def remove_member(member_id)
