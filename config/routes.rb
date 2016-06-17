@@ -115,4 +115,7 @@ Rails.application.routes.draw do
 
   # OAuth
   get 'oauth/callback' => 'users#oauth_callback'
+
+  # API
+  get 'api/current_user_with_evaluation' => 'apis#current_user_with_evaluation', defaults: {format: 'json'}
 end
