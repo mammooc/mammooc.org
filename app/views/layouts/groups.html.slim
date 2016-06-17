@@ -1,7 +1,8 @@
 - content_for :main
 
   / Pages with Group subnav
-  - if @group and (current_page?("/groups/#{@group.id}") or current_page?("/groups/#{@group.id}/members") or current_page?("/groups/#{@group.id}/recommendations") or current_page?("/groups/#{@group.id}/statistics"))
+  // Add your page here to enable the subnav
+  - if @group and (current_page?("/groups/#{@group.id}") or current_page?("/groups/#{@group.id}/members") or current_page?("/groups/#{@group.id}/recommendations") or current_page?("/groups/#{@group.id}/statistics") or current_page?("/groups/#{@group.id}/initial_passwords"))
     / Group header with subnav
     .row.mt30
       .col-md-12

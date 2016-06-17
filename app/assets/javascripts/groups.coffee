@@ -12,6 +12,10 @@ ready = ->
   $('#remove_last_member_confirm_button').on 'click', (event) -> delete_group(event)
   $('#confirm_delete_group_last_admin_button').on 'click', (event) -> delete_group(event)
   $('#confirm_leave_group_last_admin_button').on 'click', (event) -> remove_last_admin(event)
+  
+  # Add a method for the button show manually show the modal so that we can prefill the user_id or user_name
+  $('.reset_password').on 'click', (event) -> show_modal_to_choose_new_password(event)
+  # Method to handle a click in the form (after entering the password and password confirmation)
   $('#password_submit_button').on 'click', (event) -> reset_member_password(event)
   return
 
@@ -224,3 +228,48 @@ change_style_to_member = (user_id) ->
 delete_member_out_of_list = (user_id) ->
   id = "#list_member_element_user_#{user_id}"
   $(id).remove()
+
+show_modal_to_choose_new_password = (event) ->
+  # Read values from button
+  button = $(event.target)
+  user_id = button.data('user_id')
+  user_name = button.data('user_name')
+  # Show modal
+  $('#new_password').modal('show')
+  # Use jQuery to first find the modal and then each element (this will prevent any false match, you can remove the two step search if you select a unique name for the elements
+  $('#new_password').find('#user_name').text(user_name)
+  $('#new_password').find('#user_id').val(user_id)
+  # Stop further event processing
+  event.preventDefault()
+
+reset_member_password = (event) ->
+  # Read values from hidden input in form
+  user_id = $('#new_password').find('#user_id').val()
+  group_id = $('#new_password').find('#group_id').val()
+  url = "/groups/#{group_id}/reset_member_password.json"
+  # Prepare data for POST
+  data =
+    user_id : user_id
+    password : $('#new_password').find('#password').val()
+    password_confirmation : $('#new_password').find('#password_confirmation').val()
+
+  # Idea: Do some pre-processing here, e.g. check for similar values and only send one password attribute to Rails
+
+  # Actual post request
+  $.ajax
+    url: url
+    data: data
+    method: 'POST'
+    error: (jqXHR, textStatus, errorThrown) ->
+      # This happens if the Rails controller throws an error
+      console.log('error_reset_member_password')
+      alert(I18n.t('global.ajax_failed'))
+    success: (data, textStatus, jqXHR) ->
+      # HTTP 200 returned, hide the modal and empty the form
+
+      # Idea: Check the returned data for errors to see whether changing the password was successfull. Have a look at method 'send_invite' in this file for a similiar approach
+      $('#new_password').modal('hide')
+      $('#new_password').find('#password').val('')
+      $('#new_password').find('#password_confirmation').val('')
+      
+  event.preventDefault()

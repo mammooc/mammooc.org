@@ -26,8 +26,6 @@ Rails.application.routes.draw do
     get '/users/deauth/:provider' => 'users/omniauth_callbacks#deauthorize', as: :omniauth_deauthorize
   end
 
-  get 'groups/batch_registration' => 'groups#batch_registration'
-
   resources :bookmarks, except: [:edit, :new, :show, :update, :destroy]
 
   resources :recommendations, except: [:edit, :show, :update, :destroy]
@@ -65,6 +63,10 @@ Rails.application.routes.draw do
   get 'groups/:id/initial_passwords' => 'groups#initial_passwords'
   get 'groups/:id/all_members_to_administrators' => 'groups#all_members_to_administrators'
   get 'groups/:id/synchronize_courses' => 'groups#synchronize_courses'
+  # Just moving
+  get 'groups/batch_registration' => 'groups#batch_registration'
+  #  Posting the new values ...
+  post 'groups/:id/reset_member_password' => 'groups#reset_member_password'
 
   # Recommendations
   get 'recommendations/:id/delete_user_from_recommendation' => 'recommendations#delete_user_from_recommendation'

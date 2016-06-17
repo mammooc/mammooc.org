@@ -235,9 +235,14 @@ class GroupsController < ApplicationController
   def reset_member_password
     respond_to do |format|
       begin
-        reset_pasword resetted_member
+        # Required: Do some security checks.
+
+        # Temporary to show the parameters
+        puts params
+        # reset_pasword resetted_member
         format.html {redirect_to @group, notice: t('flash.notice.groups.successfully_reset_password')}
-        fromat.json {render :initial_passwords, status: :ok, location: @group}
+        # Render any json (extension .jsonbuilder with the reseult you want, e.g. success: true) and check for the result in CoffeeScript
+        format.json {render :show, status: :ok, location: @group}
       rescue StandardError => e
         format.html { redirect_to @group, notice: t('flash.error.groups.update') }
         format.json { render json: e.to_json, status: :unprocessable_entity }
