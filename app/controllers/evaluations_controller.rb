@@ -55,11 +55,14 @@ class EvaluationsController < ApplicationController
           is_verified: evaluation.is_verified
         }
 
-        evaluation_object[:user_name] = if evaluation.rated_anonymously
-                                          'Anonymous'
-                                        else
-                                          "#{evaluation.user.first_name} #{evaluation.user.last_name}"
-                                        end
+        if evaluation.rated_anonymously
+          evaluation_object[:user_name] = 'Anonymous'
+          evaluation_object[:user_profile_picture] = root_url + Settings.default_profile_picture_path
+
+        else
+          evaluation_object[:user_name] = "#{evaluation.user.first_name} #{evaluation.user.last_name}"
+          evaluation_object[:user_profile_picture] = evaluation.user.profile_image.url(:thumb)
+        end
         course_evaluations << evaluation_object
       end
 
