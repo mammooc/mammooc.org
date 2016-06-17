@@ -61,7 +61,7 @@ class EvaluationsController < ApplicationController
 
         else
           evaluation_object[:user_name] = "#{evaluation.user.first_name} #{evaluation.user.last_name}"
-          evaluation_object[:user_profile_picture] = evaluation.user.profile_image.url(:thumb)
+          evaluation_object[:user_profile_picture] = ApplicationController.helpers.asset_url(evaluation.user.profile_image.url(:thumb))
         end
         course_evaluations << evaluation_object
       end
