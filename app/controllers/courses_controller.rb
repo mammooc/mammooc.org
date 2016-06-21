@@ -70,7 +70,7 @@ class CoursesController < ApplicationController
       @has_rated_course = Evaluation.find_by(user_id: current_user.id, course_id: @course.id).present?
     end
 
-    create_evaluation_object_for_course @course
+    @evaluations, @previous_course = Evaluation.collect_evaluation_objects_for_course(@course)
     evaluating_users = User.find(@course.evaluations.pluck(:user_id))
     @profile_pictures ||= {}
     @profile_pictures = User.user_profile_images_hash_for_users(evaluating_users, @profile_pictures)
@@ -185,40 +185,6 @@ class CoursesController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def course_params
     params.require(:course).permit(:name, :url, :course_instructor, :abstract, :language, :course_image, :videoId, :start_date, :end_date, :duration, :costs, :type_of_achievement, :categories, :difficulty, :requirements, :workload, :provider_course_id, :mooc_provider_id, :course_result_id)
-  end
-
-  def create_evaluation_object_for_course(course)
-    if course.evaluations.present?
-      @course_evaluations = Set.new
-      course.evaluations.each do |evaluation|
-        evaluation_object = {
-          evaluation_id: evaluation.id,
-          rating: evaluation.rating,
-          description: evaluation.description,
-          creation_date: evaluation.created_at,
-          total_feedback_count: evaluation.total_feedback_count,
-          positive_feedback_count: evaluation.positive_feedback_count
-        }
-        case evaluation.course_status.to_sym
-          when :aborted
-            evaluation_object[:course_status] = t('evaluations.aborted_course')
-          when :enrolled
-            evaluation_object[:course_status] = t('evaluations.currently_enrolled_course')
-          when :finished
-            evaluation_object[:course_status] = t('evaluations.finished_course')
-        end
-        if evaluation.rated_anonymously
-          evaluation_object[:user_id] = nil
-          evaluation_object[:user_name] = t('evaluations.anonymous')
-        else
-          evaluation_object[:user_id] = evaluation.user_id
-          evaluation_object[:user_name] = "#{evaluation.user.first_name} #{evaluation.user.last_name}"
-        end
-        @course_evaluations << evaluation_object
-      end
-    else
-      @course_evaluations = nil
-    end
   end
 
   def create_enrollment

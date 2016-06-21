@@ -1,4 +1,4 @@
-FROM ruby:2.3.0
+FROM ruby:2.3.1
 
 RUN apt-get update -qq && apt-get install -y build-essential
 
@@ -36,7 +36,7 @@ RUN bundle exec rake assets:precompile
 # Create cronjobs based on config/schedule.rb
 RUN bundle exec whenever -w
 
-# Download Root CA Certificates, add GTE for Windows Live Login and use this bundle for curl
+# Download Root CA Certificates, add GTE for Windows Live login and use this bundle for curl
 RUN curl https://curl.haxx.se/ca/cacert.pem > cacert.pem
 RUN curl https://www.digicert.com/CACerts/GTECyberTrustGlobalRoot.crt >> GTECyberTrustGlobalRoot.crt
 RUN openssl x509 -inform DER -in GTECyberTrustGlobalRoot.crt -out GTECyberTrustGlobalRoot.pem -outform PEM
