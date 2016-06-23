@@ -139,8 +139,19 @@ class UsersController < ApplicationController
 
   def change_newsletter_settings
     current_user.newsletter_interval = params[:user][:newsletter_interval]
+    if params[:user][:newsletter_interval].blank?
+      current_user.unsubscribed_newsletter = true
+    else
+      current_user.unsubscribed_newsletter = false
+    end
     current_user.save
     redirect_to "#{user_settings_path(current_user)}?subsite=newsletter", notice: t('users.settings.success')
+  end
+
+  def unsubscribe_newsletter
+    current_user.unsubscribed_newsletter = true
+    current_user.save
+    redirect_to :back
   end
 
   def settings
