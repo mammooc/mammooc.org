@@ -684,12 +684,69 @@ RSpec.describe UsersController, type: :controller do
       expect(User.find(user.id).newsletter_interval).to eql 5
     end
 
-    it 'sets attribute even if param is nil' do
+    it 'subscribes newsletter' do
+      expect(user.newsletter_interval).not_to eql 5
+      patch :change_newsletter_settings, id: user.id, user: {newsletter_interval: 5}
+      expect(User.find(user.id).unsubscribed_newsletter).to eql false
+    end
+
+    it 'sets attribute even if param is blank' do
       user.newsletter_interval = 5
       user.save
       expect(User.find(user.id).newsletter_interval).to eql 5
-      patch :change_newsletter_settings, id: user.id, user: {newsletter_interval: nil}
+      patch :change_newsletter_settings, id: user.id, user: {newsletter_interval: ''}
       expect(User.find(user.id).newsletter_interval).to be_nil
     end
+
+    it 'unsubscribes newsletter if param is blank' do
+      user.newsletter_interval = 5
+      user.save
+      expect(User.find(user.id).newsletter_interval).to eql 5
+      patch :change_newsletter_settings, id: user.id, user: {newsletter_interval: ''}
+      expect(User.find(user.id).unsubscribed_newsletter).to eql true
+    end
+  end
+
+  describe 'unsubscribe_newsletter' do
+
+    it 'unsubscribes newsletter' do
+      request.env['HTTP_REFERER'] = courses_index_path
+      get :unsubscribe_newsletter, id: user.id
+      expect(User.find(user.id).unsubscribed_newsletter).to eql true
+    end
+
+    it 'redirects back' do
+      request.env['HTTP_REFERER'] = courses_index_path
+      get :unsubscribe_newsletter, id: user.id
+      expect(response).to redirect_to courses_index_path
+    end
+
+  end
+
+  describe 'login_and_subscribe_to_newsletter' do
+
+    it 'redirects to login page if there is no current_user' do
+      sign_out user
+      get :login_and_subscribe_to_newsletter
+      expect(response).to redirect_to new_user_session_path
+    end
+
+    it 'stores url in session if there is no current_user' do
+      sign_out user
+      get :login_and_subscribe_to_newsletter
+      expect(session[:user_original_url]).to eql '/users/login_and_subscribe_to_newsletter'
+    end
+
+    it 'shows flash notice' do
+      sign_out user
+      get :login_and_subscribe_to_newsletter
+      expect(flash[:error]).to eq I18n.t('flash.error.login.required')
+    end
+
+    it 'redirects to newsletter settings page if there is a current_user' do
+      get :login_and_subscribe_to_newsletter
+      expect(response).to redirect_to "#{user_settings_path(user)}?subsite=newsletter"
+    end
+
   end
 end

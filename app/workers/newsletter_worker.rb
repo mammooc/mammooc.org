@@ -8,7 +8,7 @@ class NewsletterWorker
 
   def send_email_with_new_courses
     User.all.each do |user|
-      next if user.unsubscribed_newsletter.blank?
+      next if user.unsubscribed_newsletter || user.unsubscribed_newsletter.nil?
       if user.last_newsletter_send_at.present? && user.last_newsletter_send_at + user.newsletter_interval.days > Time.zone.today
         next
       end
