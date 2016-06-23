@@ -154,6 +154,16 @@ class UsersController < ApplicationController
     redirect_to :back
   end
 
+  def login_and_subscribe_to_newsletter
+    if current_user.blank?
+      flash[:error] = t('flash.error.login.required')
+      session[:user_original_url] = '/users/login_and_subscribe_to_newsletter'
+      redirect_to new_user_session_path
+    else
+      redirect_to "#{user_settings_path(current_user)}?subsite=newsletter"
+    end
+  end
+
   def settings
     prepare_mooc_provider_settings
     prepare_privacy_settings

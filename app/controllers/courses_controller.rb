@@ -11,9 +11,11 @@ class CoursesController < ApplicationController
   def index
     load_courses
 
-    @flash_notice_newsletter = false
-    if current_user.unsubscribed_newsletter.nil?
-      @flash_notice_newsletter = true
+    @flash_notice_newsletter = :no_newsletter
+    if current_user.blank?
+      @flash_notice_newsletter = :no_user
+    elsif current_user.unsubscribed_newsletter.nil?
+      @flash_notice_newsletter = :current_user
     end
 
     respond_to do |format|

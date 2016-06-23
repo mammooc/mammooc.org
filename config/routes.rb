@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     get '/users/finish_signup' => 'users/registrations#finish_signup', :as => :finish_signup
     match '/users/auth/easyID' => 'users/omniauth_callbacks#easy_id', via: [:get, :post], :as => :easy_id
     get '/users/deauth/:provider' => 'users/omniauth_callbacks#deauthorize', as: :omniauth_deauthorize
+    get 'users/login_and_subscribe_to_newsletter' => 'users#login_and_subscribe_to_newsletter'
   end
 
   resources :bookmarks, except: [:edit, :new, :show, :update, :destroy]
