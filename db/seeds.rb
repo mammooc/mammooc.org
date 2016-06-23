@@ -141,7 +141,6 @@ case Rails.env
     Evaluation.create!(user_id: user8.id, course_id: full_course.id, rating: 3, description: 'Leider ein bisschen langweilig!', course_status: :finished, rated_anonymously: false, total_feedback_count: 13, positive_feedback_count: 5)
     Evaluation.create!(user_id: user9.id, course_id: full_course.id, rating: 5, description: 'Super duper Kurs!', course_status: :finished, rated_anonymously: false, total_feedback_count: 1, positive_feedback_count: 0)
 
-
     group1 = Group.create!(name: 'Testgruppe1', description: 'Testgruppe1 ist die Beste!')
 
     20.times do |i|

@@ -71,8 +71,8 @@ class Evaluation < ActiveRecord::Base
         break
       end
       previous_course_iteration = if previous_course_iteration.previous_iteration_id.present?
-                          Course.find(previous_course_iteration.previous_iteration_id)
-                        end
+                                    Course.find(previous_course_iteration.previous_iteration_id)
+                                  end
     end
     [course_evaluations, previous_course]
   end
