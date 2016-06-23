@@ -33,7 +33,7 @@ class UsersController < ApplicationController
         format.html { redirect_to @user, notice: t('flash.notice.users.successfully_updated') }
         format.json { render :show, status: :ok, location: @user }
       else
-        format.html { render :edit }
+        format.html { render :settings }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -379,8 +379,7 @@ class UsersController < ApplicationController
     @interval_options = [[I18n.t('users.settings.newsletter.interval.daily'), '1'],
                          [I18n.t('users.settings.newsletter.interval.week'), '7'],
                          [I18n.t('users.settings.newsletter.interval.two_weeks'), '14'],
-                         [I18n.t('users.settings.newsletter.interval.month'), '30']
-                        ]
+                         [I18n.t('users.settings.newsletter.interval.month'), '30']]
   end
 
   def set_provider_logos

@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     patch '/users' => 'users/registrations#update'
     put '/users' => 'users/registrations#update'
     delete '/users' => 'users/registrations#destroy'
-    match '/users/finish_signup' => 'users/registrations#finish_signup', via: [:get, :patch], :as => :finish_signup
+    get '/users/finish_signup' => 'users/registrations#finish_signup', :as => :finish_signup
     match '/users/auth/easyID' => 'users/omniauth_callbacks#easy_id', via: [:get, :post], :as => :easy_id
     get '/users/deauth/:provider' => 'users/omniauth_callbacks#deauthorize', as: :omniauth_deauthorize
   end
@@ -116,4 +116,7 @@ Rails.application.routes.draw do
 
   # OAuth
   get 'oauth/callback' => 'users#oauth_callback'
+
+  # API
+  get 'api/current_user_with_evaluation' => 'apis#current_user_with_evaluation', defaults: {format: 'json'}
 end

@@ -514,7 +514,7 @@ en:
     did_you_like_evaluation: How did you like this evaluation?
     helpful: Helpful
     not_helpful: Not Helpful
-    no_evaluations: Unfortunately there are no evaluations for this course yet. :(
+    no_evaluations: Unfortunately there are no evaluations for this course (or any previous iteration) yet. :(
     already_evaluated: Hi %{first_name}, you evaluated the course. Thanks for your feedback!
     modify_evaluation: Modify Evaluation
     overall_evaluation: Overall Evaluation
@@ -534,6 +534,7 @@ en:
     state_course_status: Please state your course status!
     thanks_for_feedback: Thank you for your feedback!
     anonymous: Anonymous
+    previous_course_evaluations: "Unfortunately, there isn't any evaluation for the current course but there are some for a previous iteration. Have a look at the evaluations for the previous course "
 
   newsfeed:
     button:

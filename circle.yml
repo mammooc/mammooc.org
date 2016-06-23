@@ -6,7 +6,7 @@ general:
 machine:
   environment:
     GEMNASIUM_TESTSUITE: "bundle check"
-    GEMNASIUM_PROJECT_SLUG: "mammooc/mammooc.org"
+    GEMNASIUM_PROJECT_SLUG: "github.com/mammooc/mammooc.org"
     COVERALLS_PARALLEL: "true"
 
 
