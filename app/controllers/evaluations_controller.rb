@@ -3,6 +3,7 @@
 class EvaluationsController < ApplicationController
   before_action :set_evaluation, only: [:process_feedback]
   skip_before_action :require_login, only: [:export, :save]
+  protect_from_forgery except: :save
 
   respond_to :html
 
@@ -101,7 +102,7 @@ class EvaluationsController < ApplicationController
     end
 
     rating = params['rating'].to_i
-    if rating.to_s != rating || (rating < 5 && rating > 1)
+    if rating.to_s != params['rating'] || rating < 1 || rating > 5
       raise ArgumentError.new('rating has no valid value')
     end
 
@@ -121,19 +122,26 @@ class EvaluationsController < ApplicationController
     description = params['description']
     user_id = current_user.id
     provider_course_id = params['course_id']
-    mooc_provider = params['provider']
+    mooc_provider = MoocProvider.find_by!(name: params[:provider])
 
     course_id = Course.find_by!(provider_course_id: provider_course_id, mooc_provider: mooc_provider)
 
     Evaluation.save_or_update_evaluation(user_id, course_id, rating, description, course_status, rated_anonymously)
 
+
     respond_to do |format|
+      format.js do
+        render json: {success: 'true'}, :callback => params[:callback]
+      end
       format.json { render json: {success: 'true'}, status: :ok }
     end
 
 
   rescue => e
     respond_to do |format|
+      format.js do
+        render json: {success: 'false', error: e.message}, :callback => params[:callback]
+      end
       format.json { render json: {success: 'false', error: e.message}, status: :ok}
     end
   end
