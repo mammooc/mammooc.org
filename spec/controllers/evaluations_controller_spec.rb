@@ -53,7 +53,7 @@ RSpec.describe EvaluationsController, type: :controller do
 
     render_views
 
-    context 'specifiv course' do
+    context 'specifv course' do
       subject { JSON.parse(response.body)['evaluations'].first['user_evaluations'] }
 
       it 'returns all evaluations for specific course and specific provider' do
@@ -70,16 +70,21 @@ RSpec.describe EvaluationsController, type: :controller do
       it 'returns all evaluations for all courses' do
         get :export, format: :json
         expect(subject.count).to eql 3
-        expect(subject.first['user_evaluations'].count).to eql 2
-        expect(subject.second['user_evaluations'].count).to eql 1
-        expect(subject.third['user_evaluations'].count).to eql 1
+        number_of_user_evaluations = 0
+        subject.each do |evaluation_object|
+          number_of_user_evaluations += evaluation_object['user_evaluations'].count
+        end
+        expect(number_of_user_evaluations).to eql 4
       end
 
       it 'returns all evaluations for all courses for specific provider' do
         get :export, format: :json, provider: mooc_provider.name
         expect(subject.count).to eql 2
-        expect(subject.first['user_evaluations'].count).to eql 1
-        expect(subject.second['user_evaluations'].count).to eql 2
+        number_of_user_evaluations = 0
+        subject.each do |evaluation_object|
+          number_of_user_evaluations += evaluation_object['user_evaluations'].count
+        end
+        expect(number_of_user_evaluations).to eql 3
       end
     end
 
