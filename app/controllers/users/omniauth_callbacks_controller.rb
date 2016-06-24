@@ -96,15 +96,7 @@ module Users
 
     def handle_omniauth_params
       session.delete(:user_original_url)
-
-      begin
-        params = env['omniauth.params']
-        provider = MoocProvider.find_by_name(params['provider'])
-        course = Course.get_course_by_mooc_provider_id_and_provider_course_id provider.id, params['course_id']
-        session[:user_original_url] = course_path(course)
-      rescue
-        flash.now['error'] << t('global.ajax_failed')
-      end
+      session[:user_original_url] = load_and_save_evaluation_path(env['omniauth.params'])
     end
 
     def deauthorize_params

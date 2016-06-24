@@ -116,7 +116,7 @@ class EvaluationsController < ApplicationController
     else
       check_and_validate
       persist_evaluation
-      redirect_to dashboard_path
+      redirect_to_corresponding_course
     end
   end
 
@@ -161,6 +161,17 @@ class EvaluationsController < ApplicationController
     rated_anonymously = StringHelper.to_bool(params['rated_anonymously'])
 
     Evaluation.save_or_update_evaluation(user_id, course_id, rating, description, course_status, rated_anonymously)
+  end
+
+  def redirect_to_corresponding_course
+    flash['success'] ||= []
+    provider_course_id = params['course_id']
+    mooc_provider = MoocProvider.find_by!(name: params[:provider])
+
+    course_id = Course.find_by!(provider_course_id: provider_course_id, mooc_provider: mooc_provider).id
+
+    flash['success'] << t('evaluations.thanks_for_feedback')
+    redirect_to course_path(course_id)
   end
 
   def set_evaluation
