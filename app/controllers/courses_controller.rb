@@ -119,15 +119,11 @@ class CoursesController < ApplicationController
     end
 
     if @errors.empty?
-      evaluation = Evaluation.find_by(user_id: current_user.id, course_id: @course.id)
-      if evaluation.blank?
-        evaluation = Evaluation.new(user_id: current_user.id, course_id: @course.id)
-      end
-      evaluation.rating = params[:rating].to_i
-      evaluation.description = params[:rating_textarea]
-      evaluation.course_status = params[:course_status].to_sym
-      evaluation.rated_anonymously = params[:rate_anonymously]
-      evaluation.save
+      rating = params[:rating].to_i
+      description = params[:rating_textarea]
+      course_status = params[:course_status].to_sym
+      rated_anonymously = params[:rate_anonymously]
+      Evaluation.save_or_update_evaluation(current_user.id, @course.id, rating, description, course_status, rated_anonymously)
     end
     @current_user_evaluation = current_user.evaluations.find_by(course_id: @course.id)
     @has_rated_course = @current_user_evaluation.present?
