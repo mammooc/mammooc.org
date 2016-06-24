@@ -76,4 +76,17 @@ class Evaluation < ActiveRecord::Base
     end
     [course_evaluations, previous_course]
   end
+
+  def self.save_or_update_evaluation(user_id, course_id, rating, description, course_status, rated_anonymously)
+    evaluation = Evaluation.find_by(user_id: user_id, course_id: course_id)
+    if evaluation.blank?
+      evaluation = Evaluation.new(user_id: user_id, course_id: course_id)
+    end
+    evaluation.rating = rating
+    evaluation.description = description
+    evaluation.course_status = course_status
+    evaluation.rated_anonymously = rated_anonymously
+    evaluation.save
+  end
+
 end
