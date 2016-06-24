@@ -89,9 +89,7 @@ class EvaluationsController < ApplicationController
   end
 
   def save
-    if current_user.blank?
-      raise 'No User is logged in.'
-    end
+    raise 'No User is logged in.' if current_user.blank?
 
     if params['rating'].nil? || params['description'].nil? || params['rated_anonymously'].nil? || params['course_id'].nil? || params['provider'].nil? || params['course_status'].nil?
       raise ActionController::ParameterMissing.new('one of the following parameters is missing: rating, description, rated_anonymously, course_id, provider, course_status')
@@ -128,21 +126,19 @@ class EvaluationsController < ApplicationController
 
     Evaluation.save_or_update_evaluation(user_id, course_id, rating, description, course_status, rated_anonymously)
 
-
     respond_to do |format|
       format.js do
-        render json: {success: 'true'}, :callback => params[:callback]
+        render json: {success: 'true'}, callback: params[:callback]
       end
       format.json { render json: {success: 'true'}, status: :ok }
     end
 
-
   rescue => e
     respond_to do |format|
       format.js do
-        render json: {success: 'false', error: e.message}, :callback => params[:callback]
+        render json: {success: 'false', error: e.message}, callback: params[:callback]
       end
-      format.json { render json: {success: 'false', error: e.message}, status: :ok}
+      format.json { render json: {success: 'false', error: e.message}, status: :ok }
     end
   end
 
