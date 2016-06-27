@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     get '/users/finish_signup' => 'users/registrations#finish_signup', :as => :finish_signup
     match '/users/auth/easyID' => 'users/omniauth_callbacks#easy_id', via: [:get, :post], :as => :easy_id
     get '/users/deauth/:provider' => 'users/omniauth_callbacks#deauthorize', as: :omniauth_deauthorize
+    get 'users/login_and_subscribe_to_newsletter' => 'users#login_and_subscribe_to_newsletter'
   end
 
   resources :bookmarks, except: [:edit, :new, :show, :update, :destroy]
@@ -46,6 +47,7 @@ Rails.application.routes.draw do
 
   # Evaluations
   get 'evaluations/export' => 'evaluations#export', defaults: {format: 'json'}
+  get 'evaluations/save' => 'evaluations#save', defaults: {format: 'json'}
   post 'evaluations/:id/process_feedback' => 'evaluations#process_feedback'
 
   # Groups
@@ -94,9 +96,12 @@ Rails.application.routes.draw do
   get 'users/:id/account_settings' => 'users#account_settings'
   get 'users/:id/mooc_provider_settings' => 'users#mooc_provider_settings'
   get 'users/:id/privacy_settings' => 'users#privacy_settings'
+  get 'users/:id/newsletter_settings' => 'users#newsletter_settings'
   get 'users/:id/set_mooc_provider_connection' => 'users#set_mooc_provider_connection'
   get 'users/:id/revoke_mooc_provider_connection' => 'users#revoke_mooc_provider_connection'
   patch 'users/:id/change_email' => 'users#change_email', as: 'change_email'
+  patch 'users/:id/change_newsletter_settings' => 'users#change_newsletter_settings', as: 'change_newsletter_settings'
+  get 'users/:id/unsubscribe_newsletter' => 'users#unsubscribe_newsletter', as: 'unsubscribe_newsletter'
   get 'users/:id/cancel_change_email' => 'users#cancel_change_email'
   get 'users/:id/connected_users_autocomplete' => 'users#connected_users_autocomplete'
   get 'users/:id/completions' => 'users#completions', as: 'completions'
@@ -113,4 +118,7 @@ Rails.application.routes.draw do
 
   # OAuth
   get 'oauth/callback' => 'users#oauth_callback'
+
+  # API
+  get 'api/current_user_with_evaluation' => 'apis#current_user_with_evaluation', defaults: {format: 'json'}
 end

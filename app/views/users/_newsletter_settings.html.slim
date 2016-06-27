@@ -1,0 +1,11 @@
+h3
+  = t('users.settings.newsletter.new_courses')
+
+= form_for(@user, url: change_newsletter_settings_path(@user), html: { class: 'form-horizontal', role: 'form'}) do |f|
+    .form-group
+      = f.label t('users.settings.newsletter.define_interval'), {class: 'col-sm-3 text-left control-label'}
+      .col-sm-5
+        = f.select(:newsletter_interval, @interval_options, {include_blank: t('users.settings.newsletter.receive_no')}, {class: 'form-control'})
+    .form-group
+      .col-sm-offset-3.col-sm-5
+        = f.submit t('global.save'), :class => "btn btn-primary"

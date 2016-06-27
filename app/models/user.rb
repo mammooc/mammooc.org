@@ -34,8 +34,8 @@ class User < ActiveRecord::Base
       original: '300x300>'
     },
     s3_storage_class: :reduced_redundancy,
-    s3_permissions: :private,
-    default_url: '/data/profile_picture_default.png'
+    s3_permissions: :public_read,
+    default_url: Settings.default_profile_picture_path
 
   # Validate the attached image is image/jpg, image/png, etc
   validates_attachment_content_type :profile_image, content_type: /\Aimage\/.*\Z/
@@ -343,6 +343,11 @@ class User < ActiveRecord::Base
       end
     end
     group_is_able
+  end
+
+  def self.collect_new_courses(user)
+    return nil if user.last_newsletter_send_at.blank?
+    Course.where('created_at > ?', user.last_newsletter_send_at)
   end
 
   private

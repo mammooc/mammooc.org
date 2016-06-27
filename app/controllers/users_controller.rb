@@ -33,7 +33,7 @@ class UsersController < ApplicationController
         format.html { redirect_to @user, notice: t('flash.notice.users.successfully_updated') }
         format.json { render :show, status: :ok, location: @user }
       else
-        format.html { render :edit }
+        format.html { render :settings }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -122,9 +122,52 @@ class UsersController < ApplicationController
     end
   end
 
+  def newsletter_settings
+    prepare_newsletter_settings
+    @partial = render_to_string partial: 'users/newsletter_settings', formats: [:html]
+
+    respond_to do |format|
+      begin
+        format.html { redirect_to dashboard_path }
+        format.json { render :settings, status: :ok }
+      rescue StandardError => e
+        format.html { redirect_to dashboard_path }
+        format.json { render json: e.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def change_newsletter_settings
+    current_user.newsletter_interval = params[:user][:newsletter_interval]
+    current_user.unsubscribed_newsletter = if params[:user][:newsletter_interval].blank?
+                                             true
+                                           else
+                                             false
+                                           end
+    current_user.save
+    redirect_to "#{user_settings_path(current_user)}?subsite=newsletter", notice: t('users.settings.success')
+  end
+
+  def unsubscribe_newsletter
+    current_user.unsubscribed_newsletter = true
+    current_user.save
+    redirect_to :back
+  end
+
+  def login_and_subscribe_to_newsletter
+    if current_user.blank?
+      flash[:error] = t('flash.error.login.required')
+      session[:user_original_url] = '/users/login_and_subscribe_to_newsletter'
+      redirect_to new_user_session_path
+    else
+      redirect_to "#{user_settings_path(current_user)}?subsite=newsletter"
+    end
+  end
+
   def settings
     prepare_mooc_provider_settings
     prepare_privacy_settings
+    prepare_newsletter_settings
     @subsite = params['subsite']
     @user = current_user
     @emails = @user.emails.sort_by do |email|
@@ -338,6 +381,15 @@ class UsersController < ApplicationController
 
     @profile_visibility_groups = Group.find(current_user.setting(:profile_visibility, true).value(:groups) || [])
     @profile_visibility_users = User.find(current_user.setting(:profile_visibility, true).value(:users) || [])
+  end
+
+  def prepare_newsletter_settings
+    @user = current_user
+    @newsletter_interval = current_user.newsletter_interval
+    @interval_options = [[I18n.t('users.settings.newsletter.interval.daily'), '1'],
+                         [I18n.t('users.settings.newsletter.interval.week'), '7'],
+                         [I18n.t('users.settings.newsletter.interval.two_weeks'), '14'],
+                         [I18n.t('users.settings.newsletter.interval.month'), '30']]
   end
 
   def set_provider_logos

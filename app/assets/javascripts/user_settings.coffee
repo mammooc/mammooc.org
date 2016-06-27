@@ -3,6 +3,7 @@ ready = ->
   $('#load-account-settings-button').on 'click', (event) -> loadAccountSettings(event)
   $('#load-mooc-provider-settings-button').on 'click', (event) -> loadMoocProviderSettings(event)
   $('#load-privacy-settings-button').on 'click', (event) -> loadPrivacySettings(event)
+  $('#load-newsletter-settings-button').on 'click', (event) -> loadNewsletterSettings(event)
   
   $('#add_new_email_field').on 'click', (event) -> addNewEmailField(event)
   $('.remove_added_email_field').on 'click', (event) -> removeAddedEmailField(event)
@@ -108,6 +109,24 @@ loadPrivacySettings = (event) ->
       bindMoocProviderConnectionClickEvents()
       window.history.pushState({id: 'set_privacy_subsite'}, '', 'settings?subsite=privacy');
   event.preventDefault()
+
+loadNewsletterSettings = (event) ->
+  button = $(event.target)
+  user_id = button.data('user_id')
+  url = "/users/#{user_id}/newsletter_settings.json"
+  $.ajax
+    url: url
+    method: 'GET'
+    error: (jqXHR, textStatus, errorThrown) ->
+      console.log('error_synchronize')
+      console.log(textStatus)
+      alert(I18n.t('global.ajax_failed'))
+    success: (data, textStatus, jqXHR) ->
+      $("div.settings-container").html(data.partial)
+      bindMoocProviderConnectionClickEvents()
+      window.history.pushState({id: 'set_newsletter_subsite'}, '', 'settings?subsite=newsletter');
+  event.preventDefault()
+
 
 synchronizeNaiveUserMoocProviderConnection = (event) ->
   button = $(event.target)

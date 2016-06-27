@@ -2,6 +2,24 @@
   = t('courses.title')
 
 - content_for :header
+  - if @flash_notice_newsletter == :current_user
+    .alert.alert-info.alert-dismissible role='alert'
+      button.close type='button' data-dismiss='alert' aria-label='Close'
+        span aria-hidden='true' &times;
+      = t('newsletter.flash_notice')
+      span.pl20
+        = link_to t('newsletter.subscribe'), "/users/#{current_user.id}/settings?subsite=newsletter"
+      span.pl10
+        = link_to t('global.no_thanks'), unsubscribe_newsletter_path(current_user.id)
+  - elsif @flash_notice_newsletter == :no_user
+    .alert.alert-info.alert-dismissible role='alert'
+      button.close type='button' data-dismiss='alert' aria-label='Close'
+        span aria-hidden='true' &times;
+      = t('newsletter.flash_notice')
+      span.pl20
+        = link_to t('newsletter.subscribe'), '/users/login_and_subscribe_to_newsletter'
+
+
   .site-header
     .wrapper
       .logo
