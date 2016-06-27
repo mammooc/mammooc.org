@@ -11,7 +11,7 @@ class CoursesController < ApplicationController
   def index
     load_courses
 
-    @flash_notice_newsletter = :no_newsletter
+    @flash_notice_newsletter = :no_newsletter_advertising
     if current_user.blank?
       @flash_notice_newsletter = :no_user
     elsif current_user.unsubscribed_newsletter.nil?

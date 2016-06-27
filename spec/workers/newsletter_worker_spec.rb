@@ -63,6 +63,5 @@ RSpec.describe NewsletterWorker do
       described_class.perform_async
       expect(ActionMailer::Base.deliveries.count).to eq 0
     end
-
   end
 end

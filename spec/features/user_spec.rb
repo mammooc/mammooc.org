@@ -419,7 +419,6 @@ RSpec.describe 'User', type: :feature do
     end
 
     describe 'flash notice for newsletter' do
-
       context 'for users who are signed in ' do
         it 'is shown to user who has not subscribed or unsubscribed for newsletter' do
           user.unsubscribed_newsletter = nil
@@ -462,7 +461,6 @@ RSpec.describe 'User', type: :feature do
       end
 
       context 'for users who are not signed in' do
-
         before(:each) do
           capybara_sign_out user
         end
@@ -481,13 +479,8 @@ RSpec.describe 'User', type: :feature do
           click_button 'submit_sign_in'
           expect(page).to have_content I18n.t('users.settings.newsletter.title')
         end
-
       end
-
-
-
     end
-
   end
 
   context 'second user' do

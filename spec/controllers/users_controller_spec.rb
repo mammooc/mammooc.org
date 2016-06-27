@@ -708,7 +708,6 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe 'unsubscribe_newsletter' do
-
     it 'unsubscribes newsletter' do
       request.env['HTTP_REFERER'] = courses_index_path
       get :unsubscribe_newsletter, id: user.id
@@ -720,11 +719,9 @@ RSpec.describe UsersController, type: :controller do
       get :unsubscribe_newsletter, id: user.id
       expect(response).to redirect_to courses_index_path
     end
-
   end
 
   describe 'login_and_subscribe_to_newsletter' do
-
     it 'redirects to login page if there is no current_user' do
       sign_out user
       get :login_and_subscribe_to_newsletter
@@ -747,6 +744,5 @@ RSpec.describe UsersController, type: :controller do
       get :login_and_subscribe_to_newsletter
       expect(response).to redirect_to "#{user_settings_path(user)}?subsite=newsletter"
     end
-
   end
 end

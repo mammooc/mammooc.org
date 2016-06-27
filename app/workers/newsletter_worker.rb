@@ -16,11 +16,10 @@ class NewsletterWorker
         user.last_newsletter_send_at = Time.zone.today - user.newsletter_interval.days
       end
       courses = User.collect_new_courses(user)
-      if courses.present?
-        UserMailer.newsletter_for_new_courses(user.primary_email, user, courses).deliver_now
-        user.last_newsletter_send_at = Time.zone.today
-        user.save
-      end
+      next unless courses.present?
+      UserMailer.newsletter_for_new_courses(user.primary_email, user, courses).deliver_now
+      user.last_newsletter_send_at = Time.zone.today
+      user.save
     end
   end
 end
