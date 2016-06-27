@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     get '/users/finish_signup' => 'users/registrations#finish_signup', :as => :finish_signup
     match '/users/auth/easyID' => 'users/omniauth_callbacks#easy_id', via: [:get, :post], :as => :easy_id
     get '/users/deauth/:provider' => 'users/omniauth_callbacks#deauthorize', as: :omniauth_deauthorize
+    get 'users/login_and_subscribe_to_newsletter' => 'users#login_and_subscribe_to_newsletter'
   end
 
   resources :bookmarks, except: [:edit, :new, :show, :update, :destroy]
@@ -100,6 +101,7 @@ Rails.application.routes.draw do
   get 'users/:id/revoke_mooc_provider_connection' => 'users#revoke_mooc_provider_connection'
   patch 'users/:id/change_email' => 'users#change_email', as: 'change_email'
   patch 'users/:id/change_newsletter_settings' => 'users#change_newsletter_settings', as: 'change_newsletter_settings'
+  get 'users/:id/unsubscribe_newsletter' => 'users#unsubscribe_newsletter', as: 'unsubscribe_newsletter'
   get 'users/:id/cancel_change_email' => 'users#cancel_change_email'
   get 'users/:id/connected_users_autocomplete' => 'users#connected_users_autocomplete'
   get 'users/:id/completions' => 'users#completions', as: 'completions'

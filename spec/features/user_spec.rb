@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require 'rails_helper'
+require 'support/feature_support'
 
 RSpec.describe 'User', type: :feature do
   self.use_transactional_fixtures = false
@@ -404,6 +405,7 @@ RSpec.describe 'User', type: :feature do
         select I18n.t('users.settings.newsletter.interval.week'), from: 'user_newsletter_interval'
         click_button I18n.t('global.save')
         expect(User.find(user.id).newsletter_interval).to eql 7
+        expect(User.find(user.id).unsubscribed_newsletter).to eql false
       end
 
       it 'unsubscribes newsletter for user', js: true do
@@ -412,6 +414,71 @@ RSpec.describe 'User', type: :feature do
         select I18n.t('users.settings.newsletter.receive_no'), from: 'user_newsletter_interval'
         click_button I18n.t('global.save')
         expect(User.find(user.id).newsletter_interval).to be_nil
+        expect(User.find(user.id).unsubscribed_newsletter).to eql true
+      end
+    end
+
+    describe 'flash notice for newsletter' do
+      context 'for users who are signed in ' do
+        it 'is shown to user who has not subscribed or unsubscribed for newsletter' do
+          user.unsubscribed_newsletter = nil
+          user.save
+          visit courses_index_path
+          expect(page).to have_content I18n.t('newsletter.flash_notice')
+        end
+
+        it 'is not shown to user who has unsubscribed for newsletter' do
+          user.unsubscribed_newsletter = true
+          user.save
+          visit courses_index_path
+          expect(page).not_to have_content I18n.t('newsletter.flash_notice')
+        end
+
+        it 'is not shown to user who has subscribed for newsletter' do
+          user.unsubscribed_newsletter = false
+          user.save
+          visit courses_index_path
+          expect(page).not_to have_content I18n.t('newsletter.flash_notice')
+        end
+
+        it 'unsubscribes from newsletter' do
+          visit courses_index_path
+          click_on I18n.t('global.no_thanks')
+          expect(User.find(user.id).unsubscribed_newsletter).to eql true
+        end
+
+        it 'stays on the same page' do
+          visit courses_index_path
+          click_on I18n.t('global.no_thanks')
+          expect(page).to have_content I18n.t('courses.heading')
+        end
+
+        it 'redirects user to newsletter settings page' do
+          visit courses_index_path
+          click_on I18n.t('newsletter.subscribe')
+          expect(page).to have_content I18n.t('users.settings.newsletter.title')
+        end
+      end
+
+      context 'for users who are not signed in' do
+        before(:each) do
+          capybara_sign_out user
+        end
+
+        it 'is always shown' do
+          visit courses_index_path
+          expect(page).to have_content I18n.t('newsletter.flash_notice')
+        end
+
+        it 'signs in new user and redirects to newsletter settings' do
+          visit courses_index_path
+          click_on I18n.t('newsletter.subscribe')
+          expect(page).to have_content I18n.t('users.sign_in_up.sign_in_process')
+          fill_in 'login_email', with: user.primary_email
+          fill_in 'login_password', with: user.password
+          click_button 'submit_sign_in'
+          expect(page).to have_content I18n.t('users.settings.newsletter.title')
+        end
       end
     end
   end
