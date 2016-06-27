@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ApisController < ApplicationController
   skip_before_action :require_login, only: [:current_user_with_evaluation]
   protect_from_forgery except: :current_user_with_evaluation
@@ -6,8 +7,8 @@ class ApisController < ApplicationController
     result = {}
     if current_user.present?
       @user = {
-          name: current_user.first_name + ' ' +  current_user.last_name,
-          profile_picture: ApplicationController.helpers.asset_url(current_user.profile_image.url(:thumb))
+        name: current_user.first_name + ' ' + current_user.last_name,
+        profile_picture: ApplicationController.helpers.asset_url(current_user.profile_image.url(:thumb))
       }
       @logged_in = true
       if params[:provider].present? && params[:course_id].present?
@@ -26,10 +27,9 @@ class ApisController < ApplicationController
     result[:user] = @user
     result[:evaluation] = @evaluation
 
-
     respond_to do |format|
       format.js do
-        render json: result, :callback => params[:callback]
+        render json: result, callback: params[:callback]
       end
       format.json { render json: result }
     end
@@ -39,5 +39,4 @@ class ApisController < ApplicationController
       format.json { render json: {error: e.message}, status: :recordNotFound }
     end
   end
-
 end

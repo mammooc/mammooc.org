@@ -60,6 +60,10 @@ module MAMMOOC
         origins Settings.root_url
         resource '/api/current_user_with_evaluation*', headers: :any, methods: [:get]
       end
+      allow do
+        origins Settings.root_url
+        resource '/evaluations/save*', headers: :any, methods: [:get]
+      end
     end
   end
 end
