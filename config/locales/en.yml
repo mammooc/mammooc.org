@@ -144,7 +144,6 @@ en:
       password: Password
       password_confirmation: Re-enter password
       current_password: Current Password
-      terms_and_conditions_confirmation: I confirm to mammooc's terms and conditions.
       remember_me: Keep me logged in
       sign_in_link: Already signed up? Click here to log in.
       sign_up_link: Not signed up yet? Click here to sign up.
