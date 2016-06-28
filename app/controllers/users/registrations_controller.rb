@@ -20,7 +20,7 @@ module Users
       end
 
       yield resource if block_given?
-      if resource.persisted? && user_params.key?(:terms_and_conditions_confirmation) && exception.blank?
+      if resource.persisted? && exception.blank?
         if resource.active_for_authentication?
           set_flash_message :notice, :signed_up if is_flashing_format?
           sign_up(resource_name, resource)
@@ -47,10 +47,6 @@ module Users
           flash['error'] << "#{t('users.sign_in_up.' + key.to_s)} #{value}"
         end
         redirect_to new_user_registration_path
-      end
-
-      unless user_params.key?(:terms_and_conditions_confirmation)
-        flash['error'] << t('flash.error.sign_up.terms_and_conditions_failure')
       end
 
       return unless exception.present?
@@ -162,12 +158,8 @@ module Users
       params.require(:user).permit(:first_name, :last_name, :primary_email, :password, :password_confirmation)
     end
 
-    def user_params
-      params.permit(:terms_and_conditions_confirmation)
-    end
-
     def update_params
-      params.require(:user).permit(:first_name, :last_name, :primary_email, :password, :password_confirmation, :terms_and_conditions_confirmation, :current_password)
+      params.require(:user).permit(:first_name, :last_name, :primary_email, :password, :password_confirmation, :current_password)
     end
 
     def add_resource

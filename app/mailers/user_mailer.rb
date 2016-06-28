@@ -19,6 +19,15 @@ class UserMailer < ApplicationMailer
   def newsletter_for_new_courses(email_adress, user, courses)
     @courses = courses
     @user = user
+    unless @courses.blank?
+      @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(@courses)
+    end
+
+    @my_bookmarked_courses = if user.present?
+                               user.bookmarks.collect(&:course)
+                             else
+                               []
+                             end
 
     mail(to: email_adress, subject: 'New MOOCs available')
   end

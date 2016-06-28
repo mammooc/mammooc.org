@@ -37,6 +37,7 @@ en:
     date_format_month_short: '%d.%m.%y'
     search: Search
     more: more...
+    no_thanks: No, thanks.
 
   will_paginate:
     previous_label: '&#171; Previous'
@@ -143,7 +144,6 @@ en:
       password: Password
       password_confirmation: Re-enter password
       current_password: Current Password
-      terms_and_conditions_confirmation: I confirm to mammooc's terms and conditions.
       remember_me: Keep me logged in
       sign_in_link: Already signed up? Click here to log in.
       sign_up_link: Not signed up yet? Click here to sign up.
@@ -732,4 +732,8 @@ en:
     no_current_dates: You do not have any current dates.
     refresh: refresh dates
     copy_link: URL to subscribe to calender
+
+  newsletter:
+      subscribe: Subscribe to Newsletter.
+      flash_notice: You never want to miss a new course? Subscribe to our newsletter.
 

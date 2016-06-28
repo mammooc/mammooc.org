@@ -20,13 +20,8 @@ RSpec.describe Users::RegistrationsController, type: :controller do
 
   context 'user registration' do
     it 'works with valid signup data' do
-      post :create, user: {first_name: 'John', last_name: 'Doe', email: 'user@example.org', password: 'password', password_confirmation: 'password'}, terms_and_conditions_confirmation: true
-      expect(subject.signed_in?).to be_truthy
-    end
-
-    it 'does not work without valid terms and conditions' do
       post :create, user: {first_name: 'John', last_name: 'Doe', email: 'user@example.org', password: 'password', password_confirmation: 'password'}
-      expect(subject.signed_in?).to be_falsey
+      expect(subject.signed_in?).to be_truthy
     end
   end
 
