@@ -144,7 +144,6 @@ de:
       password: Passwort
       password_confirmation: Passwort-Bestätigung
       current_password: Aktuelles Passwort
-      terms_and_conditions_confirmation: Ich bestätige die AGBs.
       remember_me: Angemeldet bleiben
       sign_in_link: Bereits registriert? Hier geht's zum Login.
       sign_up_link: Noch nicht registriert? Hier geht's zur Registrierung.
