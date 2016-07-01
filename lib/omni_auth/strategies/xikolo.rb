@@ -17,7 +17,7 @@ module OmniAuth
             email: raw_info['email'],
             first_name: raw_info['first_name'],
             last_name: raw_info['last_name'],
-            image: 'http://localhost:3000' + '/avatar/' + raw_info['id']
+            image: 'https://staging.openhpi.de' + '/avatar/' + raw_info['id']
         }
       end
 
