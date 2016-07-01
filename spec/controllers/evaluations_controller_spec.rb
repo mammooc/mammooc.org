@@ -64,30 +64,6 @@ RSpec.describe EvaluationsController, type: :controller do
       end
     end
 
-    context 'all courses' do
-      subject { JSON.parse(response.body)['evaluations'] }
-
-      it 'returns all evaluations for all courses' do
-        get :export, format: :json
-        expect(subject.count).to eql 3
-        number_of_user_evaluations = 0
-        subject.each do |evaluation_object|
-          number_of_user_evaluations += evaluation_object['user_evaluations'].count
-        end
-        expect(number_of_user_evaluations).to eql 4
-      end
-
-      it 'returns all evaluations for all courses for specific provider' do
-        get :export, format: :json, provider: mooc_provider.name
-        expect(subject.count).to eql 2
-        number_of_user_evaluations = 0
-        subject.each do |evaluation_object|
-          number_of_user_evaluations += evaluation_object['user_evaluations'].count
-        end
-        expect(number_of_user_evaluations).to eql 3
-      end
-    end
-
     context 'error' do
       subject { JSON.parse(response.body)['error'] }
 
@@ -102,7 +78,7 @@ RSpec.describe EvaluationsController, type: :controller do
       end
 
       it 'returns an error if specific provider is not present ' do
-        get :export, format: :json, provider: 'assdaddsdad'
+        get :export, format: :json, provider: 'assdaddsdad', course_id: course.provider_course_id
         expect(subject).to eql "Couldn't find MoocProvider"
       end
     end
