@@ -42,8 +42,6 @@ class CourseraCourseWorker < AbstractCourseWorker
     free_track_type = CourseTrackType.find_by(type_of_achievement: 'nothing')
     certificate_track_type = CourseTrackType.find_by(type_of_achievement: 'certificate')
 
-    certificates = Set.new
-
     response_data.each do |part_response_data|
       part_response_data['elements'].each do |course_element|
         course = Course.find_or_initialize_by(provider_course_id: course_element['id'], mooc_provider_id: mooc_provider.id)
@@ -95,12 +93,22 @@ class CourseraCourseWorker < AbstractCourseWorker
           course.tracks.push(certificate_track)
         end
 
-        certificates.add(course_element['certificates'])
+        categories = Set.new
+        course_element['domainTypes'].each do |domain_element|
+          categories.add(domain_element['domainId'])
+        end
+
+        course.categories = categories.to_a
+
+        partner_id = course_element['partnerIds'].first
+        partner = part_response_data['linked']['partners.v1'].find {|partner_element| partner_element['id'] == partner_id }
+        organisation = Organisation.find_or_create_by(name: partner['name'], url: partner['links']['website'])
+        course.organisation = organisation
+
 
         course.save!
       end
     end
-
     evaluate_update_map update_map
   end
 end
