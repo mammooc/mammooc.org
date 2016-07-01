@@ -13,7 +13,7 @@
           / Here could be a link to the evaluating user's profile
           img src=@profile_pictures["#{evaluation[:user_id]}"]
         - else
-          img src='/data/profile_picture_default.png'
+          img src=Settings.default_profile_picture_path
         .name
           .author
             - if evaluation[:user_id].present?

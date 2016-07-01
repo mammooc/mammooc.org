@@ -48,6 +48,7 @@ Rails.application.routes.draw do
   # Evaluations
   get 'evaluations/export' => 'evaluations#export', defaults: {format: 'json'}
   get 'evaluations/save' => 'evaluations#save', defaults: {format: 'json'}
+  get 'evaluations/login_and_save' => 'evaluations#login_and_save', as: 'load_and_save_evaluation'
   post 'evaluations/:id/process_feedback' => 'evaluations#process_feedback'
 
   # Groups

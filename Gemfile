@@ -40,6 +40,7 @@ gem 'passenger'
 
 # authentication
 gem 'devise'
+gem 'oauth2'
 gem 'omniauth'
 gem 'omniauth-oauth2', '1.3.1' # See issue for details: https://github.com/mammooc/mammooc.org/issues/626
 gem 'omniauth-facebook'
@@ -99,8 +100,6 @@ gem 'icalendar'
 #calendar widget
 gem 'fullcalendar-rails'
 gem 'momentjs-rails'
-
-gem 'oauth2'
 
 # support for Cross-Origin Resource Sharing (CORS)
 gem 'rack-cors', require: 'rack/cors'

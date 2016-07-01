@@ -9,10 +9,18 @@ module Users
       def #{provider}
         @user = User.find_for_omniauth(env["omniauth.auth"], current_user)
 
-        if @user.present?
+        flash['error'] ||= []
+        flash['success'] ||= []
+
+        if @user.present? && env["omniauth.params"].blank?
           session[:user_original_url] = user_settings_path(current_user.id) + "?subsite=account" if request.referer.present? && request.referer.include?("settings?subsite=account")
           sign_in_and_redirect @user, event: :authentication
           set_flash_message(:notice, :success, kind: "#{provider}".titleize) if is_navigational_format?
+        elsif @user.present? && env["omniauth.params"].present?
+          current_user_logged_in = current_user.present?
+          handle_omniauth_params
+          sign_in_and_redirect @user, event: :authentication
+          set_flash_message(:notice, :success, kind: "#{provider}".titleize) if is_navigational_format? && !current_user_logged_in
         else
           session["devise.#{provider}_data"] = env["omniauth.auth"].slice('uid', 'provider')
           session["devise.#{provider}_data"]["info"] = env["omniauth.auth"]["info"].slice('email', 'verified', 'verified_info', 'image')
@@ -23,7 +31,7 @@ module Users
     }
     end
 
-    [:facebook, :google, :github, :linkedin, :twitter, :windows_live, :amazon].each do |provider|
+    [:facebook, :google, :github, :linkedin, :twitter, :windows_live, :amazon, :xikolo].each do |provider|
       provides_callback_for provider
     end
 
@@ -85,6 +93,11 @@ module Users
     end
 
     private
+
+    def handle_omniauth_params
+      session.delete(:user_original_url)
+      session[:user_original_url] = load_and_save_evaluation_path(env['omniauth.params'])
+    end
 
     def deauthorize_params
       params.permit(:provider)
