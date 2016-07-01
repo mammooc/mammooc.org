@@ -68,7 +68,9 @@ class CourseraCourseWorker < AbstractCourseWorker
         course.description = course_element['description']
         course.workload = course_element['workload']
 
-        # course.start_date = DateTime.parse(course_element['startDate'])
+        if course_element['startDate'].present?
+          course.start_date = Time.at(course_element['startDate']/1000)
+        end
 
         if course_element['courseType'].include? 'v1'
           course.url = COURSE_LINK_BODY_V1 + course_element['slug']
@@ -104,7 +106,6 @@ class CourseraCourseWorker < AbstractCourseWorker
         partner = part_response_data['linked']['partners.v1'].find {|partner_element| partner_element['id'] == partner_id }
         organisation = Organisation.find_or_create_by(name: partner['name'], url: partner['links']['website'])
         course.organisation = organisation
-
 
         course.save!
       end
