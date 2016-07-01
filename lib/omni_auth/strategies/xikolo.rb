@@ -6,7 +6,7 @@ module OmniAuth
       option :name, :xikolo
 
       option :client_options, {
-          site: 'http://localhost:3001',
+          site: 'https://staging.openhpi.de',
           authorize_url: '/oauth/authorize'
       }
 
@@ -22,9 +22,7 @@ module OmniAuth
       end
 
       def raw_info
-        @raw_info ||= access_token.get('/api/user').parsed
-        puts @raw_info
-        @raw_info
+        @raw_info ||= access_token.get('/oauth/api/user').parsed
       end
     end
   end
