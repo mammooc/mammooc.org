@@ -3,7 +3,7 @@
 
 # seeds for all environments
 
-open_hpi = MoocProvider.create!(name: 'openHPI', logo_id: 'logo_openHPI.svg', url: 'https://open.hpi.de', api_support_state: :naive)
+open_hpi = MoocProvider.create!(name: 'openHPI', logo_id: 'logo_openHPI.svg', url: 'https://open.hpi.de', api_support_state: :naive, oauth_path_for_login: '/users/auth/xikolo')
 MoocProvider.create!(name: 'openHPI China', logo_id: 'logo_openHPI.svg', url: 'https://openhpi.cn', api_support_state: :naive)
 MoocProvider.create!(name: 'mooc.house', logo_id: 'logo_mooc_house.svg', url: 'https://mooc.house', api_support_state: :naive)
 MoocProvider.create!(name: 'cnmooc.house', logo_id: 'logo_cnmooc_house.svg', url: 'https://cnmooc.house', api_support_state: :naive)

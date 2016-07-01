@@ -114,13 +114,18 @@ class EvaluationsController < ApplicationController
   end
 
   def login_and_save
-    if current_user.blank?
-      redirect_to user_xikolo_omniauth_authorize_path(params)
-    else
-      check_and_validate
+    check_and_validate
+    mooc_provider = MoocProvider.find_by!(name: params[:provider])
 
+    if current_user.blank?
+      if mooc_provider.oauth_path_for_login.blank?
+        redirect_to new_user_registration_path # TODO: Pass params to registration so that the user is able to save the evaluation immediately.
+      else
+        redirect_to mooc_provider.oauth_path_for_login + '?' + params.to_query
+      end
+    else
       provider_course_id = params['course_id']
-      mooc_provider = MoocProvider.find_by!(name: params[:provider])
+
       course = Course.find_by!(provider_course_id: provider_course_id, mooc_provider: mooc_provider)
       persist_evaluation course
 
