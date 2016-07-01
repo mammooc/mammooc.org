@@ -32,18 +32,12 @@ class EvaluationsController < ApplicationController
   def export
     if params[:provider].present? && params[:course_id].present?
       mooc_provider = MoocProvider.find_by!(name: params[:provider])
-      courses = [Course.find_by!(provider_course_id: params[:course_id], mooc_provider: mooc_provider)]
-    elsif  params[:provider].present?
-      mooc_provider = MoocProvider.find_by!(name: params[:provider])
-      courses = Course.where(mooc_provider: mooc_provider)
-    elsif params[:course_id].present?
-      raise ActionController::ParameterMissing.new('no provider given for the course')
+      course = [Course.find_by!(provider_course_id: params[:course_id], mooc_provider: mooc_provider)].first()
     else
-      courses = Course.all
+      raise ActionController::ParameterMissing.new('no provider given for the course')
     end
 
     @courses_with_evaluations = []
-    courses.each do |course|
       course_evaluations = Set.new
       course.evaluations.each do |evaluation|
         evaluation_object = {
@@ -76,7 +70,6 @@ class EvaluationsController < ApplicationController
       }
 
       @courses_with_evaluations.push course_with_evaluations
-    end
 
     respond_to do |format|
       format.json { render :export }
