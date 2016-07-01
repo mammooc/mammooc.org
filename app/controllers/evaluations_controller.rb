@@ -92,7 +92,10 @@ class EvaluationsController < ApplicationController
     raise 'No User is logged in.' if current_user.blank?
 
     check_and_validate
-    persist_evaluation
+    provider_course_id = params['course_id']
+    mooc_provider = MoocProvider.find_by!(name: params[:provider])
+    course = Course.find_by!(provider_course_id: provider_course_id, mooc_provider: mooc_provider)
+    persist_evaluation course
 
     respond_to do |format|
       format.js do
@@ -115,8 +118,21 @@ class EvaluationsController < ApplicationController
       redirect_to user_xikolo_omniauth_authorize_path(params)
     else
       check_and_validate
-      persist_evaluation
-      redirect_to_corresponding_course
+
+      provider_course_id = params['course_id']
+      mooc_provider = MoocProvider.find_by!(name: params[:provider])
+      course = Course.find_by!(provider_course_id: provider_course_id, mooc_provider: mooc_provider)
+      persist_evaluation course
+
+      flash['success'] ||= []
+      flash['success'] << t('evaluations.thanks_for_feedback')
+      redirect_to course_path(course)
+    end
+  rescue => e
+    flash['error'] ||= []
+    flash['error'] << t('global.ajax_failed')
+    respond_to do |format|
+      format.html { redirect_to dashboard_path }
     end
   end
 
@@ -148,30 +164,14 @@ class EvaluationsController < ApplicationController
     end
   end
 
-  def persist_evaluation
-    provider_course_id = params['course_id']
-    mooc_provider = MoocProvider.find_by!(name: params[:provider])
-
-    course_id = Course.find_by!(provider_course_id: provider_course_id, mooc_provider: mooc_provider).id
-
+  def persist_evaluation course
     user_id = current_user.id
     rating = params['rating'].to_i
     description = params['description']
     course_status = params['course_status'].to_sym
     rated_anonymously = StringHelper.to_bool(params['rated_anonymously'])
 
-    Evaluation.save_or_update_evaluation(user_id, course_id, rating, description, course_status, rated_anonymously)
-  end
-
-  def redirect_to_corresponding_course
-    flash['success'] ||= []
-    provider_course_id = params['course_id']
-    mooc_provider = MoocProvider.find_by!(name: params[:provider])
-
-    course_id = Course.find_by!(provider_course_id: provider_course_id, mooc_provider: mooc_provider).id
-
-    flash['success'] << t('evaluations.thanks_for_feedback')
-    redirect_to course_path(course_id)
+    Evaluation.save_or_update_evaluation(user_id, course.id, rating, description, course_status, rated_anonymously)
   end
 
   def set_evaluation
