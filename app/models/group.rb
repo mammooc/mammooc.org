@@ -15,8 +15,8 @@ class Group < ActiveRecord::Base
       square: '300x300#',
       medium: '300x300>'
     },
-    s3_storage_class: :reduced_redundancy,
-    s3_permissions: :private,
+    s3_storage_class: 'REDUCED_REDUNDANCY',
+    s3_permissions: 'private',
     default_url: '/data/group_picture_default.png'
 
   # Validate the attached image is image/jpg, image/png, etc

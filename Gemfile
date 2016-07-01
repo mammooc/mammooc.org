@@ -58,11 +58,10 @@ gem 'cancancan', '~>1.10'
 gem 'rest-client'
 
 # file upload
-gem 'paperclip', '< 5'
+gem 'paperclip'
 
 # amazon S3 connection
 gem 'aws-sdk'
-gem 'aws-sdk-v1'
 
 # cron job
 gem 'redis'

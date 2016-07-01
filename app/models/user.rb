@@ -33,8 +33,8 @@ class User < ActiveRecord::Base
       medium: '300x300>',
       original: '300x300>'
     },
-    s3_storage_class: :reduced_redundancy,
-    s3_permissions: :public_read,
+    s3_storage_class: 'REDUCED_REDUNDANCY',
+    s3_permissions: 'public-read',
     default_url: Settings.default_profile_picture_path
 
   # Validate the attached image is image/jpg, image/png, etc
