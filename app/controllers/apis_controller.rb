@@ -18,7 +18,7 @@ class ApisController < ApplicationController
         raise ActionController::ParameterMissing.new('no provider or course given')
       end
 
-      @evaluation = current_user.evaluations.where(course: course).first.attributes.slice('rating', 'is_verified', 'description', 'course_status', 'rated_anonymously')
+      @evaluation = current_user.evaluations.where(course: course).first.as_json.slice('rating', 'is_verified', 'description', 'course_status', 'rated_anonymously')
     else
       @logged_in = false
     end
