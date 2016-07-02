@@ -128,10 +128,10 @@ RSpec.describe CourseraCourseWorker do
         "id": "1960981"
       },
       {
-        "lastName": "Grierson",
-        "prefixName": "Dr",
+        "lastName": "Dr Mick Grierson",
+        "prefixName": "",
         "fullName": "Dr Mick Grierson",
-        "firstName": "Mick",
+        "firstName": "",
         "id": "1961937"
       },
       {
@@ -178,9 +178,28 @@ RSpec.describe CourseraCourseWorker do
     expect(course.subtitle_languages).to eql json_course['subtitleLanguages'].join(',')
     expect(course.course_instructors).to eql 'Kevin Werbach'
     expect(course.workload).to eql json_course['workload']
+    expect(course.start_date.strftime('%d.%m.%Y')).to eql '09.11.2015'
+    expect(course.categories).to match ['computer-science', 'business']
     expect(course.tracks.count).to eql 2
     expect(achievement_type?(course.tracks, :nothing)).to be_truthy
     expect(achievement_type?(course.tracks, :certificate)).to be_truthy
+  end
+
+  it 'assigns multiple instructors' do
+    allow(RestClient).to receive(:get).and_return(raw_course_data)
+    coursera_course_worker.handle_response_data response_course_data
+    json_course = json_course_data['elements'][0]
+    course = Course.find_by(provider_course_id: json_course['id'], mooc_provider_id: mooc_provider.id)
+    expect(course.course_instructors).to eql 'Dr Marco Gillies, Dr. Mathew Yee-King, Dr Mick Grierson'
+  end
+
+  it 'matches the correct organization' do
+    allow(RestClient).to receive(:get).and_return(raw_course_data)
+    coursera_course_worker.handle_response_data response_course_data
+    json_course = json_course_data['elements'][0]
+    course = Course.find_by(provider_course_id: json_course['id'], mooc_provider_id: mooc_provider.id)
+    expect(course.organisation.name).to eql 'University of London'
+    expect(course.organisation.url).to eql 'http://www.londoninternational.ac.uk/'
   end
 
   it 'does not duplicate courses' do

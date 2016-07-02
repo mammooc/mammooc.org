@@ -60,8 +60,8 @@ class CourseraCourseWorker < AbstractCourseWorker
           filename = File.basename(course_element['photoUrl'])
         end
 
-        if course_element['photo'].present? && course.course_image_file_name != filename
-          course.course_image = Course.process_uri(course_element['photo'])
+        if course_element['photoUrl'].present? && course.course_image_file_name != filename
+          course.course_image = Course.process_uri(course_element['photoUrl'])
         end
 
         course.subtitle_languages = course_element['subtitleLanguages'].join(',')
