@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
 
 require 'rails/all'
 
@@ -30,9 +30,6 @@ module MAMMOOC
     config.autoload_paths += %W(#{config.root}/lib)
     config.autoload_paths += %W(#{config.root}/lib/**/)
 
-    # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
-
     config.to_prepare do
       Devise::SessionsController.skip_before_action :require_login
       Devise::PasswordsController.skip_before_action :require_login
@@ -50,20 +47,5 @@ module MAMMOOC
 
     # Force SSL for all connections in single-mode
     config.force_ssl = true if ENV['FORCE_SSL'] == 'true'
-
-    config.middleware.insert_before 0, 'Rack::Cors' do
-      allow do
-        origins '*'
-        resource '/evaluations/export*', headers: :any, methods: [:get]
-      end
-      allow do
-        origins Settings.root_url
-        resource '/api/current_user_with_evaluation*', headers: :any, methods: [:get]
-      end
-      allow do
-        origins Settings.root_url
-        resource '/evaluations/save*', headers: :any, methods: [:get]
-      end
-    end
   end
 end
