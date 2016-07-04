@@ -136,7 +136,7 @@ class AbstractMoocProviderConnector
   end
 
   def get_access_token(user)
-    connection = MoocProviderUser.find_by(user_id: user, mooc_provider_id: mooc_provider)
+    connection = MoocProviderUser.find_by(user: user, mooc_provider: mooc_provider)
     return unless connection.present?
     if connection.mooc_provider.api_support_state == 'naive'
       connection.access_token
@@ -158,7 +158,7 @@ class AbstractMoocProviderConnector
 
   def mooc_provider_user_connection(user)
     if connection_to_mooc_provider? user
-      connection = MoocProviderUser.find_by(user_id: user, mooc_provider_id: mooc_provider)
+      connection = MoocProviderUser.find_by(user: user, mooc_provider: mooc_provider)
     else
       connection = MoocProviderUser.new
       connection.user_id = user.id

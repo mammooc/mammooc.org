@@ -90,7 +90,7 @@ class GroupsController < ApplicationController
     @profile_pictures = User.author_profile_images_hash_for_recommendations(@recommendations)
     @group_picture = Group.group_images_hash_for_groups [@group]
 
-    @activities = PublicActivity::Activity.order('created_at desc').where(owner_id: @group.users, trackable_type: 'Recommendation')
+    @activities = PublicActivity::Activity.order('created_at desc').where(owner: @group.users, trackable_type: 'Recommendation')
     @activity_courses = {}
     @activity_courses_bookmarked = {}
     return unless @activities
