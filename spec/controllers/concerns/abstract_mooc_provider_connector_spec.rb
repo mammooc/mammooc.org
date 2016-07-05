@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe AbstractMoocProviderConnector do
-  self.use_transactional_fixtures = false
+  self.use_transactional_tests = false
 
   before(:all) do
     DatabaseCleaner.strategy = :truncation

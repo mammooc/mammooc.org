@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe UserEmail, type: :model do
   let!(:user) { User.create!(first_name: 'Max', last_name: 'Mustermann', password: '12345678') }
 
-  self.use_transactional_fixtures = false
+  self.use_transactional_tests = false
 
   before(:all) do
     DatabaseCleaner.strategy = :truncation

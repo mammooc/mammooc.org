@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Application', type: :feature do
-  self.use_transactional_fixtures = false
+  self.use_transactional_tests = false
 
   before(:each) do
     ActionMailer::Base.deliveries.clear

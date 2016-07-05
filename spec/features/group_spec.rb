@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Group', type: :feature do
-  self.use_transactional_fixtures = false
+  self.use_transactional_tests = false
 
   let(:user) { FactoryGirl.create(:user) }
   let(:second_user) { FactoryGirl.create(:user) }

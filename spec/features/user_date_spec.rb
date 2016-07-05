@@ -3,7 +3,7 @@ require 'rails_helper'
 require 'support/feature_support'
 
 RSpec.describe 'UserDate', type: :feature do
-  self.use_transactional_fixtures = false
+  self.use_transactional_tests = false
 
   let(:user) { FactoryGirl.create(:user) }
 

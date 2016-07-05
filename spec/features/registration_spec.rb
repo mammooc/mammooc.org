@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Users::Registration', type: :feature do
-  self.use_transactional_fixtures = false
+  self.use_transactional_tests = false
 
   let(:user) { FactoryGirl.build_stubbed(:user) }
 
