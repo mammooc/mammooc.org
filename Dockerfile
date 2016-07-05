@@ -30,9 +30,6 @@ RUN bundle install
 
 ADD . $APP_HOME
 
-# Prepare assets for production
-RUN bundle exec rake assets:precompile
-
 # Create cronjobs based on config/schedule.rb
 RUN bundle exec whenever -w
 
