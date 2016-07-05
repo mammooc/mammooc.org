@@ -17,21 +17,21 @@ RSpec.describe ActivitiesController, type: :controller do
       request.env['HTTP_REFERER'] = dashboard_path
       activity = FactoryGirl.create(:activity_group_recommendation, group_ids: [group.id], user_ids: nil)
       expect do
-        get :delete_group_from_newsfeed_entry, id: activity.id, group_id: group.id
+        get :delete_group_from_newsfeed_entry, params: { id: activity.id, group_id: group.id }
       end.to change(PublicActivity::Activity, :count).by(-1)
     end
 
     it 'removes the specified group from activity' do
       request.env['HTTP_REFERER'] = dashboard_path
       activity = FactoryGirl.create(:activity_group_recommendation, group_ids: [group.id, group2.id], user_ids: nil)
-      get :delete_group_from_newsfeed_entry, id: activity.id, group_id: group.id
+      get :delete_group_from_newsfeed_entry, params: { id: activity.id, group_id: group.id }
       expect(PublicActivity::Activity.find(activity.id).group_ids.length).to eql 1
     end
 
     it 'removes the specified user from activity' do
       request.env['HTTP_REFERER'] = dashboard_path
       activity = FactoryGirl.create(:activity_user_recommendation, group_ids: nil, user_ids: [user.id, user2.id])
-      get :delete_user_from_newsfeed_entry, id: activity.id
+      get :delete_user_from_newsfeed_entry, params: { id: activity.id }
       expect(PublicActivity::Activity.find(activity.id).user_ids.length).to eql 1
     end
 
@@ -39,7 +39,7 @@ RSpec.describe ActivitiesController, type: :controller do
       request.env['HTTP_REFERER'] = dashboard_path
       activity = FactoryGirl.create(:activity_user_recommendation, group_ids: nil, user_ids: [user.id])
       expect do
-        get :delete_user_from_newsfeed_entry, id: activity.id
+        get :delete_user_from_newsfeed_entry, params: { id: activity.id }
       end.to change(PublicActivity::Activity, :count).by(-1)
     end
 
@@ -47,7 +47,7 @@ RSpec.describe ActivitiesController, type: :controller do
       request.env['HTTP_REFERER'] = dashboard_path
       activity = FactoryGirl.create(:activity_user_recommendation, group_ids: nil, user_ids: [user.id])
       expect do
-        get :delete_user_from_newsfeed_entry, id: activity.id
+        get :delete_user_from_newsfeed_entry, params: { id: activity.id }
       end.to change(Recommendation, :count).by(-1)
     end
 
@@ -55,7 +55,7 @@ RSpec.describe ActivitiesController, type: :controller do
       request.env['HTTP_REFERER'] = dashboard_path
       activity = FactoryGirl.create(:activity_group_recommendation, group_ids: [group.id], user_ids: nil)
       expect do
-        get :delete_group_from_newsfeed_entry, id: activity.id, group_id: group.id
+        get :delete_group_from_newsfeed_entry, params: { id: activity.id, group_id: group.id }
       end.to change(Recommendation, :count).by(-1)
     end
   end

@@ -23,7 +23,7 @@ RSpec.describe UserDatesController, type: :controller do
   describe 'GET events_for_calendar_view' do
     it 'assigns dates from user in the specified time period to @current_user_dates' do
       user_date = FactoryGirl.create(:user_date, user: user, course: course, date: Time.zone.now + 1.day)
-      get :events_for_calendar_view, start: Time.zone.now, end: Time.zone.now + 2.days, format: :json
+      get :events_for_calendar_view, params: { start: Time.zone.now, end: Time.zone.now + 2.days }, format: :json
       expect(assigns(:current_user_dates)).to eq([user_date])
     end
 
@@ -31,7 +31,7 @@ RSpec.describe UserDatesController, type: :controller do
       user_date = FactoryGirl.create(:user_date, user: user, course: course, date: Time.zone.now + 1.day)
       old_user_date = FactoryGirl.create(:user_date, user: user, course: course, date: Time.zone.now - 1.day)
       future_user_date = FactoryGirl.create(:user_date, user: user, course: course, date: Time.zone.now + 5.days)
-      get :events_for_calendar_view, start: Time.zone.now, end: Time.zone.now + 2.days, format: :json
+      get :events_for_calendar_view, params: { start: Time.zone.now, end: Time.zone.now + 2.days }, format: :json
       expect(assigns(:current_user_dates)).to eq([user_date])
       expect(assigns(:current_user_dates)).not_to include(old_user_date)
       expect(assigns(:current_user_dates)).not_to include(future_user_date)
@@ -98,7 +98,7 @@ RSpec.describe UserDatesController, type: :controller do
   describe 'GET my_dates' do
     it 'renders calendar feed including user_date' do
       user_date = FactoryGirl.create(:user_date, user: user, course: course, date: Time.zone.now)
-      get :my_dates, format: :ics, token: user.token_for_user_dates
+      get :my_dates, format: :ics, params: { token: user.token_for_user_dates }
       expect(response.body).to include(user_date.title)
     end
 
@@ -106,13 +106,13 @@ RSpec.describe UserDatesController, type: :controller do
       user2 = FactoryGirl.create(:user, token_for_user_dates: '987654321')
       user_date = FactoryGirl.create(:user_date, user: user, course: course, date: Time.zone.now, title: 'correct event')
       user_date2 = FactoryGirl.create(:user_date, user: user2, course: course, date: Time.zone.now, title: 'wrong event')
-      get :my_dates, format: :ics, token: user.token_for_user_dates
+      get :my_dates, format: :ics, params: { token: user.token_for_user_dates }
       expect(response.body).to include(user_date.title)
       expect(response.body).not_to include(user_date2.title)
     end
 
     it 'renders 404 if token is invalid' do
-      get :my_dates, format: :ics, token: 'noValidToken'
+      get :my_dates, format: :ics, params: { token: 'noValidToken' }
       expect(response.body).to include('Not Found')
     end
   end

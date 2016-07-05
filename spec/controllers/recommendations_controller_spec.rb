@@ -30,7 +30,7 @@ RSpec.describe RecommendationsController, type: :controller do
   describe 'GET index' do
     it 'assigns all recommendations as @recommendations' do
       recommendation = Recommendation.create! valid_model_attributes
-      get :index, {}
+      get :index, params: {}
       expect(assigns(:recommendations)).to eq([recommendation])
     end
 
@@ -85,49 +85,49 @@ RSpec.describe RecommendationsController, type: :controller do
 
   describe 'GET new' do
     it 'assigns a new recommendation as @recommendation' do
-      get :new, {}
+      get :new, params: {}
       expect(assigns(:recommendation)).to be_a_new(Recommendation)
     end
   end
 
   describe 'POST create' do
     it 'creates a new Recommendation' do
-      expect { post :create, recommendation: valid_controller_attributes_user }.to change(Recommendation, :count).by(1)
+      expect { post :create, params: { recommendation: valid_controller_attributes_user } }.to change(Recommendation, :count).by(1)
     end
 
     it 'creates a new Activity' do
-      expect { post :create, recommendation: valid_controller_attributes_user }.to change(PublicActivity::Activity, :count).by(1)
+      expect { post :create, params: { recommendation: valid_controller_attributes_user } }.to change(PublicActivity::Activity, :count).by(1)
     end
 
     it 'redirects to dashboard' do
-      post :create, recommendation: valid_controller_attributes_user
+      post :create, params: { recommendation: valid_controller_attributes_user }
       expect(response).to redirect_to dashboard_dashboard_path
     end
 
     it 'adds relations to specified groups' do
-      post :create, recommendation: valid_controller_attributes_group
+      post :create, params: { recommendation: valid_controller_attributes_group }
       expect(Recommendation.last.group).to eq group
       expect(Recommendation.last.users).to match_array(group.users)
     end
 
     it 'adds relations to specified users' do
-      post :create, recommendation: valid_controller_attributes_multiple_users
+      post :create, params: {recommendation: valid_controller_attributes_multiple_users }
       Recommendation.all.each do |recommendation|
         expect(recommendation.users & [third_user, second_user]).not_to be_blank
       end
     end
 
     it 'adds relations to specified course' do
-      post :create, recommendation: valid_controller_attributes_group
+      post :create, params: { recommendation: valid_controller_attributes_group }
       expect(Recommendation.last.course).to eql course
     end
 
     it 'creates one recommendation for each specified user or group' do
-      expect { post :create, recommendation: valid_controller_attributes_multiple }.to change(Recommendation, :count).by(4)
+      expect { post :create, params: { recommendation: valid_controller_attributes_multiple } }.to change(Recommendation, :count).by(4)
     end
 
     it 'sends no email if recommendation is not obligatory' do
-      post :create, recommendation: valid_controller_attributes_group
+      post :create, params: { recommendation: valid_controller_attributes_group }
       expect(ActionMailer::Base.deliveries.count).to eq 0
     end
 
@@ -137,17 +137,17 @@ RSpec.describe RecommendationsController, type: :controller do
       let(:valid_controller_attributes_group_obligatory) { {author: user, is_obligatory: 'true', related_group_ids: group_for_obligatory.id.to_s, related_user_ids: '', course_id: course.id} }
 
       it 'creates obligatory recommendations for each specified user or group' do
-        expect { post :create, recommendation: valid_controller_attributes_multiple_obligatory }.to change(Recommendation, :count).by(4)
+        expect { post :create, params: { recommendation: valid_controller_attributes_multiple_obligatory } }.to change(Recommendation, :count).by(4)
         expect(Recommendation.where(is_obligatory: true).count).to eq 4
       end
 
       it 'sends an email to specified user' do
-        post :create, recommendation: valid_controller_attributes_user_obligatory
+        post :create, params: { recommendation: valid_controller_attributes_user_obligatory }
         expect(ActionMailer::Base.deliveries.count).to eq 1
       end
 
       it 'sends an email to every group member of specified group except the author of the obligatory recommendation' do
-        post :create, recommendation: valid_controller_attributes_group_obligatory
+        post :create, params: { recommendation: valid_controller_attributes_group_obligatory }
         expect(ActionMailer::Base.deliveries.count).to eq group_for_obligatory.users.count - 1
       end
     end
