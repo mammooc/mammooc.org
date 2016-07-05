@@ -20,7 +20,7 @@ RSpec.describe CoursesController, type: :controller do
     it 'responds with valid json' do
       session['courses#index'] = {with_language: 'en', duration_filter_options: 'short'}
       expected_response = {with_language: 'en', duration_filter_options: 'short'}.to_query('filterrific')
-      get :filter_options, as: :json
+      get :filter_options, format: :json
       expect(JSON.parse(response.body)['filter_options']).to eql expected_response
     end
   end
@@ -41,7 +41,7 @@ RSpec.describe CoursesController, type: :controller do
     let(:web_course) { FactoryGirl.create :course, name: 'Web Stuff' }
 
     it 'responds with filtered courses' do
-      get :autocomplete, as: :json, params: { q: 'web' }
+      get :autocomplete, format: :json, params: { q: 'web' }
       expect(assigns(:courses)).to match_array([web_course])
     end
   end
