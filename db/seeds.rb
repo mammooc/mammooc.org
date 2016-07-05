@@ -73,7 +73,7 @@ FutureLearnCourseWorker.perform_async
 
 case Rails.env
   when 'development'
-    open_mammooc = MoocProvider.create!(name: 'open_mammooc', logo_id: 'logo_open_mammooc.png', url: 'https://example.com', api_support_state: :nil)
+    open_mammooc = MoocProvider.create!(name: 'open_mammooc', logo_id: 'logo_open_mammooc.png', url: 'https://example.com', api_support_state: :nil, oauth_path_for_login: '/users/auth/xikolo')
 
     minimal_previous_course = Course.create!(name: 'Minimal Previous Technologies',
                                              url: 'https://open.hpi.de/courses/pythonjunior2015',
