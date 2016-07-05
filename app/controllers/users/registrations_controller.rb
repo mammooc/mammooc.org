@@ -39,7 +39,7 @@ module Users
         session[:resource] = session_infos
         begin
           resource.destroy
-          UserEmail.destroy_all(user_id: nil)
+          UserEmail.where(user_id: nil).destroy_all
         rescue ActiveRecord::RecordInvalid => error
           exception += error.to_s
         end

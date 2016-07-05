@@ -60,7 +60,7 @@ class Group < ActiveRecord::Base
   end
 
   def destroy
-    UserGroup.destroy_all(group_id: id)
+    UserGroup.where(group_id: id).destroy_all
     GroupInvitation.where(group_id: id).update_all(group_id: nil)
     super
   end
