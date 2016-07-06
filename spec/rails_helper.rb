@@ -30,6 +30,8 @@ FactoryGirl::SyntaxRunner.class_eval do
   include RSpec::Mocks::ExampleMethods
 end
 
+ActiveJob::Base.queue_adapter.perform_enqueued_jobs = true
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
