@@ -88,7 +88,7 @@ RSpec.describe Users::SessionsController, type: :controller do
     valid_until = Time.zone.now + 10.minutes
     session['devise.google_data']['valid_until'] = valid_until
     user = FactoryGirl.create(:user)
-    expect { post :create, params: { user: {primary_email: user.primary_email, password: '12345678'} } }.to change { UserIdentity.count(user: user) }.by 1
+    expect { post :create, params: { user: {primary_email: user.primary_email, password: '12345678'} } }.to change { UserIdentity.where(user_id: user.id).count }.by 1
     expect(flash['success']).to include I18n.t('users.sign_in_up.identity_merged', providers: 'Google')
   end
 
@@ -105,6 +105,6 @@ RSpec.describe Users::SessionsController, type: :controller do
     valid_until = Time.zone.now - 10.minutes
     session['devise.google_data']['valid_until'] = valid_until
     user = FactoryGirl.create(:user)
-    expect { post :create, params: { user: {primary_email: user.primary_email, password: '12345678'} } }.not_to change { UserIdentity.count(user: user) }
+    expect { post :create, params: { user: {primary_email: user.primary_email, password: '12345678'} } }.not_to change { UserIdentity.where(user_id: user.id).count }
   end
 end
