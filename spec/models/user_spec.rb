@@ -216,7 +216,7 @@ RSpec.describe User, type: :model do
       user.primary_email = user_data.primary_email
       user.password = user_data.password
       expect { user.save! }.not_to raise_error
-      expect(user.instance_variable_get(:@primary_email_object)).to eql UserEmail.find_by_user(user)
+      expect(user.instance_variable_get(:@primary_email_object)).to eql UserEmail.find_by(user_id: user.id)
       expect(user.primary_email).to eql user_data.primary_email
     end
 
