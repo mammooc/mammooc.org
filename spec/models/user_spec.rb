@@ -192,7 +192,8 @@ RSpec.describe User, type: :model do
 
     it 'returns nil if no address could be found (what should never happen)' do
       user = FactoryGirl.create(:user, primary_email: 'test@example.com')
-      UserEmail.destroy_all(user: user)
+      UserEmail.skip_callback(:commit, :after, :validate_destroy)
+      UserEmail.where(user: user).destroy_all
       expect(user.primary_email).to eql nil
     end
   end
@@ -463,9 +464,9 @@ RSpec.describe User, type: :model do
           verified: false
         }
       )
-      email_address_count = UserEmail.count(user: user)
+      email_address_count = UserEmail.where(user: user).count
       expect { described_class.find_for_omniauth(authentication_info) }.not_to change { described_class.count }
-      expect(email_address_count).to eql UserEmail.count(user: user)
+      expect(email_address_count).to eql UserEmail.where(user: user).count
     end
 
     it 'returns the existing user if already saved and does not create the email address again' do
@@ -479,9 +480,9 @@ RSpec.describe User, type: :model do
           verified: false
         }
       )
-      email_address_count = UserEmail.count(user: user)
+      email_address_count = UserEmail.where(user: user).count
       expect { described_class.find_for_omniauth(authentication_info) }.not_to change { described_class.count }
-      expect(email_address_count).to eql UserEmail.count(user: user)
+      expect(email_address_count).to eql UserEmail.where(user: user).count
     end
 
     it 'returns the existing user if already saved and adds the email address if not saved yet' do
@@ -496,9 +497,9 @@ RSpec.describe User, type: :model do
         }
       )
       expect(user.primary_email).not_to eql authentication_info.info.email
-      email_address_count = UserEmail.count(user: user)
+      email_address_count = UserEmail.where(user: user).count
       expect { described_class.find_for_omniauth(authentication_info) }.not_to change { described_class.count }
-      expect(email_address_count + 1).to eql UserEmail.count(user: user)
+      expect(email_address_count + 1).to eql UserEmail.where(user: user).count
     end
 
     it 'associates the user identity with the user if signed in' do
@@ -512,9 +513,9 @@ RSpec.describe User, type: :model do
           verified: false
         }
       )
-      identity = UserIdentity.count(user: user)
+      identity = UserIdentity.where(user: user).count
       expect { described_class.find_for_omniauth(authentication_info, user) }.not_to change { described_class.count }
-      expect(identity + 1).to eql UserIdentity.count(user: user)
+      expect(identity + 1).to eql UserIdentity.where(user: user).count
     end
 
     it 'does not create the same user identity again if the user is signed in' do
@@ -528,9 +529,9 @@ RSpec.describe User, type: :model do
           verified: false
         }
       )
-      identity = UserIdentity.count(user: user)
+      identity = UserIdentity.where(user: user).count
       expect { described_class.find_for_omniauth(authentication_info, user) }.not_to change { described_class.count }
-      expect(identity).to eql UserIdentity.count(user: user)
+      expect(identity).to eql UserIdentity.where(user: user).count
     end
 
     it 'does not return a user if identity is unknown' do
@@ -543,10 +544,10 @@ RSpec.describe User, type: :model do
           verified: false
         }
       )
-      identity = UserIdentity.count(user: user)
+      identity = UserIdentity.where(user: user).count
       expect { described_class.find_for_omniauth(authentication_info, nil) }.not_to change { described_class.count }
       expect(described_class.find_for_omniauth(authentication_info, nil)).to eql nil
-      expect(identity).to eql UserIdentity.count(user: user)
+      expect(identity).to eql UserIdentity.where(user: user).count
     end
   end
 
