@@ -154,7 +154,7 @@ RSpec.describe UsersController, type: :controller do
       expect_any_instance_of(OpenHPIUserWorker).to receive(:perform).with([user.id]).and_return(true)
       expect_any_instance_of(OpenSAPUserWorker).to receive(:perform).with([user.id]).and_return(true)
       expect_any_instance_of(CourseraUserWorker).to receive(:perform).with([user.id]).and_return(true)
-      get :synchronize_courses, format: :json, params: { id: user.to_param }
+      get :synchronize_courses, params: { format: :json, id: user.to_param }
       expect(assigns(:synchronization_state)[:openHPI]).to eql true
       expect(assigns(:synchronization_state)[:openSAP]).to eql true
       expect(assigns(:synchronization_state)[:coursera]).to eql true
@@ -288,7 +288,7 @@ RSpec.describe UsersController, type: :controller do
     it 'handles unknown mooc provider and renders a partial as JSON' do
       expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:initialize_connection)
       expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:load_user_data).with([user.id])
-      get :set_mooc_provider_connection, format: :json, params: { id: user.to_param, email: email_address, password: password, mooc_provider: 'unknown' }
+      get :set_mooc_provider_connection, params: { format: :json, id: user.to_param, email: email_address, password: password, mooc_provider: 'unknown' }
       expect(assigns(:got_connection)).to eql false
       expect(json).to include 'partial'
       expect(json['status']).to eql false
@@ -305,7 +305,7 @@ RSpec.describe UsersController, type: :controller do
     it 'handles unknown mooc provider connector and renders a partial as JSON' do
       expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:initialize_connection)
       expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:load_user_data).with([user.id])
-      get :set_mooc_provider_connection, format: :json, params: { id: user.to_param, email: email_address, password: password, mooc_provider: other_mooc_provider.to_param }
+      get :set_mooc_provider_connection, params: { format: :json, id: user.to_param, email: email_address, password: password, mooc_provider: other_mooc_provider.to_param }
       expect(assigns(:got_connection)).to eql false
       expect(json).to include 'partial'
       expect(json['status']).to eql false
@@ -321,7 +321,7 @@ RSpec.describe UsersController, type: :controller do
 
       it 'initializes a new connection to a naive mooc provider and renders a partial as JSON' do
         expect_any_instance_of(OpenHPIConnector).to receive(:initialize_connection).with(user, email: email_address, password: password).and_return(true)
-        get :set_mooc_provider_connection, format: :json, params: { id: user.to_param, email: email_address, password: password, mooc_provider: open_hpi.to_param }
+        get :set_mooc_provider_connection, params: { format: :json, id: user.to_param, email: email_address, password: password, mooc_provider: open_hpi.to_param }
         expect(assigns(:got_connection)).to eql true
         expect(json).to include 'partial'
         expect(json['status']).to eql true
@@ -336,7 +336,7 @@ RSpec.describe UsersController, type: :controller do
 
       it 'does not initialize a new connection to a naive mooc provider and renders a partial as JSON' do
         expect_any_instance_of(OpenHPIConnector).to receive(:initialize_connection).with(user, email: email_address, password: password).and_return(false)
-        get :set_mooc_provider_connection, format: :json, params: { id: user.to_param, email: email_address, password: password, mooc_provider: open_hpi.to_param }
+        get :set_mooc_provider_connection, params: { format: :json, id: user.to_param, email: email_address, password: password, mooc_provider: open_hpi.to_param }
         expect(assigns(:got_connection)).to eql false
         expect(json).to include 'partial'
         expect(json['status']).to eql false
@@ -353,7 +353,7 @@ RSpec.describe UsersController, type: :controller do
 
       it 'initializes a new connection to a naive mooc provider and renders a partial as JSON' do
         expect_any_instance_of(OpenSAPConnector).to receive(:initialize_connection).with(user, email: email_address, password: password).and_return(true)
-        get :set_mooc_provider_connection, format: :json, params: { id: user.to_param, email: email_address, password: password, mooc_provider: open_sap.to_param }
+        get :set_mooc_provider_connection, params: { format: :json, id: user.to_param, email: email_address, password: password, mooc_provider: open_sap.to_param }
         expect(assigns(:got_connection)).to eql true
         expect(json).to include 'partial'
         expect(json['status']).to eql true
@@ -368,7 +368,7 @@ RSpec.describe UsersController, type: :controller do
 
       it 'does not initialize a new connection to a naive mooc provider and renders a partial as JSON' do
         expect_any_instance_of(OpenSAPConnector).to receive(:initialize_connection).with(user, email: email_address, password: password).and_return(false)
-        get :set_mooc_provider_connection, format: :json, params: { id: user.to_param, email: email_address, password: password, mooc_provider: open_sap.to_param }
+        get :set_mooc_provider_connection, params: { format: :json, id: user.to_param, email: email_address, password: password, mooc_provider: open_sap.to_param }
         expect(assigns(:got_connection)).to eql false
         expect(json).to include 'partial'
         expect(json['status']).to eql false
@@ -389,7 +389,7 @@ RSpec.describe UsersController, type: :controller do
 
     it 'handles unknown mooc provider and renders a partial as JSON' do
       expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:destroy_connection)
-      get :revoke_mooc_provider_connection, format: :json, params: { id: user.to_param, mooc_provider: 'unknown' }
+      get :revoke_mooc_provider_connection, params: { format: :json, id: user.to_param, mooc_provider: 'unknown' }
       expect(assigns(:revoked_connection)).to eql true
       expect(json).to include 'partial'
       expect(json['status']).to eql true
@@ -404,7 +404,7 @@ RSpec.describe UsersController, type: :controller do
 
     it 'handles unknown mooc provider connector and renders a partial as JSON' do
       expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:destroy_connection)
-      get :revoke_mooc_provider_connection, format: :json, params: { id: user.to_param, mooc_provider: other_mooc_provider.to_param }
+      get :revoke_mooc_provider_connection, params: { format: :json, id: user.to_param, mooc_provider: other_mooc_provider.to_param }
       expect(assigns(:revoked_connection)).to eql true
       expect(json).to include 'partial'
       expect(json['status']).to eql true
@@ -420,7 +420,7 @@ RSpec.describe UsersController, type: :controller do
 
       it 'destroys a connection to a naive mooc provider and renders a partial as JSON' do
         expect_any_instance_of(OpenHPIConnector).to receive(:destroy_connection).with(user).and_return(true)
-        get :revoke_mooc_provider_connection, format: :json, params: { id: user.to_param, mooc_provider: open_hpi.to_param }
+        get :revoke_mooc_provider_connection, params: { format: :json, id: user.to_param, mooc_provider: open_hpi.to_param }
         expect(assigns(:revoked_connection)).to eql true
         expect(json).to include 'partial'
         expect(json['status']).to eql true
@@ -435,7 +435,7 @@ RSpec.describe UsersController, type: :controller do
 
       it 'does not try to destroy a connection which is not present (any more) to a naive mooc provider and renders a partial as JSON' do
         expect_any_instance_of(OpenHPIConnector).to receive(:destroy_connection).with(user).and_return(false)
-        get :revoke_mooc_provider_connection, format: :json, params: { id: user.to_param, mooc_provider: open_hpi.to_param }
+        get :revoke_mooc_provider_connection, params: { format: :json, id: user.to_param, mooc_provider: open_hpi.to_param }
         expect(assigns(:revoked_connection)).to eql false
         expect(json).to include 'partial'
         expect(json['status']).to eql false
@@ -443,11 +443,11 @@ RSpec.describe UsersController, type: :controller do
 
       it 'does not try to destroy a connection twice' do
         FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: open_hpi)
-        get :revoke_mooc_provider_connection, format: :json, params: { id: user.to_param, mooc_provider: open_hpi.to_param }
+        get :revoke_mooc_provider_connection, params: { format: :json, id: user.to_param, mooc_provider: open_hpi.to_param }
         expect(assigns(:revoked_connection)).to eql true
         expect(json).to include 'partial'
         expect(json['status']).to eql true
-        get :revoke_mooc_provider_connection, format: :json, params: { id: user.to_param, mooc_provider: open_hpi.to_param }
+        get :revoke_mooc_provider_connection, params: { format: :json, id: user.to_param, mooc_provider: open_hpi.to_param }
         expect(assigns(:revoked_connection)).to eql false
         expect(JSON.parse(response.body)).to include 'partial'
         expect(JSON.parse(response.body)['status']).to eql false
@@ -464,7 +464,7 @@ RSpec.describe UsersController, type: :controller do
 
       it 'initializes a new connection to a naive mooc provider and renders a partial as JSON' do
         expect_any_instance_of(OpenSAPConnector).to receive(:destroy_connection).with(user).and_return(true)
-        get :revoke_mooc_provider_connection, format: :json, params: { id: user.to_param, mooc_provider: open_sap.to_param }
+        get :revoke_mooc_provider_connection, params: { format: :json, id: user.to_param, mooc_provider: open_sap.to_param }
         expect(assigns(:revoked_connection)).to eql true
         expect(json).to include 'partial'
         expect(json['status']).to eql true
@@ -479,7 +479,7 @@ RSpec.describe UsersController, type: :controller do
 
       it 'does not try to destroy a connection which is not present (any more) to a naive mooc provider and renders a partial as JSON' do
         expect_any_instance_of(OpenSAPConnector).to receive(:destroy_connection).with(user).and_return(false)
-        get :revoke_mooc_provider_connection, format: :json, params: { id: user.to_param, mooc_provider: open_sap.to_param }
+        get :revoke_mooc_provider_connection, params: { format: :json, id: user.to_param, mooc_provider: open_sap.to_param }
         expect(assigns(:revoked_connection)).to eql false
         expect(json).to include 'partial'
         expect(json['status']).to eql false
@@ -487,11 +487,11 @@ RSpec.describe UsersController, type: :controller do
 
       it 'does not try to destroy a connection twice' do
         FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: open_sap)
-        get :revoke_mooc_provider_connection, format: :json, params: { id: user.to_param, mooc_provider: open_sap.to_param }
+        get :revoke_mooc_provider_connection, params: { format: :json, id: user.to_param, mooc_provider: open_sap.to_param }
         expect(assigns(:revoked_connection)).to eql true
         expect(json).to include 'partial'
         expect(json['status']).to eql true
-        get :revoke_mooc_provider_connection, format: :json, params: { id: user.to_param, mooc_provider: open_sap.to_param }
+        get :revoke_mooc_provider_connection, params: { format: :json, id: user.to_param, mooc_provider: open_sap.to_param }
         expect(assigns(:revoked_connection)).to eql false
         expect(JSON.parse(response.body)).to include 'partial'
         expect((JSON.parse response.body)['status']).to eql false
@@ -515,7 +515,7 @@ RSpec.describe UsersController, type: :controller do
       end
 
       it 'renders a JSON with the partial' do
-        get :account_settings, params: { id: user.to_param }, format: :json
+        get :account_settings, params: { id: user.to_param, format: :json }
         expect(json).to include 'partial'
       end
     end
@@ -537,7 +537,7 @@ RSpec.describe UsersController, type: :controller do
       end
 
       it 'renders a JSON with the partial' do
-        get :mooc_provider_settings, params: { id: user.to_param }, format: :json
+        get :mooc_provider_settings, params: { id: user.to_param, format: :json }
         expect(json).to include 'partial'
       end
     end
@@ -559,7 +559,7 @@ RSpec.describe UsersController, type: :controller do
       end
 
       it 'renders a JSON with the partial' do
-        get :privacy_settings, params: { id: user.to_param }, format: :json
+        get :privacy_settings, params: { id: user.to_param, format: :json }
         expect(json).to include 'partial'
       end
     end
@@ -568,7 +568,7 @@ RSpec.describe UsersController, type: :controller do
   describe 'POST set_setting' do
     let(:old_value) { course_enrollments_visibility_settings.value(:groups) }
     let(:new_value) { [FactoryGirl.create(:group).id] }
-    subject { -> { post :set_setting, params: { id: user.id, setting: course_enrollments_visibility_settings.name, key: :groups, value: new_value }, format: :json } }
+    subject { -> { post :set_setting, params: { id: user.id, setting: course_enrollments_visibility_settings.name, key: :groups, value: new_value, format: :json } } }
 
     it 'updates the setting entry' do
       expect { subject.call }.to change { course_enrollments_visibility_settings.value(:groups) }.from(old_value).to(new_value)
@@ -667,7 +667,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it 'renders partial to string' do
-      get :newsletter_settings, params: { id: user.id }, format: :json
+      get :newsletter_settings, params: { id: user.id, format: :json }
       expect(JSON.parse(response.body)).to include 'partial'
     end
   end

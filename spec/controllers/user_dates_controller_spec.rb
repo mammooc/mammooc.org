@@ -23,7 +23,7 @@ RSpec.describe UserDatesController, type: :controller do
   describe 'GET events_for_calendar_view' do
     it 'assigns dates from user in the specified time period to @current_user_dates' do
       user_date = FactoryGirl.create(:user_date, user: user, course: course, date: Time.zone.now + 1.day)
-      get :events_for_calendar_view, params: { start: Time.zone.now, end: Time.zone.now + 2.days }, format: :json
+      get :events_for_calendar_view, params: { start: Time.zone.now, end: Time.zone.now + 2.days, format: :json }
       expect(assigns(:current_user_dates)).to eq([user_date])
     end
 
@@ -31,7 +31,7 @@ RSpec.describe UserDatesController, type: :controller do
       user_date = FactoryGirl.create(:user_date, user: user, course: course, date: Time.zone.now + 1.day)
       old_user_date = FactoryGirl.create(:user_date, user: user, course: course, date: Time.zone.now - 1.day)
       future_user_date = FactoryGirl.create(:user_date, user: user, course: course, date: Time.zone.now + 5.days)
-      get :events_for_calendar_view, params: { start: Time.zone.now, end: Time.zone.now + 2.days }, format: :json
+      get :events_for_calendar_view, params: { start: Time.zone.now, end: Time.zone.now + 2.days, format: :json }
       expect(assigns(:current_user_dates)).to eq([user_date])
       expect(assigns(:current_user_dates)).not_to include(old_user_date)
       expect(assigns(:current_user_dates)).not_to include(future_user_date)
@@ -42,20 +42,20 @@ RSpec.describe UserDatesController, type: :controller do
     render_views
     it 'assings synchronization_state to @synchronization_state' do
       expect(UserDate).to receive(:synchronize).with(user).and_return(true).once
-      get :synchronize_dates_on_dashboard, format: :json
+      get :synchronize_dates_on_dashboard, params: { format: :json }
       expect(assigns(:synchronization_state)).to eq(true)
     end
 
     it 'assings partial to @partial, partial include user_date' do
       user_date = FactoryGirl.create(:user_date, user: user, course: course, date: Time.zone.now + 1.day)
       expect(UserDate).to receive(:synchronize).with(user).and_return(true).once
-      get :synchronize_dates_on_dashboard, format: :json
+      get :synchronize_dates_on_dashboard, params: { format: :json }
       expect(assigns(:partial)).to include(user_date.title)
     end
 
     it 'assings partial to @partial, partial includes no user date' do
       expect(UserDate).to receive(:synchronize).with(user).and_return(true).once
-      get :synchronize_dates_on_dashboard, format: :json
+      get :synchronize_dates_on_dashboard, params: { format: :json }
       expect(assigns(:partial)).to include(I18n.t('dashboard.no_current_dates'))
     end
 
@@ -65,7 +65,7 @@ RSpec.describe UserDatesController, type: :controller do
       user_date3 = FactoryGirl.create(:user_date, user: user, course: course, date: Time.zone.now + 4.days)
       user_date4 = FactoryGirl.create(:user_date, user: user, course: course, date: Time.zone.now + 8.days)
       expect(UserDate).to receive(:synchronize).with(user).and_return(true).once
-      get :synchronize_dates_on_dashboard, format: :json
+      get :synchronize_dates_on_dashboard, params: { format: :json }
       expect(assigns(:current_dates_to_show)).to match_array([user_date1, user_date2, user_date3])
       expect(assigns(:current_dates_to_show)).not_to include(user_date4)
     end
@@ -74,7 +74,7 @@ RSpec.describe UserDatesController, type: :controller do
       old_user_date = FactoryGirl.create(:user_date, user: user, course: course, date: Time.zone.now - 1.day)
       FactoryGirl.create(:user_date, user: user, course: course, date: Time.zone.now)
       expect(UserDate).to receive(:synchronize).with(user).and_return(true).once
-      get :synchronize_dates_on_dashboard, format: :json
+      get :synchronize_dates_on_dashboard, params: { format: :json }
       expect(assigns(:current_dates_to_show)).not_to include(old_user_date)
     end
   end
@@ -82,7 +82,7 @@ RSpec.describe UserDatesController, type: :controller do
   describe 'GET synchronize_dates_on_index_page' do
     it 'assings synchronization_state to @synchronization_state' do
       expect(UserDate).to receive(:synchronize).with(user).and_return(true).once
-      get :synchronize_dates_on_index_page, format: :json
+      get :synchronize_dates_on_index_page, params: { format: :json }
       expect(assigns(:synchronization_state)).to eq(true)
     end
   end
@@ -112,7 +112,7 @@ RSpec.describe UserDatesController, type: :controller do
     end
 
     it 'renders 404 if token is invalid' do
-      get :my_dates, format: :ics, params: { token: 'noValidToken' }
+      get :my_dates, params: { format: :ics, token: 'noValidToken' }
       expect(response.body).to include('Not Found')
     end
   end

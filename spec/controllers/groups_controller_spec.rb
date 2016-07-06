@@ -364,7 +364,7 @@ RSpec.describe GroupsController, type: :controller do
     let(:json) { JSON.parse(response.body) }
 
     it 'does nothing if there are no members to invite' do
-      post :invite_group_members, format: :json, params: { id: group_with_admin.id, members: '' }
+      post :invite_group_members, params: { format: :json, id: group_with_admin.id, members: '' }
       expect(GroupInvitation.count).to eq 0
       expect(response.body).to have_content('"error_email":[]')
       expect(ActionMailer::Base.deliveries.count).to eq 0
@@ -372,7 +372,7 @@ RSpec.describe GroupsController, type: :controller do
 
     it 'splits invite members string correctly to email array' do
       email_string = "test1@example.com test2@example.com,test3@example.com, test4@example.com;test5@example.com; test6@example.com  test7@example.com\ntest8@example.com"
-      post :invite_group_members, format: :json, params: { id: group_with_admin.id, members: email_string }
+      post :invite_group_members, params: { format: :json, id: group_with_admin.id, members: email_string }
       ActionMailer::Base.deliveries.each_with_index do |delivery, i|
         expect(delivery.to).to contain_exactly("test#{i + 1}@example.com")
       end
@@ -381,14 +381,14 @@ RSpec.describe GroupsController, type: :controller do
     end
 
     it 'invites members' do
-      expect { post :invite_group_members, format: :json, params: { id: group_with_admin.id, members: members } }.to change { GroupInvitation.count }.by(2)
+      expect { post :invite_group_members, params: { format: :json, id: group_with_admin.id, members: members } }.to change { GroupInvitation.count }.by(2)
       expect(response.body).to have_content('"error_email":[]')
       expect(ActionMailer::Base.deliveries.count).to eq 2
     end
 
     it 'returns wrong email addresses' do
       email_string = members + ', wrong; misspelled valid@example.org'
-      expect { post :invite_group_members, format: :json, params: { id: group_with_admin.id, members: email_string } }.to change { GroupInvitation.count }.by(3)
+      expect { post :invite_group_members, params: { format: :json, id: group_with_admin.id, members: email_string } }.to change { GroupInvitation.count }.by(3)
       expect(response.body).to have_content('"error_email":["wrong","misspelled"]')
       expect(ActionMailer::Base.deliveries.count).to eq 3
     end
@@ -609,19 +609,19 @@ RSpec.describe GroupsController, type: :controller do
 
     it "returns 'last_admin' if the member is the last admin (but there are still other members)" do
       UserGroup.set_is_admin(group.id, user.id, true)
-      post :condition_for_changing_member_status, format: :json, params: { id: group.id, changing_member: user.id }
+      post :condition_for_changing_member_status, params: { format: :json, id: group.id, changing_member: user.id }
       expect(json).to have_content('last_admin')
     end
 
     it "returns 'last_member' if the member is the last member" do
       UserGroup.set_is_admin(second_group.id, user.id, true)
-      post :condition_for_changing_member_status, format: :json, params: { id: second_group.id, changing_member: user.id }
+      post :condition_for_changing_member_status, params: { format: :json, id: second_group.id, changing_member: user.id }
       expect(json).to have_content('last_member')
     end
 
     it "returns 'ok' if there are no restrictions to remove the member" do
       UserGroup.set_is_admin(group.id, user.id, true)
-      post :condition_for_changing_member_status, format: :json, params: { id: group.id, changing_member: second_user.id }
+      post :condition_for_changing_member_status, params: { format: :json, id: group.id, changing_member: second_user.id }
       expect(json).to have_content('ok')
     end
   end
@@ -673,7 +673,7 @@ RSpec.describe GroupsController, type: :controller do
     let(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
 
     it 'returns JSON with all members exclude the current user' do
-      get :members, format: :json, params: { id: group.id }
+      get :members, params: { format: :json, id: group.id }
       expect(json).to have_content(second_user.id)
       expect(json).not_to have_content(user.id)
     end
@@ -702,7 +702,7 @@ RSpec.describe GroupsController, type: :controller do
     end
 
     it 'returns all groups where current_user is admin' do
-      get :groups_where_user_is_admin, format: :json
+      get :groups_where_user_is_admin, params: { format: :json }
       expect(json).to have_content group_with_admin.name
       expect(json).to have_content group_with_admin.id
       expect(json).to have_content second_group_with_admin.name
@@ -712,7 +712,7 @@ RSpec.describe GroupsController, type: :controller do
     end
 
     it 'sorts the result' do
-      get :groups_where_user_is_admin, format: :json
+      get :groups_where_user_is_admin, params: { format: :json }
       expected_json = [{'id' => second_group_with_admin.id, 'name' => second_group_with_admin.name}, {'id' => group_with_admin.id, 'name' => group_with_admin.name}]
       expect(json).to eql expected_json
     end
