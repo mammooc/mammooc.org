@@ -592,7 +592,7 @@ RSpec.describe UsersController, type: :controller do
     let!(:second_email) { FactoryGirl.create(:user_email, user: user, is_primary: false) }
 
     it 'reset session variable for email marked as deleted' do
-      session[:deleted_user_emails] = user.emails.collect(&:id)
+      session[:deleted_user_emails] = [second_email.id]
       get :change_email, params: { id: user.id, user: {user_email: {is_primary: primary_email.id}} }
       expect(session).not_to have_key(:deleted_user_emails)
     end
