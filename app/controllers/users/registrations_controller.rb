@@ -91,7 +91,7 @@ module Users
                       end
           set_flash_message :notice, flash_key
         end
-        bypass_sign_in resource_name, resource
+        bypass_sign_in resource
         redirect_to redirection_success, notice: t('flash.notice.users.successfully_updated')
       else
         session_infos = {}
