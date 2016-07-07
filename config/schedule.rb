@@ -22,7 +22,7 @@
 # Learn more: http://github.com/javan/whenever
 
 set :output, '/var/log/cron_jobs.log'
-set :job_template, "bash -c ':job'"
+set :job_template, "source #{File.expand_path File.dirname(__dir__)}/export_env.sh; bash -c ':job'"
 env :PATH, ENV['PATH']
 
 every 1.day, at: '1:00 am' do
