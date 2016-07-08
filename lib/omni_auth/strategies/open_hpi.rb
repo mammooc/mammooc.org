@@ -2,11 +2,11 @@ require 'omniauth-oauth2'
 
 module OmniAuth
   module Strategies
-    class Xikolo < OmniAuth::Strategies::OAuth2
-      option :name, :xikolo
+    class OpenHPI < OmniAuth::Strategies::OAuth2
+      option :name, 'openHPI'
 
       option :client_options, {
-          site: 'https://staging.openhpi.de',
+          site: 'https://open.hpi.de',
           authorize_url: '/oauth/authorize'
       }
 
@@ -17,7 +17,7 @@ module OmniAuth
             email: raw_info['email'],
             first_name: raw_info['first_name'],
             last_name: raw_info['last_name'],
-            image: 'https://staging.openhpi.de' + '/avatar/' + raw_info['id']
+            image: 'https://open.hpi.de' + '/avatar/' + raw_info['id']
         }
       end
 

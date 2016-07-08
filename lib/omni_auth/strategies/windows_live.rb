@@ -3,7 +3,7 @@
 module OmniAuth
   module Strategies
     class WindowsLive < OmniAuth::Strategies::Windowslive
-      option :name, 'windows_live'
+      option :name, 'Windows Live'
     end
   end
 end

@@ -3,15 +3,18 @@
 
 # seeds for all environments
 
-open_hpi = MoocProvider.create!(name: 'openHPI', logo_id: 'logo_openHPI.svg', url: 'https://open.hpi.de', api_support_state: :naive, oauth_path_for_login: '/users/auth/xikolo')
-MoocProvider.create!(name: 'openHPI China', logo_id: 'logo_openHPI.svg', url: 'https://openhpi.cn', api_support_state: :naive)
+# Xikolo
+open_hpi = MoocProvider.create!(name: 'openHPI', logo_id: 'logo_openHPI.svg', url: 'https://open.hpi.de', api_support_state: :naive, oauth_path_for_login: '/users/auth/openhpi')
+MoocProvider.create!(name: 'openHPI.cn', logo_id: 'logo_openHPI.svg', url: 'https://openhpi.cn', api_support_state: :naive)
 MoocProvider.create!(name: 'mooc.house', logo_id: 'logo_mooc_house.svg', url: 'https://mooc.house', api_support_state: :naive)
-MoocProvider.create!(name: 'cnmooc.house', logo_id: 'logo_cnmooc_house.svg', url: 'https://cnmooc.house', api_support_state: :naive)
+MoocProvider.create!(name: 'cnMOOC.house', logo_id: 'logo_cnmooc_house.svg', url: 'https://cnmooc.house', api_support_state: :naive)
 open_sap = MoocProvider.create!(name: 'openSAP', logo_id: 'logo_openSAP.svg', url: 'https://open.sap.com', api_support_state: :naive)
+MoocProvider.create!(name: 'openSAP.cn', logo_id: 'logo_openSAP.svg', url: 'https://open.sap.cn', api_support_state: :naive)
+MoocProvider.create!(name: 'openUNE.cn', logo_id: 'logo_openUNE.svg', url: 'https://openune.cn', api_support_state: :naive)
+
+# Others
 MoocProvider.create!(name: 'edX', logo_id: 'logo_edX.svg', url: 'https://www.edx.org', api_support_state: :nil)
 MoocProvider.create!(name: 'coursera', logo_id: 'logo_coursera.svg', url: 'https://www.coursera.org', api_support_state: :oauth)
-MoocProvider.create!(name: 'openSAP China', logo_id: 'logo_openSAP.svg', url: 'https://open.sap.cn', api_support_state: :naive)
-MoocProvider.create!(name: 'openUNE', logo_id: 'logo_openUNE.svg', url: 'https://openune.cn', api_support_state: :naive)
 MoocProvider.create!(name: 'iversity', logo_id: 'logo_iversity.svg', url: 'https://iversity.org', api_support_state: :nil)
 MoocProvider.create!(name: 'Udacity', logo_id: 'logo_UDACITY.svg', url: 'https://www.udacity.com', api_support_state: :nil)
 MoocProvider.create!(name: 'FutureLearn', logo_id: 'logo_FutureLearn.svg', url: 'https://www.futurelearn.com', api_support_state: :nil)
@@ -73,7 +76,7 @@ FutureLearnCourseWorker.perform_async
 
 case Rails.env
   when 'development'
-    open_mammooc = MoocProvider.create!(name: 'open_mammooc', logo_id: 'logo_open_mammooc.png', url: 'https://example.com', api_support_state: :nil, oauth_path_for_login: '/users/auth/xikolo')
+    open_mammooc = MoocProvider.create!(name: 'open_mammooc', logo_id: 'logo_open_mammooc.png', url: 'https://example.com', api_support_state: :nil, oauth_path_for_login: '/users/auth/openhpi')
 
     minimal_previous_course = Course.create!(name: 'Minimal Previous Technologies',
                                              url: 'https://open.hpi.de/courses/pythonjunior2015',
