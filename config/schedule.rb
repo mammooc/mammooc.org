@@ -25,9 +25,15 @@ set :output, '/var/log/cron_jobs.log'
 set :job_template, ". #{File.expand_path File.dirname(__dir__)}/export_env.sh; sh -c ':job'"
 env :PATH, ENV['PATH']
 
-every 1.day, at: '1:00 am' do
-  command 'echo Cronjob every day at 1:00 am. Executed: `date`', output: '/var/log/cron_check.log'
+every 1.day, at: '12:00 am' do
+  command 'echo Cronjob every day at 12:00 am. Executed: `date`', output: '/var/log/cron_check.log'
   rake 'mammooc:update_course_data'
+end
+
+# Waiting for one hour to finish the course workers
+
+every 1.day, at: '1:00 am' do
+  command 'echo Cronjob every day at 01:00 am. Executed: `date`', output: '/var/log/cron_check.log'
   rake 'mammooc:update_user_data'
   rake 'mammooc:send_reminders'
   rake 'mammooc:send_newsletters'
