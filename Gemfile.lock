@@ -211,7 +211,7 @@ GEM
       multi_json (>= 1.0.3)
       omniauth-oauth2 (~> 1.0)
     orm_adapter (0.5.0)
-    paperclip (4.3.7)
+    paperclip (4.3.6)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
       cocaine (~> 0.5.5)
@@ -430,7 +430,7 @@ DEPENDENCIES
   omniauth-oauth2 (= 1.3.1)
   omniauth-twitter
   omniauth-windowslive
-  paperclip (< 5)
+  paperclip (= 4.3.6)
   passenger
   pg
   poltergeist
