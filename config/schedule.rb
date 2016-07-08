@@ -21,9 +21,10 @@
 #
 # Learn more: http://github.com/javan/whenever
 
+env :SHELL, '/bin/sh'
+env :PATH, ENV['PATH']
 set :output, '/var/log/cron_jobs.log'
 set :job_template, ". #{File.expand_path File.dirname(__dir__)}/export_env.sh; sh -c ':job'"
-env :PATH, ENV['PATH']
 
 every 1.day, at: '12:00 am' do
   command 'echo Cronjob every day at 12:00 am. Executed: `date`', output: '/var/log/cron_check.log'
