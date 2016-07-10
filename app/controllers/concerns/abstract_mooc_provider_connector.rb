@@ -17,12 +17,12 @@ class AbstractMoocProviderConnector
     return unless connection_to_mooc_provider? user
     begin
       send_enrollment_for_course user, course
-    rescue RestClient::InternalServerError, RestClient::BadGateway, Errno::ECONNREFUSED,
-           RestClient::ResourceNotFound, RestClient::BadRequest => e
-      Rails.logger.error "#{e.class}: #{e.message}"
-      return false
     rescue RestClient::Unauthorized => e
       # This would be the case, when the user's authorization token is invalid
+      Rails.logger.error "#{e.class}: #{e.message}"
+      return false
+    rescue RestClient::InternalServerError, RestClient::BadGateway, Errno::ECONNREFUSED,
+           RestClient::ResourceNotFound, RestClient::BadRequest => e
       Rails.logger.error "#{e.class}: #{e.message}"
       return false
     else
@@ -34,12 +34,12 @@ class AbstractMoocProviderConnector
     return unless connection_to_mooc_provider? user
     begin
       send_unenrollment_for_course user, course
-    rescue RestClient::InternalServerError, RestClient::BadGateway, Errno::ECONNREFUSED,
-           RestClient::ResourceNotFound, RestClient::BadRequest => e
-      Rails.logger.error "#{e.class}: #{e.message}"
-      return false
     rescue RestClient::Unauthorized => e
       # This would be the case, when the user's authorization token is invalid
+      Rails.logger.error "#{e.class}: #{e.message}"
+      return false
+    rescue RestClient::InternalServerError, RestClient::BadGateway, Errno::ECONNREFUSED,
+           RestClient::ResourceNotFound, RestClient::BadRequest => e
       Rails.logger.error "#{e.class}: #{e.message}"
       return false
     else

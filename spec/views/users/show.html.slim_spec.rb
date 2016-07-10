@@ -14,5 +14,4 @@ RSpec.describe 'users/show', type: :view do
     assert rendered, text: user.last_name, count: 1
     assert rendered, text: user.about_me, count: 1
   end
-
 end

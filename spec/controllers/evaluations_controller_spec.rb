@@ -15,7 +15,7 @@ RSpec.describe EvaluationsController, type: :controller do
     it 'increases rating_count by one when evaluation is marked as not helpful' do
       total_feedback_count = evaluation.total_feedback_count
       positive_feedback_count = evaluation.positive_feedback_count
-      post :process_feedback, params: { id: evaluation.id, helpful: 'false' }
+      post :process_feedback, params: {id: evaluation.id, helpful: 'false'}
       evaluation.reload
       expect(evaluation.total_feedback_count).to eq(total_feedback_count + 1)
       expect(evaluation.positive_feedback_count).to eq(positive_feedback_count)
@@ -24,7 +24,7 @@ RSpec.describe EvaluationsController, type: :controller do
     it 'increases rating_count and helpful_rating_count by one when evaluation is marked as helpful' do
       total_feedback_count = evaluation.total_feedback_count
       positive_feedback_count = evaluation.positive_feedback_count
-      post :process_feedback, params: { id: evaluation.id, helpful: 'true' }
+      post :process_feedback, params: {id: evaluation.id, helpful: 'true'}
       evaluation.reload
       expect(evaluation.total_feedback_count).to eq(total_feedback_count + 1)
       expect(evaluation.positive_feedback_count).to eq(positive_feedback_count + 1)
@@ -33,7 +33,7 @@ RSpec.describe EvaluationsController, type: :controller do
     it 'does not increase anything when rated an own evaluation' do
       total_feedback_count = own_evaluation.total_feedback_count
       positive_feedback_count = own_evaluation.positive_feedback_count
-      post :process_feedback, params: { id: own_evaluation.id, helpful: 'true' }
+      post :process_feedback, params: {id: own_evaluation.id, helpful: 'true'}
       own_evaluation.reload
       expect(own_evaluation.total_feedback_count).not_to eq(total_feedback_count + 1)
       expect(own_evaluation.positive_feedback_count).not_to eq(positive_feedback_count + 1)
@@ -57,7 +57,7 @@ RSpec.describe EvaluationsController, type: :controller do
       subject { JSON.parse(response.body)['evaluations'].first['user_evaluations'] }
 
       it 'returns all evaluations for specific course and specific provider' do
-        get :export, params: { format: :json, provider: mooc_provider.name, course_id: course.provider_course_id }
+        get :export, params: {format: :json, provider: mooc_provider.name, course_id: course.provider_course_id}
         expect(subject.first['rating']).to eql evaluation.rating
         expect(subject.second['rating']).to eql evaluation2.rating
         expect(subject.count).to eql 2
@@ -68,17 +68,17 @@ RSpec.describe EvaluationsController, type: :controller do
       subject { JSON.parse(response.body)['error'] }
 
       it 'raises error if only course_id is given' do
-        get :export, params: { format: :json, course_id: course.provider_course_id }
+        get :export, params: {format: :json, course_id: course.provider_course_id}
         expect(subject).to include 'no provider given for the course'
       end
 
       it 'returns an error if specific course is not present ' do
-        get :export, params: { format: :json, provider: mooc_provider.name, course_id: '12345678901' }
+        get :export, params: {format: :json, provider: mooc_provider.name, course_id: '12345678901'}
         expect(subject).to eql "Couldn't find Course"
       end
 
       it 'returns an error if specific provider is not present ' do
-        get :export, params: { format: :json, provider: 'assdaddsdad', course_id: course.provider_course_id }
+        get :export, params: {format: :json, provider: 'assdaddsdad', course_id: course.provider_course_id}
         expect(subject).to eql "Couldn't find MoocProvider"
       end
     end

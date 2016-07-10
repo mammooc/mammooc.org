@@ -78,6 +78,9 @@ Metrics/ClassLength:
 Metrics/AbcSize:
   Enabled: false
 
+Metrics/ParameterLists:
+  Enabled: false
+
 Metrics/CyclomaticComplexity:
   Max: 30
 

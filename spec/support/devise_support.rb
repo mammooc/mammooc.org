@@ -12,7 +12,7 @@ module ValidUserRequestHelper
 
     # We action the login request using the parameters before we begin.
     # The login api_connection will match these to the user we just created in the factory, and authenticate us.
-    post user_session_path, params: { 'user[primary_email]': @user.primary_email, 'user[password]': @user.password }
+    post user_session_path, params: {'user[primary_email]': @user.primary_email, 'user[password]': @user.password}
     follow_redirect!
   end
 end
