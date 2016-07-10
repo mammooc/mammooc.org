@@ -12,6 +12,7 @@ RSpec.describe OpenSAPChinaConnector do
   end
 
   it 'gets an API response' do
+    pending
     connection = MoocProviderUser.new
     connection.access_token = '1234567890abcdef'
     connection.user_id = user.id
