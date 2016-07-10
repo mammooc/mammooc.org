@@ -69,7 +69,7 @@ RSpec.describe Group, type: :model do
 
     it 'returns all admins of a group' do
       admins = group.admins
-      expect(admins).to eql User.find(user.id, second_user.id)
+      expect(admins).to match_array User.find(user.id, second_user.id)
     end
   end
 
