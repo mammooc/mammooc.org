@@ -81,7 +81,7 @@ class User < ActiveRecord::Base
       if group.users.count > 1
         if UserGroup.find_by(group: group, user: self).is_admin
           if UserGroup.where(group: group, is_admin: true).count == 1
-            return false
+            throw :abort
           end
         end
       else
