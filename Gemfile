@@ -119,7 +119,7 @@ group :development, :test do
   gem 'capybara'
   gem 'capybara-selenium'
   gem 'database_cleaner'
-  gem 'rails-controller-testing'
+  gem 'rails-controller-testing', require: false
 
   # Run selenium tests headless
   gem 'headless'
