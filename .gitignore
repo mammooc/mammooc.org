@@ -46,3 +46,6 @@ rubocop.html
 
 # Ignore auto-generated assets
 /public/assets
+
+# Ignore passenger files
+passenger.*
