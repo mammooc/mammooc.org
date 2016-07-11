@@ -48,5 +48,4 @@ rubocop.html
 /public/assets
 
 # Ignore passenger files
-passenger.3000.pid
-passenger.3000.pid.lock
+passenger.*
