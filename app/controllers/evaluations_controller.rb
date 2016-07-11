@@ -2,7 +2,7 @@
 
 class EvaluationsController < ApplicationController
   before_action :set_evaluation, only: [:process_feedback]
-  skip_before_action :require_login, only: [:export, :save, :login_and_save]
+  skip_before_action :require_login, only: [:export_course_evaluations, :export_overall_course_rating, :save, :login_and_save]
   protect_from_forgery except: :save
 
   respond_to :html
@@ -29,7 +29,31 @@ class EvaluationsController < ApplicationController
     end
   end
 
-  def export
+  def export_overall_course_rating
+    if params[:provider].present? && params[:course_id].present?
+      mooc_provider = MoocProvider.find_by!(name: params[:provider])
+      course = [Course.find_by!(provider_course_id: params[:course_id], mooc_provider: mooc_provider)].first
+    else
+      raise ActionController::ParameterMissing.new('no provider given for the course')
+    end
+
+    @overall_course_rating = {
+      course_id_from_provider: course.provider_course_id,
+      mooc_provider: course.mooc_provider.name,
+      overall_rating: course.calculated_rating,
+      number_of_evaluations: course.rating_count
+    }
+    respond_to do |format|
+      format.json { render :export_overall_course_rating }
+    end
+
+  rescue ActionController::ParameterMissing, ActiveRecord::RecordNotFound => e
+    respond_to do |format|
+      format.json { render json: {error: e.message}, status: :recordNotFound }
+    end
+  end
+
+  def export_course_evaluations
     if params[:provider].present? && params[:course_id].present?
       mooc_provider = MoocProvider.find_by!(name: params[:provider])
       course = [Course.find_by!(provider_course_id: params[:course_id], mooc_provider: mooc_provider)].first
@@ -39,7 +63,7 @@ class EvaluationsController < ApplicationController
 
     @courses_with_evaluations = []
     course_evaluations = Set.new
-    course.evaluations.each do |evaluation|
+    course.evaluations.paginate(page: params[:page], per_page: params[:per_page]).each do |evaluation|
       evaluation_object = {
         rating: evaluation.rating,
         description: evaluation.description,
@@ -72,7 +96,7 @@ class EvaluationsController < ApplicationController
     @courses_with_evaluations.push course_with_evaluations
 
     respond_to do |format|
-      format.json { render :export }
+      format.json { render :export_course_evaluations }
     end
 
   rescue ActionController::ParameterMissing, ActiveRecord::RecordNotFound => e
