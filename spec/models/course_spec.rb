@@ -25,8 +25,8 @@ RSpec.describe Course, type: :model do
     let!(:course1) do
       FactoryGirl.create(:course,
         mooc_provider_id: provider.id,
-        start_date: Time.zone.local(2015, 0o3, 15),
-        end_date: Time.zone.local(2015, 0o3, 17),
+        start_date: Time.zone.local(2015, 3, 15),
+        end_date: Time.zone.local(2015, 3, 17),
         provider_course_id: '123')
     end
     let!(:course2) do
@@ -41,7 +41,7 @@ RSpec.describe Course, type: :model do
       FactoryGirl.create(:course,
         mooc_provider_id: provider.id,
         start_date: Time.zone.local(2015, 10, 15),
-        end_date: Time.zone.local(2015, 0o3, 17))
+        end_date: Time.zone.local(2015, 3, 17))
     end
 
     it 'sets duration after creation' do
@@ -49,7 +49,7 @@ RSpec.describe Course, type: :model do
     end
 
     it 'updates duration after update of start/end_time' do
-      course1.end_date = Time.zone.local(2015, 0o4, 16)
+      course1.end_date = Time.zone.local(2015, 4, 16)
       course1.save
       expect(course1.calculated_duration_in_days).to eq(32)
     end
