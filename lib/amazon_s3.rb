@@ -32,7 +32,7 @@ class AmazonS3
   end
 
   def get_url(key)
-    @bucket.object(key).presigned_url 'GET' if ENV['WITH_S3'] == 'true'
+    @bucket.object(key).public_url if ENV['WITH_S3'] == 'true'
   end
 
   def all_provider_logos_hash

@@ -23,12 +23,6 @@ class UserMailer < ApplicationMailer
       @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(@courses)
     end
 
-    @my_bookmarked_courses = if user.present?
-                               user.bookmarks.collect(&:course)
-                             else
-                               []
-                             end
-
     mail(to: email_adress, subject: 'New MOOCs available')
   end
 
