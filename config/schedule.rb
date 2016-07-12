@@ -21,17 +21,26 @@
 #
 # Learn more: http://github.com/javan/whenever
 
-set :job_template, "bash -c ':job'"
+env :SHELL, '/bin/sh'
+env :PATH, ENV['PATH']
+set :output, '/var/log/cron_jobs.log'
+set :job_template, ". #{File.expand_path File.dirname(__dir__)}/export_env.sh; sh -c ':job'"
+
+every 1.day, at: '12:00 am' do
+  command 'echo Cronjob every day at 12:00 am. Executed: `date`', output: '/var/log/cron_check.log'
+  rake 'mammooc:update_course_data'
+end
+
+# Waiting for one hour to finish the course workers
 
 every 1.day, at: '1:00 am' do
-  command 'echo Cronjob every day at 1:00 am. Executed: `date`', output: '/var/log/cron.log'
-  rake 'mammooc:update_course_data'
+  command 'echo Cronjob every day at 01:00 am. Executed: `date`', output: '/var/log/cron_check.log'
   rake 'mammooc:update_user_data'
   rake 'mammooc:send_reminders'
   rake 'mammooc:send_newsletters'
 end
 
 every 1.hour do
-  command 'echo Cronjob every hour. Executed: `date`', output: '/var/log/cron.log'
+  command 'echo Cronjob every hour. Executed: `date`', output: '/var/log/cron_check.log'
   rake 'mammooc:synchronize_dates_for_all_users'
 end
