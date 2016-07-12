@@ -39,7 +39,7 @@ html
                           => t('courses.course-list.starting_soon', locale: :de)
                           = I18n.l course.start_date, format: t('global.date_format_month_short', locale: :de)
                         - elsif course.start_date == Date.today
-                          = t('courses.starts_today', locale: :de)
+                          = t('courses.course-list.starts_today', locale: :de)
                         - else
                           = I18n.l course.start_date, format: t('global.date_format_month_short', locale: :de) + ' - '
                           = I18n.l course.end_date, format: t('global.date_format_month_short', locale: :de)
@@ -98,10 +98,10 @@ html
                         - if course.start_date < Date.today and Date.today < course.end_date
                           = t('courses.course-list.already_running', locale: :en)
                         - elsif course.start_date > Date.today
-                          => t('courses.course-list.starting_soon')
+                          => t('courses.course-list.starting_soon', locale: :en)
                           = I18n.l course.start_date, format: t('global.date_format_month_short', locale: :en)
                         - elsif course.start_date == Date.today
-                          = t('courses.starts_today', locale: :en)
+                          = t('courses.course-list.starts_today', locale: :en)
                         - else
                           = I18n.l course.start_date, format: t('global.date_format_month_short', locale: :en) + ' - '
                           = I18n.l course.end_date, format: t('global.date_format_month_short', locale: :en)
