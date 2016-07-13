@@ -62,7 +62,7 @@ class UserEmail < ActiveRecord::Base
   end
 
   def validate_destroy
-    # Allow deletion of non primary addresses
+    # Only allow deletion of non-primary addresses
     return unless is_primary
     throw :abort
   end

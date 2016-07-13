@@ -84,7 +84,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do |example|
-    if example.metadata[:type]
+    if example.metadata[:type] == :feature
       DatabaseCleaner.strategy = :truncation
       if ENV['PHANTOM_JS'] == 'true' && example.metadata[:js]
         Capybara.current_driver = :poltergeist
