@@ -78,10 +78,7 @@ RSpec.describe UserEmail, type: :model do
 
     it 'is not allowed to destroy the primary address' do
       email = FactoryGirl.create(:user_email, user: user, is_primary: true)
-      expect(described_class.where(user: user).count).to eq 1
       expect { email.destroy! }.to raise_error ActiveRecord::RecordNotDestroyed
-      restored_email = described_class.find_by(email.attributes.except('created_at', 'updated_at'))
-      expect(restored_email.attributes.except('created_at', 'updated_at')).to eq email.attributes.except('created_at', 'updated_at')
       expect(described_class.where(user: user, is_primary: true).count).to eq 1
     end
 
@@ -90,23 +87,14 @@ RSpec.describe UserEmail, type: :model do
       email2 = FactoryGirl.create(:user_email, user: user, is_primary: false)
 
       expect do
-        described_class.transaction do
-          email2.is_primary = true
-          email1.destroy!
-          email2.save!
-        end
+        email2.change_to_primary_email
+        email1.reload.destroy!
       end.not_to raise_error
+
       expect(email2.reload.is_primary).to be true
       expect(email2).to be_valid
       expect(email1.destroyed?).to be true
       expect(described_class.where(user: user, is_primary: true).count).to eq 1
-    end
-
-    it 'is allowed to delete a user email if no user exits' do
-      email = FactoryGirl.create(:user_email, user: user)
-      user.id = nil
-      expect { email.destroy! }.not_to raise_error
-      expect(email.destroyed?).to be true
     end
   end
 

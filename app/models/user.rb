@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
     :recoverable, :rememberable, :trackable, :validatable, :omniauthable
   validates :first_name, :last_name, presence: true
   has_many :emails, class_name: 'UserEmail', dependent: :destroy
-  has_many :user_groups, dependent: :destroy
+  has_many :user_groups, dependent: :delete_all
   has_many :groups, through: :user_groups
   has_many :created_recommendations, foreign_key: 'author_id', class_name: 'Recommendation'
   has_and_belongs_to_many :recommendations

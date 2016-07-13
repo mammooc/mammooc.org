@@ -16,7 +16,7 @@ class UserEmail < ActiveRecord::Base
     uniqueness: {case_sensitive: false},
     format:     {with: EMAIL}
 
-  after_commit :validate_destroy, on: [:destroy]
+  before_destroy :validate_destroy
 
   # Please note: If you're deleting one address and change another one in a transaction, you must first destroy and update or create others afterwards!
 
@@ -62,10 +62,8 @@ class UserEmail < ActiveRecord::Base
   end
 
   def validate_destroy
+    # Allow deletion of non primary addresses
     return unless is_primary
-    return if UserEmail.where(user: user, is_primary: true).size == 1
-    return if User.where(id: user).blank?
-    UserEmail.new(attributes.except('created_at', 'updated_at')).save!
-    raise ActiveRecord::RecordNotDestroyed.new('There must be exactly one primary address for a user')
+    throw :abort
   end
 end
