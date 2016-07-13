@@ -27,7 +27,7 @@ RSpec.describe AbstractMoocProviderConnector do
 
     it 'creates a valid update_map' do
       update_map = abstract_mooc_provider_connector.send(:create_enrollments_update_map, mooc_provider, user)
-      expect(update_map.length).to eql 2
+      expect(update_map.length).to eq 2
       update_map.each do |_, updated|
         expect(updated).to be false
       end
@@ -151,7 +151,7 @@ RSpec.describe AbstractMoocProviderConnector do
           FactoryGirl.create(:user_date, user: user, course: course)
         end
         map = abstract_mooc_provider_connector.send(:create_update_map_for_user_dates, user, mooc_provider)
-        expect(map.length).to eql 5
+        expect(map.length).to eq 5
       end
 
       it 'does not create an entry for user dates that does not belong to the given user' do
@@ -164,7 +164,7 @@ RSpec.describe AbstractMoocProviderConnector do
         end
 
         map = abstract_mooc_provider_connector.send(:create_update_map_for_user_dates, user, mooc_provider)
-        expect(map.length).to eql 2
+        expect(map.length).to eq 2
       end
 
       it 'does not create an entry for user dates that does not belong to the given provider' do
@@ -177,7 +177,7 @@ RSpec.describe AbstractMoocProviderConnector do
         end
 
         map = abstract_mooc_provider_connector.send(:create_update_map_for_user_dates, user, mooc_provider)
-        expect(map.length).to eql 2
+        expect(map.length).to eq 2
       end
 
       it 'sets every entry to false' do

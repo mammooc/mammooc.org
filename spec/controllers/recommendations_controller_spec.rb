@@ -119,7 +119,7 @@ RSpec.describe RecommendationsController, type: :controller do
 
     it 'adds relations to specified course' do
       post :create, params: {recommendation: valid_controller_attributes_group}
-      expect(Recommendation.last.course).to eql course
+      expect(Recommendation.last.course).to eq course
     end
 
     it 'creates one recommendation for each specified user or group' do

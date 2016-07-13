@@ -24,7 +24,7 @@ RSpec.describe Users::SessionsController, type: :controller do
 
   it 'stores the email address if user could not be logged in' do
     post :create, params: {user: {primary_email: user.primary_email, password: 'wrong'}}
-    expect(session[:resource]['primary_email']).to eql user.primary_email
+    expect(session[:resource]['primary_email']).to eq user.primary_email
   end
 
   it 'updates the valid_until session info for any omniauth hash' do
@@ -40,7 +40,7 @@ RSpec.describe Users::SessionsController, type: :controller do
     valid_until = Time.zone.now + 10.minutes
     session['devise.google_data']['valid_until'] = valid_until
     get :new
-    expect(session['devise.google_data']['valid_until']).not_to eql valid_until
+    expect(session['devise.google_data']['valid_until']).not_to eq valid_until
   end
 
   it 'deletes omniauth infos if they are not valid any more' do

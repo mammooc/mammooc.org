@@ -21,14 +21,14 @@ RSpec.describe CoursesController, type: :controller do
       session['courses#index'] = {with_language: 'en', duration_filter_options: 'short'}
       expected_response = {with_language: 'en', duration_filter_options: 'short'}.to_query('filterrific')
       get :filter_options, params: {format: :json}
-      expect(JSON.parse(response.body)['filter_options']).to eql expected_response
+      expect(JSON.parse(response.body)['filter_options']).to eq expected_response
     end
   end
 
   describe 'GET search' do
     it 'set session variable "courses#index" to the given param' do
       get :search, params: {query: 'web'}
-      expect(session['courses#index']).to eql(search_query: 'web')
+      expect(session['courses#index']).to eq(search_query: 'web')
     end
 
     it 'redirects to courses_path' do

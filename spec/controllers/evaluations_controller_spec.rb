@@ -60,23 +60,23 @@ RSpec.describe EvaluationsController, type: :controller do
 
         it 'returns all evaluations for specific course and specific provider' do
           get :export_course_evaluations, params: {format: :json, provider: mooc_provider.name, course_id: course.provider_course_id}
-          expect(subject.first['rating']).to eql evaluation.rating
-          expect(subject.second['rating']).to eql evaluation2.rating
-          expect(subject.third['rating']).to eql evaluation12.rating
-          expect(subject.count).to eql 3
+          expect(subject.first['rating']).to eq evaluation.rating
+          expect(subject.second['rating']).to eq evaluation2.rating
+          expect(subject.third['rating']).to eq evaluation12.rating
+          expect(subject.count).to eq 3
         end
 
         it 'returns first page of evaluations for specific course and specific provider' do
           get :export_course_evaluations, params: {format: :json, provider: mooc_provider.name, course_id: course.provider_course_id, per_page: 2, page: 1}
-          expect(subject.first['rating']).to eql evaluation.rating
-          expect(subject.second['rating']).to eql evaluation2.rating
-          expect(subject.count).to eql 2
+          expect(subject.first['rating']).to eq evaluation.rating
+          expect(subject.second['rating']).to eq evaluation2.rating
+          expect(subject.count).to eq 2
         end
 
         it 'returns specific page of evaluations for specific course and specific provider' do
           get :export_course_evaluations, params: {format: :json, provider: mooc_provider.name, course_id: course.provider_course_id, per_page: 1, page: 3}
-          expect(subject.first['rating']).to eql evaluation12.rating
-          expect(subject.count).to eql 1
+          expect(subject.first['rating']).to eq evaluation12.rating
+          expect(subject.count).to eq 1
         end
       end
 
@@ -90,12 +90,12 @@ RSpec.describe EvaluationsController, type: :controller do
 
         it 'returns an error if specific course is not present ' do
           get :export_course_evaluations, params: {format: :json, provider: mooc_provider.name, course_id: '12345678901'}
-          expect(subject).to eql "Couldn't find Course"
+          expect(subject).to eq "Couldn't find Course"
         end
 
         it 'returns an error if specific provider is not present ' do
           get :export_course_evaluations, params: {format: :json, provider: 'assdaddsdad', course_id: course.provider_course_id}
-          expect(subject).to eql "Couldn't find MoocProvider"
+          expect(subject).to eq "Couldn't find MoocProvider"
         end
       end
     end
@@ -106,12 +106,12 @@ RSpec.describe EvaluationsController, type: :controller do
 
         it 'returns the number of all evaluations for specific course and specific provider' do
           get :export_overall_course_rating, params: {format: :json, provider: mooc_provider.name, course_id: course.provider_course_id}
-          expect(subject['number_of_evaluations']).to eql 3
+          expect(subject['number_of_evaluations']).to eq 3
         end
 
         it 'returns overall rating for specific course and specific provider' do
           get :export_overall_course_rating, params: {format: :json, provider: mooc_provider.name, course_id: course.provider_course_id, per_page: 1}
-          expect(subject['overall_rating']).to eql 7.0
+          expect(subject['overall_rating']).to eq 7.0
         end
       end
 
@@ -125,12 +125,12 @@ RSpec.describe EvaluationsController, type: :controller do
 
         it 'returns an error if specific course is not present ' do
           get :export_overall_course_rating, params: {format: :json, provider: mooc_provider.name, course_id: '12345678901'}
-          expect(subject).to eql "Couldn't find Course"
+          expect(subject).to eq "Couldn't find Course"
         end
 
         it 'returns an error if specific provider is not present ' do
           get :export_overall_course_rating, params: {format: :json, provider: 'assdaddsdad', course_id: course.provider_course_id}
-          expect(subject).to eql "Couldn't find MoocProvider"
+          expect(subject).to eq "Couldn't find MoocProvider"
         end
       end
     end

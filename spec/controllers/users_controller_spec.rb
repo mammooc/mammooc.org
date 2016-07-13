@@ -155,11 +155,11 @@ RSpec.describe UsersController, type: :controller do
       expect_any_instance_of(OpenSAPUserWorker).to receive(:perform).with([user.id]).and_return(true)
       expect_any_instance_of(CourseraUserWorker).to receive(:perform).with([user.id]).and_return(true)
       get :synchronize_courses, params: {format: :json, id: user.to_param}
-      expect(assigns(:synchronization_state)[:openHPI]).to eql true
-      expect(assigns(:synchronization_state)[:openSAP]).to eql true
-      expect(assigns(:synchronization_state)[:coursera]).to eql true
+      expect(assigns(:synchronization_state)[:openHPI]).to eq true
+      expect(assigns(:synchronization_state)[:openSAP]).to eq true
+      expect(assigns(:synchronization_state)[:coursera]).to eq true
       expected_json = JSON.parse '{"partial":"No courses available","synchronization_state":{"openHPI":true,"openSAP":true,"coursera":true}}'
-      expect(json).to eql expected_json
+      expect(json).to eq expected_json
     end
   end
 
@@ -168,25 +168,25 @@ RSpec.describe UsersController, type: :controller do
       allow_any_instance_of(ActionController::RequestForgeryProtection).to receive(:masked_authenticity_token).and_return('my_csrf_token')
       get :settings, params: {id: user}
       assigns(:mooc_providers).each_with_index do |mooc_provider, index|
-        expect(mooc_provider[:id]).to eql MoocProvider.all[index].id
-        expect(mooc_provider[:logo_id]).to eql MoocProvider.all[index].logo_id
-        expect(mooc_provider[:api_support_state]).to eql MoocProvider.all[index].api_support_state
+        expect(mooc_provider[:id]).to eq MoocProvider.all[index].id
+        expect(mooc_provider[:logo_id]).to eq MoocProvider.all[index].logo_id
+        expect(mooc_provider[:api_support_state]).to eq MoocProvider.all[index].api_support_state
         if MoocProvider.all[index].name == 'coursera'
           oauth_link = CourseraConnector.new.oauth_link("#{user_settings_path(user)}?subsite=mooc_provider", 'my_csrf_token')
-          expect(mooc_provider[:oauth_link]).to eql oauth_link
+          expect(mooc_provider[:oauth_link]).to eq oauth_link
         end
       end
-      expect(assigns(:mooc_provider_connections)).to eql user.mooc_providers.pluck(:mooc_provider_id)
+      expect(assigns(:mooc_provider_connections)).to eq user.mooc_providers.pluck(:mooc_provider_id)
 
       # privacy settings
-      expect(assigns(:course_enrollments_visibility_groups)).to eql course_enrollments_visibility_settings.value(:groups)
-      expect(assigns(:course_enrollments_visibility_users)).to eql course_enrollments_visibility_settings.value(:users)
-      expect(assigns(:course_results_visibility_groups)).to eql course_results_visibility_settings.value(:groups)
-      expect(assigns(:course_results_visibility_users)).to eql course_results_visibility_settings.value(:users)
-      expect(assigns(:course_progress_visibility_groups)).to eql course_progress_visibility_settings.value(:groups)
-      expect(assigns(:course_progress_visibility_users)).to eql course_progress_visibility_settings.value(:users)
-      expect(assigns(:profile_visibility_groups)).to eql profile_visibility_settings.value(:groups)
-      expect(assigns(:profile_visibility_users)).to eql profile_visibility_settings.value(:users)
+      expect(assigns(:course_enrollments_visibility_groups)).to eq course_enrollments_visibility_settings.value(:groups)
+      expect(assigns(:course_enrollments_visibility_users)).to eq course_enrollments_visibility_settings.value(:users)
+      expect(assigns(:course_results_visibility_groups)).to eq course_results_visibility_settings.value(:groups)
+      expect(assigns(:course_results_visibility_users)).to eq course_results_visibility_settings.value(:users)
+      expect(assigns(:course_progress_visibility_groups)).to eq course_progress_visibility_settings.value(:groups)
+      expect(assigns(:course_progress_visibility_users)).to eq course_progress_visibility_settings.value(:users)
+      expect(assigns(:profile_visibility_groups)).to eq profile_visibility_settings.value(:groups)
+      expect(assigns(:profile_visibility_users)).to eq profile_visibility_settings.value(:users)
     end
 
     it 'reset session variable for emails marked as deleted' do
@@ -281,7 +281,7 @@ RSpec.describe UsersController, type: :controller do
       expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:initialize_connection)
       expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:load_user_data).with([user.id])
       get :set_mooc_provider_connection, params: {id: user.to_param, email: email_address, password: password, mooc_provider: 'unknown'}
-      expect(assigns(:got_connection)).to eql false
+      expect(assigns(:got_connection)).to eq false
       expect(response).to redirect_to(dashboard_path)
     end
 
@@ -289,16 +289,16 @@ RSpec.describe UsersController, type: :controller do
       expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:initialize_connection)
       expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:load_user_data).with([user.id])
       get :set_mooc_provider_connection, params: {format: :json, id: user.to_param, email: email_address, password: password, mooc_provider: 'unknown'}
-      expect(assigns(:got_connection)).to eql false
+      expect(assigns(:got_connection)).to eq false
       expect(json).to include 'partial'
-      expect(json['status']).to eql false
+      expect(json['status']).to eq false
     end
 
     it 'handles unknown mooc provider connector and redirects to the dashboard path' do
       expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:initialize_connection)
       expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:load_user_data).with([user.id])
       get :set_mooc_provider_connection, params: {id: user.to_param, email: email_address, password: password, mooc_provider: other_mooc_provider.to_param}
-      expect(assigns(:got_connection)).to eql false
+      expect(assigns(:got_connection)).to eq false
       expect(response).to redirect_to(dashboard_path)
     end
 
@@ -306,40 +306,40 @@ RSpec.describe UsersController, type: :controller do
       expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:initialize_connection)
       expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:load_user_data).with([user.id])
       get :set_mooc_provider_connection, params: {format: :json, id: user.to_param, email: email_address, password: password, mooc_provider: other_mooc_provider.to_param}
-      expect(assigns(:got_connection)).to eql false
+      expect(assigns(:got_connection)).to eq false
       expect(json).to include 'partial'
-      expect(json['status']).to eql false
+      expect(json['status']).to eq false
     end
 
     context 'openHPI' do
       it 'initializes a new connection to a naive mooc provider and redirects to the dashboard path' do
         expect_any_instance_of(OpenHPIConnector).to receive(:initialize_connection).with(user, email: email_address, password: password).and_return(true)
         get :set_mooc_provider_connection, params: {id: user.to_param, email: email_address, password: password, mooc_provider: open_hpi.to_param}
-        expect(assigns(:got_connection)).to eql true
+        expect(assigns(:got_connection)).to eq true
         expect(response).to redirect_to(dashboard_path)
       end
 
       it 'initializes a new connection to a naive mooc provider and renders a partial as JSON' do
         expect_any_instance_of(OpenHPIConnector).to receive(:initialize_connection).with(user, email: email_address, password: password).and_return(true)
         get :set_mooc_provider_connection, params: {format: :json, id: user.to_param, email: email_address, password: password, mooc_provider: open_hpi.to_param}
-        expect(assigns(:got_connection)).to eql true
+        expect(assigns(:got_connection)).to eq true
         expect(json).to include 'partial'
-        expect(json['status']).to eql true
+        expect(json['status']).to eq true
       end
 
       it 'does not initialize a new connection to a naive mooc provider and redirects to the dashboard path' do
         expect_any_instance_of(OpenHPIConnector).to receive(:initialize_connection).with(user, email: email_address, password: password).and_return(false)
         get :set_mooc_provider_connection, params: {id: user.to_param, email: email_address, password: password, mooc_provider: open_hpi.to_param}
-        expect(assigns(:got_connection)).to eql false
+        expect(assigns(:got_connection)).to eq false
         expect(response).to redirect_to(dashboard_path)
       end
 
       it 'does not initialize a new connection to a naive mooc provider and renders a partial as JSON' do
         expect_any_instance_of(OpenHPIConnector).to receive(:initialize_connection).with(user, email: email_address, password: password).and_return(false)
         get :set_mooc_provider_connection, params: {format: :json, id: user.to_param, email: email_address, password: password, mooc_provider: open_hpi.to_param}
-        expect(assigns(:got_connection)).to eql false
+        expect(assigns(:got_connection)).to eq false
         expect(json).to include 'partial'
-        expect(json['status']).to eql false
+        expect(json['status']).to eq false
       end
     end
 
@@ -347,31 +347,31 @@ RSpec.describe UsersController, type: :controller do
       it 'initializes a new connection to a naive mooc provider and redirects to the dashboard path' do
         expect_any_instance_of(OpenSAPConnector).to receive(:initialize_connection).with(user, email: email_address, password: password).and_return(true)
         get :set_mooc_provider_connection, params: {id: user.to_param, email: email_address, password: password, mooc_provider: open_sap.to_param}
-        expect(assigns(:got_connection)).to eql true
+        expect(assigns(:got_connection)).to eq true
         expect(response).to redirect_to(dashboard_path)
       end
 
       it 'initializes a new connection to a naive mooc provider and renders a partial as JSON' do
         expect_any_instance_of(OpenSAPConnector).to receive(:initialize_connection).with(user, email: email_address, password: password).and_return(true)
         get :set_mooc_provider_connection, params: {format: :json, id: user.to_param, email: email_address, password: password, mooc_provider: open_sap.to_param}
-        expect(assigns(:got_connection)).to eql true
+        expect(assigns(:got_connection)).to eq true
         expect(json).to include 'partial'
-        expect(json['status']).to eql true
+        expect(json['status']).to eq true
       end
 
       it 'does not initialize a new connection to a naive mooc provider and redirects to the dashboard path' do
         expect_any_instance_of(OpenSAPConnector).to receive(:initialize_connection).with(user, email: email_address, password: password).and_return(false)
         get :set_mooc_provider_connection, params: {id: user.to_param, email: email_address, password: password, mooc_provider: open_sap.to_param}
-        expect(assigns(:got_connection)).to eql false
+        expect(assigns(:got_connection)).to eq false
         expect(response).to redirect_to(dashboard_path)
       end
 
       it 'does not initialize a new connection to a naive mooc provider and renders a partial as JSON' do
         expect_any_instance_of(OpenSAPConnector).to receive(:initialize_connection).with(user, email: email_address, password: password).and_return(false)
         get :set_mooc_provider_connection, params: {format: :json, id: user.to_param, email: email_address, password: password, mooc_provider: open_sap.to_param}
-        expect(assigns(:got_connection)).to eql false
+        expect(assigns(:got_connection)).to eq false
         expect(json).to include 'partial'
-        expect(json['status']).to eql false
+        expect(json['status']).to eq false
       end
     end
   end
@@ -383,74 +383,74 @@ RSpec.describe UsersController, type: :controller do
     it 'handles unknown mooc provider and redirects to the dashboard path' do
       expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:destroy_connection).with(user.id)
       get :revoke_mooc_provider_connection, params: {id: user.to_param, mooc_provider: 'unknown'}
-      expect(assigns(:revoked_connection)).to eql true
+      expect(assigns(:revoked_connection)).to eq true
       expect(response).to redirect_to(dashboard_path)
     end
 
     it 'handles unknown mooc provider and renders a partial as JSON' do
       expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:destroy_connection)
       get :revoke_mooc_provider_connection, params: {format: :json, id: user.to_param, mooc_provider: 'unknown'}
-      expect(assigns(:revoked_connection)).to eql true
+      expect(assigns(:revoked_connection)).to eq true
       expect(json).to include 'partial'
-      expect(json['status']).to eql true
+      expect(json['status']).to eq true
     end
 
     it 'handles unknown mooc provider connector and redirects to the dashboard path' do
       expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:destroy_connection)
       get :revoke_mooc_provider_connection, params: {id: user.to_param, mooc_provider: other_mooc_provider.to_param}
-      expect(assigns(:revoked_connection)).to eql true
+      expect(assigns(:revoked_connection)).to eq true
       expect(response).to redirect_to(dashboard_path)
     end
 
     it 'handles unknown mooc provider connector and renders a partial as JSON' do
       expect_any_instance_of(AbstractMoocProviderConnector).not_to receive(:destroy_connection)
       get :revoke_mooc_provider_connection, params: {format: :json, id: user.to_param, mooc_provider: other_mooc_provider.to_param}
-      expect(assigns(:revoked_connection)).to eql true
+      expect(assigns(:revoked_connection)).to eq true
       expect(json).to include 'partial'
-      expect(json['status']).to eql true
+      expect(json['status']).to eq true
     end
 
     context 'openHPI' do
       it 'destroys a connection to a naive mooc provider and redirects to the dashboard path' do
         expect_any_instance_of(OpenHPIConnector).to receive(:destroy_connection).with(user).and_return(true)
         get :revoke_mooc_provider_connection, params: {id: user.to_param, mooc_provider: open_hpi.to_param}
-        expect(assigns(:revoked_connection)).to eql true
+        expect(assigns(:revoked_connection)).to eq true
         expect(response).to redirect_to(dashboard_path)
       end
 
       it 'destroys a connection to a naive mooc provider and renders a partial as JSON' do
         expect_any_instance_of(OpenHPIConnector).to receive(:destroy_connection).with(user).and_return(true)
         get :revoke_mooc_provider_connection, params: {format: :json, id: user.to_param, mooc_provider: open_hpi.to_param}
-        expect(assigns(:revoked_connection)).to eql true
+        expect(assigns(:revoked_connection)).to eq true
         expect(json).to include 'partial'
-        expect(json['status']).to eql true
+        expect(json['status']).to eq true
       end
 
       it 'does not try to destroy a connection which is not present (any more) to a naive mooc provider and redirects to the dashboard path' do
         expect_any_instance_of(OpenHPIConnector).to receive(:destroy_connection).with(user).and_return(false)
         get :revoke_mooc_provider_connection, params: {id: user.to_param, mooc_provider: open_hpi.to_param}
-        expect(assigns(:revoked_connection)).to eql false
+        expect(assigns(:revoked_connection)).to eq false
         expect(response).to redirect_to(dashboard_path)
       end
 
       it 'does not try to destroy a connection which is not present (any more) to a naive mooc provider and renders a partial as JSON' do
         expect_any_instance_of(OpenHPIConnector).to receive(:destroy_connection).with(user).and_return(false)
         get :revoke_mooc_provider_connection, params: {format: :json, id: user.to_param, mooc_provider: open_hpi.to_param}
-        expect(assigns(:revoked_connection)).to eql false
+        expect(assigns(:revoked_connection)).to eq false
         expect(json).to include 'partial'
-        expect(json['status']).to eql false
+        expect(json['status']).to eq false
       end
 
       it 'does not try to destroy a connection twice' do
         FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: open_hpi)
         get :revoke_mooc_provider_connection, params: {format: :json, id: user.to_param, mooc_provider: open_hpi.to_param}
-        expect(assigns(:revoked_connection)).to eql true
+        expect(assigns(:revoked_connection)).to eq true
         expect(json).to include 'partial'
-        expect(json['status']).to eql true
+        expect(json['status']).to eq true
         get :revoke_mooc_provider_connection, params: {format: :json, id: user.to_param, mooc_provider: open_hpi.to_param}
-        expect(assigns(:revoked_connection)).to eql false
+        expect(assigns(:revoked_connection)).to eq false
         expect(JSON.parse(response.body)).to include 'partial'
-        expect(JSON.parse(response.body)['status']).to eql false
+        expect(JSON.parse(response.body)['status']).to eq false
       end
     end
 
@@ -458,43 +458,43 @@ RSpec.describe UsersController, type: :controller do
       it 'initializes a new connection to a naive mooc provider and redirects to the dashboard path' do
         expect_any_instance_of(OpenSAPConnector).to receive(:destroy_connection).with(user).and_return(true)
         get :revoke_mooc_provider_connection, params: {id: user.to_param, mooc_provider: open_sap.to_param}
-        expect(assigns(:revoked_connection)).to eql true
+        expect(assigns(:revoked_connection)).to eq true
         expect(response).to redirect_to(dashboard_path)
       end
 
       it 'initializes a new connection to a naive mooc provider and renders a partial as JSON' do
         expect_any_instance_of(OpenSAPConnector).to receive(:destroy_connection).with(user).and_return(true)
         get :revoke_mooc_provider_connection, params: {format: :json, id: user.to_param, mooc_provider: open_sap.to_param}
-        expect(assigns(:revoked_connection)).to eql true
+        expect(assigns(:revoked_connection)).to eq true
         expect(json).to include 'partial'
-        expect(json['status']).to eql true
+        expect(json['status']).to eq true
       end
 
       it 'does not try to destroy a connection which is not present (any more) to a naive mooc provider and redirects to the dashboard path' do
         expect_any_instance_of(OpenSAPConnector).to receive(:destroy_connection).with(user).and_return(false)
         get :revoke_mooc_provider_connection, params: {id: user.to_param, mooc_provider: open_sap.to_param}
-        expect(assigns(:revoked_connection)).to eql false
+        expect(assigns(:revoked_connection)).to eq false
         expect(response).to redirect_to(dashboard_path)
       end
 
       it 'does not try to destroy a connection which is not present (any more) to a naive mooc provider and renders a partial as JSON' do
         expect_any_instance_of(OpenSAPConnector).to receive(:destroy_connection).with(user).and_return(false)
         get :revoke_mooc_provider_connection, params: {format: :json, id: user.to_param, mooc_provider: open_sap.to_param}
-        expect(assigns(:revoked_connection)).to eql false
+        expect(assigns(:revoked_connection)).to eq false
         expect(json).to include 'partial'
-        expect(json['status']).to eql false
+        expect(json['status']).to eq false
       end
 
       it 'does not try to destroy a connection twice' do
         FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: open_sap)
         get :revoke_mooc_provider_connection, params: {format: :json, id: user.to_param, mooc_provider: open_sap.to_param}
-        expect(assigns(:revoked_connection)).to eql true
+        expect(assigns(:revoked_connection)).to eq true
         expect(json).to include 'partial'
-        expect(json['status']).to eql true
+        expect(json['status']).to eq true
         get :revoke_mooc_provider_connection, params: {format: :json, id: user.to_param, mooc_provider: open_sap.to_param}
-        expect(assigns(:revoked_connection)).to eql false
+        expect(assigns(:revoked_connection)).to eq false
         expect(JSON.parse(response.body)).to include 'partial'
-        expect((JSON.parse response.body)['status']).to eql false
+        expect((JSON.parse response.body)['status']).to eq false
       end
     end
   end
@@ -679,21 +679,21 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it 'sets the required attributes' do
-      expect(user.newsletter_interval).not_to eql 5
+      expect(user.newsletter_interval).not_to eq 5
       patch :change_newsletter_settings, params: {id: user.id, user: {newsletter_interval: 5}}
-      expect(User.find(user.id).newsletter_interval).to eql 5
+      expect(User.find(user.id).newsletter_interval).to eq 5
     end
 
     it 'subscribes newsletter' do
-      expect(user.newsletter_interval).not_to eql 5
+      expect(user.newsletter_interval).not_to eq 5
       patch :change_newsletter_settings, params: {id: user.id, user: {newsletter_interval: 5}}
-      expect(User.find(user.id).unsubscribed_newsletter).to eql false
+      expect(User.find(user.id).unsubscribed_newsletter).to eq false
     end
 
     it 'sets attribute even if param is blank' do
       user.newsletter_interval = 5
       user.save
-      expect(User.find(user.id).newsletter_interval).to eql 5
+      expect(User.find(user.id).newsletter_interval).to eq 5
       patch :change_newsletter_settings, params: {id: user.id, user: {newsletter_interval: ''}}
       expect(User.find(user.id).newsletter_interval).to be_nil
     end
@@ -701,9 +701,9 @@ RSpec.describe UsersController, type: :controller do
     it 'unsubscribes newsletter if param is blank' do
       user.newsletter_interval = 5
       user.save
-      expect(User.find(user.id).newsletter_interval).to eql 5
+      expect(User.find(user.id).newsletter_interval).to eq 5
       patch :change_newsletter_settings, params: {id: user.id, user: {newsletter_interval: ''}}
-      expect(User.find(user.id).unsubscribed_newsletter).to eql true
+      expect(User.find(user.id).unsubscribed_newsletter).to eq true
     end
   end
 
@@ -711,7 +711,7 @@ RSpec.describe UsersController, type: :controller do
     it 'unsubscribes newsletter' do
       request.env['HTTP_REFERER'] = courses_index_path
       get :unsubscribe_newsletter, params: {id: user.id}
-      expect(User.find(user.id).unsubscribed_newsletter).to eql true
+      expect(User.find(user.id).unsubscribed_newsletter).to eq true
     end
 
     it 'redirects back' do
@@ -731,7 +731,7 @@ RSpec.describe UsersController, type: :controller do
     it 'stores url in session if there is no current_user' do
       sign_out user
       get :login_and_subscribe_to_newsletter
-      expect(session[:user_original_url]).to eql '/users/login_and_subscribe_to_newsletter'
+      expect(session[:user_original_url]).to eq '/users/login_and_subscribe_to_newsletter'
     end
 
     it 'shows flash notice' do

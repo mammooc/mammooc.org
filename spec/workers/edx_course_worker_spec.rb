@@ -92,7 +92,7 @@ This course is part of a five-part Mobile Application Experiences series:
   let!(:profed_course_track_type) { FactoryGirl.create :course_track_type, type_of_achievement: 'edx_profed_certificate' }
 
   it 'delivers MOOCProvider' do
-    expect(edx_course_worker.mooc_provider).to eql mooc_provider
+    expect(edx_course_worker.mooc_provider).to eq mooc_provider
   end
 
   it 'gets an API response' do
@@ -109,21 +109,21 @@ This course is part of a five-part Mobile Application Experiences series:
     xml_course = xml_course_data[0].xpath('//channel/item')
     course = Course.find_by(provider_course_id: xml_course.xpath('course:id').text, mooc_provider_id: mooc_provider.id)
 
-    expect(course.name).to eql xml_course.xpath('title').text
-    expect(course.provider_course_id).to eql xml_course.xpath('course:id').text
-    expect(course.mooc_provider_id).to eql mooc_provider.id
-    expect(course.url).to eql xml_course.xpath('link').text
+    expect(course.name).to eq xml_course.xpath('title').text
+    expect(course.provider_course_id).to eq xml_course.xpath('course:id').text
+    expect(course.mooc_provider_id).to eq mooc_provider.id
+    expect(course.url).to eq xml_course.xpath('link').text
     expect(course.start_date).to eq Time.zone.parse(xml_course.xpath('course:start').text).in_time_zone
     expect(course.end_date).to eq Time.zone.parse(xml_course.xpath('course:end').text).in_time_zone
-    expect(course.provider_given_duration).to eql xml_course.xpath('course:length').text
+    expect(course.provider_given_duration).to eq xml_course.xpath('course:length').text
     expect(course.requirements).to include xml_course.xpath('course:prerequisites').text
     expect(course.categories).to include xml_course.xpath('course:subject').first.text
-    expect(course.description).to eql xml_course.xpath('description').text
-    expect(course.language).to eql xml_course_data[0].xpath('//channel/language').text
+    expect(course.description).to eq xml_course.xpath('description').text
+    expect(course.language).to eq xml_course_data[0].xpath('//channel/language').text
     expect(course.course_instructors).to include xml_course.xpath('course:instructors/course:staff').first.xpath('staff:name').text
-    expect(course.tracks.count).to eql 1
-    expect(course.tracks[0].track_type.type_of_achievement).to eql free_course_track_type.type_of_achievement
-    expect(course.tracks[0].costs).to eql 0.0
+    expect(course.tracks.count).to eq 1
+    expect(course.tracks[0].track_type.type_of_achievement).to eq free_course_track_type.type_of_achievement
+    expect(course.tracks[0].costs).to eq 0.0
     expect(course.tracks[0].credit_points).to be_nil
   end
 
@@ -156,15 +156,15 @@ This course is part of a five-part Mobile Application Experiences series:
     xml_course.xpath('course:verified').first.content = '1'
     edx_course_worker.handle_response_data xml_course_data
     course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, xml_course.xpath('course:id').text)
-    expect(course.tracks.count).to eql 2
+    expect(course.tracks.count).to eq 2
     course.tracks.each do |course_track|
       case course_track.track_type
         when free_course_track_type then
-          expect(course_track.track_type.type_of_achievement).to eql free_course_track_type.type_of_achievement
-          expect(course_track.costs).to eql 0.0
+          expect(course_track.track_type.type_of_achievement).to eq free_course_track_type.type_of_achievement
+          expect(course_track.costs).to eq 0.0
           expect(course_track.credit_points).to be_nil
         when certificate_course_track_type then
-          expect(course_track.track_type.type_of_achievement).to eql certificate_course_track_type.type_of_achievement
+          expect(course_track.track_type.type_of_achievement).to eq certificate_course_track_type.type_of_achievement
           expect(course_track.costs).to be_nil
           expect(course_track.credit_points).to be_nil
       end
@@ -176,15 +176,15 @@ This course is part of a five-part Mobile Application Experiences series:
     xml_course.xpath('course:xseries').first.content = '1'
     edx_course_worker.handle_response_data xml_course_data
     course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, xml_course.xpath('course:id').text)
-    expect(course.tracks.count).to eql 2
+    expect(course.tracks.count).to eq 2
     course.tracks.each do |course_track|
       case course_track.track_type
         when free_course_track_type then
-          expect(course_track.track_type.type_of_achievement).to eql free_course_track_type.type_of_achievement
-          expect(course_track.costs).to eql 0.0
+          expect(course_track.track_type.type_of_achievement).to eq free_course_track_type.type_of_achievement
+          expect(course_track.costs).to eq 0.0
           expect(course_track.credit_points).to be_nil
         when xseries_course_track_type then
-          expect(course_track.track_type.type_of_achievement).to eql xseries_course_track_type.type_of_achievement
+          expect(course_track.track_type.type_of_achievement).to eq xseries_course_track_type.type_of_achievement
           expect(course_track.costs).to be_nil
           expect(course_track.credit_points).to be_nil
       end
@@ -196,8 +196,8 @@ This course is part of a five-part Mobile Application Experiences series:
     xml_course.xpath('course:profed').first.content = '1'
     edx_course_worker.handle_response_data xml_course_data
     course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, xml_course.xpath('course:id').text)
-    expect(course.tracks.count).to eql 1
-    expect(course.tracks[0].track_type.type_of_achievement).to eql profed_course_track_type.type_of_achievement
+    expect(course.tracks.count).to eq 1
+    expect(course.tracks[0].track_type.type_of_achievement).to eq profed_course_track_type.type_of_achievement
     expect(course.tracks[0].costs).to be_nil
     expect(course.tracks[0].credit_points).to be_nil
   end

@@ -7,7 +7,7 @@ RSpec.describe OpenUNECourseWorker do
   let(:open_une_course_worker) { described_class.new }
 
   it 'delivers MOOCProvider' do
-    expect(open_une_course_worker.mooc_provider).to eql mooc_provider
+    expect(open_une_course_worker.mooc_provider).to eq mooc_provider
   end
 
   it 'gets an API response' do

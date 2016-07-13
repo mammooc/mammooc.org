@@ -87,7 +87,7 @@ RSpec.describe Users::OmniauthCallbacksController, type: :controller do
         expect(User).to receive(:find_for_omniauth).and_return(user)
         uid = SecureRandom.hex(32)
         get :easy_id, params: {UID: "#{uid}%0A"}
-        expect(controller.send(:easy_id_params)).to eql uid
+        expect(controller.send(:easy_id_params)).to eq uid
       end
 
       it 'redirects the user to the settings page if the user added the connection from there' do

@@ -168,7 +168,7 @@ RSpec.describe Group, type: :model do
     let!(:user_setting_entry3) { FactoryGirl.create(:user_setting_entry, setting: user_setting3, key: 'groups', value: [group.id]) }
 
     it 'returns the number of group members who share their course enrollments with the group' do
-      expect(group.number_of_users_who_share_course_enrollments).to eql 2
+      expect(group.number_of_users_who_share_course_enrollments).to eq 2
     end
   end
 end

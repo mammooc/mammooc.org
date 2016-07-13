@@ -450,7 +450,7 @@ RSpec.describe GroupsController, type: :controller do
     it 'does not add user with expired invitation' do
       get :join, params: {token: expired_invitation.token}
       expect(response).to redirect_to(root_path)
-      expect(flash[:error]).to eql I18n.t('groups.invitation.link_expired')
+      expect(flash[:error]).to eq I18n.t('groups.invitation.link_expired')
       expect(Group.find(unjoined_group.id).users.count).to eq unjoined_group.users.count
     end
 
@@ -462,7 +462,7 @@ RSpec.describe GroupsController, type: :controller do
       sign_in(another_user)
       get :join, params: {token: invitation.token}
       expect(response).to redirect_to(root_path)
-      expect(flash[:error]).to eql I18n.t('groups.invitation.group_deleted')
+      expect(flash[:error]).to eq I18n.t('groups.invitation.group_deleted')
     end
 
     it 'does not add member twice' do
@@ -714,7 +714,7 @@ RSpec.describe GroupsController, type: :controller do
     it 'sorts the result' do
       get :groups_where_user_is_admin, params: {format: :json}
       expected_json = [{'id' => second_group_with_admin.id, 'name' => second_group_with_admin.name}, {'id' => group_with_admin.id, 'name' => group_with_admin.name}]
-      expect(json).to eql expected_json
+      expect(json).to eq expected_json
     end
   end
 end

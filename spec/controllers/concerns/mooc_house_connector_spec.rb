@@ -8,7 +8,7 @@ RSpec.describe MoocHouseConnector do
   let(:mooc_house_connector) { described_class.new }
 
   it 'delivers MOOCProvider' do
-    expect(mooc_house_connector.send(:mooc_provider)).to eql mooc_provider
+    expect(mooc_house_connector.send(:mooc_provider)).to eq mooc_provider
   end
 
   it 'gets an API response' do

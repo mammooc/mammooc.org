@@ -152,14 +152,14 @@ RSpec.describe 'User', type: :feature do
         end
 
         it 'shows email addresses of user in expected order' do
-          expect(user.emails.count).to eql 2
+          expect(user.emails.count).to eq 2
           expect(page.body.index(user.primary_email)).to be < page.body.index(second_email.address)
         end
 
         it 'change address of already existing email' do
           fill_in "user_user_email_address_#{second_email.id}", with: 'NewEmailAddress@example.com'
           click_button 'submit_change_email'
-          expect(UserEmail.find(second_email.id).address).to eql 'NewEmailAddress@example.com'
+          expect(UserEmail.find(second_email.id).address).to eq 'NewEmailAddress@example.com'
         end
 
         it 'changes existing primary email' do
@@ -175,7 +175,7 @@ RSpec.describe 'User', type: :feature do
           fill_in "user_user_email_address_#{second_email.id}", with: 'NewEmailAddress@example.com'
           choose "user_user_email_is_primary_#{second_email.id}"
           click_button 'submit_change_email'
-          expect(UserEmail.find(second_email.id).address).to eql 'NewEmailAddress@example.com'
+          expect(UserEmail.find(second_email.id).address).to eq 'NewEmailAddress@example.com'
           expect(UserEmail.find(second_email.id).is_primary).to be true
           expect(UserEmail.find(first_email.id).is_primary).to be false
         end
@@ -328,9 +328,9 @@ RSpec.describe 'User', type: :feature do
           click_button 'add_new_email_field'
           click_button 'remove_button_5'
           click_button 'submit_change_email'
-          expect(UserEmail.where(user: user).count).to eql 3
+          expect(UserEmail.where(user: user).count).to eq 3
           expect(UserEmail.where(id: third_email.id)).to be_empty
-          expect(UserEmail.where(address: 'max.muster@example.com').length).to eql 1
+          expect(UserEmail.where(address: 'max.muster@example.com').length).to eq 1
           expect(UserEmail.find(second_email.id).address).to eq 'NewEmailAddress@example.com'
           expect(UserEmail.find(second_email.id).is_primary).to be true
           expect(UserEmail.find(first_email.id).is_primary).to be false
@@ -350,8 +350,8 @@ RSpec.describe 'User', type: :feature do
           click_button 'remove_button_5'
           click_on 'cancel_change_email'
           wait_for_ajax
-          expect(UserEmail.where(user: user).count).to eql 3
-          expect(UserEmail.where(id: third_email.id).length).to eql 1
+          expect(UserEmail.where(user: user).count).to eq 3
+          expect(UserEmail.where(id: third_email.id).length).to eq 1
           expect(UserEmail.find_by(address: 'max.muster@example.com')).to be_nil
           expect(UserEmail.find(second_email.id).address).to eq second_email.address
           expect(UserEmail.find(second_email.id).is_primary).to be false
@@ -388,7 +388,7 @@ RSpec.describe 'User', type: :feature do
             list.find('.new-item-ok').click
             wait_for_ajax
             expect(list).to have_content(group.name)
-            expect(course_enrollments_visibility_settings.value(:groups)).to eql [group.id]
+            expect(course_enrollments_visibility_settings.value(:groups)).to eq [group.id]
           end
         end
       end
@@ -404,8 +404,8 @@ RSpec.describe 'User', type: :feature do
       it 'sets newsletter_interval to 7 days', js: true do
         select I18n.t('users.settings.newsletter.interval.week'), from: 'user_newsletter_interval'
         click_button I18n.t('global.save')
-        expect(User.find(user.id).newsletter_interval).to eql 7
-        expect(User.find(user.id).unsubscribed_newsletter).to eql false
+        expect(User.find(user.id).newsletter_interval).to eq 7
+        expect(User.find(user.id).unsubscribed_newsletter).to eq false
       end
 
       it 'unsubscribes newsletter for user', js: true do
@@ -414,7 +414,7 @@ RSpec.describe 'User', type: :feature do
         select I18n.t('users.settings.newsletter.receive_no'), from: 'user_newsletter_interval'
         click_button I18n.t('global.save')
         expect(User.find(user.id).newsletter_interval).to be_nil
-        expect(User.find(user.id).unsubscribed_newsletter).to eql true
+        expect(User.find(user.id).unsubscribed_newsletter).to eq true
       end
     end
 
@@ -444,7 +444,7 @@ RSpec.describe 'User', type: :feature do
         it 'unsubscribes from newsletter' do
           visit courses_index_path
           click_on I18n.t('global.no_thanks')
-          expect(User.find(user.id).unsubscribed_newsletter).to eql true
+          expect(User.find(user.id).unsubscribed_newsletter).to eq true
         end
 
         it 'stays on the same page' do

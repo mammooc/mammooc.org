@@ -48,9 +48,9 @@ RSpec.describe Evaluation, type: :model do
       evaluation2 = FactoryGirl.create(:full_evaluation, course: course)
       FactoryGirl.create(:full_evaluation)
       evaluations, = described_class.collect_evaluation_objects_for_course(course)
-      expect(evaluations.first[:evaluation_id]).to eql evaluation1.id
-      expect(evaluations.second[:evaluation_id]).to eql evaluation2.id
-      expect(evaluations.count).to eql 2
+      expect(evaluations.first[:evaluation_id]).to eq evaluation1.id
+      expect(evaluations.second[:evaluation_id]).to eq evaluation2.id
+      expect(evaluations.count).to eq 2
     end
 
     it 'returns nil for the previous course if the evaluations are for the current course' do
@@ -69,9 +69,9 @@ RSpec.describe Evaluation, type: :model do
       evaluation2 = FactoryGirl.create(:full_evaluation, course: course)
       FactoryGirl.create(:full_evaluation, course: previous_course)
       evaluations, = described_class.collect_evaluation_objects_for_course(course)
-      expect(evaluations.first[:evaluation_id]).to eql evaluation1.id
-      expect(evaluations.second[:evaluation_id]).to eql evaluation2.id
-      expect(evaluations.count).to eql 2
+      expect(evaluations.first[:evaluation_id]).to eq evaluation1.id
+      expect(evaluations.second[:evaluation_id]).to eq evaluation2.id
+      expect(evaluations.count).to eq 2
     end
 
     it 'returns all evaluations for a previous course iteration' do
@@ -82,8 +82,8 @@ RSpec.describe Evaluation, type: :model do
       evaluation1 = FactoryGirl.create(:full_evaluation, course: previous_course)
       evaluation2 = FactoryGirl.create(:full_evaluation, course: previous_course)
       evaluations, = described_class.collect_evaluation_objects_for_course(course)
-      expect(evaluations.first[:evaluation_id]).to eql evaluation1.id
-      expect(evaluations.second[:evaluation_id]).to eql evaluation2.id
+      expect(evaluations.first[:evaluation_id]).to eq evaluation1.id
+      expect(evaluations.second[:evaluation_id]).to eq evaluation2.id
     end
 
     it 'returns the previous course if there are evaluations for a previous iteration' do
@@ -93,7 +93,7 @@ RSpec.describe Evaluation, type: :model do
       course.save
       FactoryGirl.create(:full_evaluation, course: previous_course)
       _, evaluations_for_previous_course = described_class.collect_evaluation_objects_for_course(course)
-      expect(evaluations_for_previous_course).to eql previous_course
+      expect(evaluations_for_previous_course).to eq previous_course
     end
 
     it 'returns nil if no evaluations are present' do
@@ -108,40 +108,40 @@ RSpec.describe Evaluation, type: :model do
     it 'returns a hash with all relevant values from an evaluations' do
       evaluation = FactoryGirl.create(:full_evaluation, course_status: :finished)
       evaluation_hash = described_class.evaluation_to_hash(evaluation)
-      expect(evaluation_hash[:evaluation_id]).to eql evaluation.id
-      expect(evaluation_hash[:rating]).to eql evaluation.rating
-      expect(evaluation_hash[:description]).to eql evaluation.description
-      expect(evaluation_hash[:creation_date]).to eql evaluation.created_at
-      expect(evaluation_hash[:total_feedback_count]).to eql evaluation.total_feedback_count
-      expect(evaluation_hash[:positive_feedback_count]).to eql evaluation.positive_feedback_count
-      expect(evaluation_hash[:course_status]).to eql I18n.t('evaluations.finished_course')
-      expect(evaluation_hash[:user_id]).to eql evaluation.user.id
-      expect(evaluation_hash[:user_name]).to eql "#{evaluation.user.first_name} #{evaluation.user.last_name}"
+      expect(evaluation_hash[:evaluation_id]).to eq evaluation.id
+      expect(evaluation_hash[:rating]).to eq evaluation.rating
+      expect(evaluation_hash[:description]).to eq evaluation.description
+      expect(evaluation_hash[:creation_date]).to eq evaluation.created_at
+      expect(evaluation_hash[:total_feedback_count]).to eq evaluation.total_feedback_count
+      expect(evaluation_hash[:positive_feedback_count]).to eq evaluation.positive_feedback_count
+      expect(evaluation_hash[:course_status]).to eq I18n.t('evaluations.finished_course')
+      expect(evaluation_hash[:user_id]).to eq evaluation.user.id
+      expect(evaluation_hash[:user_name]).to eq "#{evaluation.user.first_name} #{evaluation.user.last_name}"
     end
 
     it 'sets the user to anonymous if the corresponding flag is set to true' do
       evaluation = FactoryGirl.create(:full_evaluation, rated_anonymously: true)
       evaluation_hash = described_class.evaluation_to_hash(evaluation)
       expect(evaluation_hash[:user_id]).to be_nil
-      expect(evaluation_hash[:user_name]).to eql I18n.t('evaluations.anonymous')
+      expect(evaluation_hash[:user_name]).to eq I18n.t('evaluations.anonymous')
     end
 
     it 'translates the course status for :finished' do
       evaluation = FactoryGirl.create(:full_evaluation, course_status: :finished)
       evaluation_hash = described_class.evaluation_to_hash(evaluation)
-      expect(evaluation_hash[:course_status]).to eql I18n.t('evaluations.finished_course')
+      expect(evaluation_hash[:course_status]).to eq I18n.t('evaluations.finished_course')
     end
 
     it 'translates the course status for :aborted' do
       evaluation = FactoryGirl.create(:full_evaluation, course_status: :aborted)
       evaluation_hash = described_class.evaluation_to_hash(evaluation)
-      expect(evaluation_hash[:course_status]).to eql I18n.t('evaluations.aborted_course')
+      expect(evaluation_hash[:course_status]).to eq I18n.t('evaluations.aborted_course')
     end
 
     it 'translates the course status for :enrolled' do
       evaluation = FactoryGirl.create(:full_evaluation, course_status: :enrolled)
       evaluation_hash = described_class.evaluation_to_hash(evaluation)
-      expect(evaluation_hash[:course_status]).to eql I18n.t('evaluations.currently_enrolled_course')
+      expect(evaluation_hash[:course_status]).to eq I18n.t('evaluations.currently_enrolled_course')
     end
   end
 
