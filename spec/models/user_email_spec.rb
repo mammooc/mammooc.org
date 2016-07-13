@@ -77,7 +77,8 @@ RSpec.describe UserEmail, type: :model do
     end
 
     it 'is not allowed to destroy the primary address' do
-      email = FactoryGirl.create(:user_email, user: user)
+      email = FactoryGirl.create(:user_email, user: user, is_primary: true)
+      expect(described_class.where(user: user).count).to eql 1
       expect { email.destroy! }.to raise_error ActiveRecord::RecordNotDestroyed
       restored_email = described_class.find_by(email.attributes.except('created_at', 'updated_at'))
       expect(restored_email.attributes.except('created_at', 'updated_at')).to eql email.attributes.except('created_at', 'updated_at')
