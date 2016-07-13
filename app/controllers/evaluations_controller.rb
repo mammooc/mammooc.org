@@ -32,7 +32,7 @@ class EvaluationsController < ApplicationController
   def export_overall_course_rating
     if params[:provider].present? && params[:course_id].present?
       mooc_provider = MoocProvider.find_by!(name: params[:provider])
-      course = [Course.find_by!(provider_course_id: params[:course_id], mooc_provider: mooc_provider)].first
+      course = Course.find_by!(provider_course_id: params[:course_id], mooc_provider: mooc_provider)
     else
       raise ActionController::ParameterMissing.new('no provider given for the course')
     end
@@ -56,7 +56,7 @@ class EvaluationsController < ApplicationController
   def export_course_evaluations
     if params[:provider].present? && params[:course_id].present?
       mooc_provider = MoocProvider.find_by!(name: params[:provider])
-      course = [Course.find_by!(provider_course_id: params[:course_id], mooc_provider: mooc_provider)].first
+      course = Course.find_by!(provider_course_id: params[:course_id], mooc_provider: mooc_provider)
     else
       raise ActionController::ParameterMissing.new('no provider given for the course')
     end
