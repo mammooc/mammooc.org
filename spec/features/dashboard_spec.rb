@@ -2,7 +2,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Dashboard', type: :feature do
-  self.use_transactional_tests = false
 
   let(:user) { FactoryGirl.create(:user) }
 
@@ -13,14 +12,6 @@ RSpec.describe 'Dashboard', type: :feature do
     fill_in 'login_email', with: user.primary_email
     fill_in 'login_password', with: user.password
     click_button 'submit_sign_in'
-  end
-
-  before(:all) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  after(:all) do
-    DatabaseCleaner.strategy = :transaction
   end
 
   describe 'display enrolled courses' do

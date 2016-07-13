@@ -3,20 +3,11 @@ require 'rails_helper'
 require 'support/feature_support'
 
 RSpec.describe 'UserSettings', type: :feature do
-  self.use_transactional_tests = false
 
   let(:user) { FactoryGirl.create(:user) }
 
   before(:each) do
     ActionMailer::Base.deliveries.clear
-  end
-
-  before(:all) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  after(:all) do
-    DatabaseCleaner.strategy = :transaction
   end
 
   describe 'course enrollments' do

@@ -4,16 +4,6 @@ require 'rails_helper'
 RSpec.describe Users::RegistrationsController, type: :controller do
   include Devise::Test::ControllerHelpers
 
-  self.use_transactional_tests = false
-
-  before(:all) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  after(:all) do
-    DatabaseCleaner.strategy = :transaction
-  end
-
   before(:each) do
     request.env['devise.mapping'] = Devise.mappings[:user]
   end

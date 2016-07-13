@@ -3,7 +3,6 @@ require 'rails_helper'
 require 'support/feature_support'
 
 RSpec.describe 'Activities', type: :feature do
-  self.use_transactional_tests = false
 
   let(:user) { FactoryGirl.create(:user) }
   let(:second_user) { FactoryGirl.create(:user) }
@@ -12,14 +11,6 @@ RSpec.describe 'Activities', type: :feature do
     capybara_sign_in user
 
     ActionMailer::Base.deliveries.clear
-  end
-
-  before(:all) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  after(:all) do
-    DatabaseCleaner.strategy = :transaction
   end
 
   context 'join a group' do

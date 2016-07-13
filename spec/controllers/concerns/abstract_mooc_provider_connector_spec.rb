@@ -2,15 +2,6 @@
 require 'rails_helper'
 
 RSpec.describe AbstractMoocProviderConnector do
-  self.use_transactional_tests = false
-
-  before(:all) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  after(:all) do
-    DatabaseCleaner.strategy = :transaction
-  end
 
   let(:abstract_mooc_provider_connector) { described_class.new }
 

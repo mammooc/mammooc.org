@@ -84,18 +84,17 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do |example|
-    if ENV['PHANTOM_JS'] == 'true' && example.metadata[:js]
-      Capybara.current_driver = :poltergeist
-      Capybara.current_session.driver.headers = {'ACCEPT-LANGUAGE' => 'en'}
+    if example.metadata[:type]
+      DatabaseCleaner.strategy = :truncation
+      if ENV['PHANTOM_JS'] == 'true' && example.metadata[:js]
+        Capybara.current_driver = :poltergeist
+        Capybara.current_session.driver.headers = {'ACCEPT-LANGUAGE' => 'en'}
+      end
+    else
+      DatabaseCleaner.strategy = :transaction
     end
     DatabaseCleaner.start
-  end
 
-  config.after(:each) do
-    DatabaseCleaner.clean!
-  end
-
-  config.before(:each) do
     allow_any_instance_of(AmazonS3).to receive(:new_aws_resource).and_return(instance_double('AmazonS3'))
     allow_any_instance_of(AmazonS3).to receive(:get_data).and_return(Base64.encode64(File.open(Rails.root.join('public', 'data', 'icons', 'courses.png')).read))
     allow_any_instance_of(AmazonS3).to receive(:get_object).and_return(true)
@@ -103,6 +102,10 @@ RSpec.configure do |config|
     allow_any_instance_of(AmazonS3).to receive(:get_url).and_return('/data/icons/courses.png')
     allow(User).to receive(:process_uri).and_return(nil)
     allow(Course).to receive(:process_uri).and_return(nil)
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean!
   end
 
   # rspec-expectations config goes here. You can use an alternate
