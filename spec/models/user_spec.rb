@@ -192,9 +192,9 @@ RSpec.describe User, type: :model do
 
     it 'returns nil if no address could be found (what should never happen)' do
       user = FactoryGirl.create(:user, primary_email: 'test@example.com')
-      UserEmail.skip_callback(:commit, :after, :validate_destroy)
+      UserEmail.skip_callback(:destroy, :before, :validate_destroy)
       UserEmail.where(user: user).destroy_all
-      expect(user.primary_email).to eq nil
+      expect(user.reload.primary_email).to eq nil
     end
   end
 
