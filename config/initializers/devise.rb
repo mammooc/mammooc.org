@@ -249,14 +249,14 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
-  config.omniauth :Facebook, ENV['FACEBOOK_CLIENT_ID'], ENV['FACEBOOK_SECRET_KEY'], scope: 'email'
-  config.omniauth :Google, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_SECRET_KEY'], scope: 'profile email', strategy_class: OmniAuth::Strategies::Google, skip_jwt: true
+  config.omniauth :facebook, ENV['FACEBOOK_CLIENT_ID'], ENV['FACEBOOK_SECRET_KEY'], scope: 'email'
+  config.omniauth :google, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_SECRET_KEY'], scope: 'profile email', strategy_class: OmniAuth::Strategies::Google, skip_jwt: true
   config.omniauth :github, ENV['GITHUB_CLIENT_ID'], ENV['GITHUB_SECRET_KEY'], scope: 'user:email'
-  config.omniauth :LinkedIn, ENV['LINKEDIN_CLIENT_ID'], ENV['LINKEDIN_SECRET_KEY'], scope: 'r_basicprofile r_emailaddress'
-  config.omniauth :Twitter, ENV['TWITTER_CLIENT_ID'], ENV['TWITTER_SECRET_KEY']
-  config.omniauth :WindowsLive, ENV['WINDOWS_LIVE_CLIENT_ID'], ENV['WINDOWS_LIVE_SECRET_KEY'], scope: 'wl.basic wl.emails wl.signin', strategy_class: OmniAuth::Strategies::WindowsLive
-  config.omniauth :Amazon, ENV['AMAZON_CLIENT_ID'], ENV['AMAZON_SECRET_KEY'], scope: 'profile'
-  config.omniauth :openHPI, ENV['XIKOLO_CLIENT_ID'], ENV['XIKOLO_SECRET_KEY'], scope: 'profile', strategy_class: OmniAuth::Strategies::OpenHPI
+  config.omniauth :linkedin, ENV['LINKEDIN_CLIENT_ID'], ENV['LINKEDIN_SECRET_KEY'], scope: 'r_basicprofile r_emailaddress'
+  config.omniauth :twitter, ENV['TWITTER_CLIENT_ID'], ENV['TWITTER_SECRET_KEY']
+  config.omniauth :windows_live, ENV['WINDOWS_LIVE_CLIENT_ID'], ENV['WINDOWS_LIVE_SECRET_KEY'], scope: 'wl.basic wl.emails wl.signin', strategy_class: OmniAuth::Strategies::WindowsLive
+  config.omniauth :amazon, ENV['AMAZON_CLIENT_ID'], ENV['AMAZON_SECRET_KEY'], scope: 'profile'
+  config.omniauth :openhpi, ENV['XIKOLO_CLIENT_ID'], ENV['XIKOLO_SECRET_KEY'], scope: 'profile', strategy_class: OmniAuth::Strategies::OpenHPI
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

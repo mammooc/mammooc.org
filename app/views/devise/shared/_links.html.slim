@@ -17,7 +17,7 @@
   = t('users.sign_in_up.terms_and_conditions_omniauth')
   - resource_class.omniauth_providers.each do |provider|
     br
-    = link_to t('users.sign_in_up.omniauth', provider: provider.to_s), omniauth_authorize_path(resource_name, provider)
+    = link_to t('users.sign_in_up.omniauth', provider: OmniAuth::Utils.camelize(provider)), omniauth_authorize_path(resource_name, provider)
   br
   = link_to t('users.sign_in_up.easyID.login'), easy_id_link
   hr
