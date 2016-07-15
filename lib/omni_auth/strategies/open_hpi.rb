@@ -3,7 +3,7 @@ require 'omniauth-oauth2'
 module OmniAuth
   module Strategies
     class OpenHPI < OmniAuth::Strategies::OAuth2
-      option :name, 'openHPI'
+      option :name, 'openhpi'
 
       option :client_options, {
           site: 'https://open.hpi.de',
