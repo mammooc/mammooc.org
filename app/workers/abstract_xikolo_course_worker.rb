@@ -38,7 +38,12 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
       end
 
       if course_element['visual_url'].present? && course.course_image_file_name != filename
-        course.course_image = Course.process_uri(course_element['visual_url'])
+        begin
+          course.course_image = Course.process_uri(course_element['visual_url'])
+        rescue OpenURI::HTTPError => e
+          Rails.logger.error "Couldn't process course image in course #{course_element['id'].to_s} for URL #{course_element['visual_url']}: #{e.message}"
+          course.course_image = nil
+        end
       end
       course.start_date = course_element['available_from']
       course.end_date = course_element['available_to']
