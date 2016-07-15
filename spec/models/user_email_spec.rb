@@ -67,11 +67,13 @@ RSpec.describe UserEmail, type: :model do
     end
 
     it 'is not allowed to destroy the primary address' do
-      email = UserEmail.new(user_id: user.id, is_primary: true, address: 'email@example.com')
+      email = UserEmail.create!(user_id: user.id, is_primary: true, address: 'email@example.com')
       email.save!
       email.reload
+      sleep 0.5
       expect { email.destroy! }.to raise_error ActiveRecord::RecordNotDestroyed
       expect(described_class.where(user: user, is_primary: true).count).to eq 1
+      sleep 0.5
     end
 
     it 'is allowed to delete the primary address if another one is made primary' do
