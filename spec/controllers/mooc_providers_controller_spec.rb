@@ -15,7 +15,7 @@ RSpec.describe MoocProvidersController, type: :controller do
   describe 'GET index' do
     it 'assigns all mooc_providers as @mooc_providers' do
       mooc_provider = MoocProvider.create! valid_attributes
-      get :index, format: :json
+      get :index, params: {format: :json}
       expect(assigns(:mooc_providers)).to eq([mooc_provider])
     end
   end

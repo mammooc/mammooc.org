@@ -8,29 +8,29 @@ RSpec.describe OpenHPIConnector do
 
   describe 'mooc_provider' do
     it 'delivers MOOCProvider' do
-      expect(open_hpi_connector.send(:mooc_provider)).to eql mooc_provider
+      expect(open_hpi_connector.send(:mooc_provider)).to eq mooc_provider
     end
   end
 
   describe 'get access token' do
     it 'returns nil when user has no connection to mooc provider' do
-      expect(open_hpi_connector.send(:get_access_token, user)).to eql nil
+      expect(open_hpi_connector.send(:get_access_token, user)).to eq nil
     end
 
     it 'returns access_token when user has connection to mooc provider' do
       FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
-      expect(open_hpi_connector.send(:get_access_token, user)).to eql '123'
+      expect(open_hpi_connector.send(:get_access_token, user)).to eq '123'
     end
   end
 
   describe 'connection to mooc provider' do
     it 'returns false when user has no connection to mooc provider' do
-      expect(open_hpi_connector.connection_to_mooc_provider?(user)).to eql false
+      expect(open_hpi_connector.connection_to_mooc_provider?(user)).to eq false
     end
 
     it 'returns true when user has connection to mooc provider' do
       user.mooc_providers << mooc_provider
-      expect(open_hpi_connector.connection_to_mooc_provider?(user)).to eql true
+      expect(open_hpi_connector.connection_to_mooc_provider?(user)).to eq true
     end
   end
 
@@ -44,10 +44,10 @@ RSpec.describe OpenHPIConnector do
 
     it 'updates MoocProvider-User connection, when a token is already present and the request is answered with token' do
       FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
-      expect(open_hpi_connector.send(:get_access_token, user)).to eql '123'
+      expect(open_hpi_connector.send(:get_access_token, user)).to eq '123'
       allow(RestClient).to receive(:post).and_return('{"token":"1234567890"}')
       expect { open_hpi_connector.initialize_connection(user, credentials) }.to change { MoocProviderUser.count }.by(0)
-      expect(open_hpi_connector.send(:get_access_token, user)).to eql '1234567890'
+      expect(open_hpi_connector.send(:get_access_token, user)).to eq '1234567890'
     end
 
     it 'does not create MoocProvider-User connection, when request is answered with empty token' do
@@ -69,7 +69,7 @@ RSpec.describe OpenHPIConnector do
     end
 
     it 'does not try to destroy MoocProvider-User connection, when it is not present' do
-      expect(open_hpi_connector.destroy_connection(user)).to eql false
+      expect(open_hpi_connector.destroy_connection(user)).to eq false
     end
   end
 
@@ -94,7 +94,7 @@ RSpec.describe OpenHPIConnector do
       it 'returns parsed response for enrolled courses' do
         FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
         allow(RestClient).to receive(:get).and_return(enrollment_data)
-        expect(open_hpi_connector.send(:get_enrollments_for_user, user)).to eql json_enrollment_data
+        expect(open_hpi_connector.send(:get_enrollments_for_user, user)).to eq json_enrollment_data
       end
     end
 
@@ -119,19 +119,19 @@ RSpec.describe OpenHPIConnector do
 
     describe 'enroll user for course' do
       it 'returns nil when trying to enroll and user has no mooc provider connection' do
-        expect(open_hpi_connector.enroll_user_for_course(user, course)).to eql nil
+        expect(open_hpi_connector.enroll_user_for_course(user, course)).to eq nil
       end
 
       it 'returns false when trying to enroll and user has mooc provider connection but something went wrong' do
         user.mooc_providers << mooc_provider
         allow(RestClient).to receive(:post).and_raise RestClient::Unauthorized
-        expect(open_hpi_connector.enroll_user_for_course(user, course)).to eql false
+        expect(open_hpi_connector.enroll_user_for_course(user, course)).to eq false
       end
 
       it 'returns true when trying to enroll and everything was ok' do
         user.mooc_providers << mooc_provider
         allow(RestClient).to receive(:post).and_return('{"success"}')
-        expect(open_hpi_connector.enroll_user_for_course(user, course)).to eql true
+        expect(open_hpi_connector.enroll_user_for_course(user, course)).to eq true
       end
 
       it 'handles internal server error for course enrollments' do
@@ -143,19 +143,19 @@ RSpec.describe OpenHPIConnector do
 
     describe 'unenroll user for course' do
       it 'returns nil when trying to unenroll and user has no mooc provider connection' do
-        expect(open_hpi_connector.unenroll_user_for_course(user, course)).to eql nil
+        expect(open_hpi_connector.unenroll_user_for_course(user, course)).to eq nil
       end
 
       it 'returns false when trying to unenroll and user has mooc provider connection but something went wrong' do
         user.mooc_providers << mooc_provider
         allow(RestClient).to receive(:delete).and_raise RestClient::Unauthorized
-        expect(open_hpi_connector.unenroll_user_for_course(user, course)).to eql false
+        expect(open_hpi_connector.unenroll_user_for_course(user, course)).to eq false
       end
 
       it 'returns true when trying to unenroll and everything was ok' do
         user.mooc_providers << mooc_provider
         allow(RestClient).to receive(:delete).and_return('{"success"}')
-        expect(open_hpi_connector.unenroll_user_for_course(user, course)).to eql true
+        expect(open_hpi_connector.unenroll_user_for_course(user, course)).to eq true
       end
 
       it 'handles internal server error for course unenrollments' do
@@ -170,7 +170,7 @@ RSpec.describe OpenHPIConnector do
         FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
         allow(RestClient).to receive(:get).and_return(enrollment_data)
         expect { open_hpi_connector.load_user_data([user]) }.not_to raise_error
-        expect(user.courses.count).to eql 2
+        expect(user.courses.count).to eq 2
       end
 
       it 'loads specified user data for all users' do
@@ -179,15 +179,15 @@ RSpec.describe OpenHPIConnector do
         FactoryGirl.create(:naive_mooc_provider_user, user: second_user, mooc_provider: mooc_provider, access_token: '123')
         allow(RestClient).to receive(:get).and_return(enrollment_data)
         expect { open_hpi_connector.load_user_data }.not_to raise_error
-        expect(user.courses.count).to eql 2
-        expect(second_user.courses.count).to eql 2
+        expect(user.courses.count).to eq 2
+        expect(second_user.courses.count).to eq 2
       end
 
       it 'does not raise an exception if the saved token is invalid' do
         FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
         allow(RestClient).to receive(:get).and_raise RestClient::Unauthorized
         expect { open_hpi_connector.load_user_data([user]) }.not_to raise_error
-        expect(open_hpi_connector.load_user_data([user])).to eql false
+        expect(open_hpi_connector.load_user_data([user])).to eq false
       end
 
       it 'does not raise an exception if the saved token is invalid even if multiple users should be synchronized' do
@@ -196,7 +196,7 @@ RSpec.describe OpenHPIConnector do
         FactoryGirl.create(:naive_mooc_provider_user, user: second_user, mooc_provider: mooc_provider, access_token: '123')
         allow(RestClient).to receive(:get).and_raise RestClient::Unauthorized
         expect { open_hpi_connector.load_user_data }.not_to raise_error
-        expect(open_hpi_connector.load_user_data).to eql nil
+        expect(open_hpi_connector.load_user_data).to eq nil
       end
     end
   end
@@ -244,7 +244,7 @@ RSpec.describe OpenHPIConnector do
       it 'returns parsed response for received dates' do
         FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
         allow(RestClient).to receive(:get).and_return(received_dates)
-        expect(open_hpi_connector.send(:get_dates_for_user, user)).to eql json_user_dates
+        expect(open_hpi_connector.send(:get_dates_for_user, user)).to eq json_user_dates
       end
     end
 
@@ -313,13 +313,13 @@ RSpec.describe OpenHPIConnector do
       it 'sets attribute user to the corresponding value' do
         open_hpi_connector.send(:create_new_entry, user, user_date_data)
         user_date = UserDate.first
-        expect(user_date.user).to eql(user)
+        expect(user_date.user).to eq(user)
       end
 
       it 'sets attribute course to the corresponding value' do
         open_hpi_connector.send(:create_new_entry, user, user_date_data)
         user_date = UserDate.first
-        expect(user_date.course).to eql(course)
+        expect(user_date.course).to eq(course)
       end
     end
 
@@ -357,12 +357,12 @@ RSpec.describe OpenHPIConnector do
 
       it 'does not change entries which are true in update map' do
         open_hpi_connector.send(:change_existing_no_longer_relevant_entries, update_map)
-        expect(UserDate.find(second_user_date.id).relevant).to eql second_user_date.relevant
+        expect(UserDate.find(second_user_date.id).relevant).to eq second_user_date.relevant
       end
 
       it 'changes entries which are false in update map' do
         open_hpi_connector.send(:change_existing_no_longer_relevant_entries, update_map)
-        expect(UserDate.find(first_user_date.id).relevant).to eql false
+        expect(UserDate.find(first_user_date.id).relevant).to eq false
       end
     end
   end

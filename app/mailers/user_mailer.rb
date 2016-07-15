@@ -26,8 +26,6 @@ class UserMailer < ApplicationMailer
     mail(to: email_adress, subject: 'New MOOCs available')
   end
 
-  # rubocop:disable ParameterLists
-
   def obligatory_recommendation_user_notification(email_adress, user, course, current_user, root_url)
     @user = user
     @course = course

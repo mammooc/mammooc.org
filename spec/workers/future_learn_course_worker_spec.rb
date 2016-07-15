@@ -54,7 +54,7 @@ describe FutureLearnCourseWorker do
   let!(:certificate_course_track_type) { FactoryGirl.create :certificate_course_track_type, type_of_achievement: 'certificate' }
 
   it 'delivers MOOCProvider' do
-    expect(future_learn_course_worker.mooc_provider).to eql mooc_provider
+    expect(future_learn_course_worker.mooc_provider).to eq mooc_provider
   end
 
   it 'gets an API response' do
@@ -71,24 +71,24 @@ describe FutureLearnCourseWorker do
 
     course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, courses_json[0]['runs'].first['uuid'])
 
-    expect(course.name).to eql courses_json[0]['name']
-    expect(course.url).to eql courses_json[0]['url']
-    expect(course.abstract).to eql courses_json[0]['introduction']
-    expect(course.language).to eql courses_json[0]['language']
-    expect(course.videoId).to eql courses_json[0]['trailer']
-    expect(course.start_date.to_datetime).to eql courses_json[0]['runs'].first['start_date'].to_datetime
-    expect(course.workload).to eql "#{courses_json[0]['hours_per_week']} hours per week"
+    expect(course.name).to eq courses_json[0]['name']
+    expect(course.url).to eq courses_json[0]['url']
+    expect(course.abstract).to eq courses_json[0]['introduction']
+    expect(course.language).to eq courses_json[0]['language']
+    expect(course.videoId).to eq courses_json[0]['trailer']
+    expect(course.start_date.to_datetime).to eq courses_json[0]['runs'].first['start_date'].to_datetime
+    expect(course.workload).to eq "#{courses_json[0]['hours_per_week']} hours per week"
 
-    expect(course.tracks.count).to eql 1
+    expect(course.tracks.count).to eq 1
     expect(achievement_type?(course.tracks, :certificate)).to be_truthy
 
-    expect(course.provider_course_id).to eql courses_json[0]['runs'].first['uuid'].to_s
-    expect(course.mooc_provider_id).to eql mooc_provider.id
+    expect(course.provider_course_id).to eq courses_json[0]['runs'].first['uuid'].to_s
+    expect(course.mooc_provider_id).to eq mooc_provider.id
     expect(course.categories).to match_array courses_json[0]['categories']
-    expect(course.course_instructors).to eql courses_json[0]['educator']
-    expect(course.description).to eql courses_json[0]['description']
-    expect(course.calculated_duration_in_days).to eql 49
-    expect(course.provider_given_duration).to eql "#{courses_json[0]['runs'].first['duration_in_weeks']} weeks"
+    expect(course.course_instructors).to eq courses_json[0]['educator']
+    expect(course.description).to eq courses_json[0]['description']
+    expect(course.calculated_duration_in_days).to eq 49
+    expect(course.provider_given_duration).to eq "#{courses_json[0]['runs'].first['duration_in_weeks']} weeks"
   end
 
   it 'links iterations in correct order' do
@@ -100,10 +100,10 @@ describe FutureLearnCourseWorker do
     course3 = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, courses_json[0]['runs'].third['uuid'])
 
     expect(course1.previous_iteration).to be_nil
-    expect(course1.following_iteration).to eql course2
-    expect(course2.previous_iteration).to eql course1
-    expect(course2.following_iteration).to eql course3
-    expect(course3.previous_iteration).to eql course2
+    expect(course1.following_iteration).to eq course2
+    expect(course2.previous_iteration).to eq course1
+    expect(course2.following_iteration).to eq course3
+    expect(course3.previous_iteration).to eq course2
     expect(course3.following_iteration).to be_nil
   end
 
@@ -118,8 +118,8 @@ describe FutureLearnCourseWorker do
 
     expect(course1.following_iteration).to be_nil
     expect(course2.previous_iteration).to be_nil
-    expect(course2.following_iteration).to eql course3
-    expect(course3.previous_iteration).to eql course2
+    expect(course2.following_iteration).to eq course3
+    expect(course3.previous_iteration).to eq course2
     expect(course3.following_iteration).to be_nil
   end
 

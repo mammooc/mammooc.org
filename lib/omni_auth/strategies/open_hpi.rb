@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'omniauth-oauth2'
 
 module OmniAuth
@@ -5,10 +6,8 @@ module OmniAuth
     class OpenHPI < OmniAuth::Strategies::OAuth2
       option :name, 'openhpi'
 
-      option :client_options, {
-          site: 'https://open.hpi.de',
-          authorize_url: '/oauth/authorize'
-      }
+      option :client_options, site: 'https://open.hpi.de',
+                              authorize_url: '/oauth/authorize'
 
       uid { raw_info['id'] }
 

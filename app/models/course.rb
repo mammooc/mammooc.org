@@ -41,8 +41,8 @@ class Course < ActiveRecord::Base
       original: '300x300>'
     },
     convert_options: {all: '-quality 95'},
-    s3_storage_class: :reduced_redundancy,
-    s3_permissions: :public_read,
+    s3_storage_class: 'REDUCED_REDUNDANCY',
+    s3_permissions: 'public-read',
     default_url: '/data/course_picture_default.png'
 
   validates_attachment_content_type :course_image, content_type: /\Aimage\/.*\Z/

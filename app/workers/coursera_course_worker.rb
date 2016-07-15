@@ -74,7 +74,7 @@ class CourseraCourseWorker < AbstractCourseWorker
         course.workload = course_element['workload']
 
         if course_element['startDate'].present?
-          course.start_date = Time.at(course_element['startDate']/1000)
+          course.start_date = Time.at(course_element['startDate'] / 1000).utc
         end
 
         if course_element['courseType'].include? 'v1'

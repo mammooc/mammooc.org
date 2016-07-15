@@ -2,21 +2,12 @@
 require 'rails_helper'
 
 RSpec.describe 'Users::Session', type: :feature do
-  self.use_transactional_fixtures = false
 
   let(:user) { FactoryGirl.create(:user) }
 
   before(:each) do
     visit new_user_session_path
     ActionMailer::Base.deliveries.clear
-  end
-
-  before(:all) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  after(:all) do
-    DatabaseCleaner.strategy = :transaction
   end
 
   it 'works with valid input' do
@@ -73,7 +64,7 @@ RSpec.describe 'Users::Session', type: :feature do
     expect(page).to have_text(I18n.t('users.sign_in_up.finish_sign_up'))
     fill_in 'primary_email_finish_sign_up', with: 'max@example.com'
     click_button 'submit_finish_sign_up'
-    expect(user.primary_email).to eql 'max@example.com'
+    expect(user.primary_email).to eq 'max@example.com'
     expect(page).to have_text(I18n.t('flash.notice.users.successfully_updated'))
   end
 
@@ -89,7 +80,7 @@ RSpec.describe 'Users::Session', type: :feature do
     expect(page).to have_text(I18n.t('users.sign_in_up.finish_sign_up'))
     fill_in 'first_name_finish_sign_up', with: 'Max'
     click_button 'submit_finish_sign_up'
-    expect(user.reload.first_name).to eql 'Max'
+    expect(user.reload.first_name).to eq 'Max'
     expect(page).to have_text(I18n.t('flash.notice.users.successfully_updated'))
   end
 
@@ -105,7 +96,7 @@ RSpec.describe 'Users::Session', type: :feature do
     expect(page).to have_text(I18n.t('users.sign_in_up.finish_sign_up'))
     fill_in 'last_name_finish_sign_up', with: 'Musterfrau'
     click_button 'submit_finish_sign_up'
-    expect(user.reload.last_name).to eql 'Musterfrau'
+    expect(user.reload.last_name).to eq 'Musterfrau'
     expect(page).to have_text(I18n.t('flash.notice.users.successfully_updated'))
   end
 

@@ -159,7 +159,7 @@ RSpec.describe OpenHPICourseWorker do
   let!(:course_track_type) { FactoryGirl.create :course_track_type, type_of_achievement: 'xikolo_record_of_achievement' }
 
   it 'delivers MOOCProvider' do
-    expect(open_hpi_course_worker.mooc_provider).to eql mooc_provider
+    expect(open_hpi_course_worker.mooc_provider).to eq mooc_provider
   end
 
   it 'gets an API response' do
@@ -169,7 +169,7 @@ RSpec.describe OpenHPICourseWorker do
   it 'loads new course into database' do
     course_count = Course.count
     open_hpi_course_worker.handle_response_data json_course_data
-    expect(course_count).to eql Course.count - 1
+    expect(course_count).to eq Course.count - 1
   end
 
   it 'loads course attributes into database' do
@@ -178,21 +178,21 @@ RSpec.describe OpenHPICourseWorker do
     json_course = json_course_data[0]
     course = Course.find_by(provider_course_id: json_course['id'], mooc_provider_id: mooc_provider.id)
 
-    expect(course.name).to eql json_course['name']
-    expect(course.provider_course_id).to eql json_course['id']
-    expect(course.mooc_provider_id).to eql mooc_provider.id
+    expect(course.name).to eq json_course['name']
+    expect(course.provider_course_id).to eq json_course['id']
+    expect(course.mooc_provider_id).to eq mooc_provider.id
     expect(course.url).to include json_course['course_code']
-    expect(course.language).to eql json_course['language']
-    expect(course.start_date).to eql Time.zone.parse(json_course['available_from'])
-    expect(course.end_date).to eql Time.zone.parse(json_course['available_to'])
-    expect(course.description).to eql html_course_description
-    expect(course.course_instructors).to eql json_course['lecturer']
-    expect(course.open_for_registration).to eql !json_course['locked']
-    expect(course.tracks[0].costs).to eql 0.0
+    expect(course.language).to eq json_course['language']
+    expect(course.start_date).to eq Time.zone.parse(json_course['available_from'])
+    expect(course.end_date).to eq Time.zone.parse(json_course['available_to'])
+    expect(course.description).to eq html_course_description
+    expect(course.course_instructors).to eq json_course['lecturer']
+    expect(course.open_for_registration).to eq !json_course['locked']
+    expect(course.tracks[0].costs).to eq 0.0
     expect(course.tracks[0].credit_points).to be_nil
-    expect(course.tracks[0].track_type.type_of_achievement).to eql course_track_type.type_of_achievement
-    expect(course.tracks[0].costs).to eql 0.0
-    expect(course.tracks[0].costs_currency).to eql "\xe2\x82\xac"
+    expect(course.tracks[0].track_type.type_of_achievement).to eq course_track_type.type_of_achievement
+    expect(course.tracks[0].costs).to eq 0.0
+    expect(course.tracks[0].costs_currency).to eq "\xe2\x82\xac"
   end
 
   it 'loads courses on perform' do
@@ -221,6 +221,6 @@ RSpec.describe OpenHPICourseWorker do
   it 'does not parse an empty string' do
     allow(RestClient).to receive(:get).and_return('')
     expect { open_hpi_course_worker.course_data }.not_to raise_error
-    expect(open_hpi_course_worker.course_data).to eql []
+    expect(open_hpi_course_worker.course_data).to eq []
   end
 end

@@ -3,7 +3,7 @@ require 'rails_helper'
 
 RSpec.describe UsersHelper, type: :helper do
   it 'returns :user for resource_name' do
-    expect(resource_name).to eql :user
+    expect(resource_name).to eq :user
   end
 
   it 'returns @resource for a resource' do
@@ -11,6 +11,6 @@ RSpec.describe UsersHelper, type: :helper do
   end
 
   it 'returns a devise_mapping if required' do
-    expect(devise_mapping).to eql Devise.mappings[:user]
+    expect(devise_mapping).to eq Devise.mappings[:user]
   end
 end

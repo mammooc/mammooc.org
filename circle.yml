@@ -12,6 +12,7 @@ machine:
 
 dependencies:
   pre:
+    # Install Gemnasium if on branch dev
     - "if [[ $CIRCLE_BRANCH == dev ]]; then sudo sh -c 'echo \"deb http://apt.gemnasium.com stable main\" > /etc/apt/sources.list.d/gemnasium.list'; else exit 0; fi;"
     - "if [[ $CIRCLE_BRANCH == dev ]]; then sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com E5CEAB0AC5F1CA2A; else exit 0; fi;"
     - "if [[ $CIRCLE_BRANCH == dev ]]; then sudo apt-get update; else exit 0; fi;"
@@ -20,7 +21,9 @@ dependencies:
 
 test:
   post:
-    - bundle exec rake rubocop:show
+    # Execute Rubocop
+    - bundle exec rails rubocop:show
+    # Coveralls
     - "curl -H \"Content-Type: application/json\" --data \"{\\\"payload\\\": {\\\"build_num\\\": $CIRCLE_BUILD_NUM, \\\"status\\\": \\\"done\\\"} }\" -X POST https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN"
 
 
@@ -34,17 +37,20 @@ deployment:
       - heroku maintenance:on --app mammooc
       - git push git@heroku.com:mammooc.git master:master
       - heroku pg:reset DATABASE --app mammooc --confirm mammooc
-      - heroku run rake db:schema:load db:seed RAILS_ENV=development --app mammooc
+      - heroku run rails db:schema:load RAILS_ENV=production --app mammooc
+      - heroku run rails db:seed RAILS_ENV=development --app mammooc
       - heroku restart --app mammooc
       - heroku maintenance:off --app mammooc
 
   development:
     branch: dev
     commands:
+      # Heroku
       - heroku maintenance:on --app mammooc-dev
       - git push git@heroku.com:mammooc-dev.git dev:master
       - heroku pg:reset DATABASE --app mammooc-dev --confirm mammooc-dev
-      - heroku run rake db:schema:load db:seed RAILS_ENV=development --app mammooc-dev
+      - heroku run rails db:schema:load RAILS_ENV=production --app mammooc-dev
+      - heroku run rails db:seed RAILS_ENV=development --app mammooc-dev
       - heroku restart --app mammooc-dev
       - heroku maintenance:off --app mammooc-dev
       # Gemnasium Auto-Update

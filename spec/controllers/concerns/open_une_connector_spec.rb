@@ -8,7 +8,7 @@ RSpec.describe OpenUNEConnector do
   let(:open_une_connector) { described_class.new }
 
   it 'delivers MOOCProvider' do
-    expect(open_une_connector.send(:mooc_provider)).to eql mooc_provider
+    expect(open_une_connector.send(:mooc_provider)).to eq mooc_provider
   end
 
   it 'gets an API response' do

@@ -2,7 +2,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Group', type: :feature do
-  self.use_transactional_fixtures = false
 
   let(:user) { FactoryGirl.create(:user) }
   let(:second_user) { FactoryGirl.create(:user) }
@@ -20,14 +19,6 @@ RSpec.describe 'Group', type: :feature do
     click_button 'submit_sign_in'
 
     ActionMailer::Base.deliveries.clear
-  end
-
-  before(:all) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  after(:all) do
-    DatabaseCleaner.strategy = :transaction
   end
 
   describe 'invite users to an existing group' do

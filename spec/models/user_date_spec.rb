@@ -15,8 +15,8 @@ RSpec.describe UserDate, type: :model do
       expect_any_instance_of(OpenHPIConnector).to receive(:load_dates_for_users).with([user]).and_return(true)
       expect_any_instance_of(OpenSAPConnector).to receive(:load_dates_for_users).with([user]).and_return(true)
       synchronization_state = described_class.synchronize(user)
-      expect(synchronization_state[:openHPI]).to eql(true)
-      expect(synchronization_state[:openSAP]).to eql(true)
+      expect(synchronization_state[:openHPI]).to eq(true)
+      expect(synchronization_state[:openSAP]).to eq(true)
     end
   end
 
@@ -27,19 +27,19 @@ RSpec.describe UserDate, type: :model do
       it 'sets the start time correctly' do
         user_date
         calendar = described_class.create_current_calendar(user)
-        expect(calendar.events.first.dtstart).to eql(user_date.date.to_date)
+        expect(calendar.events.first.dtstart).to eq(user_date.date.to_date)
       end
 
       it 'sets the end time correctly' do
         user_date
         calendar = described_class.create_current_calendar(user)
-        expect(calendar.events.first.dtend).to eql(user_date.date.to_date + 1.day)
+        expect(calendar.events.first.dtend).to eq(user_date.date.to_date + 1.day)
       end
 
       it 'sets the summary correctly' do
         user_date
         calendar = described_class.create_current_calendar(user)
-        expect(calendar.events.first.summary).to eql(user_date.title)
+        expect(calendar.events.first.summary).to eq(user_date.title)
       end
 
       it 'sets the description correctly' do
@@ -55,7 +55,7 @@ RSpec.describe UserDate, type: :model do
         FactoryGirl.create(:user_date, user: user)
       end
       calendar = described_class.create_current_calendar(user)
-      expect(calendar.events.count).to eql(5)
+      expect(calendar.events.count).to eq(5)
     end
 
     it 'collects only the dates of the given user' do
@@ -66,7 +66,7 @@ RSpec.describe UserDate, type: :model do
         FactoryGirl.create(:user_date, user: user)
       end
       calendar = described_class.create_current_calendar(user)
-      expect(calendar.events.count).to eql(2)
+      expect(calendar.events.count).to eq(2)
     end
   end
 
@@ -77,7 +77,7 @@ RSpec.describe UserDate, type: :model do
       token = '1234567890'
       user.token_for_user_dates = token
       described_class.generate_token_for_user(user)
-      expect(user.token_for_user_dates).to eql(token)
+      expect(user.token_for_user_dates).to eq(token)
     end
 
     it 'saves a token to the database for the given user' do
@@ -94,7 +94,7 @@ RSpec.describe UserDate, type: :model do
         described_class.generate_token_for_user(user)
       end
       created_tokens = User.all.collect(&:token_for_user_dates)
-      expect(created_tokens.uniq.count).to eql(created_tokens.count)
+      expect(created_tokens.uniq.count).to eq(created_tokens.count)
     end
   end
 end

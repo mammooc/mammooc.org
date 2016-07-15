@@ -23,13 +23,13 @@ RSpec.describe GroupsController, type: :controller do
 
   describe 'GET index' do
     it 'assigns all groups as @groups' do
-      get :index, {}
+      get :index, params: {}
       expect(assigns(:groups)).to match_array(user_groups)
     end
 
     context 'with name filter' do
       it 'filters correctly' do
-        get :index, q: group.name
+        get :index, params: {q: group.name}
         expect(assigns(:groups)).to match_array([group])
       end
     end
@@ -37,12 +37,12 @@ RSpec.describe GroupsController, type: :controller do
 
   describe 'GET show' do
     it 'assigns the requested group as @group' do
-      get :show, id: group.to_param
+      get :show, params: {id: group.to_param}
       expect(assigns(:group)).to eq(group)
     end
 
     context 'without authorization' do
-      before(:each) { get :show, id: group_without_user.id }
+      before(:each) { get :show, params: {id: group_without_user.id} }
       it 'redirects to groups page' do
         expect(response).to redirect_to(groups_path)
       end
@@ -63,7 +63,7 @@ RSpec.describe GroupsController, type: :controller do
         user4_activity = FactoryGirl.create(:activity_bookmark, owner: user4, group_ids: [group.id])
         user3_activity = FactoryGirl.create(:activity_bookmark, owner: user3, group_ids: [group.id])
         user2_activity = FactoryGirl.create(:activity_bookmark, owner: user2, group_ids: [group.id])
-        get :show, id: group.to_param
+        get :show, params: {id: group.to_param}
         expect(assigns(:activities)).not_to include(user3_activity)
         expect(assigns(:activities)).to include(user2_activity)
         expect(assigns(:activities)).not_to include(user4_activity)
@@ -71,7 +71,7 @@ RSpec.describe GroupsController, type: :controller do
 
       it 'does not filter out my own activities' do
         my_activity = FactoryGirl.create(:activity_bookmark, owner: user, group_ids: [group.id])
-        get :show, id: group.to_param
+        get :show, params: {id: group.to_param}
         expect(assigns(:activities)).to include(my_activity)
       end
 
@@ -79,7 +79,7 @@ RSpec.describe GroupsController, type: :controller do
         activity_to_me = FactoryGirl.create(:activity_bookmark, owner: user2, user_ids: [user.id])
         activity_to_my_group = FactoryGirl.create(:activity_bookmark, owner: user2, group_ids: [group.id])
         activity_without_me = FactoryGirl.create(:activity_bookmark, owner: user2)
-        get :show, id: group.to_param
+        get :show, params: {id: group.to_param}
         expect(assigns(:activities)).not_to include(activity_to_me)
         expect(assigns(:activities)).to include(activity_to_my_group)
         expect(assigns(:activities)).not_to include(activity_without_me)
@@ -94,7 +94,7 @@ RSpec.describe GroupsController, type: :controller do
         user_setting = FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: user2)
         FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id])
 
-        get :show, id: group.to_param
+        get :show, params: {id: group.to_param}
 
         expect(assigns(:activities)).to include(activity_bookmark)
         expect(assigns(:activities)).to include(activity_group_join)
@@ -107,12 +107,12 @@ RSpec.describe GroupsController, type: :controller do
 
   describe 'GET recommendations' do
     it 'assigns the requested group as @group' do
-      get :recommendations, id: group.to_param
+      get :recommendations, params: {id: group.to_param}
       expect(assigns(:group)).to eq(group)
     end
 
     context 'without authorization' do
-      before(:each) { get :recommendations, id: group_without_user.id }
+      before(:each) { get :recommendations, params: {id: group_without_user.id} }
       it 'redirects to groups page' do
         expect(response).to redirect_to(groups_path)
       end
@@ -133,7 +133,7 @@ RSpec.describe GroupsController, type: :controller do
         user4_activity = FactoryGirl.create(:activity_group_recommendation, owner: user4, group_ids: [group.id])
         user3_activity = FactoryGirl.create(:activity_group_recommendation, owner: user3, group_ids: [group.id])
         user2_activity = FactoryGirl.create(:activity_group_recommendation, owner: user2, group_ids: [group.id])
-        get :recommendations, id: group.to_param
+        get :recommendations, params: {id: group.to_param}
         expect(assigns(:activities)).not_to include(user3_activity)
         expect(assigns(:activities)).to include(user2_activity)
         expect(assigns(:activities)).not_to include(user4_activity)
@@ -141,7 +141,7 @@ RSpec.describe GroupsController, type: :controller do
 
       it 'does not filter out my own activities' do
         my_activity = FactoryGirl.create(:activity_group_recommendation, owner: user, group_ids: [group.id])
-        get :recommendations, id: group.to_param
+        get :recommendations, params: {id: group.to_param}
         expect(assigns(:activities)).to include(my_activity)
       end
 
@@ -149,7 +149,7 @@ RSpec.describe GroupsController, type: :controller do
         activity_to_me = FactoryGirl.create(:activity_group_recommendation, owner: user2, user_ids: [user.id])
         activity_to_my_group = FactoryGirl.create(:activity_group_recommendation, owner: user2, group_ids: [group.id])
         activity_without_me = FactoryGirl.create(:activity_group_recommendation, owner: user2)
-        get :recommendations, id: group.to_param
+        get :recommendations, params: {id: group.to_param}
         expect(assigns(:activities)).not_to include(activity_to_me)
         expect(assigns(:activities)).to include(activity_to_my_group)
         expect(assigns(:activities)).not_to include(activity_without_me)
@@ -161,7 +161,7 @@ RSpec.describe GroupsController, type: :controller do
         activity_course_enroll = FactoryGirl.create(:activity_course_enroll, owner: user2, group_ids: [group.id])
         activity_group_recommendation = FactoryGirl.create(:activity_group_recommendation, owner: user2, group_ids: [group.id])
 
-        get :recommendations, id: group.to_param
+        get :recommendations, params: {id: group.to_param}
 
         expect(assigns(:activities)).not_to include(activity_bookmark)
         expect(assigns(:activities)).not_to include(activity_group_join)
@@ -173,20 +173,20 @@ RSpec.describe GroupsController, type: :controller do
 
   describe 'GET new' do
     it 'assigns a new group as @group' do
-      get :new, {}
+      get :new, params: {}
       expect(assigns(:group)).to be_a_new(Group)
     end
   end
 
   describe 'GET edit' do
     it 'assigns the requested group as @group' do
-      get :edit, id: group_with_admin.to_param
+      get :edit, params: {id: group_with_admin.to_param}
       expect(assigns(:group)).to eq(group_with_admin)
     end
 
     context 'without authorization' do
       context 'user is not in group' do
-        before(:each) { get :edit, id: group_without_user.id }
+        before(:each) { get :edit, params: {id: group_without_user.id} }
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -197,7 +197,7 @@ RSpec.describe GroupsController, type: :controller do
       end
 
       context 'user is group member but not admin' do
-        before(:each) { get :edit, id: group.id }
+        before(:each) { get :edit, params: {id: group.id} }
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -213,30 +213,30 @@ RSpec.describe GroupsController, type: :controller do
     describe 'with valid params' do
       it 'creates a new Group' do
         expect do
-          post :create, group: valid_attributes
+          post :create, params: {group: valid_attributes}
         end.to change(Group, :count).by(1)
         expect(flash[:notice]).to eq I18n.t('flash.notice.groups.successfully_created')
       end
 
       it 'assigns a newly created group as @group' do
-        post :create, group: valid_attributes
+        post :create, params: {group: valid_attributes}
         expect(assigns(:group)).to be_a(Group)
         expect(assigns(:group)).to be_persisted
       end
 
       it 'redirects to the created group' do
-        post :create, group: valid_attributes
+        post :create, params: {group: valid_attributes}
         group = assigns(:group)
         expect(response).to redirect_to(group_path(group))
       end
 
       it 'assigns the current user to group' do
-        post :create, group: valid_attributes
+        post :create, params: {group: valid_attributes}
         expect(assigns(:group).users).to include(user)
       end
 
       it 'assigns the current user to group as admin' do
-        post :create, group: valid_attributes
+        post :create, params: {group: valid_attributes}
         group = assigns(:group)
         expect(controller.admins).to include(group.users.first)
       end
@@ -248,7 +248,7 @@ RSpec.describe GroupsController, type: :controller do
       let(:new_attributes) { {name: 'Test_different', description: 'edited text'} }
 
       it 'updates the requested group' do
-        put :update, id: group_with_admin.to_param, group: new_attributes
+        put :update, params: {id: group_with_admin.to_param, group: new_attributes}
         group_with_admin.reload
         expect(group_with_admin.name).to eq('Test_different')
         expect(group_with_admin.description).to eq('edited text')
@@ -256,18 +256,18 @@ RSpec.describe GroupsController, type: :controller do
       end
 
       it 'assigns the requested group as @group' do
-        put :update, id: group_with_admin.to_param, group: FactoryGirl.attributes_for(:group)
+        put :update, params: {id: group_with_admin.to_param, group: FactoryGirl.attributes_for(:group)}
         expect(assigns(:group)).to eq(group_with_admin)
       end
 
       it 'redirects to the group' do
-        put :update, id: group_with_admin.to_param, group: FactoryGirl.attributes_for(:group)
+        put :update, params: {id: group_with_admin.to_param, group: FactoryGirl.attributes_for(:group)}
         expect(response).to redirect_to(group_with_admin)
       end
 
       context 'without authorization' do
         context 'user is not in group' do
-          before(:each) { put :update, id: group_without_user.id }
+          before(:each) { put :update, params: {id: group_without_user.id} }
           it 'redirects to groups page' do
             expect(response).to redirect_to(groups_path)
           end
@@ -278,7 +278,7 @@ RSpec.describe GroupsController, type: :controller do
         end
 
         context 'user is group member but not admin' do
-          before(:each) { put :update, id: group.id }
+          before(:each) { put :update, params: {id: group.id} }
           it 'redirects to groups page' do
             expect(response).to redirect_to(groups_path)
           end
@@ -294,13 +294,13 @@ RSpec.describe GroupsController, type: :controller do
   describe 'DELETE destroy' do
     it 'destroys the requested group' do
       expect do
-        delete :destroy, id: group_with_admin.to_param
+        delete :destroy, params: {id: group_with_admin.to_param}
       end.to change(Group, :count).by(-1)
       expect(flash[:notice]).to eq I18n.t('flash.notice.groups.successfully_destroyed')
     end
 
     it 'redirects to the groups list' do
-      delete :destroy, id: group_with_admin.to_param
+      delete :destroy, params: {id: group_with_admin.to_param}
       expect(response).to redirect_to(groups_url)
     end
 
@@ -310,7 +310,7 @@ RSpec.describe GroupsController, type: :controller do
       group_with_admin.users = [user, user_1, user_2]
       group_2 = FactoryGirl.create(:group, users: [user, user_1, user_2])
       expect do
-        delete :destroy, id: group_with_admin.to_param
+        delete :destroy, params: {id: group_with_admin.to_param}
       end.to change(UserGroup, :count).by(-3)
       # users are no longer members of group
       expect(user.groups).not_to include(group_with_admin)
@@ -324,7 +324,7 @@ RSpec.describe GroupsController, type: :controller do
 
     context 'without authorization' do
       context 'user is not in group' do
-        before(:each) { delete :destroy, id: group_without_user.id }
+        before(:each) { delete :destroy, params: {id: group_without_user.id} }
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -335,7 +335,7 @@ RSpec.describe GroupsController, type: :controller do
       end
 
       context 'user is group member but not admin' do
-        before(:each) { delete :destroy, id: group.id }
+        before(:each) { delete :destroy, params: {id: group.id} }
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -349,7 +349,7 @@ RSpec.describe GroupsController, type: :controller do
 
   describe 'admins for a group' do
     it 'returnses all administrators for the given group' do
-      post :create, group: valid_attributes
+      post :create, params: {group: valid_attributes}
       group = assigns(:group)
       user_1 = FactoryGirl.create(:user)
       user_2 = FactoryGirl.create(:user)
@@ -364,7 +364,7 @@ RSpec.describe GroupsController, type: :controller do
     let(:json) { JSON.parse(response.body) }
 
     it 'does nothing if there are no members to invite' do
-      post :invite_group_members, format: :json, id: group_with_admin.id, members: ''
+      post :invite_group_members, params: {format: :json, id: group_with_admin.id, members: ''}
       expect(GroupInvitation.count).to eq 0
       expect(response.body).to have_content('"error_email":[]')
       expect(ActionMailer::Base.deliveries.count).to eq 0
@@ -372,7 +372,7 @@ RSpec.describe GroupsController, type: :controller do
 
     it 'splits invite members string correctly to email array' do
       email_string = "test1@example.com test2@example.com,test3@example.com, test4@example.com;test5@example.com; test6@example.com  test7@example.com\ntest8@example.com"
-      post :invite_group_members, format: :json, id: group_with_admin.id, members: email_string
+      post :invite_group_members, params: {format: :json, id: group_with_admin.id, members: email_string}
       ActionMailer::Base.deliveries.each_with_index do |delivery, i|
         expect(delivery.to).to contain_exactly("test#{i + 1}@example.com")
       end
@@ -381,21 +381,21 @@ RSpec.describe GroupsController, type: :controller do
     end
 
     it 'invites members' do
-      expect { post :invite_group_members, format: :json, id: group_with_admin.id, members: members }.to change { GroupInvitation.count }.by(2)
+      expect { post :invite_group_members, params: {format: :json, id: group_with_admin.id, members: members} }.to change { GroupInvitation.count }.by(2)
       expect(response.body).to have_content('"error_email":[]')
       expect(ActionMailer::Base.deliveries.count).to eq 2
     end
 
     it 'returns wrong email addresses' do
       email_string = members + ', wrong; misspelled valid@example.org'
-      expect { post :invite_group_members, format: :json, id: group_with_admin.id, members: email_string }.to change { GroupInvitation.count }.by(3)
+      expect { post :invite_group_members, params: {format: :json, id: group_with_admin.id, members: email_string} }.to change { GroupInvitation.count }.by(3)
       expect(response.body).to have_content('"error_email":["wrong","misspelled"]')
       expect(ActionMailer::Base.deliveries.count).to eq 3
     end
 
     context 'without authorization' do
       context 'user is not in group' do
-        before(:each) { put :invite_group_members, id: group_without_user.id, group: valid_attributes }
+        before(:each) { put :invite_group_members, params: {id: group_without_user.id, group: valid_attributes} }
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -406,7 +406,7 @@ RSpec.describe GroupsController, type: :controller do
       end
 
       context 'user is group member but not admin' do
-        before(:each) { put :invite_group_members, id: group.id, group: valid_attributes }
+        before(:each) { put :invite_group_members, params: {id: group.id, group: valid_attributes} }
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -425,7 +425,7 @@ RSpec.describe GroupsController, type: :controller do
     let(:expired_invitation) { FactoryGirl.create :group_invitation, group: unjoined_group, expiry_date: 1.day.ago.in_time_zone }
 
     it 'adds member to group' do
-      get :join, token: invitation.token
+      get :join, params: {token: invitation.token}
       expect(response).to redirect_to(group_path(unjoined_group))
       expect(Group.find(unjoined_group.id).users).to include(user)
       expect(GroupInvitation.find(invitation.id).used).to be true
@@ -434,40 +434,40 @@ RSpec.describe GroupsController, type: :controller do
 
     it 'creates a group.join activity' do
       expect do
-        get :join, token: invitation.token
+        get :join, params: {token: invitation.token}
       end.to change(PublicActivity::Activity, :count).by(1)
     end
 
     it 'does not allow to use link twice' do
-      get :join, token: invitation.token
+      get :join, params: {token: invitation.token}
       group_users_before = Group.find(unjoined_group.id).users.count
-      get :join, token: invitation.token
+      get :join, params: {token: invitation.token}
       expect(response).to redirect_to(root_path)
       expect(flash[:error]).to eq I18n.t('groups.invitation.link_used')
       expect(Group.find(unjoined_group.id).users.count).to eq group_users_before
     end
 
     it 'does not add user with expired invitation' do
-      get :join, token: expired_invitation.token
+      get :join, params: {token: expired_invitation.token}
       expect(response).to redirect_to(root_path)
-      expect(flash[:error]).to eql I18n.t('groups.invitation.link_expired')
+      expect(flash[:error]).to eq I18n.t('groups.invitation.link_expired')
       expect(Group.find(unjoined_group.id).users.count).to eq unjoined_group.users.count
     end
 
     it 'does not add user to deleted group' do
       unjoined_group.users.push(user)
       UserGroup.set_is_admin(unjoined_group.id, user.id, true)
-      delete :destroy, id: unjoined_group.to_param
+      delete :destroy, params: {id: unjoined_group.to_param}
       another_user = FactoryGirl.create(:user)
       sign_in(another_user)
-      get :join, token: invitation.token
+      get :join, params: {token: invitation.token}
       expect(response).to redirect_to(root_path)
-      expect(flash[:error]).to eql I18n.t('groups.invitation.group_deleted')
+      expect(flash[:error]).to eq I18n.t('groups.invitation.group_deleted')
     end
 
     it 'does not add member twice' do
       unjoined_group.users.push(user)
-      get :join, token: invitation.token
+      get :join, params: {token: invitation.token}
       expect(response).to redirect_to(group_path(unjoined_group))
       expect(flash[:notice]).to eq I18n.t('groups.invitation.already_member')
       expect(GroupInvitation.find(invitation.id).used).to be true
@@ -475,7 +475,7 @@ RSpec.describe GroupsController, type: :controller do
     end
 
     it 'displays error message if token is invalid' do
-      get :join, token: '132465798'
+      get :join, params: {token: '132465798'}
       expect(response).to redirect_to(root_path)
       expect(flash[:error]).to eq I18n.t('groups.invitation.link_invalid')
     end
@@ -493,7 +493,7 @@ RSpec.describe GroupsController, type: :controller do
 
     it 'adds one administrator to an existing group' do
       UserGroup.set_is_admin(group.id, user.id, true)
-      put :add_administrator, id: group.id, group: valid_attributes, additional_administrator: new_admin
+      put :add_administrator, params: {id: group.id, group: valid_attributes, additional_administrator: new_admin}
       expect(response).to redirect_to group_path(group)
       current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq 2
@@ -501,7 +501,7 @@ RSpec.describe GroupsController, type: :controller do
 
     context 'without authorization' do
       context 'user is not in group' do
-        before(:each) { put :add_administrator, id: group_without_user.id, group: valid_attributes, additional_administrator: new_admin }
+        before(:each) { put :add_administrator, params: {id: group_without_user.id, group: valid_attributes, additional_administrator: new_admin} }
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -512,7 +512,7 @@ RSpec.describe GroupsController, type: :controller do
       end
 
       context 'user is group member but not admin' do
-        before(:each) { put :add_administrator, id: group.id, group: valid_attributes, additional_administrator: new_admin }
+        before(:each) { put :add_administrator, params: {id: group.id, group: valid_attributes, additional_administrator: new_admin} }
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -530,13 +530,13 @@ RSpec.describe GroupsController, type: :controller do
 
     it 'demotes an administrator to a normal memeber' do
       UserGroup.set_is_admin(group.id, user.id, true)
-      expect { put :demote_administrator, id: group.id, demoted_admin: user }.to change(UserGroup.where(group_id: group.id, is_admin: true), :count).by(-1)
+      expect { put :demote_administrator, params: {id: group.id, demoted_admin: user} }.to change(UserGroup.where(group_id: group.id, is_admin: true), :count).by(-1)
       expect(response).to redirect_to group_path(group)
     end
 
     context 'without authorization' do
       context 'user is not in group' do
-        before(:each) { put :demote_administrator, id: group_without_user.id, demote_admin: user }
+        before(:each) { put :demote_administrator, params: {id: group_without_user.id, demote_admin: user} }
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -547,7 +547,7 @@ RSpec.describe GroupsController, type: :controller do
       end
 
       context 'user is group member but not admin' do
-        before(:each) { put :demote_administrator, id: group.id, demote_admin: user }
+        before(:each) { put :demote_administrator, params: {id: group.id, demote_admin: user} }
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -568,13 +568,13 @@ RSpec.describe GroupsController, type: :controller do
     it 'removes a member of a group' do
       UserGroup.set_is_admin(group.id, user.id, true)
       admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
-      expect { put :remove_group_member, id: group.id, removing_member: user.id }.to change { group.users.count }.by(-1)
+      expect { put :remove_group_member, params: {id: group.id, removing_member: user.id} }.to change { group.users.count }.by(-1)
       expect(admins_of_group).to eq(UserGroup.where(group_id: group.id, is_admin: true))
     end
 
     context 'without authorization' do
       context 'user is not in group' do
-        before(:each) { put :remove_group_member, id: group_without_user.id, removing_member: user.id }
+        before(:each) { put :remove_group_member, params: {id: group_without_user.id, removing_member: user.id} }
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -585,7 +585,7 @@ RSpec.describe GroupsController, type: :controller do
       end
 
       context 'user is group member but not admin' do
-        before(:each) { put :remove_group_member, id: group.id, removing_member: user.id }
+        before(:each) { put :remove_group_member, params: {id: group.id, removing_member: user.id} }
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -609,19 +609,19 @@ RSpec.describe GroupsController, type: :controller do
 
     it "returns 'last_admin' if the member is the last admin (but there are still other members)" do
       UserGroup.set_is_admin(group.id, user.id, true)
-      post :condition_for_changing_member_status, format: :json, id: group.id, changing_member: user.id
+      post :condition_for_changing_member_status, params: {format: :json, id: group.id, changing_member: user.id}
       expect(json).to have_content('last_admin')
     end
 
     it "returns 'last_member' if the member is the last member" do
       UserGroup.set_is_admin(second_group.id, user.id, true)
-      post :condition_for_changing_member_status, format: :json, id: second_group.id, changing_member: user.id
+      post :condition_for_changing_member_status, params: {format: :json, id: second_group.id, changing_member: user.id}
       expect(json).to have_content('last_member')
     end
 
     it "returns 'ok' if there are no restrictions to remove the member" do
       UserGroup.set_is_admin(group.id, user.id, true)
-      post :condition_for_changing_member_status, format: :json, id: group.id, changing_member: second_user.id
+      post :condition_for_changing_member_status, params: {format: :json, id: group.id, changing_member: second_user.id}
       expect(json).to have_content('ok')
     end
   end
@@ -634,14 +634,14 @@ RSpec.describe GroupsController, type: :controller do
 
     it 'makes all members of a group to admins' do
       UserGroup.set_is_admin(group.id, user.id, true)
-      put :all_members_to_administrators, id: group.id
+      put :all_members_to_administrators, params: {id: group.id}
       current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq(group.users.count)
     end
 
     context 'without authorization' do
       context 'user is not in group' do
-        before(:each) { put :all_members_to_administrators, id: group_without_user.id }
+        before(:each) { put :all_members_to_administrators, params: {id: group_without_user.id} }
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -652,7 +652,7 @@ RSpec.describe GroupsController, type: :controller do
       end
 
       context 'user is group member but not admin' do
-        before(:each) { put :all_members_to_administrators, id: group.id }
+        before(:each) { put :all_members_to_administrators, params: {id: group.id} }
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -673,14 +673,14 @@ RSpec.describe GroupsController, type: :controller do
     let(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
 
     it 'returns JSON with all members exclude the current user' do
-      get :members, format: :json, id: group.id
+      get :members, params: {format: :json, id: group.id}
       expect(json).to have_content(second_user.id)
       expect(json).not_to have_content(user.id)
     end
 
     context 'without authorization' do
       context 'user is not in group' do
-        before(:each) { get :members, id: group_without_user.id }
+        before(:each) { get :members, params: {id: group_without_user.id} }
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -702,7 +702,7 @@ RSpec.describe GroupsController, type: :controller do
     end
 
     it 'returns all groups where current_user is admin' do
-      get :groups_where_user_is_admin, format: :json
+      get :groups_where_user_is_admin, params: {format: :json}
       expect(json).to have_content group_with_admin.name
       expect(json).to have_content group_with_admin.id
       expect(json).to have_content second_group_with_admin.name
@@ -712,9 +712,9 @@ RSpec.describe GroupsController, type: :controller do
     end
 
     it 'sorts the result' do
-      get :groups_where_user_is_admin, format: :json
+      get :groups_where_user_is_admin, params: {format: :json}
       expected_json = [{'id' => second_group_with_admin.id, 'name' => second_group_with_admin.name}, {'id' => group_with_admin.id, 'name' => group_with_admin.name}]
-      expect(json).to eql expected_json
+      expect(json).to eq expected_json
     end
   end
 end

@@ -4,7 +4,7 @@ debug_port = ENV['RUBYMINE_DEBUG_PORT']
 
 if debug_port
   Rails.logger.info "Preparing to launch debugger for #{$PROCESS_ID}"
-  $LOAD_PATH.push(*ENV['RUBYLIB'].split(':'))
+  $LOAD_PATH.concat(ENV['RUBYLIB'].split(':'))
   require 'ruby-debug-ide'
 
   Debugger.cli_debug = ('true' == ENV['RUBYMINE_DEBUG_VERBOSE'])

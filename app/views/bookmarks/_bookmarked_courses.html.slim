@@ -8,7 +8,7 @@
       .courses.bookmark
         a href= '' class='bookmark-remove delete_bookmark_from_bookmark_list' data-course_id='#{course.id}' data-user_id='#{current_user.id}'
           span.glyphicon.glyphicon-remove
-        = link_to course
+        = link_to course_path(course)
           .course-image
             = image_tag(course.course_image.url)
           .course-info
