@@ -128,8 +128,8 @@ RSpec.describe Users::OmniauthCallbacksController, type: :controller do
 
     it 'returns an error flash message if the connection was not destroyed' do
       FactoryGirl.create(:user_identity, omniauth_provider: 'secondProvider', user: user)
-      get :deauthorize, provider: 'not exisiting'
-      expect(flash['error']).to include(I18n.t('users.settings.identity_not_deleted', provider: 'not existing'.titleize))
+      get :deauthorize, provider: 'not existing'
+      expect(flash['error']).to include(I18n.t('users.settings.identity_not_deleted', provider: OmniAuth::Utils.camelize('not existing')))
     end
   end
 end
