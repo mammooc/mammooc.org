@@ -55,7 +55,7 @@ class UserDatesController < ApplicationController
       format.ics do
         calendar = UserDate.create_current_calendar current_user
         calendar.publish
-        render text: calendar.to_ical
+        render plain: calendar.to_ical
       end
     end
   end
@@ -67,11 +67,11 @@ class UserDatesController < ApplicationController
       format.html
       format.ics do
         if user.blank?
-          render text: 'Not Found', status: '404'
+          render plain: 'Not Found', status: '404'
         else
           calendar = UserDate.create_current_calendar user
           calendar.publish
-          render text: calendar.to_ical
+          render plain: calendar.to_ical
         end
       end
     end

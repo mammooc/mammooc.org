@@ -15,7 +15,7 @@ describe UdacityCourseWorker do
   let!(:certificate_course_track_type) { FactoryGirl.create :certificate_course_track_type, type_of_achievement: 'udacity_verified_certificate' }
 
   it 'delivers MOOCProvider' do
-    expect(udacity_course_worker.mooc_provider).to eql mooc_provider
+    expect(udacity_course_worker.mooc_provider).to eq mooc_provider
   end
 
   it 'gets an API response' do
@@ -31,24 +31,24 @@ describe UdacityCourseWorker do
     udacity_course_worker.handle_response_data courses_json
     course = Course.find_by(provider_course_id: courses_json['courses'][0]['key'], mooc_provider_id: mooc_provider.id)
 
-    expect(course.name).to eql courses_json['courses'][0]['title']
-    expect(course.url).to eql courses_json['courses'][0]['homepage']
-    expect(course.abstract).to eql courses_json['courses'][0]['summary']
-    expect(course.language).to eql 'en'
-    expect(course.videoId).to eql courses_json['courses'][0]['teaser_video']['youtube_url']
-    expect(course.difficulty).to eql courses_json['courses'][0]['level'].capitalize
+    expect(course.name).to eq courses_json['courses'][0]['title']
+    expect(course.url).to eq courses_json['courses'][0]['homepage']
+    expect(course.abstract).to eq courses_json['courses'][0]['summary']
+    expect(course.language).to eq 'en'
+    expect(course.videoId).to eq courses_json['courses'][0]['teaser_video']['youtube_url']
+    expect(course.difficulty).to eq courses_json['courses'][0]['level'].capitalize
 
-    expect(course.tracks.count).to eql 2
+    expect(course.tracks.count).to eq 2
     expect(achievement_type?(course.tracks, :udacity_nothing)).to be_truthy
     expect(achievement_type?(course.tracks, :udacity_verified_certificate)).to be_truthy
 
-    expect(course.provider_course_id).to eql courses_json['courses'][0]['key']
-    expect(course.mooc_provider_id).to eql mooc_provider.id
+    expect(course.provider_course_id).to eq courses_json['courses'][0]['key']
+    expect(course.mooc_provider_id).to eq mooc_provider.id
     expect(course.categories).to match_array courses_json['courses'][0]['tracks']
     expect(course.requirements).to match_array [courses_json['courses'][0]['required_knowledge']]
-    expect(course.description).to eql courses_json['courses'][0]['expected_learning']
-    expect(course.course_instructors).to eql 'Dave Evans'
-    expect(course.calculated_duration_in_days).to eql 90
-    expect(course.provider_given_duration).to eql "#{courses_json['courses'][0]['expected_duration']} #{courses_json['courses'][0]['expected_duration_unit']}"
+    expect(course.description).to eq courses_json['courses'][0]['expected_learning']
+    expect(course.course_instructors).to eq 'Dave Evans'
+    expect(course.calculated_duration_in_days).to eq 90
+    expect(course.provider_given_duration).to eq "#{courses_json['courses'][0]['expected_duration']} #{courses_json['courses'][0]['expected_duration_unit']}"
   end
 end

@@ -152,7 +152,7 @@ RSpec.describe CourseraCourseWorker do
   let!(:certificate_course_track_type) { FactoryGirl.create :certificate_course_track_type }
 
   it 'delivers MOOCProvider' do
-    expect(coursera_course_worker.mooc_provider).to eql mooc_provider
+    expect(coursera_course_worker.mooc_provider).to eq mooc_provider
   end
 
   it 'gets an API response' do
@@ -170,17 +170,17 @@ RSpec.describe CourseraCourseWorker do
     json_course = json_course_data['elements'][1]
     course = Course.find_by(provider_course_id: json_course['id'], mooc_provider_id: mooc_provider.id)
 
-    expect(course.name).to eql json_course['name']
-    expect(course.provider_course_id).to eql json_course['id']
-    expect(course.mooc_provider_id).to eql mooc_provider.id
+    expect(course.name).to eq json_course['name']
+    expect(course.provider_course_id).to eq json_course['id']
+    expect(course.mooc_provider_id).to eq mooc_provider.id
     expect(course.url).to include json_course['slug']
-    expect(course.language).to eql json_course['primaryLanguages'].join(',')
-    expect(course.subtitle_languages).to eql json_course['subtitleLanguages'].join(',')
-    expect(course.course_instructors).to eql 'Kevin Werbach'
-    expect(course.workload).to eql json_course['workload']
-    expect(course.start_date.strftime('%d.%m.%Y')).to eql '09.11.2015'
+    expect(course.language).to eq json_course['primaryLanguages'].join(',')
+    expect(course.subtitle_languages).to eq json_course['subtitleLanguages'].join(',')
+    expect(course.course_instructors).to eq 'Kevin Werbach'
+    expect(course.workload).to eq json_course['workload']
+    expect(course.start_date.strftime('%d.%m.%Y')).to eq '09.11.2015'
     expect(course.categories).to match ['computer-science', 'business']
-    expect(course.tracks.count).to eql 2
+    expect(course.tracks.count).to eq 2
     expect(achievement_type?(course.tracks, :nothing)).to be_truthy
     expect(achievement_type?(course.tracks, :certificate)).to be_truthy
   end
@@ -190,7 +190,7 @@ RSpec.describe CourseraCourseWorker do
     coursera_course_worker.handle_response_data response_course_data
     json_course = json_course_data['elements'][0]
     course = Course.find_by(provider_course_id: json_course['id'], mooc_provider_id: mooc_provider.id)
-    expect(course.course_instructors).to eql 'Dr Marco Gillies, Dr. Mathew Yee-King, Dr Mick Grierson'
+    expect(course.course_instructors).to eq 'Dr Marco Gillies, Dr. Mathew Yee-King, Dr Mick Grierson'
   end
 
   it 'matches the correct organization' do
@@ -198,8 +198,8 @@ RSpec.describe CourseraCourseWorker do
     coursera_course_worker.handle_response_data response_course_data
     json_course = json_course_data['elements'][0]
     course = Course.find_by(provider_course_id: json_course['id'], mooc_provider_id: mooc_provider.id)
-    expect(course.organisation.name).to eql 'University of London'
-    expect(course.organisation.url).to eql 'http://www.londoninternational.ac.uk/'
+    expect(course.organisation.name).to eq 'University of London'
+    expect(course.organisation.url).to eq 'http://www.londoninternational.ac.uk/'
   end
 
   it 'does not duplicate courses' do

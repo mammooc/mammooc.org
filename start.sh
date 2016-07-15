@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Prepare assets
-bundle exec rake assets:precompile
+bundle exec rails assets:precompile
 
 # Save environment variables to disk
 printenv | sed 's/^\(.*\)$/export \1/g' > $APP_HOME/export_env.sh
@@ -12,7 +12,7 @@ touch /var/spool/cron/crontabs/root
 service cron restart
 
 # Migrate database
-bundle exec rake db:migrate
+bundle exec rails db:migrate
 
 # Start services
 if [ "$FORCE_SSL" = "true" ]; then

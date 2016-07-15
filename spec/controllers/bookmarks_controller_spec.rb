@@ -22,18 +22,18 @@ RSpec.describe BookmarksController, type: :controller do
     describe 'with valid params' do
       it 'creates a new Bookmark' do
         expect do
-          post :create, bookmark: valid_attributes
+          post :create, params: {bookmark: valid_attributes}
         end.to change(Bookmark, :count).by(1)
       end
 
       it 'creates a new Bookmark Activity' do
         expect do
-          post :create, bookmark: valid_attributes
+          post :create, params: {bookmark: valid_attributes}
         end.to change(PublicActivity::Activity, :count).by(1)
       end
 
       it 'assigns a newly created bookmark as @bookmark' do
-        post :create, bookmark: valid_attributes
+        post :create, params: {bookmark: valid_attributes}
         expect(assigns(:bookmark)).to be_a(Bookmark)
         expect(assigns(:bookmark)).to be_persisted
       end
@@ -44,7 +44,7 @@ RSpec.describe BookmarksController, type: :controller do
     it 'destroys the bookmark of specified user and course' do
       bookmark = FactoryGirl.create(:bookmark, user: user, course: course)
       FactoryGirl.create(:activity_bookmark, trackable_id: bookmark.id, owner_id: user.id)
-      expect { post :delete, user_id: user.id, course_id: course.id }.to change(Bookmark, :count).by(-1)
+      expect { post :delete, params: {user_id: user.id, course_id: course.id} }.to change(Bookmark, :count).by(-1)
     end
   end
 end

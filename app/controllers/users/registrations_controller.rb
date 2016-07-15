@@ -39,7 +39,7 @@ module Users
         session[:resource] = session_infos
         begin
           resource.destroy
-          UserEmail.destroy_all(user_id: nil)
+          UserEmail.where(user_id: nil).destroy_all
         rescue ActiveRecord::RecordInvalid => error
           exception += error.to_s
         end
@@ -91,7 +91,7 @@ module Users
                       end
           set_flash_message :notice, flash_key
         end
-        sign_in resource_name, resource, bypass: true
+        bypass_sign_in resource
         redirect_to redirection_success, notice: t('flash.notice.users.successfully_updated')
       else
         session_infos = {}

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # The priority is based upon order of creation: first created -> highest priority.
-# See how all your routes lay out with "rake routes".
+# See how all your routes lay out with "rails routes".
 
 Rails.application.routes.draw do
   get 'api_connection/index'

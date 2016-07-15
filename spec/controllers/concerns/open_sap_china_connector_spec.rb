@@ -8,11 +8,10 @@ RSpec.describe OpenSAPChinaConnector do
   let(:open_sap_china_connector) { described_class.new }
 
   it 'delivers MOOCProvider' do
-    expect(open_sap_china_connector.send(:mooc_provider)).to eql mooc_provider
+    expect(open_sap_china_connector.send(:mooc_provider)).to eq mooc_provider
   end
 
   it 'gets an API response' do
-    pending
     connection = MoocProviderUser.new
     connection.access_token = '1234567890abcdef'
     connection.user_id = user.id

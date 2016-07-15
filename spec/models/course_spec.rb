@@ -25,8 +25,8 @@ RSpec.describe Course, type: :model do
     let!(:course1) do
       FactoryGirl.create(:course,
         mooc_provider_id: provider.id,
-        start_date: Time.zone.local(2015, 03, 15),
-        end_date: Time.zone.local(2015, 03, 17),
+        start_date: Time.zone.local(2015, 3, 15),
+        end_date: Time.zone.local(2015, 3, 17),
         provider_course_id: '123')
     end
     let!(:course2) do
@@ -41,7 +41,7 @@ RSpec.describe Course, type: :model do
       FactoryGirl.create(:course,
         mooc_provider_id: provider.id,
         start_date: Time.zone.local(2015, 10, 15),
-        end_date: Time.zone.local(2015, 03, 17))
+        end_date: Time.zone.local(2015, 3, 17))
     end
 
     it 'sets duration after creation' do
@@ -49,7 +49,7 @@ RSpec.describe Course, type: :model do
     end
 
     it 'updates duration after update of start/end_time' do
-      course1.end_date = Time.zone.local(2015, 04, 16)
+      course1.end_date = Time.zone.local(2015, 4, 16)
       course1.save
       expect(course1.calculated_duration_in_days).to eq(32)
     end
@@ -57,13 +57,13 @@ RSpec.describe Course, type: :model do
     it 'saves corresponding course, when setting previous_iteration_id' do
       course1.previous_iteration_id = course2.id
       course1.save
-      expect(described_class.find(course2.id).following_iteration_id).to eql course1.id
+      expect(described_class.find(course2.id).following_iteration_id).to eq course1.id
     end
 
     it 'saves corresponding course, when setting following_iteration_id' do
       course1.following_iteration_id = course3.id
       course1.save
-      expect(described_class.find(course3.id).previous_iteration_id).to eql course1.id
+      expect(described_class.find(course3.id).previous_iteration_id).to eq course1.id
     end
 
     it 'deletes corresponding course connections, when destroying course' do
@@ -71,12 +71,12 @@ RSpec.describe Course, type: :model do
       course1.following_iteration_id = course3.id
       course1.save
       course1.destroy
-      expect(described_class.find(course3.id).previous_iteration_id).to eql nil
-      expect(described_class.find(course2.id).following_iteration_id).to eql nil
+      expect(described_class.find(course3.id).previous_iteration_id).to eq nil
+      expect(described_class.find(course2.id).following_iteration_id).to eq nil
     end
 
     it 'sets an existing end_date to nil, if the end_date is chronologically before the start date' do
-      expect(described_class.find(wrong_dates_course.id).end_date).to eql nil
+      expect(described_class.find(wrong_dates_course.id).end_date).to eq nil
     end
 
     it 'rejects data, if it has_no tracks' do

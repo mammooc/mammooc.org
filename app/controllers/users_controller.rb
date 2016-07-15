@@ -151,7 +151,7 @@ class UsersController < ApplicationController
   def unsubscribe_newsletter
     current_user.unsubscribed_newsletter = true
     current_user.save
-    redirect_to :back
+    redirect_back(fallback_location: "#{user_settings_path(current_user)}?subsite=newsletter")
   end
 
   def login_and_subscribe_to_newsletter

@@ -7,11 +7,10 @@ RSpec.describe OpenSAPChinaCourseWorker do
   let(:open_sap_china_course_worker) { described_class.new }
 
   it 'delivers MOOCProvider' do
-    expect(open_sap_china_course_worker.mooc_provider).to eql mooc_provider
+    expect(open_sap_china_course_worker.mooc_provider).to eq mooc_provider
   end
 
   it 'gets an API response' do
-    pending
     expect(open_sap_china_course_worker.course_data).not_to be_nil
   end
 end

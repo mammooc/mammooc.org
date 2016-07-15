@@ -45,7 +45,7 @@ class AbstractCourseWorker
 
   def parse_markdown(text)
     redcarpet = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
-    redcarpet.render(text).html_safe
+    redcarpet.render(text)
   end
 
   def convert_to_absolute_urls(html)

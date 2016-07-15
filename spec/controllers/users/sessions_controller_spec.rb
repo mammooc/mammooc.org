@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe Users::SessionsController, type: :controller do
-  include Devise::TestHelpers
+  include Devise::Test::ControllerHelpers
   include Warden::Test::Helpers
 
   let(:user) { FactoryGirl.create(:user) }
@@ -13,18 +13,18 @@ RSpec.describe Users::SessionsController, type: :controller do
   end
 
   it 'works with valid sign_in data' do
-    post :create, user: {primary_email: user.primary_email, password: user.password}
+    post :create, params: {user: {primary_email: user.primary_email, password: user.password}}
     expect(subject.signed_in?).to be_truthy
   end
 
   it 'does not work without valid terms and conditions' do
-    post :create, user: {primary_email: 'nosuchuser@example.com', password: '123456789'}
+    post :create, params: {user: {primary_email: 'nosuchuser@example.com', password: '123456789'}}
     expect(subject.signed_in?).to be_falsey
   end
 
   it 'stores the email address if user could not be logged in' do
-    post :create, user: {primary_email: user.primary_email, password: 'wrong'}
-    expect(session[:resource]['primary_email']).to eql user.primary_email
+    post :create, params: {user: {primary_email: user.primary_email, password: 'wrong'}}
+    expect(session[:resource]['primary_email']).to eq user.primary_email
   end
 
   it 'updates the valid_until session info for any omniauth hash' do
@@ -40,7 +40,7 @@ RSpec.describe Users::SessionsController, type: :controller do
     valid_until = Time.zone.now + 10.minutes
     session['devise.google_data']['valid_until'] = valid_until
     get :new
-    expect(session['devise.google_data']['valid_until']).not_to eql valid_until
+    expect(session['devise.google_data']['valid_until']).not_to eq valid_until
   end
 
   it 'deletes omniauth infos if they are not valid any more' do
@@ -88,7 +88,7 @@ RSpec.describe Users::SessionsController, type: :controller do
     valid_until = Time.zone.now + 10.minutes
     session['devise.google_data']['valid_until'] = valid_until
     user = FactoryGirl.create(:user)
-    expect { post :create, user: {primary_email: user.primary_email, password: '12345678'} }.to change { UserIdentity.count(user: user) }.by 1
+    expect { post :create, params: {user: {primary_email: user.primary_email, password: '12345678'}} }.to change { UserIdentity.where(user_id: user.id).count }.by 1
     expect(flash['success']).to include I18n.t('users.sign_in_up.identity_merged', providers: 'Google')
   end
 
@@ -105,6 +105,6 @@ RSpec.describe Users::SessionsController, type: :controller do
     valid_until = Time.zone.now - 10.minutes
     session['devise.google_data']['valid_until'] = valid_until
     user = FactoryGirl.create(:user)
-    expect { post :create, user: {primary_email: user.primary_email, password: '12345678'} }.not_to change { UserIdentity.count(user: user) }
+    expect { post :create, params: {user: {primary_email: user.primary_email, password: '12345678'}} }.not_to change { UserIdentity.where(user_id: user.id).count }
   end
 end

@@ -2,7 +2,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Bookmark', type: :feature do
-  self.use_transactional_fixtures = false
 
   let(:user) { FactoryGirl.create(:user) }
 
@@ -13,14 +12,6 @@ RSpec.describe 'Bookmark', type: :feature do
     click_button 'submit_sign_in'
 
     ActionMailer::Base.deliveries.clear
-  end
-
-  before(:all) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  after(:all) do
-    DatabaseCleaner.strategy = :transaction
   end
 
   describe 'bookmark course on course detail page' do

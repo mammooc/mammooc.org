@@ -17,12 +17,12 @@ class AbstractMoocProviderConnector
     return unless connection_to_mooc_provider? user
     begin
       send_enrollment_for_course user, course
-    rescue RestClient::InternalServerError, RestClient::BadGateway, Errno::ECONNREFUSED,
-           RestClient::ResourceNotFound, RestClient::BadRequest => e
-      Rails.logger.error "#{e.class}: #{e.message}"
-      return false
     rescue RestClient::Unauthorized => e
       # This would be the case, when the user's authorization token is invalid
+      Rails.logger.error "#{e.class}: #{e.message}"
+      return false
+    rescue RestClient::InternalServerError, RestClient::BadGateway, Errno::ECONNREFUSED,
+           RestClient::ResourceNotFound, RestClient::BadRequest => e
       Rails.logger.error "#{e.class}: #{e.message}"
       return false
     else
@@ -34,12 +34,12 @@ class AbstractMoocProviderConnector
     return unless connection_to_mooc_provider? user
     begin
       send_unenrollment_for_course user, course
-    rescue RestClient::InternalServerError, RestClient::BadGateway, Errno::ECONNREFUSED,
-           RestClient::ResourceNotFound, RestClient::BadRequest => e
-      Rails.logger.error "#{e.class}: #{e.message}"
-      return false
     rescue RestClient::Unauthorized => e
       # This would be the case, when the user's authorization token is invalid
+      Rails.logger.error "#{e.class}: #{e.message}"
+      return false
+    rescue RestClient::InternalServerError, RestClient::BadGateway, Errno::ECONNREFUSED,
+           RestClient::ResourceNotFound, RestClient::BadRequest => e
       Rails.logger.error "#{e.class}: #{e.message}"
       return false
     else
@@ -136,7 +136,7 @@ class AbstractMoocProviderConnector
   end
 
   def get_access_token(user)
-    connection = MoocProviderUser.find_by(user_id: user, mooc_provider_id: mooc_provider)
+    connection = MoocProviderUser.find_by(user_id: user.id, mooc_provider_id: mooc_provider.id)
     return unless connection.present?
     if connection.mooc_provider.api_support_state == 'naive'
       connection.access_token
@@ -158,7 +158,7 @@ class AbstractMoocProviderConnector
 
   def mooc_provider_user_connection(user)
     if connection_to_mooc_provider? user
-      connection = MoocProviderUser.find_by(user_id: user, mooc_provider_id: mooc_provider)
+      connection = MoocProviderUser.find_by(user_id: user.id, mooc_provider_id: mooc_provider.id)
     else
       connection = MoocProviderUser.new
       connection.user_id = user.id

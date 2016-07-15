@@ -2,7 +2,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Course', type: :feature do
-  self.use_transactional_fixtures = false
 
   let(:user) { FactoryGirl.create(:user) }
 
@@ -15,14 +14,6 @@ RSpec.describe 'Course', type: :feature do
     end
 
     ActionMailer::Base.deliveries.clear
-  end
-
-  before(:all) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  after(:all) do
-    DatabaseCleaner.strategy = :transaction
   end
 
   describe 'display form to recommend or rate an existing course' do
@@ -265,7 +256,7 @@ RSpec.describe 'Course', type: :feature do
       wait_for_ajax
       expect(page.find("div[class='user-rate-course-value']").all("span[class='glyphicon glyphicon-star']").count).to eq(eval.rating)
       expect(page.find("textarea[id='rating-textarea']")).to have_content(eval.description)
-      expect(page.find("label[class='btn btn-default active']")['data-value']).to eql(eval.course_status.to_s)
+      expect(page.find("label[class='btn btn-default active']")['data-value']).to eq(eval.course_status.to_s)
       find("div[class='user-rate-course-value']").first('span').all("div[class='rating-symbol']").last.click
       fill_in 'rating-textarea', with: 'Great Course!'
       find("label[id='option_aborted']").click

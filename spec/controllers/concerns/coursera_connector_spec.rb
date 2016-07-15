@@ -19,7 +19,7 @@ RSpec.describe CourseraConnector do
   end
 
   it 'delivers MOOCProvider' do
-    expect(coursera_connector.send(:mooc_provider)).to eql mooc_provider
+    expect(coursera_connector.send(:mooc_provider)).to eq mooc_provider
   end
 
   it 'gets an API response' do
@@ -30,7 +30,7 @@ RSpec.describe CourseraConnector do
   it 'returns parsed response for enrolled courses' do
     FactoryGirl.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
     allow(RestClient).to receive(:get).and_return(enrollment_data)
-    expect(coursera_connector.send(:get_enrollments_for_user, user)).to eql json_enrollment_data
+    expect(coursera_connector.send(:get_enrollments_for_user, user)).to eq json_enrollment_data
   end
 
   it 'loads new enrollment into database' do
@@ -61,17 +61,19 @@ RSpec.describe CourseraConnector do
   end
 
   it 'returns nil when user has no connection to mooc provider' do
-    expect(coursera_connector.send(:get_access_token, user)).to eql nil
+    expect(coursera_connector.send(:get_access_token, user)).to eq nil
   end
 
   it 'returns access_token when user has connection to mooc provider, which is still valid' do
-    FactoryGirl.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
-    expect(coursera_connector.send(:get_access_token, user)).to eql '123'
+    mooc_provider_user_connection = FactoryGirl.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
+    mooc_provider_user_connection.save!
+    expect(coursera_connector.send(:get_access_token, user)).to eq '123'
   end
 
   it 'returns nil when user has connection to mooc provider, which is no longer valid' do
-    FactoryGirl.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123', access_token_valid_until: Time.zone.now - 5.minutes)
-    expect(coursera_connector.send(:get_access_token, user)).to eql nil
+    mooc_provider_user_connection = FactoryGirl.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123', access_token_valid_until: Time.zone.now - 5.minutes)
+    mooc_provider_user_connection.save!
+    expect(coursera_connector.send(:get_access_token, user)).to eq nil
   end
 
   it 'does not try to refresh the access_token when no refresh_token is given' do
@@ -81,16 +83,16 @@ RSpec.describe CourseraConnector do
   end
 
   it 'returns false when user has no connection to mooc provider' do
-    expect(coursera_connector.connection_to_mooc_provider?(user)).to eql false
+    expect(coursera_connector.connection_to_mooc_provider?(user)).to eq false
   end
 
   it 'returns true when user has connection to mooc provider' do
     user.mooc_providers << mooc_provider
-    expect(coursera_connector.connection_to_mooc_provider?(user)).to eql true
+    expect(coursera_connector.connection_to_mooc_provider?(user)).to eq true
   end
 
   it 'returns a new instance of the OAuth2 Client' do
-    expect(coursera_connector.send(:oauth_client).class).to eql OAuth2::Client
+    expect(coursera_connector.send(:oauth_client).class).to eq OAuth2::Client
   end
 
   it 'returns a valid link if required' do
@@ -103,7 +105,7 @@ RSpec.describe CourseraConnector do
     destination_path = CGI.escape(destination)
     csrf_token = CGI.escape('my_csrf_token')
     expected_url = "#{oauth_client.site}#{oauth_client.authorize_url}?client_id=#{client_id}&redirect_uri=#{redirect_uri}&response_type=code&scope=view_profile&state=coursera~#{destination_path}~#{csrf_token}"
-    expect(coursera_connector.oauth_link(destination, csrf_token)).to eql expected_url
+    expect(coursera_connector.oauth_link(destination, csrf_token)).to eq expected_url
   end
 
   it 'saves the access_token' do
@@ -111,6 +113,6 @@ RSpec.describe CourseraConnector do
     access_token = OAuth2::AccessToken.new(oauth_client, '0123456789abcdef', expires_in: 1800.seconds)
     allow_any_instance_of(OAuth2::Strategy::AuthCode).to receive(:get_token).and_return(access_token)
     expect { coursera_connector.initialize_connection(user, credentials) }.to change(user.mooc_providers, :count).by(1)
-    expect(coursera_connector.send(:get_access_token, user)).to eql access_token.token
+    expect(coursera_connector.send(:get_access_token, user)).to eq access_token.token
   end
 end

@@ -32,68 +32,68 @@ class EvaluationsController < ApplicationController
   def export_overall_course_rating
     if params[:provider].present? && params[:course_id].present?
       mooc_provider = MoocProvider.find_by!(name: params[:provider])
-      course = [Course.find_by!(provider_course_id: params[:course_id], mooc_provider: mooc_provider)].first()
+      course = Course.find_by!(provider_course_id: params[:course_id], mooc_provider: mooc_provider)
     else
       raise ActionController::ParameterMissing.new('no provider given for the course')
     end
 
     @overall_course_rating = {
-        course_id_from_provider: course.provider_course_id,
-        mooc_provider: course.mooc_provider.name,
-        overall_rating: course.calculated_rating,
-        number_of_evaluations: course.rating_count,
+      course_id_from_provider: course.provider_course_id,
+      mooc_provider: course.mooc_provider.name,
+      overall_rating: course.calculated_rating,
+      number_of_evaluations: course.rating_count
     }
     respond_to do |format|
       format.json { render :export_overall_course_rating }
     end
 
-    rescue ActionController::ParameterMissing, ActiveRecord::RecordNotFound => e
-      respond_to do |format|
-        format.json { render json: {error: e.message}, status: :recordNotFound }
-      end
+  rescue ActionController::ParameterMissing, ActiveRecord::RecordNotFound => e
+    respond_to do |format|
+      format.json { render json: {error: e.message}, status: :recordNotFound }
+    end
   end
 
   def export_course_evaluations
     if params[:provider].present? && params[:course_id].present?
       mooc_provider = MoocProvider.find_by!(name: params[:provider])
-      course = [Course.find_by!(provider_course_id: params[:course_id], mooc_provider: mooc_provider)].first()
+      course = Course.find_by!(provider_course_id: params[:course_id], mooc_provider: mooc_provider)
     else
       raise ActionController::ParameterMissing.new('no provider given for the course')
     end
 
     @courses_with_evaluations = []
-      course_evaluations = Set.new
-      course.evaluations.paginate(page: params[:page], per_page: params[:per_page]).each do |evaluation|
-        evaluation_object = {
-          rating: evaluation.rating,
-          description: evaluation.description,
-          creation_date: evaluation.created_at,
-          total_feedback_count: evaluation.total_feedback_count,
-          helpful_feedback_count: evaluation.positive_feedback_count,
-          course_status: evaluation.course_status.to_sym,
-          is_verified: evaluation.is_verified
-        }
-
-        if evaluation.rated_anonymously
-          evaluation_object[:user_name] = 'Anonymous'
-          evaluation_object[:user_profile_picture] = root_url + Settings.default_profile_picture_path
-
-        else
-          evaluation_object[:user_name] = "#{evaluation.user.first_name} #{evaluation.user.last_name}"
-          evaluation_object[:user_profile_picture] = ApplicationController.helpers.asset_url(evaluation.user.profile_image.url(:thumb))
-        end
-        course_evaluations << evaluation_object
-      end
-
-      course_with_evaluations = {
-        course_id_from_provider: course.provider_course_id,
-        mooc_provider: course.mooc_provider.name,
-        overall_rating: course.calculated_rating,
-        number_of_evaluations: course.rating_count,
-        user_evaluations: course_evaluations
+    course_evaluations = Set.new
+    course.evaluations.paginate(page: params[:page], per_page: params[:per_page]).each do |evaluation|
+      evaluation_object = {
+        rating: evaluation.rating,
+        description: evaluation.description,
+        creation_date: evaluation.created_at,
+        total_feedback_count: evaluation.total_feedback_count,
+        helpful_feedback_count: evaluation.positive_feedback_count,
+        course_status: evaluation.course_status.to_sym,
+        is_verified: evaluation.is_verified
       }
 
-      @courses_with_evaluations.push course_with_evaluations
+      if evaluation.rated_anonymously
+        evaluation_object[:user_name] = 'Anonymous'
+        evaluation_object[:user_profile_picture] = root_url + Settings.default_profile_picture_path
+
+      else
+        evaluation_object[:user_name] = "#{evaluation.user.first_name} #{evaluation.user.last_name}"
+        evaluation_object[:user_profile_picture] = ApplicationController.helpers.asset_url(evaluation.user.profile_image.url(:thumb))
+      end
+      course_evaluations << evaluation_object
+    end
+
+    course_with_evaluations = {
+      course_id_from_provider: course.provider_course_id,
+      mooc_provider: course.mooc_provider.name,
+      overall_rating: course.calculated_rating,
+      number_of_evaluations: course.rating_count,
+      user_evaluations: course_evaluations
+    }
+
+    @courses_with_evaluations.push course_with_evaluations
 
     respond_to do |format|
       format.json { render :export_course_evaluations }
@@ -150,7 +150,7 @@ class EvaluationsController < ApplicationController
       flash['success'] << t('evaluations.thanks_for_feedback')
       redirect_to course_path(course)
     end
-  rescue => e
+  rescue
     flash['error'] ||= []
     flash['error'] << t('global.ajax_failed')
     respond_to do |format|
@@ -186,7 +186,7 @@ class EvaluationsController < ApplicationController
     end
   end
 
-  def persist_evaluation course
+  def persist_evaluation(course)
     user_id = current_user.id
     rating = params['rating'].to_i
     description = params['description']

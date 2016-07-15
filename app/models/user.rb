@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable, :omniauthable
   validates :first_name, :last_name, presence: true
-  has_many :emails, class_name: 'UserEmail', dependent: :destroy
+  has_many :emails, class_name: 'UserEmail', dependent: :delete_all
   has_many :user_groups, dependent: :destroy
   has_many :groups, through: :user_groups
   has_many :created_recommendations, foreign_key: 'author_id', class_name: 'Recommendation'
@@ -33,8 +33,8 @@ class User < ActiveRecord::Base
       medium: '300x300>',
       original: '300x300>'
     },
-    s3_storage_class: :reduced_redundancy,
-    s3_permissions: :public_read,
+    s3_storage_class: 'REDUCED_REDUNDANCY',
+    s3_permissions: 'public-read',
     default_url: Settings.default_profile_picture_path
 
   # Validate the attached image is image/jpg, image/png, etc
@@ -81,7 +81,7 @@ class User < ActiveRecord::Base
       if group.users.count > 1
         if UserGroup.find_by(group: group, user: self).is_admin
           if UserGroup.where(group: group, is_admin: true).count == 1
-            return false
+            throw :abort
           end
         end
       else

@@ -9,7 +9,7 @@ RSpec.describe AbstractCourseWorker do
 
   it 'creates a valid update_map' do
     update_map = abstract_course_worker.create_update_map mooc_provider
-    expect(update_map.length).to eql 10
+    expect(update_map.length).to eq 10
     update_map.each do |_, updated|
       expect(updated).to be false
     end
@@ -26,7 +26,7 @@ RSpec.describe AbstractCourseWorker do
     end
 
     abstract_course_worker.evaluate_update_map update_map
-    expect(course_count).to eql Course.count + 5
+    expect(course_count).to eq Course.count + 5
   end
 
   it 'throws exceptions when trying to call abstract methods' do
@@ -48,7 +48,7 @@ RSpec.describe AbstractCourseWorker do
   it 'parses markdown' do
     markdown = '_Hello World_!'
     html = "<p><em>Hello World</em>!</p>\n"
-    expect(abstract_course_worker.parse_markdown(markdown)).to eql html
+    expect(abstract_course_worker.parse_markdown(markdown)).to eq html
   end
 
   context 'converts relative URLs to absolute ones' do
@@ -82,7 +82,7 @@ RSpec.describe AbstractCourseWorker do
     it 'changes relative URLs' do
       expect(abstract_course_worker.convert_to_absolute_urls(relative_html)).to include('<img src="https://www.example.com/files/image01.jpg">')
       expect(abstract_course_worker.convert_to_absolute_urls(relative_html)).not_to include('<img src="/files/image01.jpg">')
-      expect(abstract_course_worker.convert_to_absolute_urls(relative_html)).to eql absolute_html
+      expect(abstract_course_worker.convert_to_absolute_urls(relative_html)).to eq absolute_html
     end
   end
 end

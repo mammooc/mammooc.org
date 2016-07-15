@@ -3,7 +3,6 @@ require 'rails_helper'
 require 'support/feature_support'
 
 RSpec.describe 'UserDate', type: :feature do
-  self.use_transactional_fixtures = false
 
   let(:user) { FactoryGirl.create(:user) }
 
@@ -11,14 +10,6 @@ RSpec.describe 'UserDate', type: :feature do
     Sidekiq::Testing.inline!
 
     capybara_sign_in(user)
-  end
-
-  before(:all) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  after(:all) do
-    DatabaseCleaner.strategy = :transaction
   end
 
   describe 'index page' do
