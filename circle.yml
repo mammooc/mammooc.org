@@ -37,7 +37,8 @@ deployment:
       - heroku maintenance:on --app mammooc
       - git push git@heroku.com:mammooc.git master:master
       - heroku pg:reset DATABASE --app mammooc --confirm mammooc
-      - heroku run rails db:schema:load db:seed RAILS_ENV=development --app mammooc
+      - heroku run rails db:schema:load RAILS_ENV=production --app mammooc
+      - heroku run rails db:seed RAILS_ENV=development --app mammooc
       - heroku restart --app mammooc
       - heroku maintenance:off --app mammooc
 
@@ -48,7 +49,8 @@ deployment:
       - heroku maintenance:on --app mammooc-dev
       - git push git@heroku.com:mammooc-dev.git dev:master
       - heroku pg:reset DATABASE --app mammooc-dev --confirm mammooc-dev
-      - heroku run rails db:schema:load db:seed RAILS_ENV=development --app mammooc-dev
+      - heroku run rails db:schema:load RAILS_ENV=production --app mammooc-dev
+      - heroku run rails db:seed RAILS_ENV=development --app mammooc-dev
       - heroku restart --app mammooc-dev
       - heroku maintenance:off --app mammooc-dev
       # Gemnasium Auto-Update
