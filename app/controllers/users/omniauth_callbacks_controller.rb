@@ -58,7 +58,7 @@ module Users
         flash['error'] << if deauthorize_params[:provider] == 'easyID'
                             t('users.settings.easyID.identity_not_deleted')
                           else
-                            t('users.settings.identity_not_deleted', OmniAuth::Utils.camelize(deauthorize_params[:provider]))
+                            t('users.settings.identity_not_deleted', provider: OmniAuth::Utils.camelize(deauthorize_params[:provider]))
                           end
       end
       redirect_to "#{user_settings_path(current_user.id)}?subsite=account"
