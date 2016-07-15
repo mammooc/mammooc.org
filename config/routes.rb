@@ -46,7 +46,9 @@ Rails.application.routes.draw do
   get 'dashboard' => 'dashboard#dashboard'
 
   # Evaluations
-  get 'evaluations/export' => 'evaluations#export', defaults: {format: 'json'}
+  get 'evaluations/export_overall_course_rating' => 'evaluations#export_overall_course_rating', defaults: {format: 'json'}
+  get 'evaluations/export_course_evaluations' => 'evaluations#export_course_evaluations', defaults: {format: 'json'}
+
   get 'evaluations/save' => 'evaluations#save', defaults: {format: 'json'}
   get 'evaluations/login_and_save' => 'evaluations#login_and_save', as: 'load_and_save_evaluation'
   post 'evaluations/:id/process_feedback' => 'evaluations#process_feedback'

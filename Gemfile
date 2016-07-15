@@ -58,7 +58,7 @@ gem 'cancancan', '~>1.10'
 gem 'rest-client'
 
 # file upload
-gem 'paperclip', '< 5'
+gem 'paperclip', '4.3.6'
 
 # amazon S3 connection
 gem 'aws-sdk'

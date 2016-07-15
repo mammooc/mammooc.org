@@ -18,10 +18,10 @@
           .author
             - if evaluation[:user_id].present?
               / Here could be a link to the evaluating user's profile
-              => evaluation[:user_name]
+              = evaluation[:user_name]
             - else
-              => evaluation[:user_name]
-          = evaluation[:course_status]
+              = evaluation[:user_name]
+          =< evaluation[:course_status]
           .user-rating-value
             input.rating type='hidden' value="#{evaluation[:rating]}" data-start="0" data-stop="5" id="user-rating-output-#{index}" disabled="disabled"
         = I18n.l evaluation[:creation_date], format: t('global.date_format_month')
@@ -36,10 +36,10 @@
             = t('evaluations.users_found_evaluation_helpful',positive_feedback_count: evaluation[:positive_feedback_count], feedback_count: evaluation[:total_feedback_count])
         - if user_signed_in? && evaluation[:user_id] != current_user.id
           div class="was-helpful-evaluation-#{evaluation[:evaluation_id]}"
-            = t('evaluations.did_you_like_evaluation') + ' '
+            = t('evaluations.did_you_like_evaluation') + ' · '
             a class="rate-evaluation-link" id="rate-evaluation-link-#{index}-true" data-helpful="true" data-evaluation_id="#{evaluation[:evaluation_id]}"
               = t('evaluations.helpful')
-            = ' '
+            = ' · '
             a class="rate-evaluation-link" id="rate-evaluation-link-#{index}-false" data-helpful="false" data-evaluation_id="#{evaluation[:evaluation_id]}"
               = t('evaluations.not_helpful')
     - if index < @evaluations.size - 1
