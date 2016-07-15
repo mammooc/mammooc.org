@@ -57,7 +57,12 @@ class EdxCourseWorker < AbstractCourseWorker
         end
 
         if course_thumbnail.present? && course.course_image_file_name != filename
-          course.course_image = Course.process_uri(course_thumbnail.text)
+          begin
+            course.course_image = Course.process_uri(course_thumbnail.text)
+          rescue OpenURI::HTTPError => e
+            Rails.logger.error "Couldn't process course image in course #{course_element.xpath('course:id').text} for URL #{course_thumbnail.text}: #{e.message}"
+            course.course_image = nil
+          end
         end
 
         if course_element.xpath('course:start').present?

@@ -61,7 +61,12 @@ class CourseraCourseWorker < AbstractCourseWorker
         end
 
         if course_element['photoUrl'].present? && course.course_image_file_name != filename
-          course.course_image = Course.process_uri(course_element['photoUrl'])
+          begin
+            course.course_image = Course.process_uri(course_element['photoUrl'])
+          rescue OpenURI::HTTPError => e
+            Rails.logger.error "Couldn't process course image in course #{course_element['id'].to_s} for URL #{course_element['photoUrl']}: #{e.message}"
+            course.course_image = nil
+          end
         end
 
         course.subtitle_languages = course_element['subtitleLanguages'].join(',')

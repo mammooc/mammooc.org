@@ -45,7 +45,12 @@ class IversityCourseWorker < AbstractCourseWorker
       end
 
       if course_element['image'].present? && course.course_image_file_name != filename
-        course.course_image = Course.process_uri(course_element['image'])
+        begin
+          course.course_image = Course.process_uri(course_element['image'])
+        rescue OpenURI::HTTPError => e
+          Rails.logger.error "Couldn't process course image in course #{course_element['id'].to_s} for URL #{course_element['image']}: #{e.message}"
+          course.course_image = nil
+        end
       end
       course.videoId = course_element['trailer_video']
       course.start_date = course_element['start_date']
