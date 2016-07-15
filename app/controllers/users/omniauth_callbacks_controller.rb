@@ -15,12 +15,12 @@ module Users
         if @user.present? && request.env["omniauth.params"].blank?
           session[:user_original_url] = user_settings_path(current_user.id) + "?subsite=account" if request.referer.present? && request.referer.include?("settings?subsite=account")
           sign_in_and_redirect @user, event: :authentication
-          set_flash_message(:notice, :success, kind: "#{provider}".titleize) if is_navigational_format?
+          set_flash_message(:notice, :success, kind: "#{OmniAuth::Utils.camelize(provider)}") if is_navigational_format?
         elsif @user.present? && request.env["omniauth.params"].present?
           current_user_logged_in = current_user.present?
           handle_omniauth_params
           sign_in_and_redirect @user, event: :authentication
-          set_flash_message(:notice, :success, kind: "#{provider}".titleize) if is_navigational_format? && !current_user_logged_in
+          set_flash_message(:notice, :success, kind: "#{OmniAuth::Utils.camelize(provider)}") if is_navigational_format? && !current_user_logged_in
         else
           session["devise.#{provider}_data"] = request.env["omniauth.auth"].slice('uid', 'provider')
           session["devise.#{provider}_data"]["info"] = request.env["omniauth.auth"]["info"].slice('email', 'verified', 'verified_info', 'image')
@@ -31,7 +31,7 @@ module Users
     }
     end
 
-    [:facebook, :google, :github, :linkedin, :twitter, :windows_live, :amazon, :xikolo].each do |provider|
+    [:facebook, :google, :github, :linkedin, :twitter, :windows_live, :amazon, :openhpi].each do |provider|
       provides_callback_for provider
     end
 
@@ -45,20 +45,20 @@ module Users
           flash['error'] << if deauthorize_params[:provider] == 'easyID'
                               t('users.settings.easyID.identity_not_deleted')
                             else
-                              t('users.settings.identity_not_deleted', provider: deauthorize_params[:provider].titleize)
+                              t('users.settings.identity_not_deleted', provider: OmniAuth::Utils.camelize(deauthorize_params[:provider]))
                             end
         else
           flash['success'] << if deauthorize_params[:provider] == 'easyID'
                                 t('users.settings.easyID.identity_deleted')
                               else
-                                t('users.settings.identity_deleted', provider: deauthorize_params[:provider].titleize)
+                                t('users.settings.identity_deleted', provider: OmniAuth::Utils.camelize(deauthorize_params[:provider]))
                               end
         end
       else
         flash['error'] << if deauthorize_params[:provider] == 'easyID'
                             t('users.settings.easyID.identity_not_deleted')
                           else
-                            t('users.settings.identity_not_deleted', provider: deauthorize_params[:provider].titleize)
+                            t('users.settings.identity_not_deleted', provider: OmniAuth::Utils.camelize(deauthorize_params[:provider]))
                           end
       end
       redirect_to "#{user_settings_path(current_user.id)}?subsite=account"

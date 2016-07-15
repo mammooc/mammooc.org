@@ -48,7 +48,7 @@ module Users
         next if session["devise.#{provider}_data"].blank?
         if Time.zone.now < session["devise.#{provider}_data"]['valid_until']
           User.find_for_omniauth(OmniAuth::AuthHash.new(session["devise.#{provider}_data"]), resource)
-          merged_providers += "#{provider.to_s.titleize}, "
+          merged_providers += "#{OmniAuth::Utils.camelize(provider)}, "
         end
         session.delete("devise.#{provider}_data")
       end

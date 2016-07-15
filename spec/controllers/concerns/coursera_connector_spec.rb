@@ -65,14 +65,12 @@ RSpec.describe CourseraConnector do
   end
 
   it 'returns access_token when user has connection to mooc provider, which is still valid' do
-    mooc_provider_user_connection = FactoryGirl.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
-    mooc_provider_user_connection.save!
+    FactoryGirl.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
     expect(coursera_connector.send(:get_access_token, user)).to eq '123'
   end
 
   it 'returns nil when user has connection to mooc provider, which is no longer valid' do
-    mooc_provider_user_connection = FactoryGirl.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123', access_token_valid_until: Time.zone.now - 5.minutes)
-    mooc_provider_user_connection.save!
+    FactoryGirl.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123', access_token_valid_until: Time.zone.now - 5.minutes)
     expect(coursera_connector.send(:get_access_token, user)).to eq nil
   end
 
