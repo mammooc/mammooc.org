@@ -67,10 +67,7 @@ RSpec.describe UserEmail, type: :model do
     end
 
     it 'is not allowed to destroy the primary address' do
-      email = FactoryGirl.create(:user_email, user: user, is_primary: true)
-      # Ensure the email object is persisted
-      email.save!
-      email.reload
+      email = UserEmail.create!(user_id: user.id, is_primary: true, address: 'email@example.com')
       expect { email.destroy! }.to raise_error ActiveRecord::RecordNotDestroyed
       expect(described_class.where(user: user, is_primary: true).count).to eq 1
     end
