@@ -54,7 +54,12 @@ class FutureLearnCourseWorker < AbstractCourseWorker
         end
 
         if course.course_image_file_name != filename
-          course.course_image = Course.process_uri(image_url)
+          begin
+            course.course_image = Course.process_uri(image_url)
+          rescue OpenURI::HTTPError => e
+            Rails.logger.error "Couldn't process course image in course #{run['uuid']} for URL #{image_url}: #{e.message}"
+            course.course_image = nil
+          end
         end
 
         course.videoId = trailer
