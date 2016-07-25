@@ -14,15 +14,15 @@ RSpec.describe ConnectorMapper do
     expect(get_connector_by_mooc_provider(mooc_provider).class).to eq OpenHPIConnector
     mooc_provider.name = 'openSAP'
     expect(get_connector_by_mooc_provider(mooc_provider).class).to eq OpenSAPConnector
-    mooc_provider.name = 'openHPI China'
+    mooc_provider.name = 'openHPI.cn'
     expect(get_connector_by_mooc_provider(mooc_provider).class).to eq OpenHPIChinaConnector
-    mooc_provider.name = 'openSAP China'
+    mooc_provider.name = 'openSAP.cn'
     expect(get_connector_by_mooc_provider(mooc_provider).class).to eq OpenSAPChinaConnector
     mooc_provider.name = 'mooc.house'
     expect(get_connector_by_mooc_provider(mooc_provider).class).to eq MoocHouseConnector
-    mooc_provider.name = 'cnmooc.house'
+    mooc_provider.name = 'cnMOOC.house'
     expect(get_connector_by_mooc_provider(mooc_provider).class).to eq CnmoocHouseConnector
-    mooc_provider.name = 'openUNE'
+    mooc_provider.name = 'openUNE.cn'
     expect(get_connector_by_mooc_provider(mooc_provider).class).to eq OpenUNEConnector
     mooc_provider.name = 'coursera'
     expect(get_connector_by_mooc_provider(mooc_provider).class).to eq CourseraConnector
@@ -37,15 +37,15 @@ RSpec.describe ConnectorMapper do
     expect(get_worker_by_mooc_provider(mooc_provider)).to eq OpenHPIUserWorker
     mooc_provider.name = 'openSAP'
     expect(get_worker_by_mooc_provider(mooc_provider)).to eq OpenSAPUserWorker
-    mooc_provider.name = 'openHPI China'
+    mooc_provider.name = 'openHPI.cn'
     expect(get_worker_by_mooc_provider(mooc_provider)).to eq OpenHPIChinaUserWorker
-    mooc_provider.name = 'openSAP China'
+    mooc_provider.name = 'openSAP.cn'
     expect(get_worker_by_mooc_provider(mooc_provider)).to eq OpenSAPChinaUserWorker
     mooc_provider.name = 'mooc.house'
     expect(get_worker_by_mooc_provider(mooc_provider)).to eq MoocHouseUserWorker
-    mooc_provider.name = 'cnmooc.house'
+    mooc_provider.name = 'cnMOOC.house'
     expect(get_worker_by_mooc_provider(mooc_provider)).to eq CnmoocHouseUserWorker
-    mooc_provider.name = 'openUNE'
+    mooc_provider.name = 'openUNE.cn'
     expect(get_worker_by_mooc_provider(mooc_provider)).to eq OpenUNEUserWorker
     mooc_provider.name = 'coursera'
     expect(get_worker_by_mooc_provider(mooc_provider)).to eq CourseraUserWorker

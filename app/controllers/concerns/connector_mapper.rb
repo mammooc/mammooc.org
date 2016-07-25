@@ -9,15 +9,15 @@ module ConnectorMapper
         return OpenHPIConnector.new
       when 'openSAP'
         return OpenSAPConnector.new
-      when 'openHPI China'
+      when 'openHPI.cn'
         return OpenHPIChinaConnector.new
-      when 'openSAP China'
+      when 'openSAP.cn'
         return OpenSAPChinaConnector.new
       when 'mooc.house'
         return MoocHouseConnector.new
-      when 'cnmooc.house'
+      when 'cnMOOC.house'
         return CnmoocHouseConnector.new
-      when 'openUNE'
+      when 'openUNE.cn'
         return OpenUNEConnector.new
       when 'coursera'
         return CourseraConnector.new
@@ -32,15 +32,15 @@ module ConnectorMapper
         return OpenHPIUserWorker
       when 'openSAP'
         return OpenSAPUserWorker
-      when 'openHPI China'
+      when 'openHPI.cn'
         return OpenHPIChinaUserWorker
-      when 'openSAP China'
+      when 'openSAP.cn'
         return OpenSAPChinaUserWorker
       when 'mooc.house'
         return MoocHouseUserWorker
-      when 'cnmooc.house'
+      when 'cnMOOC.house'
         return CnmoocHouseUserWorker
-      when 'openUNE'
+      when 'openUNE.cn'
         return OpenUNEUserWorker
       when 'coursera'
         return CourseraUserWorker
