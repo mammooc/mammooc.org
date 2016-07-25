@@ -408,7 +408,6 @@ RSpec.describe GroupsController, type: :controller do
       end
     end
 
-
     context 'without authorization' do
       context 'user is not in group' do
         before(:each) { put :invite_group_members, id: group_without_user.id, group: valid_attributes }
