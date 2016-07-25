@@ -252,7 +252,7 @@ Devise.setup do |config|
   config.omniauth :facebook, ENV['FACEBOOK_CLIENT_ID'], ENV['FACEBOOK_SECRET_KEY'], scope: 'email'
   config.omniauth :google, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_SECRET_KEY'], scope: 'profile email', strategy_class: OmniAuth::Strategies::Google, skip_jwt: true
   config.omniauth :github, ENV['GITHUB_CLIENT_ID'], ENV['GITHUB_SECRET_KEY'], scope: 'user:email'
-  config.omniauth :linkedin, ENV['LINKEDIN_CLIENT_ID'], ENV['LINKEDIN_SECRET_KEY'], scope: 'r_basicprofile r_emailaddress', strategy_class: OmniAuth::Strategies::LinkedInFixed
+  config.omniauth :linkedin, ENV['LINKEDIN_CLIENT_ID'], ENV['LINKEDIN_SECRET_KEY'], scope: 'r_basicprofile r_emailaddress', strategy_class: OmniAuth::Strategies::LinkedInCustom
   config.omniauth :twitter, ENV['TWITTER_CLIENT_ID'], ENV['TWITTER_SECRET_KEY']
   config.omniauth :windows_live, ENV['WINDOWS_LIVE_CLIENT_ID'], ENV['WINDOWS_LIVE_SECRET_KEY'], scope: 'wl.basic wl.emails wl.signin', strategy_class: OmniAuth::Strategies::WindowsLive
   config.omniauth :amazon, ENV['AMAZON_CLIENT_ID'], ENV['AMAZON_SECRET_KEY'], scope: 'profile'

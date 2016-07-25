@@ -2,7 +2,7 @@
 
 module OmniAuth
   module Strategies
-    class LinkedInFixed < OmniAuth::Strategies::LinkedIn
+    class LinkedInCustom < OmniAuth::Strategies::LinkedIn
       option :name, 'linkedin'
 
       def callback_url
