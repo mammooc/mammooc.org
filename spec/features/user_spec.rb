@@ -3,7 +3,6 @@ require 'rails_helper'
 require 'support/feature_support'
 
 RSpec.describe 'User', type: :feature do
-
   let!(:user) { User.create!(first_name: 'Max', last_name: 'Mustermann', password: '12345678') }
   let!(:first_email) { FactoryGirl.create(:user_email, user: user) }
   let!(:second_user) { FactoryGirl.create(:user) }

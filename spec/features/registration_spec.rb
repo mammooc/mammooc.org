@@ -2,7 +2,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Users::Registration', type: :feature do
-
   let(:user) { FactoryGirl.build_stubbed(:user) }
 
   before(:each) do

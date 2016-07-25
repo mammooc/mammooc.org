@@ -3,7 +3,6 @@ require 'rails_helper'
 require 'support/feature_support'
 
 RSpec.describe 'Activities', type: :feature do
-
   let(:user) { FactoryGirl.create(:user) }
   let(:second_user) { FactoryGirl.create(:user) }
 

@@ -3,7 +3,6 @@ require 'rails_helper'
 require 'support/feature_support'
 
 RSpec.describe 'UserDate', type: :feature do
-
   let(:user) { FactoryGirl.create(:user) }
 
   before(:each) do

@@ -83,7 +83,7 @@ class FutureLearnCourseWorker < AbstractCourseWorker
         course.provider_given_duration = "#{run['duration_in_weeks']} weeks"
         course.calculated_duration_in_days = calculate_duration(run['duration_in_weeks'])
 
-        if index > 0 && run['start_date']
+        if index.positive? && run['start_date']
           if sorted_runs[index - 1]['start_date']
             previous_iteration_uuid = sorted_runs[index - 1]['uuid']
             previous_course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, previous_iteration_uuid)
