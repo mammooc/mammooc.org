@@ -395,7 +395,7 @@ RSpec.describe GroupsController, type: :controller do
 
     context 'with first token not valid' do
       let(:group) { FactoryGirl.create :group }
-      let!(:group_invitation) { FactoryGirl.create :group_invitation_with_fixed_token, group: group }
+      let!(:group_invitation) { FactoryGirl.create :group_invitation, token: 'b4GOKm4pOYU_-BOXcrUGDg', group: group }
       before do
         allow(SecureRandom).to receive(:urlsafe_base64).and_return('b4GOKm4pOYU_-BOXcrUGDg', 'ZLdOkzop70Ddx-IJR0ABg')
       end
