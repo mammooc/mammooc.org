@@ -40,6 +40,9 @@ class ApisController < ApplicationController
   rescue ActionController::ParameterMissing, ActiveRecord::RecordNotFound => e
     respond_to do |format|
       format.json { render json: {error: e.message}, status: :recordNotFound }
+      format.js do
+        render json: {error: e.message}, callback: params[:callback], status: :recordNotFound
+      end
     end
   end
 end
