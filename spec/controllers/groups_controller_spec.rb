@@ -402,7 +402,7 @@ RSpec.describe GroupsController, type: :controller do
 
       it 'invites member' do
         email_string = 'valid@example.org'
-        expect { post :invite_group_members, format: :json, id: group_with_admin.id, members: email_string }.to change { GroupInvitation.count }.by(1)
+        expect { post :invite_group_members, params: {format: :json, id: group_with_admin.id, members: email_string} }.to change { GroupInvitation.count }.by(1)
         expect(response.body).to have_content('"error_email":[]')
         expect(ActionMailer::Base.deliveries.count).to eq 1
       end

@@ -212,7 +212,7 @@ RSpec.describe Course, type: :model do
       end
     end
 
-      context 'search query' do
+    context 'search query' do
       let!(:course_match_name) { FactoryGirl.create(:course, name: 'Web Technologies') }
       let!(:course_not_match_name) { FactoryGirl.create(:course, name: 'Wob Technochicks') }
       let!(:course_match_instructors) { FactoryGirl.create(:course, name: 'Java course', course_instructors: 'Jan Renz, Thomas Staubitz') }
