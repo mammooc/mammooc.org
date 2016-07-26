@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe OpenSAPChinaCourseWorker do
-  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openSAP China') }
+  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openSAP.cn') }
 
   let(:open_sap_china_course_worker) { described_class.new }
 

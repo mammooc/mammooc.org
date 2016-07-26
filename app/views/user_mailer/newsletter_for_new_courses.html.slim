@@ -58,10 +58,12 @@ html
                       = image_tag('/data/icons/globe.png', style: 'height: 18px; padding-right: 5px; vertical-align: middle;')
                       - language_array = course.language.split(',')
                       - language_array.each do |language|
-                        - if I18n.t("language.#{language}").include? 'translation missing'
+                        - if I18n.t("language.#{language}", locale: :de).include? 'translation missing'
                           = language
+                          - unless language_array.last == language
+                            = ', '
                         - else
-                          = I18n.t("language.#{language}")
+                          = I18n.t("language.#{language}", locale: :de)
                           - unless language_array.last == language
                             = ', '
                   div style="position: absolute; bottom: 10px; right: 10px;"
@@ -120,10 +122,12 @@ html
                       =image_tag('/data/icons/globe.png', style: 'height: 18px; padding-right: 5px; vertical-align: middle;')
                       - language_array = course.language.split(',')
                       - language_array.each do |language|
-                        - if I18n.t("language.#{language}").include? 'translation missing'
+                        - if I18n.t("language.#{language}", locale: :en).include? 'translation missing'
                           = language
+                          - unless language_array.last == language
+                            = ', '
                         - else
-                          = I18n.t("language.#{language}")
+                          = I18n.t("language.#{language}", locale: :en)
                           - unless language_array.last == language
                             = ', '
                   div style="position: absolute; bottom: 10px; right: 10px;"

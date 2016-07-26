@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe OpenUNECourseWorker do
-  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openUNE') }
+  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openUNE.cn') }
 
   let(:open_une_course_worker) { described_class.new }
 
