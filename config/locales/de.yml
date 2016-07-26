@@ -741,5 +741,5 @@ de:
       content: 'die folgenden Kurse sind seit dem Datum %{date} veröffentlicht worden:'
       closure: Viel Spaß,
       sender: dein mammooc-Team
-      subject: Neue MOOCs verfügbar
+      subject: '%{number} Neue MOOCs verfügbar'
 

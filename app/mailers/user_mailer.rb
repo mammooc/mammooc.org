@@ -23,8 +23,9 @@ class UserMailer < ApplicationMailer
     unless @courses.blank?
       @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(@courses)
     end
+    number_of_new_courses = @courses.length
 
-    mail(to: email_adress, subject: t('newsletter.email.subject'))
+    mail(to: email_adress, subject: t('newsletter.email.subject', number: number_of_new_courses))
   end
 
   def obligatory_recommendation_user_notification(email_adress, user, course, current_user, root_url)
