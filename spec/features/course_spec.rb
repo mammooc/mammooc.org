@@ -2,7 +2,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Course', type: :feature do
-
   let(:user) { FactoryGirl.create(:user) }
 
   before(:each) do |example|

@@ -64,7 +64,7 @@ class CourseraCourseWorker < AbstractCourseWorker
           begin
             course.course_image = Course.process_uri(course_element['photoUrl'])
           rescue OpenURI::HTTPError => e
-            Rails.logger.error "Couldn't process course image in course #{course_element['id'].to_s} for URL #{course_element['photoUrl']}: #{e.message}"
+            Rails.logger.error "Couldn't process course image in course #{course_element['id']} for URL #{course_element['photoUrl']}: #{e.message}"
             course.course_image = nil
           end
         end

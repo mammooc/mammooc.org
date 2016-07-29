@@ -2,7 +2,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Application', type: :feature do
-
   before(:each) do
     ActionMailer::Base.deliveries.clear
   end

@@ -2,7 +2,6 @@
 require 'rails_helper'
 
 RSpec.describe AbstractMoocProviderConnector do
-
   let(:abstract_mooc_provider_connector) { described_class.new }
 
   context 'synchronize user enrollments' do

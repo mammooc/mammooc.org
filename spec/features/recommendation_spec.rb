@@ -2,7 +2,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Recommendation', type: :feature do
-
   let!(:user) { FactoryGirl.create(:user) }
   let!(:second_user) { FactoryGirl.create(:user) }
   let!(:author) { FactoryGirl.create(:user) }

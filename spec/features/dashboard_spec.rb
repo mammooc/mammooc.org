@@ -2,7 +2,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Dashboard', type: :feature do
-
   let(:user) { FactoryGirl.create(:user) }
 
   before(:each) do

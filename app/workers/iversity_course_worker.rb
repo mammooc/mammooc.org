@@ -48,7 +48,7 @@ class IversityCourseWorker < AbstractCourseWorker
         begin
           course.course_image = Course.process_uri(course_element['image'])
         rescue OpenURI::HTTPError => e
-          Rails.logger.error "Couldn't process course image in course #{course_element['id'].to_s} for URL #{course_element['image']}: #{e.message}"
+          Rails.logger.error "Couldn't process course image in course #{course_element['id']} for URL #{course_element['image']}: #{e.message}"
           course.course_image = nil
         end
       end
@@ -92,7 +92,7 @@ class IversityCourseWorker < AbstractCourseWorker
                          end
 
       instructor_array.each_with_index do |instructor, i|
-        course.course_instructors += "#{(i > 0) ? ', ' : ''}#{instructor['name']}"
+        course.course_instructors += "#{i.positive? ? ', ' : ''}#{instructor['name']}"
       end
 
       course.description = course_element['description']
