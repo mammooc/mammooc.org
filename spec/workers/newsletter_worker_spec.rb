@@ -63,5 +63,20 @@ RSpec.describe NewsletterWorker do
       described_class.perform_async
       expect(ActionMailer::Base.deliveries.count).to eq 0
     end
+
+    it 'sends email every day if a new courses are available' do
+      allow(Time.zone).to receive(:now).and_return(Time.zone.parse '2016-08-02 01:00:00')
+      allow(Time.zone).to receive(:today).and_return((Time.zone.parse '2016-08-02').to_date)
+      course = FactoryGirl.create(:course)
+      course.created_at = Time.zone.parse '2016-08-01 02:00:00'
+      course.save
+      user.newsletter_interval = 1
+      user.unsubscribed_newsletter = false
+      user.last_newsletter_send_at = Time.zone.parse '2016-08-01 01:00:00'
+      user.save
+      described_class.perform_async
+      expect(ActionMailer::Base.deliveries.count).to eq 1
+      user.reload
+    end
   end
 end
