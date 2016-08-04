@@ -35,7 +35,7 @@ deployment:
       - "curl -H \"Content-Type: application/json\" --data '{\"build\": true}' -X POST $DOCKER_HUB_TRIGGER_URL"
       # Heroku
       - heroku maintenance:on --app mammooc
-      - git fetch --unshallow
+      - "if [[ -a .git/shallow ]]; then git fetch --unshallow; fi;"
       - git push git@heroku.com:mammooc.git master:master
       - heroku pg:reset DATABASE --app mammooc --confirm mammooc
       - heroku run rails db:schema:load RAILS_ENV=production --app mammooc
@@ -48,7 +48,7 @@ deployment:
     commands:
       # Heroku
       - heroku maintenance:on --app mammooc-dev
-      - git fetch --unshallow
+      - "if [[ -a .git/shallow ]]; then git fetch --unshallow; fi;"
       - git push git@heroku.com:mammooc-dev.git dev:master
       - heroku pg:reset DATABASE --app mammooc-dev --confirm mammooc-dev
       - heroku run rails db:schema:load RAILS_ENV=production --app mammooc-dev
