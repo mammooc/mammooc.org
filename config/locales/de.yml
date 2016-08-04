@@ -223,7 +223,7 @@ de:
           month: jeden Monat
         receive_no: kein Newsletter
         define_interval: 'Email erhalten:'
-        define_language: "in folgender Sprache:"
+        define_language: 'in folgender Sprache:'
         new_courses: Regelmäßige Email mit neuen Kursen
     synchronization:
       oauth_error: Fehler! Wir konnten keine Verbindung zu deinem Account herstellen. Bitte überprüfe deine Einstellungen und versuche es erneut.
