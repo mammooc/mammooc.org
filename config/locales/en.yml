@@ -20,6 +20,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  locale_name: English
   global:
     app_name: mammooc
     require_login: You must be logged in to access this section.
@@ -222,6 +223,7 @@ en:
           month: each month
         receive_no: no newsletter
         define_interval: 'Receive email:'
+        define_language: 'send in following language:'
         new_courses: Regular Email with New Courses
     synchronization:
       oauth_error: Sorry! We were unable to establish a connection to your account. Please check your settings and try again.
@@ -736,4 +738,11 @@ en:
   newsletter:
       subscribe: Subscribe to Newsletter.
       flash_notice: You never want to miss a new course? Subscribe to our newsletter.
+      email:
+            greeting: Hello %{name},
+            content: 'the following courses were published since %{date}:'
+            closure: Have fun,
+            sender: your mammooc-Team
+            subject: '%{number} New MOOCs available'
+
 

@@ -144,6 +144,7 @@ class UsersController < ApplicationController
                                            else
                                              false
                                            end
+    current_user.newsletter_language = params[:user][:newsletter_language]
     current_user.save
     redirect_to "#{user_settings_path(current_user)}?subsite=newsletter", notice: t('users.settings.success')
   end
@@ -390,6 +391,10 @@ class UsersController < ApplicationController
                          [I18n.t('users.settings.newsletter.interval.week'), '7'],
                          [I18n.t('users.settings.newsletter.interval.two_weeks'), '14'],
                          [I18n.t('users.settings.newsletter.interval.month'), '30']]
+    @available_languages = []
+    I18n.available_locales.each do |locale|
+      @available_languages.push [I18n.t('locale_name', locale: locale), locale.to_s]
+    end
   end
 
   def set_provider_logos
