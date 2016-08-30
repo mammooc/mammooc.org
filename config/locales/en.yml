@@ -743,6 +743,6 @@ en:
             content: 'the following courses were published since %{date}:'
             closure: Have fun,
             sender: your mammooc-Team
-            subject: '%{number} New MOOCs available'
+            subject: '%{number} new MOOCs available'
 
 
