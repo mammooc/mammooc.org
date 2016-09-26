@@ -17,14 +17,14 @@ ActiveRecord::Schema.define(version: 20160726120639) do
   enable_extension "uuid-ossp"
 
   create_table "activities", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
-    t.uuid     "trackable_id"
     t.string   "trackable_type"
-    t.uuid     "owner_id"
+    t.uuid     "trackable_id"
     t.string   "owner_type"
+    t.uuid     "owner_id"
     t.string   "key"
     t.text     "parameters"
-    t.uuid     "recipient_id"
     t.string   "recipient_type"
+    t.uuid     "recipient_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.uuid     "user_ids",                    array: true
@@ -301,7 +301,7 @@ ActiveRecord::Schema.define(version: 20160726120639) do
     t.datetime "last_newsletter_send_at"
     t.integer  "newsletter_interval"
     t.boolean  "unsubscribed_newsletter"
-    t.string   "newsletter_language"
+    t.string   "newsletter_language",        default: "en"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
