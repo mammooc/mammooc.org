@@ -69,7 +69,7 @@ class AmazonS3
 
   def new_aws_resource
     return unless ENV['WITH_S3'] == 'true'
-    s3 = Aws::S3::Resource.new
+    s3 = Aws::S3::Resource.new(endpoint: URI("https://s3.dualstack.#{ENV['AWS_REGION']}.amazonaws.com"))
     @bucket = s3.bucket(BUCKET_NAME)
   end
 end
