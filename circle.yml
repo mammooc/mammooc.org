@@ -23,9 +23,9 @@ dependencies:
     - "tar -xvzf ~/geckodriver/download.tar.gz -C ~/geckodriver/"
     - "rm ~/geckodriver/download.tar.gz"
     - "chmod +x ~/geckodriver/geckodriver"
-    - "cp ~/geckodriver/geckodriver ~/geckodriver/wires"
-    - "export PATH=$PATH:~/geckodriver/wires"
-    - "export PATH=$PATH:~/geckodriver/geckodriver"
+    - "cp ~/geckodriver/geckodriver /home/ubuntu/bin/wires"
+    - "cp ~/geckodriver/geckodriver /home/ubuntu/bin/geckodriver"
+    - "rm -r ~/geckodriver"
 
 
 test:
