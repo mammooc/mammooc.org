@@ -44,7 +44,4 @@ Rails.application.configure do
 
   # Use test adapter for ActiveJob to perform job processing
   config.active_job.queue_adapter = :test
-
-  # Force language to be English
-  config.i18n.available_locales = [:en]
 end
