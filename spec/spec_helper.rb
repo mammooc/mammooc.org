@@ -44,6 +44,10 @@ if ENV['HEADLESS_TEST'] == 'true' || ENV['USER'] == 'vagrant'
   headless.start
 end
 
+# Force PhantomJS to be used
+# linked to the issue below
+ENV['PHANTOM_JS'] = 'true'
+
 if ENV['PHANTOM_JS'] == 'true'
   Capybara.register_driver :poltergeist do |app|
     Capybara::Poltergeist::Driver.new(app, window_size: [1280, 960])
