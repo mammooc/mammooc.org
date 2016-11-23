@@ -46,7 +46,7 @@ end
 
 # Force PhantomJS to be used
 # linked to the issue below
-# ENV['PHANTOM_JS'] = 'true'
+ENV['PHANTOM_JS'] = 'true'
 
 if ENV['PHANTOM_JS'] == 'true'
   Capybara.register_driver :poltergeist do |app|
