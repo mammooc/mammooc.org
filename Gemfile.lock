@@ -44,13 +44,13 @@ GEM
     ast (2.3.0)
     autoprefixer-rails (6.5.3)
       execjs
-    aws-sdk (2.6.27)
-      aws-sdk-resources (= 2.6.27)
-    aws-sdk-core (2.6.27)
+    aws-sdk (2.6.28)
+      aws-sdk-resources (= 2.6.28)
+    aws-sdk-core (2.6.28)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.6.27)
-      aws-sdk-core (= 2.6.27)
+    aws-sdk-resources (2.6.28)
+      aws-sdk-core (= 2.6.28)
     aws-sigv4 (1.0.0)
     bcrypt (3.1.11)
     bootstrap-datepicker-rails (1.6.4.1)
@@ -361,7 +361,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (2.0.5)
-    tins (1.12.0)
+    tins (1.13.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (3.0.3)
@@ -408,7 +408,7 @@ DEPENDENCIES
   database_cleaner
   devise
   factory_girl_rails
-  filterrific
+  filterrific (= 2.0.5)
   font-awesome-sass
   fullcalendar-rails
   headless

@@ -89,7 +89,7 @@ gem 'config'
 gem 'newrelic_rpm'
 
 # for filtering, searching and sorting
-gem 'filterrific'
+gem 'filterrific', '2.0.5'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 
