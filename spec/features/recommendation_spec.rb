@@ -208,6 +208,7 @@ RSpec.describe 'Recommendation', type: :feature do
         fill_in 'recommendation_course_id-tokenfield', with: "\t"
       end
       click_button I18n.t('recommendation.submit')
+      wait_for_ajax
       expect(Recommendation.count).to eq 1
     end
 
@@ -304,6 +305,7 @@ RSpec.describe 'Recommendation', type: :feature do
         fill_in 'recommendation_course_id-tokenfield', with: "\t"
       end
       click_button I18n.t('recommendation.obligatory_recommendation.submit')
+      wait_for_ajax
       expect(Recommendation.count).to eq 1
     end
 
