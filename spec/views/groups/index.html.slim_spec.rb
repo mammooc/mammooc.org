@@ -18,7 +18,7 @@ RSpec.describe 'groups/index', type: :view do
     ]
   end
 
-  before(:each) do
+  before do
     @groups = groups
     @groups_pictures = {}
     sign_in user

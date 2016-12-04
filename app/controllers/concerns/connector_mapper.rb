@@ -6,46 +6,42 @@ module ConnectorMapper
   def get_connector_by_mooc_provider(mooc_provider)
     case mooc_provider.name
       when 'openHPI'
-        return OpenHPIConnector.new
+        OpenHPIConnector.new
       when 'openSAP'
-        return OpenSAPConnector.new
+        OpenSAPConnector.new
       when 'openHPI.cn'
-        return OpenHPIChinaConnector.new
+        OpenHPIChinaConnector.new
       when 'openSAP.cn'
-        return OpenSAPChinaConnector.new
+        OpenSAPChinaConnector.new
       when 'mooc.house'
-        return MoocHouseConnector.new
+        MoocHouseConnector.new
       when 'cnMOOC.house'
-        return CnmoocHouseConnector.new
+        CnmoocHouseConnector.new
       when 'openUNE.cn'
-        return OpenUNEConnector.new
+        OpenUNEConnector.new
       when 'coursera'
-        return CourseraConnector.new
-      else
-        return nil
+        CourseraConnector.new
     end
   end
 
   def get_worker_by_mooc_provider(mooc_provider)
     case mooc_provider.name
       when 'openHPI'
-        return OpenHPIUserWorker
+        OpenHPIUserWorker
       when 'openSAP'
-        return OpenSAPUserWorker
+        OpenSAPUserWorker
       when 'openHPI.cn'
-        return OpenHPIChinaUserWorker
+        OpenHPIChinaUserWorker
       when 'openSAP.cn'
-        return OpenSAPChinaUserWorker
+        OpenSAPChinaUserWorker
       when 'mooc.house'
-        return MoocHouseUserWorker
+        MoocHouseUserWorker
       when 'cnMOOC.house'
-        return CnmoocHouseUserWorker
+        CnmoocHouseUserWorker
       when 'openUNE.cn'
-        return OpenUNEUserWorker
+        OpenUNEUserWorker
       when 'coursera'
-        return CourseraUserWorker
-      else
-        return nil
+        CourseraUserWorker
     end
   end
 end

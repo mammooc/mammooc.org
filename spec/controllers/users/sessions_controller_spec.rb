@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
+# rubocop:disable RSpec/NamedSubject
 RSpec.describe Users::SessionsController, type: :controller do
   include Devise::Test::ControllerHelpers
   include Warden::Test::Helpers
 
   let(:user) { FactoryGirl.create(:user) }
 
-  before(:each) do
+  before do
     request.env['devise.mapping'] = Devise.mappings[:user]
     Warden.test_mode!
   end
@@ -108,3 +109,4 @@ RSpec.describe Users::SessionsController, type: :controller do
     expect { post :create, params: {user: {primary_email: user.primary_email, password: '12345678'}} }.not_to change { UserIdentity.where(user_id: user.id).count }
   end
 end
+# rubocop:enable RSpec/NamedSubject

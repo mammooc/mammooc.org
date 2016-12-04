@@ -8,9 +8,7 @@ class UserMailerPreview < ActionMailer::Preview
       user.last_newsletter_send_at = Time.zone.today - user.newsletter_interval.days
     end
     courses = User.collect_new_courses(user)
-    if courses.blank?
-      courses = [Course.first]
-    end
+    courses = [Course.first] if courses.blank?
     UserMailer.newsletter_for_new_courses(user.primary_email, user, courses)
   end
 end

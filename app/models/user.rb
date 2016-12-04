@@ -170,7 +170,7 @@ class User < ActiveRecord::Base
     conditions = warden_conditions.dup
     email_address = conditions.delete(:primary_email)
     if email_address.present?
-      User.find_by_primary_email(email_address)
+      User.find_by_primary_email(email_address) # rubocop:disable Rails/DynamicFindBy
     else
       super(warden_conditions)
     end
@@ -190,7 +190,7 @@ class User < ActiveRecord::Base
 
     # Create the user if needed
     if user.nil?
-      user = User.find_by_primary_email(email.downcase) if email
+      user = User.find_by_primary_email(email.downcase) if email # rubocop:disable Rails/DynamicFindBy
 
       # We can't find a user with this email, so let's create
       if user.nil?
@@ -235,7 +235,7 @@ class User < ActiveRecord::Base
 
     email_is_verified = email.present? && user.present? && (auth.info.verified || auth.info.verified_email)
     if email_is_verified
-      primary_email_object = UserEmail.find_by_address(email.downcase)
+      primary_email_object = UserEmail.find_by(address: email.downcase)
       primary_email_object.is_verified = true
       primary_email_object.save!
     end

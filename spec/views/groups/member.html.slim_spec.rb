@@ -7,7 +7,7 @@ RSpec.describe 'groups/members', type: :view do
   let(:second_user) { FactoryGirl.create(:user) }
   let(:third_user) { FactoryGirl.create(:user) }
 
-  before(:each) do
+  before do
     @group = group
 
     UserGroup.set_is_admin(group.id, user.id, true)

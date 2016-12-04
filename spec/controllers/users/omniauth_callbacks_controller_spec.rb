@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
+# rubocop:disable RSpec/NamedSubject
 RSpec.describe Users::OmniauthCallbacksController, type: :controller do
   include Devise::Test::ControllerHelpers
   include Warden::Test::Helpers
@@ -8,7 +9,7 @@ RSpec.describe Users::OmniauthCallbacksController, type: :controller do
   let(:user) { FactoryGirl.create(:OmniAuthUser) }
   let(:identity) { UserIdentity.find_by(user: user) }
 
-  before(:each) do
+  before do
     request.env['devise.mapping'] = Devise.mappings[:user]
     Warden.test_mode!
     OmniAuth.config.test_mode = true
@@ -103,7 +104,7 @@ RSpec.describe Users::OmniauthCallbacksController, type: :controller do
   end
 
   describe 'deauthorize' do
-    before(:each) do
+    before do
       expect_any_instance_of(ApplicationController).to receive(:ensure_signup_complete).and_return(true)
       sign_in user
     end
@@ -133,3 +134,4 @@ RSpec.describe Users::OmniauthCallbacksController, type: :controller do
     end
   end
 end
+# rubocop:enable RSpec/NamedSubject

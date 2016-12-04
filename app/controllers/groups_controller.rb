@@ -81,8 +81,7 @@ class GroupsController < ApplicationController
   end
 
   # GET /groups/1/edit
-  def edit
-  end
+  def edit; end
 
   def recommendations
     @recommendations = @group.recommendations.sort_by(&:created_at).reverse!
@@ -283,7 +282,7 @@ class GroupsController < ApplicationController
   end
 
   def join
-    group_invitation = GroupInvitation.find_by_token!(params[:token])
+    group_invitation = GroupInvitation.find_by!(token: params[:token])
 
     if group_invitation.expiry_date <= Time.zone.now.in_time_zone
       flash[:error] = t('groups.invitation.link_expired')
@@ -357,7 +356,7 @@ class GroupsController < ApplicationController
     emails.each do |email_address|
       if email_address == UserEmail::EMAIL.match(email_address).to_s
         token = SecureRandom.urlsafe_base64(Settings.token_length)
-        until GroupInvitation.find_by_token(token).nil?
+        until GroupInvitation.find_by(token: token).nil?
           token = SecureRandom.urlsafe_base64(Settings.token_length)
         end
         link = root_url + 'groups/join/' + token

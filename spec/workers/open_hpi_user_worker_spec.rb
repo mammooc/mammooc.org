@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe OpenHPIUserWorker do
   let(:user) { FactoryGirl.create(:user) }
 
-  before(:each) do
+  before do
     Sidekiq::Testing.inline!
   end
 

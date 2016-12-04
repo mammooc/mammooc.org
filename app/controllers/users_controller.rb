@@ -42,8 +42,8 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    unless UserGroup.find_by_user_id(@user.id).blank?
-      UserGroup.find_by_user_id(@user.id).destroy
+    unless UserGroup.find_by(user_id: @user.id).blank?
+      UserGroup.find_by(user_id: @user.id).destroy
     end
     @user.destroy
     respond_to do |format|
@@ -199,7 +199,7 @@ class UsersController < ApplicationController
   def oauth_callback
     code = params[:code]
     state = params[:state].split(/~/) if params[:state].present?
-    mooc_provider = MoocProvider.find_by_name(state.first) if state.present?
+    mooc_provider = MoocProvider.find_by(name: state.first) if state.present?
     destination_path = state.second if state.present?
     csrf_token = state.third if state.present?
     flash['error'] ||= []
@@ -239,7 +239,7 @@ class UsersController < ApplicationController
 
   def set_mooc_provider_connection
     @got_connection = false
-    mooc_provider = MoocProvider.find_by_id(params[:mooc_provider])
+    mooc_provider = MoocProvider.find_by(id: params[:mooc_provider])
     if mooc_provider.present?
       provider_connector = get_connector_by_mooc_provider mooc_provider
       if provider_connector.present?
@@ -265,7 +265,7 @@ class UsersController < ApplicationController
 
   def revoke_mooc_provider_connection
     @revoked_connection = true
-    mooc_provider = MoocProvider.find_by_id(params[:mooc_provider])
+    mooc_provider = MoocProvider.find_by(id: params[:mooc_provider])
     if mooc_provider.present?
       provider_connector = get_connector_by_mooc_provider mooc_provider
       if provider_connector.present?

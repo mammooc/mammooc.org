@@ -7,7 +7,7 @@ RSpec.describe 'dashboard/dashboard.html.slim', type: :view do
   let(:second_course) { FactoryGirl.create(:full_course) }
   let(:recommendation) { FactoryGirl.create(:user_recommendation) }
 
-  before(:each) do
+  before do
     assign(:groups, [
              Group.create!(
                name: 'Name',

@@ -8,7 +8,7 @@ RSpec.describe 'bookmarks/index', type: :view do
   let!(:bookmark) { FactoryGirl.create(:bookmark, user: user, course: course) }
   let!(:second_bookmark) { FactoryGirl.create(:bookmark, user: user, course: second_course) }
 
-  before(:each) do
+  before do
     @bookmarked_courses = [course, second_course]
     @provider_logos = {}
     sign_in user

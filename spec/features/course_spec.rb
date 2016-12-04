@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe 'Course', type: :feature do
   let(:user) { FactoryGirl.create(:user) }
 
-  before(:each) do |example|
+  before do |example|
     unless example.metadata[:skip_before]
       visit new_user_session_path
       fill_in 'login_email', with: user.primary_email

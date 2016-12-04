@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class ApiConnectionController < ApplicationController
-  def index
-  end
+  def index; end
 
   def send_request
     OpenHPICourseWorker.perform_async
