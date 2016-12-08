@@ -23,6 +23,7 @@ class IversityCourseWorker < AbstractCourseWorker
     certificate_track_type = CourseTrackType.find_by(type_of_achievement: 'iversity_certificate')
     ects_track_type = CourseTrackType.find_by(type_of_achievement: 'iversity_ects')
     ects_pupils_track_type = CourseTrackType.find_by(type_of_achievement: 'iversity_ects_pupils')
+    iversity_statement_track = CourseTrackType.find_by(type_of_achievement: 'iversity_statement_of_participation')
 
     response_data['courses'].each do |course_element|
       course = Course.find_by(provider_course_id: course_element['id'].to_s, mooc_provider_id: mooc_provider.id) || Course.new
@@ -74,6 +75,12 @@ class IversityCourseWorker < AbstractCourseWorker
           when 'schüler'
             track_attributes = {track_type: ects_pupils_track_type, costs: price[0].to_f, costs_currency: price[1]}
             track_attributes[:credit_points] = plan['credits'].split(' ')[0].to_f unless plan['credits'].blank?
+          when 'statement', 'teilnahmebescheinigung'
+            if price.present?
+              track_attributes = {track_type: iversity_statement_track, costs: price[0].to_f, costs_currency: price[1]}
+            else
+              track_attributes = {track_type: iversity_statement_track, costs: 0.0, costs_currency: "\xe2\x82\xac"}
+            end
         end
         track = CourseTrack.find_by(course_id: course.id, track_type: track_attributes[:track_type]) || CourseTrack.create!(track_attributes)
         course.tracks.push track
