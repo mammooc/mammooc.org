@@ -25,7 +25,7 @@ FactoryGirl.define do
     type_of_achievement 'iversity_ects_pupils'
   end
 
-  factory :iversity_statement_track, class: CourseTrackType do
+  factory :iversity_statement_track_type, class: CourseTrackType do
     title 'Statement of Participation'
     description 'You get a Statement of Participation.'
     type_of_achievement 'iversity_statement_of_participation'
