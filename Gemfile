@@ -103,6 +103,9 @@ gem 'momentjs-rails'
 # support for Cross-Origin Resource Sharing (CORS)
 gem 'rack-cors', require: 'rack/cors'
 
+# consume JSON API
+gem 'json-api-vanilla'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
