@@ -7,6 +7,7 @@ namespace :mammooc do
     OpenSAPCourseWorker.perform_async
     CourseraCourseWorker.perform_async
     OpenUNECourseWorker.perform_async
+    OpenWHOCourseWorker.perform_async
     MoocHouseCourseWorker.perform_async
     OpenHPIChinaCourseWorker.perform_async
     EdxCourseWorker.perform_async
@@ -19,6 +20,7 @@ namespace :mammooc do
     OpenHPIUserWorker.perform_async
     OpenSAPUserWorker.perform_async
     OpenUNEUserWorker.perform_async
+    OpenWHOUserWorker.perform_async
     MoocHouseUserWorker.perform_async
     OpenHPIChinaUserWorker.perform_async
     CourseraUserWorker.perform_async

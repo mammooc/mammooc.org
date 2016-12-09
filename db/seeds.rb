@@ -10,6 +10,7 @@ MoocProvider.create!(name: 'mooc.house', logo_id: 'logo_mooc_house.svg', url: 'h
 MoocProvider.create!(name: 'cnMOOC.house', logo_id: 'logo_cnmooc_house.svg', url: 'https://cnmooc.house', api_support_state: :naive)
 open_sap = MoocProvider.create!(name: 'openSAP', logo_id: 'logo_openSAP.svg', url: 'https://open.sap.com', api_support_state: :naive)
 MoocProvider.create!(name: 'openUNE.cn', logo_id: 'logo_openUNE.svg', url: 'https://openune.cn', api_support_state: :naive)
+MoocProvider.create!(name: 'openWHO', logo_id: 'logo_openWHO.svg', url: 'https://openwho.org', api_support_state: :naive)
 
 # Others
 MoocProvider.create!(name: 'edX', logo_id: 'logo_edX.svg', url: 'https://www.edx.org', api_support_state: :nil)
@@ -64,6 +65,7 @@ OpenHPIChinaCourseWorker.perform_async
 MoocHouseCourseWorker.perform_async
 CnmoocHouseCourseWorker.perform_async
 OpenUNECourseWorker.perform_async
+OpenWHOCourseWorker.perform_async
 EdxCourseWorker.perform_async
 CourseraCourseWorker.perform_async
 IversityCourseWorker.perform_async

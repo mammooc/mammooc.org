@@ -22,6 +22,8 @@ RSpec.describe ConnectorMapper do
     expect(get_connector_by_mooc_provider(mooc_provider).class).to eq CnmoocHouseConnector
     mooc_provider.name = 'openUNE.cn'
     expect(get_connector_by_mooc_provider(mooc_provider).class).to eq OpenUNEConnector
+    mooc_provider.name = 'openWHO'
+    expect(get_connector_by_mooc_provider(mooc_provider).class).to eq OpenWHOConnector
     mooc_provider.name = 'coursera'
     expect(get_connector_by_mooc_provider(mooc_provider).class).to eq CourseraConnector
   end
@@ -43,6 +45,8 @@ RSpec.describe ConnectorMapper do
     expect(get_worker_by_mooc_provider(mooc_provider)).to eq CnmoocHouseUserWorker
     mooc_provider.name = 'openUNE.cn'
     expect(get_worker_by_mooc_provider(mooc_provider)).to eq OpenUNEUserWorker
+    mooc_provider.name = 'openWHO'
+    expect(get_worker_by_mooc_provider(mooc_provider)).to eq OpenWHOUserWorker
     mooc_provider.name = 'coursera'
     expect(get_worker_by_mooc_provider(mooc_provider)).to eq CourseraUserWorker
   end
