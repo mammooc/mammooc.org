@@ -370,7 +370,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.2)
-    unicode-display_width (1.1.1)
+    unicode-display_width (1.1.2)
     warden (1.2.6)
       rack (>= 1.0)
     web-console (3.4.0)
