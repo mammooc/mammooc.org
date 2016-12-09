@@ -13,6 +13,8 @@ class AbstractJsonApiCourseWorker < AbstractCourseWorker
     url = self.class::MOOC_PROVIDER_API_LINK
     begin
       response_json = get_page url
+      return response_json if response_json.is_a?(Array)
+
       data += response_json.keys.values
       current_page = response_json.rel_links['self']
       next_page = response_json.rel_links['self']
@@ -27,7 +29,7 @@ class AbstractJsonApiCourseWorker < AbstractCourseWorker
     if response.starts_with? '<pre>'
       response = Nokogiri::HTML(response).xpath('//pre/text()').text
     end
-    JSON::Api::Vanilla.parse(response)
+    response.present? ? JSON::Api::Vanilla.parse(response) : []
   end
 
   def handle_response_data(response_data)
