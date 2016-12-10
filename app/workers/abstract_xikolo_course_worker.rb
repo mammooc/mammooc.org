@@ -50,7 +50,9 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
       course.description = convert_to_absolute_urls(parse_markdown(course_element['description']))
       course.course_instructors = course_element['lecturer']
       course.open_for_registration = !course_element['locked']
-      track = CourseTrack.find_by(course_id: course.id, track_type: course_track_type) || CourseTrack.create!(track_type: course_track_type, costs: 0.0, costs_currency: "\xe2\x82\xac")
+      track = CourseTrack.find_by(course_id: course.id, track_type: course_track_type) || CourseTrack.create!(track_type: course_track_type)
+      track.costs = 0.0
+      track.costs_currency = "\xe2\x82\xac"
       course.tracks.push(track)
       course.save!
     end
