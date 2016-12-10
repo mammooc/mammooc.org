@@ -237,9 +237,8 @@ RSpec.describe OpenHPIConnector do
 
     describe 'get dates for user' do
       it 'gets an API response' do
-        pending 'See GitHub issue #721'
-        FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
-        expect { open_hpi_connector.send(:get_dates_for_user, user) }.to raise_error RestClient::InternalServerError
+        FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider)
+        expect { open_hpi_connector.send(:get_dates_for_user, user) }.not_to raise_error
       end
 
       it 'returns parsed response for received dates' do
