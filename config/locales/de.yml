@@ -264,7 +264,9 @@ de:
     current_recommendations: Aktuelle Empfehlungen (%{shown_number} von %{complete_number})
     subnav:
       home: Home
-      members: Mitglieder
+      members:
+        one: 1 Mitglied
+        other: "%{count} Mitglieder"
       recommendations: Empfehlungen
       statistics: Statistiken
     invitation:

@@ -31,10 +31,10 @@
           .entry
             div class=(current_page?("/groups/#{@group.id}/members") ? 'active' : '')
               - if current_page?("/groups/#{@group.id}/members")
-                = t('groups.subnav.members')
+                = t('groups.subnav.members', count: @group.users.count)
               - else
                 a href="/groups/#{@group.id}/members"
-                  = t('groups.subnav.members')
+                  = t('groups.subnav.members', count: @group.users.count)
           .entry
             div class=(current_page?("/groups/#{@group.id}/recommendations") ? 'active' : '')
               - if current_page?("/groups/#{@group.id}/recommendations")

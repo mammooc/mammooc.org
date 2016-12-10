@@ -264,7 +264,9 @@ en:
     current_recommendations: Current Recommendations (%{shown_number} out of %{complete_number})
     subnav:
       home: Home
-      members: Members
+      members:
+        one: 1 Member
+        other: "%{count} Members"
       recommendations: Recommendations
       statistics: Statistics
     invitation:
