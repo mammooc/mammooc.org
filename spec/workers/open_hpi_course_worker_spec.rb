@@ -191,7 +191,7 @@ RSpec.describe OpenHPICourseWorker do
     expect(course.tracks[0].costs).to eq 0.0
     expect(course.tracks[0].credit_points).to be_nil
     expect(course.tracks[0].track_type.type_of_achievement).to eq course_track_type.type_of_achievement
-    expect(course.tracks[0].costs_currency).to eq "\xe2\x82\xac"
+    expect(course.tracks[0].costs_currency).to eq '€'
   end
 
   it 'loads courses on perform' do
