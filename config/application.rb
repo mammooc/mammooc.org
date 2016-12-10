@@ -47,5 +47,12 @@ module MAMMOOC
 
     # Force SSL for all connections in single-mode
     config.force_ssl = true if ENV['FORCE_SSL'] == 'true'
+
+    # Implement Security Headers
+    SecureHeaders::Configuration.default do |config|
+      config.csp[:script_src] = %w(https: 'unsafe-inline')
+      config.hsts = SecureHeaders::OPT_OUT # handled by nginx
+      config.referrer_policy = 'strict-origin-when-cross-origin'
+    end
   end
 end
