@@ -9,19 +9,14 @@ class User < ActiveRecord::Base
   has_many :emails, class_name: 'UserEmail', dependent: :delete_all
   has_many :user_groups, dependent: :destroy
   has_many :groups, through: :user_groups
-  has_many :created_recommendations, foreign_key: 'author_id', class_name: 'Recommendation'
+  has_many :created_recommendations, foreign_key: 'author_id', class_name: 'Recommendation', dependent: :destroy
   has_and_belongs_to_many :recommendations
-  has_many :comments
   has_many :mooc_provider_users, dependent: :destroy
   has_many :mooc_providers, through: :mooc_provider_users
   has_many :completions, dependent: :destroy
   has_and_belongs_to_many :courses
-  has_many :course_requests
-  has_many :approvals
-  has_many :progresses
   has_many :bookmarks, dependent: :destroy
   has_many :evaluations
-  has_many :user_assignments
   has_many :identities, class_name: 'UserIdentity', dependent: :destroy
   has_many :settings, class_name: 'UserSetting', dependent: :destroy
   has_many :dates, class_name: 'UserDate', dependent: :destroy

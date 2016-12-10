@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
 class Group < ActiveRecord::Base
-  has_many :user_groups
+  has_many :user_groups, dependent: :destroy
   has_many :users, through: :user_groups
-  has_many :statistics
-  has_many :recommendations
-  has_many :course_requests
-  has_many :group_invitations
+  has_many :recommendations, dependent: :destroy
+  has_many :group_invitations, dependent: :destroy
   include PublicActivity::Common
 
   has_attached_file :image,
