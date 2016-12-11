@@ -11,8 +11,6 @@ module ConnectorMapper
         OpenSAPConnector.new
       when 'openHPI.cn'
         OpenHPIChinaConnector.new
-      when 'openSAP.cn'
-        OpenSAPChinaConnector.new
       when 'mooc.house'
         MoocHouseConnector.new
       when 'cnMOOC.house'
@@ -32,8 +30,6 @@ module ConnectorMapper
         OpenSAPUserWorker
       when 'openHPI.cn'
         OpenHPIChinaUserWorker
-      when 'openSAP.cn'
-        OpenSAPChinaUserWorker
       when 'mooc.house'
         MoocHouseUserWorker
       when 'cnMOOC.house'

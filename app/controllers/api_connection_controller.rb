@@ -7,7 +7,6 @@ class ApiConnectionController < ApplicationController
     OpenHPICourseWorker.perform_async
     OpenSAPCourseWorker.perform_async
     OpenHPIChinaCourseWorker.perform_async
-    OpenSAPChinaCourseWorker.perform_async
     MoocHouseCourseWorker.perform_async
     CnmoocHouseCourseWorker.perform_async
     OpenUNECourseWorker.perform_async
