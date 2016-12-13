@@ -10,7 +10,7 @@ RSpec.describe CoursesController, type: :controller do
   let!(:third_mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'coursera') }
   let!(:third_course) { FactoryGirl.create(:course, mooc_provider: third_mooc_provider) }
 
-  before(:each) do
+  before do
     sign_in user
   end
 

@@ -83,7 +83,7 @@ class Course < ActiveRecord::Base
     terms = query.mb_chars.downcase.to_s.split(/\s+/)
 
     # rubocop:disable Style/BlockDelimiters
-    terms = terms.map { |e|
+    terms = terms.map {|e|
       e.prepend('%')
       (e.tr('*', '%') + '%').gsub(/%+/, '%')
     }
@@ -126,7 +126,7 @@ class Course < ActiveRecord::Base
       "#{reference_subtitle_languages}%", "%,#{reference_subtitle_languages}%")
   end
 
-  scope :with_tracks, -> (reference_track_options) do
+  scope :with_tracks, ->(reference_track_options) do
     if reference_track_options[:costs].present? && reference_track_options[:certificate].blank?
       case reference_track_options[:costs]
         when 'free'
@@ -293,7 +293,7 @@ class Course < ActiveRecord::Base
 
   def self.update_course_rating_attributes(course_id)
     course = Course.find(course_id)
-    course_evaluations = Evaluation.find_by_course_id(course_id)
+    course_evaluations = Evaluation.find_by(course_id: course_id)
     if course_evaluations.present?
       course.calculated_rating = Evaluation.where(course_id: course_id).average(:rating)
       course.rating_count = Evaluation.where(course_id: course_id).count

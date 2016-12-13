@@ -22,7 +22,7 @@ RSpec.describe RecommendationsController, type: :controller do
   let(:valid_controller_attributes_multiple) { {author: user, is_obligatory: 'false', related_group_ids: "#{group.id}, #{second_group.id}", related_user_ids: "#{second_user.id}, #{third_user.id}", course_id: course.id} }
   let(:valid_controller_attributes_multiple_obligatory) { {author: user, is_obligatory: 'true', related_group_ids: "#{group.id}, #{second_group.id}", related_user_ids: "#{second_user.id}, #{third_user.id}", course_id: course.id} }
 
-  before(:each) do
+  before do
     sign_in user
     ActionMailer::Base.deliveries.clear
   end

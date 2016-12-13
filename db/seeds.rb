@@ -9,7 +9,6 @@ MoocProvider.create!(name: 'openHPI.cn', logo_id: 'logo_openHPI.svg', url: 'http
 MoocProvider.create!(name: 'mooc.house', logo_id: 'logo_mooc_house.svg', url: 'https://mooc.house', api_support_state: :naive)
 MoocProvider.create!(name: 'cnMOOC.house', logo_id: 'logo_cnmooc_house.svg', url: 'https://cnmooc.house', api_support_state: :naive)
 open_sap = MoocProvider.create!(name: 'openSAP', logo_id: 'logo_openSAP.svg', url: 'https://open.sap.com', api_support_state: :naive)
-MoocProvider.create!(name: 'openSAP.cn', logo_id: 'logo_openSAP.svg', url: 'https://open.sap.cn', api_support_state: :naive)
 MoocProvider.create!(name: 'openUNE.cn', logo_id: 'logo_openUNE.svg', url: 'https://openune.cn', api_support_state: :naive)
 
 # Others
@@ -62,7 +61,6 @@ iversity_student_track = CourseTrackType.create!(title: 'Schüler-Track',
 OpenHPICourseWorker.perform_async
 OpenSAPCourseWorker.perform_async
 OpenHPIChinaCourseWorker.perform_async
-OpenSAPChinaCourseWorker.perform_async
 MoocHouseCourseWorker.perform_async
 CnmoocHouseCourseWorker.perform_async
 OpenUNECourseWorker.perform_async

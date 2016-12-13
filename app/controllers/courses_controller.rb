@@ -18,11 +18,13 @@ class CoursesController < ApplicationController
       @flash_notice_newsletter = :current_user
     end
 
-    respond_to do |format|
-      format.html
-      format.js
-      format.json
-    end unless performed?
+    unless performed?
+      respond_to do |format|
+        format.html
+        format.js
+        format.json
+      end
+    end
 
   rescue ActiveRecord::RecordNotFound => e
     Rails.logger.info "Had to reset filterrific params: #{e.message}"

@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe 'recommendations/new', type: :view do
-  before(:each) do
+  before do
     assign(:recommendation, Recommendation.new(
                               is_obligatory: false,
                               author: nil,

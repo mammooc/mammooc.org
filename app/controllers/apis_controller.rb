@@ -11,12 +11,10 @@ class ApisController < ApplicationController
         profile_picture: ApplicationController.helpers.asset_url(current_user.profile_image.url(:thumb))
       }
       @logged_in = true
-      if params[:provider].present? && params[:course_id].present?
-        mooc_provider = MoocProvider.find_by!(name: params[:provider])
-        course = [Course.find_by!(provider_course_id: params[:course_id], mooc_provider: mooc_provider)]
-      else
-        raise ActionController::ParameterMissing.new('no provider or course given')
-      end
+      raise ActionController::ParameterMissing.new('no provider or course given') unless params[:provider].present? && params[:course_id].present?
+
+      mooc_provider = MoocProvider.find_by!(name: params[:provider])
+      course = [Course.find_by!(provider_course_id: params[:course_id], mooc_provider: mooc_provider)]
 
       if current_user.evaluations.where(course: course).present?
         @evaluation = current_user.evaluations.where(course: course).first.as_json.slice('rating', 'is_verified', 'description', 'course_status', 'rated_anonymously')

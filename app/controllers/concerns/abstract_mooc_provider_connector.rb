@@ -57,7 +57,7 @@ class AbstractMoocProviderConnector
       users.each do |user|
         result &= fetch_user_data user if connection_to_mooc_provider? user
       end
-      return result
+      result
     end
   end
 
@@ -71,7 +71,7 @@ class AbstractMoocProviderConnector
       users.each do |user|
         result &= fetch_dates_for_user user if connection_to_mooc_provider? user
       end
-      return result
+      result
     end
   end
 
@@ -92,7 +92,7 @@ class AbstractMoocProviderConnector
   private
 
   def mooc_provider
-    MoocProvider.find_by_name(self.class::NAME)
+    MoocProvider.find_by(name: self.class::NAME)
   end
 
   def send_connection_request(_user, _credentials)

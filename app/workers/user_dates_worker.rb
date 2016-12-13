@@ -13,7 +13,6 @@ class UserDatesWorker
     MoocHouseConnector.new.load_dates_for_users
     CnmoocHouseConnector.new.load_dates_for_users
     OpenHPIChinaConnector.new.load_dates_for_users
-    OpenSAPChinaConnector.new.load_dates_for_users
     OpenUNEConnector.new.load_dates_for_users
   end
 end

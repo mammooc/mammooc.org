@@ -60,7 +60,7 @@ RSpec.describe AbstractCourseWorker do
       "<p><a href=\"\">JavaScript Method</a></p>\n<p><video src=\"https://youtube.example.com/watch/?v=123\"></video></p>\n<p><img src=\"https://www.example.com/files/image01.jpg\"></p>"
     end
 
-    before(:each) do
+    before do
       stub_const('AbstractCourseWorker::COURSE_LINK_BODY', 'https://www.example.com/courses')
     end
 

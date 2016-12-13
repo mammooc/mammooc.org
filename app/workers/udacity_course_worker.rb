@@ -8,7 +8,7 @@ class UdacityCourseWorker < AbstractCourseWorker
   MOOC_PROVIDER_API_LINK = 'https://www.udacity.com/public-api/v0/courses'
 
   def mooc_provider
-    MoocProvider.find_by_name(MOOC_PROVIDER_NAME)
+    MoocProvider.find_by(name: MOOC_PROVIDER_NAME)
   end
 
   def course_data

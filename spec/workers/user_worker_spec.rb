@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe UserWorker do
   let(:user) { FactoryGirl.create(:user) }
 
-  before(:each) do
+  before do
     Sidekiq::Testing.inline!
   end
 
@@ -12,7 +12,6 @@ RSpec.describe UserWorker do
     expect(OpenHPIUserWorker).to receive(:perform_async).with(nil)
     expect(OpenSAPUserWorker).to receive(:perform_async).with(nil)
     expect(OpenHPIChinaUserWorker).to receive(:perform_async).with(nil)
-    expect(OpenSAPChinaUserWorker).to receive(:perform_async).with(nil)
     expect(OpenUNEUserWorker).to receive(:perform_async).with(nil)
     expect(MoocHouseUserWorker).to receive(:perform_async).with(nil)
     expect(CourseraUserWorker).to receive(:perform_async).with(nil)
@@ -23,7 +22,6 @@ RSpec.describe UserWorker do
     expect(OpenHPIUserWorker).to receive(:perform_async).with([user.id])
     expect(OpenSAPUserWorker).to receive(:perform_async).with([user.id])
     expect(OpenHPIChinaUserWorker).to receive(:perform_async).with([user.id])
-    expect(OpenSAPChinaUserWorker).to receive(:perform_async).with([user.id])
     expect(OpenUNEUserWorker).to receive(:perform_async).with([user.id])
     expect(MoocHouseUserWorker).to receive(:perform_async).with([user.id])
     expect(CourseraUserWorker).to receive(:perform_async).with([user.id])
