@@ -47,6 +47,6 @@ Rails.application.configure do
 
   # Disable secure headers for specs
   SecureHeaders::Configuration.default do |headers_config|
-    headers_config.csp[:script_src] = %w(http: 'unsafe-inline')
+    headers_config.csp[:script_src] = %w(http: 'unsafe-inline' 'unsafe-eval')
   end
 end
