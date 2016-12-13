@@ -66,7 +66,7 @@ class IversityCourseWorker < AbstractCourseWorker
         price = plan['price'].split(' ') unless plan['price'].blank?
         track_attributes = {}
         case plan['title'].split(/[\s-]/)[0].downcase
-          when 'audit' then track_attributes = {track_type: free_track_type, costs: 0.0, costs_currency: "\xe2\x82\xac"}
+          when 'audit' then track_attributes = {track_type: free_track_type, costs: 0.0, costs_currency: '€'}
           when 'certificate' then track_attributes = {track_type: certificate_track_type, costs: price[0].to_f, costs_currency: price[1]}
           when 'ects'
             track_attributes = {track_type: ects_track_type, costs: price[0].to_f, costs_currency: price[1]}

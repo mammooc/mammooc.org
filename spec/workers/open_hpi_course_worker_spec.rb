@@ -191,8 +191,7 @@ RSpec.describe OpenHPICourseWorker do
     expect(course.tracks[0].costs).to eq 0.0
     expect(course.tracks[0].credit_points).to be_nil
     expect(course.tracks[0].track_type.type_of_achievement).to eq course_track_type.type_of_achievement
-    expect(course.tracks[0].costs).to eq 0.0
-    expect(course.tracks[0].costs_currency).to eq "\xe2\x82\xac"
+    expect(course.tracks[0].costs_currency).to eq '€'
   end
 
   it 'loads courses on perform' do
@@ -211,6 +210,44 @@ RSpec.describe OpenHPICourseWorker do
     allow(RestClient).to receive(:get).and_return(course_data)
     open_hpi_course_worker.load_courses
     expect { open_hpi_course_worker.load_courses }.to change { Course.count }.by(0)
+  end
+
+  it 'updates course attributes when a course already exists' do
+    allow(RestClient).to receive(:get).and_return(course_data)
+    open_hpi_course_worker.load_courses
+
+    json_course = json_course_data[0]
+    course = Course.find_by(provider_course_id: json_course['id'], mooc_provider_id: mooc_provider.id)
+
+    course.name = 'Test'
+    course.save!
+
+    course.reload
+    expect(course.name).to eq 'Test'
+
+    open_hpi_course_worker.load_courses
+
+    course.reload
+    expect(course.name).to eq 'Spielend Programmieren lernen 2015!'
+  end
+
+  it 'updates course track attributes when a course already exists' do
+    allow(RestClient).to receive(:get).and_return(course_data)
+    open_hpi_course_worker.load_courses
+
+    json_course = json_course_data[0]
+    course = Course.find_by(provider_course_id: json_course['id'], mooc_provider_id: mooc_provider.id)
+
+    course.tracks[0].costs = 200.0
+    course.tracks[0].save!
+
+    course.reload
+    expect(course.tracks[0].costs).to eq 200.0
+
+    open_hpi_course_worker.load_courses
+
+    course.reload
+    expect(course.tracks[0].costs).to eq 0.0
   end
 
   it 'handles an empty API response' do
