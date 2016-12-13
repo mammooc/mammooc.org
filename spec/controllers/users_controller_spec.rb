@@ -36,7 +36,7 @@ RSpec.describe UsersController, type: :controller do
   let!(:coursera) { FactoryGirl.create(:mooc_provider, name: 'coursera', api_support_state: :oauth) }
   let!(:other_mooc_provider) { FactoryGirl.create(:mooc_provider) }
 
-  before(:each) do
+  before do
     sign_in user
   end
 
@@ -47,7 +47,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     context 'without authorization' do
-      before(:each) { get :show, params: {id: another_user.id} }
+      before { get :show, params: {id: another_user.id} }
       it 'redirects to root path' do
         expect(response).to redirect_to(root_path)
       end
@@ -83,7 +83,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     context 'without authorization' do
-      before(:each) { put :update, params: {id: another_user.id, name: 'Another'} }
+      before { put :update, params: {id: another_user.id, name: 'Another'} }
       it 'redirects to root path' do
         expect(response).to redirect_to(root_path)
       end
@@ -113,7 +113,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     context 'without authorization' do
-      before(:each) { delete :destroy, params: {id: another_user.id} }
+      before { delete :destroy, params: {id: another_user.id} }
       it 'redirects to root path' do
         expect(response).to redirect_to(root_path)
       end
@@ -558,10 +558,11 @@ RSpec.describe UsersController, type: :controller do
   describe 'POST set_setting' do
     let(:old_value) { course_enrollments_visibility_settings.value(:groups) }
     let(:new_value) { [FactoryGirl.create(:group).id] }
-    subject { -> { post :set_setting, params: {id: user.id, setting: course_enrollments_visibility_settings.name, key: :groups, value: new_value, format: :json} } }
 
     it 'updates the setting entry' do
-      expect { subject.call }.to change { course_enrollments_visibility_settings.value(:groups) }.from(old_value).to(new_value)
+      expect do
+        post :set_setting, params: {id: user.id, setting: course_enrollments_visibility_settings.name, key: :groups, value: new_value, format: :json}
+      end.to change { course_enrollments_visibility_settings.value(:groups) }.from(old_value).to(new_value)
     end
   end
 

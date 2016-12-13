@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe BookmarkWorker do
   let(:user) { FactoryGirl.create(:user, primary_email: 'test@example.com') }
 
-  before(:each) do
+  before do
     Sidekiq::Testing.inline!
     ActionMailer::Base.deliveries.clear
   end

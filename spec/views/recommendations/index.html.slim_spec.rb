@@ -8,7 +8,7 @@ RSpec.describe 'recommendations/index', type: :view do
   let!(:first_recommendation) { FactoryGirl.create(:user_recommendation, author: author, course: course, users: [user]) }
   let!(:second_recommendation) { FactoryGirl.create(:user_recommendation, author: author, course: course, users: [user]) }
 
-  before(:each) do
+  before do
     assign(:recommendations, [first_recommendation, second_recommendation])
     recommendations_ids = [first_recommendation.id, second_recommendation.id]
     assign(:provider_logos, {})

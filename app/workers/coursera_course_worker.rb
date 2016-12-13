@@ -9,7 +9,7 @@ class CourseraCourseWorker < AbstractCourseWorker
   COURSE_LINK_BODY_V2  = 'https://www.coursera.org/learn/'
 
   def mooc_provider
-    MoocProvider.find_by_name(MOOC_PROVIDER_NAME)
+    MoocProvider.find_by(name: MOOC_PROVIDER_NAME)
   end
 
   def course_data

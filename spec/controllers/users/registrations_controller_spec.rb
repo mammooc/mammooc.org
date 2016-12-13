@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
+# rubocop:disable RSpec/NamedSubject
 RSpec.describe Users::RegistrationsController, type: :controller do
   include Devise::Test::ControllerHelpers
 
-  before(:each) do
+  before do
     request.env['devise.mapping'] = Devise.mappings[:user]
   end
 
@@ -18,7 +19,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
   context 'update user' do
     let(:user) { FactoryGirl.create(:user) }
 
-    before(:each) do
+    before do
       sign_in user
     end
 
@@ -86,7 +87,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
   context 'update OmniAuth user' do
     let(:user) { FactoryGirl.create(:OmniAuthUser) }
 
-    before(:each) do
+    before do
       sign_in user
     end
 
@@ -98,3 +99,4 @@ RSpec.describe Users::RegistrationsController, type: :controller do
     end
   end
 end
+# rubocop:enable RSpec/NamedSubject

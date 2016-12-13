@@ -5,7 +5,7 @@ require 'support/feature_support'
 RSpec.describe 'UserSettings', type: :feature do
   let(:user) { FactoryGirl.create(:user) }
 
-  before(:each) do
+  before do
     ActionMailer::Base.deliveries.clear
   end
 

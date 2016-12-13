@@ -7,7 +7,7 @@ RSpec.describe UserEmailsController, type: :controller do
 
   let(:valid_attributes) { {address: 'test@example.com', is_primary: false, user_id: user.id} }
 
-  before(:each) do
+  before do
     sign_in user
   end
 

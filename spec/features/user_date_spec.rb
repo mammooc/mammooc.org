@@ -5,7 +5,7 @@ require 'support/feature_support'
 RSpec.describe 'UserDate', type: :feature do
   let(:user) { FactoryGirl.create(:user) }
 
-  before(:each) do
+  before do
     Sidekiq::Testing.inline!
 
     capybara_sign_in(user)

@@ -6,13 +6,13 @@ class Certificate < ActiveRecord::Base
   def classification
     case document_type
       when 'confirmation_of_participation'
-        return 0
+        0
       when 'record_of_achievement'
-        return 1
+        1
       when 'certificate'
-        return 2
+        2
       else
-        return 3
+        3
     end
   end
 end

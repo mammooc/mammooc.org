@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe 'Bookmark', type: :feature do
   let(:user) { FactoryGirl.create(:user) }
 
-  before(:each) do
+  before do
     visit new_user_session_path
     fill_in 'login_email', with: user.primary_email
     fill_in 'login_password', with: user.password

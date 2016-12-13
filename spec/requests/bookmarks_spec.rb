@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Bookmarks', type: :request do
-  before(:each) do
+  before do
     sign_in_as_a_valid_user
   end
 

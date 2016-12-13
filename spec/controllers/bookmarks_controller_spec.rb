@@ -6,7 +6,7 @@ RSpec.describe BookmarksController, type: :controller do
   let(:course) { FactoryGirl.create(:course) }
   let(:valid_attributes) { {user_id: user.id, course_id: course.id} }
 
-  before(:each) do
+  before do
     sign_in user
   end
 

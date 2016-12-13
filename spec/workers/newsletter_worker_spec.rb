@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe NewsletterWorker do
   let(:user) { FactoryGirl.create(:user, primary_email: 'test@example.com') }
 
-  before(:each) do
+  before do
     Sidekiq::Testing.inline!
     ActionMailer::Base.deliveries.clear
   end
@@ -65,7 +65,7 @@ RSpec.describe NewsletterWorker do
     end
 
     it 'sends email every day if a new courses are available' do
-      allow(Time.zone).to receive(:now).and_return(Time.zone.parse '2016-08-02 01:00:00')
+      allow(Time.zone).to receive(:now).and_return(Time.zone.parse('2016-08-02 01:00:00'))
       allow(Time.zone).to receive(:today).and_return((Time.zone.parse '2016-08-02').to_date)
       course = FactoryGirl.create(:course)
       course.created_at = Time.zone.parse '2016-08-01 02:00:00'

@@ -441,7 +441,7 @@ RSpec.describe Course, type: :model do
       end
 
       context 'courses without end_date but with duration' do
-        before(:each) do
+        before do
           current_course.end_date = nil
           past_course.end_date = nil
           soon_course.end_date = nil

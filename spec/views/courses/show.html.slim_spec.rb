@@ -28,7 +28,7 @@ RSpec.describe 'courses/show', type: :view do
   end
   let!(:provider_logos) { assign(:provider_logos, {}) }
 
-  before(:each) do
+  before do
     @recommendation = Recommendation.new
   end
 
