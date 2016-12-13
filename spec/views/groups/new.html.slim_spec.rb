@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe 'groups/new', type: :view do
-  before(:each) do
+  before do
     assign(:group, Group.new(
                      name: 'MyString',
                      description: 'MyText'

@@ -60,7 +60,7 @@ RSpec.describe 'User', type: :feature do
   end
 
   context 'user' do
-    before(:each) do
+    before do
       UserGroup.set_is_admin(group.id, user.id, true)
 
       visit new_user_session_path
@@ -137,7 +137,7 @@ RSpec.describe 'User', type: :feature do
       describe 'change email settings' do
         let!(:second_email) { FactoryGirl.create(:user_email, user: user, is_primary: false) }
 
-        before(:each) do
+        before do
           visit "#{user_settings_path(user.id)}?subsite=account"
         end
 
@@ -352,7 +352,7 @@ RSpec.describe 'User', type: :feature do
 
     describe 'privacy settings' do
       # login and go to privacy settings page
-      before(:each) do
+      before do
         visit "#{user_settings_path(user.id)}?subsite=privacy"
         wait_for_ajax
       end
@@ -386,7 +386,7 @@ RSpec.describe 'User', type: :feature do
 
     describe 'newsletter settings' do
       # login and go to newsletter settings page
-      before(:each) do
+      before do
         visit "#{user_settings_path(user.id)}?subsite=newsletter"
         wait_for_ajax
       end
@@ -451,7 +451,7 @@ RSpec.describe 'User', type: :feature do
       end
 
       context 'for users who are not signed in' do
-        before(:each) do
+        before do
           capybara_sign_out user
         end
 
@@ -474,7 +474,7 @@ RSpec.describe 'User', type: :feature do
   end
 
   context 'second user' do
-    before(:each) do
+    before do
       visit new_user_session_path
       fill_in 'login_email', with: second_user.primary_email
       fill_in 'login_password', with: second_user.password

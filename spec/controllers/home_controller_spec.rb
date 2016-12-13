@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe HomeController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
 
-  before(:each) do
+  before do
     sign_in user
   end
 

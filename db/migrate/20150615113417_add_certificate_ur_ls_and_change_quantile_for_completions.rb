@@ -3,7 +3,7 @@
 class AddCertificateUrLsAndChangeQuantileForCompletions < ActiveRecord::Migration
   def change
     remove_column :certificates, :file_id
-    add_column :certificates, :download_url, :string, null: false
+    add_column :certificates, :download_url, :string, null: false # rubocop:disable Rails/NotNullColumn
     add_column :certificates, :verification_url, :string, null: true, default: nil
     add_column :certificates, :document_type, :string
 

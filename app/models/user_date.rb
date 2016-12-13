@@ -12,7 +12,6 @@ class UserDate < ActiveRecord::Base
     synchronization_state[:moocHouse] = MoocHouseConnector.new.load_dates_for_users [user]
     synchronization_state[:cnmoocHouse] = CnmoocHouseConnector.new.load_dates_for_users [user]
     synchronization_state[:openHPIChina] = OpenHPIChinaConnector.new.load_dates_for_users [user]
-    synchronization_state[:openSAPChina] = OpenSAPChinaConnector.new.load_dates_for_users [user]
     synchronization_state[:openUNE] = OpenUNEConnector.new.load_dates_for_users [user]
     synchronization_state
   end
@@ -32,13 +31,12 @@ class UserDate < ActiveRecord::Base
   end
 
   def self.generate_token_for_user(user)
-    if user.token_for_user_dates.blank?
+    return unless user.token_for_user_dates.blank?
+    token = SecureRandom.urlsafe_base64(Settings.token_length)
+    until User.find_by(token_for_user_dates: token).nil?
       token = SecureRandom.urlsafe_base64(Settings.token_length)
-      until User.find_by(token_for_user_dates: token).nil?
-        token = SecureRandom.urlsafe_base64(Settings.token_length)
-      end
-      user.token_for_user_dates = token
-      user.save
     end
+    user.token_for_user_dates = token
+    user.save
   end
 end

@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe 'Users::Session', type: :feature do
   let(:user) { FactoryGirl.create(:user) }
 
-  before(:each) do
+  before do
     visit new_user_session_path
     ActionMailer::Base.deliveries.clear
   end

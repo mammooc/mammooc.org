@@ -9,7 +9,7 @@ RSpec.describe 'groups/show', type: :view do
   let(:ordered_group_members) { group.users }
   let(:recommendation) { FactoryGirl.create(:group_recommendation, group: group) }
 
-  before(:each) do
+  before do
     @group = group
     UserGroup.set_is_admin(group.id, user.id, true)
     @recommendations = [recommendation]

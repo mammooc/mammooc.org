@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe EvaluationsController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
 
-  before(:each) do
+  before do
     sign_in user
   end
 
@@ -56,81 +56,81 @@ RSpec.describe EvaluationsController, type: :controller do
     render_views
     context 'export_course_evaluations' do
       context 'specify course' do
-        subject { JSON.parse(response.body)['evaluations'].first['user_evaluations'] }
+        subject(:evaluations) { JSON.parse(response.body)['evaluations'].first['user_evaluations'] }
 
         it 'returns all evaluations for specific course and specific provider' do
           get :export_course_evaluations, params: {format: :json, provider: mooc_provider.name, course_id: course.provider_course_id}
-          expect(subject.first['rating']).to eq evaluation.rating
-          expect(subject.second['rating']).to eq evaluation2.rating
-          expect(subject.third['rating']).to eq evaluation12.rating
-          expect(subject.count).to eq 3
+          expect(evaluations.first['rating']).to eq evaluation.rating
+          expect(evaluations.second['rating']).to eq evaluation2.rating
+          expect(evaluations.third['rating']).to eq evaluation12.rating
+          expect(evaluations.count).to eq 3
         end
 
         it 'returns first page of evaluations for specific course and specific provider' do
           get :export_course_evaluations, params: {format: :json, provider: mooc_provider.name, course_id: course.provider_course_id, per_page: 2, page: 1}
-          expect(subject.first['rating']).to eq evaluation.rating
-          expect(subject.second['rating']).to eq evaluation2.rating
-          expect(subject.count).to eq 2
+          expect(evaluations.first['rating']).to eq evaluation.rating
+          expect(evaluations.second['rating']).to eq evaluation2.rating
+          expect(evaluations.count).to eq 2
         end
 
         it 'returns specific page of evaluations for specific course and specific provider' do
           get :export_course_evaluations, params: {format: :json, provider: mooc_provider.name, course_id: course.provider_course_id, per_page: 1, page: 3}
-          expect(subject.first['rating']).to eq evaluation12.rating
-          expect(subject.count).to eq 1
+          expect(evaluations.first['rating']).to eq evaluation12.rating
+          expect(evaluations.count).to eq 1
         end
       end
 
       context 'error' do
-        subject { JSON.parse(response.body)['error'] }
+        subject(:error_message) { JSON.parse(response.body)['error'] }
 
         it 'raises error if only course_id is given' do
           get :export_course_evaluations, params: {format: :json, course_id: course.provider_course_id}
-          expect(subject).to include 'no provider given for the course'
+          expect(error_message).to include 'no provider given for the course'
         end
 
         it 'returns an error if specific course is not present ' do
           get :export_course_evaluations, params: {format: :json, provider: mooc_provider.name, course_id: '12345678901'}
-          expect(subject).to eq "Couldn't find Course"
+          expect(error_message).to eq "Couldn't find Course"
         end
 
         it 'returns an error if specific provider is not present ' do
           get :export_course_evaluations, params: {format: :json, provider: 'assdaddsdad', course_id: course.provider_course_id}
-          expect(subject).to eq "Couldn't find MoocProvider"
+          expect(error_message).to eq "Couldn't find MoocProvider"
         end
       end
     end
 
     context 'export_overall_course_rating' do
       context 'specify course' do
-        subject { JSON.parse(response.body)['evaluations'] }
+        subject(:evaluations) { JSON.parse(response.body)['evaluations'] }
 
         it 'returns the number of all evaluations for specific course and specific provider' do
           get :export_overall_course_rating, params: {format: :json, provider: mooc_provider.name, course_id: course.provider_course_id}
-          expect(subject['number_of_evaluations']).to eq 3
+          expect(evaluations['number_of_evaluations']).to eq 3
         end
 
         it 'returns overall rating for specific course and specific provider' do
           get :export_overall_course_rating, params: {format: :json, provider: mooc_provider.name, course_id: course.provider_course_id, per_page: 1}
-          expect(subject['overall_rating']).to eq 7.0
+          expect(evaluations['overall_rating']).to eq 7.0
         end
       end
 
       context 'error' do
-        subject { JSON.parse(response.body)['error'] }
+        subject(:error_message) { JSON.parse(response.body)['error'] }
 
         it 'raises error if only course_id is given' do
           get :export_overall_course_rating, params: {format: :json, course_id: course.provider_course_id}
-          expect(subject).to include 'no provider given for the course'
+          expect(error_message).to include 'no provider given for the course'
         end
 
         it 'returns an error if specific course is not present ' do
           get :export_overall_course_rating, params: {format: :json, provider: mooc_provider.name, course_id: '12345678901'}
-          expect(subject).to eq "Couldn't find Course"
+          expect(error_message).to eq "Couldn't find Course"
         end
 
         it 'returns an error if specific provider is not present ' do
           get :export_overall_course_rating, params: {format: :json, provider: 'assdaddsdad', course_id: course.provider_course_id}
-          expect(subject).to eq "Couldn't find MoocProvider"
+          expect(error_message).to eq "Couldn't find MoocProvider"
         end
       end
     end
