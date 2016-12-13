@@ -6,7 +6,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
   COURSE_LINK_BODY = ''
 
   def mooc_provider
-    MoocProvider.find_by_name(self.class::MOOC_PROVIDER_NAME)
+    MoocProvider.find_by(name: self.class::MOOC_PROVIDER_NAME)
   end
 
   def course_data

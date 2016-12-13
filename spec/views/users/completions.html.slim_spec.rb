@@ -40,7 +40,7 @@ RSpec.describe 'users/completions', type: :view do
      )]
   end
 
-  before(:each) do
+  before do
     sign_in user
     assign(:completions, completions)
     assign(:user, user)

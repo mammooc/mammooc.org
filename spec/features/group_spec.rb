@@ -8,7 +8,7 @@ RSpec.describe 'Group', type: :feature do
   let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
   let(:second_group) { FactoryGirl.create(:group, users: [user]) }
 
-  before(:each) do
+  before do
     UserGroup.set_is_admin(group.id, user.id, true)
     UserGroup.set_is_admin(second_group.id, user.id, true)
 

@@ -30,12 +30,9 @@ class EvaluationsController < ApplicationController
   end
 
   def export_overall_course_rating
-    if params[:provider].present? && params[:course_id].present?
-      mooc_provider = MoocProvider.find_by!(name: params[:provider])
-      course = Course.find_by!(provider_course_id: params[:course_id], mooc_provider: mooc_provider)
-    else
-      raise ActionController::ParameterMissing.new('no provider given for the course')
-    end
+    raise ActionController::ParameterMissing.new('no provider given for the course') unless params[:provider].present? && params[:course_id].present?
+    mooc_provider = MoocProvider.find_by!(name: params[:provider])
+    course = Course.find_by!(provider_course_id: params[:course_id], mooc_provider: mooc_provider)
 
     @overall_course_rating = {
       course_id_from_provider: course.provider_course_id,
@@ -54,12 +51,9 @@ class EvaluationsController < ApplicationController
   end
 
   def export_course_evaluations
-    if params[:provider].present? && params[:course_id].present?
-      mooc_provider = MoocProvider.find_by!(name: params[:provider])
-      course = Course.find_by!(provider_course_id: params[:course_id], mooc_provider: mooc_provider)
-    else
-      raise ActionController::ParameterMissing.new('no provider given for the course')
-    end
+    raise ActionController::ParameterMissing.new('no provider given for the course') unless params[:provider].present? && params[:course_id].present?
+    mooc_provider = MoocProvider.find_by!(name: params[:provider])
+    course = Course.find_by!(provider_course_id: params[:course_id], mooc_provider: mooc_provider)
 
     @courses_with_evaluations = []
     course_evaluations = Set.new
@@ -181,9 +175,7 @@ class EvaluationsController < ApplicationController
     end
 
     course_status = params['course_status']
-    if course_status != 'aborted' && course_status != 'finished' && course_status != 'enrolled'
-      raise ArgumentError.new('course_status has no valid value')
-    end
+    raise ArgumentError.new('course_status has no valid value') if course_status != 'aborted' && course_status != 'finished' && course_status != 'enrolled'
   end
 
   def persist_evaluation(course)

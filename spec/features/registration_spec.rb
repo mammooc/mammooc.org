@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe 'Users::Registration', type: :feature do
   let(:user) { FactoryGirl.build_stubbed(:user) }
 
-  before(:each) do
+  before do
     visit new_user_registration_path
     ActionMailer::Base.deliveries.clear
   end
@@ -18,7 +18,7 @@ RSpec.describe 'Users::Registration', type: :feature do
       fill_in 'registration_password_confirmation', with: user.password
       click_button 'submit_sign_up'
       expect(page).to have_text(I18n.t('devise.registrations.signed_up'))
-      expect(User.find_by_primary_email(user.primary_email)).not_to be_nil
+      expect(User.find_by_primary_email(user.primary_email)).not_to be_nil # rubocop:disable Rails/DynamicFindBy
     end
 
     it 'does not work if email already taken' do
@@ -73,14 +73,14 @@ RSpec.describe 'Users::Registration', type: :feature do
   end
 
   context 'German' do
-    before(:each) do
+    before do
       if page.text =~ /EN/
         click_on 'language_selection'
         click_on 'Deutsch'
       end
     end
 
-    after(:each) do
+    after do
       if page.text =~ /DE/
         click_on 'language_selection'
         click_on 'English'
@@ -95,7 +95,7 @@ RSpec.describe 'Users::Registration', type: :feature do
       fill_in 'registration_password_confirmation', with: user.password
       click_button 'submit_sign_up'
       expect(page).to have_text(I18n.t('devise.registrations.signed_up'))
-      expect(User.find_by_primary_email(user.primary_email)).not_to be_nil
+      expect(User.find_by_primary_email(user.primary_email)).not_to be_nil # rubocop:disable Rails/DynamicFindBy
     end
 
     it 'does not work if email already taken' do

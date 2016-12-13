@@ -7,7 +7,7 @@ class EdxCourseWorker < AbstractCourseWorker
   MOOC_PROVIDER_API_LINK = 'https://www.edx.org/api/v2/report/course-feed/rss'
 
   def mooc_provider
-    MoocProvider.find_by_name(self.class::MOOC_PROVIDER_NAME)
+    MoocProvider.find_by(name: self.class::MOOC_PROVIDER_NAME)
   end
 
   def course_data

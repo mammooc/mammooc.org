@@ -7,7 +7,7 @@ RSpec.describe 'Recommendation', type: :feature do
   let!(:author) { FactoryGirl.create(:user) }
   let!(:group) { FactoryGirl.create(:group, users: [user, author, second_user]) }
 
-  before(:each) do |example|
+  before do |example|
     unless example.metadata[:skip_before]
       visit new_user_session_path
       fill_in 'login_email', with: user.primary_email

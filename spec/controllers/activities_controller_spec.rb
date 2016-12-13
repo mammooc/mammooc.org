@@ -8,7 +8,7 @@ RSpec.describe ActivitiesController, type: :controller do
     let!(:group) { FactoryGirl.create(:group) }
     let!(:group2) { FactoryGirl.create(:group) }
 
-    before(:each) do
+    before do
       request.env['devise.mapping'] = Devise.mappings[:user]
       sign_in user
     end

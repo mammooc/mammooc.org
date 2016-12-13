@@ -7,7 +7,7 @@ RSpec.describe UserDatesController, type: :controller do
   let(:course) { FactoryGirl.create(:course, mooc_provider: mooc_provider) }
   let(:valid_attributes) { {user_id: user.id, course_id: course.id, date: Time.zone.now, title: 'Assignment 1', kind: 'submission deadline', relevant: true} }
 
-  before(:each) do
+  before do
     sign_in user
     user.courses.push(course)
   end
@@ -90,7 +90,7 @@ RSpec.describe UserDatesController, type: :controller do
   describe 'GET create_calendar_feed' do
     it 'renders calendar feed including user_date' do
       user_date = FactoryGirl.create(:user_date, user: user, course: course, date: Time.zone.now)
-      get :create_calendar_feed, format: :ics
+      get :create_calendar_feed, params: {format: :ics}
       expect(response.body).to include(user_date.title)
     end
   end

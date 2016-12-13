@@ -1,4 +1,4 @@
-require: rubocop-rspec # See issue for details: https://github.com/mammooc/mammooc.org/issues/627
+require: rubocop-rspec
 
 AllCops:
   TargetRubyVersion: 2.3
@@ -75,6 +75,12 @@ Metrics/MethodLength:
 Metrics/ClassLength:
   Enabled: false
 
+Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
 Metrics/AbcSize:
   Enabled: false
 
@@ -95,4 +101,24 @@ RSpec/DescribeClass:
    - 'spec/views/**/*'
 
 RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/ExpectActual:
+ Exclude:
+  - 'spec/routing/**/*'
+
+RSpec/NestedGroups:
+  Enabled: false
+
+#######################
+# Should be refactored
+#######################
+
+RSpec/AnyInstance:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/LetSetup:
   Enabled: false

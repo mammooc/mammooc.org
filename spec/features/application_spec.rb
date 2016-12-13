@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Application', type: :feature do
-  before(:each) do
+  before do
     ActionMailer::Base.deliveries.clear
   end
 
@@ -91,7 +91,7 @@ RSpec.describe 'Application', type: :feature do
   describe 'change language' do
     let(:user) { FactoryGirl.create(:user) }
 
-    before(:each) do
+    before do
       Sidekiq::Testing.inline!
 
       visit new_user_session_path

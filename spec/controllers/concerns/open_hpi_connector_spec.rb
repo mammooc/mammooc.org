@@ -231,7 +231,7 @@ RSpec.describe OpenHPIConnector do
       JSON.parse received_dates
     end
 
-    before(:each) do
+    before do
       user.courses.push(course)
     end
 

@@ -3,7 +3,7 @@
 
 source 'https://rubygems.org'
 
-ruby '2.3.1'
+ruby '2.3.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '5.0.0.1'
@@ -22,7 +22,7 @@ gem 'redcarpet'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
-gem 'jquery-ui-rails'
+gem 'jquery-ui-rails', '<6.0.0' # course autocompletion bug if higher version
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
@@ -102,6 +102,9 @@ gem 'momentjs-rails'
 
 # support for Cross-Origin Resource Sharing (CORS)
 gem 'rack-cors', require: 'rack/cors'
+
+# consume JSON API
+gem 'json-api-vanilla'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

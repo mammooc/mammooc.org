@@ -6,7 +6,7 @@ RSpec.describe 'Activities', type: :feature do
   let(:user) { FactoryGirl.create(:user) }
   let(:second_user) { FactoryGirl.create(:user) }
 
-  before(:each) do
+  before do
     capybara_sign_in user
 
     ActionMailer::Base.deliveries.clear
@@ -17,7 +17,7 @@ RSpec.describe 'Activities', type: :feature do
     let(:group) { FactoryGirl.create(:group, users: [user]) }
     let(:invitation) { FactoryGirl.create(:group_invitation, group: group) }
 
-    before(:each) do
+    before do
       capybara_sign_out user
       capybara_sign_in second_user
       visit "/groups/join/#{invitation.token}"
@@ -108,7 +108,7 @@ RSpec.describe 'Activities', type: :feature do
     let(:course) { FactoryGirl.create(:course) }
     let!(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
 
-    before(:each) do
+    before do
       capybara_sign_out user
       capybara_sign_in second_user
       visit course_path(course)
@@ -205,7 +205,7 @@ RSpec.describe 'Activities', type: :feature do
     let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
     let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
 
-    before(:each) do
+    before do
       expect_any_instance_of(OpenHPIConnector).to receive(:enroll_user_for_course).and_return(true)
       capybara_sign_out user
       capybara_sign_in second_user
@@ -300,7 +300,7 @@ RSpec.describe 'Activities', type: :feature do
     let(:course) { FactoryGirl.create(:course) }
     let!(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
 
-    before(:each) do
+    before do
       capybara_sign_out user
       capybara_sign_in second_user
       visit course_path(course)
@@ -405,7 +405,7 @@ RSpec.describe 'Activities', type: :feature do
     let(:course) { FactoryGirl.create(:course) }
     let!(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
 
-    before(:each) do
+    before do
       capybara_sign_out user
       capybara_sign_in second_user
       visit course_path(course)
