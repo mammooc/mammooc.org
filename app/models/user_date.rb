@@ -12,7 +12,6 @@ class UserDate < ActiveRecord::Base
     synchronization_state[:moocHouse] = MoocHouseConnector.new.load_dates_for_users [user]
     synchronization_state[:cnmoocHouse] = CnmoocHouseConnector.new.load_dates_for_users [user]
     synchronization_state[:openHPIChina] = OpenHPIChinaConnector.new.load_dates_for_users [user]
-    synchronization_state[:openSAPChina] = OpenSAPChinaConnector.new.load_dates_for_users [user]
     synchronization_state[:openUNE] = OpenUNEConnector.new.load_dates_for_users [user]
     synchronization_state
   end
