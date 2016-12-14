@@ -7,7 +7,7 @@ class OpenWHOUserWorker
     if user_ids.nil?
       OpenWHOConnector.new.load_user_data
     else
-      OpenHWOConnector.new.load_user_data User.find(user_ids)
+      OpenWHOConnector.new.load_user_data User.find(user_ids)
     end
   end
 end
