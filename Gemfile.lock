@@ -42,7 +42,7 @@ GEM
       public_suffix (~> 2.0, >= 2.0.2)
     arel (7.1.4)
     ast (2.3.0)
-    autoprefixer-rails (6.5.3.1)
+    autoprefixer-rails (6.5.4)
       execjs
     aws-sdk (2.6.35)
       aws-sdk-resources (= 2.6.35)
@@ -172,7 +172,7 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.0.0)
     netrc (0.11.0)
-    newrelic_rpm (3.17.1.326)
+    newrelic_rpm (3.17.2.327)
     nio4r (1.2.1)
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
@@ -326,6 +326,8 @@ GEM
     sdoc (0.4.2)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    secure_headers (3.5.1)
+      useragent
     selenium-webdriver (3.0.3)
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
@@ -371,6 +373,7 @@ GEM
       unf_ext
     unf_ext (0.0.7.2)
     unicode-display_width (1.1.2)
+    useragent (0.16.8)
     warden (1.2.6)
       rack (>= 1.0)
     web-console (3.4.0)
@@ -451,6 +454,7 @@ DEPENDENCIES
   ruby-debug-passenger
   sass-rails
   sdoc
+  secure_headers
   sidekiq
   simplecov
   slim-rails

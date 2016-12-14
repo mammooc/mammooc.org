@@ -102,6 +102,8 @@ gem 'momentjs-rails'
 
 # support for Cross-Origin Resource Sharing (CORS)
 gem 'rack-cors', require: 'rack/cors'
+# Secure Headers
+gem 'secure_headers'
 
 # consume JSON API
 gem 'json-api-vanilla'

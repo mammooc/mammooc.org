@@ -19,7 +19,6 @@ RSpec.describe 'courses/show', type: :view do
                       requirements: 'Requirements',
                       workload: 'Workload',
                       provider_course_id: 1,
-                      course_result: nil,
                       start_date: Time.zone.local(2015, 9, 3, 9),
                       end_date: Time.zone.local(2015, 10, 3, 9),
                       mooc_provider_id: mooc_provider.id,
