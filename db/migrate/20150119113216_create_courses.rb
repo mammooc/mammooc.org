@@ -21,7 +21,6 @@ class CreateCourses < ActiveRecord::Migration
       t.string :workload
       t.integer :provider_course_id
       t.references :mooc_provider, type: 'uuid', index: true
-      t.references :course_result, type: 'uuid', index: true
 
       t.timestamps null: false
     end
