@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CourseTrackType < ActiveRecord::Base
-  has_many :course_tracks
+  has_many :course_tracks, dependent: :destroy
 
   validates :title, :type_of_achievement, presence: true
 

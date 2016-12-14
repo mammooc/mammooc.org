@@ -93,7 +93,6 @@ ActiveRecord::Schema.define(version: 20160726120639) do
     t.string   "difficulty"
     t.string   "provider_course_id",          null: false
     t.uuid     "mooc_provider_id",            null: false
-    t.uuid     "course_result_id"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
     t.string   "categories",                               array: true
@@ -115,7 +114,6 @@ ActiveRecord::Schema.define(version: 20160726120639) do
     t.uuid     "previous_iteration_id"
     t.uuid     "following_iteration_id"
     t.uuid     "organisation_id"
-    t.index ["course_result_id"], name: "index_courses_on_course_result_id", using: :btree
     t.index ["following_iteration_id"], name: "index_courses_on_following_iteration_id", using: :btree
     t.index ["mooc_provider_id"], name: "index_courses_on_mooc_provider_id", using: :btree
     t.index ["organisation_id"], name: "index_courses_on_organisation_id", using: :btree
