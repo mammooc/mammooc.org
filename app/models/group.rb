@@ -37,9 +37,6 @@ class Group < ActiveRecord::Base
   def delete_group_from_activity(activity)
     activity.group_ids -= [id]
     activity.save
-    if activity.trackable_type == 'Recommendation'
-      Recommendation.find(activity.trackable_id).delete_group_recommendation
-    end
     return unless activity.user_ids.blank? && activity.group_ids.blank?
     activity.destroy
   end
