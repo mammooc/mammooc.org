@@ -43,7 +43,7 @@ describe IversityCourseWorker do
     expect(course.end_date.to_datetime).to eq courses_json['courses'][0]['end_date'].to_datetime
     expect(course.difficulty).to eq courses_json['courses'][0]['knowledge_level ']
 
-    expect(course.tracks.count).to eq 4
+    expect(course.tracks.count).to eq 5
     expect(achievement_type?(course.tracks, :iversity_record_of_achievement)).to be_truthy
     expect(achievement_type?(course.tracks, :iversity_certificate)).to be_truthy
     expect(achievement_type?(course.tracks, :iversity_ects)).to be_truthy
