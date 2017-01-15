@@ -3,10 +3,10 @@
 
 source 'https://rubygems.org'
 
-ruby '2.3.2'
+ruby '2.4.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.0.0.1'
+gem 'rails', '5.0.1'
 # Use sqlite3 as the database for Active Record
 gem 'pg'
 gem 'sass-rails'
@@ -26,8 +26,6 @@ gem 'jquery-ui-rails', '<6.0.0' # course autocompletion bug if higher version
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
-# bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', group: :doc
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
