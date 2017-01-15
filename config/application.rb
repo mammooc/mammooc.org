@@ -50,7 +50,14 @@ module MAMMOOC
 
     # Implement Security Headers
     SecureHeaders::Configuration.default do |config|
-      config.csp[:script_src] = %w(https: 'unsafe-inline')
+      config.csp = {
+        default_src: %W('self'),
+        object_src: %w('none'),
+        script_src: %w('self' js-agent.newrelic.com bam.nr-data.net 'unsafe-eval'),
+        img_src: %w('self' data: https:),
+        style_src: %w('self' 'unsafe-inline' https:)
+      }
+
       config.hsts = SecureHeaders::OPT_OUT # handled by nginx
       config.referrer_policy = 'strict-origin-when-cross-origin'
     end
