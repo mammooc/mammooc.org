@@ -27,7 +27,7 @@ stages:
         command: wget https://bitbucket.org/ariya/phantomjs/downloads/$PHANTOM_JS.tar.bz2
       - type: shell
         name: Unzip PhantomJS
-        command: sudo tar xvjf $PHANTOM_JS.tar.bz2
+        command: tar xvjf $PHANTOM_JS.tar.bz2
       - type: shell
         name: Move PhantomJS
         command: mv $PHANTOM_JS /usr/local/share
