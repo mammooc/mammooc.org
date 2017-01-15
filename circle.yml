@@ -10,6 +10,7 @@ containerInfo:
       - POSTGRES_DB=mammooc_test
 stages:
   build:
+    parallel: 1
     workDir: ~/mammooc.org
     environment:
       - RAILS_ENV: "test"
