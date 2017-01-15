@@ -4,7 +4,7 @@ containerInfo:
   - image: ruby:2.4
   - image: redis:latest
   - image: postgres:latest
-    environment:
+    env:
       - POSTGRES_USER=mammooc
       - POSTGRES_PASSWORD=mammooc
       - POSTGRES_DB=mammooc_test
