@@ -24,7 +24,7 @@ stages:
         command: bundle install
       - type: shell
         name: Create DB
-        command: bundle exec rails db:create db:schema:load --trace
+        command: bundle exec rails db:schema:load --trace
       - type: shell
         name: Appy migrations DB
         command: bundle exec rails db:migrate
