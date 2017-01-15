@@ -9,7 +9,7 @@
 
 # See https://github.com/railsconfig/rails_config for more details
 
-root_url: <%= (ENV['DOMAIN'].present? ? "https://#{ENV['DOMAIN']}" : 'https://localhost:3000') %>
+root_url: <%= (ENV['DOMAIN'].present? ? "https://#{ENV['DOMAIN']}" : (ENV['FORCE_SSL'].present? && ENV['FORCE_SSL'] == 'false' ? 'http://localhost:3000' : 'https://localhost:3000')) %>
 
 # Mailers
 sender_notification_address: mammooc <notifications@<%= (ENV['DOMAIN'].present? ? "#{ENV['DOMAIN']}" : 'mammooc.org') %>>
