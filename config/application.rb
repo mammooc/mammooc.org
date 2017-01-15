@@ -54,6 +54,7 @@ module MAMMOOC
         # rubocop:disable Lint/PercentStringArray
         default_src: %W('self'),
         object_src: %w('none'),
+        # unsafe-eval required by views/courses/index.js.slim for filterrific to work
         script_src: %w('self' js-agent.newrelic.com bam.nr-data.net 'unsafe-eval'),
         img_src: %w('self' data: https:),
         style_src: %w('self' 'unsafe-inline' https:)
