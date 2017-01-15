@@ -12,6 +12,7 @@ stages:
   build:
     workDir: ~/mammooc.org
     environment:
+      - RAILS_ENV: "test"
       - COVERALLS_PARALLEL: "true"
       - DATABASE_URL: "postgresql://mammooc:mammooc@localhost/mammooc_test"
     steps:
