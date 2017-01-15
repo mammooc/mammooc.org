@@ -47,6 +47,8 @@ Rails.application.configure do
 
   # Disable secure headers for specs
   SecureHeaders::Configuration.default do |headers_config|
+    # rubocop:disable Lint/PercentStringArray
     headers_config.csp[:script_src] = %w(http: 'unsafe-inline' 'unsafe-eval')
+    # rubocop:disable Lint/PercentStringArray
   end
 end

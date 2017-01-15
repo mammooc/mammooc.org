@@ -51,11 +51,13 @@ module MAMMOOC
     # Implement Security Headers
     SecureHeaders::Configuration.default do |config|
       config.csp = {
+        # rubocop:disable Lint/PercentStringArray
         default_src: %W('self'),
         object_src: %w('none'),
         script_src: %w('self' js-agent.newrelic.com bam.nr-data.net 'unsafe-eval'),
         img_src: %w('self' data: https:),
         style_src: %w('self' 'unsafe-inline' https:)
+        # rubocop:enable Lint/PercentStringArray
       }
 
       config.hsts = SecureHeaders::OPT_OUT # handled by nginx
