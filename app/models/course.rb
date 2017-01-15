@@ -73,38 +73,46 @@ class Course < ActiveRecord::Base
   end
 
   scope :search_query, ->(query) do
-    return nil if query.blank?
+    if query.blank?
+      nil
+    else
+      terms = query.mb_chars.downcase.to_s.split(/\s+/)
 
-    terms = query.mb_chars.downcase.to_s.split(/\s+/)
+      # rubocop:disable Style/BlockDelimiters
+      terms = terms.map {|e|
+        e.prepend('%')
+        (e.tr('*', '%') + '%').gsub(/%+/, '%')
+      }
+      # rubocop:enable Style/BlockDelimiters
 
-    # rubocop:disable Style/BlockDelimiters
-    terms = terms.map {|e|
-      e.prepend('%')
-      (e.tr('*', '%') + '%').gsub(/%+/, '%')
-    }
-    # rubocop:enable Style/BlockDelimiters
-
-    num_or_conds = 2
-    where(
-      terms.map do |_term|
-        "(LOWER(courses.name) LIKE ?) OR (LOWER(COALESCE(courses.course_instructors, '')) LIKE ?)"
-      end.join(' AND '),
-      *terms.map {|e| [e] * num_or_conds }.flatten
-    )
+      num_or_conds = 2
+      where(
+        terms.map do |_term|
+          "(LOWER(courses.name) LIKE ?) OR (LOWER(COALESCE(courses.course_instructors, '')) LIKE ?)"
+        end.join(' AND '),
+        *terms.map {|e| [e] * num_or_conds }.flatten
+      )
+    end
   end
 
   scope :with_start_date_gte, ->(reference_time) do
     parsed_date = Time.zone.parse(reference_time.to_s)
-    return nil if parsed_date.blank?
-    where('courses.start_date IS NOT NULL AND (courses.start_date >= ?) ',
-      parsed_date.strftime('%Y-%m-%d %H:%M:%S.%6N'))
+    if parsed_date.blank?
+      nil
+    else
+      where('courses.start_date IS NOT NULL AND (courses.start_date >= ?) ',
+        parsed_date.strftime('%Y-%m-%d %H:%M:%S.%6N'))
+    end
   end
 
   scope :with_end_date_lte, ->(reference_time) do
     parsed_date = Time.zone.parse(reference_time.to_s)
-    return nil if parsed_date.blank?
-    where('courses.end_date IS NOT NULL AND (courses.end_date <= ?) ',
-      parsed_date.strftime('%Y-%m-%d %H:%M:%S.%6N'))
+    if parsed_date.blank?
+      nil
+    else
+      where('courses.end_date IS NOT NULL AND (courses.end_date <= ?) ',
+        parsed_date.strftime('%Y-%m-%d %H:%M:%S.%6N'))
+    end
   end
 
   scope :with_language, ->(reference_language) do

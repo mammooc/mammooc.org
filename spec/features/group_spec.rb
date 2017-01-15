@@ -251,8 +251,8 @@ RSpec.describe 'Group', type: :feature do
 
   describe 'update statistics' do
     it 'starts user workers', js: true do
-      expect(OpenHPIUserWorker).to receive(:perform_async).with(group.users.pluck(:id))
-      expect(OpenSAPUserWorker).to receive(:perform_async).with(group.users.pluck(:id))
+      expect(OpenHPIUserWorker).to receive(:perform_async).with(match_array(group.users.pluck(:id)))
+      expect(OpenSAPUserWorker).to receive(:perform_async).with(match_array(group.users.pluck(:id)))
 
       visit "/groups/#{group.id}/statistics"
       click_button 'sync-group-course-button'
