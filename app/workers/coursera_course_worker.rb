@@ -62,7 +62,7 @@ class CourseraCourseWorker < AbstractCourseWorker
 
         if course_element['photoUrl'].present? && course.course_image_file_name != filename
           begin
-            course.course_image = Course.process_uri(course_element['photoUrl'])
+            course.course_image = Course.process_uri(course_element['photoUrl']) unless filename.ends_with? '.pdf'
           rescue OpenURI::HTTPError => e
             Rails.logger.error "Couldn't process course image in course #{course_element['id']} for URL #{course_element['photoUrl']}: #{e.message}"
             course.course_image = nil
