@@ -13,7 +13,7 @@ stages:
     workDir: ~/mammooc.org
     environment:
       - COVERALLS_PARALLEL: "true"
-      - DATABASE_ULR: "postgresql://mammooc:mammooc@localhost/mammooc_test"
+      - DATABASE_URL: "postgresql://mammooc:mammooc@localhost/mammooc_test"
     steps:
       - type: checkout
       - type: shell
