@@ -50,7 +50,7 @@ class Course < ActiveRecord::Base
   before_destroy :handle_activities, prepend: true
 
   scope :sorted_by, ->(sort_option) do
-    direction = sort_option =~ /desc$/ ? 'desc' : 'asc'
+    direction = sort_option.match?(/desc$/) ? 'desc' : 'asc'
     case sort_option.to_s
       when /^name_/
         order("LOWER(courses.name) #{direction}")

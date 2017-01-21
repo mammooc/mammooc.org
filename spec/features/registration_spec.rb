@@ -74,14 +74,14 @@ RSpec.describe 'Users::Registration', type: :feature do
 
   context 'German' do
     before do
-      if page.text =~ /EN/
+      if page.text.match?(/EN/)
         click_on 'language_selection'
         click_on 'Deutsch'
       end
     end
 
     after do
-      if page.text =~ /DE/
+      if page.text.match?(/DE/)
         click_on 'language_selection'
         click_on 'English'
       end
