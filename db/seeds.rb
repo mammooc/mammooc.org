@@ -59,11 +59,11 @@ iversity_student_track = CourseTrackType.create!(title: 'Schüler-Track',
                                                  description: "<ul class=\"list-none\">\r\n<li>Benotete Präsenzprüfung</li>\r\n<li>Leistungsnachweis</li>\r\n<li>Zertifikatszusatz</li>\r\n<li>5 ECTS-Punkte</li>\r\n</ul>\r\n",
                                                  type_of_achievement: 'iversity_ects_pupils')
 iversity_statement_track = CourseTrackType.create!(title: 'Statement of Participation',
-                                                 description: "<ul class='list-none'>\n<li></li>\n<li></li>\n<li class=\"faded\"></li>\n<li class=\"faded\"></li>\n</ul>",
-                                                 type_of_achievement: 'iversity_statement_of_participation')
+                                                   description: "<ul class='list-none'>\n<li></li>\n<li></li>\n<li class=\"faded\"></li>\n<li class=\"faded\"></li>\n</ul>",
+                                                   type_of_achievement: 'iversity_statement_of_participation')
 mooin_non_free_track_type = CourseTrackType.create!(title: 'Full Course',
-                                                description: 'You get a certificate from mooin.',
-                                                type_of_achievement: 'mooin_full_certificate')
+                                                    description: 'You get a certificate from mooin.',
+                                                    type_of_achievement: 'mooin_full_certificate')
 mooin_free_track_type = CourseTrackType.create!(title: 'Free Course',
                                                 description: 'You get a certificate from mooin.',
                                                 type_of_achievement: 'mooin_certificate')

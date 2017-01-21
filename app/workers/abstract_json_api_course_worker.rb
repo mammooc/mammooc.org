@@ -23,7 +23,7 @@ class AbstractJsonApiCourseWorker < AbstractCourseWorker
     data
   end
 
-  def get_page url
+  def get_page(url)
     response = RestClient.get(url, accept: 'application/vnd.api+json')
     return [] unless response.present?
     if response.starts_with? '<pre>'
@@ -81,11 +81,11 @@ class AbstractJsonApiCourseWorker < AbstractCourseWorker
       course.provider_given_duration = course_element['duration']
       course.calculated_duration_in_days = ActiveSupport::Duration.parse(course_element['duration']).to_i / 1.day
 
-      if course_element['isAccessibleForFree'].to_s == 'true'
-        track = CourseTrack.find_by(course_id: course.id, track_type: free_track_type) || CourseTrack.create!(track_type: free_track_type, costs: 0.0, costs_currency: "\xe2\x82\xac")
-      else
-        track = CourseTrack.find_by(course_id: course.id, track_type: non_free_track_type) || CourseTrack.create!(track_type: non_free_track_type)
-      end
+      track = if course_element['isAccessibleForFree'].to_s == 'true'
+                CourseTrack.find_by(course_id: course.id, track_type: free_track_type) || CourseTrack.create!(track_type: free_track_type, costs: 0.0, costs_currency: "\xe2\x82\xac")
+              else
+                CourseTrack.find_by(course_id: course.id, track_type: non_free_track_type) || CourseTrack.create!(track_type: non_free_track_type)
+              end
       course.tracks.push(track)
 
       if course_element['partnerInstitute'].present?
