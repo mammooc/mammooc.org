@@ -42,7 +42,7 @@ Style/SignalException:
   EnforcedStyle: only_raise
 
 Style/CaseIndentation:
-  IndentWhenRelativeTo: end
+  EnforcedStyle: end
   SupportedStyles:
     - case
     - end
