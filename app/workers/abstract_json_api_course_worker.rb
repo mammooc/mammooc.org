@@ -71,8 +71,10 @@ class AbstractJsonApiCourseWorker < AbstractCourseWorker
       course.description = course_element['description']
 
       course.course_instructors = ''
-      course_element['instructors'].each_with_index do |instructor, i|
-        course.course_instructors += "#{i.positive? ? ', ' : ''}#{instructor['name']}"
+      if course_element['instructors'].present?
+        course_element['instructors'].each_with_index do |instructor, i|
+          course.course_instructors += "#{i.positive? ? ', ' : ''}#{instructor['name']}"
+        end
       end
 
       course.workload = course_element['workload']
