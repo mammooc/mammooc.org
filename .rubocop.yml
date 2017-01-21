@@ -96,6 +96,9 @@ Metrics/PerceivedComplexity:
 Rails/HasAndBelongsToMany:
   Enabled: false
 
+Rails/ReversibleMigration:
+  Enabled: false
+
 RSpec/DescribeClass:
   Exclude:
    - 'spec/views/**/*'
