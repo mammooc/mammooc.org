@@ -17,6 +17,7 @@ MoocProvider.create!(name: 'coursera', logo_id: 'logo_coursera.svg', url: 'https
 MoocProvider.create!(name: 'iversity', logo_id: 'logo_iversity.svg', url: 'https://iversity.org', api_support_state: :nil)
 MoocProvider.create!(name: 'Udacity', logo_id: 'logo_UDACITY.svg', url: 'https://www.udacity.com', api_support_state: :nil)
 MoocProvider.create!(name: 'FutureLearn', logo_id: 'logo_FutureLearn.svg', url: 'https://www.futurelearn.com', api_support_state: :nil)
+MoocProvider.create!(name: 'mooin', logo_id: 'logo_mooin.png', url: 'https://mooin.oncampus.de', api_support_state: :nil)
 
 xikolo_audit_track_type = CourseTrackType.create!(title: 'Audit',
                                                   description: 'You get a record of Achievement.',
@@ -57,7 +58,15 @@ edx_profed_track_type = CourseTrackType.create!(title: 'Professional Education',
 iversity_student_track = CourseTrackType.create!(title: 'Schüler-Track',
                                                  description: "<ul class=\"list-none\">\r\n<li>Benotete Präsenzprüfung</li>\r\n<li>Leistungsnachweis</li>\r\n<li>Zertifikatszusatz</li>\r\n<li>5 ECTS-Punkte</li>\r\n</ul>\r\n",
                                                  type_of_achievement: 'iversity_ects_pupils')
-
+iversity_statement_track = CourseTrackType.create!(title: 'Statement of Participation',
+                                                   description: "<ul class='list-none'>\n<li></li>\n<li></li>\n<li class=\"faded\"></li>\n<li class=\"faded\"></li>\n</ul>",
+                                                   type_of_achievement: 'iversity_statement_of_participation')
+mooin_non_free_track_type = CourseTrackType.create!(title: 'Full Course',
+                                                    description: 'You get a certificate from mooin.',
+                                                    type_of_achievement: 'mooin_full_certificate')
+mooin_free_track_type = CourseTrackType.create!(title: 'Free Course',
+                                                description: 'You get a certificate from mooin.',
+                                                type_of_achievement: 'mooin_certificate')
 OpenHPICourseWorker.perform_async
 OpenSAPCourseWorker.perform_async
 OpenHPIChinaCourseWorker.perform_async
@@ -69,6 +78,7 @@ CourseraCourseWorker.perform_async
 IversityCourseWorker.perform_async
 UdacityCourseWorker.perform_async
 FutureLearnCourseWorker.perform_async
+MooinCourseWorker.perform_async
 
 # specific seeds for different environments
 

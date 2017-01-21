@@ -430,12 +430,15 @@ en:
           iversity_certificate: :courses.tracks.types.achievement_types.certificate
           iversity_ects: ECTS points
           iversity_ects_pupils: ECTS points
+          iversity_statement_of_participation: :courses.tracks.types.achievement_types.xikolo_record_of_achievement
           coursera_verified_certificate: Verified Certificate
           edx_verified_certificate: :courses.tracks.types.achievement_types.coursera_verified_certificate
           edx_xseries_certificate: edX XSeries Certificate
           edx_profed_certificate: edX Professional Education Certificate
           udacity_nothing: No certificate
           udacity_verified_certificate: Verified Certificate
+          mooin_full_certificate: :courses.tracks.types.achievement_types.certificate
+          mooin_certificate: :courses.tracks.types.achievement_types.certificate
     filter:
       filter: Filter
       all: All

@@ -25,9 +25,27 @@ FactoryGirl.define do
     type_of_achievement 'iversity_ects_pupils'
   end
 
+  factory :iversity_statement_track_type, class: CourseTrackType do
+    title 'Statement of Participation'
+    description 'You get a Statement of Participation.'
+    type_of_achievement 'iversity_statement_of_participation'
+  end
+
   factory :signature_course_track_type, class: CourseTrackType do
     title 'Signature Track'
     description 'You get a Verified Certificate issued by Coursera and the participating university.'
     type_of_achievement 'coursera_verified_certificate'
+  end
+
+  factory :mooin_non_free_track_type, class: CourseTrackType do
+    title 'Full Course'
+    description 'You get a certificate from mooin.'
+    type_of_achievement 'mooin_full_certificate'
+  end
+
+  factory :mooin_free_track_type, class: CourseTrackType do
+    title 'Free Course'
+    description 'You get a certificate from mooin.'
+    type_of_achievement 'mooin_certificate'
   end
 end
