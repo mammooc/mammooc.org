@@ -76,11 +76,11 @@ class IversityCourseWorker < AbstractCourseWorker
             track_attributes = {track_type: ects_pupils_track_type, costs: price[0].to_f, costs_currency: price[1]}
             track_attributes[:credit_points] = plan['credits'].split(' ')[0].to_f unless plan['credits'].blank?
           when 'statement', 'teilnahmebescheinigung'
-            if price.present?
-              track_attributes = {track_type: iversity_statement_track, costs: price[0].to_f, costs_currency: price[1]}
-            else
-              track_attributes = {track_type: iversity_statement_track, costs: 0.0, costs_currency: "\xe2\x82\xac"}
-            end
+            track_attributes = if price.present?
+                                 {track_type: iversity_statement_track, costs: price[0].to_f, costs_currency: price[1]}
+                               else
+                                 {track_type: iversity_statement_track, costs: 0.0, costs_currency: "\xe2\x82\xac"}
+                               end
         end
         track = CourseTrack.find_by(course_id: course.id, track_type: track_attributes[:track_type]) || CourseTrack.create!(track_attributes)
         course.tracks.push track

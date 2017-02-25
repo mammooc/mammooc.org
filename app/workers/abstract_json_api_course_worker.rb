@@ -11,7 +11,7 @@ class AbstractJsonApiCourseWorker < AbstractCourseWorker
   def course_data
     data = []
     url = self.class::MOOC_PROVIDER_API_LINK
-    begin
+    loop do
       response_json = get_page url
       return response_json if response_json.is_a?(Array)
 
@@ -19,7 +19,8 @@ class AbstractJsonApiCourseWorker < AbstractCourseWorker
       current_page = response_json.rel_links['self']
       next_page = response_json.rel_links['self']
       url = next_page
-    end while next_page.present? && current_page != next_page
+      break unless next_page.present? && current_page != next_page
+    end
     data
   end
 
