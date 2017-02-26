@@ -74,7 +74,7 @@ GEM
     capybara-selenium (0.0.6)
       capybara
       selenium-webdriver
-    childprocess (0.6.1)
+    childprocess (0.6.2)
       ffi (~> 1.0, >= 1.0.11)
     chronic (0.10.2)
     climate_control (0.1.0)
