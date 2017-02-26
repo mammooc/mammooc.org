@@ -124,4 +124,16 @@ Rails.application.routes.draw do
 
   # API
   get 'api/current_user_with_evaluation' => 'apis#current_user_with_evaluation', defaults: {format: 'json'}
+
+  # JSON API
+  namespace :api do
+    namespace :v1 do
+      # Don't forget to add `immutable` to the resources!
+      jsonapi_resources :courses
+      jsonapi_resources :mooc_providers
+      jsonapi_resources :organisation
+      jsonapi_resources :course_tracks
+      jsonapi_resources :course_track_types
+    end
+  end
 end
