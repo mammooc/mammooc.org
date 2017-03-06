@@ -5,3 +5,18 @@
 | total_entries = #{@courses.total_entries};
 | set_filter_options_to_param();
 | refresh_load_button();
+
+// Script will be evaluated using jQuery.globalEval (which is unsafe-eval)!
+// Equal to:
+  | $((function(_this) {
+  |   return function() {
+  |     var current_page, total_entries;
+  |     $('#filterrific_results').html("#{escape_javascript(render partial: 'courses_list')}");
+  |     $.setAjaxPagination();
+  |     $('#result_count').text(#{@courses.total_entries});
+  |     current_page = 1;
+  |     total_entries = #{@courses.total_entries};
+  |     set_filter_options_to_param();
+  |     return refresh_load_button();
+  |   };
+  | })(this));

@@ -16,6 +16,7 @@ class ApiConnectionController < ApplicationController
     IversityCourseWorker.perform_async
     FutureLearnCourseWorker.perform_async
     UdacityCourseWorker.perform_async
+    MooinCourseWorker.perform_async
     redirect_to api_connection_index_path
   end
 

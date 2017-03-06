@@ -44,9 +44,4 @@ Rails.application.configure do
 
   # Use test adapter for ActiveJob to perform job processing
   config.active_job.queue_adapter = :test
-
-  # Disable secure headers for specs
-  SecureHeaders::Configuration.default do |headers_config|
-    headers_config.csp[:script_src] = %w(http: 'unsafe-inline' 'unsafe-eval')
-  end
 end

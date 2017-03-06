@@ -34,5 +34,5 @@
     .col-sm-offset-2.col-sm-10
       = f.submit t('recommendation.obligatory_recommendation.submit'), :class => "btn btn-primary"
 
-script type="text/javascript"
+script type="text/javascript" nonce="#{content_security_policy_script_nonce}"
   | recommendation_obligatory_new_parameters();

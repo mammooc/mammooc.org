@@ -38,7 +38,7 @@ class Course < ActiveRecord::Base
     convert_options: {all: '-quality 95'},
     s3_storage_class: 'REDUCED_REDUNDANCY',
     s3_permissions: 'public-read',
-    default_url: '/data/course_picture_default.png'
+    default_url: Settings.root_url + '/data/course_picture_default.png'
 
   validates_attachment_content_type :course_image, content_type: /\Aimage\/.*\Z/
 
@@ -50,7 +50,7 @@ class Course < ActiveRecord::Base
   before_destroy :handle_activities, prepend: true
 
   scope :sorted_by, ->(sort_option) do
-    direction = sort_option =~ /desc$/ ? 'desc' : 'asc'
+    direction = sort_option.match?(/desc$/) ? 'desc' : 'asc'
     case sort_option.to_s
       when /^name_/
         order("LOWER(courses.name) #{direction}")
@@ -73,38 +73,46 @@ class Course < ActiveRecord::Base
   end
 
   scope :search_query, ->(query) do
-    return nil if query.blank?
+    if query.blank?
+      nil
+    else
+      terms = query.mb_chars.downcase.to_s.split(/\s+/)
 
-    terms = query.mb_chars.downcase.to_s.split(/\s+/)
+      # rubocop:disable Style/BlockDelimiters
+      terms = terms.map {|e|
+        e.prepend('%')
+        (e.tr('*', '%') + '%').gsub(/%+/, '%')
+      }
+      # rubocop:enable Style/BlockDelimiters
 
-    # rubocop:disable Style/BlockDelimiters
-    terms = terms.map {|e|
-      e.prepend('%')
-      (e.tr('*', '%') + '%').gsub(/%+/, '%')
-    }
-    # rubocop:enable Style/BlockDelimiters
-
-    num_or_conds = 2
-    where(
-      terms.map do |_term|
-        "(LOWER(courses.name) LIKE ?) OR (LOWER(COALESCE(courses.course_instructors, '')) LIKE ?)"
-      end.join(' AND '),
-      *terms.map {|e| [e] * num_or_conds }.flatten
-    )
+      num_or_conds = 2
+      where(
+        terms.map do |_term|
+          "(LOWER(courses.name) LIKE ?) OR (LOWER(COALESCE(courses.course_instructors, '')) LIKE ?)"
+        end.join(' AND '),
+        *terms.map {|e| [e] * num_or_conds }.flatten
+      )
+    end
   end
 
   scope :with_start_date_gte, ->(reference_time) do
     parsed_date = Time.zone.parse(reference_time.to_s)
-    return nil if parsed_date.blank?
-    where('courses.start_date IS NOT NULL AND (courses.start_date >= ?) ',
-      parsed_date.strftime('%Y-%m-%d %H:%M:%S.%6N'))
+    if parsed_date.blank?
+      nil
+    else
+      where('courses.start_date IS NOT NULL AND (courses.start_date >= ?) ',
+        parsed_date.strftime('%Y-%m-%d %H:%M:%S.%6N'))
+    end
   end
 
   scope :with_end_date_lte, ->(reference_time) do
     parsed_date = Time.zone.parse(reference_time.to_s)
-    return nil if parsed_date.blank?
-    where('courses.end_date IS NOT NULL AND (courses.end_date <= ?) ',
-      parsed_date.strftime('%Y-%m-%d %H:%M:%S.%6N'))
+    if parsed_date.blank?
+      nil
+    else
+      where('courses.end_date IS NOT NULL AND (courses.end_date <= ?) ',
+        parsed_date.strftime('%Y-%m-%d %H:%M:%S.%6N'))
+    end
   end
 
   scope :with_language, ->(reference_language) do
@@ -195,11 +203,14 @@ class Course < ActiveRecord::Base
   end
 
   scope :bookmarked, ->(user_id) do
-    return nil if user_id == '0'
-    user = User.find(user_id)
-    course_ids = []
-    user.bookmarks.each {|bookmark| course_ids.push(bookmark.course.id) }
-    where(id: course_ids)
+    if user_id == '0'
+      nil
+    else
+      user = User.find(user_id)
+      course_ids = []
+      user.bookmarks.each {|bookmark| course_ids.push(bookmark.course.id) }
+      where(id: course_ids)
+    end
   end
 
   def self.options_for_costs

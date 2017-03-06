@@ -1,7 +1,7 @@
 require: rubocop-rspec
 
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.4
   Include:
     - '**/*.gemspec'
     - '**/Rakefile'
@@ -42,7 +42,7 @@ Style/SignalException:
   EnforcedStyle: only_raise
 
 Style/CaseIndentation:
-  IndentWhenRelativeTo: end
+  EnforcedStyle: end
   SupportedStyles:
     - case
     - end
@@ -96,6 +96,9 @@ Metrics/PerceivedComplexity:
 Rails/HasAndBelongsToMany:
   Enabled: false
 
+Rails/ReversibleMigration:
+  Enabled: false
+
 RSpec/DescribeClass:
   Exclude:
    - 'spec/views/**/*'
@@ -115,6 +118,9 @@ RSpec/NestedGroups:
 #######################
 
 RSpec/AnyInstance:
+  Enabled: false
+
+RSpec/MessageSpies:
   Enabled: false
 
 RSpec/MultipleExpectations:
