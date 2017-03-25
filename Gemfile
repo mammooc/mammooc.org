@@ -3,7 +3,7 @@
 
 source 'https://rubygems.org'
 
-ruby '2.4.0'
+ruby '2.4.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '5.0.2'
@@ -17,8 +17,8 @@ gem 'coffee-rails'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
-gem 'slim-rails'
 gem 'redcarpet'
+gem 'slim-rails'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -40,14 +40,14 @@ gem 'passenger'
 gem 'devise'
 gem 'oauth2'
 gem 'omniauth'
-gem 'omniauth-oauth2'
+gem 'omniauth-amazon'
 gem 'omniauth-facebook'
-gem 'omniauth-google-oauth2'
 gem 'omniauth-github'
+gem 'omniauth-google-oauth2'
 gem 'omniauth-linkedin-oauth2'
+gem 'omniauth-oauth2'
 gem 'omniauth-twitter'
 gem 'omniauth-windowslive'
-gem 'omniauth-amazon'
 
 # authorization
 gem 'cancancan'
@@ -72,13 +72,13 @@ gem 'public_activity'
 gem 'bootstrap-sass'
 gem 'font-awesome-sass'
 
-gem 'bootstrap_tokenfield_rails'
 gem 'bootstrap-datepicker-rails'
+gem 'bootstrap_tokenfield_rails'
 
 gem 'factory_girl_rails'
 
-gem 'rails-i18n'
 gem 'i18n-js'
+gem 'rails-i18n'
 
 gem 'http_accept_language'
 
@@ -94,7 +94,7 @@ gem 'will_paginate-bootstrap'
 # for ical-Feed
 gem 'icalendar'
 
-#calendar widget
+# calendar widget
 gem 'fullcalendar-rails'
 gem 'momentjs-rails'
 
@@ -129,10 +129,10 @@ group :development, :test do
   gem 'headless'
   gem 'poltergeist'
 
-  gem 'simplecov', require: false
+  gem 'coveralls', require: false
   gem 'rubocop', require: false
   gem 'rubocop-rspec', require: false
-  gem 'coveralls', require: false
+  gem 'simplecov', require: false
 end
 
 group :development do
