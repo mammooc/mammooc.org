@@ -3,6 +3,7 @@ require 'rails_helper'
 
 RSpec.describe UserSetting, type: :model do
   let(:setting) { FactoryGirl.create :user_setting }
+
   describe 'value(key)' do
     let(:setting_entry) { FactoryGirl.create :user_setting_entry, setting: setting }
 

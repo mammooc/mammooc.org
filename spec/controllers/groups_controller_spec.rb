@@ -396,6 +396,7 @@ RSpec.describe GroupsController, type: :controller do
     context 'with first token not valid' do
       let(:group) { FactoryGirl.create :group }
       let!(:group_invitation) { FactoryGirl.create :group_invitation, token: 'b4GOKm4pOYU_-BOXcrUGDg', group: group }
+
       before do
         allow(SecureRandom).to receive(:urlsafe_base64).and_return('b4GOKm4pOYU_-BOXcrUGDg', 'ZLdOkzop70Ddx-IJR0ABg')
       end
@@ -619,9 +620,9 @@ RSpec.describe GroupsController, type: :controller do
     let(:third_user) { FactoryGirl.create(:user) }
     let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
     let(:second_group) { FactoryGirl.create(:group, users: [user]) }
+    let(:json) { JSON.parse(response.body) }
 
     render_views
-    let(:json) { JSON.parse(response.body) }
 
     it "returns 'last_admin' if the member is the last admin (but there are still other members)" do
       UserGroup.set_is_admin(group.id, user.id, true)
