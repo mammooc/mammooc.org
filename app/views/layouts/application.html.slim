@@ -15,7 +15,7 @@ html lang="#{I18n.locale}"
     /! HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
     /[if lt IE 9]
       = javascript_include_tag "https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js", "https://oss.maxcdn.com/respond/1.4.2/respond.min.js", integrity: true
-    = stylesheet_link_tag 'application', media: 'all', integrity: true
+    = stylesheet_link_tag 'application', media: 'all', charset: 'utf-8', integrity: true
     = javascript_include_tag 'application', integrity: true
     = csrf_meta_tags
     script type="text/javascript" nonce="#{content_security_policy_script_nonce}"
