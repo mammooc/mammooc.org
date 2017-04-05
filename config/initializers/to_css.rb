@@ -7,6 +7,6 @@ Sass::Tree::Visitors::ToCss.class_eval do
   alias_method :original_prepend!, :prepend!
 
   def prepend!(prefix)
-    original_prepend! prefix unless "\uFEFF".force_encoding(prefix.encoding) == prefix
+    original_prepend! prefix unless "\uFEFF".encode(prefix.encoding) == prefix
   end
 end
