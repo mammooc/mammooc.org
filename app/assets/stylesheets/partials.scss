@@ -7,11 +7,11 @@
 
 // Import Partials
 
+@import "partials/base";
 @import "partials/variables";
 @import "partials/mixins";
 @import "partials/utility";
 
-@import "partials/base";
 @import "partials/bookmarks";
 @import "partials/buttons";
 @import "partials/completions";
