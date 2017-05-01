@@ -6,7 +6,7 @@ source 'https://rubygems.org'
 ruby '2.4.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.0.2'
+gem 'rails', '5.1.0'
 # Use sqlite3 as the database for Active Record
 gem 'pg'
 gem 'sass-rails'
@@ -37,7 +37,7 @@ gem 'passenger'
 # gem 'capistrano-rails', group: :development
 
 # authentication
-gem 'devise'
+gem 'devise', github: 'plataformatec/devise'
 gem 'oauth2'
 gem 'omniauth'
 gem 'omniauth-amazon'
