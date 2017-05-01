@@ -136,6 +136,10 @@ class User < ActiveRecord::Base
     false
   end
 
+  def will_save_change_to_email?
+    false
+  end
+
   # Access the primary_email more easily. This is required for devise
   def primary_email
     primary_email_object = emails.find_by(is_primary: true)
