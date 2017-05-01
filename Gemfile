@@ -112,6 +112,8 @@ group :development, :test do
   gem 'byebug'
   gem 'ruby-debug-passenger'
 
+  # Listen for file system changes
+  gem 'listen'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 
