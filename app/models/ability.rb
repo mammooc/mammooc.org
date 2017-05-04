@@ -5,11 +5,11 @@ class Ability
 
   def initialize(user)
     # Groups
-    can [:create, :join], Group
-    can [:read, :members, :admins, :leave, :condition_for_changing_member_status, :recommendations, :statistics], Group do |group|
+    can %i[create join], Group
+    can %i[read members admins leave condition_for_changing_member_status recommendations statistics], Group do |group|
       user.groups.include? group
     end
-    can [:update, :destroy, :invite_group_members, :add_administrator, :demote_administrator, :remove_group_member, :all_members_to_administrators, :synchronize_courses], Group do |group|
+    can %i[update destroy invite_group_members add_administrator demote_administrator remove_group_member all_members_to_administrators synchronize_courses], Group do |group|
       UserGroup.where(user_id: user.id, group_id: group.id, is_admin: true).any?
     end
 
@@ -29,9 +29,9 @@ class Ability
     end
 
     # Users
-    cannot [:create, :show, :update, :destroy, :finish_signup], User
+    cannot %i[create show update destroy finish_signup], User
 
-    can [:update, :destroy, :finish_signup], User do |checked_user|
+    can %i[update destroy finish_signup], User do |checked_user|
       checked_user.id == user.id
     end
 

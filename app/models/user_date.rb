@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'icalendar'
 
 class UserDate < ActiveRecord::Base
@@ -32,7 +33,7 @@ class UserDate < ActiveRecord::Base
   end
 
   def self.generate_token_for_user(user)
-    return unless user.token_for_user_dates.blank?
+    return if user.token_for_user_dates.present?
     token = SecureRandom.urlsafe_base64(Settings.token_length)
     until User.find_by(token_for_user_dates: token).nil?
       token = SecureRandom.urlsafe_base64(Settings.token_length)

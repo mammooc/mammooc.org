@@ -30,7 +30,7 @@ Claudia; “I enjoyed this course so much. It gave me a chance to expand my hori
     start_date Time.zone.local(2015, 6, 1, 8)
     end_date Time.zone.local(2015, 7, 20, 23, 30)
     categories ['Web', 'Technologies', 'Computer Science', '#geilon']
-    requirements %w(Computer Brain Strength)
+    requirements %w[Computer Brain Strength]
     difficulty 'medium'
     workload '4-8 hours a week'
     sequence(:provider_course_id, &:to_s)

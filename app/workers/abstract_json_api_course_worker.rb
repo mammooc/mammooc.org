@@ -27,7 +27,7 @@ class AbstractJsonApiCourseWorker < AbstractCourseWorker
 
   def get_page(url)
     response = RestClient.get(url, accept: 'application/vnd.api+json')
-    return [] unless response.present?
+    return [] if response.blank?
     if response.starts_with? '<pre>'
       response = Nokogiri::HTML(response).xpath('//pre/text()').text
     end

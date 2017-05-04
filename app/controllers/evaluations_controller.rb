@@ -2,7 +2,7 @@
 
 class EvaluationsController < ApplicationController
   before_action :set_evaluation, only: [:process_feedback]
-  skip_before_action :require_login, only: [:export_course_evaluations, :export_overall_course_rating, :save, :login_and_save]
+  skip_before_action :require_login, only: %i[export_course_evaluations export_overall_course_rating save login_and_save]
   protect_from_forgery except: :save
 
   respond_to :html
@@ -43,7 +43,6 @@ class EvaluationsController < ApplicationController
     respond_to do |format|
       format.json { render :export_overall_course_rating }
     end
-
   rescue ActionController::ParameterMissing, ActiveRecord::RecordNotFound => e
     respond_to do |format|
       format.json { render json: {error: e.message}, status: :recordNotFound }
@@ -92,7 +91,6 @@ class EvaluationsController < ApplicationController
     respond_to do |format|
       format.json { render :export_course_evaluations }
     end
-
   rescue ActionController::ParameterMissing, ActiveRecord::RecordNotFound => e
     respond_to do |format|
       format.json { render json: {error: e.message}, status: :recordNotFound }
@@ -114,7 +112,6 @@ class EvaluationsController < ApplicationController
       end
       format.json { render json: {success: 'true'}, status: :ok }
     end
-
   rescue => e
     respond_to do |format|
       format.js do

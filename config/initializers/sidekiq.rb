@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'sidekiq'
 
 uri = URI.parse(ENV['REDIS_PROVIDER'] || 'redis://localhost:6379/')

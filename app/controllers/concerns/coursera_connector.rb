@@ -31,7 +31,7 @@ class CourseraConnector < AbstractMoocProviderConnector
   def send_connection_request(user, credentials)
     code = credentials[:code]
     response = oauth_client.auth_code.get_token(code, redirect_uri: REDIRECT_URI, grant_type: 'authorization_code')
-    return unless response.token.present?
+    return if response.token.blank?
     connection = mooc_provider_user_connection user
     connection.access_token = response.token
     connection.access_token_valid_until = Time.zone.at(response.expires_at)

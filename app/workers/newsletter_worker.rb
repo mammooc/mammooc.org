@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class NewsletterWorker
   include Sidekiq::Worker
 
@@ -16,7 +17,7 @@ class NewsletterWorker
         user.last_newsletter_send_at = Time.zone.now - user.newsletter_interval.days
       end
       courses = User.collect_new_courses(user)
-      next unless courses.present?
+      next if courses.blank?
       UserMailer.newsletter_for_new_courses(user.primary_email, user, courses).deliver_now
       user.last_newsletter_send_at = Time.zone.now
       user.save

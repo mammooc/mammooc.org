@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 require 'support/course_worker_spec_helper'
 
@@ -67,7 +68,7 @@ describe IversityCourseWorker do
   end
 
   it 'parses more then one language' do
-    courses_json['courses'][0]['language'] = %w(en es)
+    courses_json['courses'][0]['language'] = %w[en es]
     iversity_course_worker.handle_response_data courses_json
     course = Course.find_by(provider_course_id: courses_json['courses'][0]['id'], mooc_provider_id: mooc_provider.id)
     expect(course.language).to eq 'en,es'

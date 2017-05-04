@@ -35,7 +35,7 @@ class IversityCourseWorker < AbstractCourseWorker
       case course_element['language']
         when 'German' then course.language = 'de'
         when 'English' then course.language = 'en'
-        when %w(en es) then course.language = 'en,es'
+        when %w[en es] then course.language = 'en,es'
       end
 
       if course_element['image'].present? && course_element['image'][/[\?&#]/]
@@ -64,17 +64,17 @@ class IversityCourseWorker < AbstractCourseWorker
                      [course_element['plans']]
                    end
       plan_array.each do |plan|
-        price = plan['price'].split(' ') unless plan['price'].blank?
+        price = plan['price'].split(' ') if plan['price'].present?
         track_attributes = {}
         case plan['title'].split(/[\s-]/)[0].downcase
           when 'audit' then track_attributes = {track_type: free_track_type, costs: 0.0, costs_currency: '€'}
           when 'certificate' then track_attributes = {track_type: certificate_track_type, costs: price[0].to_f, costs_currency: price[1]}
           when 'ects'
             track_attributes = {track_type: ects_track_type, costs: price[0].to_f, costs_currency: price[1]}
-            track_attributes[:credit_points] = plan['credits'].split(' ')[0].to_f unless plan['credits'].blank?
+            track_attributes[:credit_points] = plan['credits'].split(' ')[0].to_f if plan['credits'].present?
           when 'schüler'
             track_attributes = {track_type: ects_pupils_track_type, costs: price[0].to_f, costs_currency: price[1]}
-            track_attributes[:credit_points] = plan['credits'].split(' ')[0].to_f unless plan['credits'].blank?
+            track_attributes[:credit_points] = plan['credits'].split(' ')[0].to_f if plan['credits'].present?
           when 'statement', 'teilnahmebescheinigung'
             track_attributes = if price.present?
                                  {track_type: iversity_statement_track, costs: price[0].to_f, costs_currency: price[1]}

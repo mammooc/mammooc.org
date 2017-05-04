@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # rubocop:disable Lint/UselessAssignment
 
 # seeds for all environments
@@ -122,7 +123,7 @@ case Rails.env
                                  end_date: Time.zone.local(2015, 7, 20, 23, 30),
                                  provider_given_duration: '8 weeks',
                                  categories: ['Web', 'Technologies', 'Computer Science', '#geilon'],
-                                 requirements: %w(Computer Brain Strength),
+                                 requirements: %w[Computer Brain Strength],
                                  difficulty: 'medium',
                                  workload: '4-6 hours per week',
                                  provider_course_id: 1,
