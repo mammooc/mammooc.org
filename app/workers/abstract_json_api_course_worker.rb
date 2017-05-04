@@ -3,6 +3,7 @@
 class AbstractJsonApiCourseWorker < AbstractCourseWorker
   MOOC_PROVIDER_NAME = ''
   MOOC_PROVIDER_API_LINK = ''
+  COURSE_LINK_BODY = ''
 
   def mooc_provider
     MoocProvider.find_by(name: self.class::MOOC_PROVIDER_NAME)
@@ -49,13 +50,20 @@ class AbstractJsonApiCourseWorker < AbstractCourseWorker
       course.name = course_element['name'].strip
       course.provider_course_id = course_element['courseCode']
       course.mooc_provider_id = mooc_provider.id
-      course.url = course_element['url'] || course_element['moocProvider']['url']
       course.videoId = course_element['video']
       course.language = course_element['languages'].join(',')
       if course_element['image'].present? && course_element['image'][/[\?&#]/]
         filename = File.basename(course_element['image'])[/.*?(?=[\?&#])/]
       elsif course_element['image'].present?
         filename = File.basename(course_element['image'])
+      end
+
+      if course_element['url'].present?
+        course.url = course_element['url']
+      elsif course_element['courseCode'].present?
+        course.url = self.class::COURSE_LINK_BODY + course_element['courseCode']
+      elsif course_element['moocProvider'].present? && course_element['moocProvider']['url'].present?
+        course.url = course_element['moocProvider']['url']
       end
 
       if course_element['image'].present? && course.course_image_file_name != filename
@@ -80,7 +88,13 @@ class AbstractJsonApiCourseWorker < AbstractCourseWorker
 
       course.workload = course_element['workload']
       course.provider_given_duration = course_element['duration']
-      course.calculated_duration_in_days = ActiveSupport::Duration.parse(course_element['duration']).to_i / 1.day
+
+      begin
+        course.calculated_duration_in_days = ActiveSupport::Duration.parse(course_element['duration']).to_i / 1.day
+      rescue ActiveSupport::Duration::ISO8601Parser::ParsingError => e
+        Rails.logger.error "Couldn't process douration in course #{course_element['courseCode']} for duration #{course_element['duration']}: #{e.message}"
+        course.calculated_duration_in_days = nil
+      end
 
       track = if course_element['isAccessibleForFree'].to_s == 'true'
                 CourseTrack.find_by(course_id: course.id, track_type: free_track_type) || CourseTrack.create!(track_type: free_track_type, costs: 0.0, costs_currency: "\xe2\x82\xac")
