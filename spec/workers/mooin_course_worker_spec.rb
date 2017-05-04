@@ -162,7 +162,7 @@ RSpec.describe MooinCourseWorker do
     expect(course.name).to eq json_course['name'].strip
     expect(course.provider_course_id).to eq json_course['courseCode']
     expect(course.mooc_provider_id).to eq mooc_provider.id
-    expect(course.url).to eq json_course['moocProvider']['url']
+    expect(course.url).to eq described_class::COURSE_LINK_BODY + json_course['courseCode']
     expect(course.videoId).to be_nil
     expect(course.language).to eq json_course['languages'].join(',')
     expect(course.start_date).to eq Time.zone.parse(json_course['startDate'])
