@@ -36,7 +36,7 @@ gem 'passenger'
 # gem 'capistrano-rails', group: :development
 
 # authentication
-gem 'devise', github: 'plataformatec/devise'
+gem 'devise'
 gem 'oauth2'
 gem 'omniauth'
 gem 'omniauth-amazon'
