@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class GroupInvitation < ActiveRecord::Base
+class GroupInvitation < ApplicationRecord
   belongs_to :group
 end

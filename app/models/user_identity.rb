@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UserIdentity < ActiveRecord::Base
+class UserIdentity < ApplicationRecord
   belongs_to :user
   validates :provider_user_id, presence: true, uniqueness: {scope: :omniauth_provider}
   validates :omniauth_provider, presence: true, uniqueness: {scope: :user}

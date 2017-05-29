@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class Organisation < ActiveRecord::Base
+class Organisation < ApplicationRecord
   has_many :courses, dependent: :destroy
 end

@@ -107,7 +107,7 @@ RSpec.describe Users::SessionsController, type: :controller do
     valid_until = Time.zone.now - 10.minutes
     session['devise.google_data']['valid_until'] = valid_until
     user = FactoryGirl.create(:user)
-    expect { post :create, params: {user: {primary_email: user.primary_email, password: '12345678'}} }.not_to change { UserIdentity.where(user_id: user.id).count }
+    expect { post :create, params: {user: {primary_email: user.primary_email, password: '12345678'}} }.not_to(change { UserIdentity.where(user_id: user.id).count })
   end
 end
 # rubocop:enable RSpec/NamedSubject

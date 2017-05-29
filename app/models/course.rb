@@ -2,7 +2,7 @@
 
 # rubocop:disable Style/Lambda
 
-class Course < ActiveRecord::Base
+class Course < ApplicationRecord
   filterrific(
     default_filter_params: {sorted_by: 'relevance_asc'},
     available_filters: %i[with_start_date_gte

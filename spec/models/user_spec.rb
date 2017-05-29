@@ -218,7 +218,7 @@ RSpec.describe User, type: :model do
       expect do
         user.primary_email = 'abc@example.com'
         user.save!
-      end.not_to change { UserEmail.count }
+      end.not_to(change { UserEmail.count })
       expect(UserEmail.find_by(address: 'test@example.com')).to be_nil
       expect(UserEmail.find_by(address: 'abc@example.com').user).to eq user
     end
@@ -446,7 +446,7 @@ RSpec.describe User, type: :model do
         }
       )
       email_address_count = UserEmail.where(user: user).count
-      expect { described_class.find_for_omniauth(authentication_info) }.not_to change { described_class.count }
+      expect { described_class.find_for_omniauth(authentication_info) }.not_to(change { described_class.count })
       expect(email_address_count).to eq UserEmail.where(user: user).count
     end
 
@@ -462,7 +462,7 @@ RSpec.describe User, type: :model do
         }
       )
       email_address_count = UserEmail.where(user: user).count
-      expect { described_class.find_for_omniauth(authentication_info) }.not_to change { described_class.count }
+      expect { described_class.find_for_omniauth(authentication_info) }.not_to(change { described_class.count })
       expect(email_address_count).to eq UserEmail.where(user: user).count
     end
 
@@ -479,7 +479,7 @@ RSpec.describe User, type: :model do
       )
       expect(user.primary_email).not_to eq authentication_info.info.email
       email_address_count = UserEmail.where(user: user).count
-      expect { described_class.find_for_omniauth(authentication_info) }.not_to change { described_class.count }
+      expect { described_class.find_for_omniauth(authentication_info) }.not_to(change { described_class.count })
       expect(email_address_count + 1).to eq UserEmail.where(user: user).count
     end
 
@@ -495,7 +495,7 @@ RSpec.describe User, type: :model do
         }
       )
       identity = UserIdentity.where(user: user).count
-      expect { described_class.find_for_omniauth(authentication_info, user) }.not_to change { described_class.count }
+      expect { described_class.find_for_omniauth(authentication_info, user) }.not_to(change { described_class.count })
       expect(identity + 1).to eq UserIdentity.where(user: user).count
     end
 
@@ -511,7 +511,7 @@ RSpec.describe User, type: :model do
         }
       )
       identity = UserIdentity.where(user: user).count
-      expect { described_class.find_for_omniauth(authentication_info, user) }.not_to change { described_class.count }
+      expect { described_class.find_for_omniauth(authentication_info, user) }.not_to(change { described_class.count })
       expect(identity).to eq UserIdentity.where(user: user).count
     end
 
@@ -526,7 +526,7 @@ RSpec.describe User, type: :model do
         }
       )
       identity = UserIdentity.where(user: user).count
-      expect { described_class.find_for_omniauth(authentication_info, nil) }.not_to change { described_class.count }
+      expect { described_class.find_for_omniauth(authentication_info, nil) }.not_to(change { described_class.count })
       expect(described_class.find_for_omniauth(authentication_info, nil)).to eq nil
       expect(identity).to eq UserIdentity.where(user: user).count
     end

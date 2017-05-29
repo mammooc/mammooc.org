@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Completion < ActiveRecord::Base
+class Completion < ApplicationRecord
   belongs_to :user
   belongs_to :course
   has_many :certificates, dependent: :destroy

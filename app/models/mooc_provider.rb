@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class MoocProvider < ActiveRecord::Base
+class MoocProvider < ApplicationRecord
   has_many :courses, dependent: :destroy
   has_many :users, through: :mooc_provider_users
   has_many :user_dates, dependent: :destroy

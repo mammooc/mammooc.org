@@ -46,7 +46,7 @@ RSpec.describe UserSetting, type: :model do
 
       it 'overwrites the old value' do
         expect { setting.set(setting_entry.key, new_value) }.to change { setting.value(setting_entry.key) }.from(old_value)
-          .to(new_value)
+                                                                                                           .to(new_value)
       end
     end
   end

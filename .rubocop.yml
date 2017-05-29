@@ -18,14 +18,8 @@ Style/Encoding:
 Style/FrozenStringLiteralComment:
   Enabled: true
 
-Style/AlignParameters:
-  EnforcedStyle: with_fixed_indentation
-
 Style/BracesAroundHashParameters:
   EnforcedStyle: context_dependent
-
-Style/SpaceInsideHashLiteralBraces:
-  EnforcedStyle: no_space
 
 Style/RaiseArgs:
   EnforcedStyle: compact
@@ -33,15 +27,10 @@ Style/RaiseArgs:
 Style/Documentation:
   Enabled: false
 
-Style/SpaceInsideBlockBraces:
-  EnforcedStyle: space
-  EnforcedStyleForEmptyBraces: no_space
-  SpaceBeforeBlockParameters: false
-
 Style/SignalException:
   EnforcedStyle: only_raise
 
-Style/CaseIndentation:
+Layout/CaseIndentation:
   EnforcedStyle: end
   SupportedStyles:
     - case
@@ -65,6 +54,21 @@ Style/RegexpLiteral:
 Style/ClassAndModuleChildren:
   Exclude:
    - 'config/application.rb'
+
+Style/FileName:
+  Exclude:
+  - 'Gemfile'
+
+Layout/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+Layout/SpaceInsideBlockBraces:
+  EnforcedStyle: space
+  EnforcedStyleForEmptyBraces: no_space
+  SpaceBeforeBlockParameters: false
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
 
 Metrics/LineLength:
   Enabled: false

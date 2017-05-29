@@ -2,7 +2,7 @@
 
 require 'icalendar'
 
-class UserDate < ActiveRecord::Base
+class UserDate < ApplicationRecord
   belongs_to :user
   belongs_to :course
 

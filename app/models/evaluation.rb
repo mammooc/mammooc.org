@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Evaluation < ActiveRecord::Base
+class Evaluation < ApplicationRecord
   belongs_to :user
   belongs_to :course
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class MoocProviderUser < ActiveRecord::Base
+class MoocProviderUser < ApplicationRecord
   belongs_to :user
   belongs_to :mooc_provider
 end
