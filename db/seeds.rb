@@ -15,7 +15,7 @@ MoocProvider.create!(name: 'openWHO', logo_id: 'logo_openWHO.svg', url: 'https:/
 
 # Others
 MoocProvider.create!(name: 'edX', logo_id: 'logo_edX.svg', url: 'https://www.edx.org', api_support_state: :nil)
-MoocProvider.create!(name: 'coursera', logo_id: 'logo_coursera.svg', url: 'https://www.coursera.org', api_support_state: :oauth)
+MoocProvider.create!(name: 'coursera', logo_id: 'logo_coursera.svg', url: 'https://www.coursera.org', api_support_state: :nil)
 MoocProvider.create!(name: 'iversity', logo_id: 'logo_iversity.svg', url: 'https://iversity.org', api_support_state: :nil)
 MoocProvider.create!(name: 'Udacity', logo_id: 'logo_UDACITY.svg', url: 'https://www.udacity.com', api_support_state: :nil)
 MoocProvider.create!(name: 'FutureLearn', logo_id: 'logo_FutureLearn.svg', url: 'https://www.futurelearn.com', api_support_state: :nil)

@@ -25,8 +25,8 @@ RSpec.describe ConnectorMapper do
     expect(get_connector_by_mooc_provider(mooc_provider).class).to eq OpenUNEConnector
     mooc_provider.name = 'openWHO'
     expect(get_connector_by_mooc_provider(mooc_provider).class).to eq OpenWHOConnector
-    mooc_provider.name = 'coursera'
-    expect(get_connector_by_mooc_provider(mooc_provider).class).to eq CourseraConnector
+    # mooc_provider.name = 'coursera'
+    # expect(get_connector_by_mooc_provider(mooc_provider).class).to eq CourseraConnector
   end
 
   it 'returns no worker for unknown mooc_provider' do
@@ -48,7 +48,7 @@ RSpec.describe ConnectorMapper do
     expect(get_worker_by_mooc_provider(mooc_provider)).to eq OpenUNEUserWorker
     mooc_provider.name = 'openWHO'
     expect(get_worker_by_mooc_provider(mooc_provider)).to eq OpenWHOUserWorker
-    mooc_provider.name = 'coursera'
-    expect(get_worker_by_mooc_provider(mooc_provider)).to eq CourseraUserWorker
+    # mooc_provider.name = 'coursera'
+    # expect(get_worker_by_mooc_provider(mooc_provider)).to eq CourseraUserWorker
   end
 end

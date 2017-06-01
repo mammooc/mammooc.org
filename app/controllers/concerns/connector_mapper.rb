@@ -20,7 +20,8 @@ module ConnectorMapper
       when 'openWHO'
         OpenWHOConnector.new
       when 'coursera'
-        CourseraConnector.new
+        # CourseraConnector.new
+        nil
     end
   end
 
@@ -41,7 +42,8 @@ module ConnectorMapper
       when 'openWHO'
         OpenWHOUserWorker
       when 'coursera'
-        CourseraUserWorker
+        # CourseraUserWorker
+        nil
     end
   end
 end
