@@ -134,6 +134,8 @@ group :development, :test do
   gem 'rubocop', require: false
   gem 'rubocop-rspec', require: false
   gem 'simplecov', require: false
+
+  gem 'pry'
 end
 
 group :development do

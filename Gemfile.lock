@@ -44,13 +44,13 @@ GEM
     ast (2.3.0)
     autoprefixer-rails (7.1.1)
       execjs
-    aws-sdk (2.9.27)
-      aws-sdk-resources (= 2.9.27)
-    aws-sdk-core (2.9.27)
+    aws-sdk (2.9.28)
+      aws-sdk-resources (= 2.9.28)
+    aws-sdk-core (2.9.28)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.9.27)
-      aws-sdk-core (= 2.9.27)
+    aws-sdk-resources (2.9.28)
+      aws-sdk-core (= 2.9.28)
     aws-sigv4 (1.0.0)
     bcrypt (3.1.11)
     bindex (0.5.0)
@@ -82,6 +82,7 @@ GEM
     cliver (0.3.2)
     cocaine (0.5.8)
       climate_control (>= 0.0.3, < 1.0)
+    coderay (1.1.1)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0)
@@ -240,6 +241,10 @@ GEM
       cliver (~> 0.3.1)
       websocket-driver (>= 0.2.0)
     powerpack (0.1.1)
+    pry (0.10.4)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
     public_activity (1.5.0)
       actionpack (>= 3.0.0)
       activerecord (>= 3.0)
@@ -360,6 +365,7 @@ GEM
       actionpack (>= 3.1)
       railties (>= 3.1)
       slim (~> 3.0)
+    slop (3.6.0)
     spring (2.0.2)
       activesupport (>= 4.2)
     sprockets (3.7.1)
@@ -452,6 +458,7 @@ DEPENDENCIES
   passenger
   pg
   poltergeist
+  pry
   public_activity
   rack-cors
   rails (= 5.0.3)
