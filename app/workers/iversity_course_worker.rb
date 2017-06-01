@@ -58,10 +58,10 @@ class IversityCourseWorker < AbstractCourseWorker
       course.end_date = course_element['end_date']
       course.difficulty = course_element['knowledge_level ']
 
-      plan_array = if course_element['plans'].is_a?(Array)
-                     course_element['plans']
+      plan_array = if course_element['verifications'].is_a?(Array)
+                     course_element['verifications']
                    else
-                     [course_element['plans']]
+                     [course_element['verifications']]
                    end
       plan_array.each do |plan|
         price = plan['price'].split(' ') if plan['price'].present?
