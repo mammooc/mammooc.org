@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class RecommendationsController < ApplicationController
-  load_and_authorize_resource only: [:create, :delete_user_from_recommendation, :delete_group_recommendation, :index, :new]
+  load_and_authorize_resource only: %i[create delete_user_from_recommendation delete_group_recommendation index new]
 
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
@@ -100,7 +100,6 @@ class RecommendationsController < ApplicationController
         format.html { redirect_to session.delete(:return_to), notice: t('recommendation.successfully_created') }
       end
     end
-
   rescue ActiveRecord::RecordNotSaved
     flash[:error] = t('recommendation.creation_error')
     redirect_to root_path

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class UserMailerPreview < ActionMailer::Preview
   def newsletter_for_new_courses
     user = User.find_by(first_name: 'Max')

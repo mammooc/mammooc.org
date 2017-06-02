@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class GroupsController < ApplicationController
-  load_and_authorize_resource only: [:index, :show, :edit, :update, :destroy, :admins, :invite_group_members, :add_administrator, :members, :recommendations, :statistics, :demote_administrator, :remove_group_member, :leave, :condition_for_changing_member_status, :all_members_to_administrators, :recommendations, :synchronize_courses]
+  load_and_authorize_resource only: %i[index show edit update destroy admins invite_group_members add_administrator members recommendations statistics demote_administrator remove_group_member leave condition_for_changing_member_status all_members_to_administrators recommendations synchronize_courses]
 
   NUMBER_OF_SHOWN_RECOMMENDATIONS = 2
   NUMBER_OF_SHOWN_USERS = 10
@@ -315,7 +315,6 @@ class GroupsController < ApplicationController
     group.create_activity key: 'group.join', owner: current_user, group_ids: [group.id], user_ids: (group.user_ids - [current_user.id])
 
     redirect_to group_path(group)
-
   rescue ActiveRecord::RecordNotFound
     flash[:error] = t('groups.invitation.link_invalid')
     redirect_to root_path

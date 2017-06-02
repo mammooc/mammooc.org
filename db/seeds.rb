@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # rubocop:disable Lint/UselessAssignment
 
 # seeds for all environments
@@ -14,7 +15,7 @@ MoocProvider.create!(name: 'openWHO', logo_id: 'logo_openWHO.svg', url: 'https:/
 
 # Others
 MoocProvider.create!(name: 'edX', logo_id: 'logo_edX.svg', url: 'https://www.edx.org', api_support_state: :nil)
-MoocProvider.create!(name: 'coursera', logo_id: 'logo_coursera.svg', url: 'https://www.coursera.org', api_support_state: :oauth)
+MoocProvider.create!(name: 'coursera', logo_id: 'logo_coursera.svg', url: 'https://www.coursera.org', api_support_state: :nil)
 MoocProvider.create!(name: 'iversity', logo_id: 'logo_iversity.svg', url: 'https://iversity.org', api_support_state: :nil)
 MoocProvider.create!(name: 'Udacity', logo_id: 'logo_UDACITY.svg', url: 'https://www.udacity.com', api_support_state: :nil)
 MoocProvider.create!(name: 'FutureLearn', logo_id: 'logo_FutureLearn.svg', url: 'https://www.futurelearn.com', api_support_state: :nil)
@@ -122,7 +123,7 @@ case Rails.env
                                  end_date: Time.zone.local(2015, 7, 20, 23, 30),
                                  provider_given_duration: '8 weeks',
                                  categories: ['Web', 'Technologies', 'Computer Science', '#geilon'],
-                                 requirements: %w(Computer Brain Strength),
+                                 requirements: %w[Computer Brain Strength],
                                  difficulty: 'medium',
                                  workload: '4-6 hours per week',
                                  provider_course_id: 1,

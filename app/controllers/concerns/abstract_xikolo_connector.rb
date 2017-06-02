@@ -13,7 +13,7 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
     authentication_url = self.class::ROOT_API + AUTHENTICATE_API
     response = RestClient.post(authentication_url, request_parameters, accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', authorization: 'token=\"78783786789\"')
     json_response = JSON.parse response
-    return unless json_response['token'].present?
+    return if json_response['token'].blank?
     connection = mooc_provider_user_connection user
     connection.access_token = json_response['token']
     connection.save!

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module StringHelper
   def self.to_bool(arg)
     return true if arg == true || arg =~ /^(true|t|yes|y|1)$/i

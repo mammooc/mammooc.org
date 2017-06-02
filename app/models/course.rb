@@ -1,20 +1,21 @@
 # frozen_string_literal: true
+
 # rubocop:disable Style/Lambda
 
-class Course < ActiveRecord::Base
+class Course < ApplicationRecord
   filterrific(
     default_filter_params: {sorted_by: 'relevance_asc'},
-    available_filters: [:with_start_date_gte,
-                        :with_end_date_lte,
-                        :with_language,
-                        :with_mooc_provider_id,
-                        :with_subtitle_languages,
-                        :duration_filter_options,
-                        :start_filter_options,
-                        :with_tracks,
-                        :search_query,
-                        :sorted_by,
-                        :bookmarked]
+    available_filters: %i[with_start_date_gte
+                          with_end_date_lte
+                          with_language
+                          with_mooc_provider_id
+                          with_subtitle_languages
+                          duration_filter_options
+                          start_filter_options
+                          with_tracks
+                          search_query
+                          sorted_by
+                          bookmarked]
   )
   include PublicActivity::Common
 

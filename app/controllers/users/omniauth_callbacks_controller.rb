@@ -31,7 +31,7 @@ module Users
     }
     end
 
-    [:facebook, :google, :github, :linkedin, :twitter, :windows_live, :amazon, :openhpi].each do |provider|
+    %i[facebook google github linkedin twitter windows_live amazon openhpi].each do |provider|
       provides_callback_for provider
     end
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UserEmailsController < ApplicationController
-  before_action :set_email, only: [:destroy, :mark_as_deleted]
+  before_action :set_email, only: %i[destroy mark_as_deleted]
 
   def mark_as_deleted
     session[:deleted_user_emails] ||= []

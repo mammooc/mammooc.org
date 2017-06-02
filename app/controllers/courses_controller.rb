@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class CoursesController < ApplicationController
-  before_action :set_course, only: [:show, :enroll_course, :unenroll_course, :send_evaluation]
-  skip_before_action :require_login, only: [:index, :show, :filter_options, :search, :load_more]
+  before_action :set_course, only: %i[show enroll_course unenroll_course send_evaluation]
+  skip_before_action :require_login, only: %i[index show filter_options search load_more]
 
   include ConnectorMapper
 
@@ -25,7 +25,6 @@ class CoursesController < ApplicationController
         format.json
       end
     end
-
   rescue ActiveRecord::RecordNotFound => e
     Rails.logger.info "Had to reset filterrific params: #{e.message}"
     redirect_to(reset_filterrific_url(format: :html)) && return
@@ -86,7 +85,7 @@ class CoursesController < ApplicationController
 
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses([@course])
     @bookmarked = false
-    return unless current_user.present?
+    return if current_user.blank?
     current_user.bookmarks.each do |bookmark|
       @bookmarked = true if bookmark.course == @course
     end
@@ -179,8 +178,8 @@ class CoursesController < ApplicationController
   end
 
   def course_status_valid?(course_status)
-    return false unless course_status.present?
-    [:aborted, :enrolled, :finished].include? course_status.to_sym
+    return false if course_status.blank?
+    %i[aborted enrolled finished].include? course_status.to_sym
   end
 
   def set_course

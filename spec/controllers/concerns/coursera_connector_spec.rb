@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe CourseraConnector do
@@ -24,7 +25,7 @@ RSpec.describe CourseraConnector do
 
   it 'gets an API response' do
     FactoryGirl.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
-    expect { coursera_connector.send(:get_enrollments_for_user, user) }.to raise_error RestClient::Unauthorized
+    expect { coursera_connector.send(:get_enrollments_for_user, user) }.to raise_error RestClient::NotFound
   end
 
   it 'returns parsed response for enrolled courses' do

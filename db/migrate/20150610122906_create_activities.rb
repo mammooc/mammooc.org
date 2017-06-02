@@ -14,9 +14,9 @@ class CreateActivities < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    add_index :activities, [:trackable_id, :trackable_type]
-    add_index :activities, [:owner_id, :owner_type]
-    add_index :activities, [:recipient_id, :recipient_type]
+    add_index :activities, %i[trackable_id trackable_type]
+    add_index :activities, %i[owner_id owner_type]
+    add_index :activities, %i[recipient_id recipient_type]
   end
 
   # Drop table

@@ -1,4 +1,3 @@
-# encoding: utf-8
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
@@ -6,7 +5,7 @@ source 'https://rubygems.org'
 ruby '2.4.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.0.2'
+gem 'rails', '5.0.3'
 # Use sqlite3 as the database for Active Record
 gem 'pg'
 gem 'sass-rails'
@@ -112,6 +111,8 @@ group :development, :test do
   gem 'byebug'
   gem 'ruby-debug-passenger'
 
+  # Listen for file system changes
+  gem 'listen'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 
@@ -133,6 +134,8 @@ group :development, :test do
   gem 'rubocop', require: false
   gem 'rubocop-rspec', require: false
   gem 'simplecov', require: false
+
+  gem 'pry'
 end
 
 group :development do

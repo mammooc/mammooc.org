@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UserSetting < ActiveRecord::Base
+class UserSetting < ApplicationRecord
   belongs_to :user
   has_many :entries, class_name: 'UserSettingEntry', dependent: :destroy
 

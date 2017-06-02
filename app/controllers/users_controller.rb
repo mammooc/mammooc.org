@@ -2,8 +2,8 @@
 
 class UsersController < ApplicationController
   include ConnectorMapper
-  before_action :set_provider_logos, only: [:settings, :mooc_provider_settings]
-  load_and_authorize_resource only: [:show, :edit, :update, :destroy, :finish_signup, :completions]
+  before_action :set_provider_logos, only: %i[settings mooc_provider_settings]
+  load_and_authorize_resource only: %i[show edit update destroy finish_signup completions]
 
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
@@ -42,7 +42,7 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    unless UserGroup.find_by(user_id: @user.id).blank?
+    if UserGroup.find_by(user_id: @user.id).present?
       UserGroup.find_by(user_id: @user.id).destroy
     end
     @user.destroy
@@ -303,7 +303,7 @@ class UsersController < ApplicationController
 
     number_of_new_emails.times do |index|
       index_of_new_email = total_number_of_emails - index
-      next unless params[:user][:user_email][:"address_#{index_of_new_email}"].present?
+      next if params[:user][:user_email][:"address_#{index_of_new_email}"].blank?
       new_address = params[:user][:user_email][:"address_#{index_of_new_email}"]
       new_email = UserEmail.new(address: new_address, is_primary: false)
       new_email.user = @user

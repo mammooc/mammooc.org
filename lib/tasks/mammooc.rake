@@ -1,4 +1,3 @@
-# encoding: utf-8
 # frozen_string_literal: true
 
 namespace :mammooc do
@@ -38,5 +37,4 @@ namespace :mammooc do
   task synchronize_dates_for_all_users: :environment do
     UserDatesWorker.perform_async
   end
-
 end

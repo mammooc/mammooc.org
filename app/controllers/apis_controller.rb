@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ApisController < ApplicationController
   skip_before_action :require_login, only: [:current_user_with_evaluation]
   protect_from_forgery except: :current_user_with_evaluation
@@ -34,7 +35,6 @@ class ApisController < ApplicationController
       end
       format.json { render json: result }
     end
-
   rescue ActionController::ParameterMissing, ActiveRecord::RecordNotFound => e
     respond_to do |format|
       format.json { render json: {error: e.message}, status: :recordNotFound }

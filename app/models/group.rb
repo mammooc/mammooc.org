@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Group < ActiveRecord::Base
+class Group < ApplicationRecord
   has_many :user_groups, dependent: :destroy
   has_many :users, through: :user_groups
   has_many :recommendations, dependent: :destroy

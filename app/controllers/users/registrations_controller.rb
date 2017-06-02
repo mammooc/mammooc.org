@@ -49,7 +49,7 @@ module Users
         redirect_to new_user_registration_path
       end
 
-      return unless exception.present?
+      return if exception.blank?
       if exception.to_s.include?(t('errors.messages.invalid'))
         flash['error'] << t('devise.registrations.email.invalid')
       elsif exception.to_s.include?(t('flash.error.taken'))
