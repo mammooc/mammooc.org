@@ -36,6 +36,12 @@ end
 every 1.day, at: '1:00 am' do
   command 'echo Cronjob every day at 01:00 am. Executed: `date`', output: '/var/log/cron_check.log'
   rake 'mammooc:update_user_data'
+end
+
+# Send newsletters at 8 am UTC
+
+every 1.day, at: '8:00 am' do
+  command 'echo Cronjob every day at 08:00 am. Executed: `date`', output: '/var/log/cron_check.log'
   rake 'mammooc:send_reminders'
   rake 'mammooc:send_newsletters'
 end
