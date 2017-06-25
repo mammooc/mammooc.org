@@ -26,9 +26,6 @@
     "COURSERA_SECRET_KEY": {
       "required": true
     },
-    "DOMAIN": {
-      "required": true
-    },
     "FACEBOOK_CLIENT_ID": {
       "required": true
     },
@@ -135,6 +132,12 @@
       "required": true
     },
     "XIKOLO_SECRET_KEY": {
+      "required": true
+    },
+    "HEROKU_APP_NAME": {
+      "required": true
+    },
+    "HEROKU_PARENT_APP_NAME": {
       "required": true
     }
   },
