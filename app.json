@@ -1,7 +1,8 @@
 {
   "name": "mammooc.org",
-  "description": "",
+  "description": "Configuration file for Heroku review apps",
   "scripts": {
+    "postdeploy": "bundle exec rake db:schema:load db:seed"
   },
   "env": {
     "AMAZON_CLIENT_ID": {
