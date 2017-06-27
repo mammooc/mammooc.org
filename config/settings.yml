@@ -9,7 +9,7 @@
 
 # See https://github.com/railsconfig/rails_config for more details
 
-root_url: <%= (ENV['DOMAIN'].present? ? "https://#{ENV['DOMAIN']}" : (ENV['FORCE_SSL'].present? && ENV['FORCE_SSL'] == 'false' ? 'http://localhost:3000' : 'https://localhost:3000')) %>
+root_url: <%= (ENV['DOMAIN'].present? ? "https://#{ENV['DOMAIN']}" : (ENV['HEROKU_APP_NAME'].present? ? "https://#{ENV['HEROKU_APP_NAME']}.herokuapp.com" : (ENV['FORCE_SSL'].present? && ENV['FORCE_SSL'] == 'false' ? 'http://localhost:3000' : 'https://localhost:3000'))) %>
 
 # Mailers
 sender_notification_address: mammooc <notifications@<%= (ENV['DOMAIN'].present? ? "#{ENV['DOMAIN']}" : 'mammooc.org') %>>
@@ -19,7 +19,7 @@ token_length: 16
 token_expiry_duration: <%= 1.week %>
 
 # Heroku Deployment with New Relic
-domain: <%= (ENV['DOMAIN'].present? ? ENV['DOMAIN'] : ENV['USER']) %>
+domain: <%= (ENV['DOMAIN'].present? ? ENV['DOMAIN'] : (ENV['HEROKU_APP_NAME'].present? ? "https://#{ENV['HEROKU_APP_NAME']}.herokuapp.com" : ENV['USER'])) %>
 
 # Default Path for profile picture
 default_profile_picture_path: '/data/profile_picture_default.png'
