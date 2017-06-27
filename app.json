@@ -1,0 +1,160 @@
+{
+  "name": "mammooc.org",
+  "description": "Configuration file for Heroku review apps",
+  "scripts": {
+    "postdeploy": "bundle exec rake db:schema:load db:seed"
+  },
+  "env": {
+    "AMAZON_CLIENT_ID": {
+      "required": true
+    },
+    "AMAZON_SECRET_KEY": {
+      "required": true
+    },
+    "AWS_ACCESS_KEY_ID": {
+      "required": true
+    },
+    "AWS_REGION": {
+      "required": true
+    },
+    "AWS_SECRET_ACCESS_KEY": {
+      "required": true
+    },
+    "COURSERA_CLIENT_ID": {
+      "required": true
+    },
+    "COURSERA_SECRET_KEY": {
+      "required": true
+    },
+    "FACEBOOK_CLIENT_ID": {
+      "required": true
+    },
+    "FACEBOOK_SECRET_KEY": {
+      "required": true
+    },
+    "FORCE_SSL": {
+      "required": true
+    },
+    "GITHUB_CLIENT_ID": {
+      "required": true
+    },
+    "GITHUB_SECRET_KEY": {
+      "required": true
+    },
+    "GOOGLE_CLIENT_ID": {
+      "required": true
+    },
+    "GOOGLE_SECRET_KEY": {
+      "required": true
+    },
+    "HEROKU": {
+      "required": true
+    },
+    "LANG": {
+      "required": true
+    },
+    "LINKEDIN_CLIENT_ID": {
+      "required": true
+    },
+    "LINKEDIN_SECRET_KEY": {
+      "required": true
+    },
+    "NEW_RELIC_LICENSE_KEY": {
+      "required": true
+    },
+    "NEW_RELIC_LOG": {
+      "required": true
+    },
+    "OPEN_HPI_TOKEN": {
+      "required": true
+    },
+    "OPEN_SAP_TOKEN": {
+      "required": true
+    },
+    "PASSENGER_MAX_POOL_SIZE": {
+      "required": true
+    },
+    "RACK_ENV": {
+      "required": true
+    },
+    "RAILS_ENV": {
+      "required": true
+    },
+    "REDIS_PROVIDER": {
+      "required": true
+    },
+    "REDISTOGO_URL": {
+      "required": true
+    },
+    "S3_BUCKET_NAME": {
+      "required": true
+    },
+    "SECRET_KEY_BASE": {
+      "required": true
+    },
+    "SENDGRID_PASSWORD": {
+      "required": true
+    },
+    "SENDGRID_USERNAME": {
+      "required": true
+    },
+    "SMTP_AUTHENTICATION": {
+      "required": true
+    },
+    "SMTP_HOST": {
+      "required": true
+    },
+    "SMTP_PASSWORD": {
+      "required": true
+    },
+    "SMTP_PORT": {
+      "required": true
+    },
+    "SMTP_USERNAME": {
+      "required": true
+    },
+    "TWITTER_CLIENT_ID": {
+      "required": true
+    },
+    "TWITTER_SECRET_KEY": {
+      "required": true
+    },
+    "WINDOWS_LIVE_CLIENT_ID": {
+      "required": true
+    },
+    "WINDOWS_LIVE_SECRET_KEY": {
+      "required": true
+    },
+    "WITH_S3": {
+      "required": true
+    },
+    "XIKOLO_CLIENT_ID": {
+      "required": true
+    },
+    "XIKOLO_SECRET_KEY": {
+      "required": true
+    },
+    "HEROKU_APP_NAME": {
+      "required": true
+    },
+    "HEROKU_PARENT_APP_NAME": {
+      "required": true
+    }
+  },
+  "formation": {
+  },
+  "addons": [
+    "redismonitor",
+    "scheduler",
+    "newrelic",
+    "heroku-postgresql",
+    "sendgrid",
+    "logentries",
+    "redistogo"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/ruby"
+    }
+  ]
+}
