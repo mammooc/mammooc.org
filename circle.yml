@@ -29,9 +29,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install python-pip
           sudo pip install mozdownload mozinstall
-          sudo mozdownload --version latest --destination firefox.tar.bz2"
-          sudo mozinstall firefox.tar.bz2
-          echo 'export PATH=firefox/:$PATH' >> $BASH_ENV
+          mozdownload --version latest --destination ~/firefox.tar.bz2
+          mozinstall ~/firefox.tar.bz2 --destination ~
+          echo 'export PATH=~/firefox/:$PATH' >> $BASH_ENV
 
       - type: shell
         name: Install Mozilla Gecko
