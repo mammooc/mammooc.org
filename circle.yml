@@ -73,7 +73,8 @@ jobs:
 
       - deploy:
         name: Notify DockerHub
-        command: curl -H "Content-Type: application/json" --data '{"build": true}' -X POST $DOCKER_HUB_TRIGGER_URL
+        command: |
+          curl -H "Content-Type: application/json" --data '{"build": true}' -X POST $DOCKER_HUB_TRIGGER_URL
 
       - deploy:
         name: Deploy to Heroku
