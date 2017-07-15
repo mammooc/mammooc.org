@@ -231,11 +231,9 @@ class CoursesController < ApplicationController
   end
 
   def load_courses
-    if params[:filterrific]
-      filterrific_params = params[:filterrific].permit!.to_h
-    else
-      filterrific_params = nil
-    end
+    filterrific_params = if params[:filterrific]
+                           params[:filterrific].permit!.to_h
+                         end
 
     @filterrific = initialize_filterrific(Course, filterrific_params,
       select_options: {with_language: Course.options_for_languages,
