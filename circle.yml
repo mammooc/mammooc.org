@@ -70,13 +70,12 @@ jobs:
         destination: rubocop
 
       # Deploy
-
-      - deploy:
+      - type: deploy
         name: Notify DockerHub
         command: |
           curl -H "Content-Type: application/json" --data '{"build": true}' -X POST $DOCKER_HUB_TRIGGER_URL
 
-      - deploy:
+      - type: deploy
         name: Deploy to Heroku
         command: |
           if [ "${CIRCLE_BRANCH}" == "master" ]; then
