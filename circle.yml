@@ -1,57 +1,110 @@
 version: 2
-executorType: docker
-containerInfo:
-  - image: ruby:2.4
-  - image: redis:latest
-  - image: postgres:latest
-    env:
-      - POSTGRES_USER=mammooc
-      - POSTGRES_PASSWORD=mammooc
-      - POSTGRES_DB=mammooc_test
-stages:
+jobs:
   build:
-    parallel: 1
-    workDir: ~/mammooc.org
-    environment:
-      - RAILS_ENV: "test"
-      - COVERALLS_PARALLEL: "true"
-      - DATABASE_URL: "postgresql://mammooc:mammooc@localhost/mammooc_test"
-      - PHANTOM_JS: "phantomjs-2.1.1-linux-x86_64"
+    parallelism: 4
+    working_directory: ~/mammooc.org
+    docker:
+      - image: circleci/ruby:2.4.1-node-browsers
+        environment:
+          RAILS_ENV: test
+      - image: circleci/postgres:9.6.3
     steps:
-      - type: checkout
+      - checkout
+
+      # Restore bundle cache
+      - type: cache-restore
+        key: rails-demo-{{ checksum "Gemfile.lock" }}
+
+      # Bundle install dependencies
+      - run: bundle install --path vendor/bundle
+
+      # Store bundle cache
+      - type: cache-save
+        key: rails-demo-{{ checksum "Gemfile.lock" }}
+        paths:
+          - vendor/bundle
+
+      # Database setup
+      - run: bundle exec rake db:create
+      - run: bundle exec rake db:schema:load
+      - run: bundle exec rake db:migrate
+
+      # Run rspec in parallel
       - type: shell
-        name: Install System Dependencies
-        command: apt-get update && apt-get -y install build-essential libpq-dev nodejs libfontconfig1
-      - type: shell
-        name: Install PhantomJS
-        command: wget https://bitbucket.org/ariya/phantomjs/downloads/$PHANTOM_JS.tar.bz2
-      - type: shell
-        name: Unzip PhantomJS
-        command: tar xvjf $PHANTOM_JS.tar.bz2
-      - type: shell
-        name: Move PhantomJS
-        command: mv $PHANTOM_JS /usr/local/share
-      - type: shell
-        name: Create SymLink for PhantomJS
-        command: ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/bin
-      - type: shell
-        name: Install Project Dependencies
-        command: bundle install
-      - type: shell
-        name: Create DB
-        command: bundle exec rails db:schema:load --trace
-      - type: shell
-        name: Appy migrations DB
-        command: bundle exec rails db:migrate
-      - type: shell
-        name: Run Test
-        command: bundle exec rails spec
-      - type: shell
-        name: Post coverage to Coveralls
-        command: "curl -H \"Content-Type: application/json\" --data \"{\\\"payload\\\": {\\\"build_num\\\": $CIRCLE_BUILD_NUM, \\\"status\\\": \\\"done\\\"} }\" -X POST https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN"
+        name: Run RSpec in parallel
+        command: |
+          bundle exec rspec --profile 10 \
+                            --format RspecJunitFormatter \
+                            --out /tmp/test-results/rspec.xml \
+                            --format progress \
+                            $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+
       - type: shell
         name: Run Rubocop
         command: bundle exec rails rubocop:show
-      - type: artifacts-store
+
+      # Save artifacts
+      - type: store_test_results
+        path: /tmp/test-results
+
+      - type: store_artifacts
         path: ~/mammooc.org/rubocop.html
         destination: rubocop
+
+#version: 2
+#executorType: docker
+#containerInfo:
+#  - image: ruby:2.4
+#  - image: redis:latest
+#  - image: postgres:latest
+#    env:
+#      - POSTGRES_USER=mammooc
+#      - POSTGRES_PASSWORD=mammooc
+#      - POSTGRES_DB=mammooc_test
+#stages:
+#  build:
+#    parallel: 1
+#    workDir: ~/mammooc.org
+#    environment:
+#      - RAILS_ENV: "test"
+#      - COVERALLS_PARALLEL: "true"
+#      - DATABASE_URL: "postgresql://mammooc:mammooc@localhost/mammooc_test"
+#      - PHANTOM_JS: "phantomjs-2.1.1-linux-x86_64"
+#    steps:
+#      - type: checkout
+#      - type: shell
+#        name: Install System Dependencies
+#        command: apt-get update && apt-get -y install build-essential libpq-dev nodejs libfontconfig1
+#      - type: shell
+#        name: Install PhantomJS
+#        command: wget https://bitbucket.org/ariya/phantomjs/downloads/$PHANTOM_JS.tar.bz2
+#      - type: shell
+#        name: Unzip PhantomJS
+#        command: tar xvjf $PHANTOM_JS.tar.bz2
+#      - type: shell
+#        name: Move PhantomJS
+#        command: mv $PHANTOM_JS /usr/local/share
+#      - type: shell
+#        name: Create SymLink for PhantomJS
+#        command: ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/bin
+#      - type: shell
+#        name: Install Project Dependencies
+#        command: bundle install
+#      - type: shell
+#        name: Create DB
+#        command: bundle exec rails db:schema:load --trace
+#      - type: shell
+#        name: Appy migrations DB
+#        command: bundle exec rails db:migrate
+#      - type: shell
+#        name: Run Test
+#        command: bundle exec rails spec
+#      - type: shell
+#        name: Post coverage to Coveralls
+#        command: "curl -H \"Content-Type: application/json\" --data \"{\\\"payload\\\": {\\\"build_num\\\": $CIRCLE_BUILD_NUM, \\\"status\\\": \\\"done\\\"} }\" -X POST https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN"
+#      - type: shell
+#        name: Run Rubocop
+#        command: bundle exec rails rubocop:show
+#      - type: artifacts-store
+#        path: ~/mammooc.org/rubocop.html
+#        destination: rubocop
