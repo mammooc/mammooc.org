@@ -60,8 +60,8 @@ else
     capabilities = Selenium::WebDriver::Remote::Capabilities.firefox(elementScrollBehavior: 1, firefox_profile: profile)
     # removed from arguments below: ", profile: profile"
     # Re-include after https://github.com/SeleniumHQ/selenium/issues/2933 has been closed
-    driver = Capybara::Selenium::Driver.new(app, browser: :firefox, desired_capabilities: capabilities)
-    driver.browser.manage.window.resize_to(1280, 960)
+    driver = Capybara::Selenium::Driver.new(app, browser: :firefox, desired_capabilities: capabilities, profile: profile)
+    # driver.browser.manage.window.resize_to(1280, 960)
     driver
   end
   Capybara.javascript_driver = :selenium
