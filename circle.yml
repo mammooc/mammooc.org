@@ -26,6 +26,8 @@ jobs:
       - type: shell
         name: Install Mozilla Firefox
         command: |
+          sudo apt-get update
+          sudo apt-get install python3-pip
           pip install mozdownload mozinstall
           mozdownload --version latest --destination firefox.tar.bz2"
           mozinstall firefox.tar.bz2
