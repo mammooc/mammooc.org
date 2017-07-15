@@ -57,11 +57,14 @@ else
   Capybara.register_driver :selenium do |app|
     profile = Selenium::WebDriver::Firefox::Profile.new
     profile['intl.accept_languages'] = 'en'
-    capabilities = Selenium::WebDriver::Remote::Capabilities.firefox(elementScrollBehavior: 1, firefox_profile: profile)
+    capabilities = Selenium::WebDriver::Remote::Capabilities.firefox(elementScrollBehavior: 1)
     # removed from arguments below: ", profile: profile"
     # Re-include after https://github.com/SeleniumHQ/selenium/issues/2933 has been closed
-    driver = Capybara::Selenium::Driver.new(app, browser: :firefox, desired_capabilities: capabilities, profile: profile)
-    # driver.browser.manage.window.resize_to(1280, 960)
+    options = Selenium::WebDriver::Firefox::Options.new
+    options.profile = profile
+    driver = Capybara::Selenium::Driver.new(app, browser: :firefox, desired_capabilities: capabilities, options: options)
+    # Selenium::WebDriver::Firefox::Dimension.
+    driver.browser.manage.window.resize_to(1280, 960)
     driver
   end
   Capybara.javascript_driver = :selenium
