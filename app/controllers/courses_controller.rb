@@ -231,7 +231,11 @@ class CoursesController < ApplicationController
   end
 
   def load_courses
-    @filterrific = initialize_filterrific(Course, params[:filterrific],
+    filterrific_params = if params[:filterrific]
+                           params[:filterrific].permit!.to_h
+                         end
+
+    @filterrific = initialize_filterrific(Course, filterrific_params,
       select_options: {with_language: Course.options_for_languages,
                        with_mooc_provider_id: MoocProvider.options_for_select,
                        with_subtitle_languages: Course.options_for_subtitle_languages,
