@@ -1,8 +1,10 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe UserSetting, type: :model do
   let(:setting) { FactoryGirl.create :user_setting }
+
   describe 'value(key)' do
     let(:setting_entry) { FactoryGirl.create :user_setting_entry, setting: setting }
 
@@ -44,7 +46,7 @@ RSpec.describe UserSetting, type: :model do
 
       it 'overwrites the old value' do
         expect { setting.set(setting_entry.key, new_value) }.to change { setting.value(setting_entry.key) }.from(old_value)
-          .to(new_value)
+                                                                                                           .to(new_value)
       end
     end
   end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UserEmail < ActiveRecord::Base
+class UserEmail < ApplicationRecord
   LCHARS    = /\w+\p{L}\p{N}\!\/#\$%&'*+=?^`{|}~}/
   LOCAL     = /[#{LCHARS.source}]+((\.|\-)[#{LCHARS.source}]+)*/
   DCHARS    = /A-z\d/

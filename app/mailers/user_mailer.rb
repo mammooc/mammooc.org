@@ -20,7 +20,7 @@ class UserMailer < ApplicationMailer
     @courses = courses
     @user = user
     I18n.locale = @user.newsletter_language
-    unless @courses.blank?
+    if @courses.present?
       @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(@courses)
     end
     number_of_new_courses = @courses.length

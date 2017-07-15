@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CourseTrack < ActiveRecord::Base
+class CourseTrack < ApplicationRecord
   belongs_to :track_type, class_name: 'CourseTrackType', foreign_key: 'course_track_type_id'
   belongs_to :course
 

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe OpenHPIConnector do
@@ -301,7 +302,7 @@ RSpec.describe OpenHPIConnector do
       it 'sets attribute relevant to the corresponding value' do
         open_hpi_connector.send(:create_new_entry, user, user_date_data)
         user_date = UserDate.first
-        expect(user_date.title).to eq(user_date_data['title'])
+        expect(user_date.relevant).to be true
       end
 
       it 'sets attribute ressource_id_from_provider to the corresponding value' do

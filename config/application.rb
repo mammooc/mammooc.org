@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative 'boot'
 
 require 'rails/all'
@@ -10,6 +11,10 @@ Bundler.require(*Rails.groups)
 module MAMMOOC
   class Application < Rails::Application
     GC::Profiler.enable
+
+    # Initialize configuration defaults for originally generated Rails version.
+    # config.load_defaults 5.1
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -21,14 +26,14 @@ module MAMMOOC
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :en
-    config.i18n.available_locales = [:en, :de]
+    config.i18n.available_locales = %i[en de]
 
     # necessary for gem to use locales in javascripts
     config.assets.initialize_on_precompile = true
 
     # Load the files in lib
-    config.autoload_paths += %W(#{config.root}/lib)
-    config.autoload_paths += %W(#{config.root}/lib/**/)
+    config.autoload_paths += %W[#{config.root}/lib]
+    config.autoload_paths += %W[#{config.root}/lib/**/]
 
     config.to_prepare do
       Devise::SessionsController.skip_before_action :require_login
@@ -52,12 +57,13 @@ module MAMMOOC
     SecureHeaders::Configuration.default do |config|
       config.csp = {
         # rubocop:disable Lint/PercentStringArray
-        default_src: %W('self'),
-        object_src: %w('none'),
+        default_src: %W['self'],
+        object_src: %w['none'],
         # unsafe-eval required by views/courses/index.js.slim for filterrific to work
-        script_src: %w('self' js-agent.newrelic.com bam.nr-data.net 'unsafe-eval'),
-        img_src: %w('self' data: https:),
-        style_src: %w('self' 'unsafe-inline' https:)
+        # unsafe-inline required by event handlers (e.g. on the course page to load more courses)
+        script_src: %w['self' js-agent.newrelic.com bam.nr-data.net 'unsafe-eval' 'unsafe-inline'],
+        img_src: %w['self' data: https:],
+        style_src: %w['self' 'unsafe-inline' https:]
         # rubocop:enable Lint/PercentStringArray
       }
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :omniauthable and :encryptable
   devise :database_authenticatable, :registerable,
@@ -40,7 +40,7 @@ class User < ActiveRecord::Base
   before_destroy :handle_evaluations, prepend: true
   before_destroy :handle_activities
   before_destroy :handle_recommendations
-  after_commit :save_primary_email, on: [:create, :update]
+  after_commit :save_primary_email, on: %i[create update]
 
   def self.author_profile_images_hash_for_recommendations(recommendations, style = :square, expire_time = 3600)
     author_images = {}
@@ -136,10 +136,14 @@ class User < ActiveRecord::Base
     false
   end
 
+  def will_save_change_to_email?
+    false
+  end
+
   # Access the primary_email more easily. This is required for devise
   def primary_email
     primary_email_object = emails.find_by(is_primary: true)
-    return unless primary_email_object.present?
+    return if primary_email_object.blank?
     primary_email_object.address
   end
 
@@ -157,7 +161,7 @@ class User < ActiveRecord::Base
 
   def self.find_by_primary_email(email_address)
     primary_email_object = UserEmail.find_by(address: email_address.strip.downcase, is_primary: true)
-    return unless primary_email_object.present?
+    return if primary_email_object.blank?
     primary_email_object.user
   end
 
@@ -222,7 +226,6 @@ class User < ActiveRecord::Base
           user.profile_image = nil
         end
         user.save!
-
       rescue ActiveRecord::RecordInvalid
         Rails.logger.error "This email address is associated to another user. The found identity will be changed later so that the existing account won't be accessible any longer."
       end
@@ -359,7 +362,7 @@ class User < ActiveRecord::Base
   private
 
   def save_primary_email
-    return unless @primary_email_object.present?
+    return if @primary_email_object.blank?
     if @primary_email_object.user.blank?
       @primary_email_object.user = self
     elsif @primary_email_object.user != self

@@ -1,20 +1,21 @@
 # frozen_string_literal: true
+
 # rubocop:disable Style/Lambda
 
-class Course < ActiveRecord::Base
+class Course < ApplicationRecord
   filterrific(
     default_filter_params: {sorted_by: 'relevance_asc'},
-    available_filters: [:with_start_date_gte,
-                        :with_end_date_lte,
-                        :with_language,
-                        :with_mooc_provider_id,
-                        :with_subtitle_languages,
-                        :duration_filter_options,
-                        :start_filter_options,
-                        :with_tracks,
-                        :search_query,
-                        :sorted_by,
-                        :bookmarked]
+    available_filters: %i[with_start_date_gte
+                          with_end_date_lte
+                          with_language
+                          with_mooc_provider_id
+                          with_subtitle_languages
+                          duration_filter_options
+                          start_filter_options
+                          with_tracks
+                          search_query
+                          sorted_by
+                          bookmarked]
   )
   include PublicActivity::Common
 
@@ -38,7 +39,7 @@ class Course < ActiveRecord::Base
     convert_options: {all: '-quality 95'},
     s3_storage_class: 'REDUCED_REDUNDANCY',
     s3_permissions: 'public-read',
-    default_url: '/data/course_picture_default.png'
+    default_url: Settings.root_url + '/data/course_picture_default.png'
 
   validates_attachment_content_type :course_image, content_type: /\Aimage\/.*\Z/
 
@@ -50,7 +51,7 @@ class Course < ActiveRecord::Base
   before_destroy :handle_activities, prepend: true
 
   scope :sorted_by, ->(sort_option) do
-    direction = sort_option =~ /desc$/ ? 'desc' : 'asc'
+    direction = sort_option.match?(/desc$/) ? 'desc' : 'asc'
     case sort_option.to_s
       when /^name_/
         order("LOWER(courses.name) #{direction}")

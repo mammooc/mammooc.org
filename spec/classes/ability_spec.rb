@@ -5,6 +5,7 @@ require 'cancan/matchers'
 
 RSpec.describe Ability do
   subject(:ability) { described_class.new(user) }
+
   let(:user) { nil }
 
   describe 'Groups' do
@@ -133,6 +134,7 @@ RSpec.describe Ability do
 
     describe 'create as user without groups' do
       subject(:ability) { described_class.new(third_user) }
+
       it { is_expected.not_to be_able_to(:create, Recommendation.new) }
     end
   end

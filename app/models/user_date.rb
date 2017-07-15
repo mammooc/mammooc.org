@@ -1,7 +1,8 @@
 # frozen_string_literal: true
+
 require 'icalendar'
 
-class UserDate < ActiveRecord::Base
+class UserDate < ApplicationRecord
   belongs_to :user
   belongs_to :course
 
@@ -13,6 +14,7 @@ class UserDate < ActiveRecord::Base
     synchronization_state[:cnmoocHouse] = CnmoocHouseConnector.new.load_dates_for_users [user]
     synchronization_state[:openHPIChina] = OpenHPIChinaConnector.new.load_dates_for_users [user]
     synchronization_state[:openUNE] = OpenUNEConnector.new.load_dates_for_users [user]
+    synchronization_state[:openWHO] = OpenWHOConnector.new.load_dates_for_users [user]
     synchronization_state
   end
 
@@ -31,7 +33,7 @@ class UserDate < ActiveRecord::Base
   end
 
   def self.generate_token_for_user(user)
-    return unless user.token_for_user_dates.blank?
+    return if user.token_for_user_dates.present?
     token = SecureRandom.urlsafe_base64(Settings.token_length)
     until User.find_by(token_for_user_dates: token).nil?
       token = SecureRandom.urlsafe_base64(Settings.token_length)

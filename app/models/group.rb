@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Group < ActiveRecord::Base
+class Group < ApplicationRecord
   has_many :user_groups, dependent: :destroy
   has_many :users, through: :user_groups
   has_many :recommendations, dependent: :destroy
@@ -55,9 +55,11 @@ class Group < ActiveRecord::Base
   end
 
   def destroy
+    # rubocop:disable Rails/SkipsModelValidations
     UserGroup.where(group_id: id).destroy_all
     GroupInvitation.where(group_id: id).update_all(group_id: nil)
     super
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   def admins

@@ -23,6 +23,7 @@ class IversityCourseWorker < AbstractCourseWorker
     certificate_track_type = CourseTrackType.find_by(type_of_achievement: 'iversity_certificate')
     ects_track_type = CourseTrackType.find_by(type_of_achievement: 'iversity_ects')
     ects_pupils_track_type = CourseTrackType.find_by(type_of_achievement: 'iversity_ects_pupils')
+    iversity_statement_track = CourseTrackType.find_by(type_of_achievement: 'iversity_statement_of_participation')
 
     response_data['courses'].each do |course_element|
       course = Course.find_by(provider_course_id: course_element['id'].to_s, mooc_provider_id: mooc_provider.id) || Course.new
@@ -34,7 +35,7 @@ class IversityCourseWorker < AbstractCourseWorker
       case course_element['language']
         when 'German' then course.language = 'de'
         when 'English' then course.language = 'en'
-        when %w(en es) then course.language = 'en,es'
+        when %w[en es] then course.language = 'en,es'
       end
 
       if course_element['image'].present? && course_element['image'][/[\?&#]/]
@@ -57,23 +58,29 @@ class IversityCourseWorker < AbstractCourseWorker
       course.end_date = course_element['end_date']
       course.difficulty = course_element['knowledge_level ']
 
-      plan_array = if course_element['plans'].is_a?(Array)
-                     course_element['plans']
+      plan_array = if course_element['verifications'].is_a?(Array)
+                     course_element['verifications']
                    else
-                     [course_element['plans']]
+                     [course_element['verifications']]
                    end
       plan_array.each do |plan|
-        price = plan['price'].split(' ') unless plan['price'].blank?
+        price = plan['price'].split(' ') if plan['price'].present?
         track_attributes = {}
         case plan['title'].split(/[\s-]/)[0].downcase
           when 'audit' then track_attributes = {track_type: free_track_type, costs: 0.0, costs_currency: '€'}
           when 'certificate' then track_attributes = {track_type: certificate_track_type, costs: price[0].to_f, costs_currency: price[1]}
           when 'ects'
             track_attributes = {track_type: ects_track_type, costs: price[0].to_f, costs_currency: price[1]}
-            track_attributes[:credit_points] = plan['credits'].split(' ')[0].to_f unless plan['credits'].blank?
+            track_attributes[:credit_points] = plan['credits'].split(' ')[0].to_f if plan['credits'].present?
           when 'schüler'
             track_attributes = {track_type: ects_pupils_track_type, costs: price[0].to_f, costs_currency: price[1]}
-            track_attributes[:credit_points] = plan['credits'].split(' ')[0].to_f unless plan['credits'].blank?
+            track_attributes[:credit_points] = plan['credits'].split(' ')[0].to_f if plan['credits'].present?
+          when 'statement', 'teilnahmebescheinigung'
+            track_attributes = if price.present?
+                                 {track_type: iversity_statement_track, costs: price[0].to_f, costs_currency: price[1]}
+                               else
+                                 {track_type: iversity_statement_track, costs: 0.0, costs_currency: "\xe2\x82\xac"}
+                               end
         end
         track = CourseTrack.find_by(course_id: course.id, track_type: track_attributes[:track_type]) || CourseTrack.create!(track_attributes)
         course.tracks.push track

@@ -137,7 +137,7 @@ class AbstractMoocProviderConnector
 
   def get_access_token(user)
     connection = MoocProviderUser.find_by(user_id: user.id, mooc_provider_id: mooc_provider.id)
-    return unless connection.present?
+    return if connection.blank?
     if connection.mooc_provider.api_support_state == 'naive'
       connection.access_token
     elsif connection.mooc_provider.api_support_state == 'oauth'

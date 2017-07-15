@@ -22,22 +22,22 @@ Rails.application.routes.draw do
     put '/users' => 'users/registrations#update'
     delete '/users' => 'users/registrations#destroy'
     get '/users/finish_signup' => 'users/registrations#finish_signup', :as => :finish_signup
-    match '/users/auth/easyID' => 'users/omniauth_callbacks#easy_id', via: [:get, :post], :as => :easy_id
+    match '/users/auth/easyID' => 'users/omniauth_callbacks#easy_id', via: %i[get post], :as => :easy_id
     get '/users/deauth/:provider' => 'users/omniauth_callbacks#deauthorize', as: :omniauth_deauthorize
     get 'users/login_and_subscribe_to_newsletter' => 'users#login_and_subscribe_to_newsletter'
   end
 
-  resources :bookmarks, except: [:edit, :new, :show, :update, :destroy]
+  resources :bookmarks, except: %i[edit new show update destroy]
 
-  resources :recommendations, except: [:edit, :show, :update, :destroy]
+  resources :recommendations, except: %i[edit show update destroy]
 
   resources :groups
 
   resources :mooc_providers
 
-  resources :users, except: [:new, :create, :index, :edit]
+  resources :users, except: %i[new create index edit]
 
-  resources :user_dates, except: [:new, :create, :edit, :show, :update, :destroy]
+  resources :user_dates, except: %i[new create edit show update destroy]
 
   get 'dashboard/dashboard'
 
@@ -124,4 +124,16 @@ Rails.application.routes.draw do
 
   # API
   get 'api/current_user_with_evaluation' => 'apis#current_user_with_evaluation', defaults: {format: 'json'}
+
+  # JSON API
+  namespace :api do
+    namespace :v1 do
+      # Don't forget to add `immutable` to the resources!
+      jsonapi_resources :courses
+      jsonapi_resources :mooc_providers
+      jsonapi_resources :organisation
+      jsonapi_resources :course_tracks
+      jsonapi_resources :course_track_types
+    end
+  end
 end

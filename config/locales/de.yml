@@ -16,6 +16,16 @@
 #
 # This would use the information in config/locales/es.yml.
 #
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   'true': 'foo'
+#
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
 
@@ -429,12 +439,15 @@ de:
           iversity_certificate: :courses.tracks.types.achievement_types.certificate
           iversity_ects: ECTS-Punkte
           iversity_ects_pupils: ECTS-Punkte
+          iversity_statement_of_participation: :courses.tracks.types.achievement_types.xikolo_record_of_achievement
           coursera_verified_certificate: Verifiziertes Zertifikat
           edx_verified_certificate: :courses.tracks.types.achievement_types.coursera_verified_certificate
           edx_xseries_certificate: edX XSeries Zertifikat
           edx_profed_certificate: edX Professional Education Zertifikat
           udacity_nothing: Kein Zertifikat
           udacity_verified_certificate: Verifiziertes Zertifikat
+          mooin_full_certificate: :courses.tracks.types.achievement_types.certificate
+          mooin_certificate: :courses.tracks.types.achievement_types.certificate
     filter:
       filter: Filter
       all: Alle
