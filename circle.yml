@@ -28,7 +28,7 @@ jobs:
         command: |
           sudo apt-get update
           sudo apt-get install python3-pip
-          pip install mozdownload mozinstall
+          pip3 install mozdownload mozinstall
           mozdownload --version latest --destination firefox.tar.bz2"
           mozinstall firefox.tar.bz2
           echo 'export PATH=firefox/:$PATH' >> $BASH_ENV
