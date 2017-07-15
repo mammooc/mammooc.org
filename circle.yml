@@ -21,7 +21,7 @@ jobs:
       # Bundle install dependencies
       - type: shell
         name: Install Gems
-        type: bundle install --path vendor/bundle
+        type: bundle install --path "vendor/bundle"
 
       # Store bundle cache
       - type: save_cache
