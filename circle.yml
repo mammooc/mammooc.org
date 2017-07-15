@@ -7,27 +7,38 @@ jobs:
       - image: circleci/ruby:2.4.1-node-browsers
         environment:
           RAILS_ENV: test
+          COVERALLS_PARALLEL: true
+          GEMNASIUM_TESTSUITE: bundle check
+          GEMNASIUM_PROJECT_SLUG: github.com/mammooc/mammooc.org
       - image: circleci/postgres:9.6.3
     steps:
       - checkout
 
       # Restore bundle cache
-      - type: cache-restore
-        key: rails-demo-{{ checksum "Gemfile.lock" }}
+      - type: restore_cache
+        key: mammooc.org-{{ checksum "Gemfile.lock" }}
 
       # Bundle install dependencies
-      - run: bundle install --path vendor/bundle
+      - type: shell
+        name: Install Gems
+        type: bundle install --path vendor/bundle
 
       # Store bundle cache
-      - type: cache-save
-        key: rails-demo-{{ checksum "Gemfile.lock" }}
+      - type: save_cache
+        key: mammooc.org-{{ checksum "Gemfile.lock" }}
         paths:
           - vendor/bundle
 
       # Database setup
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
-      - run: bundle exec rake db:migrate
+      - type: shell
+        name: Create database
+        command: bundle exec rake db:create
+      - type: shell
+        name: Load schema
+        command: bundle exec rake db:schema:load
+      - type: shell
+        name: Migrate schema
+        command: bundle exec rake db:migrate
 
       # Run rspec in parallel
       - type: shell
@@ -42,6 +53,13 @@ jobs:
       - type: shell
         name: Run Rubocop
         command: bundle exec rails rubocop:show
+        when: always
+
+      - type: shell
+        name: Post coverage to Coveralls
+        command: |
+          curl -H "Content-Type: application/json" --data '{"payload": {"build_num": $CIRCLE_BUILD_NUM, "status": "done"} }' -X POST https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN
+        when: always
 
       # Save artifacts
       - type: store_test_results
@@ -51,60 +69,44 @@ jobs:
         path: ~/mammooc.org/rubocop.html
         destination: rubocop
 
-#version: 2
-#executorType: docker
-#containerInfo:
-#  - image: ruby:2.4
-#  - image: redis:latest
-#  - image: postgres:latest
-#    env:
-#      - POSTGRES_USER=mammooc
-#      - POSTGRES_PASSWORD=mammooc
-#      - POSTGRES_DB=mammooc_test
-#stages:
-#  build:
-#    parallel: 1
-#    workDir: ~/mammooc.org
-#    environment:
-#      - RAILS_ENV: "test"
-#      - COVERALLS_PARALLEL: "true"
-#      - DATABASE_URL: "postgresql://mammooc:mammooc@localhost/mammooc_test"
-#      - PHANTOM_JS: "phantomjs-2.1.1-linux-x86_64"
-#    steps:
-#      - type: checkout
-#      - type: shell
-#        name: Install System Dependencies
-#        command: apt-get update && apt-get -y install build-essential libpq-dev nodejs libfontconfig1
-#      - type: shell
-#        name: Install PhantomJS
-#        command: wget https://bitbucket.org/ariya/phantomjs/downloads/$PHANTOM_JS.tar.bz2
-#      - type: shell
-#        name: Unzip PhantomJS
-#        command: tar xvjf $PHANTOM_JS.tar.bz2
-#      - type: shell
-#        name: Move PhantomJS
-#        command: mv $PHANTOM_JS /usr/local/share
-#      - type: shell
-#        name: Create SymLink for PhantomJS
-#        command: ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/bin
-#      - type: shell
-#        name: Install Project Dependencies
-#        command: bundle install
-#      - type: shell
-#        name: Create DB
-#        command: bundle exec rails db:schema:load --trace
-#      - type: shell
-#        name: Appy migrations DB
-#        command: bundle exec rails db:migrate
-#      - type: shell
-#        name: Run Test
-#        command: bundle exec rails spec
-#      - type: shell
-#        name: Post coverage to Coveralls
-#        command: "curl -H \"Content-Type: application/json\" --data \"{\\\"payload\\\": {\\\"build_num\\\": $CIRCLE_BUILD_NUM, \\\"status\\\": \\\"done\\\"} }\" -X POST https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN"
-#      - type: shell
-#        name: Run Rubocop
-#        command: bundle exec rails rubocop:show
-#      - type: artifacts-store
-#        path: ~/mammooc.org/rubocop.html
-#        destination: rubocop
+      # Deploy
+
+      - deploy:
+        name: Notify DockerHub
+        command: curl -H "Content-Type: application/json" --data '{"build": true}' -X POST $DOCKER_HUB_TRIGGER_URL
+
+      - deploy:
+        name: Deploy to Heroku
+        command: |
+          if [ "${CIRCLE_BRANCH}" == "master" ]; then
+            heroku maintenance:on --app mammooc
+            "if [[ -a .git/shallow ]]; then git fetch --unshallow; fi;"
+            git push git@heroku.com:mammooc.git master:master
+            heroku pg:reset DATABASE --app mammooc --confirm mammooc
+            heroku run rails db:schema:load RAILS_ENV=production --app mammooc
+            heroku run rails db:seed RAILS_ENV=development --app mammooc
+            heroku restart --app mammooc
+            heroku maintenance:off --app mammooc
+          elif [ "${CIRCLE_BRANCH}" == "dev" ]; then
+            heroku maintenance:on --app mammooc-dev
+            "if [[ -a .git/shallow ]]; then git fetch --unshallow; fi;"
+            git push git@heroku.com:mammooc-dev.git dev:master
+            heroku pg:reset DATABASE --app mammooc-dev --confirm mammooc-dev
+            heroku run rails db:schema:load RAILS_ENV=production --app mammooc-dev
+            heroku run rails db:seed RAILS_ENV=development --app mammooc-dev
+            heroku restart --app mammooc-dev
+            heroku maintenance:off --app mammooc-dev
+          fi
+
+      - type: deploy
+        name: Run Gemnasium check for outdated Gems
+        command: |
+          if [[ $CIRCLE_BRANCH == dev ]]; then
+            sudo sh -c 'echo "deb http://apt.gemnasium.com stable main" > /etc/apt/sources.list.d/gemnasium.list'
+            sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com E5CEAB0AC5F1CA2A
+            sudo apt-get update
+            sudo apt-get install gemnasium-toolbelt
+            sh -c 'GEMNASIUM=true; gemnasium autoupdate run; exit 0'
+          else
+            exit 0
+          fi
