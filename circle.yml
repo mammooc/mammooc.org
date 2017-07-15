@@ -10,7 +10,6 @@ jobs:
           COVERALLS_PARALLEL: true
           GEMNASIUM_TESTSUITE: bundle check
           GEMNASIUM_PROJECT_SLUG: github.com/mammooc/mammooc.org
-          BASH_ENV: ~/.bashrc
       - image: circleci/postgres:9.6.3
     steps:
       - checkout
