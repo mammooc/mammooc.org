@@ -24,6 +24,14 @@ jobs:
         command: bundle install --path vendor/bundle
 
       - type: shell
+        name: Install Mozilla Firefox
+        command: |
+          pip install mozdownload mozinstall
+          mozdownload --version latest --destination firefox.tar.bz2"
+          mozinstall firefox.tar.bz2
+          echo 'export PATH=firefox/:$PATH' >> $BASH_ENV
+
+      - type: shell
         name: Install Mozilla Gecko
         command: |
           mkdir ~/geckodriver
