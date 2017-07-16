@@ -10,15 +10,15 @@
     .recommendation-small
       .user-info
         - if evaluation[:user_id].present?
-          / Here could be a link to the evaluating user's profile
-          img src=@profile_pictures["#{evaluation[:user_id]}"]
+          = link_to user_path(id: evaluation[:user_id])
+            img src=@profile_pictures["#{evaluation[:user_id]}"]
         - else
           img src=Settings.default_profile_picture_path
         .name
           .author
             - if evaluation[:user_id].present?
-              / Here could be a link to the evaluating user's profile
-              = evaluation[:user_name]
+              = link_to user_path(id: evaluation[:user_id])
+                = evaluation[:user_name]
             - else
               = evaluation[:user_name]
           =< evaluation[:course_status]
