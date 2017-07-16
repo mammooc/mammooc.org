@@ -7,7 +7,7 @@ class UsersController < ApplicationController
 
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
-      format.html { redirect_to root_path, alert: t("unauthorized.#{exception.action}.user") }
+      format.html { redirect_back fallback_location: dashboard_path, alert: t("unauthorized.#{exception.action}.user") }
       format.json do
         error = {message: exception.message, action: exception.action, subject: exception.subject.id}
         render json: error.to_json, status: :unauthorized
