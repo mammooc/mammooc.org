@@ -3,7 +3,7 @@
 class EvaluationsController < ApplicationController
   before_action :set_evaluation, only: [:process_feedback]
   skip_before_action :require_login, only: %i[export_course_evaluations export_overall_course_rating save login_and_save]
-  protect_from_forgery except: :save
+  protect_from_forgery except: %i[save login_and_save]
 
   respond_to :html
 
@@ -45,7 +45,7 @@ class EvaluationsController < ApplicationController
     end
   rescue ActionController::ParameterMissing, ActiveRecord::RecordNotFound => e
     respond_to do |format|
-      format.json { render json: {error: e.message}, status: :recordNotFound }
+      format.json { render json: {error: e.message}, status: :not_found }
     end
   end
 
@@ -152,8 +152,8 @@ class EvaluationsController < ApplicationController
   private
 
   def check_and_validate
-    if params['rating'].nil? || params['description'].nil? || params['rated_anonymously'].nil? || params['course_id'].nil? || params['provider'].nil? || params['course_status'].nil?
-      raise ActionController::ParameterMissing.new('one of the following parameters is missing: rating, description, rated_anonymously, course_id, provider, course_status')
+    if params['rating'].nil? || params['rated_anonymously'].nil? || params['course_id'].nil? || params['provider'].nil? || params['course_status'].nil?
+      raise ActionController::ParameterMissing.new('one of the following parameters is missing: rating, rated_anonymously, course_id, provider, course_status')
     end
 
     if params['rating'].blank? || params['rated_anonymously'].blank? || params['course_id'].blank? || params['provider'].blank? || params['course_status'].blank?
