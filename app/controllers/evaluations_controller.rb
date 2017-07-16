@@ -139,11 +139,13 @@ class EvaluationsController < ApplicationController
 
       flash['success'] ||= []
       flash['success'] << t('evaluations.thanks_for_feedback')
+      flash.keep
       redirect_to course_path(course)
     end
   rescue
     flash['error'] ||= []
     flash['error'] << t('global.ajax_failed')
+    flash.keep
     respond_to do |format|
       format.html { redirect_to dashboard_path }
     end

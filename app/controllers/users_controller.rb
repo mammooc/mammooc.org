@@ -234,6 +234,7 @@ class UsersController < ApplicationController
   def oauth_error_and_redirect(destination_path)
     flash['error'] << t('users.synchronization.oauth_error')
     destination_path.present? ? destination_path : destination_path = dashboard_path
+    flash.keep
     redirect_to destination_path
   end
 

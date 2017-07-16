@@ -45,6 +45,7 @@ module Users
         end
         resource.errors.each do |key, value|
           flash['error'] << "#{t('users.sign_in_up.' + key.to_s)} #{value}"
+          flash.keep
         end
         redirect_to new_user_registration_path
       end
@@ -110,6 +111,7 @@ module Users
         elsif exception.present? && exception.to_s.include?(t('activerecord.errors.messages.taken'))
           flash['error'] << t('devise.registrations.email.taken')
         end
+        flash.keep
         redirect_to redirection_failure
       end
     end
@@ -138,6 +140,7 @@ module Users
       else
         flash['error'] ||= []
         flash['error'] << t('users.settings.still_admin_in_group_error').to_s
+        flash.keep
         redirect_to "#{user_settings_path(current_user.id)}?subsite=account"
       end
     end
