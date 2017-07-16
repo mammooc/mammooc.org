@@ -44,10 +44,6 @@ if ENV['HEADLESS_TEST'] == 'true' || ENV['USER'] == 'vagrant'
   headless.start
 end
 
-# Force PhantomJS to be used
-# linked to the issue below
-# ENV['PHANTOM_JS'] = 'true'
-
 if ENV['PHANTOM_JS'] == 'true'
   Capybara.register_driver :poltergeist do |app|
     Capybara::Poltergeist::Driver.new(app, window_size: [1280, 960])
@@ -58,12 +54,9 @@ else
     profile = Selenium::WebDriver::Firefox::Profile.new
     profile['intl.accept_languages'] = 'en'
     capabilities = Selenium::WebDriver::Remote::Capabilities.firefox(elementScrollBehavior: 1)
-    # removed from arguments below: ", profile: profile"
-    # Re-include after https://github.com/SeleniumHQ/selenium/issues/2933 has been closed
     options = Selenium::WebDriver::Firefox::Options.new
     options.profile = profile
     driver = Capybara::Selenium::Driver.new(app, browser: :firefox, desired_capabilities: capabilities, options: options)
-    # Selenium::WebDriver::Firefox::Dimension.
     driver.browser.manage.window.resize_to(1280, 960)
     driver
   end
