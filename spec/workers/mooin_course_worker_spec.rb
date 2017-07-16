@@ -147,7 +147,7 @@ RSpec.describe MooinCourseWorker do
     expect(course.abstract).to eq json_course['abtract']
     expect(course.workload).to eq json_course['workload'].to_s
     expect(course.provider_given_duration).to eq json_course['duration']
-    expect(course.calculated_duration_in_days).to eq ActiveSupport::Duration.parse(json_course['duration']).to_i / 1.day
+    expect(course.calculated_duration_in_days).to eq ActiveSupport::Duration.parse(json_course['duration']) / 1.day
     expect(course.tracks[0].costs).to be_nil
     expect(course.tracks[0].credit_points).to be_nil
     expect(course.tracks[0].track_type.type_of_achievement).to eq non_free_track_type.type_of_achievement
