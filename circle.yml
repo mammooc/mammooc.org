@@ -98,6 +98,7 @@ jobs:
       - type: deploy
         name: Deploy to Heroku
         command: |
+          wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sudo sh
           if [ "${CIRCLE_BRANCH}" == "master" ]; then
             heroku maintenance:on --app mammooc
             "if [[ -a .git/shallow ]]; then git fetch --unshallow; fi;"
@@ -125,7 +126,7 @@ jobs:
             sudo sh -c 'echo "deb http://apt.gemnasium.com stable main" > /etc/apt/sources.list.d/gemnasium.list'
             sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com E5CEAB0AC5F1CA2A
             sudo apt-get update
-            sudo apt-get install gemnasium-toolbelt
+            sudo apt-get install -y gemnasium-toolbelt
             sh -c 'GEMNASIUM=true; gemnasium autoupdate run; exit 0'
           else
             exit 0
