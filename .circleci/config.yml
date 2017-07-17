@@ -98,7 +98,7 @@ jobs:
       - type: deploy
         name: Deploy to Heroku
         command: |
-          wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sudo sh
+          bash .circleci/setup-heroku.sh
           if [ "${CIRCLE_BRANCH}" == "master" ]; then
             heroku maintenance:on --app mammooc
             "if [[ -a .git/shallow ]]; then git fetch --unshallow; fi;"
