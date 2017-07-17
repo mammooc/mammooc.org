@@ -434,6 +434,30 @@ RSpec.describe User, type: :model do
       expect(primary_email_object.is_verified).to eq false
     end
 
+    it 'creates a new user account with the given authentication infos and no profile image if the image URL returns an empty file name' do
+      identity = FactoryGirl.build_stubbed(:user_identity)
+      authentication_info = OmniAuth::AuthHash.new(
+        provider: identity.omniauth_provider,
+        uid: identity.provider_user_id,
+        info: {
+          first_name: 'Max',
+          last_name: 'Mustermann',
+          image: '',
+          email: 'max@example.com',
+          verified: true
+        },
+        extra: {
+          raw_info: {
+            middle_name: nil
+          }
+        }
+      )
+      expect { described_class.find_for_omniauth(authentication_info) }.to change { described_class.count }.by(1)
+      user = described_class.find_by_primary_email(authentication_info.info.email) # rubocop:disable Rails/DynamicFindBy
+      expect(user.profile_image_file_name).not_to eq authentication_info.info.image
+      expect(user.profile_image_file_name).to be_nil
+    end
+
     it 'returns the existing user if already saved and does not create an empty new email address' do
       user = FactoryGirl.create(:OmniAuthUser)
       identity = UserIdentity.find_by(user: user)

@@ -229,6 +229,15 @@ class User < ApplicationRecord
       rescue ActiveRecord::RecordInvalid
         Rails.logger.error "This email address is associated to another user. The found identity will be changed later so that the existing account won't be accessible any longer."
       end
+
+      # Some OmniAuth providers might not return any image, resulting in a "successful" download with an empty picture.
+      # This would have an empty filename, which is invalid and must be deleted.
+      if user.profile_image == ''
+        user.profile_image_file_name = 'to_be_deleted'
+        user.save!
+        user.profile_image = nil
+        user.save!
+      end
     end
 
     email_is_verified = email.present? && user.present? && (auth.info.verified || auth.info.verified_email)
