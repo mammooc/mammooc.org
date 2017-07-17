@@ -90,7 +90,7 @@ class AbstractJsonApiCourseWorker < AbstractCourseWorker
       course.provider_given_duration = course_element['duration']
 
       begin
-        course.calculated_duration_in_days = ActiveSupport::Duration.parse(course_element['duration']).to_i / 1.day
+        course.calculated_duration_in_days = ActiveSupport::Duration.parse(course_element['duration']) / 1.day
       rescue ActiveSupport::Duration::ISO8601Parser::ParsingError => e
         Rails.logger.error "Couldn't process douration in course #{course_element['courseCode']} for duration #{course_element['duration']}: #{e.message}"
         course.calculated_duration_in_days = nil
