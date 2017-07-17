@@ -50,7 +50,7 @@ RSpec.describe UsersController, type: :controller do
     context 'without authorization' do
       before { get :show, params: {id: another_user.id} }
       it 'redirects to root path' do
-        expect(response).to redirect_to(root_path)
+        expect(response).to redirect_to(dashboard_path)
       end
 
       it 'shows an alert message' do
@@ -86,7 +86,7 @@ RSpec.describe UsersController, type: :controller do
     context 'without authorization' do
       before { put :update, params: {id: another_user.id, name: 'Another'} }
       it 'redirects to root path' do
-        expect(response).to redirect_to(root_path)
+        expect(response).to redirect_to(dashboard_path)
       end
 
       it 'shows an alert message' do
@@ -116,7 +116,7 @@ RSpec.describe UsersController, type: :controller do
     context 'without authorization' do
       before { delete :destroy, params: {id: another_user.id} }
       it 'redirects to root path' do
-        expect(response).to redirect_to(root_path)
+        expect(response).to redirect_to(dashboard_path)
       end
 
       it 'shows an alert message' do

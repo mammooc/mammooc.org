@@ -19,21 +19,22 @@
           .action-icon-enrollment data-toggle="tooltip" data-placement="left" title="#{(t('courses.course-list.enroll'))}" toggle-title="#{(t('courses.course-list.unenroll'))}"
             a href="" class='enroll-icon' data-course_id='#{course.id}'
               i class="fa fa-sign-in action-icon-gray"
-      .additional-infos
-        .block.pr20.mb5
-          - if course.language
-            img src="/data/icons/globe-white.png" class="icon-small pr5"
-              - language_array = course.language.split(',')
-              - language_array.each do |language|
-                - if I18n.t("language.#{language}").include? 'translation missing'
-                  = language
-                - else
-                  = I18n.t("language.#{language}")
-                - unless language_array.last == language
-                  = ', '
+      = link_to course
+        .additional-infos
+          .block.pr20.mb5
+            - if course.language
+              img src="/data/icons/globe-white.png" class="icon-small pr5"
+                - language_array = course.language.split(',')
+                - language_array.each do |language|
+                  - if I18n.t("language.#{language}").include? 'translation missing'
+                    = language
+                  - else
+                    = I18n.t("language.#{language}")
+                  - unless language_array.last == language
+                    = ', '
 
-        .block.pr20.course-instructors
-          = course.course_instructors
+          .block.pr20.course-instructors
+            = course.course_instructors
     - if course.start_date
       - if course.start_date > (Date.today - 1.weeks)
         .course-status.green

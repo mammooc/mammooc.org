@@ -8,20 +8,19 @@
             = link_to recommendation.author
               => "#{recommendation.author.first_name} #{recommendation.author.last_name}"
             - if recommendation.author.groups.size > 0
-              = "(#{(current_user.common_groups_with_user(recommendation.author).collect {|group| group.name}).join(', ')})"
-          .to-whom
-            - if recommendation.group.present?
-              - if recommendation.is_obligatory
-                => t('recommendation.group.obligatory_course_for')
-                = link_to recommendation.group.name, group_path(recommendation.group)
-              - else
-                => t('recommendation.group.recommended_course_to')
-                = link_to recommendation.group.name, group_path(recommendation.group)
+              => "(#{(current_user.common_groups_with_user(recommendation.author).collect {|group| group.name}).join(', ')})"
+          - if recommendation.group.present?
+            - if recommendation.is_obligatory
+              =<> t('recommendation.group.obligatory_course_for')
+              =<> link_to recommendation.group.name, group_path(recommendation.group)
             - else
-              - if recommendation.is_obligatory
-                = t('recommendation.obligatory_course_for_you')
-              - else
-                = t('recommendation.recommended_course_to_you')
+              =<> t('recommendation.group.recommended_course_to')
+              =<> link_to recommendation.group.name, group_path(recommendation.group)
+          - else
+            - if recommendation.is_obligatory
+              =<> t('recommendation.obligatory_course_for_you')
+            - else
+              =<> t('recommendation.recommended_course_to_you')
         = I18n.l recommendation.created_at, format: t('global.date_format_month')
     - if recommendation.text
       .comment

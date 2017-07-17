@@ -102,6 +102,7 @@ class RecommendationsController < ApplicationController
     end
   rescue ActiveRecord::RecordNotSaved
     flash[:error] = t('recommendation.creation_error')
+    flash.keep
     redirect_to root_path
   end
 
