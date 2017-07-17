@@ -101,7 +101,7 @@ jobs:
           sudo bash .circleci/setup-heroku.sh
           if [ "${CIRCLE_BRANCH}" == "master" ]; then
             heroku maintenance:on --app mammooc
-            "if [[ -a .git/shallow ]]; then git fetch --unshallow; fi;"
+            if [[ -a .git/shallow ]]; then git fetch --unshallow; fi;
             git push git@heroku.com:mammooc.git master:master
             heroku pg:reset DATABASE --app mammooc --confirm mammooc
             heroku run rails db:schema:load RAILS_ENV=production --app mammooc
@@ -110,7 +110,7 @@ jobs:
             heroku maintenance:off --app mammooc
           elif [ "${CIRCLE_BRANCH}" == "dev" ]; then
             heroku maintenance:on --app mammooc-dev
-            "if [[ -a .git/shallow ]]; then git fetch --unshallow; fi;"
+            if [[ -a .git/shallow ]]; then git fetch --unshallow; fi;
             git push git@heroku.com:mammooc-dev.git dev:master
             heroku pg:reset DATABASE --app mammooc-dev --confirm mammooc-dev
             heroku run rails db:schema:load RAILS_ENV=production --app mammooc-dev
