@@ -201,7 +201,7 @@ RSpec.describe 'UserSettings', type: :feature do
       it 'page is not accessable for users who are not whitelisted' do
         capybara_sign_in third_user
         visit completions_path(second_user)
-        expect(current_path).to eq root_path
+        expect(current_path).to eq dashboard_path
       end
 
       it 'page is accessable for users who in group which are whitelisted' do
@@ -213,7 +213,7 @@ RSpec.describe 'UserSettings', type: :feature do
       it 'page is not accessable for users who are in groups which are not whitelisted' do
         capybara_sign_in fifth_user
         visit completions_path(second_user)
-        expect(current_path).to eq root_path
+        expect(current_path).to eq dashboard_path
       end
     end
   end
@@ -245,7 +245,7 @@ RSpec.describe 'UserSettings', type: :feature do
     it 'page is not accessable for users who are not whitelisted' do
       capybara_sign_in third_user
       visit user_path(second_user)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq dashboard_path
     end
 
     it 'page is accessable for users who in group which are whitelisted' do
@@ -257,7 +257,7 @@ RSpec.describe 'UserSettings', type: :feature do
     it 'page is not accessable for users who are in groups which are not whitelisted' do
       capybara_sign_in fifth_user
       visit user_path(second_user)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq dashboard_path
     end
   end
 end

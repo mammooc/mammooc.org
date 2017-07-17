@@ -286,18 +286,21 @@ class GroupsController < ApplicationController
 
     if group_invitation.expiry_date <= Time.zone.now.in_time_zone
       flash[:error] = t('groups.invitation.link_expired')
+      flash.keep
       redirect_to root_path
       return
     end
 
     if group_invitation.used == true
       flash[:error] = t('groups.invitation.link_used')
+      flash.keep
       redirect_to root_path
       return
     end
 
     if group_invitation.group_id.nil?
       flash[:error] = t('groups.invitation.group_deleted')
+      flash.keep
       redirect_to root_path
       return
     end
@@ -314,9 +317,11 @@ class GroupsController < ApplicationController
     group_invitation.save
     group.create_activity key: 'group.join', owner: current_user, group_ids: [group.id], user_ids: (group.user_ids - [current_user.id])
 
+    flash.keep
     redirect_to group_path(group)
   rescue ActiveRecord::RecordNotFound
     flash[:error] = t('groups.invitation.link_invalid')
+    flash.keep
     redirect_to root_path
   end
 

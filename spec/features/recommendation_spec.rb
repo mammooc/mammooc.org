@@ -206,7 +206,7 @@ RSpec.describe 'Recommendation', type: :feature do
       else
         fill_in 'recommendation_course_id-tokenfield', with: 'qwert'
         wait_for_ajax
-        fill_in 'recommendation_course_id-tokenfield', with: "\t"
+        fill_in 'recommendation_course_id-tokenfield', with: "\n"
       end
       click_button I18n.t('recommendation.submit')
       expect(Recommendation.count).to eq 1
@@ -302,7 +302,7 @@ RSpec.describe 'Recommendation', type: :feature do
       else
         fill_in 'recommendation_course_id-tokenfield', with: 'qwert'
         wait_for_ajax
-        fill_in 'recommendation_course_id-tokenfield', with: "\t"
+        fill_in 'recommendation_course_id-tokenfield', with: "\n"
       end
       click_button I18n.t('recommendation.obligatory_recommendation.submit')
       expect(Recommendation.count).to eq 1

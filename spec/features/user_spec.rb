@@ -374,7 +374,7 @@ RSpec.describe 'User', type: :feature do
             else
               fill_in 'new-groups-name', with: 'Test'
               wait_for_ajax
-              fill_in 'new-groups-name', with: "\t"
+              fill_in 'new-groups-name', with: "\n"
             end
             list.find('.new-item-ok').click
             wait_for_ajax
