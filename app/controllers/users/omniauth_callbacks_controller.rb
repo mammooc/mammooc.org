@@ -61,6 +61,7 @@ module Users
                             t('users.settings.identity_not_deleted', provider: OmniAuth::Utils.camelize(deauthorize_params[:provider]))
                           end
       end
+      flash.keep
       redirect_to "#{user_settings_path(current_user.id)}?subsite=account"
     end
 
@@ -89,6 +90,7 @@ module Users
         end
       end
       flash['error'] << t('users.sign_in_up.easyID.failure')
+      flash.keep
       redirect_to new_user_session_path
     end
 
