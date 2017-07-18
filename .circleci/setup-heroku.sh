@@ -15,5 +15,4 @@ machine git.heroku.com
 EOF
 
 # Add heroku.com to the list of known hosts
-mkdir ~/.ssh/
 ssh-keyscan -H heroku.com >> ~/.ssh/known_hosts
