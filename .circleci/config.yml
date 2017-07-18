@@ -93,13 +93,17 @@ jobs:
       - type: deploy
         name: Notify DockerHub
         command: |
-          curl -H "Content-Type: application/json" --data '{"build": true}' -X POST $DOCKER_HUB_TRIGGER_URL
+          if [ "${CIRCLE_BRANCH}" == "master" ]; then
+            curl -H "Content-Type: application/json" --data '{"build": true}' -X POST $DOCKER_HUB_TRIGGER_URL
+          else
+            exit 0
+          fi
 
       - type: deploy
         name: Deploy to Heroku
         command: |
-          bash .circleci/setup-heroku.sh
           if [ "${CIRCLE_BRANCH}" == "master" ]; then
+            bash .circleci/setup-heroku.sh
             heroku maintenance:on --app mammooc
             if [[ -a .git/shallow ]]; then git fetch --unshallow; fi;
             git push git@heroku.com:mammooc.git master:master
@@ -109,6 +113,7 @@ jobs:
             heroku restart --app mammooc
             heroku maintenance:off --app mammooc
           elif [ "${CIRCLE_BRANCH}" == "dev" ]; then
+            bash .circleci/setup-heroku.sh
             heroku maintenance:on --app mammooc-dev
             if [[ -a .git/shallow ]]; then git fetch --unshallow; fi;
             git push git@heroku.com:mammooc-dev.git dev:master
@@ -117,6 +122,8 @@ jobs:
             heroku run rails db:seed RAILS_ENV=production --app mammooc-dev
             heroku restart --app mammooc-dev
             heroku maintenance:off --app mammooc-dev
+          else
+            exit 0
           fi
 
       - type: deploy
