@@ -66,7 +66,6 @@ RSpec.describe CourseraConnector do
   end
 
   it 'returns access_token when user has connection to mooc provider, which is still valid' do
-    pending
     FactoryGirl.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
     expect(coursera_connector.send(:get_access_token, user)).to eq '123'
   end
