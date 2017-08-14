@@ -183,7 +183,13 @@ class CoursesController < ApplicationController
   end
 
   def set_course
-    @course = Course.find(params[:id])
+    if params[:id].include? '~'
+      parameters = params[:id].split '~'
+      mooc_provider = MoocProvider.find_by(name: parameters[0])
+      @course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider, parameters[1])
+    else
+      @course = Course.find(params[:id])
+    end
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

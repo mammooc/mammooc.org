@@ -73,6 +73,11 @@ RSpec.describe CoursesController, type: :controller do
       get :show, params: {id: course.to_param}
       expect(assigns(:course)).to eq(course)
     end
+
+    it 'assigns the requested course as @course ~or provider given IDs' do
+      get :show, params: {id: "#{course.mooc_provider.name}~#{course.provider_course_id}"}
+      expect(assigns(:course)).to eq(course)
+    end
   end
 
   describe 'GET enroll_course' do
