@@ -9,7 +9,6 @@ class UserWorker
     MoocHouseUserWorker.perform_async user_ids
     CnmoocHouseUserWorker.perform_async user_ids
     OpenHPIChinaUserWorker.perform_async user_ids
-    OpenUNEUserWorker.perform_async user_ids
     OpenWHOUserWorker.perform_async user_ids
     CourseraUserWorker.perform_async user_ids
   end
