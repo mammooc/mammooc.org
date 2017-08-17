@@ -15,8 +15,6 @@ module ConnectorMapper
         MoocHouseConnector.new
       when 'cnMOOC.house'
         CnmoocHouseConnector.new
-      when 'openUNE.cn'
-        OpenUNEConnector.new
       when 'openWHO'
         OpenWHOConnector.new
       when 'coursera'
@@ -37,8 +35,6 @@ module ConnectorMapper
         MoocHouseUserWorker
       when 'cnMOOC.house'
         CnmoocHouseUserWorker
-      when 'openUNE.cn'
-        OpenUNEUserWorker
       when 'openWHO'
         OpenWHOUserWorker
       when 'coursera'
