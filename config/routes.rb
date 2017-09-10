@@ -124,6 +124,7 @@ Rails.application.routes.draw do
 
   # API
   get 'api/current_user_with_evaluation' => 'apis#current_user_with_evaluation', defaults: {format: 'json'}
+  get 'api/statistics' => 'apis#statistics', defaults: {format: 'json'}
 
   # JSON API
   namespace :api do
