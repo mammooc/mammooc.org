@@ -7,8 +7,10 @@
   .courses-wrapper
     = render "course_list_items"
   .loadmore-wrapper.do-not-show-link
-    a href="" id="loadMore" onclick="load_more(); return false;" style="#{'display: none' if @courses.total_entries <= 10}"
+    a href="" id="loadMore" style="#{'display: none' if @courses.total_entries <= 10}"
       .load-more-courses
         => t('courses.course-list.load_more')
         span.loading_spinner style="visibility: hidden"
           i.fa.fa-spinner.fa-pulse
+  script type="text/javascript" nonce="#{content_security_policy_script_nonce}"
+    | bindLoadMoreCoursesClickEvent();

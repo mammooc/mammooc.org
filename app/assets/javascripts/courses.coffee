@@ -57,6 +57,12 @@ changeValueOfSearchField = (fromId, toId) ->
   $('#' + fromId).change()
 
 
+@bindLoadMoreCoursesClickEvent = () ->
+  $('a[id="loadMore"]').on 'click', (event) ->
+    load_more();
+    return false;
+
+
 @load_more = () ->
   #  Retrieve original URL parameters and only replace page attribute with the next possible
   set_filter_options_to_param(()->
