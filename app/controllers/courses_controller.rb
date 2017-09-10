@@ -148,7 +148,7 @@ class CoursesController < ApplicationController
   end
 
   def filter_options
-    @filter_options = session['courses#index'].to_query('filterrific')
+    @filter_options = session['course_filterrific'].to_query('filterrific')
 
     respond_to do |format|
       format.json { render :filter_options }
@@ -237,11 +237,7 @@ class CoursesController < ApplicationController
   end
 
   def load_courses
-    filterrific_params = if params[:filterrific]
-                           params[:filterrific].permit!.to_h
-                         end
-
-    @filterrific = initialize_filterrific(Course, filterrific_params,
+    @filterrific = initialize_filterrific(Course, params[:filterrific],
       select_options: {with_language: Course.options_for_languages,
                        with_mooc_provider_id: MoocProvider.options_for_select,
                        with_subtitle_languages: Course.options_for_subtitle_languages,
@@ -249,7 +245,8 @@ class CoursesController < ApplicationController
                        start_filter_options: Course.options_for_start,
                        options_for_costs: Course.options_for_costs,
                        options_for_certificate: CourseTrackType.options_for_select,
-                       options_for_sorted_by: Course.options_for_sorted_by}) || return
+                       options_for_sorted_by: Course.options_for_sorted_by},
+      persistence_id: 'course_filterrific') || return
 
     @courses = @filterrific.find.page(params[:page])
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(@courses)

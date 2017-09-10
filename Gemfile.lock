@@ -546,8 +546,7 @@ GEM
     faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.18)
-    filterrific (2.0.5)
-      rails (>= 3.1.0)
+    filterrific (2.1.2)
     font-awesome-sass (4.7.0)
       sass (>= 3.2)
     fullcalendar-rails (3.4.0.0)
@@ -854,7 +853,7 @@ DEPENDENCIES
   database_cleaner
   devise
   factory_girl_rails
-  filterrific (= 2.0.5)
+  filterrific
   font-awesome-sass
   fullcalendar-rails
   headless
