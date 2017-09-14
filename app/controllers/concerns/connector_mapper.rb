@@ -13,8 +13,6 @@ module ConnectorMapper
         OpenHPIChinaConnector.new
       when 'mooc.house'
         MoocHouseConnector.new
-      when 'cnMOOC.house'
-        CnmoocHouseConnector.new
       when 'openWHO'
         OpenWHOConnector.new
       when 'coursera'
@@ -33,8 +31,6 @@ module ConnectorMapper
         OpenHPIChinaUserWorker
       when 'mooc.house'
         MoocHouseUserWorker
-      when 'cnMOOC.house'
-        CnmoocHouseUserWorker
       when 'openWHO'
         OpenWHOUserWorker
       when 'coursera'
