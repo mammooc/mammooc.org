@@ -58,6 +58,7 @@ gem 'rest-client'
 gem 'paperclip'
 
 # amazon S3 connection
+# TODO: Change to 'aws-sdk-s3' and remove version reuirement once https://github.com/thoughtbot/paperclip/pull/2481 has been merged
 gem 'aws-sdk', '~> 2.0'
 
 # cron job
