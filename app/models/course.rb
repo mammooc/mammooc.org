@@ -204,7 +204,7 @@ class Course < ApplicationRecord
   end
 
   scope :bookmarked, ->(user_id) do
-    if user_id == '0'
+    if (user_id.is_a? Integer) && user_id.zero?
       nil
     else
       user = User.find(user_id)

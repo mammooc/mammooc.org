@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 ruby '2.4.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.1.3'
+gem 'rails', '5.1.4'
 # Use sqlite3 as the database for Active Record
 gem 'pg'
 gem 'sass-rails'
@@ -21,7 +21,7 @@ gem 'slim-rails'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
-gem 'jquery-ui-rails', '<6.0.0' # course autocompletion bug if higher version
+gem 'jquery-ui-rails'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
@@ -58,7 +58,8 @@ gem 'rest-client'
 gem 'paperclip'
 
 # amazon S3 connection
-gem 'aws-sdk'
+# TODO: Change to 'aws-sdk-s3' and remove version reuirement once https://github.com/thoughtbot/paperclip/pull/2481 has been merged
+gem 'aws-sdk', '~> 2.0'
 
 # cron job
 gem 'redis'
@@ -86,7 +87,7 @@ gem 'config'
 gem 'newrelic_rpm'
 
 # for filtering, searching and sorting
-gem 'filterrific', '2.0.5'
+gem 'filterrific'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 

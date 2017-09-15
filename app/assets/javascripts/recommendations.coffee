@@ -140,7 +140,7 @@ generate_users_autocomplete_obligatory_recommendation = () ->
         for user in data.group_members
           users_autocomplete.push({ value: user.id, label: user.first_name + ' ' + user.last_name })
 
-  $(".obligatory_recommendation_related_user_ids").tokenfield
+  $('.obligatory_recommendation_related_user_ids').tokenfield
     autocomplete:
       source: users_autocomplete
       delay: 100
@@ -163,6 +163,8 @@ generate_users_autocomplete_obligatory_recommendation = () ->
         event.preventDefault())
 
 generate_course_autocomplete = () ->
+  results = []
+
   $('#recommendation_course_id').tokenfield
     autocomplete:
       minLength: 3
@@ -186,6 +188,19 @@ generate_course_autocomplete = () ->
         event.preventDefault()
     showAutocompleteOnFocus: true
     limit: 1
+
+  $('#recommendation_course_id').on('tokenfield:createtoken', (event) ->
+    available_tokens = results
+    exists = true
+    $.each available_tokens, (index, token) ->
+      if (token.value == event.attrs.value)
+        exists = false
+    if(exists == true)
+      event.preventDefault()
+    existingTokens = $(this).tokenfield('getTokens')
+    $.each existingTokens, (index, token) ->
+      if token.value == event.attrs.value
+        event.preventDefault())
 
 fill_in_with_params = () ->
   params = getParams()
