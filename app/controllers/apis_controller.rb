@@ -38,9 +38,7 @@ class ApisController < ApplicationController
   rescue ActionController::ParameterMissing, ActiveRecord::RecordNotFound => e
     respond_to do |format|
       format.json { render json: {error: e.message}, status: :not_found }
-      format.js do
-        render json: {error: e.message}, callback: params[:callback], status: :not_found
-      end
+      format.js { render json: {error: e.message}, callback: params[:callback], status: :not_found }
     end
   end
 
@@ -64,9 +62,7 @@ class ApisController < ApplicationController
     statistics[:evaluations] = Evaluation.count
 
     respond_to do |format|
-      format.js do
-        render json: result
-      end
+      format.js { render json: result }
       format.json { render json: result }
     end
   end
