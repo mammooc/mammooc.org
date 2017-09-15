@@ -29,6 +29,7 @@ RSpec.describe 'UserDate', type: :feature do
 
     it 'refreshes calendar widget', js: true do
       visit '/user_dates'
+      wait_for_ajax
       user_date = FactoryGirl.create(:user_date, date: Time.zone.today, user: user)
       expect(page).to have_no_content(user_date.title)
       click_button 'sync-user-dates'
