@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class ApisController < ApplicationController
-  skip_before_action :require_login, only: [:current_user_with_evaluation]
-  protect_from_forgery except: :current_user_with_evaluation
+  skip_before_action :require_login, only: %i[current_user_with_evaluation statistics]
+  protect_from_forgery except: %i[current_user_with_evaluation statistics]
 
   def current_user_with_evaluation
     result = {}
@@ -38,9 +38,32 @@ class ApisController < ApplicationController
   rescue ActionController::ParameterMissing, ActiveRecord::RecordNotFound => e
     respond_to do |format|
       format.json { render json: {error: e.message}, status: :not_found }
-      format.js do
-        render json: {error: e.message}, callback: params[:callback], status: :not_found
-      end
+      format.js { render json: {error: e.message}, callback: params[:callback], status: :not_found }
+    end
+  end
+
+  def statistics
+    result = {}
+    result[:global_statistic] = {}
+    statistics = result[:global_statistic]
+
+    statistics[:mooc_provider] = MoocProvider.count
+    statistics[:courses] = Course.count
+    statistics[:course_tracks] = CourseTrack.count
+    statistics[:organisations] = Organisation.count
+    statistics[:users] = User.count
+    statistics[:users_last_day] = User.where(created_at: (Time.zone.now - 1.day)..Time.zone.now).count
+    statistics[:users_last_7days] = User.where(created_at: (Time.zone.now - 7.days)..Time.zone.now).count
+    statistics[:groups] = Group.count
+    statistics[:total_recommendations] = Recommendation.count
+    statistics[:recommendations] = Recommendation.where(is_obligatory: false).count
+    statistics[:mandatory_recommendations] = Recommendation.where(is_obligatory: true).count
+    statistics[:bookmarks] = Bookmark.count
+    statistics[:evaluations] = Evaluation.count
+
+    respond_to do |format|
+      format.js { render json: result }
+      format.json { render json: result }
     end
   end
 end
