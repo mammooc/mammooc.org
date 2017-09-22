@@ -55,15 +55,21 @@ module MAMMOOC
 
     # Implement Security Headers
     SecureHeaders::Configuration.default do |config|
+      config.cookies = {
+          secure: true,
+          httponly: true,
+          samesite: SecureHeaders::OPT_OUT # might lead to problems with the mammooc-rating-widget
+      }
+
       config.csp = {
-        # rubocop:disable Lint/PercentStringArray
-        default_src: %W['self'],
-        object_src: %w['none'],
-        # unsafe-eval required by views/courses/index.js.slim for filterrific to work
-        script_src: %w['self' js-agent.newrelic.com bam.nr-data.net 'unsafe-eval'],
-        img_src: %w['self' data: https:],
-        style_src: %w['self' 'unsafe-inline' https:]
-        # rubocop:enable Lint/PercentStringArray
+          # rubocop:disable Lint/PercentStringArray
+          default_src: %W['self'],
+          object_src: %w['none'],
+          # unsafe-eval required by views/courses/index.js.slim for filterrific to work
+          script_src: %w['self' js-agent.newrelic.com bam.nr-data.net 'unsafe-eval'],
+          img_src: %w['self' data: https:],
+          style_src: %w['self' 'unsafe-inline' https:]
+          # rubocop:enable Lint/PercentStringArray
       }
 
       config.hsts = SecureHeaders::OPT_OUT # handled by nginx
