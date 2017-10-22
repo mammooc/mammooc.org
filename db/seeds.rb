@@ -19,9 +19,15 @@ MoocProvider.create!(name: 'Udacity', logo_id: 'logo_UDACITY.svg', url: 'https:/
 MoocProvider.create!(name: 'FutureLearn', logo_id: 'logo_FutureLearn.svg', url: 'https://www.futurelearn.com', api_support_state: :nil)
 MoocProvider.create!(name: 'mooin', logo_id: 'logo_mooin.png', url: 'https://mooin.oncampus.de', api_support_state: :nil)
 
+xikolo_confirmation_track_type = CourseTrackType.create!(title: 'Confirmation',
+                                                  description: 'You get a Confirmation of Participation',
+                                                  type_of_achievement: 'xikolo_confirmation_of_participation')
 xikolo_audit_track_type = CourseTrackType.create!(title: 'Audit',
-                                                  description: 'You get a record of Achievement.',
+                                                  description: 'You get a Record of Achievement.',
                                                   type_of_achievement: 'xikolo_record_of_achievement')
+xikolo_proctored_track_type = CourseTrackType.create!(title: 'Certificate',
+                                                  description: 'You get a Qualified Certificate.',
+                                                  type_of_achievement: 'xikolo_qualified_certificate')
 iversity_audit_track_type = CourseTrackType.create!(title: 'Audit',
                                                     description: "<ul class='list-none'> <li>All Course Material</li> <li>Course Community</li> <li>Statement of Participation</li> <li>Flexible Upgrade</li> </ul>",
                                                     type_of_achievement: 'iversity_record_of_achievement')
