@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateRecommendations < ActiveRecord::Migration
+class CreateRecommendations < ActiveRecord::Migration[4.2]
   def change
     create_table :recommendations, id: :uuid do |t|
       t.boolean :is_obligatory

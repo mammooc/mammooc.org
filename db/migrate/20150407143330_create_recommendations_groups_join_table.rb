@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateRecommendationsGroupsJoinTable < ActiveRecord::Migration
+class CreateRecommendationsGroupsJoinTable < ActiveRecord::Migration[4.2]
   def change
     create_table :groups_recommendations, id: false do |t|
       t.uuid :recommendation_id

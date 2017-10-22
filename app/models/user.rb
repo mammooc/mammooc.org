@@ -16,7 +16,7 @@ class User < ApplicationRecord
   has_many :completions, dependent: :destroy
   has_and_belongs_to_many :courses
   has_many :bookmarks, dependent: :destroy
-  has_many :evaluations
+  has_many :evaluations, dependent: :nullify
   has_many :identities, class_name: 'UserIdentity', dependent: :destroy
   has_many :settings, class_name: 'UserSetting', dependent: :destroy
   has_many :dates, class_name: 'UserDate', dependent: :destroy

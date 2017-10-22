@@ -4,9 +4,9 @@ require 'rails_helper'
 
 RSpec.describe OpenHPICourseWorker do
   def request_double(url: 'http://example.com', method: 'get')
-    double('request', url: url, uri: URI.parse(url), method: method,
-                      user: nil, password: nil, cookie_jar: HTTP::CookieJar.new,
-                      redirection_history: nil, args: {url: url, method: method})
+    instance_double('request', url: url, uri: URI.parse(url), method: method,
+                               user: nil, password: nil, cookie_jar: HTTP::CookieJar.new,
+                               redirection_history: nil, args: {url: url, method: method})
   end
 
   let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI') }
@@ -14,7 +14,7 @@ RSpec.describe OpenHPICourseWorker do
   let(:open_hpi_course_worker) { described_class.new }
 
   let(:empty_course_data) do
-    net_http_res = double('net http response', to_hash: {'Status' => ['200 OK']}, code: 200)
+    net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK']}, code: 200)
     example_url = 'https://open.hpi.de/api/v2/courses'
     request = request_double(url: example_url, method: 'get')
     response = RestClient::Response.create('', net_http_res, request)
@@ -22,7 +22,7 @@ RSpec.describe OpenHPICourseWorker do
   end
 
   let(:empty_course_data_api_expired) do
-    net_http_res = double('net http response', to_hash: {'Status' => ['200 OK'], 'X_Api_Version_Expiration_Date' => ['Tue, 15 Aug 2017 00:00:00 GMT']}, code: 200)
+    net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK'], 'X_Api_Version_Expiration_Date' => ['Tue, 15 Aug 2017 00:00:00 GMT']}, code: 200)
     example_url = 'https://open.hpi.de/api/v2/courses'
     request = request_double(url: example_url, method: 'get')
     response = RestClient::Response.create('', net_http_res, request)
@@ -107,7 +107,7 @@ RSpec.describe OpenHPICourseWorker do
             "last": "https://open.hpi.de/api/v2/courses?page%5Bnumber%5D=1"
         }
     }'
-    net_http_res = double('net http response', to_hash: {'Status' => ['200 OK']}, code: 200)
+    net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK']}, code: 200)
     example_url = 'https://open.hpi.de/api/v2/courses'
     request = request_double(url: example_url, method: 'get')
     response = RestClient::Response.create(data, net_http_res, request)
@@ -183,7 +183,7 @@ RSpec.describe OpenHPICourseWorker do
             }
         }
     }'
-    net_http_res = double('net http response', to_hash: {'Status' => ['200 OK']}, code: 200)
+    net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK']}, code: 200)
     example_url = 'https://open.hpi.de/api/v2/courses/c1556425-5449-4b05-97b3-42b38a39f6c5'
     request = request_double(url: example_url, method: 'get')
     response = RestClient::Response.create(data, net_http_res, request)
@@ -475,7 +475,6 @@ RSpec.describe OpenHPICourseWorker do
   end
 
   context 'email notification' do
-
     before do
       ActionMailer::Base.deliveries.clear
       Settings.admin_email = 'admin@example.com'

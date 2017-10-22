@@ -12,7 +12,7 @@ RSpec.describe 'Application', type: :feature do
 
     it 'redirects to sign in' do
       visit groups_path
-      expect(current_path).to eq(new_user_session_path)
+      expect(page).to have_current_path(new_user_session_path)
     end
 
     it 'redirects to original URL after sign in' do
@@ -20,7 +20,7 @@ RSpec.describe 'Application', type: :feature do
       fill_in 'login_email', with: user.primary_email
       fill_in 'login_password', with: user.password
       click_button 'submit_sign_in'
-      expect(current_path).to eq(groups_path)
+      expect(page).to have_current_path(groups_path)
     end
 
     it 'redirects to original URL after sign up' do
@@ -32,7 +32,7 @@ RSpec.describe 'Application', type: :feature do
       fill_in 'registration_password', with: '12345678'
       fill_in 'registration_password_confirmation', with: '12345678'
       click_button 'submit_sign_up'
-      expect(current_path).to eq(groups_path)
+      expect(page).to have_current_path(groups_path)
     end
 
     it 'redirects to root after visiting sign in page' do
@@ -40,7 +40,7 @@ RSpec.describe 'Application', type: :feature do
       fill_in 'login_email', with: user.primary_email
       fill_in 'login_password', with: user.password
       click_button 'submit_sign_in'
-      expect(current_path).to eq(dashboard_path)
+      expect(page).to have_current_path(dashboard_path)
     end
 
     it 'redirects to root after visiting sign up page' do
@@ -51,7 +51,7 @@ RSpec.describe 'Application', type: :feature do
       fill_in 'registration_password', with: '12345678'
       fill_in 'registration_password_confirmation', with: '12345678'
       click_button 'submit_sign_up'
-      expect(current_path).to eq(dashboard_path)
+      expect(page).to have_current_path(dashboard_path)
     end
   end
 
@@ -64,7 +64,7 @@ RSpec.describe 'Application', type: :feature do
       fill_in 'user_primary_email', with: user.primary_email
       fill_in 'user_password', with: user.password
       click_on 'submit_sign_in_dropdown'
-      expect(current_path).to eq courses_path
+      expect(page).to have_current_path courses_path
       expect(page).to have_content user.first_name
     end
 
@@ -74,7 +74,7 @@ RSpec.describe 'Application', type: :feature do
       fill_in 'user_primary_email', with: user.primary_email
       fill_in 'user_password', with: user.password
       click_on 'submit_sign_in_dropdown'
-      expect(current_path).to eq dashboard_path
+      expect(page).to have_current_path dashboard_path
       expect(page).to have_content user.first_name
     end
 
@@ -84,7 +84,7 @@ RSpec.describe 'Application', type: :feature do
       fill_in 'user_primary_email', with: user.primary_email
       fill_in 'user_password', with: user.password
       click_on 'submit_sign_in_dropdown'
-      expect(current_path).to eq dashboard_path
+      expect(page).to have_current_path dashboard_path
       expect(page).to have_content user.first_name
     end
   end

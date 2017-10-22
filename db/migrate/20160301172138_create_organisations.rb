@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateOrganisations < ActiveRecord::Migration
+class CreateOrganisations < ActiveRecord::Migration[4.2]
   def change
     create_table :organisations, id: :uuid do |t|
       t.string :name

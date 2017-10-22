@@ -13,10 +13,10 @@ RSpec.describe 'groups/edit', type: :view do
   it 'renders the edit group form' do
     render
 
-    assert_select 'form[action=?][method=?]'.dup, group_path(group), 'post' do
-      assert_select 'input#group_name[name=?]'.dup, 'group[name]'
+    assert_select 'form[action=?][method=?]', group_path(group), 'post' do
+      assert_select 'input#group_name[name=?]', 'group[name]'
 
-      assert_select 'textarea#group_description[name=?]'.dup, 'group[description]'
+      assert_select 'textarea#group_description[name=?]', 'group[description]'
     end
   end
 end

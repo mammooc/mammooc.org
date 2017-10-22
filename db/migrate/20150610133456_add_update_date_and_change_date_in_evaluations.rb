@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddUpdateDateAndChangeDateInEvaluations < ActiveRecord::Migration
+class AddUpdateDateAndChangeDateInEvaluations < ActiveRecord::Migration[4.2]
   def change
     change_column(:evaluations, :evaluation_helpful_rating_count, :integer, null: false, default: 0)
     change_column(:evaluations, :evaluation_rating_count, :integer, null: false, default: 0)

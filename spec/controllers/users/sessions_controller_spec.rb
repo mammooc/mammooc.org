@@ -16,12 +16,12 @@ RSpec.describe Users::SessionsController, type: :controller do
 
   it 'works with valid sign_in data' do
     post :create, params: {user: {primary_email: user.primary_email, password: user.password}}
-    expect(subject.signed_in?).to be_truthy
+    expect(subject).to be_signed_in
   end
 
   it 'does not work without valid terms and conditions' do
     post :create, params: {user: {primary_email: 'nosuchuser@example.com', password: '123456789'}}
-    expect(subject.signed_in?).to be_falsey
+    expect(subject).not_to be_signed_in
   end
 
   it 'stores the email address if user could not be logged in' do

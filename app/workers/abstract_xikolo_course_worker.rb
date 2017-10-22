@@ -21,7 +21,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
 
     if response.present?
       data = []
-      JSON::Api::Vanilla.parse(response).links.values.each do |link|
+      JSON::Api::Vanilla.parse(response).links.each_value do |link|
         next if link['self'].blank?
         api_host = URI.parse(url).host
         api_scheme = URI.parse(url).scheme
@@ -84,8 +84,8 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
         track.costs = 0.0
         track.costs_currency = '€'
         course.tracks.push(track)
-      else
-        track.delete! if track.present?
+      elsif track.present?
+        track.delete!
       end
 
       track = CourseTrack.find_by(course_id: course.id, track_type: record_of_achievement)
@@ -94,8 +94,8 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
         track.costs = 0.0
         track.costs_currency = '€'
         course.tracks.push(track)
-      else
-        track.delete! if track.present?
+      elsif track.present?
+        track.delete!
       end
 
       track = CourseTrack.find_by(course_id: course.id, track_type: qualified_certificate)
@@ -105,8 +105,8 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
         track.costs_currency = '€'
         track.credit_points = 2
         course.tracks.push(track)
-      else
-        track.delete! if track.present?
+      elsif track.present?
+        track.delete!
       end
       course.save!
     end
