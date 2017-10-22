@@ -450,17 +450,19 @@ RSpec.describe OpenHPICourseWorker do
 
     json_course = single_course_json.data
     course = Course.find_by(provider_course_id: json_course.id, mooc_provider_id: mooc_provider.id)
+    record_of_achievement = CourseTrackType.find_by(type_of_achievement: 'xikolo_record_of_achievement')
+    course_track = CourseTrack.find_by(course: course, course_track_type_id: record_of_achievement)
 
-    course.tracks[0].costs = 200.0
-    course.tracks[0].save!
+    course_track.costs = 200.0
+    course_track.save!
 
-    course.reload
-    expect(course.tracks[0].costs).to eq 200.0
+    course_track.reload
+    expect(course_track.costs).to eq 200.0
 
     open_hpi_course_worker.load_courses
 
-    course.reload
-    expect(course.tracks[0].costs).to eq 0.0
+    course_track.reload
+    expect(course_track.costs).to eq 0.0
   end
 
   it 'handles an empty API response' do

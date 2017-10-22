@@ -3,6 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe OpenHPIConnector do
+  def request_double(url: 'http://example.com', method: 'get')
+    instance_double('request', url: url, uri: URI.parse(url), method: method,
+                               user: nil, password: nil, cookie_jar: HTTP::CookieJar.new,
+                               redirection_history: nil, args: {url: url, method: method})
+  end
+
   let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI', api_support_state: 'naive') }
   let!(:user) { FactoryGirl.create(:user) }
   let(:open_hpi_connector) { described_class.new }
@@ -206,30 +212,70 @@ RSpec.describe OpenHPIConnector do
     let(:course) { FactoryGirl.create(:course, mooc_provider: mooc_provider) }
 
     let(:received_dates) do
-      "{
-        \"next_dates\": [
-                  {
-                    \"id\": \"ebdee8e82476e378ff0e0164feca7653\",
-                    \"title\": \"Java Workshop - Einführung in die Testgetriebene Entwicklung mit JUnit\",
-                    \"date\": \"2016-05-02T08:00:00Z\",
-                    \"type\": \"course_start\",
-                    \"url\": \"/courses/javawork2016\",
-                    \"course\": \"#{course.provider_course_id}\"
-                  },
-                  {
-                    \"id\": \"666f52643ae77da0e4f5272d4a81c8e3\",
-                    \"title\": \"Embedded Smart Home\",
-                    \"date\": \"2016-06-06T08:00:00Z\",
-                    \"type\": \"course_start\",
-                    \"url\": \"/courses/smarthome2016\",
-                    \"course\": \"#{course.provider_course_id}\"
-                  }
-                 ]
-      }"
+      data = "{
+    \"data\": [
+        {
+            \"type\": \"course-dates\",
+            \"id\": \"ebdee8e82476e378ff0e0164feca7653\",
+            \"attributes\": {
+                \"type\": \"course_start\",
+                \"title\": \"Java Workshop - Einführung in die Testgetriebene Entwicklung mit JUnit\",
+                \"date\": \"2016-05-02T08:00:00.000+00:00\"
+            },
+            \"relationships\": {
+                \"course\": {
+                    \"data\": {
+                        \"type\": \"courses\",
+                        \"id\": \"#{course.provider_course_id}\"
+                    },
+                    \"links\": {
+                        \"related\": \"/api/v2/courses/#{course.provider_course_id}\"
+                    }
+                }
+            }
+        },
+        {
+            \"type\": \"course-dates\",
+            \"id\": \"666f52643ae77da0e4f5272d4a81c8e3\",
+            \"links\": {
+                \"item_html\": \"/courses/imdb2017/items/aXrcT1PNh7L2d6erwly6b\"
+            },
+            \"attributes\": {
+                \"type\": \"item_submission_deadline\",
+                \"title\": \"Week 4: Assignment Embedded Smart Home\",
+                \"date\": \"2016-06-06T08:00:00.000+00:00\"
+            },
+            \"relationships\": {
+                \"course\": {
+                    \"data\": {
+                        \"type\": \"courses\",
+                        \"id\": \"#{course.provider_course_id}\"
+                    },
+                    \"links\": {
+                        \"related\": \"/api/v2/courses/#{course.provider_course_id}\"
+                    }
+                }
+            }
+        }
+    ]
+}"
+      net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK']}, code: 200)
+      example_url = 'https://open.hpi.de/api/v2/course-dates'
+      request = request_double(url: example_url, method: 'get')
+      response = RestClient::Response.create(data, net_http_res, request)
+      response
+    end
+
+    let(:empty_received_dates_api_expired) do
+      net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK'], 'X_Api_Version_Expiration_Date' => ['Tue, 15 Aug 2017 00:00:00 GMT']}, code: 200)
+      example_url = 'https://open.hpi.de/api/v2/course-dates'
+      request = request_double(url: example_url, method: 'get')
+      response = RestClient::Response.create('', net_http_res, request)
+      response
     end
 
     let(:json_user_dates) do
-      JSON.parse received_dates
+      JSON::Api::Vanilla.parse received_dates
     end
 
     before do
@@ -243,8 +289,9 @@ RSpec.describe OpenHPIConnector do
       end
 
       it 'returns parsed response for received dates' do
-        FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
+        FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: 'Legacy-Token token=123')
         allow(RestClient).to receive(:get).and_return(received_dates)
+        allow(JSON::Api::Vanilla).to receive(:parse).with(received_dates.to_s).and_return(json_user_dates)
         expect(open_hpi_connector.send(:get_dates_for_user, user)).to eq json_user_dates
       end
     end
@@ -259,8 +306,10 @@ RSpec.describe OpenHPIConnector do
       end
 
       it 'calls update_existing_entry if in response data there is user dates which already exists in database' do
-        response_data['next_dates'].each do |user_date|
-          FactoryGirl.create(:user_date, user: user, course: course, ressource_id_from_provider: user_date['id'], kind: user_date['type'])
+        response_data.keys.each do |date| # rubocop:disable Performance/HashEachMethods
+          external_date_id = date.first.id
+          user_date = date.last
+          FactoryGirl.create(:user_date, user: user, course: course, ressource_id_from_provider: external_date_id, kind: user_date['type'])
         end
         expect(open_hpi_connector).to receive(:update_existing_entry).twice
         allow(open_hpi_connector).to receive(:change_existing_no_longer_relevant_entries)
@@ -275,58 +324,62 @@ RSpec.describe OpenHPIConnector do
     end
 
     describe 'create new entry' do
-      let(:user_date_data) { json_user_dates['next_dates'].first }
+      let(:user_date_data) { json_user_dates.keys.first.last }
+      let(:user_date_course) { File.basename(json_user_dates.rel_links.values.first['related']) }
+      let(:user_date_external_id) { json_user_dates.keys.first.first.id }
 
       it 'creates a new entry in database' do
-        expect { open_hpi_connector.send(:create_new_entry, user, user_date_data) }.to change { UserDate.all.count }.by(1)
+        expect { open_hpi_connector.send(:create_new_entry, user, user_date_data, user_date_course, user_date_external_id) }.to change { UserDate.all.count }.by(1)
       end
 
       it 'sets attribute date to the corresponding value' do
-        open_hpi_connector.send(:create_new_entry, user, user_date_data)
+        open_hpi_connector.send(:create_new_entry, user, user_date_data, user_date_course, user_date_external_id)
         user_date = UserDate.first
         expect(user_date.date).to eq(user_date_data['date'])
       end
 
       it 'sets attribute title to the corresponding value' do
-        open_hpi_connector.send(:create_new_entry, user, user_date_data)
+        open_hpi_connector.send(:create_new_entry, user, user_date_data, user_date_course, user_date_external_id)
         user_date = UserDate.first
         expect(user_date.title).to eq(user_date_data['title'])
       end
 
       it 'sets attribute kind to the corresponding value' do
-        open_hpi_connector.send(:create_new_entry, user, user_date_data)
+        open_hpi_connector.send(:create_new_entry, user, user_date_data, user_date_course, user_date_external_id)
         user_date = UserDate.first
         expect(user_date.kind).to eq(user_date_data['type'])
       end
 
       it 'sets attribute relevant to the corresponding value' do
-        open_hpi_connector.send(:create_new_entry, user, user_date_data)
+        open_hpi_connector.send(:create_new_entry, user, user_date_data, user_date_course, user_date_external_id)
         user_date = UserDate.first
         expect(user_date.relevant).to be true
       end
 
       it 'sets attribute ressource_id_from_provider to the corresponding value' do
-        open_hpi_connector.send(:create_new_entry, user, user_date_data)
+        open_hpi_connector.send(:create_new_entry, user, user_date_data, user_date_course, user_date_external_id)
         user_date = UserDate.first
-        expect(user_date.ressource_id_from_provider).to eq(user_date_data['id'])
+        expect(user_date.ressource_id_from_provider).to eq(user_date_external_id)
       end
 
       it 'sets attribute user to the corresponding value' do
-        open_hpi_connector.send(:create_new_entry, user, user_date_data)
+        open_hpi_connector.send(:create_new_entry, user, user_date_data, user_date_course, user_date_external_id)
         user_date = UserDate.first
         expect(user_date.user).to eq(user)
       end
 
       it 'sets attribute course to the corresponding value' do
-        open_hpi_connector.send(:create_new_entry, user, user_date_data)
+        open_hpi_connector.send(:create_new_entry, user, user_date_data, user_date_course, user_date_external_id)
         user_date = UserDate.first
         expect(user_date.course).to eq(course)
       end
     end
 
     describe 'update existing entry' do
-      let(:user_date_data) { json_user_dates['next_dates'].first }
-      let(:user_date) { FactoryGirl.create(:user_date, user: user, course: course, ressource_id_from_provider: user_date_data['id'], kind: user_date_data['type']) }
+      let(:user_date_data) { json_user_dates.keys.first.last }
+      let(:user_date_course) { File.basename(json_user_dates.rel_links.values.first['related']) }
+      let(:user_date_external_id) { json_user_dates.keys.first.first.id }
+      let(:user_date) { FactoryGirl.create(:user_date, user: user, course: course, ressource_id_from_provider: user_date_external_id, kind: user_date_data['type']) }
 
       it 'changes attribute date if necessary' do
         user_date.date = user_date_data['date'].to_date + 1.day
@@ -364,6 +417,25 @@ RSpec.describe OpenHPIConnector do
       it 'changes entries which are false in update map' do
         open_hpi_connector.send(:change_existing_no_longer_relevant_entries, update_map)
         expect(UserDate.find(first_user_date.id).relevant).to eq false
+      end
+    end
+
+    context 'email notification' do
+      before do
+        ActionMailer::Base.deliveries.clear
+        Settings.admin_email = 'admin@example.com'
+      end
+
+      it 'is sent to the administrator if api expiration header is present' do
+        allow(RestClient).to receive(:get).and_return(empty_received_dates_api_expired)
+        expect { open_hpi_connector.send(:get_dates_for_user, user) }.not_to raise_error
+        expect(ActionMailer::Base.deliveries.count).to eq 1
+      end
+
+      it 'is sent to the administrator if api expiration header is not present' do
+        allow(RestClient).to receive(:get).and_return(received_dates)
+        expect { open_hpi_connector.send(:get_dates_for_user, user) }.not_to raise_error
+        expect(ActionMailer::Base.deliveries.count).to eq 0
       end
     end
   end
