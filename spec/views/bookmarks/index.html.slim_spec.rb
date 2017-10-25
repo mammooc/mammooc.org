@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe 'bookmarks/index', type: :view do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:course) { FactoryGirl.create(:course, start_date: Time.zone.today) }
-  let(:second_course) { FactoryGirl.create(:course, start_date: Time.zone.tomorrow, name: 'second course') }
-  let!(:bookmark) { FactoryGirl.create(:bookmark, user: user, course: course) }
-  let!(:second_bookmark) { FactoryGirl.create(:bookmark, user: user, course: second_course) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:course) { FactoryBot.create(:course, start_date: Time.zone.today) }
+  let(:second_course) { FactoryBot.create(:course, start_date: Time.zone.tomorrow, name: 'second course') }
+  let!(:bookmark) { FactoryBot.create(:bookmark, user: user, course: course) }
+  let!(:second_bookmark) { FactoryBot.create(:bookmark, user: user, course: second_course) }
 
   before do
     @bookmarked_courses = [course, second_course]

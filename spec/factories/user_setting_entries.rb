@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :user_setting_entry do
     sequence(:key) {|n| "my_key_#{n}" }
     sequence(:value) {|n| "my_value_#{n}" }

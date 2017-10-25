@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :bookmark do
-    user { FactoryGirl.create(:user) }
-    course { FactoryGirl.create(:course) }
+    user { FactoryBot.create(:user) }
+    course { FactoryBot.create(:course) }
   end
 end

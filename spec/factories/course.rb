@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :course do
     name 'Minimal Technologies'
     url 'https://example.com/course'
     sequence(:provider_course_id) {|n| "a#{n}" }
-    mooc_provider { FactoryGirl.create(:mooc_provider) }
-    tracks { [FactoryGirl.create(:course_track)] }
+    mooc_provider { FactoryBot.create(:mooc_provider) }
+    tracks { [FactoryBot.create(:course_track)] }
   end
 
   factory :full_course, class: Course do
@@ -38,7 +38,7 @@ Claudia; “I enjoyed this course so much. It gave me a chance to expand my hori
     provider_given_duration '6 weeks'
     subtitle_languages 'en,de'
     points_maximal 100.0
-    mooc_provider { FactoryGirl.create(:mooc_provider) }
-    tracks { [FactoryGirl.create(:course_track), FactoryGirl.create(:certificate_course_track), FactoryGirl.create(:ects_course_track)] }
+    mooc_provider { FactoryBot.create(:mooc_provider) }
+    tracks { [FactoryBot.create(:course_track), FactoryBot.create(:certificate_course_track), FactoryBot.create(:ects_course_track)] }
   end
 end

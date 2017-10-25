@@ -3,13 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe CoursesController, type: :controller do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'open_mammooc') }
-  let!(:course) { FactoryGirl.create(:course, mooc_provider: mooc_provider) }
-  let!(:second_mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI') }
-  let!(:second_course) { FactoryGirl.create(:course, mooc_provider: second_mooc_provider) }
-  let!(:third_mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'coursera') }
-  let!(:third_course) { FactoryGirl.create(:course, mooc_provider: third_mooc_provider) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:mooc_provider) { FactoryBot.create(:mooc_provider, name: 'open_mammooc') }
+  let!(:course) { FactoryBot.create(:course, mooc_provider: mooc_provider) }
+  let!(:second_mooc_provider) { FactoryBot.create(:mooc_provider, name: 'openHPI') }
+  let!(:second_course) { FactoryBot.create(:course, mooc_provider: second_mooc_provider) }
+  let!(:third_mooc_provider) { FactoryBot.create(:mooc_provider, name: 'coursera') }
+  let!(:third_course) { FactoryBot.create(:course, mooc_provider: third_mooc_provider) }
 
   before do
     sign_in user
@@ -39,7 +39,7 @@ RSpec.describe CoursesController, type: :controller do
   end
 
   describe 'GET autocomplete' do
-    let(:web_course) { FactoryGirl.create :course, name: 'Web Stuff' }
+    let(:web_course) { FactoryBot.create :course, name: 'Web Stuff' }
 
     it 'responds with filtered courses' do
       get :autocomplete, params: {format: :json, q: 'web'}
@@ -48,7 +48,7 @@ RSpec.describe CoursesController, type: :controller do
   end
 
   describe 'GET index' do
-    let(:course2) { FactoryGirl.create(:course, language: 'en', calculated_duration_in_days: 20) }
+    let(:course2) { FactoryBot.create(:course, language: 'en', calculated_duration_in_days: 20) }
 
     it 'assigns all courses as @courses' do
       get :index, params: {}
@@ -87,7 +87,7 @@ RSpec.describe CoursesController, type: :controller do
     end
 
     it 'assigns nil as @has_enrolled if a provider connector is present but does not support to create enrollments' do
-      FactoryGirl.create(:oauth_mooc_provider_user, user: user, mooc_provider: third_mooc_provider)
+      FactoryBot.create(:oauth_mooc_provider_user, user: user, mooc_provider: third_mooc_provider)
       get :enroll_course, params: {id: third_course.to_param}
       expect(assigns(:has_enrolled)).to eq nil
     end
@@ -118,7 +118,7 @@ RSpec.describe CoursesController, type: :controller do
     end
 
     it 'assigns nil as @has_unenrolled if a provider connector is present but does not support to delete enrollments' do
-      FactoryGirl.create(:oauth_mooc_provider_user, user: user, mooc_provider: third_mooc_provider)
+      FactoryBot.create(:oauth_mooc_provider_user, user: user, mooc_provider: third_mooc_provider)
       get :unenroll_course, params: {id: third_course.to_param}
       expect(assigns(:has_unenrolled)).to eq nil
     end
@@ -137,11 +137,11 @@ RSpec.describe CoursesController, type: :controller do
 
   describe 'POST send_evaluation' do
     let(:evaluation) do
-      FactoryGirl.create(:full_evaluation, user_id: user.id, course_id: course.id,
-                                           rating: 1,
-                                           course_status: :aborted,
-                                           rated_anonymously: false,
-                                           description: 'blub blub')
+      FactoryBot.create(:full_evaluation, user_id: user.id, course_id: course.id,
+                                          rating: 1,
+                                          course_status: :aborted,
+                                          rated_anonymously: false,
+                                          description: 'blub blub')
     end
 
     it 'throws an error when rating is not within accepted range' do

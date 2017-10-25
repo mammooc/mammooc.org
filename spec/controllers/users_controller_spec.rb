@@ -4,38 +4,38 @@ require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
   let!(:user) { User.create!(first_name: 'Max', last_name: 'Mustermann', password: '12345678') }
-  let!(:primary_email) { FactoryGirl.create(:user_email, user: user, is_primary: true) }
-  let(:another_user) { FactoryGirl.create :user }
+  let!(:primary_email) { FactoryBot.create(:user_email, user: user, is_primary: true) }
+  let(:another_user) { FactoryBot.create :user }
 
   let!(:course_enrollments_visibility_settings) do
-    setting = FactoryGirl.create :user_setting, name: :course_enrollments_visibility, user: user
-    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
-    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    setting = FactoryBot.create :user_setting, name: :course_enrollments_visibility, user: user
+    FactoryBot.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryBot.create :user_setting_entry, key: :users, value: [], setting: setting
     setting
   end
   let!(:course_results_visibility_settings) do
-    setting = FactoryGirl.create :user_setting, name: :course_results_visibility, user: user
-    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
-    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    setting = FactoryBot.create :user_setting, name: :course_results_visibility, user: user
+    FactoryBot.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryBot.create :user_setting_entry, key: :users, value: [], setting: setting
     setting
   end
   let!(:course_progress_visibility_settings) do
-    setting = FactoryGirl.create :user_setting, name: :course_progress_visibility, user: user
-    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
-    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    setting = FactoryBot.create :user_setting, name: :course_progress_visibility, user: user
+    FactoryBot.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryBot.create :user_setting_entry, key: :users, value: [], setting: setting
     setting
   end
   let!(:profile_visibility_settings) do
-    setting = FactoryGirl.create :user_setting, name: :profile_visibility, user: user
-    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
-    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    setting = FactoryBot.create :user_setting, name: :profile_visibility, user: user
+    FactoryBot.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryBot.create :user_setting_entry, key: :users, value: [], setting: setting
     setting
   end
 
-  let!(:open_hpi) { FactoryGirl.create(:mooc_provider, name: 'openHPI', api_support_state: :naive) }
-  let!(:open_sap) { FactoryGirl.create(:mooc_provider, name: 'openSAP', api_support_state: :naive) }
-  let!(:coursera) { FactoryGirl.create(:mooc_provider, name: 'coursera', api_support_state: :nil) }
-  let!(:other_mooc_provider) { FactoryGirl.create(:mooc_provider) }
+  let!(:open_hpi) { FactoryBot.create(:mooc_provider, name: 'openHPI', api_support_state: :naive) }
+  let!(:open_sap) { FactoryBot.create(:mooc_provider, name: 'openSAP', api_support_state: :naive) }
+  let!(:coursera) { FactoryBot.create(:mooc_provider, name: 'coursera', api_support_state: :nil) }
+  let!(:other_mooc_provider) { FactoryBot.create(:mooc_provider) }
 
   before do
     sign_in user
@@ -73,12 +73,12 @@ RSpec.describe UsersController, type: :controller do
       end
 
       it 'assigns the requested user as @user' do
-        put :update, params: {id: user.to_param, user: FactoryGirl.attributes_for(:user)}
+        put :update, params: {id: user.to_param, user: FactoryBot.attributes_for(:user)}
         expect(assigns(:user)).to eq(user)
       end
 
       it 'redirects to the user' do
-        put :update, params: {id: user.to_param, user: FactoryGirl.attributes_for(:user)}
+        put :update, params: {id: user.to_param, user: FactoryBot.attributes_for(:user)}
         expect(response).to redirect_to(user)
       end
     end
@@ -101,7 +101,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it 'deletes group memberships when deleting a user' do
-      created_group = FactoryGirl.create(:group, users: [user])
+      created_group = FactoryBot.create(:group, users: [user])
       group = Group.find(created_group.id)
       delete :destroy, params: {id: user.to_param}
       expect(group.users).not_to include(user)
@@ -129,9 +129,9 @@ RSpec.describe UsersController, type: :controller do
     render_views
     let(:json) { JSON.parse(response.body) }
 
-    let!(:open_hpi_connection) { FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: open_hpi) }
-    let!(:open_sap_connection) { FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: open_sap) }
-    let!(:coursera_connection) { FactoryGirl.create(:oauth_mooc_provider_user, user: user, mooc_provider: coursera) }
+    let!(:open_hpi_connection) { FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: open_hpi) }
+    let!(:open_sap_connection) { FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: open_sap) }
+    let!(:coursera_connection) { FactoryBot.create(:oauth_mooc_provider_user, user: user, mooc_provider: coursera) }
 
     it 'synchronizes all available user data and redirects to the dashboard_path' do
       expect_any_instance_of(OpenHPIUserWorker).to receive(:perform).with([user.id])
@@ -187,8 +187,8 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it 'assigns sorted user_emails to @emails' do
-      second_email = FactoryGirl.create(:user_email, address: 'aaaa@example.com', user: user, is_primary: false)
-      third_email = FactoryGirl.create(:user_email, address: 'bbbbb@example.com', user: user, is_primary: false)
+      second_email = FactoryBot.create(:user_email, address: 'aaaa@example.com', user: user, is_primary: false)
+      third_email = FactoryBot.create(:user_email, address: 'bbbbb@example.com', user: user, is_primary: false)
       get :settings, params: {id: user.id}
       expect(assigns(:emails)).to match_array([primary_email, second_email, third_email])
     end
@@ -433,7 +433,7 @@ RSpec.describe UsersController, type: :controller do
       end
 
       it 'does not try to destroy a connection twice' do
-        FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: open_hpi)
+        FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: open_hpi)
         get :revoke_mooc_provider_connection, params: {format: :json, id: user.to_param, mooc_provider: open_hpi.to_param}
         expect(assigns(:revoked_connection)).to eq true
         expect(json).to include 'partial'
@@ -477,7 +477,7 @@ RSpec.describe UsersController, type: :controller do
       end
 
       it 'does not try to destroy a connection twice' do
-        FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: open_sap)
+        FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: open_sap)
         get :revoke_mooc_provider_connection, params: {format: :json, id: user.to_param, mooc_provider: open_sap.to_param}
         expect(assigns(:revoked_connection)).to eq true
         expect(json).to include 'partial'
@@ -558,7 +558,7 @@ RSpec.describe UsersController, type: :controller do
 
   describe 'POST set_setting' do
     let(:old_value) { course_enrollments_visibility_settings.value(:groups) }
-    let(:new_value) { [FactoryGirl.create(:group).id] }
+    let(:new_value) { [FactoryBot.create(:group).id] }
 
     it 'updates the setting entry' do
       expect do
@@ -581,7 +581,7 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe 'change email' do
-    let!(:second_email) { FactoryGirl.create(:user_email, user: user, is_primary: false) }
+    let!(:second_email) { FactoryBot.create(:user_email, user: user, is_primary: false) }
 
     it 'reset session variable for email marked as deleted' do
       session[:deleted_user_emails] = [second_email.id]
@@ -622,7 +622,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it 'updates existing, change primary, add new emails and delete specified emails' do
-      third_email = FactoryGirl.create(:user_email, user: user, is_primary: false)
+      third_email = FactoryBot.create(:user_email, user: user, is_primary: false)
       session[:deleted_user_emails] = [second_email.id]
       get :change_email, params: {id: user.id, user: {user_email: {address_4: 'this_is_a_new_email@example.com', address_5: 'this_is_another_new_email@example.com', "address_#{third_email.id}": 'newAddress@example.com', is_primary: third_email.id}, index: 5}}
       expect(UserEmail.where(user: user).length).to eq 4
@@ -637,7 +637,7 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe 'GET completions' do
-    let(:course) { FactoryGirl.create(:course) }
+    let(:course) { FactoryBot.create(:course) }
 
     let(:valid_attributes) do
       {user: user, course: course}

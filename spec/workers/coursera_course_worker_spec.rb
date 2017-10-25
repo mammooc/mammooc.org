@@ -4,7 +4,7 @@ require 'rails_helper'
 require 'support/course_worker_spec_helper'
 
 RSpec.describe CourseraCourseWorker do
-  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'coursera') }
+  let!(:mooc_provider) { FactoryBot.create(:mooc_provider, name: 'coursera') }
 
   let(:coursera_course_worker) { described_class.new }
 
@@ -149,8 +149,8 @@ RSpec.describe CourseraCourseWorker do
 
   let(:json_course_data) { JSON.parse raw_course_data }
   let(:response_course_data) { [json_course_data] }
-  let!(:free_course_track_type) { FactoryGirl.create :course_track_type, type_of_achievement: 'nothing' }
-  let!(:certificate_course_track_type) { FactoryGirl.create :certificate_course_track_type }
+  let!(:free_course_track_type) { FactoryBot.create :course_track_type, type_of_achievement: 'nothing' }
+  let!(:certificate_course_track_type) { FactoryBot.create :certificate_course_track_type }
 
   it 'delivers MOOCProvider' do
     expect(coursera_course_worker.mooc_provider).to eq mooc_provider

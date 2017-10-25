@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :group do
     sequence(:name) {|n| "Gruppe #{n}" }
     description 'Lorem ipsum Bacon Soda.'
-    users { [FactoryGirl.create(:user), FactoryGirl.create(:user)] }
+    users { [FactoryBot.create(:user), FactoryBot.create(:user)] }
   end
 end

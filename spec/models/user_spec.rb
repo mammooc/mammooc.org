@@ -4,11 +4,11 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   describe 'handles Groups when destroyed' do
-    let!(:user) { FactoryGirl.create(:user) }
-    let(:second_user) { FactoryGirl.create(:user) }
-    let(:third_user) { FactoryGirl.create(:user) }
-    let(:one_member_group) { FactoryGirl.create(:group, users: [user]) }
-    let(:many_members_group) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
+    let!(:user) { FactoryBot.create(:user) }
+    let(:second_user) { FactoryBot.create(:user) }
+    let(:third_user) { FactoryBot.create(:user) }
+    let(:one_member_group) { FactoryBot.create(:group, users: [user]) }
+    let(:many_members_group) { FactoryBot.create(:group, users: [user, second_user, third_user]) }
 
     it 'deletes a user' do
       user_count = described_class.count
@@ -23,8 +23,8 @@ RSpec.describe User, type: :model do
     end
 
     it 'deletes a user and every email address' do
-      FactoryGirl.create(:user_email, user: user, address: 'second@example.com', is_primary: false)
-      FactoryGirl.create(:user_email, user: user, address: 'third@example.com', is_primary: false)
+      FactoryBot.create(:user_email, user: user, address: 'second@example.com', is_primary: false)
+      FactoryBot.create(:user_email, user: user, address: 'third@example.com', is_primary: false)
       expect(UserEmail.where(user: user.id).size).to eq 3
       expect { user.destroy! }.not_to raise_error
       expect(UserEmail.where(user: user.id).size).to eq 0
@@ -56,8 +56,8 @@ RSpec.describe User, type: :model do
   end
 
   describe 'handles Evaluations when destroyed' do
-    let!(:user) { FactoryGirl.create(:user) }
-    let(:evaluation) { FactoryGirl.create(:full_evaluation, user_id: user.id) }
+    let!(:user) { FactoryBot.create(:user) }
+    let(:evaluation) { FactoryBot.create(:full_evaluation, user_id: user.id) }
 
     it 'set all evaluations to anonym and delete user_id' do
       evaluation.save
@@ -69,8 +69,8 @@ RSpec.describe User, type: :model do
   end
 
   describe 'handles Completions (and Certificates) when destroyed' do
-    let!(:user) { FactoryGirl.create(:user) }
-    let!(:completion) { FactoryGirl.create(:full_completion, user_id: user.id) }
+    let!(:user) { FactoryBot.create(:user) }
+    let!(:completion) { FactoryBot.create(:full_completion, user_id: user.id) }
 
     it 'deletes all comlpetions and the associated certificates' do
       expect(Completion.count).to eq 1
@@ -82,32 +82,32 @@ RSpec.describe User, type: :model do
   end
 
   describe 'handle recommendations when destroyed' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:second_user) { FactoryGirl.create(:user) }
-    let(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:second_user) { FactoryBot.create(:user) }
+    let(:group) { FactoryBot.create(:group, users: [user, second_user]) }
 
     it 'deletes recommendations where user is author' do
-      FactoryGirl.create(:user_recommendation, author: user)
-      FactoryGirl.create(:group_recommendation, author: user)
-      FactoryGirl.create(:group_recommendation)
+      FactoryBot.create(:user_recommendation, author: user)
+      FactoryBot.create(:group_recommendation, author: user)
+      FactoryBot.create(:group_recommendation)
       expect(Recommendation.count).to eq 3
       expect { user.destroy! }.not_to raise_error
       expect(Recommendation.count).to eq 1
     end
 
     it 'deletes user from recommendations where user is recipient' do
-      FactoryGirl.create(:user_recommendation, users: [user])
-      FactoryGirl.create(:user_recommendation, users: [user, second_user])
-      FactoryGirl.create(:group_recommendation, group: group, users: group.users)
+      FactoryBot.create(:user_recommendation, users: [user])
+      FactoryBot.create(:user_recommendation, users: [user, second_user])
+      FactoryBot.create(:group_recommendation, group: group, users: group.users)
       expect(Recommendation.count).to eq 3
       expect { user.destroy! }.not_to raise_error
       expect(Recommendation.count).to eq 2
     end
 
     it 'deletes recommendation if user was last recipient' do
-      FactoryGirl.create(:user_recommendation, users: [user])
-      FactoryGirl.create(:user_recommendation, users: [user])
-      FactoryGirl.create(:group_recommendation, group: group, users: group.users)
+      FactoryBot.create(:user_recommendation, users: [user])
+      FactoryBot.create(:user_recommendation, users: [user])
+      FactoryBot.create(:group_recommendation, group: group, users: group.users)
       expect(Recommendation.count).to eq 3
       expect { user.destroy! }.not_to raise_error
       expect(Recommendation.count).to eq 1
@@ -116,43 +116,43 @@ RSpec.describe User, type: :model do
 
   describe 'factories' do
     it 'has valid factory' do
-      expect(FactoryGirl.build_stubbed(:user)).to be_valid
+      expect(FactoryBot.build_stubbed(:user)).to be_valid
     end
 
     it 'requires first name' do
-      expect(FactoryGirl.build_stubbed(:user, first_name: '')).not_to be_valid
+      expect(FactoryBot.build_stubbed(:user, first_name: '')).not_to be_valid
     end
 
     it 'requires last name' do
-      expect(FactoryGirl.build_stubbed(:user, last_name: '')).not_to be_valid
+      expect(FactoryBot.build_stubbed(:user, last_name: '')).not_to be_valid
     end
 
     it 'requires email' do
-      expect(FactoryGirl.build_stubbed(:user, primary_email: '')).not_to be_valid
+      expect(FactoryBot.build_stubbed(:user, primary_email: '')).not_to be_valid
     end
 
     it 'uses the provided primary email for created users' do
       primary_email = 'test@example.com'
-      user = FactoryGirl.create(:user, primary_email: 'test@example.com')
+      user = FactoryBot.create(:user, primary_email: 'test@example.com')
       user.primary_email = primary_email
     end
 
     it 'uses the provided primary email even for stubbed users' do
       primary_email = 'test@example.com'
-      user = FactoryGirl.build_stubbed(:user, primary_email: 'test@example.com')
+      user = FactoryBot.build_stubbed(:user, primary_email: 'test@example.com')
       user.primary_email = primary_email
     end
 
     it 'allows to users to be created without a primary email' do
-      user1 = FactoryGirl.create(:user)
-      user2 = FactoryGirl.create(:user)
+      user1 = FactoryBot.create(:user)
+      user2 = FactoryBot.create(:user)
       expect(user1).to be_valid
       expect(user2).to be_valid
       expect(user1.primary_email).not_to eq user2.primary_email
     end
 
     it 'creates a user with an identity' do
-      user = FactoryGirl.create(:OmniAuthUser)
+      user = FactoryBot.create(:OmniAuthUser)
       expect(user).to be_valid
       expect(user.password_autogenerated).to eq true
       expect(UserEmail.find_by(user: user, is_primary: true).autogenerated?).to eq true
@@ -161,38 +161,38 @@ RSpec.describe User, type: :model do
   end
 
   describe 'common_groups_with_user(other_user)' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:other_user) { FactoryGirl.create(:user) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:other_user) { FactoryBot.create(:user) }
 
     it 'displays only common groups' do
-      FactoryGirl.create(:group, users: [user])
-      group = FactoryGirl.create(:group, users: [user, other_user])
+      FactoryBot.create(:group, users: [user])
+      group = FactoryBot.create(:group, users: [user, other_user])
       expect(user.common_groups_with_user(other_user)).to match([group])
     end
 
     it 'displays all groups if they are equal' do
-      group1 = FactoryGirl.create(:group, users: [user, other_user])
-      group2 = FactoryGirl.create(:group, users: [user, other_user])
+      group1 = FactoryBot.create(:group, users: [user, other_user])
+      group2 = FactoryBot.create(:group, users: [user, other_user])
       expect(user.common_groups_with_user(other_user)).to match_array([group1, group2])
     end
 
     it 'is empty if there are no common groups' do
-      FactoryGirl.create(:group, users: [user])
-      FactoryGirl.create(:group, users: [other_user])
+      FactoryBot.create(:group, users: [user])
+      FactoryBot.create(:group, users: [other_user])
       expect(user.common_groups_with_user(other_user)).to match([])
     end
   end
 
   describe 'primary_email' do
     it 'returns only the primary email address which belongs to the user' do
-      user = FactoryGirl.create(:user, primary_email: 'test@example.com')
-      FactoryGirl.create(:user_email, user: user, address: 'second@example.com', is_primary: false)
+      user = FactoryBot.create(:user, primary_email: 'test@example.com')
+      FactoryBot.create(:user_email, user: user, address: 'second@example.com', is_primary: false)
       expect(user.primary_email).to eq 'test@example.com'
       expect(user.emails.pluck(:address)).to match_array ['test@example.com', 'second@example.com']
     end
 
     it 'returns nil if no address could be found (what should never happen)' do
-      user = FactoryGirl.create(:user, primary_email: 'test@example.com')
+      user = FactoryBot.create(:user, primary_email: 'test@example.com')
       UserEmail.skip_callback(:destroy, :before, :validate_destroy)
       UserEmail.where(user: user).destroy_all
       expect(user.reload.primary_email).to eq nil
@@ -201,7 +201,7 @@ RSpec.describe User, type: :model do
 
   describe 'primary_email=' do
     it 'creates a new UserEmail for the given primary email address' do
-      user_data = FactoryGirl.build_stubbed(:user)
+      user_data = FactoryBot.build_stubbed(:user)
       user = described_class.new
       user.first_name = user_data.first_name
       user.last_name = user_data.last_name
@@ -213,7 +213,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'updates the primary email without creating a new UserEmail object' do
-      user = FactoryGirl.build(:user, primary_email: 'test@example.com')
+      user = FactoryBot.build(:user, primary_email: 'test@example.com')
       user.save!
       expect do
         user.primary_email = 'abc@example.com'
@@ -224,7 +224,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'updates a user' do
-      user = FactoryGirl.build(:user, primary_email: 'test@example.com')
+      user = FactoryBot.build(:user, primary_email: 'test@example.com')
       user.save
       expect do
         user.update!(primary_email: 'new@email.com')
@@ -237,35 +237,35 @@ RSpec.describe User, type: :model do
 
   describe 'find_by_primary_email' do
     it 'returns the requested user' do
-      user = FactoryGirl.create(:user, primary_email: 'test@example.com')
+      user = FactoryBot.create(:user, primary_email: 'test@example.com')
       expect(described_class.find_by_primary_email('test@example.com')).to eq user # rubocop:disable Rails/DynamicFindBy
     end
 
     it 'returns nil if no user could be found' do
-      FactoryGirl.create(:user, primary_email: 'test@example.com')
+      FactoryBot.create(:user, primary_email: 'test@example.com')
       expect(described_class.find_by_primary_email('abc@example.com')).to be_nil # rubocop:disable Rails/DynamicFindBy
     end
 
     it 'does not find other addresses which are not primary' do
-      user = FactoryGirl.create(:user, primary_email: 'test@example.com')
-      secondary_email = FactoryGirl.create(:user_email, user: user, address: 'abc@example.com', is_primary: false)
+      user = FactoryBot.create(:user, primary_email: 'test@example.com')
+      secondary_email = FactoryBot.create(:user_email, user: user, address: 'abc@example.com', is_primary: false)
       expect(described_class.find_by_primary_email('abc@example.com')).to be_nil # rubocop:disable Rails/DynamicFindBy
       expect(UserEmail.find_by(address: 'abc@example.com')).to eq secondary_email
     end
   end
 
   describe 'connected_users_ids' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:second_user) { FactoryGirl.create(:user) }
-    let(:third_user) { FactoryGirl.create(:user) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:second_user) { FactoryBot.create(:user) }
+    let(:third_user) { FactoryBot.create(:user) }
     let(:userlist) do
-      result = FactoryGirl.create_list(:user, 5)
+      result = FactoryBot.create_list(:user, 5)
       result += [user]
       result += [third_user]
       result
     end
-    let!(:group1) { FactoryGirl.create(:group, users: userlist) }
-    let!(:group2) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
+    let!(:group1) { FactoryBot.create(:group, users: userlist) }
+    let!(:group2) { FactoryBot.create(:group, users: [user, second_user, third_user]) }
 
     it 'returns the ids of all users of all my groups' do
       result = user.connected_users_ids
@@ -286,17 +286,17 @@ RSpec.describe User, type: :model do
   end
 
   describe 'connected_users' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:second_user) { FactoryGirl.create(:user) }
-    let(:third_user) { FactoryGirl.create(:user) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:second_user) { FactoryBot.create(:user) }
+    let(:third_user) { FactoryBot.create(:user) }
     let(:userlist) do
-      result = FactoryGirl.create_list(:user, 5)
+      result = FactoryBot.create_list(:user, 5)
       result += [user]
       result += [third_user]
       result
     end
-    let!(:group1) { FactoryGirl.create(:group, users: userlist) }
-    let!(:group2) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
+    let!(:group1) { FactoryBot.create(:group, users: userlist) }
+    let!(:group2) { FactoryBot.create(:group, users: [user, second_user, third_user]) }
 
     it 'returns all users of all my groups' do
       result = user.connected_users
@@ -317,9 +317,9 @@ RSpec.describe User, type: :model do
   end
 
   describe 'connected_groups_ids' do
-    let(:user) { FactoryGirl.create(:user) }
-    let!(:group1) { FactoryGirl.create(:group, users: [user]) }
-    let!(:group2) { FactoryGirl.create(:group, users: [user]) }
+    let(:user) { FactoryBot.create(:user) }
+    let!(:group1) { FactoryBot.create(:group, users: [user]) }
+    let!(:group2) { FactoryBot.create(:group, users: [user]) }
 
     it 'returns all group_ids' do
       result = user.connected_groups_ids
@@ -335,23 +335,23 @@ RSpec.describe User, type: :model do
 
   describe 'save_primary_email' do
     it 'returns without saving if @primary_email_object is undefined' do
-      user = FactoryGirl.create(:user, primary_email: 'test@example.com')
+      user = FactoryBot.create(:user, primary_email: 'test@example.com')
       user.instance_variable_set(:@primary_email_object, nil)
       expect(user.send(:save_primary_email)).to be_nil
     end
 
     it 'sets the user if necessary' do
-      user = FactoryGirl.build(:user, primary_email: 'test@example.com')
-      user_email = FactoryGirl.build(:user_email, user: nil, address: 'test@example.com')
+      user = FactoryBot.build(:user, primary_email: 'test@example.com')
+      user_email = FactoryBot.build(:user_email, user: nil, address: 'test@example.com')
       user.instance_variable_set(:@primary_email_object, user_email)
       expect(user.send(:save_primary_email)).to be true
       expect(described_class.find_by_primary_email('test@example.com')).to eq user # rubocop:disable Rails/DynamicFindBy
     end
 
     it 'raises an Exception if the @primary_email_object is valid for another user' do
-      user = FactoryGirl.build(:user, primary_email: 'test@example.com')
-      another_user = FactoryGirl.create(:user, primary_email: 'test2@example.com')
-      user_email = FactoryGirl.build(:user_email, user: another_user, address: 'test@example.com')
+      user = FactoryBot.build(:user, primary_email: 'test@example.com')
+      another_user = FactoryBot.create(:user, primary_email: 'test2@example.com')
+      user_email = FactoryBot.build(:user_email, user: another_user, address: 'test@example.com')
       user.instance_variable_set(:@primary_email_object, user_email)
       expect { user.send(:save_primary_email) }.to raise_error NoMethodError
       expect(described_class.find_by_primary_email('test2@example.com')).to eq another_user # rubocop:disable Rails/DynamicFindBy
@@ -361,12 +361,12 @@ RSpec.describe User, type: :model do
 
   describe 'self.find_first_by_auth_conditions' do
     it 'returns the saved user' do
-      user = FactoryGirl.create(:user, primary_email: 'test@example.com')
+      user = FactoryBot.create(:user, primary_email: 'test@example.com')
       expect(described_class.find_first_by_auth_conditions(primary_email: user.primary_email)).to eq user
     end
 
     it 'returns nil if a user could not be found' do
-      FactoryGirl.create(:user, primary_email: 'test@example.com')
+      FactoryBot.create(:user, primary_email: 'test@example.com')
       expect(described_class.find_first_by_auth_conditions(primary_email: 'invalid')).to be_nil
     end
 
@@ -379,7 +379,7 @@ RSpec.describe User, type: :model do
 
   describe 'self.find_for_omniauth' do
     it 'creates a new user account with the given authentication infos including an email address' do
-      identity = FactoryGirl.build_stubbed(:user_identity)
+      identity = FactoryBot.build_stubbed(:user_identity)
       authentication_info = OmniAuth::AuthHash.new(
         provider: identity.omniauth_provider,
         uid: identity.provider_user_id,
@@ -407,7 +407,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'creates a new user account with the given authentication infos even when no email address is provided' do
-      identity = FactoryGirl.build_stubbed(:user_identity)
+      identity = FactoryBot.build_stubbed(:user_identity)
       authentication_info = OmniAuth::AuthHash.new(
         provider: identity.omniauth_provider,
         uid: identity.provider_user_id,
@@ -435,7 +435,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'creates a new user account with the given authentication infos and no profile image if the image URL returns an empty file name' do
-      identity = FactoryGirl.build_stubbed(:user_identity)
+      identity = FactoryBot.build_stubbed(:user_identity)
       authentication_info = OmniAuth::AuthHash.new(
         provider: identity.omniauth_provider,
         uid: identity.provider_user_id,
@@ -459,7 +459,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'returns the existing user if already saved and does not create an empty new email address' do
-      user = FactoryGirl.create(:OmniAuthUser)
+      user = FactoryBot.create(:OmniAuthUser)
       identity = UserIdentity.find_by(user: user)
       authentication_info = OmniAuth::AuthHash.new(
         provider: identity.omniauth_provider,
@@ -475,7 +475,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'returns the existing user if already saved and does not create the email address again' do
-      user = FactoryGirl.create(:OmniAuthUser)
+      user = FactoryBot.create(:OmniAuthUser)
       identity = UserIdentity.find_by(user: user)
       authentication_info = OmniAuth::AuthHash.new(
         provider: identity.omniauth_provider,
@@ -491,7 +491,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'returns the existing user if already saved and adds the email address if not saved yet' do
-      user = FactoryGirl.create(:OmniAuthUser)
+      user = FactoryBot.create(:OmniAuthUser)
       identity = UserIdentity.find_by(user: user)
       authentication_info = OmniAuth::AuthHash.new(
         provider: identity.omniauth_provider,
@@ -508,7 +508,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'associates the user identity with the user if signed in' do
-      user = FactoryGirl.create(:OmniAuthUser)
+      user = FactoryBot.create(:OmniAuthUser)
       UserIdentity.find_by(user: user)
       authentication_info = OmniAuth::AuthHash.new(
         provider: 'second_provider',
@@ -524,7 +524,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'does not create the same user identity again if the user is signed in' do
-      user = FactoryGirl.create(:OmniAuthUser)
+      user = FactoryBot.create(:OmniAuthUser)
       identity = UserIdentity.find_by(user: user)
       authentication_info = OmniAuth::AuthHash.new(
         provider: identity.omniauth_provider,
@@ -540,7 +540,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'does not return a user if identity is unknown' do
-      user = FactoryGirl.create(:user)
+      user = FactoryBot.create(:user)
       authentication_info = OmniAuth::AuthHash.new(
         provider: 'openProvider',
         uid: '123',
@@ -557,7 +557,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'first_name_autogenerated?' do
-    let!(:user) { FactoryGirl.create(:user) }
+    let!(:user) { FactoryBot.create(:user) }
 
     it 'response false if no user identity could be found' do
       expect(user.first_name_autogenerated?).to eq false
@@ -578,7 +578,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'last_name_autogenerated?' do
-    let!(:user) { FactoryGirl.create(:OmniAuthUser) }
+    let!(:user) { FactoryBot.create(:OmniAuthUser) }
 
     it 'response false if no user identity could be found' do
       expect(user.last_name_autogenerated?).to eq false
@@ -599,7 +599,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'primary_email_autogenerated?' do
-    let!(:user) { FactoryGirl.create(:OmniAuthUser) }
+    let!(:user) { FactoryBot.create(:OmniAuthUser) }
 
     it 'response false if primary_email is not autogenerated' do
       user.update!(primary_email: 'valid@example.com')
@@ -612,11 +612,11 @@ RSpec.describe User, type: :model do
   end
 
   describe 'groups_sorted_by_admin_state_and_name' do
-    let!(:user) { FactoryGirl.create(:user) }
-    let!(:group1) { FactoryGirl.create(:group, users: [user], name: 'C') }
-    let!(:group2) { FactoryGirl.create(:group, users: [user], name: 'B') }
-    let!(:group3) { FactoryGirl.create(:group, users: [user], name: 'D') }
-    let!(:group4) { FactoryGirl.create(:group, users: [user], name: 'A') }
+    let!(:user) { FactoryBot.create(:user) }
+    let!(:group1) { FactoryBot.create(:group, users: [user], name: 'C') }
+    let!(:group2) { FactoryBot.create(:group, users: [user], name: 'B') }
+    let!(:group3) { FactoryBot.create(:group, users: [user], name: 'D') }
+    let!(:group4) { FactoryBot.create(:group, users: [user], name: 'A') }
 
     before do
       UserGroup.set_is_admin(group1.id, user.id, true)
@@ -648,8 +648,8 @@ RSpec.describe User, type: :model do
   end
 
   describe 'setting(key, create_new)' do
-    let(:user) { FactoryGirl.create :user }
-    let(:user_setting) { FactoryGirl.create :user_setting, user: user }
+    let(:user) { FactoryBot.create :user }
+    let(:user_setting) { FactoryBot.create :user_setting, user: user }
 
     it 'returns UserSetting object' do
       expect(user.setting(user_setting.name)).to eq user_setting
@@ -663,14 +663,14 @@ RSpec.describe User, type: :model do
   end
 
   describe 'course_enrollments_visible_for_user' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:second_user) { FactoryGirl.create(:user) }
-    let(:third_user) { FactoryGirl.create(:user) }
-    let(:fourth_user) { FactoryGirl.create(:user) }
-    let(:group) { FactoryGirl.create(:group, users: [user, fourth_user]) }
-    let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: user) }
-    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'users', value: [second_user.id]) }
-    let!(:user_setting_entry2) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:second_user) { FactoryBot.create(:user) }
+    let(:third_user) { FactoryBot.create(:user) }
+    let(:fourth_user) { FactoryBot.create(:user) }
+    let(:group) { FactoryBot.create(:group, users: [user, fourth_user]) }
+    let(:user_setting) { FactoryBot.create(:user_setting, name: :course_enrollments_visibility, user: user) }
+    let!(:user_setting_entry) { FactoryBot.create(:user_setting_entry, setting: user_setting, key: 'users', value: [second_user.id]) }
+    let!(:user_setting_entry2) { FactoryBot.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
 
     it 'returns true if the user is allowed to see course enrollments' do
       expect(user.course_enrollments_visible_for_user(second_user)).to eq true
@@ -686,14 +686,14 @@ RSpec.describe User, type: :model do
   end
 
   describe 'course_results_visible_for_user' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:second_user) { FactoryGirl.create(:user) }
-    let(:third_user) { FactoryGirl.create(:user) }
-    let(:fourth_user) { FactoryGirl.create(:user) }
-    let(:group) { FactoryGirl.create(:group, users: [user, fourth_user]) }
-    let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_results_visibility, user: user) }
-    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'users', value: [second_user.id]) }
-    let!(:user_setting_entry2) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:second_user) { FactoryBot.create(:user) }
+    let(:third_user) { FactoryBot.create(:user) }
+    let(:fourth_user) { FactoryBot.create(:user) }
+    let(:group) { FactoryBot.create(:group, users: [user, fourth_user]) }
+    let(:user_setting) { FactoryBot.create(:user_setting, name: :course_results_visibility, user: user) }
+    let!(:user_setting_entry) { FactoryBot.create(:user_setting_entry, setting: user_setting, key: 'users', value: [second_user.id]) }
+    let!(:user_setting_entry2) { FactoryBot.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
 
     it 'returns true if the user is allowed to see course results' do
       expect(user.course_results_visible_for_user(second_user)).to eq true
@@ -709,14 +709,14 @@ RSpec.describe User, type: :model do
   end
 
   describe 'profile_visible_for_user' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:second_user) { FactoryGirl.create(:user) }
-    let(:third_user) { FactoryGirl.create(:user) }
-    let(:fourth_user) { FactoryGirl.create(:user) }
-    let(:group) { FactoryGirl.create(:group, users: [user, fourth_user]) }
-    let(:user_setting) { FactoryGirl.create(:user_setting, name: :profile_visibility, user: user) }
-    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'users', value: [second_user.id]) }
-    let!(:user_setting_entry2) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:second_user) { FactoryBot.create(:user) }
+    let(:third_user) { FactoryBot.create(:user) }
+    let(:fourth_user) { FactoryBot.create(:user) }
+    let(:group) { FactoryBot.create(:group, users: [user, fourth_user]) }
+    let(:user_setting) { FactoryBot.create(:user_setting, name: :profile_visibility, user: user) }
+    let!(:user_setting_entry) { FactoryBot.create(:user_setting_entry, setting: user_setting, key: 'users', value: [second_user.id]) }
+    let!(:user_setting_entry2) { FactoryBot.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
 
     it 'returns true if the user is allowed to see the profile' do
       expect(user.profile_visible_for_user(second_user)).to eq true
@@ -732,11 +732,11 @@ RSpec.describe User, type: :model do
   end
 
   describe 'course_enrollments_visible_for_group' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:group) { FactoryGirl.create(:group, users: [user]) }
-    let(:second_group) { FactoryGirl.create(:group, users: [user]) }
-    let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: user) }
-    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:group) { FactoryBot.create(:group, users: [user]) }
+    let(:second_group) { FactoryBot.create(:group, users: [user]) }
+    let(:user_setting) { FactoryBot.create(:user_setting, name: :course_enrollments_visibility, user: user) }
+    let!(:user_setting_entry) { FactoryBot.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
 
     it 'returns true if the group is allowed to see course enrollments' do
       expect(user.course_enrollments_visible_for_group(group)).to eq true
@@ -748,11 +748,11 @@ RSpec.describe User, type: :model do
   end
 
   describe 'course_results_visible_for_group' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:group) { FactoryGirl.create(:group, users: [user]) }
-    let(:second_group) { FactoryGirl.create(:group, users: [user]) }
-    let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_results_visibility, user: user) }
-    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:group) { FactoryBot.create(:group, users: [user]) }
+    let(:second_group) { FactoryBot.create(:group, users: [user]) }
+    let(:user_setting) { FactoryBot.create(:user_setting, name: :course_results_visibility, user: user) }
+    let!(:user_setting_entry) { FactoryBot.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
 
     it 'returns true if the group is allowed to see course enrollments' do
       expect(user.course_results_visible_for_group(group)).to eq true
@@ -764,10 +764,10 @@ RSpec.describe User, type: :model do
   end
 
   describe 'collect new courses' do
-    let!(:user) { FactoryGirl.create(:user, last_newsletter_send_at: Time.zone.today - 5.days, newsletter_interval: 5) }
-    let!(:new_course) { FactoryGirl.create(:course, created_at: Time.zone.today) }
-    let!(:another_new_course) { FactoryGirl.create(:course, created_at: Time.zone.today - 3.days) }
-    let!(:old_course) { FactoryGirl.create(:course, created_at: Time.zone.today - 10.days) }
+    let!(:user) { FactoryBot.create(:user, last_newsletter_send_at: Time.zone.today - 5.days, newsletter_interval: 5) }
+    let!(:new_course) { FactoryBot.create(:course, created_at: Time.zone.today) }
+    let!(:another_new_course) { FactoryBot.create(:course, created_at: Time.zone.today - 3.days) }
+    let!(:old_course) { FactoryBot.create(:course, created_at: Time.zone.today - 10.days) }
 
     it 'returns courses created since last newsletter send for a user' do
       expect(described_class.collect_new_courses(user)).to include(new_course)

@@ -4,7 +4,7 @@ require 'rails_helper'
 include ConnectorMapper
 
 RSpec.describe ConnectorMapper do
-  let(:mooc_provider) { FactoryGirl.create(:mooc_provider) }
+  let(:mooc_provider) { FactoryBot.create(:mooc_provider) }
 
   it 'returns no connector for unknown mooc_provider' do
     expect(get_connector_by_mooc_provider(mooc_provider)).to eq nil

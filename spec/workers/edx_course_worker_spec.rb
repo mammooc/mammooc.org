@@ -4,7 +4,7 @@ require 'rails_helper'
 require 'nokogiri'
 
 RSpec.describe EdxCourseWorker do
-  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'edX') }
+  let!(:mooc_provider) { FactoryBot.create(:mooc_provider, name: 'edX') }
 
   let(:edx_course_worker) { described_class.new }
 
@@ -87,10 +87,10 @@ This course is part of a five-part Mobile Application Experiences series:
     </rss>'
   end
   let(:xml_course_data) { [Nokogiri::XML(course_data)] }
-  let!(:free_course_track_type) { FactoryGirl.create :course_track_type, type_of_achievement: 'nothing' }
-  let!(:certificate_course_track_type) { FactoryGirl.create :course_track_type, type_of_achievement: 'edx_verified_certificate' }
-  let!(:xseries_course_track_type) { FactoryGirl.create :course_track_type, type_of_achievement: 'edx_xseries_verified_certificate' }
-  let!(:profed_course_track_type) { FactoryGirl.create :course_track_type, type_of_achievement: 'edx_profed_certificate' }
+  let!(:free_course_track_type) { FactoryBot.create :course_track_type, type_of_achievement: 'nothing' }
+  let!(:certificate_course_track_type) { FactoryBot.create :course_track_type, type_of_achievement: 'edx_verified_certificate' }
+  let!(:xseries_course_track_type) { FactoryBot.create :course_track_type, type_of_achievement: 'edx_xseries_verified_certificate' }
+  let!(:profed_course_track_type) { FactoryBot.create :course_track_type, type_of_achievement: 'edx_profed_certificate' }
 
   it 'delivers MOOCProvider' do
     expect(edx_course_worker.mooc_provider).to eq mooc_provider

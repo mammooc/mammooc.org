@@ -4,7 +4,7 @@ require 'rails_helper'
 require 'support/course_worker_spec_helper'
 
 describe FutureLearnCourseWorker do
-  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'FutureLearn') }
+  let!(:mooc_provider) { FactoryBot.create(:mooc_provider, name: 'FutureLearn') }
 
   let(:future_learn_course_worker) do
     described_class.new
@@ -50,8 +50,8 @@ describe FutureLearnCourseWorker do
   end
 
   let(:courses_json) { JSON.parse courses_response }
-  let!(:free_course_track_type) { FactoryGirl.create :course_track_type, type_of_achievement: 'nothing' }
-  let!(:certificate_course_track_type) { FactoryGirl.create :certificate_course_track_type, type_of_achievement: 'certificate' }
+  let!(:free_course_track_type) { FactoryBot.create :course_track_type, type_of_achievement: 'nothing' }
+  let!(:certificate_course_track_type) { FactoryBot.create :certificate_course_track_type, type_of_achievement: 'certificate' }
 
   it 'delivers MOOCProvider' do
     expect(future_learn_course_worker.mooc_provider).to eq mooc_provider

@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe AbstractCourseWorker do
-  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider) }
-  let!(:course_list) { FactoryGirl.create_list(:full_course, 10, mooc_provider_id: mooc_provider.id) }
+  let!(:mooc_provider) { FactoryBot.create(:mooc_provider) }
+  let!(:course_list) { FactoryBot.create_list(:full_course, 10, mooc_provider_id: mooc_provider.id) }
 
   let(:abstract_course_worker) { described_class.new }
 

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe OpenWHOCourseWorker do
-  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openWHO') }
+  let!(:mooc_provider) { FactoryBot.create(:mooc_provider, name: 'openWHO') }
 
   let(:open_who_course_worker) { described_class.new }
 

@@ -7,7 +7,7 @@ RSpec.describe MoocProvidersController, type: :controller do
     {name: 'open_mammooc', logo_id: 'logo_open_mammooc.png'}
   end
 
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
 
   before do
     sign_in user

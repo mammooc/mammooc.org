@@ -3,15 +3,15 @@
 require 'rails_helper'
 
 RSpec.describe EvaluationsController, type: :controller do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
 
   before do
     sign_in user
   end
 
   describe 'POST process_feedback' do
-    let(:evaluation) { FactoryGirl.create(:full_evaluation) }
-    let(:own_evaluation) { FactoryGirl.create(:full_evaluation, user_id: user.id) }
+    let(:evaluation) { FactoryBot.create(:full_evaluation) }
+    let(:own_evaluation) { FactoryBot.create(:full_evaluation, user_id: user.id) }
 
     it 'increases rating_count by one when evaluation is marked as not helpful' do
       total_feedback_count = evaluation.total_feedback_count
@@ -44,15 +44,15 @@ RSpec.describe EvaluationsController, type: :controller do
   describe 'GET export' do
     let!(:mooc_provider) { MoocProvider.create(name: 'openHPI', logo_id: 'logo_openHPI.svg', url: 'https://example.com', api_support_state: :naive) }
     let!(:other_mooc_provider) { MoocProvider.create(name: 'openSAP', logo_id: 'logo_openSAP.svg', url: 'https://example.com', api_support_state: :naive) }
-    let!(:course) { FactoryGirl.create(:course, mooc_provider: mooc_provider) }
-    let!(:evaluation) { FactoryGirl.create(:full_evaluation, course: course, rating: 5) }
-    let!(:evaluation2) { FactoryGirl.create(:full_evaluation, course: course, rating: 10) }
-    let!(:evaluation12) { FactoryGirl.create(:full_evaluation, course: course, rating: 6) }
+    let!(:course) { FactoryBot.create(:course, mooc_provider: mooc_provider) }
+    let!(:evaluation) { FactoryBot.create(:full_evaluation, course: course, rating: 5) }
+    let!(:evaluation2) { FactoryBot.create(:full_evaluation, course: course, rating: 10) }
+    let!(:evaluation12) { FactoryBot.create(:full_evaluation, course: course, rating: 6) }
 
-    let!(:course2) { FactoryGirl.create(:course, mooc_provider: mooc_provider) }
-    let!(:evaluation3) { FactoryGirl.create(:full_evaluation, course: course2, rating: 2) }
-    let!(:other_course) { FactoryGirl.create(:course, mooc_provider: other_mooc_provider) }
-    let!(:evaluation4) { FactoryGirl.create(:full_evaluation, course: other_course, rating: 4) }
+    let!(:course2) { FactoryBot.create(:course, mooc_provider: mooc_provider) }
+    let!(:evaluation3) { FactoryBot.create(:full_evaluation, course: course2, rating: 2) }
+    let!(:other_course) { FactoryBot.create(:course, mooc_provider: other_mooc_provider) }
+    let!(:evaluation4) { FactoryBot.create(:full_evaluation, course: other_course, rating: 4) }
 
     render_views
     context 'export_course_evaluations' do

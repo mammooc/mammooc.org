@@ -9,7 +9,7 @@ RSpec.describe OpenHPICourseWorker do
                                redirection_history: nil, args: {url: url, method: method})
   end
 
-  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI') }
+  let!(:mooc_provider) { FactoryBot.create(:mooc_provider, name: 'openHPI') }
 
   let(:open_hpi_course_worker) { described_class.new }
 
@@ -345,9 +345,9 @@ RSpec.describe OpenHPICourseWorker do
 '
   end
 
-  let!(:confirmation_of_participation) { FactoryGirl.create :course_track_type, type_of_achievement: 'xikolo_confirmation_of_participation' }
-  let!(:record_of_achievement) { FactoryGirl.create :course_track_type, type_of_achievement: 'xikolo_record_of_achievement' }
-  let!(:qualified_certificate) { FactoryGirl.create :course_track_type, type_of_achievement: 'xikolo_qualified_certificate' }
+  let!(:confirmation_of_participation) { FactoryBot.create :course_track_type, type_of_achievement: 'xikolo_confirmation_of_participation' }
+  let!(:record_of_achievement) { FactoryBot.create :course_track_type, type_of_achievement: 'xikolo_record_of_achievement' }
+  let!(:qualified_certificate) { FactoryBot.create :course_track_type, type_of_achievement: 'xikolo_qualified_certificate' }
 
   it 'delivers MOOCProvider' do
     expect(open_hpi_course_worker.mooc_provider).to eq mooc_provider

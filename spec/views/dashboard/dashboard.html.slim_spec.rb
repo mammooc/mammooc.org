@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe 'dashboard/dashboard.html.slim', type: :view do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:course) { FactoryGirl.create(:full_course) }
-  let(:second_course) { FactoryGirl.create(:full_course) }
-  let(:recommendation) { FactoryGirl.create(:user_recommendation) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:course) { FactoryBot.create(:full_course) }
+  let(:second_course) { FactoryBot.create(:full_course) }
+  let(:recommendation) { FactoryBot.create(:user_recommendation) }
 
   before do
     assign(:groups, [
@@ -22,8 +22,8 @@ RSpec.describe 'dashboard/dashboard.html.slim', type: :view do
              )
            ])
     assign(:courses, [
-             FactoryGirl.create(:full_course),
-             FactoryGirl.create(:full_course)
+             FactoryBot.create(:full_course),
+             FactoryBot.create(:full_course)
            ])
     @recommendations = [recommendation]
     sign_in user

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe MoocHouseCourseWorker do
-  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'mooc.house') }
+  let!(:mooc_provider) { FactoryBot.create(:mooc_provider, name: 'mooc.house') }
 
   let(:mooc_house_course_worker) { described_class.new }
 

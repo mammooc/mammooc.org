@@ -9,11 +9,11 @@ RSpec.describe Ability do
   let(:user) { nil }
 
   describe 'Groups' do
-    let(:user) { FactoryGirl.create :user }
-    let(:group_without_user) { FactoryGirl.create :group }
-    let(:group_with_user) { FactoryGirl.create :group, users: [user] }
+    let(:user) { FactoryBot.create :user }
+    let(:group_without_user) { FactoryBot.create :group }
+    let(:group_with_user) { FactoryBot.create :group, users: [user] }
     let(:group_with_admin) do
-      group = FactoryGirl.create :group, users: [user]
+      group = FactoryBot.create :group, users: [user]
       UserGroup.set_is_admin(group.id, user.id, true)
       group
     end
@@ -100,19 +100,19 @@ RSpec.describe Ability do
   end
 
   describe 'Recommendations' do
-    let!(:user) { FactoryGirl.create :user }
-    let!(:second_user) { FactoryGirl.create :user }
-    let!(:third_user) { FactoryGirl.create :user }
-    let!(:group) { FactoryGirl.create :group, users: [second_user] }
+    let!(:user) { FactoryBot.create :user }
+    let!(:second_user) { FactoryBot.create :user }
+    let!(:third_user) { FactoryBot.create :user }
+    let!(:group) { FactoryBot.create :group, users: [second_user] }
     let!(:group_with_admin) do
-      group = FactoryGirl.create :group, users: [user]
+      group = FactoryBot.create :group, users: [user]
       UserGroup.set_is_admin(group.id, user.id, true)
       group
     end
-    let(:recommendation_of_user) { FactoryGirl.create :user_recommendation, users: [user] }
-    let(:recommendation_of_another_user) { FactoryGirl.create :user_recommendation, users: [second_user] }
-    let(:recommendation_of_group) { FactoryGirl.create :group_recommendation, group: group }
-    let(:recommendation_of_group_admin) { FactoryGirl.create :group_recommendation, group: group_with_admin }
+    let(:recommendation_of_user) { FactoryBot.create :user_recommendation, users: [user] }
+    let(:recommendation_of_another_user) { FactoryBot.create :user_recommendation, users: [second_user] }
+    let(:recommendation_of_group) { FactoryBot.create :group_recommendation, group: group }
+    let(:recommendation_of_group_admin) { FactoryBot.create :group_recommendation, group: group_with_admin }
 
     describe 'create' do
       it { is_expected.to be_able_to(:create, Recommendation.new) }
@@ -140,13 +140,13 @@ RSpec.describe Ability do
   end
 
   describe 'Users' do
-    let(:user) { FactoryGirl.create :user }
-    let(:another_user) { FactoryGirl.create :user }
-    let(:second_user) { FactoryGirl.create :user }
-    let(:user_setting) { FactoryGirl.create(:user_setting, name: :profile_visibility, user: second_user) }
-    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'users', value: [user.id]) }
-    let(:user_setting2) { FactoryGirl.create(:user_setting, name: :course_results_visibility, user: second_user) }
-    let!(:user_setting_entry2) { FactoryGirl.create(:user_setting_entry, setting: user_setting2, key: 'users', value: [user.id]) }
+    let(:user) { FactoryBot.create :user }
+    let(:another_user) { FactoryBot.create :user }
+    let(:second_user) { FactoryBot.create :user }
+    let(:user_setting) { FactoryBot.create(:user_setting, name: :profile_visibility, user: second_user) }
+    let!(:user_setting_entry) { FactoryBot.create(:user_setting_entry, setting: user_setting, key: 'users', value: [user.id]) }
+    let(:user_setting2) { FactoryBot.create(:user_setting, name: :course_results_visibility, user: second_user) }
+    let!(:user_setting_entry2) { FactoryBot.create(:user_setting_entry, setting: user_setting2, key: 'users', value: [user.id]) }
 
     describe 'create' do
       it { is_expected.not_to be_able_to(:create, User) }
@@ -158,9 +158,9 @@ RSpec.describe Ability do
       it { is_expected.to be_able_to(:show, second_user) }
 
       context 'in user\'s groups' do
-        let!(:group) { FactoryGirl.create :group, users: [user, another_user] }
-        let(:user_setting) { FactoryGirl.create(:user_setting, name: :profile_visibility, user: another_user) }
-        let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
+        let!(:group) { FactoryBot.create :group, users: [user, another_user] }
+        let(:user_setting) { FactoryBot.create(:user_setting, name: :profile_visibility, user: another_user) }
+        let!(:user_setting_entry) { FactoryBot.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
 
         it { is_expected.to be_able_to(:show, another_user) }
       end

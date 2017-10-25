@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe 'users/completions', type: :view do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:course) { FactoryGirl.create(:course) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:course) { FactoryBot.create(:course) }
   let(:first_completion) do
     Completion.create!(
       quantile: 0.1,

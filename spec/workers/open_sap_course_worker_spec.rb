@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe OpenSAPCourseWorker do
-  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openSAP') }
+  let!(:mooc_provider) { FactoryBot.create(:mooc_provider, name: 'openSAP') }
 
   let(:open_sap_course_worker) { described_class.new }
 

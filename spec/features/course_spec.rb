@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Course', type: :feature do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
 
   before do |example|
     unless example.metadata[:skip_before]
@@ -17,8 +17,8 @@ RSpec.describe 'Course', type: :feature do
   end
 
   describe 'display form to recommend or rate an existing course' do
-    let(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI') }
-    let!(:course) { FactoryGirl.create(:full_course, mooc_provider: mooc_provider) }
+    let(:mooc_provider) { FactoryBot.create(:mooc_provider, name: 'openHPI') }
+    let!(:course) { FactoryBot.create(:full_course, mooc_provider: mooc_provider) }
 
     it 'does not display the collapsible items', js: true do
       visit "/courses/#{course.id}"
@@ -95,8 +95,8 @@ RSpec.describe 'Course', type: :feature do
   end
 
   describe 'display the option to collapse long course descriptions' do
-    let(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openSAP') }
-    let!(:course) { FactoryGirl.create(:full_course, mooc_provider: mooc_provider) }
+    let(:mooc_provider) { FactoryBot.create(:mooc_provider, name: 'openSAP') }
+    let!(:course) { FactoryBot.create(:full_course, mooc_provider: mooc_provider) }
 
     it 'displays a button', js: true do
       visit "/courses/#{course.id}"
@@ -108,40 +108,40 @@ RSpec.describe 'Course', type: :feature do
   end
 
   describe 'filter course page' do
-    let(:nice_track_type) { FactoryGirl.create(:course_track_type, title: 'Nice course track') }
-    let(:wrong_track_type) { FactoryGirl.create(:course_track_type, title: 'Wrong course track') }
+    let(:nice_track_type) { FactoryBot.create(:course_track_type, title: 'Nice course track') }
+    let(:wrong_track_type) { FactoryBot.create(:course_track_type, title: 'Wrong course track') }
 
-    let(:free_track) { FactoryGirl.create(:free_course_track, track_type: nice_track_type) }
-    let(:expensive_track) { FactoryGirl.create(:course_track, costs: 60.0, track_type: wrong_track_type) }
-    let(:expensive_certificate_track) { FactoryGirl.create(:certificate_course_track, costs: 50.0, track_type: nice_track_type) }
-    let(:free_track_with_wrong_type) { FactoryGirl.create(:free_course_track, track_type: wrong_track_type) }
-    let(:free_track_2) { FactoryGirl.create(:free_course_track, track_type: nice_track_type) }
-    let(:free_track_3) { FactoryGirl.create(:free_course_track, track_type: nice_track_type) }
-    let(:expensive_track_2) { FactoryGirl.create(:course_track, costs: 60.0, track_type: wrong_track_type) }
-    let(:expensive_track_3) { FactoryGirl.create(:course_track, costs: 60.0, track_type: wrong_track_type) }
+    let(:free_track) { FactoryBot.create(:free_course_track, track_type: nice_track_type) }
+    let(:expensive_track) { FactoryBot.create(:course_track, costs: 60.0, track_type: wrong_track_type) }
+    let(:expensive_certificate_track) { FactoryBot.create(:certificate_course_track, costs: 50.0, track_type: nice_track_type) }
+    let(:free_track_with_wrong_type) { FactoryBot.create(:free_course_track, track_type: wrong_track_type) }
+    let(:free_track_2) { FactoryBot.create(:free_course_track, track_type: nice_track_type) }
+    let(:free_track_3) { FactoryBot.create(:free_course_track, track_type: nice_track_type) }
+    let(:expensive_track_2) { FactoryBot.create(:course_track, costs: 60.0, track_type: wrong_track_type) }
+    let(:expensive_track_3) { FactoryBot.create(:course_track, costs: 60.0, track_type: wrong_track_type) }
 
-    let(:open_hpi) { FactoryGirl.create(:mooc_provider, name: 'openHPI') }
-    let!(:course) { FactoryGirl.create(:course, name: 'Course that matches all criteria nice name', start_date: Time.zone.now, end_date: Time.zone.now + 2.weeks, language: 'en', mooc_provider: open_hpi, subtitle_languages: 'en', calculated_duration_in_days: 28, tracks: [free_track]) }
-    let!(:course_starts_before) { FactoryGirl.create(:course, name: 'Course starts before', start_date: Time.zone.now - 2.weeks) }
-    let!(:course_ends_after) { FactoryGirl.create(:course, name: 'Course ends after', end_date: Time.zone.now + 3.weeks) }
-    let!(:course_german) { FactoryGirl.create(:course, name: 'Course german', language: 'de') }
-    let(:open_sap) { FactoryGirl.create(:mooc_provider, name: 'openSAP') }
-    let!(:course_open_sap) { FactoryGirl.create(:course, name: 'Course from openSAP', mooc_provider: open_sap) }
-    let!(:course_german_subtitle) { FactoryGirl.create(:course, name: 'Course with german subtitles', subtitle_languages: 'de') }
-    let!(:course_longer_duration) { FactoryGirl.create(:course, name: 'Course with longer duration', calculated_duration_in_days: 42) }
-    let!(:course_expensive) { FactoryGirl.create(:course, name: 'Expensive Course', tracks: [expensive_track]) }
-    let!(:course_expensive_certificate) { FactoryGirl.create(:course, name: 'Expensive Certificate Course', tracks: [expensive_certificate_track]) }
-    let!(:course_free) { FactoryGirl.create(:course, name: 'Free but wrong Course', tracks: [free_track_with_wrong_type]) }
-    let!(:right_course) { FactoryGirl.create(:course, name: 'Course that matches all criteria too nice name', start_date: Time.zone.now, end_date: Time.zone.now + 2.weeks, language: 'en', mooc_provider: open_hpi, subtitle_languages: 'en', calculated_duration_in_days: 28, tracks: [free_track_2]) }
-    let!(:course_wrong_attributes_1) { FactoryGirl.create(:course, name: 'Course that does not match all criteria 1', start_date: Time.zone.now, end_date: Time.zone.now + 2.weeks, language: 'zh', mooc_provider: open_hpi, subtitle_languages: 'de', calculated_duration_in_days: 28, tracks: [free_track_3]) }
-    let!(:course_wrong_attributes_2) { FactoryGirl.create(:course, name: 'Course that does not match all criteria 2', start_date: Time.zone.now - 1.day, end_date: Time.zone.now + 2.weeks, language: 'en', mooc_provider: open_sap, subtitle_languages: 'en', calculated_duration_in_days: 28, tracks: [expensive_track_2]) }
-    let!(:course_wrong_attributes_3) { FactoryGirl.create(:course, name: 'Course that does not match all criteria 3', start_date: Time.zone.now, end_date: Time.zone.now + 2.weeks, language: 'en', mooc_provider: open_hpi, subtitle_languages: 'en', calculated_duration_in_days: 35, tracks: [expensive_track_3]) }
+    let(:open_hpi) { FactoryBot.create(:mooc_provider, name: 'openHPI') }
+    let!(:course) { FactoryBot.create(:course, name: 'Course that matches all criteria nice name', start_date: Time.zone.now, end_date: Time.zone.now + 2.weeks, language: 'en', mooc_provider: open_hpi, subtitle_languages: 'en', calculated_duration_in_days: 28, tracks: [free_track]) }
+    let!(:course_starts_before) { FactoryBot.create(:course, name: 'Course starts before', start_date: Time.zone.now - 2.weeks) }
+    let!(:course_ends_after) { FactoryBot.create(:course, name: 'Course ends after', end_date: Time.zone.now + 3.weeks) }
+    let!(:course_german) { FactoryBot.create(:course, name: 'Course german', language: 'de') }
+    let(:open_sap) { FactoryBot.create(:mooc_provider, name: 'openSAP') }
+    let!(:course_open_sap) { FactoryBot.create(:course, name: 'Course from openSAP', mooc_provider: open_sap) }
+    let!(:course_german_subtitle) { FactoryBot.create(:course, name: 'Course with german subtitles', subtitle_languages: 'de') }
+    let!(:course_longer_duration) { FactoryBot.create(:course, name: 'Course with longer duration', calculated_duration_in_days: 42) }
+    let!(:course_expensive) { FactoryBot.create(:course, name: 'Expensive Course', tracks: [expensive_track]) }
+    let!(:course_expensive_certificate) { FactoryBot.create(:course, name: 'Expensive Certificate Course', tracks: [expensive_certificate_track]) }
+    let!(:course_free) { FactoryBot.create(:course, name: 'Free but wrong Course', tracks: [free_track_with_wrong_type]) }
+    let!(:right_course) { FactoryBot.create(:course, name: 'Course that matches all criteria too nice name', start_date: Time.zone.now, end_date: Time.zone.now + 2.weeks, language: 'en', mooc_provider: open_hpi, subtitle_languages: 'en', calculated_duration_in_days: 28, tracks: [free_track_2]) }
+    let!(:course_wrong_attributes_1) { FactoryBot.create(:course, name: 'Course that does not match all criteria 1', start_date: Time.zone.now, end_date: Time.zone.now + 2.weeks, language: 'zh', mooc_provider: open_hpi, subtitle_languages: 'de', calculated_duration_in_days: 28, tracks: [free_track_3]) }
+    let!(:course_wrong_attributes_2) { FactoryBot.create(:course, name: 'Course that does not match all criteria 2', start_date: Time.zone.now - 1.day, end_date: Time.zone.now + 2.weeks, language: 'en', mooc_provider: open_sap, subtitle_languages: 'en', calculated_duration_in_days: 28, tracks: [expensive_track_2]) }
+    let!(:course_wrong_attributes_3) { FactoryBot.create(:course, name: 'Course that does not match all criteria 3', start_date: Time.zone.now, end_date: Time.zone.now + 2.weeks, language: 'en', mooc_provider: open_hpi, subtitle_languages: 'en', calculated_duration_in_days: 35, tracks: [expensive_track_3]) }
 
-    let(:second_user) { FactoryGirl.create(:user) }
-    let!(:bookmark1) { FactoryGirl.create(:bookmark, user: user, course: course) }
-    let!(:bookmark2) { FactoryGirl.create(:bookmark, user: user, course: right_course) }
-    let!(:bookmark3) { FactoryGirl.create(:bookmark, user: user, course: course_free) }
-    let!(:bookmark4) { FactoryGirl.create(:bookmark, user: second_user, course: course) }
+    let(:second_user) { FactoryBot.create(:user) }
+    let!(:bookmark1) { FactoryBot.create(:bookmark, user: user, course: course) }
+    let!(:bookmark2) { FactoryBot.create(:bookmark, user: user, course: right_course) }
+    let!(:bookmark3) { FactoryBot.create(:bookmark, user: user, course: course_free) }
+    let!(:bookmark4) { FactoryBot.create(:bookmark, user: second_user, course: course) }
 
     it 'filters courses for all filter criteria', js: true do
       visit courses_path
@@ -178,9 +178,9 @@ RSpec.describe 'Course', type: :feature do
   end
 
   describe 'search for courses from navbar' do
-    let!(:first_matching_course) { FactoryGirl.create(:course, name: 'Web Technologies') }
-    let!(:second_matching_course) { FactoryGirl.create(:course, name: 'Webmaster') }
-    let!(:not_matching_course) { FactoryGirl.create(:course, name: 'Ruby course') }
+    let!(:first_matching_course) { FactoryBot.create(:course, name: 'Web Technologies') }
+    let!(:second_matching_course) { FactoryBot.create(:course, name: 'Webmaster') }
+    let!(:not_matching_course) { FactoryBot.create(:course, name: 'Ruby course') }
 
     it 'redirects to courses overview' do
       fill_in 'query', with: 'web'
@@ -207,8 +207,8 @@ RSpec.describe 'Course', type: :feature do
   end
 
   describe 'evaluate courses' do
-    let(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI') }
-    let!(:course) { FactoryGirl.create(:full_course, mooc_provider: mooc_provider) }
+    let(:mooc_provider) { FactoryBot.create(:mooc_provider, name: 'openHPI') }
+    let!(:course) { FactoryBot.create(:full_course, mooc_provider: mooc_provider) }
 
     it 'submit an evaluation and show a special form afterwards', js: true do
       visit "/courses/#{course.id}"
@@ -240,7 +240,7 @@ RSpec.describe 'Course', type: :feature do
     end
 
     it 'shows my already submitted evaluation in _ratings', js: true do
-      eval = FactoryGirl.create(:full_evaluation, user_id: user.id, course_id: course.id, course_status: :enrolled, rating: 4, description: 'blub')
+      eval = FactoryBot.create(:full_evaluation, user_id: user.id, course_id: course.id, course_status: :enrolled, rating: 4, description: 'blub')
       visit "/courses/#{course.id}"
       expect(page).to have_selector("div[class='course-rating']")
       expect(page).to have_content("(#{course.evaluations.count})")
@@ -249,7 +249,7 @@ RSpec.describe 'Course', type: :feature do
     end
 
     it 'update evaluation', js: true do
-      eval = FactoryGirl.create(:full_evaluation, user_id: user.id, course_id: course.id, course_status: :enrolled, rating: 4, description: 'blub')
+      eval = FactoryBot.create(:full_evaluation, user_id: user.id, course_id: course.id, course_status: :enrolled, rating: 4, description: 'blub')
       visit "/courses/#{course.id}"
       click_link 'rate-course-link'
       click_button 'edit-rating-button'
@@ -266,7 +266,7 @@ RSpec.describe 'Course', type: :feature do
     end
 
     it 'mark an evaluation as helpful', js: true do
-      eval1 = FactoryGirl.create(:minimal_evaluation, course_id: course.id, course_status: :enrolled, rating: 4, description: 'blub')
+      eval1 = FactoryBot.create(:minimal_evaluation, course_id: course.id, course_status: :enrolled, rating: 4, description: 'blub')
       visit "/courses/#{course.id}"
       find("a[id='rate-evaluation-link-0-true']").click
       wait_for_ajax
@@ -277,7 +277,7 @@ RSpec.describe 'Course', type: :feature do
     end
 
     it 'mark an evaluation as not helpful', js: true do
-      eval1 = FactoryGirl.create(:minimal_evaluation, course_id: course.id, course_status: :enrolled, rating: 4, description: 'blub')
+      eval1 = FactoryBot.create(:minimal_evaluation, course_id: course.id, course_status: :enrolled, rating: 4, description: 'blub')
       visit "/courses/#{course.id}"
       find("a[id='rate-evaluation-link-0-false']").click
       wait_for_ajax

@@ -4,12 +4,12 @@ require 'rails_helper'
 
 RSpec.describe Group, type: :model do
   describe 'destroy group' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:second_user) { FactoryGirl.create(:user) }
-    let!(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
-    let!(:second_group) { FactoryGirl.create(:group, users: [user, second_user]) }
-    let!(:group_invitation) { FactoryGirl.create(:group_invitation, group: group) }
-    let!(:second_group_invitation) { FactoryGirl.create(:group_invitation, group: group) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:second_user) { FactoryBot.create(:user) }
+    let!(:group) { FactoryBot.create(:group, users: [user, second_user]) }
+    let!(:second_group) { FactoryBot.create(:group, users: [user, second_user]) }
+    let!(:group_invitation) { FactoryBot.create(:group_invitation, group: group) }
+    let!(:second_group_invitation) { FactoryBot.create(:group_invitation, group: group) }
 
     it 'deletes all memberships of a group and its invitation' do
       expect(UserGroup.where(user: user, group: group)).to be_present
@@ -22,9 +22,9 @@ RSpec.describe Group, type: :model do
     end
 
     it 'deletes group and delete group from all activities of group' do
-      activity1 = FactoryGirl.create(:activity_bookmark, user_ids: [second_user.id], group_ids: [group.id, second_group.id])
-      activity2 = FactoryGirl.create(:activity_bookmark, user_ids: [user.id, second_user.id], group_ids: [group.id])
-      FactoryGirl.create(:activity_bookmark, user_ids: [], group_ids: [group.id])
+      activity1 = FactoryBot.create(:activity_bookmark, user_ids: [second_user.id], group_ids: [group.id, second_group.id])
+      activity2 = FactoryBot.create(:activity_bookmark, user_ids: [user.id, second_user.id], group_ids: [group.id])
+      FactoryBot.create(:activity_bookmark, user_ids: [], group_ids: [group.id])
 
       expect(PublicActivity::Activity.count).to eq 3
       expect { group.destroy! }.not_to raise_error
@@ -36,9 +36,9 @@ RSpec.describe Group, type: :model do
     end
 
     it 'deletes group and all recommendations of group' do
-      FactoryGirl.create(:group_recommendation, group: group, users: group.users)
-      FactoryGirl.create(:group_recommendation, group: group, users: group.users)
-      FactoryGirl.create(:group_recommendation, group: second_group, users: second_group.users)
+      FactoryBot.create(:group_recommendation, group: group, users: group.users)
+      FactoryBot.create(:group_recommendation, group: group, users: group.users)
+      FactoryBot.create(:group_recommendation, group: second_group, users: second_group.users)
 
       expect(Recommendation.count).to eq 3
       expect { group.destroy! }.not_to raise_error
@@ -47,9 +47,9 @@ RSpec.describe Group, type: :model do
   end
 
   describe 'user_ids' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:second_user) { FactoryGirl.create(:user) }
-    let!(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:second_user) { FactoryBot.create(:user) }
+    let!(:group) { FactoryBot.create(:group, users: [user, second_user]) }
 
     it 'returns an array with all ids of group_members' do
       expect(group.user_ids).to include(user.id)
@@ -58,11 +58,11 @@ RSpec.describe Group, type: :model do
   end
 
   describe 'admins' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:second_user) { FactoryGirl.create(:user) }
-    let(:third_user) { FactoryGirl.create(:user) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:second_user) { FactoryBot.create(:user) }
+    let(:third_user) { FactoryBot.create(:user) }
     let(:group) do
-      group = FactoryGirl.create(:group, users: [user, second_user, third_user])
+      group = FactoryBot.create(:group, users: [user, second_user, third_user])
       UserGroup.set_is_admin(group.id, user.id, true)
       UserGroup.set_is_admin(group.id, second_user.id, true)
       group
@@ -75,22 +75,22 @@ RSpec.describe Group, type: :model do
   end
 
   describe 'average enrollments' do
-    let(:course1) { FactoryGirl.create(:course) }
-    let(:course2) { FactoryGirl.create(:course) }
-    let(:course3) { FactoryGirl.create(:course) }
-    let!(:course4) { FactoryGirl.create(:course) }
-    let(:user) { FactoryGirl.create(:user, courses: [course1, course2, course3]) }
-    let(:second_user) { FactoryGirl.create(:user, courses: [course2, course3]) }
-    let(:third_user) { FactoryGirl.create(:user, courses: [course3]) }
-    let(:fourth_user) { FactoryGirl.create(:user, courses: [course4]) }
-    let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user, fourth_user]) }
-    let(:group2) { FactoryGirl.create(:group, users: []) }
-    let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: user) }
-    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
-    let(:user_setting2) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
-    let!(:user_setting_entry2) { FactoryGirl.create(:user_setting_entry, setting: user_setting2, key: 'groups', value: [group.id]) }
-    let(:user_setting3) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: third_user) }
-    let!(:user_setting_entry3) { FactoryGirl.create(:user_setting_entry, setting: user_setting3, key: 'groups', value: [group.id]) }
+    let(:course1) { FactoryBot.create(:course) }
+    let(:course2) { FactoryBot.create(:course) }
+    let(:course3) { FactoryBot.create(:course) }
+    let!(:course4) { FactoryBot.create(:course) }
+    let(:user) { FactoryBot.create(:user, courses: [course1, course2, course3]) }
+    let(:second_user) { FactoryBot.create(:user, courses: [course2, course3]) }
+    let(:third_user) { FactoryBot.create(:user, courses: [course3]) }
+    let(:fourth_user) { FactoryBot.create(:user, courses: [course4]) }
+    let(:group) { FactoryBot.create(:group, users: [user, second_user, third_user, fourth_user]) }
+    let(:group2) { FactoryBot.create(:group, users: []) }
+    let(:user_setting) { FactoryBot.create(:user_setting, name: :course_enrollments_visibility, user: user) }
+    let!(:user_setting_entry) { FactoryBot.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
+    let(:user_setting2) { FactoryBot.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
+    let!(:user_setting_entry2) { FactoryBot.create(:user_setting_entry, setting: user_setting2, key: 'groups', value: [group.id]) }
+    let(:user_setting3) { FactoryBot.create(:user_setting, name: :course_enrollments_visibility, user: third_user) }
+    let!(:user_setting_entry3) { FactoryBot.create(:user_setting_entry, setting: user_setting3, key: 'groups', value: [group.id]) }
 
     it 'returns average of all course enrollments per group member' do
       average = group.average_enrollments
@@ -107,22 +107,22 @@ RSpec.describe Group, type: :model do
   end
 
   describe 'enrolled courses with amount' do
-    let(:course1) { FactoryGirl.create(:course) }
-    let(:course2) { FactoryGirl.create(:course) }
-    let(:course3) { FactoryGirl.create(:course) }
-    let!(:course4) { FactoryGirl.create(:course) }
-    let!(:course5) { FactoryGirl.create(:course) }
-    let(:user) { FactoryGirl.create(:user, courses: [course1, course2, course3]) }
-    let(:second_user) { FactoryGirl.create(:user, courses: [course2, course3]) }
-    let(:third_user) { FactoryGirl.create(:user, courses: [course3]) }
-    let(:fourth_user) { FactoryGirl.create(:user, courses: [course4]) }
-    let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user, fourth_user]) }
-    let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: user) }
-    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
-    let(:user_setting2) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
-    let!(:user_setting_entry2) { FactoryGirl.create(:user_setting_entry, setting: user_setting2, key: 'groups', value: [group.id]) }
-    let(:user_setting3) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: third_user) }
-    let!(:user_setting_entry3) { FactoryGirl.create(:user_setting_entry, setting: user_setting3, key: 'groups', value: [group.id]) }
+    let(:course1) { FactoryBot.create(:course) }
+    let(:course2) { FactoryBot.create(:course) }
+    let(:course3) { FactoryBot.create(:course) }
+    let!(:course4) { FactoryBot.create(:course) }
+    let!(:course5) { FactoryBot.create(:course) }
+    let(:user) { FactoryBot.create(:user, courses: [course1, course2, course3]) }
+    let(:second_user) { FactoryBot.create(:user, courses: [course2, course3]) }
+    let(:third_user) { FactoryBot.create(:user, courses: [course3]) }
+    let(:fourth_user) { FactoryBot.create(:user, courses: [course4]) }
+    let(:group) { FactoryBot.create(:group, users: [user, second_user, third_user, fourth_user]) }
+    let(:user_setting) { FactoryBot.create(:user_setting, name: :course_enrollments_visibility, user: user) }
+    let!(:user_setting_entry) { FactoryBot.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
+    let(:user_setting2) { FactoryBot.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
+    let!(:user_setting_entry2) { FactoryBot.create(:user_setting_entry, setting: user_setting2, key: 'groups', value: [group.id]) }
+    let(:user_setting3) { FactoryBot.create(:user_setting, name: :course_enrollments_visibility, user: third_user) }
+    let!(:user_setting_entry3) { FactoryBot.create(:user_setting_entry, setting: user_setting3, key: 'groups', value: [group.id]) }
 
     it 'returns all enrolled course and total number of enrollments of group members for all member who share course enrollments' do
       enrolled_courses = group.enrolled_courses_with_amount
@@ -132,22 +132,22 @@ RSpec.describe Group, type: :model do
   end
 
   describe 'enrolled courses' do
-    let(:course1) { FactoryGirl.create(:course) }
-    let(:course2) { FactoryGirl.create(:course) }
-    let(:course3) { FactoryGirl.create(:course) }
-    let!(:course4) { FactoryGirl.create(:course) }
-    let!(:course5) { FactoryGirl.create(:course) }
-    let(:user) { FactoryGirl.create(:user, courses: [course1, course2, course3]) }
-    let(:second_user) { FactoryGirl.create(:user, courses: [course2, course3]) }
-    let(:third_user) { FactoryGirl.create(:user, courses: [course3]) }
-    let(:fourth_user) { FactoryGirl.create(:user, courses: [course4]) }
-    let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user, fourth_user]) }
-    let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: user) }
-    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
-    let(:user_setting2) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
-    let!(:user_setting_entry2) { FactoryGirl.create(:user_setting_entry, setting: user_setting2, key: 'groups', value: [group.id]) }
-    let(:user_setting3) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: third_user) }
-    let!(:user_setting_entry3) { FactoryGirl.create(:user_setting_entry, setting: user_setting3, key: 'groups', value: [group.id]) }
+    let(:course1) { FactoryBot.create(:course) }
+    let(:course2) { FactoryBot.create(:course) }
+    let(:course3) { FactoryBot.create(:course) }
+    let!(:course4) { FactoryBot.create(:course) }
+    let!(:course5) { FactoryBot.create(:course) }
+    let(:user) { FactoryBot.create(:user, courses: [course1, course2, course3]) }
+    let(:second_user) { FactoryBot.create(:user, courses: [course2, course3]) }
+    let(:third_user) { FactoryBot.create(:user, courses: [course3]) }
+    let(:fourth_user) { FactoryBot.create(:user, courses: [course4]) }
+    let(:group) { FactoryBot.create(:group, users: [user, second_user, third_user, fourth_user]) }
+    let(:user_setting) { FactoryBot.create(:user_setting, name: :course_enrollments_visibility, user: user) }
+    let!(:user_setting_entry) { FactoryBot.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
+    let(:user_setting2) { FactoryBot.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
+    let!(:user_setting_entry2) { FactoryBot.create(:user_setting_entry, setting: user_setting2, key: 'groups', value: [group.id]) }
+    let(:user_setting3) { FactoryBot.create(:user_setting, name: :course_enrollments_visibility, user: third_user) }
+    let!(:user_setting_entry3) { FactoryBot.create(:user_setting_entry, setting: user_setting3, key: 'groups', value: [group.id]) }
 
     it 'returns all enrolled courses from users who share their data' do
       enrolled_courses = group.enrolled_courses
@@ -157,16 +157,16 @@ RSpec.describe Group, type: :model do
   end
 
   describe 'number_of_users_who_share_course_enrollments' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:second_user) { FactoryGirl.create(:user) }
-    let(:third_user) { FactoryGirl.create(:user) }
-    let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
-    let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: user) }
-    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
-    let(:user_setting2) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
-    let!(:user_setting_entry2) { FactoryGirl.create(:user_setting_entry, setting: user_setting2, key: 'groups', value: [group.id]) }
-    let(:user_setting3) { FactoryGirl.create(:user_setting, name: :course_results_visibility, user: third_user) }
-    let!(:user_setting_entry3) { FactoryGirl.create(:user_setting_entry, setting: user_setting3, key: 'groups', value: [group.id]) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:second_user) { FactoryBot.create(:user) }
+    let(:third_user) { FactoryBot.create(:user) }
+    let(:group) { FactoryBot.create(:group, users: [user, second_user, third_user]) }
+    let(:user_setting) { FactoryBot.create(:user_setting, name: :course_enrollments_visibility, user: user) }
+    let!(:user_setting_entry) { FactoryBot.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
+    let(:user_setting2) { FactoryBot.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
+    let!(:user_setting_entry2) { FactoryBot.create(:user_setting_entry, setting: user_setting2, key: 'groups', value: [group.id]) }
+    let(:user_setting3) { FactoryBot.create(:user_setting, name: :course_results_visibility, user: third_user) }
+    let!(:user_setting_entry3) { FactoryBot.create(:user_setting_entry, setting: user_setting3, key: 'groups', value: [group.id]) }
 
     it 'returns the number of group members who share their course enrollments with the group' do
       expect(group.number_of_users_who_share_course_enrollments).to eq 2

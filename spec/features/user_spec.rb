@@ -5,58 +5,58 @@ require 'support/feature_support'
 
 RSpec.describe 'User', type: :feature do
   let!(:user) { User.create!(first_name: 'Max', last_name: 'Mustermann', password: '12345678') }
-  let!(:first_email) { FactoryGirl.create(:user_email, user: user) }
-  let!(:second_user) { FactoryGirl.create(:user) }
-  let(:third_user) { FactoryGirl.create(:user) }
-  let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user], name: 'Test Group') }
+  let!(:first_email) { FactoryBot.create(:user_email, user: user) }
+  let!(:second_user) { FactoryBot.create(:user) }
+  let(:third_user) { FactoryBot.create(:user) }
+  let(:group) { FactoryBot.create(:group, users: [user, second_user, third_user], name: 'Test Group') }
 
   let!(:course_enrollments_visibility_settings) do
-    setting = FactoryGirl.create :user_setting, name: :course_enrollments_visibility, user: user
-    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
-    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    setting = FactoryBot.create :user_setting, name: :course_enrollments_visibility, user: user
+    FactoryBot.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryBot.create :user_setting_entry, key: :users, value: [], setting: setting
     setting
   end
   let!(:course_results_visibility_settings) do
-    setting = FactoryGirl.create :user_setting, name: :course_results_visibility, user: user
-    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
-    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    setting = FactoryBot.create :user_setting, name: :course_results_visibility, user: user
+    FactoryBot.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryBot.create :user_setting_entry, key: :users, value: [], setting: setting
     setting
   end
   let!(:course_progress_visibility_settings) do
-    setting = FactoryGirl.create :user_setting, name: :course_progress_visibility, user: user
-    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
-    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    setting = FactoryBot.create :user_setting, name: :course_progress_visibility, user: user
+    FactoryBot.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryBot.create :user_setting_entry, key: :users, value: [], setting: setting
     setting
   end
   let!(:profile_visibility_settings) do
-    setting = FactoryGirl.create :user_setting, name: :profile_visibility, user: user
-    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
-    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    setting = FactoryBot.create :user_setting, name: :profile_visibility, user: user
+    FactoryBot.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryBot.create :user_setting_entry, key: :users, value: [], setting: setting
     setting
   end
   let!(:second_course_enrollments_visibility_settings) do
-    setting = FactoryGirl.create :user_setting, name: :course_enrollments_visibility, user: second_user
-    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
-    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    setting = FactoryBot.create :user_setting, name: :course_enrollments_visibility, user: second_user
+    FactoryBot.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryBot.create :user_setting_entry, key: :users, value: [], setting: setting
     setting
   end
 
   let!(:second_course_results_visibility_settings) do
-    setting = FactoryGirl.create :user_setting, name: :course_results_visibility, user: second_user
-    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
-    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    setting = FactoryBot.create :user_setting, name: :course_results_visibility, user: second_user
+    FactoryBot.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryBot.create :user_setting_entry, key: :users, value: [], setting: setting
     setting
   end
   let!(:second_course_progress_visibility_settings) do
-    setting = FactoryGirl.create :user_setting, name: :course_progress_visibility, user: second_user
-    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
-    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    setting = FactoryBot.create :user_setting, name: :course_progress_visibility, user: second_user
+    FactoryBot.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryBot.create :user_setting_entry, key: :users, value: [], setting: setting
     setting
   end
   let!(:second_profile_visibility_settings) do
-    setting = FactoryGirl.create :user_setting, name: :profile_visibility, user: second_user
-    FactoryGirl.create :user_setting_entry, key: :groups, value: [], setting: setting
-    FactoryGirl.create :user_setting_entry, key: :users, value: [], setting: setting
+    setting = FactoryBot.create :user_setting, name: :profile_visibility, user: second_user
+    FactoryBot.create :user_setting_entry, key: :groups, value: [], setting: setting
+    FactoryBot.create :user_setting_entry, key: :users, value: [], setting: setting
     setting
   end
 
@@ -136,7 +136,7 @@ RSpec.describe 'User', type: :feature do
 
     describe 'subsite account settings' do
       describe 'change email settings' do
-        let!(:second_email) { FactoryGirl.create(:user_email, user: user, is_primary: false) }
+        let!(:second_email) { FactoryBot.create(:user_email, user: user, is_primary: false) }
 
         before do
           visit "#{user_settings_path(user.id)}?subsite=account"
@@ -307,7 +307,7 @@ RSpec.describe 'User', type: :feature do
         end
 
         it 'could update existing, create new, change primary and delete', js: true do
-          third_email = FactoryGirl.create(:user_email, is_primary: false, user: user)
+          third_email = FactoryBot.create(:user_email, is_primary: false, user: user)
           visit "#{user_settings_path(user.id)}?subsite=account"
           fill_in "user_user_email_address_#{second_email.id}", with: 'NewEmailAddress@example.com'
           choose "user_user_email_is_primary_#{second_email.id}"
@@ -328,7 +328,7 @@ RSpec.describe 'User', type: :feature do
         end
 
         it 'cancels action', js: true do
-          third_email = FactoryGirl.create(:user_email, is_primary: false, user: user)
+          third_email = FactoryBot.create(:user_email, is_primary: false, user: user)
           visit "#{user_settings_path(user.id)}?subsite=account"
           fill_in "user_user_email_address_#{second_email.id}", with: 'NewEmailAddress@example.com'
           choose "user_user_email_is_primary_#{second_email.id}"
@@ -501,8 +501,8 @@ RSpec.describe 'User', type: :feature do
       end
 
       it 'deletes account successfully although the user has recommendations', js: true do
-        FactoryGirl.create(:user_recommendation, author: second_user)
-        FactoryGirl.create(:user_recommendation, users: [second_user])
+        FactoryBot.create(:user_recommendation, author: second_user)
+        FactoryBot.create(:user_recommendation, users: [second_user])
         expect(Recommendation.count).to eq 2
         visit "#{user_settings_path(second_user.id)}?subsite=account"
         if ENV['PHANTOM_JS'] == 'true'
@@ -518,9 +518,9 @@ RSpec.describe 'User', type: :feature do
       end
 
       it 'deletes account and removes recommendations where user is author', js: true do
-        FactoryGirl.create(:group_recommendation, author: second_user)
-        FactoryGirl.create(:user_recommendation, author: second_user)
-        FactoryGirl.create(:user_recommendation)
+        FactoryBot.create(:group_recommendation, author: second_user)
+        FactoryBot.create(:user_recommendation, author: second_user)
+        FactoryBot.create(:user_recommendation)
         expect(Recommendation.count).to eq 3
         visit "#{user_settings_path(second_user.id)}?subsite=account"
         if ENV['PHANTOM_JS'] == 'true'
@@ -536,9 +536,9 @@ RSpec.describe 'User', type: :feature do
       end
 
       it 'deletes account and removes user from his recommendations', js: true do
-        FactoryGirl.create(:group_recommendation, users: [second_user, user])
-        FactoryGirl.create(:user_recommendation, users: [second_user])
-        FactoryGirl.create(:user_recommendation)
+        FactoryBot.create(:group_recommendation, users: [second_user, user])
+        FactoryBot.create(:user_recommendation, users: [second_user])
+        FactoryBot.create(:user_recommendation)
         expect(Recommendation.count).to eq 3
         visit "#{user_settings_path(second_user.id)}?subsite=account"
         if ENV['PHANTOM_JS'] == 'true'
@@ -554,7 +554,7 @@ RSpec.describe 'User', type: :feature do
       end
 
       it 'deletes user account although user is owner of activity', js: true do
-        FactoryGirl.create(:activity_bookmark, owner_id: second_user.id)
+        FactoryBot.create(:activity_bookmark, owner_id: second_user.id)
         visit "#{user_settings_path(second_user.id)}?subsite=account"
         if ENV['PHANTOM_JS'] == 'true'
           click_button I18n.t('users.settings.cancel_account')
@@ -568,8 +568,8 @@ RSpec.describe 'User', type: :feature do
       end
 
       it 'deletes user account and all activities where user is owner', js: true do
-        FactoryGirl.create(:activity_bookmark, owner_id: second_user.id)
-        FactoryGirl.create(:activity_bookmark)
+        FactoryBot.create(:activity_bookmark, owner_id: second_user.id)
+        FactoryBot.create(:activity_bookmark)
         expect(PublicActivity::Activity.count).to eq 2
         visit "#{user_settings_path(second_user.id)}?subsite=account"
         if ENV['PHANTOM_JS'] == 'true'
@@ -585,8 +585,8 @@ RSpec.describe 'User', type: :feature do
       end
 
       it 'deletes user account and delete user from activites', js: true do
-        FactoryGirl.create(:activity_bookmark, user_ids: [second_user.id], group_ids: [])
-        FactoryGirl.create(:activity_bookmark, user_ids: [user.id, second_user.id])
+        FactoryBot.create(:activity_bookmark, user_ids: [second_user.id], group_ids: [])
+        FactoryBot.create(:activity_bookmark, user_ids: [user.id, second_user.id])
 
         expect(PublicActivity::Activity.count).to eq 2
         visit "#{user_settings_path(second_user.id)}?subsite=account"

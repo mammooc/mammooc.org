@@ -4,31 +4,31 @@ require 'rails_helper'
 require 'support/feature_support'
 
 RSpec.describe 'UserSettings', type: :feature do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
 
   before do
     ActionMailer::Base.deliveries.clear
   end
 
   describe 'course enrollments' do
-    let(:course1) { FactoryGirl.create(:course) }
-    let(:second_user) { FactoryGirl.create(:user, courses: [course1]) }
-    let(:third_user) { FactoryGirl.create(:user) }
-    let(:fourth_user) { FactoryGirl.create(:user) }
-    let(:fifth_user) { FactoryGirl.create(:user) }
-    let!(:group) { FactoryGirl.create(:group, users: [second_user, fourth_user]) }
-    let!(:second_group) { FactoryGirl.create(:group, users: [second_user, fifth_user]) }
-    let!(:group_for_activities) { FactoryGirl.create(:group, users: [second_user, user, third_user]) }
-    let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
-    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'users', value: [user.id]) }
-    let(:user_setting4) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
-    let!(:user_setting_entry4) { FactoryGirl.create(:user_setting_entry, setting: user_setting4, key: 'groups', value: [group.id]) }
+    let(:course1) { FactoryBot.create(:course) }
+    let(:second_user) { FactoryBot.create(:user, courses: [course1]) }
+    let(:third_user) { FactoryBot.create(:user) }
+    let(:fourth_user) { FactoryBot.create(:user) }
+    let(:fifth_user) { FactoryBot.create(:user) }
+    let!(:group) { FactoryBot.create(:group, users: [second_user, fourth_user]) }
+    let!(:second_group) { FactoryBot.create(:group, users: [second_user, fifth_user]) }
+    let!(:group_for_activities) { FactoryBot.create(:group, users: [second_user, user, third_user]) }
+    let(:user_setting) { FactoryBot.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
+    let!(:user_setting_entry) { FactoryBot.create(:user_setting_entry, setting: user_setting, key: 'users', value: [user.id]) }
+    let(:user_setting4) { FactoryBot.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
+    let!(:user_setting_entry4) { FactoryBot.create(:user_setting_entry, setting: user_setting4, key: 'groups', value: [group.id]) }
 
     context "on user's profile" do
-      let(:user_setting2) { FactoryGirl.create(:user_setting, name: :profile_visibility, user: second_user) }
-      let!(:user_setting_entry2) { FactoryGirl.create(:user_setting_entry, setting: user_setting2, key: 'users', value: [user.id, third_user.id]) }
-      let(:user_setting3) { FactoryGirl.create(:user_setting, name: :profile_visibility, user: second_user) }
-      let!(:user_setting_entry3) { FactoryGirl.create(:user_setting_entry, setting: user_setting3, key: 'groups', value: [group.id, second_group.id]) }
+      let(:user_setting2) { FactoryBot.create(:user_setting, name: :profile_visibility, user: second_user) }
+      let!(:user_setting_entry2) { FactoryBot.create(:user_setting_entry, setting: user_setting2, key: 'users', value: [user.id, third_user.id]) }
+      let(:user_setting3) { FactoryBot.create(:user_setting, name: :profile_visibility, user: second_user) }
+      let!(:user_setting_entry3) { FactoryBot.create(:user_setting_entry, setting: user_setting3, key: 'groups', value: [group.id, second_group.id]) }
 
       it 'are visible for user himself' do
         capybara_sign_in second_user
@@ -72,7 +72,7 @@ RSpec.describe 'UserSettings', type: :feature do
     end
 
     context 'in newsfeed' do
-      let!(:activity) { FactoryGirl.create(:activity_course_enroll, owner: second_user, trackable: course1, user_ids: [user.id, third_user.id, fourth_user.id, fifth_user.id], group_ids: [group.id, second_group.id]) }
+      let!(:activity) { FactoryBot.create(:activity_course_enroll, owner: second_user, trackable: course1, user_ids: [user.id, third_user.id, fourth_user.id, fifth_user.id], group_ids: [group.id, second_group.id]) }
 
       it 'are visible for users who are whitelisted' do
         capybara_sign_in user
@@ -119,24 +119,24 @@ RSpec.describe 'UserSettings', type: :feature do
   end
 
   describe 'course results' do
-    let(:course1) { FactoryGirl.create(:course) }
-    let!(:course1_completions) { FactoryGirl.create(:full_completion, user: second_user, course: course1) }
-    let(:second_user) { FactoryGirl.create(:user, courses: [course1]) }
-    let(:third_user) { FactoryGirl.create(:user) }
-    let(:fourth_user) { FactoryGirl.create(:user) }
-    let(:fifth_user) { FactoryGirl.create(:user) }
-    let!(:group) { FactoryGirl.create(:group, users: [second_user, fourth_user]) }
-    let!(:second_group) { FactoryGirl.create(:group, users: [second_user, fifth_user]) }
-    let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_results_visibility, user: second_user) }
-    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'users', value: [user.id]) }
-    let(:user_setting2) { FactoryGirl.create(:user_setting, name: :course_results_visibility, user: second_user) }
-    let!(:user_setting_entry2) { FactoryGirl.create(:user_setting_entry, setting: user_setting2, key: 'groups', value: [group.id]) }
+    let(:course1) { FactoryBot.create(:course) }
+    let!(:course1_completions) { FactoryBot.create(:full_completion, user: second_user, course: course1) }
+    let(:second_user) { FactoryBot.create(:user, courses: [course1]) }
+    let(:third_user) { FactoryBot.create(:user) }
+    let(:fourth_user) { FactoryBot.create(:user) }
+    let(:fifth_user) { FactoryBot.create(:user) }
+    let!(:group) { FactoryBot.create(:group, users: [second_user, fourth_user]) }
+    let!(:second_group) { FactoryBot.create(:group, users: [second_user, fifth_user]) }
+    let(:user_setting) { FactoryBot.create(:user_setting, name: :course_results_visibility, user: second_user) }
+    let!(:user_setting_entry) { FactoryBot.create(:user_setting_entry, setting: user_setting, key: 'users', value: [user.id]) }
+    let(:user_setting2) { FactoryBot.create(:user_setting, name: :course_results_visibility, user: second_user) }
+    let!(:user_setting_entry2) { FactoryBot.create(:user_setting_entry, setting: user_setting2, key: 'groups', value: [group.id]) }
 
     context "on user's profile" do
-      let(:user_setting3) { FactoryGirl.create(:user_setting, name: :profile_visibility, user: second_user) }
-      let!(:user_setting_entry3) { FactoryGirl.create(:user_setting_entry, setting: user_setting3, key: 'users', value: [user.id, third_user.id]) }
-      let(:user_setting4) { FactoryGirl.create(:user_setting, name: :profile_visibility, user: second_user) }
-      let!(:user_setting_entry4) { FactoryGirl.create(:user_setting_entry, setting: user_setting4, key: 'groups', value: [group.id, second_group.id]) }
+      let(:user_setting3) { FactoryBot.create(:user_setting, name: :profile_visibility, user: second_user) }
+      let!(:user_setting_entry3) { FactoryBot.create(:user_setting_entry, setting: user_setting3, key: 'users', value: [user.id, third_user.id]) }
+      let(:user_setting4) { FactoryBot.create(:user_setting, name: :profile_visibility, user: second_user) }
+      let!(:user_setting_entry4) { FactoryBot.create(:user_setting_entry, setting: user_setting4, key: 'groups', value: [group.id, second_group.id]) }
 
       it 'are visible for user himself' do
         capybara_sign_in second_user
@@ -219,16 +219,16 @@ RSpec.describe 'UserSettings', type: :feature do
   end
 
   describe 'profile_visibility' do
-    let(:second_user) { FactoryGirl.create(:user) }
-    let(:third_user) { FactoryGirl.create(:user) }
-    let(:fourth_user) { FactoryGirl.create(:user) }
-    let(:fifth_user) { FactoryGirl.create(:user) }
-    let!(:group) { FactoryGirl.create(:group, users: [second_user, fourth_user]) }
-    let!(:second_group) { FactoryGirl.create(:group, users: [second_user, fifth_user]) }
-    let(:user_setting) { FactoryGirl.create(:user_setting, name: :profile_visibility, user: second_user) }
-    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'users', value: [user.id]) }
-    let(:user_setting2) { FactoryGirl.create(:user_setting, name: :profile_visibility, user: second_user) }
-    let!(:user_setting_entry2) { FactoryGirl.create(:user_setting_entry, setting: user_setting2, key: 'groups', value: [group.id]) }
+    let(:second_user) { FactoryBot.create(:user) }
+    let(:third_user) { FactoryBot.create(:user) }
+    let(:fourth_user) { FactoryBot.create(:user) }
+    let(:fifth_user) { FactoryBot.create(:user) }
+    let!(:group) { FactoryBot.create(:group, users: [second_user, fourth_user]) }
+    let!(:second_group) { FactoryBot.create(:group, users: [second_user, fifth_user]) }
+    let(:user_setting) { FactoryBot.create(:user_setting, name: :profile_visibility, user: second_user) }
+    let!(:user_setting_entry) { FactoryBot.create(:user_setting_entry, setting: user_setting, key: 'users', value: [user.id]) }
+    let(:user_setting2) { FactoryBot.create(:user_setting, name: :profile_visibility, user: second_user) }
+    let!(:user_setting_entry2) { FactoryBot.create(:user_setting_entry, setting: user_setting2, key: 'groups', value: [group.id]) }
 
     it 'page is accessable for user himself' do
       capybara_sign_in second_user

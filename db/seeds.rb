@@ -190,28 +190,28 @@ if Rails.env == 'development' || ENV['HEROKU'] == 'true'
   user1.setting(:profile_visibility, true).set(:groups, [group1.id, group2.id])
   user1.setting(:profile_visibility, true).set(:users, [user2.id])
 
-  4.times { FactoryGirl.create(:group_recommendation, course: full_course, group: group1, users: group1.users) }
-  3.times { FactoryGirl.create(:user_recommendation, course: full_course, users: [user1]) }
-  2.times { FactoryGirl.create(:user_recommendation, course: full_course, users: [user2]) }
+  4.times { FactoryBot.create(:group_recommendation, course: full_course, group: group1, users: group1.users) }
+  3.times { FactoryBot.create(:user_recommendation, course: full_course, users: [user1]) }
+  2.times { FactoryBot.create(:user_recommendation, course: full_course, users: [user2]) }
 
-  FactoryGirl.create(:group_recommendation, course: full_course, group: group1, users: group1.users, author: user2)
-  FactoryGirl.create(:user_recommendation, course: full_course, users: [user1], author: user2)
+  FactoryBot.create(:group_recommendation, course: full_course, group: group1, users: group1.users, author: user2)
+  FactoryBot.create(:user_recommendation, course: full_course, users: [user1], author: user2)
 
   if ENV['OPEN_HPI_TOKEN'].present?
-    FactoryGirl.create(:naive_mooc_provider_user, user: user1, mooc_provider: open_hpi, access_token: ENV['OPEN_HPI_TOKEN'])
+    FactoryBot.create(:naive_mooc_provider_user, user: user1, mooc_provider: open_hpi, access_token: ENV['OPEN_HPI_TOKEN'])
   end
 
   if ENV['OPEN_SAP_TOKEN'].present?
-    FactoryGirl.create(:naive_mooc_provider_user, user: user1, mooc_provider: open_sap, access_token: ENV['OPEN_SAP_TOKEN'])
+    FactoryBot.create(:naive_mooc_provider_user, user: user1, mooc_provider: open_sap, access_token: ENV['OPEN_SAP_TOKEN'])
   end
 
-  FactoryGirl.create(:full_completion, course: full_course, user: user1)
-  completion1 = FactoryGirl.create(:completion, course: minimal_following_course, user: user1)
-  FactoryGirl.create(:confirmation_of_participation, completion: completion1)
-  FactoryGirl.create(:record_of_achievement, completion: completion1, verification_url: 'https://mammooc.org', title: 'open_mammooc Achievement')
-  completion2 = FactoryGirl.create(:completion, course: minimal_previous_course, user: user1, points_achieved: 24.0)
-  FactoryGirl.create(:confirmation_of_participation, completion: completion2)
-  FactoryGirl.create(:full_completion, course: minimal_previous_course, user: user2)
+  FactoryBot.create(:full_completion, course: full_course, user: user1)
+  completion1 = FactoryBot.create(:completion, course: minimal_following_course, user: user1)
+  FactoryBot.create(:confirmation_of_participation, completion: completion1)
+  FactoryBot.create(:record_of_achievement, completion: completion1, verification_url: 'https://mammooc.org', title: 'open_mammooc Achievement')
+  completion2 = FactoryBot.create(:completion, course: minimal_previous_course, user: user1, points_achieved: 24.0)
+  FactoryBot.create(:confirmation_of_participation, completion: completion2)
+  FactoryBot.create(:full_completion, course: minimal_previous_course, user: user2)
 end
 
 # rubocop:enable Lint/UselessAssignment

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'courses/show', type: :view do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
   let(:mooc_provider) { MoocProvider.create(name: 'open_mammooc', logo_id: 'logo_open_mammooc.png', url: 'https://example.com') }
   let!(:course) do
     assign(:course, Course.create!(
@@ -23,7 +23,7 @@ RSpec.describe 'courses/show', type: :view do
                       start_date: Time.zone.local(2015, 9, 3, 9),
                       end_date: Time.zone.local(2015, 10, 3, 9),
                       mooc_provider_id: mooc_provider.id,
-                      tracks: [FactoryGirl.create(:course_track)]
+                      tracks: [FactoryBot.create(:course_track)]
     ))
   end
   let!(:provider_logos) { assign(:provider_logos, {}) }

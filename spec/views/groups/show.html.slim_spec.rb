@@ -3,12 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe 'groups/show', type: :view do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:group) { FactoryGirl.create(:group, users: [user]) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:group) { FactoryBot.create(:group, users: [user]) }
   let(:group_admins) { group.users }
   let(:group_users) { group.users }
   let(:ordered_group_members) { group.users }
-  let(:recommendation) { FactoryGirl.create(:group_recommendation, group: group) }
+  let(:recommendation) { FactoryBot.create(:group_recommendation, group: group) }
 
   before do
     @group = group

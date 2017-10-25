@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'users/show', type: :view do
-  let(:user) { FactoryGirl.create(:fullUser) }
+  let(:user) { FactoryBot.create(:fullUser) }
 
   before do
     @user = user

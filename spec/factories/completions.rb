@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :full_completion, class: Completion do
     quantile { Random.rand }
     points_achieved { (Random.rand * 100.0).round(1) }

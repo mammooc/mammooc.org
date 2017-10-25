@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe MooinCourseWorker do
-  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'mooin') }
+  let!(:mooc_provider) { FactoryBot.create(:mooc_provider, name: 'mooin') }
 
   let(:mooin_course_worker) { described_class.new }
 
@@ -112,8 +112,8 @@ RSpec.describe MooinCourseWorker do
     json_api_course_data.keys.values
   end
 
-  let!(:non_free_track_type) { FactoryGirl.create :mooin_non_free_track_type, type_of_achievement: 'mooin_full_certificate' }
-  let!(:free_track_type) { FactoryGirl.create :mooin_free_track_type, type_of_achievement: 'mooin_certificate' }
+  let!(:non_free_track_type) { FactoryBot.create :mooin_non_free_track_type, type_of_achievement: 'mooin_full_certificate' }
+  let!(:free_track_type) { FactoryBot.create :mooin_free_track_type, type_of_achievement: 'mooin_certificate' }
 
   it 'delivers MOOCProvider' do
     expect(mooin_course_worker.mooc_provider).to eq mooc_provider
