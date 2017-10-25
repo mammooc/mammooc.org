@@ -21,8 +21,8 @@ class Course < ApplicationRecord
 
   belongs_to :mooc_provider
   belongs_to :organisation
-  has_one :previous_iteration, foreign_key: 'previous_iteration_id', class_name: 'Course'
-  has_one :following_iteration, foreign_key: 'following_iteration_id', class_name: 'Course'
+  has_one :previous_iteration, foreign_key: 'previous_iteration_id', class_name: 'Course', dependent: :nullify
+  has_one :following_iteration, foreign_key: 'following_iteration_id', class_name: 'Course', dependent: :nullify
   has_many :recommendations, dependent: :destroy
   has_many :completions, dependent: :destroy
   has_and_belongs_to_many :users

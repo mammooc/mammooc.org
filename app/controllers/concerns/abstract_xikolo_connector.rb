@@ -3,8 +3,9 @@
 class AbstractXikoloConnector < AbstractMoocProviderConnector
   AUTHENTICATE_API = 'authenticate/'
   ENROLLMENTS_API = 'users/me/enrollments/'
-  DATES_API = 'next_dates/'
+  DATES_API = 'course-dates/'
   COURSES_API = 'courses/'
+  XIKOLO_API_VERSION = '2.0'
 
   private
 
@@ -54,47 +55,64 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
 
   def get_dates_for_user(user)
     token_string = "Legacy-Token token=#{get_access_token user}"
+    accept_header = "application/vnd.api+json; xikolo-version=#{XIKOLO_API_VERSION}"
     api_url = self.class::ROOT_API_V2 + DATES_API
-    response = RestClient.get(api_url, accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', authorization: token_string)
-    JSON.parse response
+    response = RestClient.get(api_url, accept: accept_header, authorization: token_string)
+    if response.headers[:x_api_version_expiration_date].present?
+      api_expiration_date = response.headers[:x_api_version_expiration_date]
+      AdminMailer.xikolo_api_expiration(Settings.admin_email, self.class.name, api_url, api_expiration_date, Settings.root_url).deliver_later
+    end
+
+    if response.present?
+      JSON::Api::Vanilla.parse response
+    else
+      []
+    end
   end
 
   def handle_dates_response(response_data, user)
     update_map = create_update_map_for_user_dates user, mooc_provider
-    response_data['next_dates'].each do |response_user_date|
-      course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, response_user_date['course'])
-      user_date = UserDate.find_by(user: user, course: course, ressource_id_from_provider: response_user_date['id'], kind: response_user_date['type'])
+    date_list = response_data.keys
+    course_list = response_data.rel_links.values
+
+    date_list.zip(course_list).each do |date, related_course|
+      external_date_id = date.first.id
+      date = date.last
+      related_course = File.basename(related_course['related'])
+
+      course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, related_course)
+      user_date = UserDate.find_by(user: user, course: course, ressource_id_from_provider: external_date_id, kind: date['type'])
       if user_date.present?
         update_map[user_date.id] = true
-        update_existing_entry user_date, response_user_date
+        update_existing_entry user_date, date
       else
-        create_new_entry user, response_user_date
+        create_new_entry user, date, related_course, external_date_id
       end
     end
     change_existing_no_longer_relevant_entries update_map
   end
 
-  def create_new_entry(user, response_user_date)
+  def create_new_entry(user, date, related_course, external_date_id)
     user_date = UserDate.new
     user_date.user = user
-    user_date.course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, response_user_date['course'])
-    user_date.date = response_user_date['date']
-    user_date.title = response_user_date['title']
-    user_date.kind = response_user_date['type']
+    user_date.course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, related_course)
+    user_date.date = date['date']
+    user_date.title = date['title']
+    user_date.kind = date['type']
     user_date.relevant = true
-    user_date.ressource_id_from_provider = response_user_date['id']
+    user_date.ressource_id_from_provider = external_date_id
     user_date.save
   end
 
-  def update_existing_entry(user_date, response_user_date)
-    if user_date.date != response_user_date['date']
-      user_date.date = response_user_date['date']
+  def update_existing_entry(user_date, response_date)
+    if user_date.date != response_date['date']
+      user_date.date = response_date['date']
     end
-    if user_date.title != response_user_date['title']
-      user_date.title = response_user_date['title']
+    if user_date.title != response_date['title']
+      user_date.title = response_date['title']
     end
-    if user_date.kind != response_user_date['type']
-      user_date.kind = response_user_date['type']
+    if user_date.kind != response_date['type']
+      user_date.kind = response_date['type']
     end
     user_date.save
   end

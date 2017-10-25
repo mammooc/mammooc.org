@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateGroupInvitations < ActiveRecord::Migration
+class CreateGroupInvitations < ActiveRecord::Migration[4.2]
   def change
     create_table :group_invitations do |t|
       t.references :group, type: 'uuid', index: true, null: false

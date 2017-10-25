@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UpdateCoursesForProviderCompatibility < ActiveRecord::Migration
+class UpdateCoursesForProviderCompatibility < ActiveRecord::Migration[4.2]
   def change
     change_column(:courses, :start_date, :datetime, null: true)
     change_column(:courses, :end_date, :datetime, null: true)

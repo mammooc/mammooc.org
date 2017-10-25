@@ -85,7 +85,7 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
   end
 
-  config.before(:each) do |example|
+  config.before do |example|
     if example.metadata[:type] == :feature
       DatabaseCleaner.strategy = :truncation
       if ENV['PHANTOM_JS'] == 'true' && example.metadata[:js]
@@ -106,7 +106,7 @@ RSpec.configure do |config|
     allow(Course).to receive(:process_uri).and_return(nil)
   end
 
-  config.after(:each) do
+  config.after do
     DatabaseCleaner.clean!
   end
 

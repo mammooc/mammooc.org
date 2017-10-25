@@ -25,9 +25,9 @@ RSpec.describe ApisController, type: :controller do
       it 'returns the correct amount of users' do
         get :statistics, format: :js
 
-        expect(subject['users']).to eq 3
-        expect(subject['users_last_day']).to eq 1
-        expect(subject['users_last_7days']).to eq 2
+        expect(statistics['users']).to eq 3
+        expect(statistics['users_last_day']).to eq 1
+        expect(statistics['users_last_7days']).to eq 2
       end
     end
   end

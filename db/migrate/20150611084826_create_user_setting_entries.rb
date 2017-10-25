@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateUserSettingEntries < ActiveRecord::Migration
+class CreateUserSettingEntries < ActiveRecord::Migration[4.2]
   def change
     create_table :user_setting_entries, id: :uuid do |t|
       t.string :key

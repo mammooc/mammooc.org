@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddAttributesToEvaluations < ActiveRecord::Migration
+class AddAttributesToEvaluations < ActiveRecord::Migration[4.2]
   def change
     add_column(:evaluations, :course_status, :integer)
     add_column(:evaluations, :rated_anonymously, :boolean)

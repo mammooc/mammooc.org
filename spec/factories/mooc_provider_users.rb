@@ -11,6 +11,6 @@ FactoryGirl.define do
     association :user_id, factory: :user
     association :mooc_provider_id, factory: :mooc_provider
     sequence(:access_token) {|n| "token#{n}" }
-    access_token_valid_until Time.zone.now + 5.minutes
+    access_token_valid_until { Time.zone.now + 5.minutes }
   end
 end

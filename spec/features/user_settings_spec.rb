@@ -33,7 +33,7 @@ RSpec.describe 'UserSettings', type: :feature do
       it 'are visible for user himself' do
         capybara_sign_in second_user
         visit user_path(second_user)
-        expect(current_path).to eq user_path(second_user)
+        expect(page).to have_current_path user_path(second_user)
         expect(page).to have_content I18n.t('users.own_profile.current_courses')
         expect(page).to have_content course1.name
       end
@@ -41,7 +41,7 @@ RSpec.describe 'UserSettings', type: :feature do
       it 'are visible for users who are whitelisted' do
         capybara_sign_in user
         visit user_path(second_user)
-        expect(current_path).to eq user_path(second_user)
+        expect(page).to have_current_path user_path(second_user)
         expect(page).to have_content I18n.t('users.profile.current_courses')
         expect(page).to have_content course1.name
       end
@@ -49,7 +49,7 @@ RSpec.describe 'UserSettings', type: :feature do
       it 'are not visible for users who are not whitelisted' do
         capybara_sign_in third_user
         visit user_path(second_user)
-        expect(current_path).to eq user_path(second_user)
+        expect(page).to have_current_path user_path(second_user)
         expect(page).not_to have_content I18n.t('users.profile.current_courses')
         expect(page).not_to have_content course1.name
       end
@@ -57,7 +57,7 @@ RSpec.describe 'UserSettings', type: :feature do
       it 'are visible to users who are in groups which are whitelisted' do
         capybara_sign_in fourth_user
         visit user_path(second_user)
-        expect(current_path).to eq user_path(second_user)
+        expect(page).to have_current_path user_path(second_user)
         expect(page).to have_content I18n.t('users.profile.current_courses')
         expect(page).to have_content course1.name
       end
@@ -65,7 +65,7 @@ RSpec.describe 'UserSettings', type: :feature do
       it 'are not visible to users who are in groups which are not whitelisted' do
         capybara_sign_in fifth_user
         visit user_path(second_user)
-        expect(current_path).to eq user_path(second_user)
+        expect(page).to have_current_path user_path(second_user)
         expect(page).not_to have_content I18n.t('users.profile.current_courses')
         expect(page).not_to have_content course1.name
       end
@@ -141,27 +141,27 @@ RSpec.describe 'UserSettings', type: :feature do
       it 'are visible for user himself' do
         capybara_sign_in second_user
         visit user_path(second_user)
-        expect(current_path).to eq user_path(second_user)
+        expect(page).to have_current_path user_path(second_user)
         expect(page).to have_content I18n.t('users.own_profile.course_completions')
         expect(page).to have_content I18n.t('users.profile.course_completions_link')
         click_on I18n.t('users.profile.course_completions_link')
-        expect(current_path).to eq completions_path(second_user)
+        expect(page).to have_current_path completions_path(second_user)
       end
 
       it 'are visible for users who are whitelisted' do
         capybara_sign_in user
         visit user_path(second_user)
-        expect(current_path).to eq user_path(second_user)
+        expect(page).to have_current_path user_path(second_user)
         expect(page).to have_content I18n.t('users.profile.course_completions')
         expect(page).to have_content I18n.t('users.profile.course_completions_link')
         click_on I18n.t('users.profile.course_completions_link')
-        expect(current_path).to eq completions_path(second_user)
+        expect(page).to have_current_path completions_path(second_user)
       end
 
       it 'are not visible for users who are not whitelisted' do
         capybara_sign_in third_user
         visit user_path(second_user)
-        expect(current_path).to eq user_path(second_user)
+        expect(page).to have_current_path user_path(second_user)
         expect(page).not_to have_content I18n.t('users.profile.course_completions')
         expect(page).not_to have_content I18n.t('users.profile.course_completions_link')
       end
@@ -169,17 +169,17 @@ RSpec.describe 'UserSettings', type: :feature do
       it 'are visible to users who are in groups which are whitelisted' do
         capybara_sign_in fourth_user
         visit user_path(second_user)
-        expect(current_path).to eq user_path(second_user)
+        expect(page).to have_current_path user_path(second_user)
         expect(page).to have_content I18n.t('users.profile.course_completions')
         expect(page).to have_content I18n.t('users.profile.course_completions_link')
         click_on I18n.t('users.profile.course_completions_link')
-        expect(current_path).to eq completions_path(second_user)
+        expect(page).to have_current_path completions_path(second_user)
       end
 
       it 'are not visible to users who are in groups which are not whitelisted' do
         capybara_sign_in fifth_user
         visit user_path(second_user)
-        expect(current_path).to eq user_path(second_user)
+        expect(page).to have_current_path user_path(second_user)
         expect(page).not_to have_content I18n.t('users.profile.course_completions')
         expect(page).not_to have_content I18n.t('users.profile.course_completions_link')
       end
@@ -189,31 +189,31 @@ RSpec.describe 'UserSettings', type: :feature do
       it 'page is accessable for user himself' do
         capybara_sign_in second_user
         visit completions_path(second_user)
-        expect(current_path).to eq completions_path(second_user)
+        expect(page).to have_current_path completions_path(second_user)
       end
 
       it 'page is accessable for users who are whitelisted' do
         capybara_sign_in user
         visit completions_path(second_user)
-        expect(current_path).to eq completions_path(second_user)
+        expect(page).to have_current_path completions_path(second_user)
       end
 
       it 'page is not accessable for users who are not whitelisted' do
         capybara_sign_in third_user
         visit completions_path(second_user)
-        expect(current_path).to eq dashboard_path
+        expect(page).to have_current_path dashboard_path
       end
 
       it 'page is accessable for users who in group which are whitelisted' do
         capybara_sign_in fourth_user
         visit completions_path(second_user)
-        expect(current_path).to eq completions_path(second_user)
+        expect(page).to have_current_path completions_path(second_user)
       end
 
       it 'page is not accessable for users who are in groups which are not whitelisted' do
         capybara_sign_in fifth_user
         visit completions_path(second_user)
-        expect(current_path).to eq dashboard_path
+        expect(page).to have_current_path dashboard_path
       end
     end
   end
@@ -233,31 +233,31 @@ RSpec.describe 'UserSettings', type: :feature do
     it 'page is accessable for user himself' do
       capybara_sign_in second_user
       visit user_path(second_user)
-      expect(current_path).to eq user_path(second_user)
+      expect(page).to have_current_path user_path(second_user)
     end
 
     it 'page is accessable for users who are whitelisted' do
       capybara_sign_in user
       visit user_path(second_user)
-      expect(current_path).to eq user_path(second_user)
+      expect(page).to have_current_path user_path(second_user)
     end
 
     it 'page is not accessable for users who are not whitelisted' do
       capybara_sign_in third_user
       visit user_path(second_user)
-      expect(current_path).to eq dashboard_path
+      expect(page).to have_current_path dashboard_path
     end
 
     it 'page is accessable for users who in group which are whitelisted' do
       capybara_sign_in fourth_user
       visit user_path(second_user)
-      expect(current_path).to eq user_path(second_user)
+      expect(page).to have_current_path user_path(second_user)
     end
 
     it 'page is not accessable for users who are in groups which are not whitelisted' do
       capybara_sign_in fifth_user
       visit user_path(second_user)
-      expect(current_path).to eq dashboard_path
+      expect(page).to have_current_path dashboard_path
     end
   end
 end

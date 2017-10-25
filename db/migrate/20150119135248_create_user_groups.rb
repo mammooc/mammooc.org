@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateUserGroups < ActiveRecord::Migration
+class CreateUserGroups < ActiveRecord::Migration[4.2]
   def change
     create_table :user_groups, id: :uuid do |t|
       t.boolean :is_admin

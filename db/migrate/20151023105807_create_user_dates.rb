@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateUserDates < ActiveRecord::Migration
+class CreateUserDates < ActiveRecord::Migration[4.2]
   def change
     create_table :user_dates, id: :uuid do |t|
       t.references :user, type: :uuid, index: true, foreign_key: true

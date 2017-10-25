@@ -112,7 +112,7 @@ class EvaluationsController < ApplicationController
       end
       format.json { render json: {success: 'true'}, status: :ok }
     end
-  rescue => e
+  rescue StandardError => e
     respond_to do |format|
       format.js do
         render json: {success: 'false', error: e.message}, callback: params[:callback]
@@ -142,7 +142,7 @@ class EvaluationsController < ApplicationController
       flash.keep
       redirect_to course_path(course)
     end
-  rescue
+  rescue StandardError
     flash['error'] ||= []
     flash['error'] << t('global.ajax_failed')
     flash.keep

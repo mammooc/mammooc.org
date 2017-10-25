@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateCourseTracksAndCourseTrackTypesAndAddCourseTracksToCourses < ActiveRecord::Migration
+class CreateCourseTracksAndCourseTrackTypesAndAddCourseTracksToCourses < ActiveRecord::Migration[4.2]
   def change
     create_table :course_track_types, id: :uuid do |t|
       t.string :type_of_achievement, null: false

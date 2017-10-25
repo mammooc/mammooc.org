@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateEvaluations < ActiveRecord::Migration
+class CreateEvaluations < ActiveRecord::Migration[4.2]
   def change
     create_table :evaluations, id: :uuid do |t|
       t.string :title

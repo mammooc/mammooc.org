@@ -11,7 +11,7 @@ RSpec.describe AbstractCourseWorker do
   it 'creates a valid update_map' do
     update_map = abstract_course_worker.create_update_map mooc_provider
     expect(update_map.length).to eq 10
-    update_map.each do |_, updated|
+    update_map.each_value do |updated|
       expect(updated).to be false
     end
   end

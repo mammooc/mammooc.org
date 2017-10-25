@@ -55,7 +55,10 @@ Style/ClassAndModuleChildren:
   Exclude:
    - 'config/application.rb'
 
-Style/FileName:
+Style/CommentedKeyword:
+  Enabled: false
+
+Naming/FileName:
   Exclude:
   - 'Gemfile'
 

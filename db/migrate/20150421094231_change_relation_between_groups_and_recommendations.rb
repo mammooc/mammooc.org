@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ChangeRelationBetweenGroupsAndRecommendations < ActiveRecord::Migration
+class ChangeRelationBetweenGroupsAndRecommendations < ActiveRecord::Migration[4.2]
   def change
     drop_join_table :groups, :recommendations
 

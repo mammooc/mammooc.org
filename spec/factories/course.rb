@@ -27,8 +27,8 @@ Kerstin: “I have to honestly say that I am impressed by what you’ve accompli
 Claudia; “I enjoyed this course so much. It gave me a chance to expand my horizons in web technologies a great deal. I really liked the practical homework exercises, especially the calculation task in Week 5. I’m already looking forward to the next course. Keep up the good work!”'
     language 'en'
     videoId ''
-    start_date Time.zone.local(2015, 6, 1, 8)
-    end_date Time.zone.local(2015, 7, 20, 23, 30)
+    start_date { Time.zone.local(2015, 6, 1, 8) }
+    end_date { Time.zone.local(2015, 7, 20, 23, 30) }
     categories ['Web', 'Technologies', 'Computer Science', '#geilon']
     requirements %w[Computer Brain Strength]
     difficulty 'medium'
