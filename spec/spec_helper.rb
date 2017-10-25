@@ -28,7 +28,7 @@ SimpleCov.start do
   add_group 'Libraries', 'lib'
 end
 require 'public_activity/testing'
-require 'factory_girl_rails'
+require 'factory_bot_rails'
 require 'devise'
 require 'support/devise_support'
 require 'support/wait_for_ajax'

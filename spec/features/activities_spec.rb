@@ -4,8 +4,8 @@ require 'rails_helper'
 require 'support/feature_support'
 
 RSpec.describe 'Activities', type: :feature do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:second_user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:second_user) { FactoryBot.create(:user) }
 
   before do
     capybara_sign_in user
@@ -14,9 +14,9 @@ RSpec.describe 'Activities', type: :feature do
   end
 
   context 'join a group' do
-    let(:second_user) { FactoryGirl.create(:user) }
-    let(:group) { FactoryGirl.create(:group, users: [user]) }
-    let(:invitation) { FactoryGirl.create(:group_invitation, group: group) }
+    let(:second_user) { FactoryBot.create(:user) }
+    let(:group) { FactoryBot.create(:group, users: [user]) }
+    let(:invitation) { FactoryBot.create(:group_invitation, group: group) }
 
     before do
       capybara_sign_out user
@@ -53,7 +53,7 @@ RSpec.describe 'Activities', type: :feature do
     end
 
     describe 'ignore activity' do
-      let(:another_user) { FactoryGirl.create(:user) }
+      let(:another_user) { FactoryBot.create(:user) }
       let!(:activity) do
         activity = PublicActivity::Activity.first
         activity.user_ids.push(another_user.id)
@@ -106,8 +106,8 @@ RSpec.describe 'Activities', type: :feature do
   end
 
   context 'bookmark a course' do
-    let(:course) { FactoryGirl.create(:course) }
-    let!(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
+    let(:course) { FactoryBot.create(:course) }
+    let!(:group) { FactoryBot.create(:group, users: [user, second_user]) }
 
     before do
       capybara_sign_out user
@@ -147,7 +147,7 @@ RSpec.describe 'Activities', type: :feature do
     end
 
     describe 'ignore activity' do
-      let(:another_user) { FactoryGirl.create(:user) }
+      let(:another_user) { FactoryBot.create(:user) }
       let!(:activity) do
         activity = PublicActivity::Activity.first
         activity.user_ids.push(another_user.id)
@@ -200,11 +200,11 @@ RSpec.describe 'Activities', type: :feature do
   end
 
   context 'enroll in course' do
-    let(:openHPI) { FactoryGirl.create(:mooc_provider, name: 'openHPI', api_support_state: 'naive') }
-    let(:course) { FactoryGirl.create(:course, mooc_provider: openHPI) }
-    let!(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
-    let(:user_setting) { FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
-    let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
+    let(:openHPI) { FactoryBot.create(:mooc_provider, name: 'openHPI', api_support_state: 'naive') }
+    let(:course) { FactoryBot.create(:course, mooc_provider: openHPI) }
+    let!(:group) { FactoryBot.create(:group, users: [user, second_user]) }
+    let(:user_setting) { FactoryBot.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
+    let!(:user_setting_entry) { FactoryBot.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
 
     before do
       allow_any_instance_of(OpenHPIConnector).to receive(:enroll_user_for_course).and_return(true)
@@ -245,7 +245,7 @@ RSpec.describe 'Activities', type: :feature do
     end
 
     describe 'ignore activity' do
-      let(:another_user) { FactoryGirl.create(:user) }
+      let(:another_user) { FactoryBot.create(:user) }
       let!(:activity) do
         activity = PublicActivity::Activity.first
         activity.user_ids.push(another_user.id)
@@ -298,8 +298,8 @@ RSpec.describe 'Activities', type: :feature do
   end
 
   context 'recommend a course to a group' do
-    let(:course) { FactoryGirl.create(:course) }
-    let!(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
+    let(:course) { FactoryBot.create(:course) }
+    let!(:group) { FactoryBot.create(:group, users: [user, second_user]) }
 
     before do
       capybara_sign_out user
@@ -360,7 +360,7 @@ RSpec.describe 'Activities', type: :feature do
     end
 
     describe 'ignore activity' do
-      let(:another_user) { FactoryGirl.create(:user) }
+      let(:another_user) { FactoryBot.create(:user) }
       let!(:activity) do
         activity = PublicActivity::Activity.first
         activity.user_ids.push(another_user.id)
@@ -403,8 +403,8 @@ RSpec.describe 'Activities', type: :feature do
   end
 
   context 'recommend a course to a user' do
-    let(:course) { FactoryGirl.create(:course) }
-    let!(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
+    let(:course) { FactoryBot.create(:course) }
+    let!(:group) { FactoryBot.create(:group, users: [user, second_user]) }
 
     before do
       capybara_sign_out user
@@ -452,7 +452,7 @@ RSpec.describe 'Activities', type: :feature do
     end
 
     describe 'ignore activity' do
-      let(:another_user) { FactoryGirl.create(:user) }
+      let(:another_user) { FactoryBot.create(:user) }
       let!(:activity) do
         activity = PublicActivity::Activity.first
         activity.user_ids.push(another_user.id)

@@ -75,7 +75,7 @@ gem 'font-awesome-sass'
 gem 'bootstrap-datepicker-rails'
 gem 'bootstrap_tokenfield_rails'
 
-gem 'factory_girl_rails'
+gem 'factory_bot_rails'
 
 gem 'i18n-js'
 gem 'rails-i18n'

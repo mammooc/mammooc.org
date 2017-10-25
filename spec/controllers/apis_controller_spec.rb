@@ -18,9 +18,9 @@ RSpec.describe ApisController, type: :controller do
     context 'global_statistic' do
       subject(:statistics) { JSON.parse(response.body)['global_statistic'] }
 
-      let!(:user_8days) { FactoryGirl.create(:user, created_at: Time.zone.now - 8.days) }
-      let!(:user_4days) { FactoryGirl.create(:user, created_at: Time.zone.now - 4.days) }
-      let!(:user_3hours) { FactoryGirl.create(:user, created_at: Time.zone.now - 3.hours) }
+      let!(:user_8days) { FactoryBot.create(:user, created_at: Time.zone.now - 8.days) }
+      let!(:user_4days) { FactoryBot.create(:user, created_at: Time.zone.now - 4.days) }
+      let!(:user_3hours) { FactoryBot.create(:user, created_at: Time.zone.now - 3.hours) }
 
       it 'returns the correct amount of users' do
         get :statistics, format: :js

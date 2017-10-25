@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe NewsletterWorker do
-  let(:user) { FactoryGirl.create(:user, primary_email: 'test@example.com') }
+  let(:user) { FactoryBot.create(:user, primary_email: 'test@example.com') }
 
   before do
     Sidekiq::Testing.inline!
@@ -11,10 +11,10 @@ RSpec.describe NewsletterWorker do
   end
 
   describe 'send_email_with_new_courses' do
-    let(:another_user) { FactoryGirl.create(:user, primary_email: 'test123@example.com') }
+    let(:another_user) { FactoryBot.create(:user, primary_email: 'test123@example.com') }
 
     it 'sends email only if user has subscribed for newsletter' do
-      FactoryGirl.create(:course)
+      FactoryBot.create(:course)
       user.newsletter_interval = 5
       user.unsubscribed_newsletter = false
       user.save
@@ -24,7 +24,7 @@ RSpec.describe NewsletterWorker do
     end
 
     it 'does not send email if user has unsubscribed from newsletter' do
-      FactoryGirl.create(:course)
+      FactoryBot.create(:course)
       user.newsletter_interval = 5
       user.unsubscribed_newsletter = false
       user.save
@@ -35,7 +35,7 @@ RSpec.describe NewsletterWorker do
     end
 
     it 'sends email only if the defined newsletter_interval is reached again' do
-      FactoryGirl.create(:course)
+      FactoryBot.create(:course)
       user.newsletter_interval = 5
       user.unsubscribed_newsletter = false
       user.last_newsletter_send_at = Time.zone.today - 5.days
@@ -48,7 +48,7 @@ RSpec.describe NewsletterWorker do
     end
 
     it 'sends email if the newsletter is send for the first time to the user' do
-      FactoryGirl.create(:course)
+      FactoryBot.create(:course)
       user.newsletter_interval = 5
       user.unsubscribed_newsletter = false
       user.last_newsletter_send_at = nil
@@ -68,7 +68,7 @@ RSpec.describe NewsletterWorker do
     it 'sends email every day if a new courses are available' do
       allow(Time.zone).to receive(:now).and_return(Time.zone.parse('2016-08-02 01:00:00'))
       allow(Time.zone).to receive(:today).and_return((Time.zone.parse '2016-08-02').to_date)
-      course = FactoryGirl.create(:course)
+      course = FactoryBot.create(:course)
       course.created_at = Time.zone.parse '2016-08-01 02:00:00'
       course.save
       user.newsletter_interval = 1

@@ -12,7 +12,7 @@ RSpec.describe UserEmail, type: :model do
     end
 
     it 'does not create a second primary address' do
-      FactoryGirl.create(:user_email, user: user)
+      FactoryBot.create(:user_email, user: user)
       expect { described_class.create!(user: user, is_primary: true, address: 'max@example.com') }.to raise_error ActiveRecord::RecordInvalid
       expect(described_class.where(user: user, is_primary: true).count).to eq 1
     end
@@ -22,7 +22,7 @@ RSpec.describe UserEmail, type: :model do
     end
 
     it 'creates non primary addresses if a primary address is saved' do
-      FactoryGirl.create(:user_email, user: user)
+      FactoryBot.create(:user_email, user: user)
       expect { described_class.create!(user: user, is_primary: false, address: 'max1@example.com') }.not_to raise_error
       expect { described_class.create!(user: user, is_primary: false, address: 'max2@example.com') }.not_to raise_error
     end
@@ -30,7 +30,7 @@ RSpec.describe UserEmail, type: :model do
 
   describe 'update user emails' do
     it 'is not allowed to remove the is_primary attribute without changing another address to the primary' do
-      email = FactoryGirl.create(:user_email, user: user)
+      email = FactoryBot.create(:user_email, user: user)
       email.is_primary = false
       expect { email.save! }.to raise_error ActiveRecord::RecordInvalid
       expect(email).not_to be_valid
@@ -38,8 +38,8 @@ RSpec.describe UserEmail, type: :model do
     end
 
     it 'is allowed to toggle the is_primary attribute between two addresses' do
-      email1 = FactoryGirl.create(:user_email, user: user, is_primary: true)
-      email2 = FactoryGirl.create(:user_email, user: user, is_primary: false)
+      email1 = FactoryBot.create(:user_email, user: user, is_primary: true)
+      email2 = FactoryBot.create(:user_email, user: user, is_primary: false)
 
       expect do
         email2.change_to_primary_email
@@ -50,8 +50,8 @@ RSpec.describe UserEmail, type: :model do
     end
 
     it 'is not allowed to add the is_primary attribute if another primary address exists' do
-      FactoryGirl.create(:user_email, user: user, is_primary: true)
-      email2 = FactoryGirl.create(:user_email, user: user, is_primary: false)
+      FactoryBot.create(:user_email, user: user, is_primary: true)
+      email2 = FactoryBot.create(:user_email, user: user, is_primary: false)
       email2.is_primary = true
       expect { email2.save! }.to raise_error ActiveRecord::RecordInvalid
       expect(email2).not_to be_valid
@@ -61,22 +61,22 @@ RSpec.describe UserEmail, type: :model do
 
   describe 'destroy user emails' do
     it 'is allowed to destroy any non primary address' do
-      FactoryGirl.create(:user_email, user: user, is_primary: true)
-      email2 = FactoryGirl.create(:user_email, user: user, is_primary: false)
+      FactoryBot.create(:user_email, user: user, is_primary: true)
+      email2 = FactoryBot.create(:user_email, user: user, is_primary: false)
       expect { email2.destroy! }.not_to raise_error
       expect(email2.destroyed?).to be true
     end
 
     it 'is not allowed to destroy the primary address' do
       skip 'spec beacuse it fails randomly on CircleCI'
-      email = FactoryGirl.create(:user_email, user: user, is_primary: true)
+      email = FactoryBot.create(:user_email, user: user, is_primary: true)
       expect { email.destroy! }.to raise_error ActiveRecord::RecordNotDestroyed
       expect(described_class.where(user: user, is_primary: true).count).to eq 1
     end
 
     it 'is allowed to delete the primary address if another one is made primary' do
-      email1 = FactoryGirl.create(:user_email, user: user, is_primary: true)
-      email2 = FactoryGirl.create(:user_email, user: user, is_primary: false)
+      email1 = FactoryBot.create(:user_email, user: user, is_primary: true)
+      email2 = FactoryBot.create(:user_email, user: user, is_primary: false)
 
       expect do
         email2.change_to_primary_email
@@ -164,8 +164,8 @@ RSpec.describe UserEmail, type: :model do
   end
 
   describe 'change_to_primary_email' do
-    let!(:email1) { FactoryGirl.create(:user_email, user: user, is_primary: true) }
-    let!(:email2) { FactoryGirl.create(:user_email, user: user, is_primary: false) }
+    let!(:email1) { FactoryBot.create(:user_email, user: user, is_primary: true) }
+    let!(:email2) { FactoryBot.create(:user_email, user: user, is_primary: false) }
 
     it 'changes the is_primary attribute to true and changes the existing primary_email.is_primary to false' do
       email2.change_to_primary_email

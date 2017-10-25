@@ -6,10 +6,10 @@ RSpec.describe AbstractMoocProviderConnector do
   let(:abstract_mooc_provider_connector) { described_class.new }
 
   context 'synchronize user enrollments' do
-    let(:mooc_provider) { FactoryGirl.create(:mooc_provider) }
-    let(:course) { FactoryGirl.create(:full_course, mooc_provider_id: mooc_provider.id) }
-    let(:second_course) { FactoryGirl.create(:full_course, mooc_provider_id: mooc_provider.id) }
-    let(:user) { FactoryGirl.create(:user) }
+    let(:mooc_provider) { FactoryBot.create(:mooc_provider) }
+    let(:course) { FactoryBot.create(:full_course, mooc_provider_id: mooc_provider.id) }
+    let(:second_course) { FactoryBot.create(:full_course, mooc_provider_id: mooc_provider.id) }
+    let(:user) { FactoryBot.create(:user) }
 
     before do
       user.courses << course
@@ -67,7 +67,7 @@ RSpec.describe AbstractMoocProviderConnector do
 
   context 'synchronize user dates' do
     describe 'fetch dates for user' do
-      let(:user) { FactoryGirl.create(:user) }
+      let(:user) { FactoryBot.create(:user) }
 
       it 'handles internet connection error for user dates' do
         allow(abstract_mooc_provider_connector).to receive(:get_dates_for_user).and_raise SocketError
@@ -114,7 +114,7 @@ RSpec.describe AbstractMoocProviderConnector do
     describe 'load dates for user' do
       it 'calls fetch_dates_for_user for every user if no user is given' do
         5.times do
-          FactoryGirl.create(:user)
+          FactoryBot.create(:user)
         end
         allow(abstract_mooc_provider_connector).to receive(:connection_to_mooc_provider?).and_return(true)
         expect(abstract_mooc_provider_connector).to receive(:fetch_dates_for_user).exactly(5).times
@@ -122,9 +122,9 @@ RSpec.describe AbstractMoocProviderConnector do
       end
 
       it 'calls fetch_dates_for_user only for the given users' do
-        users = [FactoryGirl.create(:user), FactoryGirl.create(:user)]
+        users = [FactoryBot.create(:user), FactoryBot.create(:user)]
         5.times do
-          FactoryGirl.create(:user)
+          FactoryBot.create(:user)
         end
         allow(abstract_mooc_provider_connector).to receive(:connection_to_mooc_provider?).and_return(true)
         expect(abstract_mooc_provider_connector).to receive(:fetch_dates_for_user).exactly(2).times
@@ -133,13 +133,13 @@ RSpec.describe AbstractMoocProviderConnector do
     end
 
     describe 'create update map for user dates' do
-      let(:mooc_provider) { FactoryGirl.create(:mooc_provider) }
-      let(:course) { FactoryGirl.create(:course, mooc_provider: mooc_provider) }
-      let(:user) { FactoryGirl.create(:user, courses: [course]) }
+      let(:mooc_provider) { FactoryBot.create(:mooc_provider) }
+      let(:course) { FactoryBot.create(:course, mooc_provider: mooc_provider) }
+      let(:user) { FactoryBot.create(:user, courses: [course]) }
 
       it 'creates one entry in update map for every user dates with the given user and mooc_provider' do
         5.times do
-          FactoryGirl.create(:user_date, user: user, course: course)
+          FactoryBot.create(:user_date, user: user, course: course)
         end
         map = abstract_mooc_provider_connector.send(:create_update_map_for_user_dates, user, mooc_provider)
         expect(map.length).to eq 5
@@ -147,11 +147,11 @@ RSpec.describe AbstractMoocProviderConnector do
 
       it 'does not create an entry for user dates that does not belong to the given user' do
         2.times do
-          FactoryGirl.create(:user_date, user: user, course: course)
+          FactoryBot.create(:user_date, user: user, course: course)
         end
 
         3.times do
-          FactoryGirl.create(:user_date, course: course)
+          FactoryBot.create(:user_date, course: course)
         end
 
         map = abstract_mooc_provider_connector.send(:create_update_map_for_user_dates, user, mooc_provider)
@@ -160,11 +160,11 @@ RSpec.describe AbstractMoocProviderConnector do
 
       it 'does not create an entry for user dates that does not belong to the given provider' do
         2.times do
-          FactoryGirl.create(:user_date, user: user, course: course)
+          FactoryBot.create(:user_date, user: user, course: course)
         end
 
         3.times do
-          FactoryGirl.create(:user_date, user: user)
+          FactoryBot.create(:user_date, user: user)
         end
 
         map = abstract_mooc_provider_connector.send(:create_update_map_for_user_dates, user, mooc_provider)
@@ -173,7 +173,7 @@ RSpec.describe AbstractMoocProviderConnector do
 
       it 'sets every entry to false' do
         5.times do
-          FactoryGirl.create(:user_date, user: user, course: course)
+          FactoryBot.create(:user_date, user: user, course: course)
         end
         map = abstract_mooc_provider_connector.send(:create_update_map_for_user_dates, user, mooc_provider)
         map.each_value do |updated|
@@ -183,7 +183,7 @@ RSpec.describe AbstractMoocProviderConnector do
     end
 
     it 'throws exceptions when trying to call abstract methods' do
-      user = FactoryGirl.create(:user)
+      user = FactoryBot.create(:user)
       expect { abstract_mooc_provider_connector.send(:get_dates_for_user, user) }.to raise_error NotImplementedError
       expect { abstract_mooc_provider_connector.send(:handle_dates_response, 'test', user) }.to raise_error NotImplementedError
     end

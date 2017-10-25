@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe 'layouts/_activity', type: :view do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:author) { FactoryGirl.create(:user) }
-  let!(:activity) { assign(:activity, FactoryGirl.create(:activity_bookmark, user_ids: [user.id])) }
-  let(:course) { FactoryGirl.create(:course) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:author) { FactoryBot.create(:user) }
+  let!(:activity) { assign(:activity, FactoryBot.create(:activity_bookmark, user_ids: [user.id])) }
+  let(:course) { FactoryBot.create(:course) }
   let!(:provider_logos) { assign(:provider_logos, {}) }
   let!(:profile_pictures) { assign(:profile_pictures, {}) }
 
@@ -25,7 +25,7 @@ RSpec.describe 'layouts/_activity', type: :view do
 
   it 'renders the course rating when it is present' do
     sign_in user
-    FactoryGirl.create(:full_evaluation, user_id: user.id, course_id: course.id)
+    FactoryBot.create(:full_evaluation, user_id: user.id, course_id: course.id)
     course.reload
     render 'layouts/activity', activity: activity, author: author, course: course, bookmarked: false, group_context: false, user_is_admin: false, signed_in_user: user
     expect(rendered).to have_content("(#{course.rating_count})")
@@ -33,7 +33,7 @@ RSpec.describe 'layouts/_activity', type: :view do
 
   it 'does not render course rating when it is zero' do
     sign_in user
-    eva = FactoryGirl.create(:full_evaluation, user_id: user.id, course_id: course.id)
+    eva = FactoryBot.create(:full_evaluation, user_id: user.id, course_id: course.id)
     eva.destroy
     course.reload
     render 'layouts/activity', activity: activity, author: author, course: course, bookmarked: false, group_context: false, user_is_admin: false, signed_in_user: user

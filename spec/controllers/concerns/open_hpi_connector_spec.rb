@@ -9,8 +9,8 @@ RSpec.describe OpenHPIConnector do
                                redirection_history: nil, args: {url: url, method: method})
   end
 
-  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openHPI', api_support_state: 'naive') }
-  let!(:user) { FactoryGirl.create(:user) }
+  let!(:mooc_provider) { FactoryBot.create(:mooc_provider, name: 'openHPI', api_support_state: 'naive') }
+  let!(:user) { FactoryBot.create(:user) }
   let(:open_hpi_connector) { described_class.new }
 
   describe 'mooc_provider' do
@@ -25,7 +25,7 @@ RSpec.describe OpenHPIConnector do
     end
 
     it 'returns access_token when user has connection to mooc provider' do
-      FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
+      FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
       expect(open_hpi_connector.send(:get_access_token, user)).to eq '123'
     end
   end
@@ -50,7 +50,7 @@ RSpec.describe OpenHPIConnector do
     end
 
     it 'updates MoocProvider-User connection, when a token is already present and the request is answered with token' do
-      FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
+      FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
       expect(open_hpi_connector.send(:get_access_token, user)).to eq '123'
       allow(RestClient).to receive(:post).and_return('{"token":"1234567890"}')
       expect { open_hpi_connector.initialize_connection(user, credentials) }.to change { MoocProviderUser.count }.by(0)
@@ -81,8 +81,8 @@ RSpec.describe OpenHPIConnector do
   end
 
   context 'synchronize user enrollments' do
-    let!(:course) { FactoryGirl.create(:full_course, provider_course_id: '0c6c5ad1-a770-4f16-81c3-536169f3cbd3', mooc_provider_id: mooc_provider.id) }
-    let!(:second_course) { FactoryGirl.create(:full_course, provider_course_id: 'bccf2ca2-429c-4cd0-9f63-caaccf85727a', mooc_provider_id: mooc_provider.id) }
+    let!(:course) { FactoryBot.create(:full_course, provider_course_id: '0c6c5ad1-a770-4f16-81c3-536169f3cbd3', mooc_provider_id: mooc_provider.id) }
+    let!(:second_course) { FactoryBot.create(:full_course, provider_course_id: 'bccf2ca2-429c-4cd0-9f63-caaccf85727a', mooc_provider_id: mooc_provider.id) }
 
     let(:enrollment_data) do
       '[{"id":"dfcfdf0f-e0ad-4887-abfa-83cc233c291f","course_id":"c5600abf-5abf-460b-ba6f-1d030053fd79"},{"id":"bbc4c2a7-51ed-460a-a312-6ba4b3da3545","course_id":"0c6c5ad1-a770-4f16-81c3-536169f3cbd3"},{"id":"48edd6a8-3a9a-4a64-8b5c-631142022d15","course_id":"bccf2ca2-429c-4cd0-9f63-caaccf85727a"}]'
@@ -94,12 +94,12 @@ RSpec.describe OpenHPIConnector do
 
     describe 'get enrollments for user' do
       it 'gets an API response' do
-        FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
+        FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
         expect { open_hpi_connector.send(:get_enrollments_for_user, user) }.to raise_error RestClient::InternalServerError
       end
 
       it 'returns parsed response for enrolled courses' do
-        FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
+        FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
         allow(RestClient).to receive(:get).and_return(enrollment_data)
         expect(open_hpi_connector.send(:get_enrollments_for_user, user)).to eq json_enrollment_data
       end
@@ -174,16 +174,16 @@ RSpec.describe OpenHPIConnector do
 
     describe 'load user data' do
       it 'loads specified user data for a given user' do
-        FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
+        FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
         allow(RestClient).to receive(:get).and_return(enrollment_data)
         expect { open_hpi_connector.load_user_data([user]) }.not_to raise_error
         expect(user.courses.count).to eq 2
       end
 
       it 'loads specified user data for all users' do
-        second_user = FactoryGirl.create(:user)
-        FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
-        FactoryGirl.create(:naive_mooc_provider_user, user: second_user, mooc_provider: mooc_provider, access_token: '123')
+        second_user = FactoryBot.create(:user)
+        FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
+        FactoryBot.create(:naive_mooc_provider_user, user: second_user, mooc_provider: mooc_provider, access_token: '123')
         allow(RestClient).to receive(:get).and_return(enrollment_data)
         expect { open_hpi_connector.load_user_data }.not_to raise_error
         expect(user.courses.count).to eq 2
@@ -191,16 +191,16 @@ RSpec.describe OpenHPIConnector do
       end
 
       it 'does not raise an exception if the saved token is invalid' do
-        FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
+        FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
         allow(RestClient).to receive(:get).and_raise RestClient::Unauthorized
         expect { open_hpi_connector.load_user_data([user]) }.not_to raise_error
         expect(open_hpi_connector.load_user_data([user])).to eq false
       end
 
       it 'does not raise an exception if the saved token is invalid even if multiple users should be synchronized' do
-        second_user = FactoryGirl.create(:user)
-        FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
-        FactoryGirl.create(:naive_mooc_provider_user, user: second_user, mooc_provider: mooc_provider, access_token: '123')
+        second_user = FactoryBot.create(:user)
+        FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
+        FactoryBot.create(:naive_mooc_provider_user, user: second_user, mooc_provider: mooc_provider, access_token: '123')
         allow(RestClient).to receive(:get).and_raise RestClient::Unauthorized
         expect { open_hpi_connector.load_user_data }.not_to raise_error
         expect(open_hpi_connector.load_user_data).to eq nil
@@ -209,7 +209,7 @@ RSpec.describe OpenHPIConnector do
   end
 
   context 'synchronize user dates' do
-    let(:course) { FactoryGirl.create(:course, mooc_provider: mooc_provider) }
+    let(:course) { FactoryBot.create(:course, mooc_provider: mooc_provider) }
 
     let(:received_dates) do
       data = "{
@@ -284,12 +284,12 @@ RSpec.describe OpenHPIConnector do
 
     describe 'get dates for user' do
       it 'gets an API response' do
-        FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider)
+        FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider)
         expect { open_hpi_connector.send(:get_dates_for_user, user) }.to raise_error RestClient::Unauthorized
       end
 
       it 'returns parsed response for received dates' do
-        FactoryGirl.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: 'Legacy-Token token=123')
+        FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: 'Legacy-Token token=123')
         allow(RestClient).to receive(:get).and_return(received_dates)
         allow(JSON::Api::Vanilla).to receive(:parse).with(received_dates.to_s).and_return(json_user_dates)
         expect(open_hpi_connector.send(:get_dates_for_user, user)).to eq json_user_dates
@@ -309,7 +309,7 @@ RSpec.describe OpenHPIConnector do
         response_data.keys.each do |date| # rubocop:disable Performance/HashEachMethods
           external_date_id = date.first.id
           user_date = date.last
-          FactoryGirl.create(:user_date, user: user, course: course, ressource_id_from_provider: external_date_id, kind: user_date['type'])
+          FactoryBot.create(:user_date, user: user, course: course, ressource_id_from_provider: external_date_id, kind: user_date['type'])
         end
         expect(open_hpi_connector).to receive(:update_existing_entry).twice
         allow(open_hpi_connector).to receive(:change_existing_no_longer_relevant_entries)
@@ -379,7 +379,7 @@ RSpec.describe OpenHPIConnector do
       let(:user_date_data) { json_user_dates.keys.first.last }
       let(:user_date_course) { File.basename(json_user_dates.rel_links.values.first['related']) }
       let(:user_date_external_id) { json_user_dates.keys.first.first.id }
-      let(:user_date) { FactoryGirl.create(:user_date, user: user, course: course, ressource_id_from_provider: user_date_external_id, kind: user_date_data['type']) }
+      let(:user_date) { FactoryBot.create(:user_date, user: user, course: course, ressource_id_from_provider: user_date_external_id, kind: user_date_data['type']) }
 
       it 'changes attribute date if necessary' do
         user_date.date = user_date_data['date'].to_date + 1.day
@@ -400,8 +400,8 @@ RSpec.describe OpenHPIConnector do
     end
 
     describe 'change existing no longer relevant entries' do
-      let(:first_user_date) { FactoryGirl.create(:user_date, user: user, course: course) }
-      let(:second_user_date) { FactoryGirl.create(:user_date, user: user, course: course) }
+      let(:first_user_date) { FactoryBot.create(:user_date, user: user, course: course) }
+      let(:second_user_date) { FactoryBot.create(:user_date, user: user, course: course) }
       let(:update_map) do
         map = {}
         map.store(first_user_date.id, false)

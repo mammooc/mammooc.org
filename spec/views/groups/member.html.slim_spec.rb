@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe 'groups/members', type: :view do
-  let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
-  let(:user) { FactoryGirl.create(:user) }
-  let(:second_user) { FactoryGirl.create(:user) }
-  let(:third_user) { FactoryGirl.create(:user) }
+  let(:group) { FactoryBot.create(:group, users: [user, second_user, third_user]) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:second_user) { FactoryBot.create(:user) }
+  let(:third_user) { FactoryBot.create(:user) }
 
   before do
     @group = group

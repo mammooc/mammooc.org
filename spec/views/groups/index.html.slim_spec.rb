@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'groups/index', type: :view do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
   let(:groups) do
     [
       Group.create!(

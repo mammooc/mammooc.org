@@ -2,12 +2,12 @@
 
 require 'rails_helper'
 RSpec.describe 'recommendations/index', type: :view do
-  let!(:user) { FactoryGirl.create(:user) }
-  let!(:course) { FactoryGirl.create(:course) }
-  let!(:author) { FactoryGirl.create(:user) }
-  let!(:group) { FactoryGirl.create(:group, users: [user, author]) }
-  let!(:first_recommendation) { FactoryGirl.create(:user_recommendation, author: author, course: course, users: [user]) }
-  let!(:second_recommendation) { FactoryGirl.create(:user_recommendation, author: author, course: course, users: [user]) }
+  let!(:user) { FactoryBot.create(:user) }
+  let!(:course) { FactoryBot.create(:course) }
+  let!(:author) { FactoryBot.create(:user) }
+  let!(:group) { FactoryBot.create(:group, users: [user, author]) }
+  let!(:first_recommendation) { FactoryBot.create(:user_recommendation, author: author, course: course, users: [user]) }
+  let!(:second_recommendation) { FactoryBot.create(:user_recommendation, author: author, course: course, users: [user]) }
 
   before do
     assign(:recommendations, [first_recommendation, second_recommendation])

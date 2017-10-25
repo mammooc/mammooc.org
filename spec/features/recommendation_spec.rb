@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Recommendation', type: :feature do
-  let!(:user) { FactoryGirl.create(:user) }
-  let!(:second_user) { FactoryGirl.create(:user) }
-  let!(:author) { FactoryGirl.create(:user) }
-  let!(:group) { FactoryGirl.create(:group, users: [user, author, second_user]) }
+  let!(:user) { FactoryBot.create(:user) }
+  let!(:second_user) { FactoryBot.create(:user) }
+  let!(:author) { FactoryBot.create(:user) }
+  let!(:group) { FactoryBot.create(:group, users: [user, author, second_user]) }
 
   before do |example|
     unless example.metadata[:skip_before]
@@ -21,7 +21,7 @@ RSpec.describe 'Recommendation', type: :feature do
 
   describe 'delete recommendation from dashboard' do
     it 'deletes the current user from recommendation', js: true do
-      user_recommendation = FactoryGirl.create(:user_recommendation, users: [user], author: author)
+      user_recommendation = FactoryBot.create(:user_recommendation, users: [user], author: author)
       visit dashboard_path
       page.find('.remove-activity-current-user').click
       wait_for_ajax
@@ -29,7 +29,7 @@ RSpec.describe 'Recommendation', type: :feature do
     end
 
     it 'hides the deleted recommendation', js: true do
-      user_recommendation = FactoryGirl.create(:user_recommendation, users: [user], author: author)
+      user_recommendation = FactoryBot.create(:user_recommendation, users: [user], author: author)
       visit dashboard_path
       page.find('.remove-activity-current-user').click
       wait_for_ajax
@@ -37,7 +37,7 @@ RSpec.describe 'Recommendation', type: :feature do
     end
 
     it 'removes user from recommendation', js: true do
-      recommendation = FactoryGirl.create(:user_recommendation, users: [user, second_user], author: author)
+      recommendation = FactoryBot.create(:user_recommendation, users: [user, second_user], author: author)
       visit dashboard_path
       page.find('.remove-activity-current-user').click
       wait_for_ajax
@@ -45,7 +45,7 @@ RSpec.describe 'Recommendation', type: :feature do
     end
 
     it 'does not delete recommendation', js: true do
-      recommendation = FactoryGirl.create(:user_recommendation, users: [user, second_user], author: author)
+      recommendation = FactoryBot.create(:user_recommendation, users: [user, second_user], author: author)
       visit dashboard_path
       page.find('.remove-activity-current-user').click
       wait_for_ajax
@@ -53,7 +53,7 @@ RSpec.describe 'Recommendation', type: :feature do
     end
 
     it 'deletes user from group recommendation', js: true do
-      recommendation = FactoryGirl.create(:group_recommendation, users: [user], group: group, author: author)
+      recommendation = FactoryBot.create(:group_recommendation, users: [user], group: group, author: author)
       visit dashboard_path
       page.find('.remove-activity-current-user').click
       wait_for_ajax
@@ -65,7 +65,7 @@ RSpec.describe 'Recommendation', type: :feature do
 
   describe 'delete recommendation from my recommendation page' do
     it 'deletes the current user from recommendation', js: true do
-      user_recommendation = FactoryGirl.create(:user_recommendation, users: [user], author: author)
+      user_recommendation = FactoryBot.create(:user_recommendation, users: [user], author: author)
       visit recommendations_path
       page.find('.remove-activity-current-user').click
       wait_for_ajax
@@ -73,7 +73,7 @@ RSpec.describe 'Recommendation', type: :feature do
     end
 
     it 'hides the deleted recommendation', js: true do
-      user_recommendation = FactoryGirl.create(:user_recommendation, users: [user], author: author)
+      user_recommendation = FactoryBot.create(:user_recommendation, users: [user], author: author)
       visit recommendations_path
       page.find('.remove-activity-current-user').click
       wait_for_ajax
@@ -81,7 +81,7 @@ RSpec.describe 'Recommendation', type: :feature do
     end
 
     it 'removes user from recommendation', js: true do
-      recommendation = FactoryGirl.create(:user_recommendation, users: [user, second_user], author: author)
+      recommendation = FactoryBot.create(:user_recommendation, users: [user, second_user], author: author)
       visit recommendations_path
       page.find('.remove-activity-current-user').click
       wait_for_ajax
@@ -89,7 +89,7 @@ RSpec.describe 'Recommendation', type: :feature do
     end
 
     it 'does not delete recommendation', js: true do
-      recommendation = FactoryGirl.create(:user_recommendation, users: [user, second_user], author: author)
+      recommendation = FactoryBot.create(:user_recommendation, users: [user, second_user], author: author)
       visit recommendations_path
       page.find('.remove-activity-current-user').click
       wait_for_ajax
@@ -97,7 +97,7 @@ RSpec.describe 'Recommendation', type: :feature do
     end
 
     it 'deletes user from group recommendation', js: true do
-      recommendation = FactoryGirl.create(:group_recommendation, users: [user], group: group, author: author)
+      recommendation = FactoryBot.create(:group_recommendation, users: [user], group: group, author: author)
       visit recommendations_path
       page.find('.remove-activity-current-user').click
       wait_for_ajax
@@ -109,14 +109,14 @@ RSpec.describe 'Recommendation', type: :feature do
 
   describe 'delete group recommendation from groups dashboard' do
     it 'does not be possible to delete a recommendation as normal member' do
-      recommendation = FactoryGirl.create(:group_recommendation, group: group, author: author)
+      recommendation = FactoryBot.create(:group_recommendation, group: group, author: author)
       visit group_path(group)
       expect(page).to have_content(recommendation.course.name)
       expect(page).not_to have_selector('.remove-recommendation-group')
     end
 
     it 'deletes group recommendation', js: true do
-      recommendation = FactoryGirl.create(:group_recommendation, group: group, author: author)
+      recommendation = FactoryBot.create(:group_recommendation, group: group, author: author)
       UserGroup.set_is_admin(group.id, user.id, true)
       visit group_path(group)
       page.find('.remove-activity-group').click
@@ -125,7 +125,7 @@ RSpec.describe 'Recommendation', type: :feature do
     end
 
     it 'hides deleted group recommendation', js: true do
-      recommendation = FactoryGirl.create(:group_recommendation, group: group, author: author)
+      recommendation = FactoryBot.create(:group_recommendation, group: group, author: author)
       UserGroup.set_is_admin(group.id, user.id, true)
       visit group_path(group)
       page.find('.remove-activity-group').click
@@ -136,14 +136,14 @@ RSpec.describe 'Recommendation', type: :feature do
 
   describe 'delete group recommendation from groups recommendations page' do
     it 'is not possible to delete a recommendation as normal member' do
-      recommendation = FactoryGirl.create(:group_recommendation, group: group, author: author)
+      recommendation = FactoryBot.create(:group_recommendation, group: group, author: author)
       visit "/groups/#{group.id}/recommendations"
       expect(page).to have_content(recommendation.course.name)
       expect(page).not_to have_selector('.remove-activity-group')
     end
 
     it 'deletes group recommendation', js: true do
-      recommendation = FactoryGirl.create(:group_recommendation, group: group, author: author)
+      recommendation = FactoryBot.create(:group_recommendation, group: group, author: author)
       UserGroup.set_is_admin(group.id, user.id, true)
       visit "/groups/#{group.id}/recommendations"
       page.find('.remove-activity-group').click
@@ -152,7 +152,7 @@ RSpec.describe 'Recommendation', type: :feature do
     end
 
     it 'hides deleted group recommendation', js: true do
-      recommendation = FactoryGirl.create(:group_recommendation, group: group, author: author)
+      recommendation = FactoryBot.create(:group_recommendation, group: group, author: author)
       UserGroup.set_is_admin(group.id, user.id, true)
       visit "/groups/#{group.id}/recommendations"
       page.find('.remove-activity-group').click
@@ -162,20 +162,20 @@ RSpec.describe 'Recommendation', type: :feature do
   end
 
   describe 'create recommendation' do
-    let!(:course) { FactoryGirl.create(:course, name: 'qwertzui') }
+    let!(:course) { FactoryBot.create(:course, name: 'qwertzui') }
     let!(:group_recommend) do
-      group = FactoryGirl.create :group, users: [user, second_user], name: 'Abcdefg'
+      group = FactoryBot.create :group, users: [user, second_user], name: 'Abcdefg'
       UserGroup.set_is_admin(group.id, user.id, true)
       group
     end
     let!(:second_group_recommend) do
-      group = FactoryGirl.create :group, users: [user, second_user], name: 'Abcdefg'
+      group = FactoryBot.create :group, users: [user, second_user], name: 'Abcdefg'
       UserGroup.set_is_admin(group.id, user.id, true)
       group
     end
-    let!(:second_group) { FactoryGirl.create(:group, users: [third_user]) }
-    let!(:third_user) { FactoryGirl.create(:user) }
-    let(:user_without_group) { FactoryGirl.create(:user) }
+    let!(:second_group) { FactoryBot.create(:group, users: [third_user]) }
+    let!(:third_user) { FactoryBot.create(:user) }
+    let(:user_without_group) { FactoryBot.create(:user) }
 
     it 'creates new recommendation from course detail page', js: true do
       visit course_path(course)
@@ -259,19 +259,19 @@ RSpec.describe 'Recommendation', type: :feature do
   end
 
   describe 'create obligatory recommendation' do
-    let!(:course) { FactoryGirl.create(:course, name: 'qwertzui') }
+    let!(:course) { FactoryBot.create(:course, name: 'qwertzui') }
     let!(:group_obligatory) do
-      group = FactoryGirl.create :group, users: [user, second_user], name: 'Abcdefg'
+      group = FactoryBot.create :group, users: [user, second_user], name: 'Abcdefg'
       UserGroup.set_is_admin(group.id, user.id, true)
       group
     end
     let!(:second_group_obligatory) do
-      group = FactoryGirl.create :group, users: [user, second_user], name: 'Abcdefg'
+      group = FactoryBot.create :group, users: [user, second_user], name: 'Abcdefg'
       UserGroup.set_is_admin(group.id, user.id, true)
       group
     end
-    let!(:second_group) { FactoryGirl.create(:group, users: [user, third_user]) }
-    let!(:third_user) { FactoryGirl.create(:user) }
+    let!(:second_group) { FactoryBot.create(:group, users: [user, third_user]) }
+    let!(:third_user) { FactoryBot.create(:user) }
 
     it 'creates new obligatory recommendation from course detail page', js: true do
       visit course_path(course)

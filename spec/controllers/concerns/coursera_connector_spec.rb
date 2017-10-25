@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe CourseraConnector do
-  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'coursera', api_support_state: 'oauth') }
-  let!(:course) { FactoryGirl.create(:full_course, provider_course_id: '1354|972508', mooc_provider_id: mooc_provider.id) }
-  let!(:second_course) { FactoryGirl.create(:full_course, provider_course_id: '9|974782', mooc_provider_id: mooc_provider.id) }
-  let!(:user) { FactoryGirl.create(:user) }
+  let!(:mooc_provider) { FactoryBot.create(:mooc_provider, name: 'coursera', api_support_state: 'oauth') }
+  let!(:course) { FactoryBot.create(:full_course, provider_course_id: '1354|972508', mooc_provider_id: mooc_provider.id) }
+  let!(:second_course) { FactoryBot.create(:full_course, provider_course_id: '9|974782', mooc_provider_id: mooc_provider.id) }
+  let!(:user) { FactoryBot.create(:user) }
   let(:credentials) { {code: 'code_passed_to_callback_url'} }
 
   let(:coursera_connector) { described_class.new }
@@ -24,12 +24,12 @@ RSpec.describe CourseraConnector do
   end
 
   it 'gets an API response' do
-    FactoryGirl.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
+    FactoryBot.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
     expect { coursera_connector.send(:get_enrollments_for_user, user) }.to raise_error RestClient::NotFound
   end
 
   it 'returns parsed response for enrolled courses' do
-    FactoryGirl.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
+    FactoryBot.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
     allow(RestClient).to receive(:get).and_return(enrollment_data)
     expect(coursera_connector.send(:get_enrollments_for_user, user)).to eq json_enrollment_data
   end
@@ -52,12 +52,12 @@ RSpec.describe CourseraConnector do
   end
 
   it 'throws a NotImplementedError when trying to enroll even if user has a connection to the MOOC provider' do
-    FactoryGirl.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
+    FactoryBot.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
     expect { coursera_connector.enroll_user_for_course user, course }.to raise_error NotImplementedError
   end
 
   it 'throws a NotImplementedError when trying to unenroll even if user has a connection to the MOOC provider' do
-    FactoryGirl.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
+    FactoryBot.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
     expect { coursera_connector.unenroll_user_for_course user, course }.to raise_error NotImplementedError
   end
 
@@ -66,17 +66,17 @@ RSpec.describe CourseraConnector do
   end
 
   it 'returns access_token when user has connection to mooc provider, which is still valid' do
-    FactoryGirl.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
+    FactoryBot.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
     expect(coursera_connector.send(:get_access_token, user)).to eq '123'
   end
 
   it 'returns nil when user has connection to mooc provider, which is no longer valid' do
-    FactoryGirl.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123', access_token_valid_until: Time.zone.now - 5.minutes)
+    FactoryBot.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123', access_token_valid_until: Time.zone.now - 5.minutes)
     expect(coursera_connector.send(:get_access_token, user)).to eq nil
   end
 
   it 'does not try to refresh the access_token when no refresh_token is given' do
-    FactoryGirl.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123', access_token_valid_until: Time.zone.now - 5.minutes)
+    FactoryBot.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123', access_token_valid_until: Time.zone.now - 5.minutes)
     expect_any_instance_of(described_class).not_to receive(:refresh_access_token)
     coursera_connector.send(:get_access_token, user)
   end

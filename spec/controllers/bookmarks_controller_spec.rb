@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe BookmarksController, type: :controller do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:course) { FactoryGirl.create(:course) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:course) { FactoryBot.create(:course) }
   let(:valid_attributes) { {user_id: user.id, course_id: course.id} }
 
   before do
@@ -43,8 +43,8 @@ RSpec.describe BookmarksController, type: :controller do
 
   describe 'GET delete' do
     it 'destroys the bookmark of specified user and course' do
-      bookmark = FactoryGirl.create(:bookmark, user: user, course: course)
-      FactoryGirl.create(:activity_bookmark, trackable_id: bookmark.id, owner_id: user.id)
+      bookmark = FactoryBot.create(:bookmark, user: user, course: course)
+      FactoryBot.create(:activity_bookmark, trackable_id: bookmark.id, owner_id: user.id)
       expect { post :delete, params: {user_id: user.id, course_id: course.id} }.to change(Bookmark, :count).by(-1)
     end
   end

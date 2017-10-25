@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe UserIdentity, type: :model do
   describe 'find_for_omniauth' do
-    let(:user) { FactoryGirl.create(:OmniAuthUser) }
+    let(:user) { FactoryBot.create(:OmniAuthUser) }
 
     it 'finds the user identiy if present' do
       identity = described_class.find_by(user: user)

@@ -3,18 +3,18 @@
 require 'rails_helper'
 
 RSpec.describe RecommendationsController, type: :controller do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:second_user) { FactoryGirl.create(:user) }
-  let(:third_user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:second_user) { FactoryBot.create(:user) }
+  let(:third_user) { FactoryBot.create(:user) }
 
   let!(:group) do
-    group = FactoryGirl.create :group, users: [user]
+    group = FactoryBot.create :group, users: [user]
     UserGroup.set_is_admin(group.id, user.id, true)
     group
   end
-  let(:second_group) { FactoryGirl.create(:group) }
+  let(:second_group) { FactoryBot.create(:group) }
 
-  let(:course) { FactoryGirl.create(:course) }
+  let(:course) { FactoryBot.create(:course) }
 
   let(:valid_model_attributes) { {author: second_user, is_obligatory: 'false', group: group, users: [user, third_user], course: course} }
   let(:valid_controller_attributes_group) { {author: user, is_obligatory: 'false', related_group_ids: group.id.to_s, related_user_ids: '', course_id: course.id} }
@@ -36,16 +36,16 @@ RSpec.describe RecommendationsController, type: :controller do
     end
 
     describe 'check activities' do
-      let!(:user2) { FactoryGirl.create(:user) }
-      let!(:group) { FactoryGirl.create(:group, users: [user, user2]) }
+      let!(:user2) { FactoryBot.create(:user) }
+      let!(:group) { FactoryBot.create(:group, users: [user, user2]) }
 
       it 'only shows activities from my groups members' do
-        user3 = FactoryGirl.create(:user)
-        FactoryGirl.create(:group, users: [user, user3])
-        user4 = FactoryGirl.create(:user)
-        user4_activity = FactoryGirl.create(:activity_user_recommendation, owner: user4, user_ids: [user.id])
-        user3_activity = FactoryGirl.create(:activity_user_recommendation, owner: user3, user_ids: [user.id])
-        user2_activity = FactoryGirl.create(:activity_user_recommendation, owner: user2, user_ids: [user.id])
+        user3 = FactoryBot.create(:user)
+        FactoryBot.create(:group, users: [user, user3])
+        user4 = FactoryBot.create(:user)
+        user4_activity = FactoryBot.create(:activity_user_recommendation, owner: user4, user_ids: [user.id])
+        user3_activity = FactoryBot.create(:activity_user_recommendation, owner: user3, user_ids: [user.id])
+        user2_activity = FactoryBot.create(:activity_user_recommendation, owner: user2, user_ids: [user.id])
         get :index
         expect(assigns(:activities)).to include(user3_activity)
         expect(assigns(:activities)).to include(user2_activity)
@@ -53,15 +53,15 @@ RSpec.describe RecommendationsController, type: :controller do
       end
 
       it 'filters out my own activities' do
-        my_activity = FactoryGirl.create(:activity_user_recommendation, owner: user, user_ids: [user.id])
+        my_activity = FactoryBot.create(:activity_user_recommendation, owner: user, user_ids: [user.id])
         get :index
         expect(assigns(:activities)).not_to include(my_activity)
       end
 
       it 'filters out activities not directed at me or one of my groups' do
-        activity_to_me = FactoryGirl.create(:activity_user_recommendation, owner: user2, user_ids: [user.id])
-        activity_to_my_group = FactoryGirl.create(:activity_user_recommendation, owner: user2, group_ids: [group.id])
-        activity_without_me = FactoryGirl.create(:activity_user_recommendation, owner: user2)
+        activity_to_me = FactoryBot.create(:activity_user_recommendation, owner: user2, user_ids: [user.id])
+        activity_to_my_group = FactoryBot.create(:activity_user_recommendation, owner: user2, group_ids: [group.id])
+        activity_without_me = FactoryBot.create(:activity_user_recommendation, owner: user2)
         get :index
         expect(assigns(:activities)).to include(activity_to_me)
         expect(assigns(:activities)).not_to include(activity_to_my_group)
@@ -69,10 +69,10 @@ RSpec.describe RecommendationsController, type: :controller do
       end
 
       it 'filters out anything that is not a user_recommendation' do
-        activity_bookmark = FactoryGirl.create(:activity_bookmark, owner: user2, user_ids: [user.id])
-        activity_group_join = FactoryGirl.create(:activity_group_join, owner: user2, user_ids: [user.id])
-        activity_course_enroll = FactoryGirl.create(:activity_course_enroll, owner: user2, user_ids: [user.id])
-        activity_user_recommendation = FactoryGirl.create(:activity_user_recommendation, owner: user2, user_ids: [user.id])
+        activity_bookmark = FactoryBot.create(:activity_bookmark, owner: user2, user_ids: [user.id])
+        activity_group_join = FactoryBot.create(:activity_group_join, owner: user2, user_ids: [user.id])
+        activity_course_enroll = FactoryBot.create(:activity_course_enroll, owner: user2, user_ids: [user.id])
+        activity_user_recommendation = FactoryBot.create(:activity_user_recommendation, owner: user2, user_ids: [user.id])
 
         get :index
 
@@ -134,7 +134,7 @@ RSpec.describe RecommendationsController, type: :controller do
 
     describe 'obligatory recommendations' do
       let(:valid_controller_attributes_user_obligatory) { {author: user, is_obligatory: 'true', related_user_ids: second_user.id.to_s, related_group_ids: '', course_id: course.id} }
-      let(:group_for_obligatory) { FactoryGirl.create(:group, users: [user, second_user]) }
+      let(:group_for_obligatory) { FactoryBot.create(:group, users: [user, second_user]) }
       let(:valid_controller_attributes_group_obligatory) { {author: user, is_obligatory: 'true', related_group_ids: group_for_obligatory.id.to_s, related_user_ids: '', course_id: course.id} }
 
       it 'creates obligatory recommendations for each specified user or group' do

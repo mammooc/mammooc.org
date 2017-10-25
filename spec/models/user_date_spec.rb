@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe UserDate, type: :model do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
 
   describe 'synchronize user' do
     it 'calls openHPI and openSAP Connectors to load the dates for the given user' do
@@ -22,7 +22,7 @@ RSpec.describe UserDate, type: :model do
   end
 
   describe 'create current calendar for a given user' do
-    let(:user_date) { FactoryGirl.create(:user_date, user: user) }
+    let(:user_date) { FactoryBot.create(:user_date, user: user) }
 
     context 'returns a calendar with an event representing the user_date' do
       it 'sets the start time correctly' do
@@ -53,7 +53,7 @@ RSpec.describe UserDate, type: :model do
 
     it 'collects more than one event' do
       5.times do
-        FactoryGirl.create(:user_date, user: user)
+        FactoryBot.create(:user_date, user: user)
       end
       calendar = described_class.create_current_calendar(user)
       expect(calendar.events.count).to eq(5)
@@ -61,10 +61,10 @@ RSpec.describe UserDate, type: :model do
 
     it 'collects only the dates of the given user' do
       5.times do
-        FactoryGirl.create(:user_date)
+        FactoryBot.create(:user_date)
       end
       2.times do
-        FactoryGirl.create(:user_date, user: user)
+        FactoryBot.create(:user_date, user: user)
       end
       calendar = described_class.create_current_calendar(user)
       expect(calendar.events.count).to eq(2)
@@ -72,7 +72,7 @@ RSpec.describe UserDate, type: :model do
   end
 
   describe 'generate token for a user' do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user) { FactoryBot.create(:user) }
 
     it 'does not create a token if there is already one defined' do
       token = '1234567890'
@@ -89,7 +89,7 @@ RSpec.describe UserDate, type: :model do
 
     it 'creates a unique token for each user' do
       5.times do
-        FactoryGirl.create(:user)
+        FactoryBot.create(:user)
       end
       User.all.each do |user|
         described_class.generate_token_for_user(user)

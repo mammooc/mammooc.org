@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Bookmark', type: :feature do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
 
   before do
     visit new_user_session_path
@@ -15,7 +15,7 @@ RSpec.describe 'Bookmark', type: :feature do
   end
 
   describe 'bookmark course on course detail page' do
-    let(:course) { FactoryGirl.create(:course) }
+    let(:course) { FactoryBot.create(:course) }
 
     it 'creates a new bookmark', js: true do
       visit course_path(course)
@@ -33,9 +33,9 @@ RSpec.describe 'Bookmark', type: :feature do
   end
 
   describe 'delete bookmark for a course on course detail page' do
-    let(:course) { FactoryGirl.create(:course) }
-    let!(:bookmark) { FactoryGirl.create(:bookmark, user: user, course: course) }
-    let!(:activity_bookmark) { FactoryGirl.create(:activity_bookmark, trackable_id: bookmark.id, owner_id: user.id) }
+    let(:course) { FactoryBot.create(:course) }
+    let!(:bookmark) { FactoryBot.create(:bookmark, user: user, course: course) }
+    let!(:activity_bookmark) { FactoryBot.create(:activity_bookmark, trackable_id: bookmark.id, owner_id: user.id) }
 
     it 'deletes the specified bookmark', js: true do
       visit course_path(course)
@@ -53,10 +53,10 @@ RSpec.describe 'Bookmark', type: :feature do
   end
 
   describe 'bookmark course directly from recommendation' do
-    let!(:course) { FactoryGirl.create(:course) }
-    let!(:author) { FactoryGirl.create(:user) }
-    let!(:group) { FactoryGirl.create(:group, users: [user, author]) }
-    let!(:recommendation) { FactoryGirl.create(:user_recommendation, course: course, users: [user], author: author, group: nil) }
+    let!(:course) { FactoryBot.create(:course) }
+    let!(:author) { FactoryBot.create(:user) }
+    let!(:group) { FactoryBot.create(:group, users: [user, author]) }
+    let!(:recommendation) { FactoryBot.create(:user_recommendation, course: course, users: [user], author: author, group: nil) }
 
     it 'creates a new bookmark', js: true do
       visit dashboard_dashboard_path
@@ -75,12 +75,12 @@ RSpec.describe 'Bookmark', type: :feature do
   end
 
   describe 'delete bookmark for a course directly from recommendation' do
-    let(:course) { FactoryGirl.create(:course) }
-    let!(:author) { FactoryGirl.create(:user) }
-    let!(:group) { FactoryGirl.create(:group, users: [user, author]) }
-    let!(:recommendation) { FactoryGirl.create(:user_recommendation, author: author, course: course, users: [user]) }
-    let!(:bookmark) { FactoryGirl.create(:bookmark, user: user, course: course) }
-    let!(:activity_bookmark) { FactoryGirl.create(:activity_bookmark, trackable_id: bookmark.id, owner_id: user.id) }
+    let(:course) { FactoryBot.create(:course) }
+    let!(:author) { FactoryBot.create(:user) }
+    let!(:group) { FactoryBot.create(:group, users: [user, author]) }
+    let!(:recommendation) { FactoryBot.create(:user_recommendation, author: author, course: course, users: [user]) }
+    let!(:bookmark) { FactoryBot.create(:bookmark, user: user, course: course) }
+    let!(:activity_bookmark) { FactoryBot.create(:activity_bookmark, trackable_id: bookmark.id, owner_id: user.id) }
 
     it 'deletes the specified bookmark', js: true do
       visit dashboard_dashboard_path
@@ -99,12 +99,12 @@ RSpec.describe 'Bookmark', type: :feature do
   end
 
   describe 'delete bookmark from bookmark list' do
-    let(:course) { FactoryGirl.create(:course) }
-    let(:second_course) { FactoryGirl.create(:course, name: 'Kurs 2') }
-    let!(:bookmark) { FactoryGirl.create(:bookmark, course: course, user: user) }
-    let!(:second_bookmark) { FactoryGirl.create(:bookmark, course: second_course, user: user) }
-    let!(:activity_bookmark) { FactoryGirl.create(:activity_bookmark, trackable_id: bookmark.id, owner_id: user.id) }
-    let!(:activity_second_bookmark) { FactoryGirl.create(:activity_bookmark, trackable_id: second_bookmark.id, owner_id: user.id) }
+    let(:course) { FactoryBot.create(:course) }
+    let(:second_course) { FactoryBot.create(:course, name: 'Kurs 2') }
+    let!(:bookmark) { FactoryBot.create(:bookmark, course: course, user: user) }
+    let!(:second_bookmark) { FactoryBot.create(:bookmark, course: second_course, user: user) }
+    let!(:activity_bookmark) { FactoryBot.create(:activity_bookmark, trackable_id: bookmark.id, owner_id: user.id) }
+    let!(:activity_second_bookmark) { FactoryBot.create(:activity_bookmark, trackable_id: second_bookmark.id, owner_id: user.id) }
 
     it 'deletes bookmark', js: true do
       visit bookmarks_path

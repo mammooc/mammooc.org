@@ -6,14 +6,14 @@ RSpec.describe GroupsController, type: :controller do
   let(:valid_attributes) { {name: 'Test', description: 'test'} }
   let(:members) { 'test@example.com; test2@example.com' }
 
-  let(:user) { FactoryGirl.create(:user) }
-  let!(:group) { FactoryGirl.create(:group, users: [user]) }
+  let(:user) { FactoryBot.create(:user) }
+  let!(:group) { FactoryBot.create(:group, users: [user]) }
   let!(:group_with_admin) do
-    group = FactoryGirl.create(:group, users: [user])
+    group = FactoryBot.create(:group, users: [user])
     UserGroup.set_is_admin(group.id, user.id, true)
     group
   end
-  let!(:group_without_user) { FactoryGirl.create :group }
+  let!(:group_without_user) { FactoryBot.create :group }
   let(:user_groups) { [group_with_admin, group] }
 
   before do
@@ -54,16 +54,16 @@ RSpec.describe GroupsController, type: :controller do
     end
 
     describe 'check activities' do
-      let!(:user2) { FactoryGirl.create(:user) }
-      let!(:group) { FactoryGirl.create(:group, users: [user, user2]) }
+      let!(:user2) { FactoryBot.create(:user) }
+      let!(:group) { FactoryBot.create(:group, users: [user, user2]) }
 
       it 'only shows activities from my group members' do
-        user3 = FactoryGirl.create(:user)
-        FactoryGirl.create(:group, users: [user, user3])
-        user4 = FactoryGirl.create(:user)
-        user4_activity = FactoryGirl.create(:activity_bookmark, owner: user4, group_ids: [group.id])
-        user3_activity = FactoryGirl.create(:activity_bookmark, owner: user3, group_ids: [group.id])
-        user2_activity = FactoryGirl.create(:activity_bookmark, owner: user2, group_ids: [group.id])
+        user3 = FactoryBot.create(:user)
+        FactoryBot.create(:group, users: [user, user3])
+        user4 = FactoryBot.create(:user)
+        user4_activity = FactoryBot.create(:activity_bookmark, owner: user4, group_ids: [group.id])
+        user3_activity = FactoryBot.create(:activity_bookmark, owner: user3, group_ids: [group.id])
+        user2_activity = FactoryBot.create(:activity_bookmark, owner: user2, group_ids: [group.id])
         get :show, params: {id: group.to_param}
         expect(assigns(:activities)).not_to include(user3_activity)
         expect(assigns(:activities)).to include(user2_activity)
@@ -71,15 +71,15 @@ RSpec.describe GroupsController, type: :controller do
       end
 
       it 'does not filter out my own activities' do
-        my_activity = FactoryGirl.create(:activity_bookmark, owner: user, group_ids: [group.id])
+        my_activity = FactoryBot.create(:activity_bookmark, owner: user, group_ids: [group.id])
         get :show, params: {id: group.to_param}
         expect(assigns(:activities)).to include(my_activity)
       end
 
       it 'filters out activities not directed my groups' do
-        activity_to_me = FactoryGirl.create(:activity_bookmark, owner: user2, user_ids: [user.id])
-        activity_to_my_group = FactoryGirl.create(:activity_bookmark, owner: user2, group_ids: [group.id])
-        activity_without_me = FactoryGirl.create(:activity_bookmark, owner: user2)
+        activity_to_me = FactoryBot.create(:activity_bookmark, owner: user2, user_ids: [user.id])
+        activity_to_my_group = FactoryBot.create(:activity_bookmark, owner: user2, group_ids: [group.id])
+        activity_without_me = FactoryBot.create(:activity_bookmark, owner: user2)
         get :show, params: {id: group.to_param}
         expect(assigns(:activities)).not_to include(activity_to_me)
         expect(assigns(:activities)).to include(activity_to_my_group)
@@ -87,13 +87,13 @@ RSpec.describe GroupsController, type: :controller do
       end
 
       it 'does not filter any trackable_type of activity' do
-        activity_bookmark = FactoryGirl.create(:activity_bookmark, owner: user2, group_ids: [group.id])
-        activity_group_join = FactoryGirl.create(:activity_group_join, owner: user2, group_ids: [group.id])
-        activity_course_enroll = FactoryGirl.create(:activity_course_enroll, owner: user2, group_ids: [group.id])
-        activity_group_recommendation = FactoryGirl.create(:activity_group_recommendation, owner: user2, group_ids: [group.id])
-        activity_user_recommendation = FactoryGirl.create(:activity_user_recommendation, owner: user2, group_ids: [group.id])
-        user_setting = FactoryGirl.create(:user_setting, name: :course_enrollments_visibility, user: user2)
-        FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id])
+        activity_bookmark = FactoryBot.create(:activity_bookmark, owner: user2, group_ids: [group.id])
+        activity_group_join = FactoryBot.create(:activity_group_join, owner: user2, group_ids: [group.id])
+        activity_course_enroll = FactoryBot.create(:activity_course_enroll, owner: user2, group_ids: [group.id])
+        activity_group_recommendation = FactoryBot.create(:activity_group_recommendation, owner: user2, group_ids: [group.id])
+        activity_user_recommendation = FactoryBot.create(:activity_user_recommendation, owner: user2, group_ids: [group.id])
+        user_setting = FactoryBot.create(:user_setting, name: :course_enrollments_visibility, user: user2)
+        FactoryBot.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id])
 
         get :show, params: {id: group.to_param}
 
@@ -124,16 +124,16 @@ RSpec.describe GroupsController, type: :controller do
     end
 
     describe 'check activities' do
-      let!(:user2) { FactoryGirl.create(:user) }
-      let!(:group) { FactoryGirl.create(:group, users: [user, user2]) }
+      let!(:user2) { FactoryBot.create(:user) }
+      let!(:group) { FactoryBot.create(:group, users: [user, user2]) }
 
       it 'only shows activities from my group members' do
-        user3 = FactoryGirl.create(:user)
-        FactoryGirl.create(:group, users: [user, user3])
-        user4 = FactoryGirl.create(:user)
-        user4_activity = FactoryGirl.create(:activity_group_recommendation, owner: user4, group_ids: [group.id])
-        user3_activity = FactoryGirl.create(:activity_group_recommendation, owner: user3, group_ids: [group.id])
-        user2_activity = FactoryGirl.create(:activity_group_recommendation, owner: user2, group_ids: [group.id])
+        user3 = FactoryBot.create(:user)
+        FactoryBot.create(:group, users: [user, user3])
+        user4 = FactoryBot.create(:user)
+        user4_activity = FactoryBot.create(:activity_group_recommendation, owner: user4, group_ids: [group.id])
+        user3_activity = FactoryBot.create(:activity_group_recommendation, owner: user3, group_ids: [group.id])
+        user2_activity = FactoryBot.create(:activity_group_recommendation, owner: user2, group_ids: [group.id])
         get :recommendations, params: {id: group.to_param}
         expect(assigns(:activities)).not_to include(user3_activity)
         expect(assigns(:activities)).to include(user2_activity)
@@ -141,15 +141,15 @@ RSpec.describe GroupsController, type: :controller do
       end
 
       it 'does not filter out my own activities' do
-        my_activity = FactoryGirl.create(:activity_group_recommendation, owner: user, group_ids: [group.id])
+        my_activity = FactoryBot.create(:activity_group_recommendation, owner: user, group_ids: [group.id])
         get :recommendations, params: {id: group.to_param}
         expect(assigns(:activities)).to include(my_activity)
       end
 
       it 'filters out activities not directed at my groups' do
-        activity_to_me = FactoryGirl.create(:activity_group_recommendation, owner: user2, user_ids: [user.id])
-        activity_to_my_group = FactoryGirl.create(:activity_group_recommendation, owner: user2, group_ids: [group.id])
-        activity_without_me = FactoryGirl.create(:activity_group_recommendation, owner: user2)
+        activity_to_me = FactoryBot.create(:activity_group_recommendation, owner: user2, user_ids: [user.id])
+        activity_to_my_group = FactoryBot.create(:activity_group_recommendation, owner: user2, group_ids: [group.id])
+        activity_without_me = FactoryBot.create(:activity_group_recommendation, owner: user2)
         get :recommendations, params: {id: group.to_param}
         expect(assigns(:activities)).not_to include(activity_to_me)
         expect(assigns(:activities)).to include(activity_to_my_group)
@@ -157,10 +157,10 @@ RSpec.describe GroupsController, type: :controller do
       end
 
       it 'filters out anything that is not a group_recommendation activity' do
-        activity_bookmark = FactoryGirl.create(:activity_bookmark, owner: user2, group_ids: [group.id])
-        activity_group_join = FactoryGirl.create(:activity_group_join, owner: user2, group_ids: [group.id])
-        activity_course_enroll = FactoryGirl.create(:activity_course_enroll, owner: user2, group_ids: [group.id])
-        activity_group_recommendation = FactoryGirl.create(:activity_group_recommendation, owner: user2, group_ids: [group.id])
+        activity_bookmark = FactoryBot.create(:activity_bookmark, owner: user2, group_ids: [group.id])
+        activity_group_join = FactoryBot.create(:activity_group_join, owner: user2, group_ids: [group.id])
+        activity_course_enroll = FactoryBot.create(:activity_course_enroll, owner: user2, group_ids: [group.id])
+        activity_group_recommendation = FactoryBot.create(:activity_group_recommendation, owner: user2, group_ids: [group.id])
 
         get :recommendations, params: {id: group.to_param}
 
@@ -257,12 +257,12 @@ RSpec.describe GroupsController, type: :controller do
       end
 
       it 'assigns the requested group as @group' do
-        put :update, params: {id: group_with_admin.to_param, group: FactoryGirl.attributes_for(:group)}
+        put :update, params: {id: group_with_admin.to_param, group: FactoryBot.attributes_for(:group)}
         expect(assigns(:group)).to eq(group_with_admin)
       end
 
       it 'redirects to the group' do
-        put :update, params: {id: group_with_admin.to_param, group: FactoryGirl.attributes_for(:group)}
+        put :update, params: {id: group_with_admin.to_param, group: FactoryBot.attributes_for(:group)}
         expect(response).to redirect_to(group_with_admin)
       end
 
@@ -306,10 +306,10 @@ RSpec.describe GroupsController, type: :controller do
     end
 
     it 'destroys the membership of all users of the deleted group and only of the deleted group' do
-      user1 = FactoryGirl.create(:user)
-      user2 = FactoryGirl.create(:user)
+      user1 = FactoryBot.create(:user)
+      user2 = FactoryBot.create(:user)
       group_with_admin.users = [user, user1, user2]
-      group2 = FactoryGirl.create(:group, users: [user, user1, user2])
+      group2 = FactoryBot.create(:group, users: [user, user1, user2])
       expect do
         delete :destroy, params: {id: group_with_admin.to_param}
       end.to change(UserGroup, :count).by(-3)
@@ -352,8 +352,8 @@ RSpec.describe GroupsController, type: :controller do
     it 'returnses all administrators for the given group' do
       post :create, params: {group: valid_attributes}
       group = assigns(:group)
-      user1 = FactoryGirl.create(:user)
-      user2 = FactoryGirl.create(:user)
+      user1 = FactoryBot.create(:user)
+      user2 = FactoryBot.create(:user)
       group.users.push(user1, user2)
       UserGroup.set_is_admin(group.id, user1.id, true)
       expect(controller.admins).to match_array([user, user1])
@@ -395,8 +395,8 @@ RSpec.describe GroupsController, type: :controller do
     end
 
     context 'with first token not valid' do
-      let(:group) { FactoryGirl.create :group }
-      let!(:group_invitation) { FactoryGirl.create :group_invitation, token: 'b4GOKm4pOYU_-BOXcrUGDg', group: group }
+      let(:group) { FactoryBot.create :group }
+      let!(:group_invitation) { FactoryBot.create :group_invitation, token: 'b4GOKm4pOYU_-BOXcrUGDg', group: group }
 
       before do
         allow(SecureRandom).to receive(:urlsafe_base64).and_return('b4GOKm4pOYU_-BOXcrUGDg', 'ZLdOkzop70Ddx-IJR0ABg')
@@ -437,10 +437,10 @@ RSpec.describe GroupsController, type: :controller do
   end
 
   describe 'GET join' do
-    let(:another_group) { FactoryGirl.create :group, users: [user] }
-    let(:unjoined_group) { FactoryGirl.create :group }
-    let!(:invitation) { FactoryGirl.create :group_invitation, group: unjoined_group }
-    let(:expired_invitation) { FactoryGirl.create :group_invitation, group: unjoined_group, expiry_date: 1.day.ago.in_time_zone }
+    let(:another_group) { FactoryBot.create :group, users: [user] }
+    let(:unjoined_group) { FactoryBot.create :group }
+    let!(:invitation) { FactoryBot.create :group_invitation, group: unjoined_group }
+    let(:expired_invitation) { FactoryBot.create :group_invitation, group: unjoined_group, expiry_date: 1.day.ago.in_time_zone }
 
     it 'adds member to group' do
       get :join, params: {token: invitation.token}
@@ -476,7 +476,7 @@ RSpec.describe GroupsController, type: :controller do
       unjoined_group.users.push(user)
       UserGroup.set_is_admin(unjoined_group.id, user.id, true)
       delete :destroy, params: {id: unjoined_group.to_param}
-      another_user = FactoryGirl.create(:user)
+      another_user = FactoryBot.create(:user)
       sign_in(another_user)
       get :join, params: {token: invitation.token}
       expect(response).to redirect_to(root_path)
@@ -500,11 +500,11 @@ RSpec.describe GroupsController, type: :controller do
   end
 
   describe 'POST add_administrators' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:second_user) { FactoryGirl.create(:user) }
-    let(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:second_user) { FactoryBot.create(:user) }
+    let(:group) { FactoryBot.create(:group, users: [user, second_user]) }
     let(:new_admin) do
-      new_admin = FactoryGirl.create(:user)
+      new_admin = FactoryBot.create(:user)
       group.users.push(new_admin)
       new_admin
     end
@@ -543,8 +543,8 @@ RSpec.describe GroupsController, type: :controller do
   end
 
   describe 'POST demote_administrator' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:group) { FactoryGirl.create(:group, users: [user]) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:group) { FactoryBot.create(:group, users: [user]) }
 
     it 'demotes an administrator to a normal memeber' do
       UserGroup.set_is_admin(group.id, user.id, true)
@@ -578,10 +578,10 @@ RSpec.describe GroupsController, type: :controller do
   end
 
   describe 'POST remove group member' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:second_user) { FactoryGirl.create(:user) }
-    let(:third_user) { FactoryGirl.create(:user) }
-    let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:second_user) { FactoryBot.create(:user) }
+    let(:third_user) { FactoryBot.create(:user) }
+    let(:group) { FactoryBot.create(:group, users: [user, second_user, third_user]) }
 
     it 'removes a member of a group' do
       UserGroup.set_is_admin(group.id, user.id, true)
@@ -616,11 +616,11 @@ RSpec.describe GroupsController, type: :controller do
   end
 
   describe 'POST condition for changing member status' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:second_user) { FactoryGirl.create(:user) }
-    let(:third_user) { FactoryGirl.create(:user) }
-    let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
-    let(:second_group) { FactoryGirl.create(:group, users: [user]) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:second_user) { FactoryBot.create(:user) }
+    let(:third_user) { FactoryBot.create(:user) }
+    let(:group) { FactoryBot.create(:group, users: [user, second_user, third_user]) }
+    let(:second_group) { FactoryBot.create(:group, users: [user]) }
     let(:json) { JSON.parse(response.body) }
 
     render_views
@@ -645,10 +645,10 @@ RSpec.describe GroupsController, type: :controller do
   end
 
   describe 'POST all members to administrators' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:second_user) { FactoryGirl.create(:user) }
-    let(:third_user) { FactoryGirl.create(:user) }
-    let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:second_user) { FactoryBot.create(:user) }
+    let(:third_user) { FactoryBot.create(:user) }
+    let(:group) { FactoryBot.create(:group, users: [user, second_user, third_user]) }
 
     it 'makes all members of a group to admins' do
       UserGroup.set_is_admin(group.id, user.id, true)
@@ -686,9 +686,9 @@ RSpec.describe GroupsController, type: :controller do
     render_views
     let(:json) { JSON.parse(response.body) }
 
-    let(:user) { FactoryGirl.create(:user) }
-    let(:second_user) { FactoryGirl.create(:user) }
-    let(:group) { FactoryGirl.create(:group, users: [user, second_user]) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:second_user) { FactoryBot.create(:user) }
+    let(:group) { FactoryBot.create(:group, users: [user, second_user]) }
 
     it 'returns JSON with all members exclude the current user' do
       get :members, params: {format: :json, id: group.id}
@@ -714,7 +714,7 @@ RSpec.describe GroupsController, type: :controller do
     render_views
     let(:json) { JSON.parse(response.body) }
     let!(:second_group_with_admin) do
-      second_group_with_admin = FactoryGirl.create(:group, users: [user], name: 'A')
+      second_group_with_admin = FactoryBot.create(:group, users: [user], name: 'A')
       UserGroup.set_is_admin(second_group_with_admin.id, user.id, true)
       second_group_with_admin
     end

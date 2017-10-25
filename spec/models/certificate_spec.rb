@@ -4,11 +4,11 @@ require 'rails_helper'
 
 RSpec.describe Certificate, type: :model do
   describe 'classification' do
-    let(:completion) { FactoryGirl.create(:completion) }
-    let(:confirmation_of_participation) { FactoryGirl.create(:confirmation_of_participation) }
-    let(:record_of_achievement) { FactoryGirl.create(:record_of_achievement) }
-    let(:certificate) { FactoryGirl.create(:certificate) }
-    let(:other_document) { FactoryGirl.create(:certificate, document_type: 'other_document') }
+    let(:completion) { FactoryBot.create(:completion) }
+    let(:confirmation_of_participation) { FactoryBot.create(:confirmation_of_participation) }
+    let(:record_of_achievement) { FactoryBot.create(:record_of_achievement) }
+    let(:certificate) { FactoryBot.create(:certificate) }
+    let(:other_document) { FactoryBot.create(:certificate, document_type: 'other_document') }
 
     it 'returns 0 for confirmation_of_participation' do
       expect(confirmation_of_participation.classification).to eq 0

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Users::Registration', type: :feature do
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
 
   before do
     visit new_user_registration_path
@@ -23,7 +23,7 @@ RSpec.describe 'Users::Registration', type: :feature do
     end
 
     it 'does not work if email already taken' do
-      existing_user = FactoryGirl.create(:user)
+      existing_user = FactoryBot.create(:user)
       fill_in 'user_first_name', with: existing_user.first_name
       fill_in 'user_last_name', with: existing_user.last_name
       fill_in 'registration_email', with: existing_user.primary_email
@@ -100,7 +100,7 @@ RSpec.describe 'Users::Registration', type: :feature do
     end
 
     it 'does not work if email already taken' do
-      existing_user = FactoryGirl.create(:user)
+      existing_user = FactoryBot.create(:user)
       fill_in 'user_first_name', with: existing_user.first_name
       fill_in 'user_last_name', with: existing_user.last_name
       fill_in 'registration_email', with: existing_user.primary_email

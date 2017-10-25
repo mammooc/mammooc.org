@@ -18,7 +18,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
   end
 
   context 'update user' do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user) { FactoryBot.create(:user) }
 
     before do
       sign_in user
@@ -36,7 +36,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
     end
 
     it 'validates if the new primary email address is already taken' do
-      second_user = FactoryGirl.create(:user)
+      second_user = FactoryBot.create(:user)
       put :update, params: {user: {primary_email: second_user.primary_email, current_password: user.password}}
       expect(user.primary_email).not_to eq second_user.primary_email
       expect(flash['error']).to include(I18n.t('devise.registrations.email.taken'))
@@ -86,7 +86,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
   end
 
   context 'update OmniAuth user' do
-    let(:user) { FactoryGirl.create(:OmniAuthUser) }
+    let(:user) { FactoryBot.create(:OmniAuthUser) }
 
     before do
       sign_in user

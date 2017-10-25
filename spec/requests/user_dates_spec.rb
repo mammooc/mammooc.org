@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'UserDates', type: :request do
   describe 'my_dates' do
-    let!(:user) { FactoryGirl.create(:user, token_for_user_dates: '1234') }
+    let!(:user) { FactoryBot.create(:user, token_for_user_dates: '1234') }
 
     it 'is possible to get my_dates without login with valid token' do
       get '/user_dates/my_dates/1234', params: {format: :ics}

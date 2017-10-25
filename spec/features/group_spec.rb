@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Group', type: :feature do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:second_user) { FactoryGirl.create(:user) }
-  let(:third_user) { FactoryGirl.create(:user) }
-  let(:group) { FactoryGirl.create(:group, users: [user, second_user, third_user]) }
-  let(:second_group) { FactoryGirl.create(:group, users: [user]) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:second_user) { FactoryBot.create(:user) }
+  let(:third_user) { FactoryBot.create(:user) }
+  let(:group) { FactoryBot.create(:group, users: [user, second_user, third_user]) }
+  let(:second_group) { FactoryBot.create(:group, users: [user]) }
 
   before do
     UserGroup.set_is_admin(group.id, user.id, true)

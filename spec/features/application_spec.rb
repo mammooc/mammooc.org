@@ -8,7 +8,7 @@ RSpec.describe 'Application', type: :feature do
   end
 
   describe 'GET any URL without being signed in' do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user) { FactoryBot.create(:user) }
 
     it 'redirects to sign in' do
       visit groups_path
@@ -56,7 +56,7 @@ RSpec.describe 'Application', type: :feature do
   end
 
   describe 'log in via navbar' do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user) { FactoryBot.create(:user) }
 
     it 'redirects to original URL after sign in' do
       visit courses_path
@@ -90,7 +90,7 @@ RSpec.describe 'Application', type: :feature do
   end
 
   describe 'change language' do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user) { FactoryBot.create(:user) }
 
     before do
       Sidekiq::Testing.inline!
@@ -122,7 +122,7 @@ RSpec.describe 'Application', type: :feature do
     end
 
     it 'appends the language to the params if necessary', js: true do
-      group = FactoryGirl.create(:group, users: [user])
+      group = FactoryBot.create(:group, users: [user])
       visit group_path(group)
       click_on I18n.t('groups.subnav.recommendations')
       click_button I18n.t('groups.recommend_course')
@@ -134,7 +134,7 @@ RSpec.describe 'Application', type: :feature do
     end
 
     it 'replaces the language to the params if necessary', js: true do
-      group = FactoryGirl.create(:group, users: [user])
+      group = FactoryBot.create(:group, users: [user])
       visit group_path(group)
       click_on I18n.t('groups.subnav.recommendations')
       click_button I18n.t('groups.recommend_course')

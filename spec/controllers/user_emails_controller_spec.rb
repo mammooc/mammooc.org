@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe UserEmailsController, type: :controller do
   let(:user) { User.create!(first_name: 'Max', last_name: 'Mustermann', password: '12345678') }
-  let!(:primary_email) { FactoryGirl.create(:user_email, user: user, is_primary: true) }
+  let!(:primary_email) { FactoryBot.create(:user_email, user: user, is_primary: true) }
 
   let(:valid_attributes) { {address: 'test@example.com', is_primary: false, user_id: user.id} }
 
@@ -13,8 +13,8 @@ RSpec.describe UserEmailsController, type: :controller do
   end
 
   describe 'mark as deleted' do
-    let(:second_email) { FactoryGirl.create(:user_email, user: user, is_primary: false) }
-    let(:third_email) { FactoryGirl.create(:user_email, user: user, is_primary: false) }
+    let(:second_email) { FactoryBot.create(:user_email, user: user, is_primary: false) }
+    let(:third_email) { FactoryBot.create(:user_email, user: user, is_primary: false) }
 
     it 'adds the specified email to session variable' do
       get :mark_as_deleted, params: {format: :json, id: second_email.id}

@@ -7,7 +7,7 @@ RSpec.describe Users::SessionsController, type: :controller do
   include Devise::Test::ControllerHelpers
   include Warden::Test::Helpers
 
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
 
   before do
     request.env['devise.mapping'] = Devise.mappings[:user]
@@ -89,7 +89,7 @@ RSpec.describe Users::SessionsController, type: :controller do
     session['devise.google_data'] = authentication_info
     valid_until = Time.zone.now + 10.minutes
     session['devise.google_data']['valid_until'] = valid_until
-    user = FactoryGirl.create(:user)
+    user = FactoryBot.create(:user)
     expect { post :create, params: {user: {primary_email: user.primary_email, password: '12345678'}} }.to change { UserIdentity.where(user_id: user.id).count }.by 1
     expect(flash['success']).to include I18n.t('users.sign_in_up.identity_merged', providers: OmniAuth::Utils.camelize(:google))
   end
@@ -106,7 +106,7 @@ RSpec.describe Users::SessionsController, type: :controller do
     session['devise.google_data'] = authentication_info
     valid_until = Time.zone.now - 10.minutes
     session['devise.google_data']['valid_until'] = valid_until
-    user = FactoryGirl.create(:user)
+    user = FactoryBot.create(:user)
     expect { post :create, params: {user: {primary_email: user.primary_email, password: '12345678'}} }.not_to(change { UserIdentity.where(user_id: user.id).count })
   end
 end

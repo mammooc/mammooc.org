@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe UserSetting, type: :model do
-  let(:setting) { FactoryGirl.create :user_setting }
+  let(:setting) { FactoryBot.create :user_setting }
 
   describe 'value(key)' do
-    let(:setting_entry) { FactoryGirl.create :user_setting_entry, setting: setting }
+    let(:setting_entry) { FactoryBot.create :user_setting_entry, setting: setting }
 
     it 'returns an existing value' do
       expect(setting.value(setting_entry.key)).to eq setting_entry.value
@@ -42,7 +42,7 @@ RSpec.describe UserSetting, type: :model do
     context 'existing UserSettingsEntry' do
       let(:old_value) { 'old value' }
       let(:new_value) { 'new value' }
-      let(:setting_entry) { FactoryGirl.create :user_setting_entry, setting: setting, value: old_value }
+      let(:setting_entry) { FactoryBot.create :user_setting_entry, setting: setting, value: old_value }
 
       it 'overwrites the old value' do
         expect { setting.set(setting_entry.key, new_value) }.to change { setting.value(setting_entry.key) }.from(old_value)

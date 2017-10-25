@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe OpenWHOConnector do
-  let!(:mooc_provider) { FactoryGirl.create(:mooc_provider, name: 'openWHO', api_support_state: 'naive') }
-  let!(:user) { FactoryGirl.create(:user) }
+  let!(:mooc_provider) { FactoryBot.create(:mooc_provider, name: 'openWHO', api_support_state: 'naive') }
+  let!(:user) { FactoryBot.create(:user) }
 
   let(:open_who_connector) { described_class.new }
 

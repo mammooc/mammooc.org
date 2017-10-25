@@ -7,7 +7,7 @@ RSpec.describe Users::OmniauthCallbacksController, type: :controller do
   include Devise::Test::ControllerHelpers
   include Warden::Test::Helpers
 
-  let(:user) { FactoryGirl.create(:OmniAuthUser) }
+  let(:user) { FactoryBot.create(:OmniAuthUser) }
   let(:identity) { UserIdentity.find_by(user: user) }
 
   before do
@@ -125,14 +125,14 @@ RSpec.describe Users::OmniauthCallbacksController, type: :controller do
 
     it 'is allowed to remove the OmniAuth connection if another OmniAuth connection is set up' do
       expect_any_instance_of(ApplicationController).to receive(:ensure_signup_complete).and_return(true)
-      FactoryGirl.create(:user_identity, omniauth_provider: 'secondProvider', user: user)
+      FactoryBot.create(:user_identity, omniauth_provider: 'secondProvider', user: user)
       get :deauthorize, params: {provider: identity.omniauth_provider}
       expect(flash['success']).to include(I18n.t('users.settings.identity_deleted', provider: OmniAuth::Utils.camelize(identity.omniauth_provider)))
     end
 
     it 'returns an error flash message if the connection was not destroyed' do
       expect_any_instance_of(ApplicationController).to receive(:ensure_signup_complete).and_return(true)
-      FactoryGirl.create(:user_identity, omniauth_provider: 'secondProvider', user: user)
+      FactoryBot.create(:user_identity, omniauth_provider: 'secondProvider', user: user)
       get :deauthorize, params: {provider: 'not existing'}
       expect(flash['error']).to include(I18n.t('users.settings.identity_not_deleted', provider: OmniAuth::Utils.camelize('not existing')))
     end

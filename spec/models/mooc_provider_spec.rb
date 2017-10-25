@@ -4,9 +4,9 @@ require 'rails_helper'
 
 RSpec.describe MoocProvider, type: :model do
   describe 'options for select mooc provider' do
-    let!(:provider1) { FactoryGirl.create(:mooc_provider) }
-    let!(:provider2) { FactoryGirl.create(:mooc_provider) }
-    let!(:provider3) { FactoryGirl.create(:mooc_provider) }
+    let!(:provider1) { FactoryBot.create(:mooc_provider) }
+    let!(:provider2) { FactoryBot.create(:mooc_provider) }
+    let!(:provider3) { FactoryBot.create(:mooc_provider) }
 
     it 'returns array of name and id' do
       options = described_class.options_for_select

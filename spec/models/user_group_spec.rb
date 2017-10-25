@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe UserGroup, type: :model do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:group) { FactoryGirl.create(:group, users: [user]) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:group) { FactoryBot.create(:group, users: [user]) }
 
   describe 'set is admin' do
     it 'sets attribute is_admin to true' do

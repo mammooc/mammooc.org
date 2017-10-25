@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :full_confirmation_of_participation, class: Certificate do
     title 'Full Confirmation of Participation'
     completion

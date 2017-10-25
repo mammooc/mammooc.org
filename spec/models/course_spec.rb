@@ -5,16 +5,16 @@ require 'rails_helper'
 RSpec.describe Course, type: :model do
   describe 'bookmarked_by_user' do
     it 'delivers true if bookmarked by user' do
-      user = FactoryGirl.create(:user)
-      bookmark = FactoryGirl.create(:bookmark, user: user)
+      user = FactoryBot.create(:user)
+      bookmark = FactoryBot.create(:bookmark, user: user)
       expect(
         bookmark.course.bookmarked_by_user?(user)
       ).to be true
     end
 
     it 'delivers false if not bookmarked by this user' do
-      user = FactoryGirl.create(:user)
-      bookmark = FactoryGirl.create(:bookmark)
+      user = FactoryBot.create(:user)
+      bookmark = FactoryBot.create(:bookmark)
       expect(
         bookmark.course.bookmarked_by_user?(user)
       ).to be false
@@ -22,24 +22,24 @@ RSpec.describe Course, type: :model do
   end
 
   describe 'saving a course' do
-    let!(:provider) { FactoryGirl.create(:mooc_provider) }
+    let!(:provider) { FactoryBot.create(:mooc_provider) }
     let!(:course1) do
-      FactoryGirl.create(:course,
+      FactoryBot.create(:course,
         mooc_provider_id: provider.id,
         start_date: Time.zone.local(2015, 3, 15),
         end_date: Time.zone.local(2015, 3, 17),
         provider_course_id: '123')
     end
     let!(:course2) do
-      FactoryGirl.create(:course,
+      FactoryBot.create(:course,
         mooc_provider_id: provider.id)
     end
     let!(:course3) do
-      FactoryGirl.create(:course,
+      FactoryBot.create(:course,
         mooc_provider_id: provider.id)
     end
     let!(:wrong_dates_course) do
-      FactoryGirl.create(:course,
+      FactoryBot.create(:course,
         mooc_provider_id: provider.id,
         start_date: Time.zone.local(2015, 10, 15),
         end_date: Time.zone.local(2015, 3, 17))
@@ -87,7 +87,7 @@ RSpec.describe Course, type: :model do
     end
 
     it 'saves data, if it has at least on track' do
-      course1.tracks.push(FactoryGirl.create(:course_track))
+      course1.tracks.push(FactoryBot.create(:course_track))
       expect { course1.save! }.not_to raise_error
     end
 
@@ -103,19 +103,19 @@ RSpec.describe Course, type: :model do
   end
 
   describe 'update_course_rating_attributes' do
-    let!(:course) { FactoryGirl.create(:course) }
+    let!(:course) { FactoryBot.create(:course) }
 
     it 'update calculated rating and rating count' do
-      FactoryGirl.create(:full_evaluation, rating: 1, course: course)
-      FactoryGirl.create(:minimal_evaluation, rating: 5, course: course)
+      FactoryBot.create(:full_evaluation, rating: 1, course: course)
+      FactoryBot.create(:minimal_evaluation, rating: 5, course: course)
       course.reload
       expect(course.rating_count).to eq(2)
       expect(course.calculated_rating).to eq(3.0)
     end
 
     it 'set calculated rating and rating count to zero when evaluations are deleted' do
-      eva1 = FactoryGirl.create(:full_evaluation, rating: 1, course: course)
-      eva2 = FactoryGirl.create(:minimal_evaluation, rating: 5, course: course)
+      eva1 = FactoryBot.create(:full_evaluation, rating: 1, course: course)
+      eva2 = FactoryBot.create(:minimal_evaluation, rating: 5, course: course)
       eva1.destroy
       eva2.destroy
       course.reload
@@ -158,11 +158,11 @@ RSpec.describe Course, type: :model do
 
   describe 'scopes for filtering' do
     context 'sorted_by' do
-      let!(:course_today) { FactoryGirl.create(:course, name: 'AAA', calculated_duration_in_days: 800, start_date: Time.zone.now) }
-      let!(:course_soon) { FactoryGirl.create(:course, name: 'ZZZ', calculated_duration_in_days: 60, start_date: Time.zone.now + 1.week) }
-      let!(:course_current) { FactoryGirl.create(:course, name: 'CCC', start_date: Time.zone.now - 1.week, end_date: Time.zone.now + 1.week) } # calculated_duration_in_days will be 14
-      let!(:course_past) { FactoryGirl.create(:course, name: 'BBB', start_date: Time.zone.now - 4.weeks, end_date: Time.zone.now - 1.week) } # calculated_duration_in_days will be 21
-      let!(:course_without_dates) { FactoryGirl.create(:course, name: 'FFF', start_date: nil, end_date: nil) }
+      let!(:course_today) { FactoryBot.create(:course, name: 'AAA', calculated_duration_in_days: 800, start_date: Time.zone.now) }
+      let!(:course_soon) { FactoryBot.create(:course, name: 'ZZZ', calculated_duration_in_days: 60, start_date: Time.zone.now + 1.week) }
+      let!(:course_current) { FactoryBot.create(:course, name: 'CCC', start_date: Time.zone.now - 1.week, end_date: Time.zone.now + 1.week) } # calculated_duration_in_days will be 14
+      let!(:course_past) { FactoryBot.create(:course, name: 'BBB', start_date: Time.zone.now - 4.weeks, end_date: Time.zone.now - 1.week) } # calculated_duration_in_days will be 21
+      let!(:course_without_dates) { FactoryBot.create(:course, name: 'FFF', start_date: nil, end_date: nil) }
 
       it 'sorts for name asc' do
         result = described_class.sorted_by('name_asc')
@@ -201,11 +201,11 @@ RSpec.describe Course, type: :model do
     end
 
     context 'sorted_by relevance' do
-      let!(:course_case_1) { FactoryGirl.create(:course, name: 'AAA', start_date: Time.zone.now + 2.weeks) }
-      let!(:course_case_2) { FactoryGirl.create(:course, name: 'BBB', start_date: Time.zone.now - 2.weeks, end_date: Time.zone.now + 2.weeks) }
-      let!(:course_case_3) { FactoryGirl.create(:course, name: 'CCC', start_date: Time.zone.now - 3.weeks, end_date: Time.zone.now - 2.weeks) }
-      let!(:course_case_5) { FactoryGirl.create(:course, name: 'DDD', start_date: nil, end_date: nil) }
-      let!(:course_case_4) { FactoryGirl.create(:course, name: 'EEE', start_date: Time.zone.now - 2.weeks, end_date: nil) }
+      let!(:course_case_1) { FactoryBot.create(:course, name: 'AAA', start_date: Time.zone.now + 2.weeks) }
+      let!(:course_case_2) { FactoryBot.create(:course, name: 'BBB', start_date: Time.zone.now - 2.weeks, end_date: Time.zone.now + 2.weeks) }
+      let!(:course_case_3) { FactoryBot.create(:course, name: 'CCC', start_date: Time.zone.now - 3.weeks, end_date: Time.zone.now - 2.weeks) }
+      let!(:course_case_5) { FactoryBot.create(:course, name: 'DDD', start_date: nil, end_date: nil) }
+      let!(:course_case_4) { FactoryBot.create(:course, name: 'EEE', start_date: Time.zone.now - 2.weeks, end_date: nil) }
 
       it 'show relevant courses starts current first' do
         result = described_class.sorted_by('relevance_asc')
@@ -214,10 +214,10 @@ RSpec.describe Course, type: :model do
     end
 
     context 'search query' do
-      let!(:course_match_name) { FactoryGirl.create(:course, name: 'Web Technologies') }
-      let!(:course_not_match_name) { FactoryGirl.create(:course, name: 'Wob Technochicks') }
-      let!(:course_match_instructors) { FactoryGirl.create(:course, name: 'Java course', course_instructors: 'Jan Renz, Thomas Staubitz') }
-      let!(:course_not_match_instructors) { FactoryGirl.create(:course, name: 'Ruby course', course_instructors: 'Prof. Dr. Christoph Meinel, Erwin Abitz') }
+      let!(:course_match_name) { FactoryBot.create(:course, name: 'Web Technologies') }
+      let!(:course_not_match_name) { FactoryBot.create(:course, name: 'Wob Technochicks') }
+      let!(:course_match_instructors) { FactoryBot.create(:course, name: 'Java course', course_instructors: 'Jan Renz, Thomas Staubitz') }
+      let!(:course_not_match_instructors) { FactoryBot.create(:course, name: 'Ruby course', course_instructors: 'Prof. Dr. Christoph Meinel, Erwin Abitz') }
 
       it 'finds the course with the specified name' do
         result = described_class.search_query(course_match_name.name)
@@ -267,9 +267,9 @@ RSpec.describe Course, type: :model do
 
     context 'with_start_date_gte' do
       let(:test_date) { '05.04.2015' }
-      let!(:wrong_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(test_date) - 1.day) }
-      let!(:correct_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(test_date)) }
-      let!(:correct_course2) { FactoryGirl.create(:course, start_date: Time.zone.parse(test_date) + 1.week) }
+      let!(:wrong_course) { FactoryBot.create(:course, start_date: Time.zone.parse(test_date) - 1.day) }
+      let!(:correct_course) { FactoryBot.create(:course, start_date: Time.zone.parse(test_date)) }
+      let!(:correct_course2) { FactoryBot.create(:course, start_date: Time.zone.parse(test_date) + 1.week) }
 
       it 'returns courses that start at or after defined date' do
         result = described_class.with_start_date_gte(test_date)
@@ -286,9 +286,9 @@ RSpec.describe Course, type: :model do
 
     context 'with_end_date_gte' do
       let(:test_date) { '05.04.2015' }
-      let!(:wrong_course) { FactoryGirl.create(:course, end_date: Time.zone.parse(test_date) + 1.day) }
-      let!(:correct_course) { FactoryGirl.create(:course, end_date: Time.zone.parse(test_date)) }
-      let!(:correct_course2) { FactoryGirl.create(:course, end_date: Time.zone.parse(test_date) - 1.week) }
+      let!(:wrong_course) { FactoryBot.create(:course, end_date: Time.zone.parse(test_date) + 1.day) }
+      let!(:correct_course) { FactoryBot.create(:course, end_date: Time.zone.parse(test_date)) }
+      let!(:correct_course2) { FactoryBot.create(:course, end_date: Time.zone.parse(test_date) - 1.week) }
 
       it 'returns courses that end at or before defined date' do
         result = described_class.with_end_date_lte(test_date)
@@ -305,9 +305,9 @@ RSpec.describe Course, type: :model do
 
     context 'with_language' do
       let(:test_language) { 'en' }
-      let!(:wrong_course) { FactoryGirl.create(:course, language: 'ru') }
-      let!(:correct_course) { FactoryGirl.create(:course, language: test_language) }
-      let!(:correct_course2) { FactoryGirl.create(:course, language: test_language) }
+      let!(:wrong_course) { FactoryBot.create(:course, language: 'ru') }
+      let!(:correct_course) { FactoryBot.create(:course, language: test_language) }
+      let!(:correct_course2) { FactoryBot.create(:course, language: test_language) }
 
       it 'returns courses that have only the test language set as language' do
         result = described_class.with_language(test_language)
@@ -351,12 +351,12 @@ RSpec.describe Course, type: :model do
     end
 
     context 'with_end_date_gte' do
-      let!(:wrong_provider) { FactoryGirl.create(:mooc_provider) }
-      let!(:correct_provider) { FactoryGirl.create(:mooc_provider) }
-      let!(:wrong_provider2) { FactoryGirl.create(:mooc_provider) }
-      let!(:wrong_course) { FactoryGirl.create(:course, mooc_provider: wrong_provider) }
-      let!(:correct_course) { FactoryGirl.create(:course, mooc_provider: correct_provider) }
-      let!(:wrong_course2) { FactoryGirl.create(:course, mooc_provider: wrong_provider2) }
+      let!(:wrong_provider) { FactoryBot.create(:mooc_provider) }
+      let!(:correct_provider) { FactoryBot.create(:mooc_provider) }
+      let!(:wrong_provider2) { FactoryBot.create(:mooc_provider) }
+      let!(:wrong_course) { FactoryBot.create(:course, mooc_provider: wrong_provider) }
+      let!(:correct_course) { FactoryBot.create(:course, mooc_provider: correct_provider) }
+      let!(:wrong_course2) { FactoryBot.create(:course, mooc_provider: wrong_provider2) }
 
       it 'returns courses of the correct provider' do
         result = described_class.with_mooc_provider_id(correct_provider.id)
@@ -366,9 +366,9 @@ RSpec.describe Course, type: :model do
 
     context 'with_subtitle_language' do
       let(:test_language) { 'en' }
-      let!(:wrong_course) { FactoryGirl.create(:course, subtitle_languages: 'ru') }
-      let!(:correct_course) { FactoryGirl.create(:course, subtitle_languages: test_language) }
-      let!(:correct_course2) { FactoryGirl.create(:course, subtitle_languages: test_language) }
+      let!(:wrong_course) { FactoryBot.create(:course, subtitle_languages: 'ru') }
+      let!(:correct_course) { FactoryBot.create(:course, subtitle_languages: test_language) }
+      let!(:correct_course2) { FactoryBot.create(:course, subtitle_languages: test_language) }
 
       it 'returns courses that have only the test subtitle_language set as subtitle_language' do
         result = described_class.with_subtitle_languages(test_language)
@@ -413,13 +413,13 @@ RSpec.describe Course, type: :model do
 
     context 'start_filter_options' do
       let(:current_date) { Time.zone.now.strftime('%d.%m.%Y').to_s }
-      let!(:current_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date), end_date: Time.zone.parse(current_date) + 2.weeks) }
-      let!(:past_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date) - 4.weeks, end_date: Time.zone.parse(current_date) - 2.weeks) }
-      let!(:soon_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date) + 1.week, end_date: Time.zone.parse(current_date) + 3.weeks) }
-      let!(:future_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date) + 4.weeks, end_date: Time.zone.parse(current_date) + 6.weeks) }
-      let!(:without_start_course) { FactoryGirl.create(:course, start_date: nil, end_date: Time.zone.parse(current_date) + 3.weeks) }
-      let!(:without_end_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date), end_date: nil) }
-      let!(:without_dates_course) { FactoryGirl.create(:course, start_date: nil, end_date: nil) }
+      let!(:current_course) { FactoryBot.create(:course, start_date: Time.zone.parse(current_date), end_date: Time.zone.parse(current_date) + 2.weeks) }
+      let!(:past_course) { FactoryBot.create(:course, start_date: Time.zone.parse(current_date) - 4.weeks, end_date: Time.zone.parse(current_date) - 2.weeks) }
+      let!(:soon_course) { FactoryBot.create(:course, start_date: Time.zone.parse(current_date) + 1.week, end_date: Time.zone.parse(current_date) + 3.weeks) }
+      let!(:future_course) { FactoryBot.create(:course, start_date: Time.zone.parse(current_date) + 4.weeks, end_date: Time.zone.parse(current_date) + 6.weeks) }
+      let!(:without_start_course) { FactoryBot.create(:course, start_date: nil, end_date: Time.zone.parse(current_date) + 3.weeks) }
+      let!(:without_end_course) { FactoryBot.create(:course, start_date: Time.zone.parse(current_date), end_date: nil) }
+      let!(:without_dates_course) { FactoryBot.create(:course, start_date: nil, end_date: nil) }
 
       it 'returns the courses that are currently running' do
         result = described_class.start_filter_options('now')
@@ -477,12 +477,12 @@ RSpec.describe Course, type: :model do
 
     context 'duration_filter_options' do
       let(:current_date) { Time.zone.now.strftime('%d.%m.%Y').to_s }
-      let!(:short_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date), end_date: Time.zone.parse(current_date) + 2.weeks) }
-      let!(:short_medium_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date), end_date: Time.zone.parse(current_date) + 5.weeks) }
-      let!(:medium_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date), end_date: Time.zone.parse(current_date) + 7.weeks) }
-      let!(:medium_long_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date), end_date: Time.zone.parse(current_date) + 11.weeks) }
-      let!(:long_course) { FactoryGirl.create(:course, start_date: Time.zone.parse(current_date), end_date: Time.zone.parse(current_date) + 13.weeks) }
-      let!(:course_without_duration) { FactoryGirl.create(:course, start_date: nil, end_date: nil) }
+      let!(:short_course) { FactoryBot.create(:course, start_date: Time.zone.parse(current_date), end_date: Time.zone.parse(current_date) + 2.weeks) }
+      let!(:short_medium_course) { FactoryBot.create(:course, start_date: Time.zone.parse(current_date), end_date: Time.zone.parse(current_date) + 5.weeks) }
+      let!(:medium_course) { FactoryBot.create(:course, start_date: Time.zone.parse(current_date), end_date: Time.zone.parse(current_date) + 7.weeks) }
+      let!(:medium_long_course) { FactoryBot.create(:course, start_date: Time.zone.parse(current_date), end_date: Time.zone.parse(current_date) + 11.weeks) }
+      let!(:long_course) { FactoryBot.create(:course, start_date: Time.zone.parse(current_date), end_date: Time.zone.parse(current_date) + 13.weeks) }
+      let!(:course_without_duration) { FactoryBot.create(:course, start_date: nil, end_date: nil) }
 
       it 'returns short course' do
         result = described_class.duration_filter_options('short')
@@ -514,22 +514,22 @@ RSpec.describe Course, type: :model do
       let(:track_options) { {costs: nil, certificate: nil} }
 
       context 'only costs' do
-        let(:free_track) { FactoryGirl.create(:free_course_track) }
-        let(:track1) { FactoryGirl.create(:certificate_course_track, costs: 20.0) }
-        let(:track2) { FactoryGirl.create(:certificate_course_track, costs: 40.0) }
-        let(:track3) { FactoryGirl.create(:certificate_course_track, costs: 70.0) }
-        let(:track4) { FactoryGirl.create(:certificate_course_track, costs: 100.0) }
-        let(:track5) { FactoryGirl.create(:certificate_course_track, costs: 160.0) }
-        let(:track6) { FactoryGirl.create(:certificate_course_track, costs: 210.0) }
+        let(:free_track) { FactoryBot.create(:free_course_track) }
+        let(:track1) { FactoryBot.create(:certificate_course_track, costs: 20.0) }
+        let(:track2) { FactoryBot.create(:certificate_course_track, costs: 40.0) }
+        let(:track3) { FactoryBot.create(:certificate_course_track, costs: 70.0) }
+        let(:track4) { FactoryBot.create(:certificate_course_track, costs: 100.0) }
+        let(:track5) { FactoryBot.create(:certificate_course_track, costs: 160.0) }
+        let(:track6) { FactoryBot.create(:certificate_course_track, costs: 210.0) }
 
-        let!(:free_course) { FactoryGirl.create(:course, tracks: [free_track]) }
-        let!(:course_range1) { FactoryGirl.create(:course, tracks: [track1]) }
-        let!(:course_range2) { FactoryGirl.create(:course, tracks: [track2]) }
-        let!(:course_range3) { FactoryGirl.create(:course, tracks: [track3]) }
-        let!(:course_range4) { FactoryGirl.create(:course, tracks: [track4]) }
-        let!(:course_range5) { FactoryGirl.create(:course, tracks: [track5]) }
-        let!(:course_range6) { FactoryGirl.create(:course, tracks: [track6]) }
-        let!(:course_undefined_costs) { FactoryGirl.create(:course) }
+        let!(:free_course) { FactoryBot.create(:course, tracks: [free_track]) }
+        let!(:course_range1) { FactoryBot.create(:course, tracks: [track1]) }
+        let!(:course_range2) { FactoryBot.create(:course, tracks: [track2]) }
+        let!(:course_range3) { FactoryBot.create(:course, tracks: [track3]) }
+        let!(:course_range4) { FactoryBot.create(:course, tracks: [track4]) }
+        let!(:course_range5) { FactoryBot.create(:course, tracks: [track5]) }
+        let!(:course_range6) { FactoryBot.create(:course, tracks: [track6]) }
+        let!(:course_undefined_costs) { FactoryBot.create(:course) }
 
         it 'returns free course' do
           track_options[:costs] = 'free'
@@ -575,14 +575,14 @@ RSpec.describe Course, type: :model do
       end
 
       context 'only certificate' do
-        let(:track_type1) { FactoryGirl.create(:course_track_type) }
-        let(:track_type2) { FactoryGirl.create(:course_track_type) }
+        let(:track_type1) { FactoryBot.create(:course_track_type) }
+        let(:track_type2) { FactoryBot.create(:course_track_type) }
 
-        let(:track1) { FactoryGirl.create(:certificate_course_track, track_type: track_type1) }
-        let(:track2) { FactoryGirl.create(:certificate_course_track, track_type: track_type2) }
+        let(:track1) { FactoryBot.create(:certificate_course_track, track_type: track_type1) }
+        let(:track2) { FactoryBot.create(:certificate_course_track, track_type: track_type2) }
 
-        let!(:course1) { FactoryGirl.create(:course, tracks: [track1]) }
-        let!(:course2) { FactoryGirl.create(:course, tracks: [track2]) }
+        let!(:course1) { FactoryBot.create(:course, tracks: [track1]) }
+        let!(:course2) { FactoryBot.create(:course, tracks: [track2]) }
 
         it 'returns course with defined certificate' do
           track_options[:certificate] = track_type1.id
@@ -592,52 +592,52 @@ RSpec.describe Course, type: :model do
       end
 
       context 'costs and certificate' do
-        let(:track_type1) { FactoryGirl.create(:course_track_type) }
-        let(:track_type2) { FactoryGirl.create(:course_track_type) }
+        let(:track_type1) { FactoryBot.create(:course_track_type) }
+        let(:track_type2) { FactoryBot.create(:course_track_type) }
 
-        let(:free_track1) { FactoryGirl.create(:free_course_track, track_type: track_type1) }
-        let(:free_track2) { FactoryGirl.create(:free_course_track, track_type: track_type2) }
+        let(:free_track1) { FactoryBot.create(:free_course_track, track_type: track_type1) }
+        let(:free_track2) { FactoryBot.create(:free_course_track, track_type: track_type2) }
 
-        let(:track1_range1) { FactoryGirl.create(:certificate_course_track, costs: 20.0, track_type: track_type1) }
-        let(:track2_range1) { FactoryGirl.create(:certificate_course_track, costs: 20.0, track_type: track_type2) }
+        let(:track1_range1) { FactoryBot.create(:certificate_course_track, costs: 20.0, track_type: track_type1) }
+        let(:track2_range1) { FactoryBot.create(:certificate_course_track, costs: 20.0, track_type: track_type2) }
 
-        let(:track1_range2) { FactoryGirl.create(:certificate_course_track, costs: 40.0, track_type: track_type1) }
-        let(:track2_range2) { FactoryGirl.create(:certificate_course_track, costs: 40.0, track_type: track_type2) }
+        let(:track1_range2) { FactoryBot.create(:certificate_course_track, costs: 40.0, track_type: track_type1) }
+        let(:track2_range2) { FactoryBot.create(:certificate_course_track, costs: 40.0, track_type: track_type2) }
 
-        let(:track1_range3) { FactoryGirl.create(:certificate_course_track, costs: 70.0, track_type: track_type1) }
-        let(:track2_range3) { FactoryGirl.create(:certificate_course_track, costs: 70.0, track_type: track_type2) }
+        let(:track1_range3) { FactoryBot.create(:certificate_course_track, costs: 70.0, track_type: track_type1) }
+        let(:track2_range3) { FactoryBot.create(:certificate_course_track, costs: 70.0, track_type: track_type2) }
 
-        let(:track1_range4) { FactoryGirl.create(:certificate_course_track, costs: 100.0, track_type: track_type1) }
-        let(:track2_range4) { FactoryGirl.create(:certificate_course_track, costs: 100.0, track_type: track_type2) }
+        let(:track1_range4) { FactoryBot.create(:certificate_course_track, costs: 100.0, track_type: track_type1) }
+        let(:track2_range4) { FactoryBot.create(:certificate_course_track, costs: 100.0, track_type: track_type2) }
 
-        let(:track1_range5) { FactoryGirl.create(:certificate_course_track, costs: 160.0, track_type: track_type1) }
-        let(:track2_range5) { FactoryGirl.create(:certificate_course_track, costs: 160.0, track_type: track_type2) }
+        let(:track1_range5) { FactoryBot.create(:certificate_course_track, costs: 160.0, track_type: track_type1) }
+        let(:track2_range5) { FactoryBot.create(:certificate_course_track, costs: 160.0, track_type: track_type2) }
 
-        let(:track1_range6) { FactoryGirl.create(:certificate_course_track, costs: 210.0, track_type: track_type1) }
-        let(:track2_range6) { FactoryGirl.create(:certificate_course_track, costs: 210.0, track_type: track_type2) }
+        let(:track1_range6) { FactoryBot.create(:certificate_course_track, costs: 210.0, track_type: track_type1) }
+        let(:track2_range6) { FactoryBot.create(:certificate_course_track, costs: 210.0, track_type: track_type2) }
 
-        let!(:free1_course) { FactoryGirl.create(:course, tracks: [free_track1]) }
-        let!(:free2_course) { FactoryGirl.create(:course, tracks: [free_track2]) }
+        let!(:free1_course) { FactoryBot.create(:course, tracks: [free_track1]) }
+        let!(:free2_course) { FactoryBot.create(:course, tracks: [free_track2]) }
 
-        let!(:course1_range1) { FactoryGirl.create(:course, tracks: [track1_range1]) }
-        let!(:course2_range1) { FactoryGirl.create(:course, tracks: [track2_range1]) }
+        let!(:course1_range1) { FactoryBot.create(:course, tracks: [track1_range1]) }
+        let!(:course2_range1) { FactoryBot.create(:course, tracks: [track2_range1]) }
 
-        let!(:course1_range2) { FactoryGirl.create(:course, tracks: [track1_range2]) }
-        let!(:course2_range2) { FactoryGirl.create(:course, tracks: [track2_range2]) }
+        let!(:course1_range2) { FactoryBot.create(:course, tracks: [track1_range2]) }
+        let!(:course2_range2) { FactoryBot.create(:course, tracks: [track2_range2]) }
 
-        let!(:course1_range3) { FactoryGirl.create(:course, tracks: [track1_range3]) }
-        let!(:course2_range3) { FactoryGirl.create(:course, tracks: [track2_range3]) }
+        let!(:course1_range3) { FactoryBot.create(:course, tracks: [track1_range3]) }
+        let!(:course2_range3) { FactoryBot.create(:course, tracks: [track2_range3]) }
 
-        let!(:course1_range4) { FactoryGirl.create(:course, tracks: [track1_range4]) }
-        let!(:course2_range4) { FactoryGirl.create(:course, tracks: [track2_range4]) }
+        let!(:course1_range4) { FactoryBot.create(:course, tracks: [track1_range4]) }
+        let!(:course2_range4) { FactoryBot.create(:course, tracks: [track2_range4]) }
 
-        let!(:course1_range5) { FactoryGirl.create(:course, tracks: [track1_range5]) }
-        let!(:course2_range5) { FactoryGirl.create(:course, tracks: [track2_range5]) }
+        let!(:course1_range5) { FactoryBot.create(:course, tracks: [track1_range5]) }
+        let!(:course2_range5) { FactoryBot.create(:course, tracks: [track2_range5]) }
 
-        let!(:course1_range6) { FactoryGirl.create(:course, tracks: [track1_range6]) }
-        let!(:course2_range6) { FactoryGirl.create(:course, tracks: [track2_range6]) }
+        let!(:course1_range6) { FactoryBot.create(:course, tracks: [track1_range6]) }
+        let!(:course2_range6) { FactoryBot.create(:course, tracks: [track2_range6]) }
 
-        let!(:course_undefined_costs) { FactoryGirl.create(:course) }
+        let!(:course_undefined_costs) { FactoryBot.create(:course) }
 
         it 'returns free courses with defined certificate' do
           track_options[:costs] = 'free'
@@ -691,11 +691,11 @@ RSpec.describe Course, type: :model do
     end
 
     context 'my bookmarked courses' do
-      let(:user) { FactoryGirl.create(:user) }
-      let(:second_user) { FactoryGirl.create(:user) }
-      let(:not_bookmarked_course) { FactoryGirl.create(:course) }
-      let(:bookmarked_course) { FactoryGirl.create(:course) }
-      let!(:bookmark) { FactoryGirl.create(:bookmark, user: user, course: bookmarked_course) }
+      let(:user) { FactoryBot.create(:user) }
+      let(:second_user) { FactoryBot.create(:user) }
+      let(:not_bookmarked_course) { FactoryBot.create(:course) }
+      let(:bookmarked_course) { FactoryBot.create(:course) }
+      let!(:bookmark) { FactoryBot.create(:bookmark, user: user, course: bookmarked_course) }
 
       it 'returns only bookmarked courses' do
         result = described_class.bookmarked(user.id)
@@ -710,19 +710,19 @@ RSpec.describe Course, type: :model do
   end
 
   describe 'destroys a course' do
-    let!(:course) { FactoryGirl.create(:course) }
+    let!(:course) { FactoryBot.create(:course) }
 
     it 'destroys all activities where course is referenced' do
-      bookmark = FactoryGirl.create(:bookmark, course: course)
-      FactoryGirl.create(:activity_bookmark, trackable_id: bookmark.id)
+      bookmark = FactoryBot.create(:bookmark, course: course)
+      FactoryBot.create(:activity_bookmark, trackable_id: bookmark.id)
 
-      FactoryGirl.create(:activity_course_enroll, trackable_id: course.id)
+      FactoryBot.create(:activity_course_enroll, trackable_id: course.id)
 
-      group_recommendation = FactoryGirl.create(:group_recommendation_without_activity, course: course)
-      FactoryGirl.create(:activity, trackable_id: group_recommendation.id, trackable_type: 'Recommendation')
+      group_recommendation = FactoryBot.create(:group_recommendation_without_activity, course: course)
+      FactoryBot.create(:activity, trackable_id: group_recommendation.id, trackable_type: 'Recommendation')
 
-      user_recommendation = FactoryGirl.create(:user_recommendation_without_activity, course: course)
-      FactoryGirl.create(:activity, trackable_id: user_recommendation.id, trackable_type: 'Recommendation')
+      user_recommendation = FactoryBot.create(:user_recommendation_without_activity, course: course)
+      FactoryBot.create(:activity, trackable_id: user_recommendation.id, trackable_type: 'Recommendation')
 
       expect(PublicActivity::Activity.count).to eq 4
       expect { course.destroy! }.not_to raise_error
@@ -730,10 +730,10 @@ RSpec.describe Course, type: :model do
     end
 
     it 'does not destroy activities where course is not referenced' do
-      FactoryGirl.create(:activity_bookmark)
-      FactoryGirl.create(:activity_course_enroll)
-      FactoryGirl.create(:activity_group_recommendation)
-      FactoryGirl.create(:activity_user_recommendation)
+      FactoryBot.create(:activity_bookmark)
+      FactoryBot.create(:activity_course_enroll)
+      FactoryBot.create(:activity_group_recommendation)
+      FactoryBot.create(:activity_user_recommendation)
 
       expect(PublicActivity::Activity.count).to eq 4
       expect { course.destroy! }.not_to raise_error
