@@ -85,11 +85,139 @@ RSpec.describe OpenHPIConnector do
     let!(:second_course) { FactoryBot.create(:full_course, provider_course_id: 'bccf2ca2-429c-4cd0-9f63-caaccf85727a', mooc_provider_id: mooc_provider.id) }
 
     let(:enrollment_data) do
-      '[{"id":"dfcfdf0f-e0ad-4887-abfa-83cc233c291f","course_id":"c5600abf-5abf-460b-ba6f-1d030053fd79"},{"id":"bbc4c2a7-51ed-460a-a312-6ba4b3da3545","course_id":"0c6c5ad1-a770-4f16-81c3-536169f3cbd3"},{"id":"48edd6a8-3a9a-4a64-8b5c-631142022d15","course_id":"bccf2ca2-429c-4cd0-9f63-caaccf85727a"}]'
+      data = "{
+    \"data\": [
+        {
+            \"type\": \"enrollments\",
+            \"id\": \"d652d5d6-3624-4fb1-894f-2ea1c05bf5c4\",
+            \"links\": {
+                \"self\": \"/api/v2/enrollments/d652d5d6-3624-4fb1-894f-2ea1c05bf5c4\"
+            },
+            \"attributes\": {
+                \"visits\": {
+                    \"visited\": 12,
+                    \"total\": 12,
+                    \"percentage\": 100
+                },
+                \"points\": {
+                    \"achieved\": 0,
+                    \"maximal\": 0,
+                    \"percentage\": null
+                },
+                \"certificates\": {
+                    \"confirmation_of_participation\": true,
+                    \"record_of_achievement\": null,
+                    \"qualified_certificate\": null
+                },
+                \"completed\": false,
+                \"reactivated\": false,
+                \"proctored\": false,
+                \"created_at\": \"2016-11-25T17:18:22.627Z\"
+            },
+            \"relationships\": {
+                \"course\": {
+                    \"data\": {
+                        \"type\": \"courses\",
+                        \"id\": \"#{course.provider_course_id}\"
+                    },
+                    \"links\": {
+                        \"related\": \"/api/v2/courses/#{course.provider_course_id}\"
+                    }
+                },
+                \"progress\": {
+                    \"data\": {
+                        \"type\": \"course-progresses\",
+                        \"id\": \"#{course.provider_course_id}\"
+                    },
+                    \"links\": {
+                        \"related\": \"/api/v2/course-progresses/#{course.provider_course_id}\"
+                    }
+                }
+            }
+        },
+        {
+            \"type\": \"enrollments\",
+            \"id\": \"832b61e8-4dd6-4bdb-a623-ce56262742a7\",
+            \"links\": {
+                \"self\": \"/api/v2/enrollments/832b61e8-4dd6-4bdb-a623-ce56262742a7\"
+            },
+            \"attributes\": {
+                \"visits\": {
+                    \"visited\": 72,
+                    \"total\": 72,
+                    \"percentage\": 100
+                },
+                \"points\": {
+                    \"achieved\": 48,
+                    \"maximal\": 48.5,
+                    \"percentage\": 98.96907216
+                },
+                \"certificates\": {
+                    \"confirmation_of_participation\": null,
+                    \"record_of_achievement\": false,
+                    \"qualified_certificate\": true
+                },
+                \"completed\": true,
+                \"reactivated\": false,
+                \"proctored\": false,
+                \"created_at\": \"2016-12-08T12:13:04.205Z\"
+            },
+            \"relationships\": {
+                \"course\": {
+                    \"data\": {
+                        \"type\": \"courses\",
+                        \"id\": \"#{second_course.provider_course_id}\"
+                    },
+                    \"links\": {
+                        \"related\": \"/api/v2/courses/#{second_course.provider_course_id}\"
+                    }
+                },
+                \"progress\": {
+                    \"data\": {
+                        \"type\": \"course-progresses\",
+                        \"id\": \"#{second_course.provider_course_id}\"
+                    },
+                    \"links\": {
+                        \"related\": \"/api/v2/course-progresses/#{second_course.provider_course_id}\"
+                    }
+                }
+            }
+        }
+    ]
+}"
+      net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK']}, code: 200)
+      example_url = 'https://open.hpi.de/api/v2/enrollments'
+      request = request_double(url: example_url, method: 'get')
+      response = RestClient::Response.create(data, net_http_res, request)
+      response
+    end
+
+    let(:emtpy_enrollment_data) do
+      net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK']}, code: 200)
+      example_url = 'https://open.hpi.de/api/v2/enrollments'
+      request = request_double(url: example_url, method: 'get')
+      response = RestClient::Response.create('', net_http_res, request)
+      response
+    end
+
+    let(:emtpy_enrollment_data_api_expired) do
+      net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK'], 'X_Api_Version_Expiration_Date' => ['Tue, 15 Aug 2017 00:00:00 GMT']}, code: 200)
+      example_url = 'https://open.hpi.de/api/v2/enrollments'
+      request = request_double(url: example_url, method: 'get')
+      response = RestClient::Response.create('', net_http_res, request)
+      response
     end
 
     let(:json_enrollment_data) do
-      JSON.parse enrollment_data
+      JSON::Api::Vanilla.parse enrollment_data
+    end
+
+    let(:json_empty_enrollment_data) do
+      JSON::Api::Vanilla.parse emtpy_enrollment_data
+    end
+
+    let(:json_empty_enrollment_data_api_expired) do
+      JSON::Api::Vanilla.parse emtpy_enrollment_data_api_expired
     end
 
     describe 'get enrollments for user' do
@@ -101,6 +229,7 @@ RSpec.describe OpenHPIConnector do
       it 'returns parsed response for enrolled courses' do
         FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
         allow(RestClient).to receive(:get).and_return(enrollment_data)
+        allow(JSON::Api::Vanilla).to receive(:parse).with(enrollment_data.to_s).and_return(json_enrollment_data)
         expect(open_hpi_connector.send(:get_enrollments_for_user, user)).to eq json_enrollment_data
       end
     end
@@ -116,11 +245,58 @@ RSpec.describe OpenHPIConnector do
         user.courses << second_course
         open_hpi_connector.send(:handle_enrollments_response, json_enrollment_data, user)
 
-        json_enrollment = json_enrollment_data[1]
-        enrolled_course = Course.get_course_by_mooc_provider_id_and_provider_course_id mooc_provider.id, json_enrollment['course_id']
+        course_id = File.basename(json_enrollment_data.rel_links.values.first['related'])
+        enrolled_course = Course.get_course_by_mooc_provider_id_and_provider_course_id mooc_provider.id, course_id
         enrollment_array = user.courses.where(id: enrolled_course.id)
         expect(enrollment_array).not_to be_empty
         expect(user.courses).to contain_exactly(course, second_course)
+      end
+
+      it 'loads completion data into database' do
+        expect do
+          open_hpi_connector.send(:handle_enrollments_response, json_enrollment_data, user)
+        end.to change(user.completions, :count).by(1)
+      end
+
+      it 'adds course completion data' do
+        open_hpi_connector.send(:handle_enrollments_response, json_enrollment_data, user)
+        completion = Completion.find_by(user: user)
+
+        second_course.reload
+
+        expect(completion.quantile).to be_nil
+        expect(completion.points_achieved).to eq 48
+        expect(completion.course.points_maximal).to eq 48.5
+        expect(completion.course).to eq second_course
+        expect(completion.provider_percentage).to eq 98.96907216
+        expect(completion.provider_id).to eq '832b61e8-4dd6-4bdb-a623-ce56262742a7'
+      end
+
+      it 'adds certificats afer completing the course' do
+        open_hpi_connector.send(:handle_enrollments_response, json_enrollment_data, user)
+        completion = Completion.find_by(user: user)
+        expect(completion.certificates.count).to be 1
+        expect(completion.certificates.first.download_url).to eq mooc_provider.url
+        expect(completion.certificates.first.document_type).to eq 'qualified_certificate'
+      end
+
+      context 'email notification' do
+        before do
+          ActionMailer::Base.deliveries.clear
+          Settings.admin_email = 'admin@example.com'
+        end
+
+        it 'is sent to the administrator if api expiration header is present' do
+          allow(RestClient).to receive(:get).and_return(emtpy_enrollment_data_api_expired)
+          expect { open_hpi_connector.send(:get_enrollments_for_user, user) }.not_to raise_error
+          expect(ActionMailer::Base.deliveries.count).to eq 1
+        end
+
+        it 'is sent to the administrator if api expiration header is not present' do
+          allow(RestClient).to receive(:get).and_return(emtpy_enrollment_data)
+          expect { open_hpi_connector.send(:get_enrollments_for_user, user) }.not_to raise_error
+          expect(ActionMailer::Base.deliveries.count).to eq 0
+        end
       end
     end
 

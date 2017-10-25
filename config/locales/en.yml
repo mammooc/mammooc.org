@@ -570,7 +570,6 @@ en:
     successfully_destroyed: Entry was successfully destroyed.
     no_activities: There are no activities in your groups right now.
 
-
   recommendation:
     submit: Create Recommendation
     placeholder: Enter your personal message here ...
@@ -624,6 +623,7 @@ en:
     unable_to_verify: Unable to verify (at this moment)
     confirmation_of_participation: Confirmation of Participation
     record_of_achievement: Record of Achievement
+    qualified_certificate: Qualified Certificate
     certificate: Certificate
     no_visible: '%{user} has not shared any completions yet'
     no_completion: "You don't have any completion yet. Enroll for a course and complete in order to view your results here."
@@ -641,10 +641,10 @@ en:
     error:
       taken: has already been taken.
       blank: has to be filled in.
-      sign_up:
-        terms_and_conditions_failure: Please confirm to mammooc's terms and conditions!
       login:
         required: You must be logged in.
+      sign_up:
+        terms_and_conditions_failure: Please confirm to mammooc's terms and conditions!
       user:
         password_too_short: is too short (minimum is %{count} characters).
         password_confirmation: doesn't match with password.
@@ -761,5 +761,4 @@ en:
             closure: Have fun,
             sender: your mammooc-Team
             subject: '%{number} new MOOCs available'
-
 

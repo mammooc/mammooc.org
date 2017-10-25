@@ -2,7 +2,7 @@
 
 class AbstractXikoloConnector < AbstractMoocProviderConnector
   AUTHENTICATE_API = 'authenticate/'
-  ENROLLMENTS_API = 'users/me/enrollments/'
+  ENROLLMENTS_API = 'enrollments/'
   DATES_API = 'course-dates/'
   COURSES_API = 'courses/'
   XIKOLO_API_VERSION = '2.0'
@@ -34,20 +34,52 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
   end
 
   def get_enrollments_for_user(user)
-    token_string = "Token token=#{get_access_token user}"
-    api_url = self.class::ROOT_API + ENROLLMENTS_API
-    response = RestClient.get(api_url, accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', authorization: token_string)
-    JSON.parse response
+    token_string = "Legacy-Token token=#{get_access_token user}"
+    api_url = self.class::ROOT_API_V2 + ENROLLMENTS_API
+    accept_header = "application/vnd.api+json; xikolo-version=#{XIKOLO_API_VERSION}"
+    response = RestClient.get(api_url, accept: accept_header, authorization: token_string)
+    if response.headers[:x_api_version_expiration_date].present?
+      api_expiration_date = response.headers[:x_api_version_expiration_date]
+      AdminMailer.xikolo_api_expiration(Settings.admin_email, self.class.name, api_url, api_expiration_date, Settings.root_url).deliver_later
+    end
+
+    if response.present?
+      JSON::Api::Vanilla.parse response
+    else
+      []
+    end
   end
 
   def handle_enrollments_response(response_data, user)
     update_map = create_enrollments_update_map mooc_provider, user
 
-    response_data.each do |course_element|
-      course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, course_element['course_id'])
-      if course.present?
-        enrolled_course = user.courses.find_by(id: course.id)
-        enrolled_course.nil? ? user.courses << course : update_map[enrolled_course.id] = true
+    enrollment_list = response_data.data
+    course_list = response_data.rel_links.values.select {|hash| hash['related'].include? 'courses' }
+
+    enrollment_list.zip(course_list).each do |enrollment, related_course|
+      related_course = File.basename(related_course['related'])
+      course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, related_course)
+      next if course.blank?
+
+      enrolled_course = user.courses.find_by(id: course.id)
+      enrolled_course.nil? ? user.courses << course : update_map[enrolled_course.id] = true
+
+      course.points_maximal = enrollment.points['maximal']
+      course.save!
+
+      next unless enrollment.completed
+      completion = Completion.find_or_create_by(course: course, user: user)
+      completion.points_achieved = enrollment.points['achieved']
+      completion.provider_percentage = enrollment.points['percentage']
+      completion.provider_id = enrollment.id
+      completion.save!
+      completion.reload
+
+      enrollment.certificates.each do |document_type, achieved|
+        next unless achieved
+        certificate = Certificate.find_or_initialize_by(completion: completion, document_type: document_type)
+        certificate.download_url = mooc_provider.url
+        certificate.save!
       end
     end
     evaluate_enrollments_update_map update_map, user
