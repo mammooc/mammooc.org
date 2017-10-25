@@ -280,6 +280,12 @@ RSpec.describe OpenHPIConnector do
         expect(completion.certificates.first.document_type).to eq 'qualified_certificate'
       end
 
+      it 'works with empty responses' do
+        FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
+        allow_any_instance_of(described_class).to receive(:get_enrollments_for_user).and_return([])
+        expect { open_hpi_connector.load_dates_for_users([user]) }.not_to raise_exception
+      end
+
       context 'email notification' do
         before do
           ActionMailer::Base.deliveries.clear
@@ -594,6 +600,12 @@ RSpec.describe OpenHPIConnector do
         open_hpi_connector.send(:change_existing_no_longer_relevant_entries, update_map)
         expect(UserDate.find(first_user_date.id).relevant).to eq false
       end
+    end
+
+    it 'works with empty responses' do
+      FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
+      allow_any_instance_of(described_class).to receive(:get_dates_for_user).and_return([])
+      expect { open_hpi_connector.load_dates_for_users([user]) }.not_to raise_exception
     end
 
     context 'email notification' do

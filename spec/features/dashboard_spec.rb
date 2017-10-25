@@ -19,7 +19,58 @@ RSpec.describe 'Dashboard', type: :feature do
     let(:mooc_provider) { FactoryBot.create(:mooc_provider, name: 'openHPI') }
     let!(:course) { FactoryBot.create(:full_course, mooc_provider: mooc_provider, provider_course_id: '12345') }
     let(:json_enrollment_data) do
-      JSON.parse '[{"id":"dfcfdf0f-e0ad-4887-abfa-83cc233c291f","course_id":"12345"}]'
+      JSON::Api::Vanilla.parse "{
+    \"data\": [
+        {
+            \"type\": \"enrollments\",
+            \"id\": \"d652d5d6-3624-4fb1-894f-2ea1c05bf5c4\",
+            \"links\": {
+                \"self\": \"/api/v2/enrollments/d652d5d6-3624-4fb1-894f-2ea1c05bf5c4\"
+            },
+            \"attributes\": {
+                \"visits\": {
+                    \"visited\": 12,
+                    \"total\": 12,
+                    \"percentage\": 100
+                },
+                \"points\": {
+                    \"achieved\": 0,
+                    \"maximal\": 0,
+                    \"percentage\": null
+                },
+                \"certificates\": {
+                    \"confirmation_of_participation\": true,
+                    \"record_of_achievement\": null,
+                    \"qualified_certificate\": null
+                },
+                \"completed\": false,
+                \"reactivated\": false,
+                \"proctored\": false,
+                \"created_at\": \"2016-11-25T17:18:22.627Z\"
+            },
+            \"relationships\": {
+                \"course\": {
+                    \"data\": {
+                        \"type\": \"courses\",
+                        \"id\": \"12345\"
+                    },
+                    \"links\": {
+                        \"related\": \"/api/v2/courses/12345\"
+                    }
+                },
+                \"progress\": {
+                    \"data\": {
+                        \"type\": \"course-progresses\",
+                        \"id\": \"12345\"
+                    },
+                    \"links\": {
+                        \"related\": \"/api/v2/course-progresses/12345\"
+                    }
+                }
+            }
+        }
+    ]
+}"
     end
 
     it 'shows newly enrolled course after synchronization request', js: true do
@@ -35,7 +86,7 @@ RSpec.describe 'Dashboard', type: :feature do
 
     it 'removes a currently enrolled course after synchronization request', js: true do
       FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
-      allow_any_instance_of(OpenHPIConnector).to receive(:get_enrollments_for_user).and_return(JSON.parse('{}'))
+      allow_any_instance_of(OpenHPIConnector).to receive(:get_enrollments_for_user).and_return([])
       user.courses << course
 
       visit '/dashboard'

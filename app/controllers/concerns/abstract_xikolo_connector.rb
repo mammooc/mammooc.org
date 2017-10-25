@@ -53,33 +53,35 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
   def handle_enrollments_response(response_data, user)
     update_map = create_enrollments_update_map mooc_provider, user
 
-    enrollment_list = response_data.data
-    course_list = response_data.rel_links.values.select {|hash| hash['related'].include? 'courses' }
+    if response_data.present?
+      enrollment_list = response_data.data
+      course_list = response_data.rel_links.values.select {|hash| hash['related'].include? 'courses' }
 
-    enrollment_list.zip(course_list).each do |enrollment, related_course|
-      related_course = File.basename(related_course['related'])
-      course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, related_course)
-      next if course.blank?
+      enrollment_list.zip(course_list).each do |enrollment, related_course|
+        related_course = File.basename(related_course['related'])
+        course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, related_course)
+        next if course.blank?
 
-      enrolled_course = user.courses.find_by(id: course.id)
-      enrolled_course.nil? ? user.courses << course : update_map[enrolled_course.id] = true
+        enrolled_course = user.courses.find_by(id: course.id)
+        enrolled_course.nil? ? user.courses << course : update_map[enrolled_course.id] = true
 
-      course.points_maximal = enrollment.points['maximal']
-      course.save!
+        course.points_maximal = enrollment.points['maximal']
+        course.save!
 
-      next unless enrollment.completed
-      completion = Completion.find_or_create_by(course: course, user: user)
-      completion.points_achieved = enrollment.points['achieved']
-      completion.provider_percentage = enrollment.points['percentage']
-      completion.provider_id = enrollment.id
-      completion.save!
-      completion.reload
+        next unless enrollment.completed
+        completion = Completion.find_or_create_by(course: course, user: user)
+        completion.points_achieved = enrollment.points['achieved']
+        completion.provider_percentage = enrollment.points['percentage']
+        completion.provider_id = enrollment.id
+        completion.save!
+        completion.reload
 
-      enrollment.certificates.each do |document_type, achieved|
-        next unless achieved
-        certificate = Certificate.find_or_initialize_by(completion: completion, document_type: document_type)
-        certificate.download_url = mooc_provider.url
-        certificate.save!
+        enrollment.certificates.each do |document_type, achieved|
+          next unless achieved
+          certificate = Certificate.find_or_initialize_by(completion: completion, document_type: document_type)
+          certificate.download_url = mooc_provider.url
+          certificate.save!
+        end
       end
     end
     evaluate_enrollments_update_map update_map, user
@@ -104,21 +106,24 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
 
   def handle_dates_response(response_data, user)
     update_map = create_update_map_for_user_dates user, mooc_provider
-    date_list = response_data.keys
-    course_list = response_data.rel_links.values
 
-    date_list.zip(course_list).each do |date, related_course|
-      external_date_id = date.first.id
-      date = date.last
-      related_course = File.basename(related_course['related'])
+    if response_data.present?
+      date_list = response_data.keys
+      course_list = response_data.rel_links.values
 
-      course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, related_course)
-      user_date = UserDate.find_by(user: user, course: course, ressource_id_from_provider: external_date_id, kind: date['type'])
-      if user_date.present?
-        update_map[user_date.id] = true
-        update_existing_entry user_date, date
-      else
-        create_new_entry user, date, related_course, external_date_id
+      date_list.zip(course_list).each do |date, related_course|
+        external_date_id = date.first.id
+        date = date.last
+        related_course = File.basename(related_course['related'])
+
+        course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, related_course)
+        user_date = UserDate.find_by(user: user, course: course, ressource_id_from_provider: external_date_id, kind: date['type'])
+        if user_date.present?
+          update_map[user_date.id] = true
+          update_existing_entry user_date, date
+        else
+          create_new_entry user, date, related_course, external_date_id
+        end
       end
     end
     change_existing_no_longer_relevant_entries update_map
