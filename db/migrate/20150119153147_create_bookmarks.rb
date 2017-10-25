@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateBookmarks < ActiveRecord::Migration
+class CreateBookmarks < ActiveRecord::Migration[4.2]
   def change
     create_table :bookmarks, id: :uuid do |t|
       t.references :user, type: 'uuid', index: true

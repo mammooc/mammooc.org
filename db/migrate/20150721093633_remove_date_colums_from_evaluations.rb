@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RemoveDateColumsFromEvaluations < ActiveRecord::Migration
+class RemoveDateColumsFromEvaluations < ActiveRecord::Migration[4.2]
   def change
     remove_column :evaluations, :creation_date
     remove_column :evaluations, :update_date

@@ -185,7 +185,7 @@ RSpec.describe 'Course', type: :feature do
     it 'redirects to courses overview' do
       fill_in 'query', with: 'web'
       click_button 'submit-course-search-navbar'
-      expect(current_path).to eq courses_path
+      expect(page).to have_current_path courses_path
     end
 
     it 'to find courses that match search query on courses overview' do

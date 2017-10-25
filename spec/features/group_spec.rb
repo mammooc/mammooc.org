@@ -28,7 +28,7 @@ RSpec.describe 'Group', type: :feature do
       fill_in 'text_area_invite_members', with: 'max@example.com'
       click_button I18n.t('global.submit')
       wait_for_ajax
-      expect(current_path).to eq("/groups/#{group.id}/members")
+      expect(page).to have_current_path("/groups/#{group.id}/members")
       expect(ActionMailer::Base.deliveries.count).to eq 1
       expect(GroupInvitation.count).to eq 1
     end
@@ -41,7 +41,7 @@ RSpec.describe 'Group', type: :feature do
       wait_for_ajax
       expect(page).to have_content I18n.t('groups.add_members.error')
       expect(find('#text_area_invite_members').value).to have_content('max@examplecom')
-      expect(current_path).to eq("/groups/#{group.id}/members")
+      expect(page).to have_current_path("/groups/#{group.id}/members")
       expect(ActionMailer::Base.deliveries.count).to eq 0
       expect(GroupInvitation.count).to eq 0
     end
@@ -54,7 +54,7 @@ RSpec.describe 'Group', type: :feature do
       wait_for_ajax
       expect(page).to have_content I18n.t('groups.add_members.error')
       expect(find('#text_area_invite_members').value).to have_content('max@examplecom')
-      expect(current_path).to eq("/groups/#{group.id}/members")
+      expect(page).to have_current_path("/groups/#{group.id}/members")
       expect(ActionMailer::Base.deliveries.count).to eq 1
       expect(GroupInvitation.count).to eq 1
     end
@@ -74,7 +74,7 @@ RSpec.describe 'Group', type: :feature do
       wait_for_ajax
       expect(page).not_to have_content('@test')
       expect(page).not_to have_content I18n.t('groups.add_members.error')
-      expect(current_path).to eq("/groups/#{group.id}/members")
+      expect(page).to have_current_path("/groups/#{group.id}/members")
       expect(ActionMailer::Base.deliveries.count).to eq 2
       expect(GroupInvitation.count).to eq 2
     end
@@ -85,7 +85,7 @@ RSpec.describe 'Group', type: :feature do
       visit "/groups/#{group.id}/members"
       find("#list_member_element_user_#{third_user.id}").click_on I18n.t('groups.all_members.add_admin')
       wait_for_ajax
-      expect(current_path).to eq("/groups/#{group.id}/members")
+      expect(page).to have_current_path("/groups/#{group.id}/members")
       current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq 2
       expect(find("#list_member_element_user_#{third_user.id}")).to have_selector '.options'
@@ -97,7 +97,7 @@ RSpec.describe 'Group', type: :feature do
       visit "/groups/#{group.id}/members"
       find("#list_member_element_user_#{third_user.id}").click_on I18n.t('groups.all_members.demote_admin')
       wait_for_ajax
-      expect(current_path).to eq("/groups/#{group.id}/members")
+      expect(page).to have_current_path("/groups/#{group.id}/members")
       current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq 1
       expect(find("#list_member_element_user_#{third_user.id}")).to have_selector '.options'
@@ -108,7 +108,7 @@ RSpec.describe 'Group', type: :feature do
       visit "/groups/#{group.id}/members"
       find("#list_member_element_user_#{third_user.id}").click_on I18n.t('groups.all_members.add_admin')
       wait_for_ajax
-      expect(current_path).to eq("/groups/#{group.id}/members")
+      expect(page).to have_current_path("/groups/#{group.id}/members")
       current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq 2
       find("#list_member_element_user_#{third_user.id}").click_on I18n.t('groups.all_members.demote_admin')
@@ -129,7 +129,7 @@ RSpec.describe 'Group', type: :feature do
       wait_for_ajax
       expect(page).to have_content I18n.t('groups.all_members.demote_last_admin_notice')
       click_on I18n.t('groups.all_members.demote_last_admin_button')
-      expect(current_path).to eq("/groups/#{group.id}/members")
+      expect(page).to have_current_path("/groups/#{group.id}/members")
       current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq(UserGroup.where(group_id: group.id, is_admin: true).count)
     end
@@ -140,7 +140,7 @@ RSpec.describe 'Group', type: :feature do
       wait_for_ajax
       expect(page).to have_content I18n.t('groups.all_members.demote_last_admin_notice')
       click_on I18n.t('groups.all_members.demote_last_admin_button')
-      expect(current_path).to eq("/groups/#{second_group.id}/members")
+      expect(page).to have_current_path("/groups/#{second_group.id}/members")
       current_admins_of_group = UserGroup.where(group_id: second_group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq(UserGroup.where(group_id: second_group.id, is_admin: true).count)
     end
@@ -151,7 +151,7 @@ RSpec.describe 'Group', type: :feature do
       find("#list_member_element_user_#{user.id}").click_on I18n.t('groups.all_members.demote_admin')
       wait_for_ajax
       expect(page).to have_no_content I18n.t('groups.all_members.demote_admin')
-      expect(current_path).to eq("/groups/#{group.id}/members")
+      expect(page).to have_current_path("/groups/#{group.id}/members")
       expect(UserGroup.find_by(user_id: user.id, group_id: group.id).is_admin).to eq false
     end
   end
@@ -164,12 +164,12 @@ RSpec.describe 'Group', type: :feature do
       wait_for_ajax
       click_on I18n.t('groups.remove_member.confirm_remove_member')
       wait_for_ajax
-      expect(current_path).to eq("/groups/#{group.id}/members")
+      expect(page).to have_current_path("/groups/#{group.id}/members")
       expect(group.users.count).to eq number_of_members - 1
       current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq UserGroup.where(group_id: group.id, is_admin: true).count
       expect { find("#list_member_element_user_#{third_user.id}") }.to raise_error Capybara::ElementNotFound
-      expect(UserGroup.where(group_id: group.id, user_id: third_user.id).empty?).to be_truthy
+      expect(UserGroup.where(group_id: group.id, user_id: third_user.id)).to be_empty
     end
 
     it 'removes the chosen admin', js: true do
@@ -180,12 +180,12 @@ RSpec.describe 'Group', type: :feature do
       wait_for_ajax
       click_on I18n.t('groups.remove_member.confirm_remove_member')
       wait_for_ajax
-      expect(current_path).to eq("/groups/#{group.id}/members")
+      expect(page).to have_current_path("/groups/#{group.id}/members")
       expect(group.users.count).to eq number_of_members - 1
       current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq UserGroup.where(group_id: group.id, is_admin: true).count
       expect { find("#list_member_element_user_#{third_user.id}") }.to raise_error Capybara::ElementNotFound
-      expect(UserGroup.where(group_id: group.id, user_id: third_user.id).empty?).to be_truthy
+      expect(UserGroup.where(group_id: group.id, user_id: third_user.id)).to be_empty
     end
 
     it 'removes more than one chosen member', js: true do
@@ -204,15 +204,15 @@ RSpec.describe 'Group', type: :feature do
       click_on I18n.t('groups.remove_member.confirm_remove_member')
       wait_for_ajax
 
-      expect(current_path).to eq("/groups/#{group.id}/members")
+      expect(page).to have_current_path("/groups/#{group.id}/members")
       expect(group.users.count).to eq number_of_members - 2
       current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq UserGroup.where(group_id: group.id, is_admin: true).count
 
       expect { find("#list_member_element_user_#{second_user.id}") }.to raise_error Capybara::ElementNotFound
-      expect(UserGroup.where(group_id: group.id, user_id: second_user.id).empty?).to be_truthy
+      expect(UserGroup.where(group_id: group.id, user_id: second_user.id)).to be_empty
       expect { find("#list_member_element_user_#{third_user.id}") }.to raise_error Capybara::ElementNotFound
-      expect(UserGroup.where(group_id: group.id, user_id: third_user.id).empty?).to be_truthy
+      expect(UserGroup.where(group_id: group.id, user_id: third_user.id)).to be_empty
     end
 
     it 'deletes the group if the last member wants to leave (after confirmation)', js: true do
@@ -221,7 +221,7 @@ RSpec.describe 'Group', type: :feature do
       wait_for_ajax
       click_on I18n.t('groups.remove_member.confirm_delete_group')
       wait_for_ajax
-      expect(current_path).to eq groups_path
+      expect(page).to have_current_path groups_path
       expect { Group.find(second_group.id) }.to raise_error ActiveRecord::RecordNotFound
     end
 
@@ -231,7 +231,7 @@ RSpec.describe 'Group', type: :feature do
       wait_for_ajax
       click_on I18n.t('groups.remove_member.confirm_delete_group')
       wait_for_ajax
-      expect(current_path).to eq groups_path
+      expect(page).to have_current_path groups_path
       expect { Group.find(group.id) }.to raise_error ActiveRecord::RecordNotFound
     end
 
@@ -242,11 +242,11 @@ RSpec.describe 'Group', type: :feature do
       wait_for_ajax
       click_on I18n.t('groups.remove_member.confirm_leave_group')
       wait_for_ajax
-      expect(current_path).to eq groups_path
+      expect(page).to have_current_path groups_path
       current_admins_of_group = UserGroup.where(group_id: group.id, is_admin: true)
       expect(current_admins_of_group.count).to eq(group.users.count)
       expect(group.users.count).to eq number_of_members - 1
-      expect(UserGroup.where(group_id: group.id, user_id: user.id).empty?).to be_truthy
+      expect(UserGroup.where(group_id: group.id, user_id: user.id)).to be_empty
     end
   end
 

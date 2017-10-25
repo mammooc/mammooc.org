@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddCertificateUrLsAndChangeQuantileForCompletions < ActiveRecord::Migration
+class AddCertificateUrLsAndChangeQuantileForCompletions < ActiveRecord::Migration[4.2]
   def change
     remove_column :certificates, :file_id
     add_column :certificates, :download_url, :string, null: false # rubocop:disable Rails/NotNullColumn

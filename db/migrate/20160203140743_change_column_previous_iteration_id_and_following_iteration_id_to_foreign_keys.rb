@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ChangeColumnPreviousIterationIdAndFollowingIterationIdToForeignKeys < ActiveRecord::Migration
+class ChangeColumnPreviousIterationIdAndFollowingIterationIdToForeignKeys < ActiveRecord::Migration[4.2]
   def change
     remove_column :courses, :previous_iteration_id
     remove_column :courses, :following_iteration_id

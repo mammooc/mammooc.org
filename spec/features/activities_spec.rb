@@ -207,7 +207,7 @@ RSpec.describe 'Activities', type: :feature do
     let!(:user_setting_entry) { FactoryGirl.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }
 
     before do
-      expect_any_instance_of(OpenHPIConnector).to receive(:enroll_user_for_course).and_return(true)
+      allow_any_instance_of(OpenHPIConnector).to receive(:enroll_user_for_course).and_return(true)
       capybara_sign_out user
       capybara_sign_in second_user
       visit course_path(course)

@@ -19,7 +19,7 @@ RSpec.describe AbstractMoocProviderConnector do
     it 'creates a valid update_map' do
       update_map = abstract_mooc_provider_connector.send(:create_enrollments_update_map, mooc_provider, user)
       expect(update_map.length).to eq 2
-      update_map.each do |_, updated|
+      update_map.each_value do |updated|
         expect(updated).to be false
       end
     end
@@ -176,7 +176,7 @@ RSpec.describe AbstractMoocProviderConnector do
           FactoryGirl.create(:user_date, user: user, course: course)
         end
         map = abstract_mooc_provider_connector.send(:create_update_map_for_user_dates, user, mooc_provider)
-        map.each do |_, updated|
+        map.each_value do |updated|
           expect(updated).to be false
         end
       end

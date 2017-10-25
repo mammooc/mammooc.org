@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateCompletions < ActiveRecord::Migration
+class CreateCompletions < ActiveRecord::Migration[4.2]
   def change
     create_table :completions, id: :uuid do |t|
       t.integer :position_in_course

@@ -13,6 +13,7 @@ root_url: <%= (ENV['DOMAIN'].present? ? "https://#{ENV['DOMAIN']}" : (ENV['HEROK
 
 # Mailers
 sender_notification_address: mammooc <notifications@<%= (ENV['DOMAIN'].present? ? "#{ENV['DOMAIN']}" : 'mammooc.org') %>>
+admin_email_address: <%= (ENV['ADMIN_EMAIL_ADDRESS'].present? ? "#{ENV['ADMIN_EMAIL_ADDRESS']}" : nil) %>
 
 # GroupInvitation
 token_length: 16

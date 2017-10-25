@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UpdateColumnsOfCourses < ActiveRecord::Migration
+class UpdateColumnsOfCourses < ActiveRecord::Migration[4.2]
   def change
     remove_column(:courses, :workload, :string)
     add_column(:courses, :minimum_weekly_workload, :float)

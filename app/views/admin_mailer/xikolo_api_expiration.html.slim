@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    meta charset="utf-8"
+    meta http-equiv="X-UA-Compatible" content="IE=edge"
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    meta name="description" content=""
+    meta name="author" content="#{t('global.app_name')}"
+  body
+    p
+      | Hi there,
+    p
+      | #{@worker_name} got a `X-Api-Version-Expiration-Date` in the response to the following request #{@request}. You have to update #{link_to t('global.app_name'), @root_url} until #{@api_expiration_date}.
+    p
+      | Kind regards,
+    p
+      | your mammooc-Team

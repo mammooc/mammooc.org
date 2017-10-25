@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateMoocProviders < ActiveRecord::Migration
+class CreateMoocProviders < ActiveRecord::Migration[4.2]
   def change
     create_table :mooc_providers, id: :uuid do |t|
       t.string :logo_id
