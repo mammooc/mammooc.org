@@ -12,7 +12,7 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
   def send_connection_request(user, credentials)
     request_parameters = "email=#{credentials[:email]}&password=#{credentials[:password]}"
     authentication_url = self.class::ROOT_API + AUTHENTICATE_API
-    response = RestClient.post(authentication_url, request_parameters, accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', authorization: 'token=\"78783786789\"')
+    response = RestClient.post(authentication_url, request_parameters, accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json')
     json_response = JSON.parse response
     return if json_response['token'].blank?
     connection = mooc_provider_user_connection user
@@ -21,7 +21,7 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
   end
 
   def send_enrollment_for_course(user, course)
-    api_url = self.class::ROOT_API_V2 + ENROLLMENTS_API
+    api_url = self.class::ROOT_API + ENROLLMENTS_API
     payload = "{
          \"data\":{
             \"type\":\"enrollments\",
@@ -43,13 +43,13 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
   def send_unenrollment_for_course(user, course)
     exisiting_enrollment = UserCourse.find_by(user: user, course: course)
     return unless exisiting_enrollment
-    api_url = self.class::ROOT_API_V2 + ENROLLMENTS_API + exisiting_enrollment.provider_id
+    api_url = self.class::ROOT_API + ENROLLMENTS_API + exisiting_enrollment.provider_id
     response = RestClient.delete(api_url, accept: accept_header, authorization: token_string(user))
     handle_api_expiration_header response
   end
 
   def get_enrollments_for_user(user)
-    api_url = self.class::ROOT_API_V2 + ENROLLMENTS_API
+    api_url = self.class::ROOT_API + ENROLLMENTS_API
     response = RestClient.get(api_url, accept: accept_header, authorization: token_string(user))
     handle_api_expiration_header response
 
@@ -101,7 +101,7 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
   end
 
   def get_dates_for_user(user)
-    api_url = self.class::ROOT_API_V2 + DATES_API
+    api_url = self.class::ROOT_API + DATES_API
     response = RestClient.get(api_url, accept: accept_header, authorization: token_string(user))
     handle_api_expiration_header response
 
