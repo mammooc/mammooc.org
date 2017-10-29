@@ -25,7 +25,8 @@ class Course < ApplicationRecord
   has_one :following_iteration, foreign_key: 'following_iteration_id', class_name: 'Course', dependent: :nullify
   has_many :recommendations, dependent: :destroy
   has_many :completions, dependent: :destroy
-  has_and_belongs_to_many :users
+  has_many :user_courses, dependent: :destroy
+  has_many :users, through: :user_courses
   has_many :bookmarks, dependent: :destroy
   has_many :evaluations, dependent: :destroy
   has_many :tracks, class_name: 'CourseTrack', dependent: :destroy

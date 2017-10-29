@@ -146,7 +146,6 @@ RSpec.describe OpenHPIConnector do
       request = request_double(url: example_url, method: 'get')
       response = RestClient::Response.create(data, net_http_res, request)
       response
-
     end
 
     let(:enrollment_data) do
@@ -252,13 +251,14 @@ RSpec.describe OpenHPIConnector do
       end
 
       it 'adds course enrollment into database' do
-        user.courses << second_course
+        UserCourse.create!(user: user, course: second_course, provider_id: '832b61e8-4dd6-4bdb-a623-ce56262742a7')
         open_hpi_connector.send(:handle_enrollments_response, json_enrollment_data, user)
 
         course_id = File.basename(json_enrollment_data.rel_links.values.first['related'])
         enrolled_course = Course.get_course_by_mooc_provider_id_and_provider_course_id mooc_provider.id, course_id
-        enrollment_array = user.courses.where(id: enrolled_course.id)
-        expect(enrollment_array).not_to be_empty
+        enrollment = UserCourse.find_by(course: enrolled_course, user: user)
+        expect(enrollment).not_to be_nil
+        expect(enrollment.provider_id).to eq 'd652d5d6-3624-4fb1-894f-2ea1c05bf5c4'
         expect(user.courses).to contain_exactly(course, second_course)
       end
 
@@ -279,7 +279,6 @@ RSpec.describe OpenHPIConnector do
         expect(completion.course.points_maximal).to eq 48.5
         expect(completion.course).to eq second_course
         expect(completion.provider_percentage).to eq 98.96907216
-        expect(completion.provider_id).to eq '832b61e8-4dd6-4bdb-a623-ce56262742a7'
       end
 
       it 'adds certificats afer completing the course' do
@@ -347,12 +346,14 @@ RSpec.describe OpenHPIConnector do
 
       it 'returns false when trying to unenroll and user has mooc provider connection but something went wrong' do
         user.mooc_providers << mooc_provider
+        UserCourse.create!(user: user, course: course, provider_id: 'd652d5d6-3624-4fb1-894f-2ea1c05bf5c4')
         allow(RestClient).to receive(:delete).and_raise RestClient::Unauthorized
         expect(open_hpi_connector.unenroll_user_for_course(user, course)).to eq false
       end
 
       it 'returns true when trying to unenroll and everything was ok' do
         user.mooc_providers << mooc_provider
+        UserCourse.create!(user: user, course: course, provider_id: 'd652d5d6-3624-4fb1-894f-2ea1c05bf5c4')
         allow(RestClient).to receive(:delete).and_return(empty_enrollment_data)
         expect(open_hpi_connector.unenroll_user_for_course(user, course)).to eq true
       end
@@ -371,6 +372,7 @@ RSpec.describe OpenHPIConnector do
 
         it 'is sent to the administrator if api expiration header is present' do
           allow(RestClient).to receive(:delete).and_return(empty_enrollment_data_api_expired)
+          UserCourse.create!(user: user, course: course, provider_id: 'd652d5d6-3624-4fb1-894f-2ea1c05bf5c4')
           expect { open_hpi_connector.send(:send_unenrollment_for_course, user, course) }.not_to raise_error
           expect(ActionMailer::Base.deliveries.count).to eq 1
         end

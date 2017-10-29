@@ -41,7 +41,9 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
   end
 
   def send_unenrollment_for_course(user, course)
-    api_url = self.class::ROOT_API_V2 + ENROLLMENTS_API + course.provider_course_id
+    exisiting_enrollment = UserCourse.find_by(user: user, course: course)
+    return unless exisiting_enrollment
+    api_url = self.class::ROOT_API_V2 + ENROLLMENTS_API + exisiting_enrollment.provider_id
     response = RestClient.delete(api_url, accept: accept_header, authorization: token_string(user))
     handle_api_expiration_header response
   end
@@ -70,8 +72,12 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
         course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, related_course)
         next if course.blank?
 
-        enrolled_course = user.courses.find_by(id: course.id)
-        enrolled_course.nil? ? user.courses << course : update_map[enrolled_course.id] = true
+        enrolled_course = UserCourse.find_by(user: user, course: course)
+        if enrolled_course.nil?
+          UserCourse.create!(user: user, course: course, provider_id: enrollment.id)
+        else
+          update_map[enrolled_course.course.id] = true
+        end
 
         course.points_maximal = enrollment.points['maximal']
         course.save!
@@ -80,7 +86,6 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
         completion = Completion.find_or_create_by(course: course, user: user)
         completion.points_achieved = enrollment.points['achieved']
         completion.provider_percentage = enrollment.points['percentage']
-        completion.provider_id = enrollment.id
         completion.save!
         completion.reload
 
@@ -170,11 +175,11 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
     "application/vnd.api+json; xikolo-version=#{XIKOLO_API_VERSION}"
   end
 
-  def token_string user
+  def token_string(user)
     "Legacy-Token token=#{get_access_token user}"
   end
 
-  def handle_api_expiration_header response
+  def handle_api_expiration_header(response)
     return if response.headers[:x_api_version_expiration_date].blank?
     api_expiration_date = response.headers[:x_api_version_expiration_date]
     AdminMailer.xikolo_api_expiration(Settings.admin_email, self.class.name, response.request.url, api_expiration_date, Settings.root_url).deliver_later

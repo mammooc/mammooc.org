@@ -14,7 +14,8 @@ class User < ApplicationRecord
   has_many :mooc_provider_users, dependent: :destroy
   has_many :mooc_providers, through: :mooc_provider_users
   has_many :completions, dependent: :destroy
-  has_and_belongs_to_many :courses
+  has_many :user_courses, dependent: :destroy
+  has_many :courses, through: :user_courses
   has_many :bookmarks, dependent: :destroy
   has_many :evaluations, dependent: :nullify
   has_many :identities, class_name: 'UserIdentity', dependent: :destroy
