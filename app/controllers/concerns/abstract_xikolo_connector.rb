@@ -21,27 +21,35 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
   end
 
   def send_enrollment_for_course(user, course)
-    token_string = "Token token=#{get_access_token user}"
-    api_url = self.class::ROOT_API + ENROLLMENTS_API
-    request_parameters = "course_id=#{course.provider_course_id}"
-    RestClient.post(api_url, request_parameters, accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', authorization: token_string)
+    api_url = self.class::ROOT_API_V2 + ENROLLMENTS_API
+    payload = "{
+         \"data\":{
+            \"type\":\"enrollments\",
+            \"attributes\":{ },
+            \"relationships\":{
+               \"course\":{
+                  \"data\":{
+                     \"type\":\"courses\",
+                     \"id\":\"#{course.provider_course_id}\"
+                  }
+               }
+            }
+         }
+      }"
+    response = RestClient.post(api_url, payload, accept: accept_header, content_type: accept_header, authorization: token_string(user))
+    handle_api_expiration_header response
   end
 
   def send_unenrollment_for_course(user, course)
-    token_string = "Token token=#{get_access_token user}"
-    api_url = self.class::ROOT_API + ENROLLMENTS_API + course.provider_course_id
-    RestClient.delete(api_url, accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json', authorization: token_string)
+    api_url = self.class::ROOT_API_V2 + ENROLLMENTS_API + course.provider_course_id
+    response = RestClient.delete(api_url, accept: accept_header, authorization: token_string(user))
+    handle_api_expiration_header response
   end
 
   def get_enrollments_for_user(user)
-    token_string = "Legacy-Token token=#{get_access_token user}"
     api_url = self.class::ROOT_API_V2 + ENROLLMENTS_API
-    accept_header = "application/vnd.api+json; xikolo-version=#{XIKOLO_API_VERSION}"
-    response = RestClient.get(api_url, accept: accept_header, authorization: token_string)
-    if response.headers[:x_api_version_expiration_date].present?
-      api_expiration_date = response.headers[:x_api_version_expiration_date]
-      AdminMailer.xikolo_api_expiration(Settings.admin_email, self.class.name, api_url, api_expiration_date, Settings.root_url).deliver_later
-    end
+    response = RestClient.get(api_url, accept: accept_header, authorization: token_string(user))
+    handle_api_expiration_header response
 
     if response.present?
       JSON::Api::Vanilla.parse response
@@ -88,14 +96,9 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
   end
 
   def get_dates_for_user(user)
-    token_string = "Legacy-Token token=#{get_access_token user}"
-    accept_header = "application/vnd.api+json; xikolo-version=#{XIKOLO_API_VERSION}"
     api_url = self.class::ROOT_API_V2 + DATES_API
-    response = RestClient.get(api_url, accept: accept_header, authorization: token_string)
-    if response.headers[:x_api_version_expiration_date].present?
-      api_expiration_date = response.headers[:x_api_version_expiration_date]
-      AdminMailer.xikolo_api_expiration(Settings.admin_email, self.class.name, api_url, api_expiration_date, Settings.root_url).deliver_later
-    end
+    response = RestClient.get(api_url, accept: accept_header, authorization: token_string(user))
+    handle_api_expiration_header response
 
     if response.present?
       JSON::Api::Vanilla.parse response
@@ -161,5 +164,19 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
       user_date.relevant = false
       user_date.save
     end
+  end
+
+  def accept_header
+    "application/vnd.api+json; xikolo-version=#{XIKOLO_API_VERSION}"
+  end
+
+  def token_string user
+    "Legacy-Token token=#{get_access_token user}"
+  end
+
+  def handle_api_expiration_header response
+    return if response.headers[:x_api_version_expiration_date].blank?
+    api_expiration_date = response.headers[:x_api_version_expiration_date]
+    AdminMailer.xikolo_api_expiration(Settings.admin_email, self.class.name, response.request.url, api_expiration_date, Settings.root_url).deliver_later
   end
 end

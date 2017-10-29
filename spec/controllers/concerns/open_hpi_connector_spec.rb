@@ -84,10 +84,8 @@ RSpec.describe OpenHPIConnector do
     let!(:course) { FactoryBot.create(:full_course, provider_course_id: '0c6c5ad1-a770-4f16-81c3-536169f3cbd3', mooc_provider_id: mooc_provider.id) }
     let!(:second_course) { FactoryBot.create(:full_course, provider_course_id: 'bccf2ca2-429c-4cd0-9f63-caaccf85727a', mooc_provider_id: mooc_provider.id) }
 
-    let(:enrollment_data) do
-      data = "{
-    \"data\": [
-        {
+    let(:course_enrollment_data_string) do
+      "{
             \"type\": \"enrollments\",
             \"id\": \"d652d5d6-3624-4fb1-894f-2ea1c05bf5c4\",
             \"links\": {
@@ -134,7 +132,27 @@ RSpec.describe OpenHPIConnector do
                     }
                 }
             }
-        },
+        }"
+    end
+
+    let(:single_course_enrollment_data) do
+      data = "{
+    \"data\": {
+        #{course_enrollment_data_string}
+    }
+}"
+      net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK']}, code: 200)
+      example_url = 'https://open.hpi.de/api/v2/enrollments'
+      request = request_double(url: example_url, method: 'get')
+      response = RestClient::Response.create(data, net_http_res, request)
+      response
+
+    end
+
+    let(:enrollment_data) do
+      data = "{
+    \"data\": [
+        #{course_enrollment_data_string},
         {
             \"type\": \"enrollments\",
             \"id\": \"832b61e8-4dd6-4bdb-a623-ce56262742a7\",
@@ -192,7 +210,7 @@ RSpec.describe OpenHPIConnector do
       response
     end
 
-    let(:emtpy_enrollment_data) do
+    let(:empty_enrollment_data) do
       net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK']}, code: 200)
       example_url = 'https://open.hpi.de/api/v2/enrollments'
       request = request_double(url: example_url, method: 'get')
@@ -200,7 +218,7 @@ RSpec.describe OpenHPIConnector do
       response
     end
 
-    let(:emtpy_enrollment_data_api_expired) do
+    let(:empty_enrollment_data_api_expired) do
       net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK'], 'X_Api_Version_Expiration_Date' => ['Tue, 15 Aug 2017 00:00:00 GMT']}, code: 200)
       example_url = 'https://open.hpi.de/api/v2/enrollments'
       request = request_double(url: example_url, method: 'get')
@@ -210,14 +228,6 @@ RSpec.describe OpenHPIConnector do
 
     let(:json_enrollment_data) do
       JSON::Api::Vanilla.parse enrollment_data
-    end
-
-    let(:json_empty_enrollment_data) do
-      JSON::Api::Vanilla.parse emtpy_enrollment_data
-    end
-
-    let(:json_empty_enrollment_data_api_expired) do
-      JSON::Api::Vanilla.parse emtpy_enrollment_data_api_expired
     end
 
     describe 'get enrollments for user' do
@@ -293,13 +303,13 @@ RSpec.describe OpenHPIConnector do
         end
 
         it 'is sent to the administrator if api expiration header is present' do
-          allow(RestClient).to receive(:get).and_return(emtpy_enrollment_data_api_expired)
+          allow(RestClient).to receive(:get).and_return(empty_enrollment_data_api_expired)
           expect { open_hpi_connector.send(:get_enrollments_for_user, user) }.not_to raise_error
           expect(ActionMailer::Base.deliveries.count).to eq 1
         end
 
         it 'is sent to the administrator if api expiration header is not present' do
-          allow(RestClient).to receive(:get).and_return(emtpy_enrollment_data)
+          allow(RestClient).to receive(:get).and_return(empty_enrollment_data)
           expect { open_hpi_connector.send(:get_enrollments_for_user, user) }.not_to raise_error
           expect(ActionMailer::Base.deliveries.count).to eq 0
         end
@@ -319,7 +329,7 @@ RSpec.describe OpenHPIConnector do
 
       it 'returns true when trying to enroll and everything was ok' do
         user.mooc_providers << mooc_provider
-        allow(RestClient).to receive(:post).and_return('{"success"}')
+        allow(RestClient).to receive(:post).and_return(single_course_enrollment_data)
         expect(open_hpi_connector.enroll_user_for_course(user, course)).to eq true
       end
 
@@ -343,7 +353,7 @@ RSpec.describe OpenHPIConnector do
 
       it 'returns true when trying to unenroll and everything was ok' do
         user.mooc_providers << mooc_provider
-        allow(RestClient).to receive(:delete).and_return('{"success"}')
+        allow(RestClient).to receive(:delete).and_return(empty_enrollment_data)
         expect(open_hpi_connector.unenroll_user_for_course(user, course)).to eq true
       end
 
@@ -351,6 +361,25 @@ RSpec.describe OpenHPIConnector do
         user.mooc_providers << mooc_provider
         allow(open_hpi_connector).to receive(:send_unenrollment_for_course).and_raise RestClient::InternalServerError
         expect { open_hpi_connector.unenroll_user_for_course(user, course) }.not_to raise_error
+      end
+
+      context 'email notification' do
+        before do
+          ActionMailer::Base.deliveries.clear
+          Settings.admin_email = 'admin@example.com'
+        end
+
+        it 'is sent to the administrator if api expiration header is present' do
+          allow(RestClient).to receive(:delete).and_return(empty_enrollment_data_api_expired)
+          expect { open_hpi_connector.send(:send_unenrollment_for_course, user, course) }.not_to raise_error
+          expect(ActionMailer::Base.deliveries.count).to eq 1
+        end
+
+        it 'is sent to the administrator if api expiration header is not present' do
+          allow(RestClient).to receive(:delete).and_return(empty_enrollment_data)
+          expect { open_hpi_connector.send(:send_unenrollment_for_course, user, course) }.not_to raise_error
+          expect(ActionMailer::Base.deliveries.count).to eq 0
+        end
       end
     end
 
