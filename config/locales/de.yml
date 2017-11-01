@@ -432,7 +432,9 @@ de:
         costs: Kosten
         credit_points: ECTS-Punkte
         achievement_types:
-          xikolo_record_of_achievement: Teilnahmebescheinigung
+          xikolo_confirmation_of_participation: Teilnahmebestätigung
+          xikolo_record_of_achievement: Zeugnis
+          xikolo_qualified_certificate: Qualifiziertes Zertifikat
           iversity_record_of_achievement: :courses.tracks.types.achievement_types.xikolo_record_of_achievement
           nothing: Kein Zertifikat
           certificate: Zertifikat

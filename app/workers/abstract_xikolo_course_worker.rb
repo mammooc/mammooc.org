@@ -40,6 +40,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
     confirmation_of_participation = CourseTrackType.find_by(type_of_achievement: 'xikolo_confirmation_of_participation')
     record_of_achievement = CourseTrackType.find_by(type_of_achievement: 'xikolo_record_of_achievement')
     qualified_certificate = CourseTrackType.find_by(type_of_achievement: 'xikolo_qualified_certificate')
+    nothing = CourseTrackType.find_by(type_of_achievement: 'nothing')
 
     response_data.each do |course_element|
       course = Course.find_by(provider_course_id: course_element.id, mooc_provider_id: mooc_provider.id)
@@ -78,12 +79,14 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
       course.course_instructors = course_element.teachers
       course.open_for_registration = course_element.enrollable
 
+      course_tracks = 0
       track = CourseTrack.find_by(course_id: course.id, track_type: confirmation_of_participation)
       if course_element.certificates['confirmation_of_participation'].present? && course_element.certificates['confirmation_of_participation']['available']
         track ||= CourseTrack.create!(track_type: confirmation_of_participation)
         track.costs = 0.0
         track.costs_currency = '€'
         course.tracks.push(track)
+        course_tracks += 1
       elsif track.present?
         track.delete!
       end
@@ -94,6 +97,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
         track.costs = 0.0
         track.costs_currency = '€'
         course.tracks.push(track)
+        course_tracks += 1
       elsif track.present?
         track.delete!
       end
@@ -105,9 +109,21 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
         track.costs_currency = '€'
         track.credit_points = 2
         course.tracks.push(track)
+        course_tracks += 1
       elsif track.present?
         track.delete!
       end
+
+      track = CourseTrack.find_by(course_id: course.id, track_type: nothing)
+      if course_tracks.zero?
+        track ||= CourseTrack.create!(track_type: nothing)
+        track.costs = 0.0
+        track.costs_currency = '€'
+        course.tracks.push(track)
+      elsif track.present?
+        track.delete!
+      end
+
       course.save!
     end
     evaluate_update_map update_map
