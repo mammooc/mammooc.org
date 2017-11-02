@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160726120639) do
+ActiveRecord::Schema.define(version: 20171029181328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -120,11 +120,6 @@ ActiveRecord::Schema.define(version: 20160726120639) do
     t.index ["previous_iteration_id"], name: "index_courses_on_previous_iteration_id"
   end
 
-  create_table "courses_users", id: false, force: :cascade do |t|
-    t.uuid "course_id"
-    t.uuid "user_id"
-  end
-
   create_table "evaluations", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
     t.float "rating"
     t.boolean "is_verified"
@@ -211,6 +206,16 @@ ActiveRecord::Schema.define(version: 20160726120639) do
   create_table "recommendations_users", id: false, force: :cascade do |t|
     t.uuid "recommendation_id"
     t.uuid "user_id"
+  end
+
+  create_table "user_courses", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
+    t.uuid "course_id"
+    t.uuid "user_id"
+    t.string "provider_id"
+    t.datetime "created_at", default: "2017-10-29 22:56:19", null: false
+    t.datetime "updated_at", default: "2017-10-29 22:56:19", null: false
+    t.index ["course_id"], name: "index_user_courses_on_course_id"
+    t.index ["user_id"], name: "index_user_courses_on_user_id"
   end
 
   create_table "user_dates", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
@@ -322,6 +327,8 @@ ActiveRecord::Schema.define(version: 20160726120639) do
   add_foreign_key "recommendations", "courses"
   add_foreign_key "recommendations", "groups"
   add_foreign_key "recommendations", "users", column: "author_id"
+  add_foreign_key "user_courses", "courses"
+  add_foreign_key "user_courses", "users"
   add_foreign_key "user_dates", "courses"
   add_foreign_key "user_dates", "users"
   add_foreign_key "user_emails", "users"

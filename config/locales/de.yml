@@ -401,6 +401,7 @@ de:
     enrollment_error: Die Belegung beim MOOC-Anbieter hat leider nicht funktioniert. Bitte prüfe, ob du in den Einstellungen eine Verbindung zu diesem Anbieter hergestellt hast und versuche es anschließend erneut.
     unenrollment_error: Das Entfernen der Belegung beim MOOC-Anbieter hat leider nicht funktioniert. Bitte prüfe, ob du in den Einstellungen eine Verbindung zu diesem Anbieter hergestellt hast und versuche es anschließend erneut.
     permanent_enrollment_error: Die Belegung beim MOOC-Anbieter hat leider nicht funktioniert, da dieser MOOC-Anbieter dafür leider keine Unterstützung anbietet.
+    permanent_unenrollment_error: Das Entfernen der Belegung beim MOOC-Anbieter hat leider nicht funktioniert, da dieser MOOC-Anbieter dafür leider keine Unterstützung anbietet.
     require_login: Du musst angemeldet sein, um diese Funktionalität nutzen zu können.
     register_first: Bitte registriere dich.
 
@@ -622,6 +623,7 @@ de:
     unable_to_verify: Verifizierung (noch) nicht möglich
     confirmation_of_participation: Teilnahmebestätigung
     record_of_achievement: Leistungsnachweis
+    qualified_certificate: Qualifiziertes Zertifikat
     certificate: Zertifikat
     no_visible: '%{user} hat keine Abschlüsse zur Anzeige freigegeben.'
     no_completion: Du hast noch keinen Abschluss. Belege einen Kurs und schließe ihn ab, damit deine Erfolge hier angezeigt werden.

@@ -84,12 +84,147 @@ RSpec.describe OpenHPIConnector do
     let!(:course) { FactoryBot.create(:full_course, provider_course_id: '0c6c5ad1-a770-4f16-81c3-536169f3cbd3', mooc_provider_id: mooc_provider.id) }
     let!(:second_course) { FactoryBot.create(:full_course, provider_course_id: 'bccf2ca2-429c-4cd0-9f63-caaccf85727a', mooc_provider_id: mooc_provider.id) }
 
+    let(:course_enrollment_data) do
+      {
+        type: 'enrollments',
+        id: 'd652d5d6-3624-4fb1-894f-2ea1c05bf5c4',
+        links: {
+          self: '/api/v2/enrollments/d652d5d6-3624-4fb1-894f-2ea1c05bf5c4'
+        },
+        attributes: {
+          visits: {
+            visited: 12,
+            total: 12,
+            percantage: 100
+          },
+          points: {
+            achieved: 0,
+            maximal: 0,
+            percentage: nil
+          },
+          certificates: {
+            confirmation_of_participation: true,
+            record_of_achievement: nil,
+            qualified_certificate: nil
+          },
+          completed: false,
+          reactivated: false,
+          proctored: false,
+          created_at: '2016-11-25T17:18:22.627Z'
+        },
+        relationships: {
+          course: {
+            data: {
+              type: 'courses',
+              id: course.provider_course_id
+            },
+            links: {
+              related: "/api/v2/courses/#{course.provider_course_id}"
+            }
+          },
+          progress: {
+            data: {
+              type: 'course-progresses',
+              id: course.provider_course_id
+            },
+            links: {
+              related: "/api/v2/course-progresses/#{course.provider_course_id}"
+            }
+          }
+        }
+      }
+    end
+
+    let(:single_course_enrollment_data) do
+      data = {
+        data: course_enrollment_data
+      }.to_json
+      net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK']}, code: 200)
+      example_url = 'https://open.hpi.de/api/v2/enrollments'
+      request = request_double(url: example_url, method: 'get')
+      response = RestClient::Response.create(data, net_http_res, request)
+      response
+    end
+
     let(:enrollment_data) do
-      '[{"id":"dfcfdf0f-e0ad-4887-abfa-83cc233c291f","course_id":"c5600abf-5abf-460b-ba6f-1d030053fd79"},{"id":"bbc4c2a7-51ed-460a-a312-6ba4b3da3545","course_id":"0c6c5ad1-a770-4f16-81c3-536169f3cbd3"},{"id":"48edd6a8-3a9a-4a64-8b5c-631142022d15","course_id":"bccf2ca2-429c-4cd0-9f63-caaccf85727a"}]'
+      data = {
+        data: [
+          course_enrollment_data,
+          {
+            type: 'enrollments',
+            id: '832b61e8-4dd6-4bdb-a623-ce56262742a7',
+            links: {
+              self: '/api/v2/enrollments/832b61e8-4dd6-4bdb-a623-ce56262742a7'
+            },
+            attributes: {
+              visits: {
+                visited: 72,
+                total: 72,
+                percantage: 100
+              },
+              points: {
+                achieved: 48,
+                maximal: 48.5,
+                percentage: 98.96907216
+              },
+              certificates: {
+                confirmation_of_participation: nil,
+                record_of_achievement: false,
+                qualified_certificate: true
+              },
+              completed: true,
+              reactivated: false,
+              proctored: false,
+              created_at: '2016-12-08T12:13:04.205Z'
+            },
+            relationships: {
+              course: {
+                data: {
+                  type: 'courses',
+                  id: second_course.provider_course_id
+                },
+                links: {
+                  related: "/api/v2/courses/#{second_course.provider_course_id}"
+                }
+              },
+              progress: {
+                data: {
+                  type: 'course-progresses',
+                  id: second_course.provider_course_id
+                },
+                links: {
+                  related: "/api/v2/course-progresses/#{second_course.provider_course_id}"
+                }
+              }
+            }
+          }
+        ]
+      }.to_json
+      net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK']}, code: 200)
+      example_url = 'https://open.hpi.de/api/v2/enrollments'
+      request = request_double(url: example_url, method: 'get')
+      response = RestClient::Response.create(data, net_http_res, request)
+      response
+    end
+
+    let(:empty_enrollment_data) do
+      net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK']}, code: 200)
+      example_url = 'https://open.hpi.de/api/v2/enrollments'
+      request = request_double(url: example_url, method: 'get')
+      response = RestClient::Response.create('', net_http_res, request)
+      response
+    end
+
+    let(:empty_enrollment_data_api_expired) do
+      net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK'], 'X_Api_Version_Expiration_Date' => ['Tue, 15 Aug 2017 00:00:00 GMT']}, code: 200)
+      example_url = 'https://open.hpi.de/api/v2/enrollments'
+      request = request_double(url: example_url, method: 'get')
+      response = RestClient::Response.create('', net_http_res, request)
+      response
     end
 
     let(:json_enrollment_data) do
-      JSON.parse enrollment_data
+      JSON::Api::Vanilla.parse enrollment_data
     end
 
     describe 'get enrollments for user' do
@@ -101,6 +236,7 @@ RSpec.describe OpenHPIConnector do
       it 'returns parsed response for enrolled courses' do
         FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
         allow(RestClient).to receive(:get).and_return(enrollment_data)
+        allow(JSON::Api::Vanilla).to receive(:parse).with(enrollment_data.to_s).and_return(json_enrollment_data)
         expect(open_hpi_connector.send(:get_enrollments_for_user, user)).to eq json_enrollment_data
       end
     end
@@ -113,14 +249,67 @@ RSpec.describe OpenHPIConnector do
       end
 
       it 'adds course enrollment into database' do
-        user.courses << second_course
+        UserCourse.create!(user: user, course: second_course, provider_id: '832b61e8-4dd6-4bdb-a623-ce56262742a7')
         open_hpi_connector.send(:handle_enrollments_response, json_enrollment_data, user)
 
-        json_enrollment = json_enrollment_data[1]
-        enrolled_course = Course.get_course_by_mooc_provider_id_and_provider_course_id mooc_provider.id, json_enrollment['course_id']
-        enrollment_array = user.courses.where(id: enrolled_course.id)
-        expect(enrollment_array).not_to be_empty
+        course_id = File.basename(json_enrollment_data.rel_links.values.first['related'])
+        enrolled_course = Course.get_course_by_mooc_provider_id_and_provider_course_id mooc_provider.id, course_id
+        enrollment = UserCourse.find_by(course: enrolled_course, user: user)
+        expect(enrollment).not_to be_nil
+        expect(enrollment.provider_id).to eq 'd652d5d6-3624-4fb1-894f-2ea1c05bf5c4'
         expect(user.courses).to contain_exactly(course, second_course)
+      end
+
+      it 'loads completion data into database' do
+        expect do
+          open_hpi_connector.send(:handle_enrollments_response, json_enrollment_data, user)
+        end.to change(user.completions, :count).by(1)
+      end
+
+      it 'adds course completion data' do
+        open_hpi_connector.send(:handle_enrollments_response, json_enrollment_data, user)
+        completion = Completion.find_by(user: user)
+
+        second_course.reload
+
+        expect(completion.quantile).to be_nil
+        expect(completion.points_achieved).to eq 48
+        expect(completion.course.points_maximal).to eq 48.5
+        expect(completion.course).to eq second_course
+        expect(completion.provider_percentage).to eq 98.96907216
+      end
+
+      it 'adds certificats afer completing the course' do
+        open_hpi_connector.send(:handle_enrollments_response, json_enrollment_data, user)
+        completion = Completion.find_by(user: user)
+        expect(completion.certificates.count).to be 1
+        expect(completion.certificates.first.download_url).to eq mooc_provider.url
+        expect(completion.certificates.first.document_type).to eq 'qualified_certificate'
+      end
+
+      it 'works with empty responses' do
+        FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
+        allow_any_instance_of(described_class).to receive(:get_enrollments_for_user).and_return([])
+        expect { open_hpi_connector.load_dates_for_users([user]) }.not_to raise_exception
+      end
+
+      context 'email notification' do
+        before do
+          ActionMailer::Base.deliveries.clear
+          Settings.admin_email = 'admin@example.com'
+        end
+
+        it 'is sent to the administrator if api expiration header is present' do
+          allow(RestClient).to receive(:get).and_return(empty_enrollment_data_api_expired)
+          expect { open_hpi_connector.send(:get_enrollments_for_user, user) }.not_to raise_error
+          expect(ActionMailer::Base.deliveries.count).to eq 1
+        end
+
+        it 'is sent to the administrator if api expiration header is not present' do
+          allow(RestClient).to receive(:get).and_return(empty_enrollment_data)
+          expect { open_hpi_connector.send(:get_enrollments_for_user, user) }.not_to raise_error
+          expect(ActionMailer::Base.deliveries.count).to eq 0
+        end
       end
     end
 
@@ -137,7 +326,7 @@ RSpec.describe OpenHPIConnector do
 
       it 'returns true when trying to enroll and everything was ok' do
         user.mooc_providers << mooc_provider
-        allow(RestClient).to receive(:post).and_return('{"success"}')
+        allow(RestClient).to receive(:post).and_return(single_course_enrollment_data)
         expect(open_hpi_connector.enroll_user_for_course(user, course)).to eq true
       end
 
@@ -155,13 +344,15 @@ RSpec.describe OpenHPIConnector do
 
       it 'returns false when trying to unenroll and user has mooc provider connection but something went wrong' do
         user.mooc_providers << mooc_provider
+        UserCourse.create!(user: user, course: course, provider_id: 'd652d5d6-3624-4fb1-894f-2ea1c05bf5c4')
         allow(RestClient).to receive(:delete).and_raise RestClient::Unauthorized
         expect(open_hpi_connector.unenroll_user_for_course(user, course)).to eq false
       end
 
       it 'returns true when trying to unenroll and everything was ok' do
         user.mooc_providers << mooc_provider
-        allow(RestClient).to receive(:delete).and_return('{"success"}')
+        UserCourse.create!(user: user, course: course, provider_id: 'd652d5d6-3624-4fb1-894f-2ea1c05bf5c4')
+        allow(RestClient).to receive(:delete).and_return(empty_enrollment_data)
         expect(open_hpi_connector.unenroll_user_for_course(user, course)).to eq true
       end
 
@@ -169,6 +360,26 @@ RSpec.describe OpenHPIConnector do
         user.mooc_providers << mooc_provider
         allow(open_hpi_connector).to receive(:send_unenrollment_for_course).and_raise RestClient::InternalServerError
         expect { open_hpi_connector.unenroll_user_for_course(user, course) }.not_to raise_error
+      end
+
+      context 'email notification' do
+        before do
+          ActionMailer::Base.deliveries.clear
+          Settings.admin_email = 'admin@example.com'
+        end
+
+        it 'is sent to the administrator if api expiration header is present' do
+          allow(RestClient).to receive(:delete).and_return(empty_enrollment_data_api_expired)
+          UserCourse.create!(user: user, course: course, provider_id: 'd652d5d6-3624-4fb1-894f-2ea1c05bf5c4')
+          expect { open_hpi_connector.send(:send_unenrollment_for_course, user, course) }.not_to raise_error
+          expect(ActionMailer::Base.deliveries.count).to eq 1
+        end
+
+        it 'is sent to the administrator if api expiration header is not present' do
+          allow(RestClient).to receive(:delete).and_return(empty_enrollment_data)
+          expect { open_hpi_connector.send(:send_unenrollment_for_course, user, course) }.not_to raise_error
+          expect(ActionMailer::Base.deliveries.count).to eq 0
+        end
       end
     end
 
@@ -418,6 +629,12 @@ RSpec.describe OpenHPIConnector do
         open_hpi_connector.send(:change_existing_no_longer_relevant_entries, update_map)
         expect(UserDate.find(first_user_date.id).relevant).to eq false
       end
+    end
+
+    it 'works with empty responses' do
+      FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
+      allow_any_instance_of(described_class).to receive(:get_dates_for_user).and_return([])
+      expect { open_hpi_connector.load_dates_for_users([user]) }.not_to raise_exception
     end
 
     context 'email notification' do

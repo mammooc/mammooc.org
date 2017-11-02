@@ -109,7 +109,7 @@ class AbstractMoocProviderConnector
 
   def fetch_user_data(user)
     response_data = get_enrollments_for_user user
-  rescue SocketError, Errno::ECONNREFUSED, RestClient::ResourceNotFound, RestClient::SSLCertificateNotVerified => e
+  rescue SocketError, Errno::ECONNREFUSED, RestClient::ResourceNotFound, RestClient::SSLCertificateNotVerified, RestClient::InternalServerError => e
     Rails.logger.error "#{e.class}: #{e.message}"
     return false
   rescue RestClient::Unauthorized => e
@@ -123,7 +123,7 @@ class AbstractMoocProviderConnector
 
   def fetch_dates_for_user(user)
     response_data = get_dates_for_user user
-  rescue SocketError, Errno::ECONNREFUSED, RestClient::ResourceNotFound, RestClient::SSLCertificateNotVerified => e
+  rescue SocketError, Errno::ECONNREFUSED, RestClient::ResourceNotFound, RestClient::SSLCertificateNotVerified, RestClient::InternalServerError => e
     Rails.logger.error "#{e.class}: #{e.message}"
     return false
   rescue RestClient::Unauthorized => e
