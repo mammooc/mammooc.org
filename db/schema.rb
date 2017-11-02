@@ -212,8 +212,8 @@ ActiveRecord::Schema.define(version: 20171029181328) do
     t.uuid "course_id"
     t.uuid "user_id"
     t.string "provider_id"
-    t.datetime "created_at", default: "2017-10-29 22:56:19", null: false
-    t.datetime "updated_at", default: "2017-10-29 22:56:19", null: false
+    t.datetime "created_at", default: -> { "now()" }, null: false
+    t.datetime "updated_at", default: -> { "now()" }, null: false
     t.index ["course_id"], name: "index_user_courses_on_course_id"
     t.index ["user_id"], name: "index_user_courses_on_user_id"
   end
