@@ -12,6 +12,7 @@ RSpec.describe OpenHPIChinaCourseWorker do
   end
 
   it 'gets an API response' do
+    skip 'CircleCI might be unable to contact openHPI.cn'
     expect(open_hpi_china_course_worker.course_data).not_to be_nil
   end
 end
