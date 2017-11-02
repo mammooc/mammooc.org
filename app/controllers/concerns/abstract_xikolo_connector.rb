@@ -22,20 +22,20 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
 
   def send_enrollment_for_course(user, course)
     api_url = self.class::ROOT_API + ENROLLMENTS_API
-    payload = "{
-         \"data\":{
-            \"type\":\"enrollments\",
-            \"attributes\":{ },
-            \"relationships\":{
-               \"course\":{
-                  \"data\":{
-                     \"type\":\"courses\",
-                     \"id\":\"#{course.provider_course_id}\"
-                  }
-               }
+    payload = {
+      data: {
+        type: 'enrollments',
+        attributes: { },
+        relationships: {
+          course: {
+            data: {
+              type: 'courses',
+              id: course.provider_course_id
             }
-         }
-      }"
+          }
+        }
+      }
+    }.to_json
     response = RestClient.post(api_url, payload, accept: accept_header, content_type: accept_header, authorization: token_string(user))
     handle_api_expiration_header response
   end

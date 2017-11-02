@@ -84,63 +84,61 @@ RSpec.describe OpenHPIConnector do
     let!(:course) { FactoryBot.create(:full_course, provider_course_id: '0c6c5ad1-a770-4f16-81c3-536169f3cbd3', mooc_provider_id: mooc_provider.id) }
     let!(:second_course) { FactoryBot.create(:full_course, provider_course_id: 'bccf2ca2-429c-4cd0-9f63-caaccf85727a', mooc_provider_id: mooc_provider.id) }
 
-    let(:course_enrollment_data_string) do
-      "{
-            \"type\": \"enrollments\",
-            \"id\": \"d652d5d6-3624-4fb1-894f-2ea1c05bf5c4\",
-            \"links\": {
-                \"self\": \"/api/v2/enrollments/d652d5d6-3624-4fb1-894f-2ea1c05bf5c4\"
+    let(:course_enrollment_data) do
+      {
+        type: 'enrollments',
+        id: 'd652d5d6-3624-4fb1-894f-2ea1c05bf5c4',
+        links: {
+          self: '/api/v2/enrollments/d652d5d6-3624-4fb1-894f-2ea1c05bf5c4'
+        },
+        attributes: {
+          visits: {
+            visited: 12,
+            total: 12,
+            percantage: 100
+          },
+          points: {
+            achieved: 0,
+            maximal: 0,
+            percentage: nil
+          },
+          certificates: {
+            confirmation_of_participation: true,
+            record_of_achievement: nil,
+            qualified_certificate: nil
+          },
+          completed: false,
+          reactivated: false,
+          proctored: false,
+          created_at: '2016-11-25T17:18:22.627Z'
+        },
+        relationships: {
+          course: {
+            data: {
+              type: 'courses',
+              id: course.provider_course_id
             },
-            \"attributes\": {
-                \"visits\": {
-                    \"visited\": 12,
-                    \"total\": 12,
-                    \"percentage\": 100
-                },
-                \"points\": {
-                    \"achieved\": 0,
-                    \"maximal\": 0,
-                    \"percentage\": null
-                },
-                \"certificates\": {
-                    \"confirmation_of_participation\": true,
-                    \"record_of_achievement\": null,
-                    \"qualified_certificate\": null
-                },
-                \"completed\": false,
-                \"reactivated\": false,
-                \"proctored\": false,
-                \"created_at\": \"2016-11-25T17:18:22.627Z\"
-            },
-            \"relationships\": {
-                \"course\": {
-                    \"data\": {
-                        \"type\": \"courses\",
-                        \"id\": \"#{course.provider_course_id}\"
-                    },
-                    \"links\": {
-                        \"related\": \"/api/v2/courses/#{course.provider_course_id}\"
-                    }
-                },
-                \"progress\": {
-                    \"data\": {
-                        \"type\": \"course-progresses\",
-                        \"id\": \"#{course.provider_course_id}\"
-                    },
-                    \"links\": {
-                        \"related\": \"/api/v2/course-progresses/#{course.provider_course_id}\"
-                    }
-                }
+            links: {
+              related: "/api/v2/courses/#{course.provider_course_id}"
             }
-        }"
+          },
+          progress: {
+            data: {
+              type: 'course-progresses',
+              id: course.provider_course_id
+            },
+            links: {
+              related: "/api/v2/course-progresses/#{course.provider_course_id}"
+            }
+          }
+        }
+      }
     end
 
     let(:single_course_enrollment_data) do
-      data = "{
-    \"data\": {
-        #{course_enrollment_data_string}
-    }
-}"
+      data = {
+        data: course_enrollment_data
+      }.to_json
       net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK']}, code: 200)
       example_url = 'https://open.hpi.de/api/v2/enrollments'
       request = request_double(url: example_url, method: 'get')
@@ -149,59 +147,59 @@ RSpec.describe OpenHPIConnector do
     end
 
     let(:enrollment_data) do
-      data = "{
-    \"data\": [
-        #{course_enrollment_data_string},
-        {
-            \"type\": \"enrollments\",
-            \"id\": \"832b61e8-4dd6-4bdb-a623-ce56262742a7\",
-            \"links\": {
-                \"self\": \"/api/v2/enrollments/832b61e8-4dd6-4bdb-a623-ce56262742a7\"
+      data = {
+        data: [
+          course_enrollment_data,
+          {
+            type: 'enrollments',
+            id: '832b61e8-4dd6-4bdb-a623-ce56262742a7',
+            links: {
+              self: '/api/v2/enrollments/832b61e8-4dd6-4bdb-a623-ce56262742a7'
             },
-            \"attributes\": {
-                \"visits\": {
-                    \"visited\": 72,
-                    \"total\": 72,
-                    \"percentage\": 100
-                },
-                \"points\": {
-                    \"achieved\": 48,
-                    \"maximal\": 48.5,
-                    \"percentage\": 98.96907216
-                },
-                \"certificates\": {
-                    \"confirmation_of_participation\": null,
-                    \"record_of_achievement\": false,
-                    \"qualified_certificate\": true
-                },
-                \"completed\": true,
-                \"reactivated\": false,
-                \"proctored\": false,
-                \"created_at\": \"2016-12-08T12:13:04.205Z\"
+            attributes: {
+              visits: {
+                visited: 72,
+                total: 72,
+                percantage: 100
+              },
+              points: {
+                achieved: 48,
+                maximal: 48.5,
+                percentage: 98.96907216
+              },
+              certificates: {
+                confirmation_of_participation: nil,
+                record_of_achievement: false,
+                qualified_certificate: true
+              },
+              completed: true,
+              reactivated: false,
+              proctored: false,
+              created_at: '2016-12-08T12:13:04.205Z'
             },
-            \"relationships\": {
-                \"course\": {
-                    \"data\": {
-                        \"type\": \"courses\",
-                        \"id\": \"#{second_course.provider_course_id}\"
-                    },
-                    \"links\": {
-                        \"related\": \"/api/v2/courses/#{second_course.provider_course_id}\"
-                    }
+            relationships: {
+              course: {
+                data: {
+                  type: 'courses',
+                  id: second_course.provider_course_id
                 },
-                \"progress\": {
-                    \"data\": {
-                        \"type\": \"course-progresses\",
-                        \"id\": \"#{second_course.provider_course_id}\"
-                    },
-                    \"links\": {
-                        \"related\": \"/api/v2/course-progresses/#{second_course.provider_course_id}\"
-                    }
+                links: {
+                  related: "/api/v2/courses/#{second_course.provider_course_id}"
                 }
+              },
+              progress: {
+                data: {
+                  type: 'course-progresses',
+                  id: second_course.provider_course_id
+                },
+                links: {
+                  related: "/api/v2/course-progresses/#{second_course.provider_course_id}"
+                }
+              }
             }
-        }
-    ]
-}"
+          }
+        ]
+      }.to_json
       net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK']}, code: 200)
       example_url = 'https://open.hpi.de/api/v2/enrollments'
       request = request_double(url: example_url, method: 'get')
