@@ -88,7 +88,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
         course.tracks.push(track)
         course_tracks += 1
       elsif track.present?
-        track.delete!
+        track.delete
       end
 
       track = CourseTrack.find_by(course_id: course.id, track_type: record_of_achievement)
@@ -99,7 +99,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
         course.tracks.push(track)
         course_tracks += 1
       elsif track.present?
-        track.delete!
+        track.delete
       end
 
       track = CourseTrack.find_by(course_id: course.id, track_type: qualified_certificate)
@@ -111,7 +111,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
         course.tracks.push(track)
         course_tracks += 1
       elsif track.present?
-        track.delete!
+        track.delete
       end
 
       track = CourseTrack.find_by(course_id: course.id, track_type: nothing)
@@ -121,7 +121,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
         track.costs_currency = '€'
         course.tracks.push(track)
       elsif track.present?
-        track.delete!
+        track.delete
       end
 
       course.save!
