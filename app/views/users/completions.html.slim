@@ -14,13 +14,15 @@ div
   - if @completions.present?
     - @completions.each_with_index do |completion, completion_index|
       div
-        h3.bold.link-black-hover-green.pull-left.mb0.mt0.mr5
-          = link_to course_path(completion.course)
-            = completion.course.name
         span
           img.provider-logo src = @provider_logos[completion.course.mooc_provider.logo_id]
+          h3.bold.link-black-hover-green.pull-left.mb0.mt0.ml10
+            = link_to course_path(completion.course)
+              = completion.course.name
+        br
+        br
         - if completion.points_achieved
-          div.mt5
+          div
             div.pull-left.mr20
               - if completion.course.points_maximal
                 = t('completions.points_achieved_of_maximal', points_achieved: completion.points_achieved, points_maximal: completion.course.points_maximal)

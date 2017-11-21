@@ -25,7 +25,7 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
     payload = {
       data: {
         type: 'enrollments',
-        attributes: { },
+        attributes: {},
         relationships: {
           course: {
             data: {
@@ -41,9 +41,9 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
   end
 
   def send_unenrollment_for_course(user, course)
-    exisiting_enrollment = UserCourse.find_by(user: user, course: course)
-    return unless exisiting_enrollment
-    api_url = self.class::ROOT_API + ENROLLMENTS_API + exisiting_enrollment.provider_id
+    existing_enrollment = UserCourse.find_by(user: user, course: course)
+    return unless existing_enrollment
+    api_url = self.class::ROOT_API + ENROLLMENTS_API + existing_enrollment.provider_id
     response = RestClient.delete(api_url, accept: accept_header, authorization: token_string(user))
     handle_api_expiration_header response
   end
@@ -92,7 +92,7 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
         enrollment.certificates.each do |document_type, achieved|
           next unless achieved
           certificate = Certificate.find_or_initialize_by(completion: completion, document_type: document_type)
-          certificate.download_url = mooc_provider.url
+          certificate.download_url = course.url + '/progress#progress_documents'
           certificate.save!
         end
       end
