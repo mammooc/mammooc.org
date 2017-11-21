@@ -283,7 +283,7 @@ RSpec.describe OpenHPIConnector do
         open_hpi_connector.send(:handle_enrollments_response, json_enrollment_data, user)
         completion = Completion.find_by(user: user)
         expect(completion.certificates.count).to be 1
-        expect(completion.certificates.first.download_url).to eq mooc_provider.url
+        expect(completion.certificates.first.download_url).to eq course.url + '/progress#progress_documents'
         expect(completion.certificates.first.document_type).to eq 'qualified_certificate'
       end
 
