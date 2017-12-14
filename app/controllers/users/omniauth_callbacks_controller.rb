@@ -6,31 +6,31 @@ module Users
 
     def self.provides_callback_for(provider)
       # rubocop:disable Layout/EmptyLinesAroundArguments
-      class_eval %{
-      def #{provider}
-        # This will also do some sidework: Adding the user identity and the OAuth connection for a MOOC Provider
-        @user = User.find_for_omniauth(request.env["omniauth.auth"], current_user)
+      class_eval(<<-PROVIDES_CALLBACK, __FILE__, __LINE__ + 1)
+        def #{provider}
+          # This will also do some sidework: Adding the user identity and the OAuth connection for a MOOC Provider
+          @user = User.find_for_omniauth(request.env["omniauth.auth"], current_user)
 
-        flash['error'] ||= []
-        flash['success'] ||= []
+          flash['error'] ||= []
+          flash['success'] ||= []
 
-        if @user.present? && request.env["omniauth.params"].blank?
-          session[:user_original_url] = user_settings_path(current_user.id) + "?subsite=account" if request.referer.present? && request.referer.include?("settings?subsite=account")
-          sign_in_and_redirect @user, event: :authentication
-          set_flash_message(:notice, :success, kind: "#{OmniAuth::Utils.camelize(provider)}") if is_navigational_format?
-        elsif @user.present? && request.env["omniauth.params"].present?
-          current_user_logged_in = current_user.present?
-          handle_omniauth_params
-          sign_in_and_redirect @user, event: :authentication
-          set_flash_message(:notice, :success, kind: "#{OmniAuth::Utils.camelize(provider)}") if is_navigational_format? && !current_user_logged_in
-        else
-          session["devise.#{provider}_data"] = request.env["omniauth.auth"].slice('uid', 'provider')
-          session["devise.#{provider}_data"]["info"] = request.env["omniauth.auth"]["info"].slice('email', 'verified', 'verified_info', 'image')
-          session["devise.#{provider}_data"]["valid_until"] = Time.zone.now + 10.minutes
-          redirect_to new_user_session_url
+          if @user.present? && request.env["omniauth.params"].blank?
+            session[:user_original_url] = user_settings_path(current_user.id) + "?subsite=account" if request.referer.present? && request.referer.include?("settings?subsite=account")
+            sign_in_and_redirect @user, event: :authentication
+            set_flash_message(:notice, :success, kind: "#{OmniAuth::Utils.camelize(provider)}") if is_navigational_format?
+          elsif @user.present? && request.env["omniauth.params"].present?
+            current_user_logged_in = current_user.present?
+            handle_omniauth_params
+            sign_in_and_redirect @user, event: :authentication
+            set_flash_message(:notice, :success, kind: "#{OmniAuth::Utils.camelize(provider)}") if is_navigational_format? && !current_user_logged_in
+          else
+            session["devise.#{provider}_data"] = request.env["omniauth.auth"].slice('uid', 'provider')
+            session["devise.#{provider}_data"]["info"] = request.env["omniauth.auth"]["info"].slice('email', 'verified', 'verified_info', 'image')
+            session["devise.#{provider}_data"]["valid_until"] = Time.zone.now + 10.minutes
+            redirect_to new_user_session_url
+          end
         end
-      end
-    }
+      PROVIDES_CALLBACK
       # rubocop:enable Layout/EmptyLinesAroundArguments
     end
 
@@ -101,11 +101,7 @@ module Users
 
     def handle_omniauth_params
       session.delete(:user_original_url)
-      if request.env['omniauth.params']['request_path'].present?
-        session[:user_original_url] = request.env['omniauth.params']['request_path']
-      else
-        session[:user_original_url] = load_and_save_evaluation_path(request.env['omniauth.params'])
-      end
+      session[:user_original_url] = request.env['omniauth.params']['request_path'].presence || load_and_save_evaluation_path(request.env['omniauth.params'])
     end
 
     def deauthorize_params

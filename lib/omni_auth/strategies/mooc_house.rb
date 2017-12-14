@@ -8,16 +8,16 @@ module OmniAuth
       option :name, 'moochouse'
 
       option :client_options, site: 'https://mooc.house',
-             authorize_url: '/oauth/authorize'
+                              authorize_url: '/oauth/authorize'
 
       uid { raw_info['id'] }
 
       info do
         {
-            email: raw_info['email'],
-            first_name: raw_info['first_name'],
-            last_name: raw_info['last_name'],
-            image: 'https://mooc.house' + '/avatar/' + raw_info['id']
+          email: raw_info['email'],
+          first_name: raw_info['first_name'],
+          last_name: raw_info['last_name'],
+          image: 'https://mooc.house' + '/avatar/' + raw_info['id']
         }
       end
 

@@ -8,16 +8,16 @@ module OmniAuth
       option :name, 'openhpi_cn'
 
       option :client_options, site: 'https://openhpi.cn',
-             authorize_url: '/oauth/authorize'
+                              authorize_url: '/oauth/authorize'
 
       uid { raw_info['id'] }
 
       info do
         {
-            email: raw_info['email'],
-            first_name: raw_info['first_name'],
-            last_name: raw_info['last_name'],
-            image: 'https://openhpi.cn' + '/avatar/' + raw_info['id']
+          email: raw_info['email'],
+          first_name: raw_info['first_name'],
+          last_name: raw_info['last_name'],
+          image: 'https://openhpi.cn' + '/avatar/' + raw_info['id']
         }
       end
 
