@@ -256,7 +256,11 @@ Devise.setup do |config|
   config.omniauth :twitter, ENV['TWITTER_CLIENT_ID'], ENV['TWITTER_SECRET_KEY']
   config.omniauth :windows_live, ENV['WINDOWS_LIVE_CLIENT_ID'], ENV['WINDOWS_LIVE_SECRET_KEY'], scope: 'wl.basic wl.emails wl.signin', strategy_class: OmniAuth::Strategies::WindowsLive
   config.omniauth :amazon, ENV['AMAZON_CLIENT_ID'], ENV['AMAZON_SECRET_KEY'], scope: 'profile'
-  config.omniauth :openhpi, ENV['XIKOLO_CLIENT_ID'], ENV['XIKOLO_SECRET_KEY'], scope: 'profile', strategy_class: OmniAuth::Strategies::OpenHPI
+  config.omniauth :openhpi, ENV['OPENHPI_CLIENT_ID'], ENV['OPENHPI_SECRET_KEY'], scope: 'profile', strategy_class: OmniAuth::Strategies::OpenHPI
+  config.omniauth :opensap, ENV['OPENSAP_CLIENT_ID'], ENV['OPENSAP_SECRET_KEY'], scope: 'profile', strategy_class: OmniAuth::Strategies::OpenSAP
+  config.omniauth :moochouse, ENV['MOOCHOUSE_CLIENT_ID'], ENV['MOOCHOUSE_SECRET_KEY'], scope: 'profile', strategy_class: OmniAuth::Strategies::MoocHouse
+  config.omniauth :openwho, ENV['OPENWHO_CLIENT_ID'], ENV['OPENWHO_SECRET_KEY'], scope: 'profile', strategy_class: OmniAuth::Strategies::OpenWHO
+  config.omniauth :openhpi_cn, ENV['OPENHPI_CN_CLIENT_ID'], ENV['OPENHPI_CN_SECRET_KEY'], scope: 'profile', strategy_class: OmniAuth::Strategies::OpenHPIChina
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

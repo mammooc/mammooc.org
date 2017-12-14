@@ -5,7 +5,7 @@ module Api
     class MoocProviderResource < JSONAPI::Resource
       immutable
 
-      attributes :logo_id, :name, :url, :description, :created_at, :updated_at, :api_support_state, :oauth_path_for_login
+      attributes :logo_id, :name, :url, :description, :created_at, :updated_at, :api_support_state, :oauth_strategy_name
     end
   end
 end

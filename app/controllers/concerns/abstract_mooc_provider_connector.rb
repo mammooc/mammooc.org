@@ -16,16 +16,24 @@ class AbstractMoocProviderConnector
   def enroll_user_for_course(user, course)
     return unless connection_to_mooc_provider? user
     begin
+      run ||= 0
       send_enrollment_for_course user, course
     rescue RestClient::Unauthorized => e
       # This would be the case, when the user's authorization token is invalid
-      Rails.logger.error "#{e.class}: #{e.message}"
-      return false
+      if run.zero?
+        refresh_access_token(user)
+        run += 1
+        retry
+      else
+        Rails.logger.error "#{e.class}: #{e.message}"
+        return false
+      end
     rescue RestClient::InternalServerError, RestClient::BadGateway, Errno::ECONNREFUSED,
            RestClient::ResourceNotFound, RestClient::BadRequest => e
       Rails.logger.error "#{e.class}: #{e.message}"
       return false
     else
+      fetch_user_data user
       return true
     end
   end
@@ -33,16 +41,24 @@ class AbstractMoocProviderConnector
   def unenroll_user_for_course(user, course)
     return unless connection_to_mooc_provider? user
     begin
+      run ||= 0
       send_unenrollment_for_course user, course
     rescue RestClient::Unauthorized => e
       # This would be the case, when the user's authorization token is invalid
-      Rails.logger.error "#{e.class}: #{e.message}"
-      return false
+      if run.zero?
+        refresh_access_token(user)
+        run += 1
+        retry
+      else
+        Rails.logger.error "#{e.class}: #{e.message}"
+        return false
+      end
     rescue RestClient::InternalServerError, RestClient::BadGateway, Errno::ECONNREFUSED,
            RestClient::ResourceNotFound, RestClient::BadRequest => e
       Rails.logger.error "#{e.class}: #{e.message}"
       return false
     else
+      UserCourse.find_by(user: user, course: course).destroy
       return true
     end
   end
@@ -86,6 +102,8 @@ class AbstractMoocProviderConnector
   def destroy_connection(user)
     return false unless connection_to_mooc_provider? user
     MoocProviderUser.find_by(user: user, mooc_provider: mooc_provider).destroy
+    UserCourse.joins(:course).where(courses: {mooc_provider: [mooc_provider.id]}).destroy_all
+    Completion.joins(:course).where(courses: {mooc_provider: [mooc_provider.id]}).destroy_all
     true
   end
 
@@ -108,28 +126,41 @@ class AbstractMoocProviderConnector
   end
 
   def fetch_user_data(user)
+    run ||= 0
     response_data = get_enrollments_for_user user
   rescue SocketError, Errno::ECONNREFUSED, RestClient::ResourceNotFound, RestClient::SSLCertificateNotVerified, RestClient::InternalServerError => e
     Rails.logger.error "#{e.class}: #{e.message}"
     return false
   rescue RestClient::Unauthorized => e
-    # This would be the case, when the user's authorization token is invalid
-    Rails.logger.error "#{e.class}: #{e.message}"
-    return false
+    if run.zero?
+      refresh_access_token(user)
+      run += 1
+      retry
+    else
+      Rails.logger.error "#{e.class}: #{e.message}"
+      return false
+    end
   else
     handle_enrollments_response response_data, user
     return true
   end
 
   def fetch_dates_for_user(user)
+    run ||= 0
     response_data = get_dates_for_user user
   rescue SocketError, Errno::ECONNREFUSED, RestClient::ResourceNotFound, RestClient::SSLCertificateNotVerified, RestClient::InternalServerError => e
     Rails.logger.error "#{e.class}: #{e.message}"
     return false
   rescue RestClient::Unauthorized => e
     # This would be the case, when the user's authorization token is invalid
-    Rails.logger.error "#{e.class}: #{e.message}"
-    return false
+    if run.zero?
+      refresh_access_token(user)
+      run += 1
+      retry
+    else
+      Rails.logger.error "#{e.class}: #{e.message}"
+      return false
+    end
   else
     handle_dates_response response_data, user
     return true
@@ -144,7 +175,7 @@ class AbstractMoocProviderConnector
       if connection.access_token_valid_until > Time.zone.now
         connection.access_token
       else
-        refresh_access_token(user) if connection.refresh_token.present?
+        return refresh_access_token(user) if connection.refresh_token.present?
         return nil
       end
     else

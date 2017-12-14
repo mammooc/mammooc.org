@@ -8,6 +8,10 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
   COURSES_API = 'courses/'
   XIKOLO_API_VERSION = '3.0'
 
+  def oauth_link(destination, _csrf_token)
+    mooc_provider.oauth_path_for_login + '?request_path=' + destination
+  end
+
   private
 
   def send_connection_request(user, credentials)
@@ -203,12 +207,28 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
   end
 
   def token_string(user)
-    "Legacy-Token token=#{get_access_token user}"
+    "Bearer #{get_access_token user}"
   end
 
   def handle_api_expiration_header(response)
     return if response.headers[:x_api_version_expiration_date].blank?
     api_expiration_date = response.headers[:x_api_version_expiration_date]
-    AdminMailer.xikolo_api_expiration(Settings.admin_email, self.class.name, response.request.url, api_expiration_date, Settings.root_url).deliver_later
+    AdminMailer.xikolo_api_expiration(Settings.admin_email_address, self.class.name, response.request.url, api_expiration_date, Settings.root_url).deliver_later
+  end
+
+  def refresh_access_token(user)
+    connection = MoocProviderUser.find_by(user: user, mooc_provider: mooc_provider)
+    strategy_name = OmniAuth.strategies.detect {|strategy| strategy.default_options.name == mooc_provider.oauth_strategy_name }
+    strategy = Rails.application.config.middleware.detect {|strategy| strategy.klass == strategy_name }
+    token = OAuth2::AccessToken.new(strategy_name.new(nil, strategy.args.first, strategy.args.second, strategy.args.third).client,
+      connection.access_token,
+      expires_at: connection.access_token_valid_until.to_i,
+      refresh_token: connection.refresh_token)
+    new_token = token.refresh!
+    connection.access_token = new_token.token
+    connection.access_token_valid_until = Time.zone.at(new_token.expires_at) if new_token.expires?
+    connection.refresh_token = new_token.refresh_token
+    connection.save!
+    new_token.token
   end
 end

@@ -8,6 +8,7 @@ module Users
       # rubocop:disable Layout/EmptyLinesAroundArguments
       class_eval %{
       def #{provider}
+        # This will also do some sidework: Adding the user identity and the OAuth connection for a MOOC Provider
         @user = User.find_for_omniauth(request.env["omniauth.auth"], current_user)
 
         flash['error'] ||= []
@@ -100,7 +101,11 @@ module Users
 
     def handle_omniauth_params
       session.delete(:user_original_url)
-      session[:user_original_url] = load_and_save_evaluation_path(request.env['omniauth.params'])
+      if request.env['omniauth.params']['request_path'].present?
+        session[:user_original_url] = request.env['omniauth.params']['request_path']
+      else
+        session[:user_original_url] = load_and_save_evaluation_path(request.env['omniauth.params'])
+      end
     end
 
     def deauthorize_params

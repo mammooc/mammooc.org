@@ -207,7 +207,7 @@ class User < ApplicationRecord
         )
         begin
           user.profile_image = process_uri(auth.info.image)
-        rescue OpenURI::HTTPError => e
+        rescue StandardError, OpenURI::HTTPError => e
           Rails.logger.error "Couldn't process user profile image for URL #{auth.info.image}: #{e.message}"
           user.profile_image = nil
         end
@@ -253,6 +253,20 @@ class User < ApplicationRecord
       identity.user = user
       identity.save!
     end
+
+    # Add a MoocProviderConnection via OAuth if login via MoocProvider was used
+    login_mooc_provider = MoocProvider.find_by(oauth_strategy_name: auth.provider)
+    if login_mooc_provider.present?
+      connection = MoocProviderUser.find_or_create_by!(user: user, mooc_provider: login_mooc_provider)
+      connection.refresh_token = auth.credentials.refresh_token
+      connection.access_token = auth.credentials.token
+      if auth.credentials.expires
+        connection.access_token_valid_until = Time.zone.at(auth.credentials.expires_at)
+      end
+      connection.save!
+      UserWorker.perform_async [user.id]
+    end
+
     user
   end
 

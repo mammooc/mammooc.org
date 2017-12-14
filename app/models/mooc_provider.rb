@@ -10,4 +10,8 @@ class MoocProvider < ApplicationRecord
   def self.options_for_select
     order('LOWER(name)').map {|provider| [provider.name, provider.id] }
   end
+
+  def oauth_path_for_login
+    "/users/auth/#{oauth_strategy_name}" if oauth_strategy_name.present?
+  end
 end

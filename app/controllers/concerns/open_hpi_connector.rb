@@ -2,6 +2,6 @@
 
 class OpenHPIConnector < AbstractXikoloConnector
   NAME = 'openHPI'
-  ROOT_API = 'https://open.hpi.de/api/v2/'
+  ROOT_API = 'https://open.hpi.de/oauth/proxy/api/v2/'
   COURSE_LINK = 'https://open.hpi.de/courses/'
 end

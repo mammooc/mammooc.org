@@ -16,7 +16,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
     response = RestClient.get(url, accept: accept_header)
     if response.headers[:x_api_version_expiration_date].present?
       api_expiration_date = response.headers[:x_api_version_expiration_date]
-      AdminMailer.xikolo_api_expiration(Settings.admin_email, self.class.name, url, api_expiration_date, Settings.root_url).deliver_later
+      AdminMailer.xikolo_api_expiration(Settings.admin_email_address, self.class.name, url, api_expiration_date, Settings.root_url).deliver_later
     end
 
     if response.present?
@@ -24,8 +24,9 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
       JSON::Api::Vanilla.parse(response).links.each_value do |link|
         next if link['self'].blank?
         api_host = URI.parse(url).host
+        api_port = URI.parse(url).port
         api_scheme = URI.parse(url).scheme
-        course_url = URI::Generic.build(host: api_host, scheme: api_scheme, path: link['self']).to_s
+        course_url = URI::Generic.build(host: api_host, port: api_port, scheme: api_scheme, path: link['self']).to_s
         course_response = RestClient.get(course_url, accept: accept_header)
         data.push(JSON::Api::Vanilla.parse(course_response).data) if course_response.present?
       end
