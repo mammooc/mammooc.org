@@ -130,7 +130,7 @@ RSpec.describe OpenHPIConnector do
         data: course_enrollment_data
       }.to_json
       net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK']}, code: 200)
-      example_url = 'https://open.hpi.de/api/v2/enrollments'
+      example_url = 'https://open.hpi.de:443/api/v2/enrollments'
       request = request_double(url: example_url, method: 'get')
       response = RestClient::Response.create(data, net_http_res, request)
       response
@@ -181,7 +181,7 @@ RSpec.describe OpenHPIConnector do
         ]
       }.to_json
       net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK']}, code: 200)
-      example_url = 'https://open.hpi.de/api/v2/enrollments'
+      example_url = 'https://open.hpi.de:443/api/v2/enrollments'
       request = request_double(url: example_url, method: 'get')
       response = RestClient::Response.create(data, net_http_res, request)
       response
@@ -189,7 +189,7 @@ RSpec.describe OpenHPIConnector do
 
     let(:empty_enrollment_data) do
       net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK']}, code: 200)
-      example_url = 'https://open.hpi.de/api/v2/enrollments'
+      example_url = 'https://open.hpi.de:443/api/v2/enrollments'
       request = request_double(url: example_url, method: 'get')
       response = RestClient::Response.create('', net_http_res, request)
       response
@@ -197,7 +197,7 @@ RSpec.describe OpenHPIConnector do
 
     let(:empty_enrollment_data_api_expired) do
       net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK'], 'X_Api_Version_Expiration_Date' => ['Tue, 15 Aug 2017 00:00:00 GMT']}, code: 200)
-      example_url = 'https://open.hpi.de/api/v2/enrollments'
+      example_url = 'https://open.hpi.de:443/api/v2/enrollments'
       request = request_double(url: example_url, method: 'get')
       response = RestClient::Response.create('', net_http_res, request)
       response
@@ -365,6 +365,7 @@ RSpec.describe OpenHPIConnector do
       it 'returns false when trying to enroll and user has mooc provider connection but something went wrong' do
         user.mooc_providers << mooc_provider
         allow(RestClient).to receive(:post).and_raise RestClient::Unauthorized
+        allow(open_hpi_connector).to receive(:refresh_access_token).and_return 'token'
         expect(open_hpi_connector.enroll_user_for_course(user, course)).to eq false
       end
 
@@ -390,6 +391,7 @@ RSpec.describe OpenHPIConnector do
         user.mooc_providers << mooc_provider
         UserCourse.create!(user: user, course: course, provider_id: 'd652d5d6-3624-4fb1-894f-2ea1c05bf5c4')
         allow(RestClient).to receive(:delete).and_raise RestClient::Unauthorized
+        allow(open_hpi_connector).to receive(:refresh_access_token).and_return 'token'
         expect(open_hpi_connector.unenroll_user_for_course(user, course)).to eq false
       end
 
@@ -448,6 +450,7 @@ RSpec.describe OpenHPIConnector do
       it 'does not raise an exception if the saved token is invalid' do
         FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
         allow(RestClient).to receive(:get).and_raise RestClient::Unauthorized
+        allow(open_hpi_connector).to receive(:refresh_access_token).and_return 'token'
         expect { open_hpi_connector.load_user_data([user]) }.not_to raise_error
         expect(open_hpi_connector.load_user_data([user])).to eq false
       end
@@ -457,6 +460,7 @@ RSpec.describe OpenHPIConnector do
         FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
         FactoryBot.create(:naive_mooc_provider_user, user: second_user, mooc_provider: mooc_provider, access_token: '123')
         allow(RestClient).to receive(:get).and_raise RestClient::Unauthorized
+        allow(open_hpi_connector).to receive(:refresh_access_token).and_return 'token'
         expect { open_hpi_connector.load_user_data }.not_to raise_error
         expect(open_hpi_connector.load_user_data).to eq nil
       end
@@ -515,7 +519,7 @@ RSpec.describe OpenHPIConnector do
     ]
 }"
       net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK']}, code: 200)
-      example_url = 'https://open.hpi.de/api/v2/course-dates'
+      example_url = 'https://open.hpi.de:443/api/v2/course-dates'
       request = request_double(url: example_url, method: 'get')
       response = RestClient::Response.create(data, net_http_res, request)
       response
@@ -523,7 +527,7 @@ RSpec.describe OpenHPIConnector do
 
     let(:empty_received_dates_api_expired) do
       net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK'], 'X_Api_Version_Expiration_Date' => ['Tue, 15 Aug 2017 00:00:00 GMT']}, code: 200)
-      example_url = 'https://open.hpi.de/api/v2/course-dates'
+      example_url = 'https://open.hpi.de:443/api/v2/course-dates'
       request = request_double(url: example_url, method: 'get')
       response = RestClient::Response.create('', net_http_res, request)
       response

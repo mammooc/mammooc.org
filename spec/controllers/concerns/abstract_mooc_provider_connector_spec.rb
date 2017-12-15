@@ -61,6 +61,7 @@ RSpec.describe AbstractMoocProviderConnector do
 
     it 'handles unauthorized error for user enrollments' do
       allow(abstract_mooc_provider_connector).to receive(:get_enrollments_for_user).and_raise RestClient::Unauthorized
+      allow(abstract_mooc_provider_connector).to receive(:refresh_access_token).and_return 'token'
       expect { abstract_mooc_provider_connector.send(:fetch_user_data, user) }.not_to raise_error
     end
   end
@@ -81,11 +82,13 @@ RSpec.describe AbstractMoocProviderConnector do
 
       it 'handles unauthorized error for user dates' do
         allow(abstract_mooc_provider_connector).to receive(:get_dates_for_user).and_raise RestClient::Unauthorized
+        allow(abstract_mooc_provider_connector).to receive(:refresh_access_token).and_return 'token'
         expect { abstract_mooc_provider_connector.send(:fetch_dates_for_user, user) }.not_to raise_error
       end
 
       it 'returns false if an error occurred' do
         allow(abstract_mooc_provider_connector).to receive(:get_dates_for_user).and_raise RestClient::Unauthorized
+        allow(abstract_mooc_provider_connector).to receive(:refresh_access_token).and_return 'token'
         result = abstract_mooc_provider_connector.send(:fetch_dates_for_user, user)
         expect(result).to be false
       end

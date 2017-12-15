@@ -184,7 +184,7 @@ RSpec.describe OpenHPICourseWorker do
       }
     }.to_json
     net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK']}, code: 200)
-    example_url = 'https://open.hpi.de/api/v2/courses/c1556425-5449-4b05-97b3-42b38a39f6c5'
+    example_url = 'https://open.hpi.de:443/api/v2/courses/c1556425-5449-4b05-97b3-42b38a39f6c5'
     request = request_double(url: example_url, method: 'get')
     response = RestClient::Response.create(data, net_http_res, request)
     response
