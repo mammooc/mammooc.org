@@ -9,13 +9,19 @@ RSpec.describe OpenHPIConnector do
                                redirection_history: nil, args: {url: url, method: method})
   end
 
-  let!(:mooc_provider) { FactoryBot.create(:mooc_provider, name: 'openHPI', api_support_state: 'naive') }
+  let!(:mooc_provider) { FactoryBot.create(:mooc_provider, name: 'openHPI', api_support_state: 'naive', oauth_strategy_name: 'openhpi') }
   let!(:user) { FactoryBot.create(:user) }
   let(:open_hpi_connector) { described_class.new }
 
   describe 'mooc_provider' do
     it 'delivers MOOCProvider' do
       expect(open_hpi_connector.send(:mooc_provider)).to eq mooc_provider
+    end
+  end
+
+  describe 'oauth_link' do
+    it 'returns a valid link without CSRF token' do
+      expect(open_hpi_connector.send(:oauth_link, 'abc', 'csrf')).to eq '/users/auth/openhpi?request_path=abc'
     end
   end
 
@@ -73,6 +79,20 @@ RSpec.describe OpenHPIConnector do
     it 'destroys MoocProvider-User connection, when it is present' do
       user.mooc_providers << mooc_provider
       expect { open_hpi_connector.destroy_connection(user) }.to change { MoocProviderUser.count }.by(-1)
+    end
+
+    it 'destroys UserCourse enrollements' do
+      user.mooc_providers << mooc_provider
+      course = FactoryBot.create(:course, mooc_provider: mooc_provider)
+      UserCourse.create!(user: user, course: course, provider_id: course.provider_course_id)
+      expect { open_hpi_connector.destroy_connection(user) }.to change { UserCourse.count }.by(-1)
+    end
+
+    it 'destroys Completions' do
+      user.mooc_providers << mooc_provider
+      course = FactoryBot.create(:course, mooc_provider: mooc_provider)
+      Completion.create!(course: course, user: user)
+      expect { open_hpi_connector.destroy_connection(user) }.to change { Completion.count }.by(-1)
     end
 
     it 'does not try to destroy MoocProvider-User connection, when it is not present' do
@@ -369,10 +389,24 @@ RSpec.describe OpenHPIConnector do
         expect(open_hpi_connector.enroll_user_for_course(user, course)).to eq false
       end
 
+      it 'retries to enroll if request was Unauthorized' do
+        user.mooc_providers << mooc_provider
+        expect(RestClient).to receive(:post).and_raise(RestClient::Unauthorized).twice
+        expect(open_hpi_connector).to receive(:refresh_access_token).and_return('token').once
+        expect(open_hpi_connector.enroll_user_for_course(user, course)).to eq false
+      end
+
       it 'returns true when trying to enroll and everything was ok' do
         user.mooc_providers << mooc_provider
         allow(RestClient).to receive(:post).and_return(single_course_enrollment_data)
         expect(open_hpi_connector.enroll_user_for_course(user, course)).to eq true
+      end
+
+      it 'synchronizes enrollment data after successfully enrolling to a new course' do
+        user.mooc_providers << mooc_provider
+        allow(RestClient).to receive(:post).and_return(single_course_enrollment_data)
+        expect(open_hpi_connector).to receive(:fetch_user_data)
+        open_hpi_connector.enroll_user_for_course(user, course)
       end
 
       it 'handles internal server error for course enrollments' do
@@ -395,11 +429,26 @@ RSpec.describe OpenHPIConnector do
         expect(open_hpi_connector.unenroll_user_for_course(user, course)).to eq false
       end
 
+      it 'retries to unenroll if request was Unauthorized' do
+        user.mooc_providers << mooc_provider
+        UserCourse.create!(user: user, course: course, provider_id: 'd652d5d6-3624-4fb1-894f-2ea1c05bf5c4')
+        expect(RestClient).to receive(:delete).and_raise(RestClient::Unauthorized).twice
+        expect(open_hpi_connector).to receive(:refresh_access_token).and_return('token').once
+        expect(open_hpi_connector.unenroll_user_for_course(user, course)).to eq false
+      end
+
       it 'returns true when trying to unenroll and everything was ok' do
         user.mooc_providers << mooc_provider
         UserCourse.create!(user: user, course: course, provider_id: 'd652d5d6-3624-4fb1-894f-2ea1c05bf5c4')
         allow(RestClient).to receive(:delete).and_return(empty_enrollment_data)
         expect(open_hpi_connector.unenroll_user_for_course(user, course)).to eq true
+      end
+
+      it 'deletes the enrollment after successfully unenrolling from a course ' do
+        user.mooc_providers << mooc_provider
+        UserCourse.create!(user: user, course: course, provider_id: 'd652d5d6-3624-4fb1-894f-2ea1c05bf5c4')
+        allow(RestClient).to receive(:delete).and_return(empty_enrollment_data)
+        expect { open_hpi_connector.unenroll_user_for_course(user, course) }.to change { UserCourse.count }.by(-1)
       end
 
       it 'handles internal server error for course unenrollments' do
@@ -702,6 +751,19 @@ RSpec.describe OpenHPIConnector do
         expect { open_hpi_connector.send(:get_dates_for_user, user) }.not_to raise_error
         expect(ActionMailer::Base.deliveries.count).to eq 0
       end
+    end
+  end
+
+  describe 'refresh_access_token' do
+    let!(:mooc_provider) { FactoryBot.create(:mooc_provider, name: 'openHPI', api_support_state: 'oauth', oauth_strategy_name: 'openhpi') }
+    let!(:connection) { FactoryBot.create(:oauth_mooc_provider_user, mooc_provider: mooc_provider, user: user, refresh_token: 'refresh') }
+
+    it 'successfully refreshes an OAuth token' do
+      open_hpi_oauth_client = OmniAuth::Strategies::OpenHPI.new(nil, 'client', 'secret', scope: 'profile')
+      refreshed_token = OAuth2::AccessToken.new(open_hpi_oauth_client, 'token', expires_in: 1800.seconds, refresh_token: 'refresh')
+      expect(OmniAuth::Strategies::OpenHPI).to receive(:new).with(nil, nil, nil, scope: 'profile').and_return open_hpi_oauth_client
+      expect_any_instance_of(OAuth2::AccessToken).to receive(:refresh!).and_return refreshed_token
+      expect { open_hpi_connector.send(:refresh_access_token, user) }.not_to raise_error
     end
   end
 end

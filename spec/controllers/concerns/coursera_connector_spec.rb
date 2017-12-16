@@ -70,7 +70,7 @@ RSpec.describe CourseraConnector do
     expect(coursera_connector.send(:get_access_token, user)).to eq '123'
   end
 
-  it 'returns nil when user has connection to mooc provider, which is no longer valid' do
+  it 'returns nil when user has connection to mooc provider, which is no longer valid and no refresh token' do
     FactoryBot.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123', access_token_valid_until: Time.zone.now - 5.minutes)
     expect(coursera_connector.send(:get_access_token, user)).to eq nil
   end
@@ -79,6 +79,12 @@ RSpec.describe CourseraConnector do
     FactoryBot.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123', access_token_valid_until: Time.zone.now - 5.minutes)
     expect_any_instance_of(described_class).not_to receive(:refresh_access_token)
     coursera_connector.send(:get_access_token, user)
+  end
+
+  it 'returns new token when user has connection to mooc provider, which is no longer valid but a valid refresh token' do
+    FactoryBot.create(:oauth_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123', refresh_token: 'abc', access_token_valid_until: Time.zone.now - 5.minutes)
+    expect(coursera_connector).to receive(:refresh_access_token).and_return('456')
+    expect(coursera_connector.send(:get_access_token, user)).to eq '456'
   end
 
   it 'returns false when user has no connection to mooc provider' do
