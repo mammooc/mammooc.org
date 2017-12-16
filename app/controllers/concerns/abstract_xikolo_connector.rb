@@ -3,9 +3,10 @@
 class AbstractXikoloConnector < AbstractMoocProviderConnector
   AUTHENTICATE_API = 'authenticate/'
   ENROLLMENTS_API = 'enrollments/'
+  PROGRESS_API = 'course-progresses/'
   DATES_API = 'course-dates/'
   COURSES_API = 'courses/'
-  XIKOLO_API_VERSION = '2.0'
+  XIKOLO_API_VERSION = '3.0'
 
   private
 
@@ -60,6 +61,22 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
     end
   end
 
+  def get_course_progress_for_user(provider_course_id, user)
+    begin
+    api_url = self.class::ROOT_API + PROGRESS_API + provider_course_id
+    response = RestClient.get(api_url, accept: accept_header, authorization: token_string(user))
+    handle_api_expiration_header response
+    rescue RestClient::Exception => e
+      Rails.logger.error "#{e.class}: #{e.message}"
+    end
+
+    if response.present?
+      JSON::Api::Vanilla.parse(response).data
+    else
+      []
+    end
+  end
+
   def handle_enrollments_response(response_data, user)
     update_map = create_enrollments_update_map mooc_provider, user
 
@@ -79,13 +96,23 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
           update_map[enrolled_course.course.id] = true
         end
 
-        course.points_maximal = enrollment.points['maximal']
+        progress = get_course_progress_for_user related_course, user
+
+        course.points_maximal = progress.main_exercises['points_possible'] if progress.present? && progress.main_exercises
         course.save!
 
         next unless enrollment.completed
         completion = Completion.find_or_create_by(course: course, user: user)
-        completion.points_achieved = enrollment.points['achieved']
-        completion.provider_percentage = enrollment.points['percentage']
+
+        if progress.present?
+          points_scored = if progress.bonus_exercises
+                            progress.main_exercises['points_scored'] + progress.bonus_exercises['points_scored']
+                          else
+                            progress.main_exercises['points_scored']
+                          end
+          completion.points_achieved = points_scored
+          completion.provider_percentage = (points_scored / course.points_maximal * 100) if course.points_maximal&.positive?
+        end
         completion.save!
         completion.reload
 
