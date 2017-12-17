@@ -25,6 +25,7 @@ SimpleCov.start do
   add_group 'Models', 'app/models'
   add_group 'Views', 'app/views'
   add_group 'Workers', 'app/workers'
+  add_group 'JSON API', 'app/resources'
   add_group 'Libraries', 'lib'
 end
 require 'public_activity/testing'

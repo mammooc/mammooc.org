@@ -92,16 +92,6 @@ RSpec.describe OpenHPIConnector do
           self: '/api/v2/enrollments/d652d5d6-3624-4fb1-894f-2ea1c05bf5c4'
         },
         attributes: {
-          visits: {
-            visited: 12,
-            total: 12,
-            percantage: 100
-          },
-          points: {
-            achieved: 0,
-            maximal: 0,
-            percentage: nil
-          },
           certificates: {
             confirmation_of_participation: true,
             record_of_achievement: nil,
@@ -157,16 +147,6 @@ RSpec.describe OpenHPIConnector do
               self: '/api/v2/enrollments/832b61e8-4dd6-4bdb-a623-ce56262742a7'
             },
             attributes: {
-              visits: {
-                visited: 72,
-                total: 72,
-                percantage: 100
-              },
-              points: {
-                achieved: 48,
-                maximal: 48.5,
-                percentage: 98.96907216
-              },
               certificates: {
                 confirmation_of_participation: nil,
                 record_of_achievement: false,
@@ -223,6 +203,65 @@ RSpec.describe OpenHPIConnector do
       response
     end
 
+    let(:course_progress_data) do
+      {
+        type: 'course-progresses',
+        id: course.provider_course_id,
+        attributes: {
+          main_exercises: {
+            exercises_available: 3,
+            exercises_taken: 3,
+            points_possible: 48.5,
+            points_scored: 48
+          },
+          selftest_exercises: {
+            exercises_available: 2,
+            exercises_taken: 0,
+            points_possible: 0,
+            points_scored: 0
+          },
+          bonus_exercises: nil,
+          visits: {
+            items_available: 7,
+            items_visited: 5
+          }
+        },
+        relationships: {
+          "section-progresses": {
+            data: [
+              {
+                type: 'section-progresses',
+                id: '4c546547-4eee-4f4b-b77c-f81f90be0843'
+              },
+              {
+                type: 'section-progresses',
+                id: '4fdd88ba-b354-43d0-8dff-8680610549f3'
+              },
+              {
+                type: 'section-progresses',
+                id: 'c79c9d48-f326-4856-8d01-ed6ccd691871'
+              },
+              {
+                type: 'section-progresses',
+                id: '4194c4f3-0564-4930-81cd-1bcea125672d'
+              }
+            ]
+          }
+        }
+      }
+    end
+
+    let(:single_course_progress_data) do
+      data = {
+          data: course_progress_data
+      }.to_json
+      net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK']}, code: 200)
+      example_url = "https://open.hpi.de/api/v2/course-progresses/#{course.provider_course_id}"
+      request = request_double(url: example_url, method: 'get')
+      response = RestClient::Response.create(data, net_http_res, request)
+      response
+    end
+
     let(:json_enrollment_data) do
       JSON::Api::Vanilla.parse enrollment_data
     end
@@ -243,6 +282,7 @@ RSpec.describe OpenHPIConnector do
 
     describe 'handle enrollments response' do
       it 'loads new enrollment into database' do
+        allow(RestClient).to receive(:get).and_raise RestClient::InternalServerError # for the course progress
         expect do
           open_hpi_connector.send(:handle_enrollments_response, json_enrollment_data, user)
         end.to change(user.courses, :count).by(2)
@@ -250,6 +290,7 @@ RSpec.describe OpenHPIConnector do
 
       it 'adds course enrollment into database' do
         UserCourse.create!(user: user, course: second_course, provider_id: '832b61e8-4dd6-4bdb-a623-ce56262742a7')
+        allow(RestClient).to receive(:get).and_raise RestClient::InternalServerError # for the course progress
         open_hpi_connector.send(:handle_enrollments_response, json_enrollment_data, user)
 
         course_id = File.basename(json_enrollment_data.rel_links.values.first['related'])
@@ -261,12 +302,14 @@ RSpec.describe OpenHPIConnector do
       end
 
       it 'loads completion data into database' do
+        allow(RestClient).to receive(:get).and_raise RestClient::InternalServerError # for the course progress
         expect do
           open_hpi_connector.send(:handle_enrollments_response, json_enrollment_data, user)
         end.to change(user.completions, :count).by(1)
       end
 
       it 'adds course completion data' do
+        allow(RestClient).to receive(:get).and_return single_course_progress_data
         open_hpi_connector.send(:handle_enrollments_response, json_enrollment_data, user)
         completion = Completion.find_by(user: user)
 
@@ -276,10 +319,11 @@ RSpec.describe OpenHPIConnector do
         expect(completion.points_achieved).to eq 48
         expect(completion.course.points_maximal).to eq 48.5
         expect(completion.course).to eq second_course
-        expect(completion.provider_percentage).to eq 98.96907216
+        expect(completion.provider_percentage).to eq 98.9690721649485
       end
 
-      it 'adds certificats afer completing the course' do
+      it 'adds certificates after completing the course' do
+        allow(RestClient).to receive(:get).and_return single_course_progress_data
         open_hpi_connector.send(:handle_enrollments_response, json_enrollment_data, user)
         completion = Completion.find_by(user: user)
         expect(completion.certificates.count).to be 1
@@ -386,7 +430,7 @@ RSpec.describe OpenHPIConnector do
     describe 'load user data' do
       it 'loads specified user data for a given user' do
         FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
-        allow(RestClient).to receive(:get).and_return(enrollment_data)
+        allow(RestClient).to receive(:get).and_return(enrollment_data, single_course_progress_data)
         expect { open_hpi_connector.load_user_data([user]) }.not_to raise_error
         expect(user.courses.count).to eq 2
       end
@@ -395,7 +439,7 @@ RSpec.describe OpenHPIConnector do
         second_user = FactoryBot.create(:user)
         FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
         FactoryBot.create(:naive_mooc_provider_user, user: second_user, mooc_provider: mooc_provider, access_token: '123')
-        allow(RestClient).to receive(:get).and_return(enrollment_data)
+        allow(RestClient).to receive(:get).and_return(enrollment_data, single_course_progress_data, single_course_progress_data, enrollment_data, single_course_progress_data)
         expect { open_hpi_connector.load_user_data }.not_to raise_error
         expect(user.courses.count).to eq 2
         expect(second_user.courses.count).to eq 2
