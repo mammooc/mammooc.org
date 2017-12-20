@@ -93,8 +93,8 @@ RSpec.describe OpenHPIConnector do
         },
         attributes: {
           certificates: {
-            confirmation_of_participation: true,
-            record_of_achievement: nil,
+            confirmation_of_participation: "https://open.hpi.de/render_certificate?course_id=#{course.provider_course_id}&type=ConfirmationOfParticipation",
+            record_of_achievement: "https://open.hpi.de/render_certificate?course_id=#{course.provider_course_id}&type=RecordOfAchievement",
             qualified_certificate: nil
           },
           completed: false,
@@ -148,9 +148,9 @@ RSpec.describe OpenHPIConnector do
             },
             attributes: {
               certificates: {
-                confirmation_of_participation: nil,
-                record_of_achievement: false,
-                qualified_certificate: true
+                confirmation_of_participation: "https://open.hpi.de/render_certificate?course_id=#{second_course.provider_course_id}&type=ConfirmationOfParticipation",
+                record_of_achievement: nil,
+                qualified_certificate: nil
               },
               completed: true,
               reactivated: false,
@@ -327,8 +327,8 @@ RSpec.describe OpenHPIConnector do
         open_hpi_connector.send(:handle_enrollments_response, json_enrollment_data, user)
         completion = Completion.find_by(user: user)
         expect(completion.certificates.count).to be 1
-        expect(completion.certificates.first.download_url).to eq course.url + '/progress#progress_documents'
-        expect(completion.certificates.first.document_type).to eq 'qualified_certificate'
+        expect(completion.certificates.first.download_url).to eq "https://open.hpi.de/render_certificate?course_id=#{second_course.provider_course_id}&type=ConfirmationOfParticipation"
+        expect(completion.certificates.first.document_type).to eq 'confirmation_of_participation'
       end
 
       it 'works with empty responses' do

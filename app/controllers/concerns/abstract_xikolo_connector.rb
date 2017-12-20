@@ -116,10 +116,10 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
         completion.save!
         completion.reload
 
-        enrollment.certificates.each do |document_type, achieved|
-          next unless achieved
+        enrollment.certificates.each do |document_type, url|
+          next unless url
           certificate = Certificate.find_or_initialize_by(completion: completion, document_type: document_type)
-          certificate.download_url = course.url + '/progress#progress_documents'
+          certificate.download_url = url
           certificate.save!
         end
       end
