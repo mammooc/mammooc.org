@@ -104,7 +104,7 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
         next unless enrollment.completed
         completion = Completion.find_or_create_by(course: course, user: user)
 
-        if progress.present?
+        if progress.present? && progress.main_exercises
           points_scored = if progress.bonus_exercises
                             progress.main_exercises['points_scored'] + progress.bonus_exercises['points_scored']
                           else
