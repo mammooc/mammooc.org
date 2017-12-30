@@ -19,13 +19,11 @@ class EvaluationsController < ApplicationController
       end
     end
     respond_to do |format|
-      begin
-        format.html { redirect_to dashboard_path }
-        format.json { render :process_feedback_result, status: :ok }
-      rescue StandardError => e
-        format.html { redirect_to dashboard_path }
-        format.json { render json: e.to_json, status: :unprocessable_entity }
-      end
+      format.html { redirect_to dashboard_path }
+      format.json { render :process_feedback_result, status: :ok }
+    rescue StandardError => e
+      format.html { redirect_to dashboard_path }
+      format.json { render json: e.to_json, status: :unprocessable_entity }
     end
   end
 

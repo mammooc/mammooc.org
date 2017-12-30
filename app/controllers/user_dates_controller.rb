@@ -27,26 +27,22 @@ class UserDatesController < ApplicationController
     @current_dates_to_show = current_user.dates.where('date >= ?', Time.zone.today).sort_by(&:date).first(3)
     @partial = render_to_string partial: 'dashboard/user_dates', formats: [:html]
     respond_to do |format|
-      begin
-        format.html { redirect_to dashboard_path }
-        format.json { render :synchronization_result_user_dates, status: :ok }
-      rescue StandardError => e
-        format.html { redirect_to dashboard_path }
-        format.json { render json: e.to_json, status: :unprocessable_entity }
-      end
+      format.html { redirect_to dashboard_path }
+      format.json { render :synchronization_result_user_dates, status: :ok }
+    rescue StandardError => e
+      format.html { redirect_to dashboard_path }
+      format.json { render json: e.to_json, status: :unprocessable_entity }
     end
   end
 
   def synchronize_dates_on_index_page
     @synchronization_state = UserDate.synchronize current_user
     respond_to do |format|
-      begin
-        format.html { redirect_to user_dates_path }
-        format.json { render :synchronization_result_user_dates, status: :ok }
-      rescue StandardError => e
-        format.html { redirect_to user_dates_path }
-        format.json { render json: e.to_json, status: :unprocessable_entity }
-      end
+      format.html { redirect_to user_dates_path }
+      format.json { render :synchronization_result_user_dates, status: :ok }
+    rescue StandardError => e
+      format.html { redirect_to user_dates_path }
+      format.json { render json: e.to_json, status: :unprocessable_entity }
     end
   end
 

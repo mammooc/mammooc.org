@@ -154,92 +154,78 @@ class GroupsController < ApplicationController
 
   def invite_group_members
     respond_to do |format|
-      begin
-        invite_members
-        format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
-        format.json { render :invite_members_result, status: :created, location: @group }
-      rescue StandardError => e
-        format.html { redirect_to @group, notice: t('flash.error.groups.update') }
-        format.json { render json: e.to_json, status: :unprocessable_entity }
-      end
+      invite_members
+      format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
+      format.json { render :invite_members_result, status: :created, location: @group }
+    rescue StandardError => e
+      format.html { redirect_to @group, notice: t('flash.error.groups.update') }
+      format.json { render json: e.to_json, status: :unprocessable_entity }
     end
   end
 
   def add_administrator
     respond_to do |format|
-      begin
-        add_admin
-        format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
-        format.json { render :show, status: :created, location: @group }
-      rescue StandardError => e
-        format.html { redirect_to @group, notice: t('flash.error.groups.update') }
-        format.json { render json: e.to_json, status: :unprocessable_entity }
-      end
+      add_admin
+      format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
+      format.json { render :show, status: :created, location: @group }
+    rescue StandardError => e
+      format.html { redirect_to @group, notice: t('flash.error.groups.update') }
+      format.json { render json: e.to_json, status: :unprocessable_entity }
     end
   end
 
   def demote_administrator
     respond_to do |format|
-      begin
-        demote_admin
-        format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
-        format.json { render :demoted_administrator, status: :ok, location: @group }
-      rescue StandardError => e
-        format.html { redirect_to @group, notice: t('flash.error.groups.update') }
-        format.json { render json: e.to_json, status: :unprocessable_entity }
-      end
+      demote_admin
+      format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
+      format.json { render :demoted_administrator, status: :ok, location: @group }
+    rescue StandardError => e
+      format.html { redirect_to @group, notice: t('flash.error.groups.update') }
+      format.json { render json: e.to_json, status: :unprocessable_entity }
     end
   end
 
   def remove_group_member
     respond_to do |format|
-      begin
-        remove_member removing_member
-        format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
-        format.json { render :show, status: :created, location: @group }
-      rescue StandardError => e
-        format.html { redirect_to @group, notice: t('flash.error.groups.update') }
-        format.json { render json: e.to_json, status: :unprocessable_entity }
-      end
+      remove_member removing_member
+      format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
+      format.json { render :show, status: :created, location: @group }
+    rescue StandardError => e
+      format.html { redirect_to @group, notice: t('flash.error.groups.update') }
+      format.json { render json: e.to_json, status: :unprocessable_entity }
     end
   end
 
   def leave
     respond_to do |format|
-      begin
-        remove_member current_user.id
-        format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
-        format.json { render :show, status: :created, location: @group }
-      rescue StandardError => e
-        format.html { redirect_to @group, notice: t('flash.error.groups.update') }
-        format.json { render json: e.to_json, status: :unprocessable_entity }
-      end
+      remove_member current_user.id
+      format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
+      format.json { render :show, status: :created, location: @group }
+    rescue StandardError => e
+      format.html { redirect_to @group, notice: t('flash.error.groups.update') }
+      format.json { render json: e.to_json, status: :unprocessable_entity }
     end
   end
 
   def condition_for_changing_member_status
     respond_to do |format|
-      begin
-        condition_for_changing_member
-        format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
-        format.json { render :condition_for_changing_member_status, status: :created, location: @group }
-      rescue StandardError => e
-        format.html { redirect_to @group, notice: t('flash.error.groups.update') }
-        format.json { render json: e.to_json, status: :unprocessable_entity }
-      end
+      condition_for_changing_member
+      format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
+      format.json { render :condition_for_changing_member_status, status: :created, location: @group }
+    rescue StandardError => e
+      format.html { redirect_to @group, notice: t('flash.error.groups.update') }
+      format.json { render json: e.to_json, status: :unprocessable_entity }
     end
   end
 
   def all_members_to_administrators
     respond_to do |format|
-      begin
-        all_members_to_admins
-        format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
-        format.json { render :show, status: :created, location: @group }
-      rescue StandardError => e
-        format.html { redirect_to @group, notice: t('flash.error.groups.update') }
-        format.json { render json: e.to_json, status: :unprocessable_entity }
-      end
+      all_members_to_admins
+      format.html { redirect_to @group, notice: t('flash.notice.groups.successfully_updated') }
+      format.json { render :show, status: :created, location: @group }
+    rescue StandardError => e
+      format.html { redirect_to @group, notice: t('flash.error.groups.update') }
+      format.json { render json: e.to_json, status: :unprocessable_entity }
     end
   end
 
@@ -247,13 +233,11 @@ class GroupsController < ApplicationController
     OpenHPIUserWorker.perform_async @group.users.pluck(:id)
     OpenSAPUserWorker.perform_async @group.users.pluck(:id)
     respond_to do |format|
-      begin
-        format.html { redirect_to dashboard_path }
-        format.json { render :synchronization_result, status: :ok }
-      rescue StandardError => e
-        format.html { redirect_to dashboard_path }
-        format.json { render json: e.to_json, status: :unprocessable_entity }
-      end
+      format.html { redirect_to dashboard_path }
+      format.json { render :synchronization_result, status: :ok }
+    rescue StandardError => e
+      format.html { redirect_to dashboard_path }
+      format.json { render json: e.to_json, status: :unprocessable_entity }
     end
   end
 

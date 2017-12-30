@@ -253,7 +253,7 @@ RSpec.describe OpenHPIConnector do
 
     let(:single_course_progress_data) do
       data = {
-          data: course_progress_data
+        data: course_progress_data
       }.to_json
       net_http_res = instance_double('net http response', to_hash: {'Status' => ['200 OK']}, code: 200)
       example_url = "https://open.hpi.de/api/v2/course-progresses/#{course.provider_course_id}"

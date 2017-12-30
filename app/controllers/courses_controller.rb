@@ -93,27 +93,23 @@ class CoursesController < ApplicationController
 
   def enroll_course
     respond_to do |format|
-      begin
-        create_enrollment
-        format.html { redirect_to @course }
-        format.json { render :enroll_course_result, status: :ok }
-      rescue StandardError => e
-        format.html { redirect_to @course }
-        format.json { render json: e.to_json, status: :unprocessable_entity }
-      end
+      create_enrollment
+      format.html { redirect_to @course }
+      format.json { render :enroll_course_result, status: :ok }
+    rescue StandardError => e
+      format.html { redirect_to @course }
+      format.json { render json: e.to_json, status: :unprocessable_entity }
     end
   end
 
   def unenroll_course
     respond_to do |format|
-      begin
-        destroy_enrollment
-        format.html { redirect_to @course }
-        format.json { render :unenroll_course_result, status: :ok }
-      rescue StandardError => e
-        format.html { redirect_to @course }
-        format.json { render json: e.to_json, status: :unprocessable_entity }
-      end
+      destroy_enrollment
+      format.html { redirect_to @course }
+      format.json { render :unenroll_course_result, status: :ok }
+    rescue StandardError => e
+      format.html { redirect_to @course }
+      format.json { render json: e.to_json, status: :unprocessable_entity }
     end
   end
 
@@ -137,13 +133,11 @@ class CoursesController < ApplicationController
     @has_rated_course = @current_user_evaluation.present?
     @respond_partial = render_to_string partial: 'courses/already_rated_course_form', formats: [:html]
     respond_to do |format|
-      begin
-        format.html { redirect_to @course }
-        format.json { render :send_evaluation_result, status: :ok }
-      rescue StandardError => e
-        format.html { redirect_to @course }
-        format.json { render json: e.to_json, status: :unprocessable_entity }
-      end
+      format.html { redirect_to @course }
+      format.json { render :send_evaluation_result, status: :ok }
+    rescue StandardError => e
+      format.html { redirect_to @course }
+      format.json { render json: e.to_json, status: :unprocessable_entity }
     end
   end
 

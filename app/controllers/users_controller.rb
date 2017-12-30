@@ -63,13 +63,11 @@ class UsersController < ApplicationController
                                         end
     @partial = render_to_string partial: 'dashboard/user_courses', formats: [:html]
     respond_to do |format|
-      begin
-        format.html { redirect_to dashboard_path }
-        format.json { render :synchronization_result_enrollments, status: :ok }
-      rescue StandardError => e
-        format.html { redirect_to dashboard_path }
-        format.json { render json: e.to_json, status: :unprocessable_entity }
-      end
+      format.html { redirect_to dashboard_path }
+      format.json { render :synchronization_result_enrollments, status: :ok }
+    rescue StandardError => e
+      format.html { redirect_to dashboard_path }
+      format.json { render json: e.to_json, status: :unprocessable_entity }
     end
   end
 
@@ -82,13 +80,11 @@ class UsersController < ApplicationController
     @partial += render_to_string partial: 'users/change_emails', formats: [:html]
     @partial += render_to_string partial: 'devise/registrations/edit', formats: [:html]
     respond_to do |format|
-      begin
-        format.html { redirect_to dashboard_path }
-        format.json { render :settings, status: :ok }
-      rescue StandardError => e
-        format.html { redirect_to dashboard_path }
-        format.json { render json: e.to_json, status: :unprocessable_entity }
-      end
+      format.html { redirect_to dashboard_path }
+      format.json { render :settings, status: :ok }
+    rescue StandardError => e
+      format.html { redirect_to dashboard_path }
+      format.json { render json: e.to_json, status: :unprocessable_entity }
     end
   end
 
@@ -97,13 +93,11 @@ class UsersController < ApplicationController
 
     @partial = render_to_string partial: 'users/mooc_provider_settings', formats: [:html]
     respond_to do |format|
-      begin
-        format.html { redirect_to dashboard_path }
-        format.json { render :settings, status: :ok }
-      rescue StandardError => e
-        format.html { redirect_to dashboard_path }
-        format.json { render json: e.to_json, status: :unprocessable_entity }
-      end
+      format.html { redirect_to dashboard_path }
+      format.json { render :settings, status: :ok }
+    rescue StandardError => e
+      format.html { redirect_to dashboard_path }
+      format.json { render json: e.to_json, status: :unprocessable_entity }
     end
   end
 
@@ -112,13 +106,11 @@ class UsersController < ApplicationController
     @partial = render_to_string partial: 'users/privacy_settings', formats: [:html]
 
     respond_to do |format|
-      begin
-        format.html { redirect_to dashboard_path }
-        format.json { render :settings, status: :ok }
-      rescue StandardError => e
-        format.html { redirect_to dashboard_path }
-        format.json { render json: e.to_json, status: :unprocessable_entity }
-      end
+      format.html { redirect_to dashboard_path }
+      format.json { render :settings, status: :ok }
+    rescue StandardError => e
+      format.html { redirect_to dashboard_path }
+      format.json { render json: e.to_json, status: :unprocessable_entity }
     end
   end
 
@@ -127,13 +119,11 @@ class UsersController < ApplicationController
     @partial = render_to_string partial: 'users/newsletter_settings', formats: [:html]
 
     respond_to do |format|
-      begin
-        format.html { redirect_to dashboard_path }
-        format.json { render :settings, status: :ok }
-      rescue StandardError => e
-        format.html { redirect_to dashboard_path }
-        format.json { render json: e.to_json, status: :unprocessable_entity }
-      end
+      format.html { redirect_to dashboard_path }
+      format.json { render :settings, status: :ok }
+    rescue StandardError => e
+      format.html { redirect_to dashboard_path }
+      format.json { render json: e.to_json, status: :unprocessable_entity }
     end
   end
 
@@ -233,7 +223,7 @@ class UsersController < ApplicationController
 
   def oauth_error_and_redirect(destination_path)
     flash['error'] << t('users.synchronization.oauth_error')
-    destination_path.present? ? destination_path : destination_path = dashboard_path
+    destination_path.presence || destination_path = dashboard_path
     flash.keep
     redirect_to destination_path
   end
@@ -254,13 +244,11 @@ class UsersController < ApplicationController
     prepare_mooc_provider_settings
     @partial = render_to_string partial: 'users/mooc_provider_settings', formats: [:html]
     respond_to do |format|
-      begin
-        format.html { redirect_to dashboard_path }
-        format.json { render :set_mooc_provider_connection_result, status: :ok }
-      rescue StandardError => e
-        format.html { redirect_to dashboard_path }
-        format.json { render json: e.to_json, status: :unprocessable_entity }
-      end
+      format.html { redirect_to dashboard_path }
+      format.json { render :set_mooc_provider_connection_result, status: :ok }
+    rescue StandardError => e
+      format.html { redirect_to dashboard_path }
+      format.json { render json: e.to_json, status: :unprocessable_entity }
     end
   end
 
@@ -277,13 +265,11 @@ class UsersController < ApplicationController
     prepare_mooc_provider_settings
     @partial = render_to_string partial: 'users/mooc_provider_settings', formats: [:html]
     respond_to do |format|
-      begin
-        format.html { redirect_to dashboard_path }
-        format.json { render :revoke_mooc_provider_connection_result, status: :ok }
-      rescue StandardError => e
-        format.html { redirect_to dashboard_path }
-        format.json { render json: e.to_json, status: :unprocessable_entity }
-      end
+      format.html { redirect_to dashboard_path }
+      format.json { render :revoke_mooc_provider_connection_result, status: :ok }
+    rescue StandardError => e
+      format.html { redirect_to dashboard_path }
+      format.json { render json: e.to_json, status: :unprocessable_entity }
     end
   end
 

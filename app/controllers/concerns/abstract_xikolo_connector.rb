@@ -63,9 +63,9 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
 
   def get_course_progress_for_user(provider_course_id, user)
     begin
-    api_url = self.class::ROOT_API + PROGRESS_API + provider_course_id
-    response = RestClient.get(api_url, accept: accept_header, authorization: token_string(user))
-    handle_api_expiration_header response
+      api_url = self.class::ROOT_API + PROGRESS_API + provider_course_id
+      response = RestClient.get(api_url, accept: accept_header, authorization: token_string(user))
+      handle_api_expiration_header response
     rescue RestClient::Exception => e
       Rails.logger.error "#{e.class}: #{e.message}"
     end

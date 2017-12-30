@@ -10,6 +10,7 @@ FactoryBot.define do
   end
 
   factory :full_course, class: Course do
+    # rubocop:disable Layout/EmptyLinesAroundArguments
     name 'Full Technologies'
     url 'https://open.hpi.de/courses/webtech2015'
     course_instructors 'Prof. Dr. Christoph Meinel, Jan Renz, Thomas Staubitz'
@@ -25,6 +26,7 @@ Ralf: “The concept is great and methodically and didactically well thought out
 Kerstin: “I have to honestly say that I am impressed by what you’ve accomplished here. The course was totally professional and the tasks were set up so that it was possible to learn a lot. It was important for me to get an overview of the technologies and relationships between them. The class was taught really well and it was fun too.”
 
 Claudia; “I enjoyed this course so much. It gave me a chance to expand my horizons in web technologies a great deal. I really liked the practical homework exercises, especially the calculation task in Week 5. I’m already looking forward to the next course. Keep up the good work!”'
+    # rubocop:enable Layout/EmptyLinesAroundArguments
     language 'en'
     videoId ''
     start_date { Time.zone.local(2015, 6, 1, 8) }

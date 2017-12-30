@@ -106,7 +106,7 @@ Rails.application.configure do
 
   # mail configuration
   ActionMailer::Base.smtp_settings = {
-    port: (ENV['SMTP_PORT'].present? ? ENV['SMTP_PORT'] : '25'),
+    port: (ENV['SMTP_PORT'].presence || '25'),
     address: ENV['SMTP_HOST'],
     user_name: ENV['SMTP_USERNAME'],
     password: ENV['SMTP_PASSWORD'],
