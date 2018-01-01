@@ -53,7 +53,7 @@ class DashboardController < ApplicationController
     @current_dates_to_show = current_user.dates.where('date >= ?', Time.zone.today).sort_by(&:date).first(3)
 
     respond_to do |format|
-      format.html{}
+      format.html {}
       format.json { render :dashboard, status: :ok }
     end
   end

@@ -5,7 +5,6 @@ module Users
     protect_from_forgery except: :easy_id
 
     def self.provides_callback_for(provider)
-      # rubocop:disable Layout/EmptyLinesAroundArguments
       class_eval(<<-PROVIDES_CALLBACK, __FILE__, __LINE__ + 1)
         def #{provider}
           # This will also do some sidework: Adding the user identity and the OAuth connection for a MOOC Provider
@@ -31,7 +30,6 @@ module Users
           end
         end
       PROVIDES_CALLBACK
-      # rubocop:enable Layout/EmptyLinesAroundArguments
     end
 
     %i[facebook google github linkedin twitter windows_live amazon openhpi].each do |provider|
