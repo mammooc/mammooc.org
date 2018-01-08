@@ -58,7 +58,7 @@ gem 'rest-client'
 gem 'paperclip'
 
 # amazon S3 connection
-# TODO: Change to 'aws-sdk-s3' and remove version reuirement once https://github.com/thoughtbot/paperclip/pull/2481 has been merged
+# TODO: Change to 'aws-sdk-s3' and remove version requirement once https://github.com/thoughtbot/paperclip/pull/2481 has been merged
 gem 'aws-sdk', '~> 2.0'
 
 # cron job
@@ -87,7 +87,7 @@ gem 'config'
 gem 'newrelic_rpm'
 
 # for filtering, searching and sorting
-gem 'filterrific', '~> 2.1.2'
+gem 'filterrific'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 
