@@ -327,7 +327,7 @@ class Course < ApplicationRecord
     return if uri.nil? || Settings.domain != 'mammooc.org'
     image_url = URI.parse(uri)
     image_url.scheme = 'https'
-    image_url.to_s
+    CGI.unescape(image_url.to_s[/[^#]*/]) # Paperclip will encode the URL, thus this prevents double encoding
   end
 
   private
