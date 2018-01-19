@@ -42,15 +42,15 @@ GEM
       public_suffix (>= 2.0.2, < 4.0)
     arel (8.0.0)
     ast (2.3.0)
-    autoprefixer-rails (7.2.3)
+    autoprefixer-rails (7.2.5)
       execjs
-    aws-sdk (2.10.110)
-      aws-sdk-resources (= 2.10.110)
-    aws-sdk-core (2.10.110)
+    aws-sdk (2.10.121)
+      aws-sdk-resources (= 2.10.121)
+    aws-sdk-core (2.10.121)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.10.110)
-      aws-sdk-core (= 2.10.110)
+    aws-sdk-resources (2.10.121)
+      aws-sdk-core (= 2.10.121)
     aws-sigv4 (1.0.2)
     bcrypt (3.1.11)
     bindex (0.5.0)
@@ -64,14 +64,14 @@ GEM
     bootstrap_tokenfield_rails (0.12.1)
     builder (3.2.3)
     byebug (9.1.0)
-    cancancan (2.1.2)
-    capybara (2.16.1)
+    cancancan (2.1.3)
+    capybara (2.17.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (>= 1.3.3)
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
-      xpath (~> 2.0)
+      xpath (>= 2.0, < 4.0)
     capybara-selenium (0.0.6)
       capybara
       selenium-webdriver
@@ -152,7 +152,7 @@ GEM
     faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.18)
-    filterrific (2.1.2)
+    filterrific (5.0.1)
     font-awesome-sass (4.7.0)
       sass (>= 3.2)
     fullcalendar-rails (3.4.0.0)
@@ -168,7 +168,7 @@ GEM
     http_accept_language (2.1.1)
     i18n (0.9.1)
       concurrent-ruby (~> 1.0)
-    i18n-js (3.0.2)
+    i18n-js (3.0.3)
       i18n (~> 0.6, >= 0.6.6)
     icalendar (2.4.1)
     inflecto (0.0.2)
@@ -205,10 +205,10 @@ GEM
     mimemagic (0.3.2)
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
-    minitest (5.10.3)
+    minitest (5.11.1)
     momentjs-rails (2.17.1)
       railties (>= 3.1)
-    multi_json (1.12.2)
+    multi_json (1.13.1)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
     netrc (0.11.0)
@@ -332,7 +332,7 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
-    rspec-core (3.7.0)
+    rspec-core (3.7.1)
       rspec-support (~> 3.7.0)
     rspec-expectations (3.7.0)
       diff-lcs (>= 1.2.0, < 2.0)
@@ -358,13 +358,13 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
-    rubocop-rspec (1.21.0)
-      rubocop (>= 0.52.0)
+    rubocop-rspec (1.22.1)
+      rubocop (>= 0.52.1)
     ruby-debug-passenger (0.2.0)
     ruby-progressbar (1.9.0)
     ruby_dep (1.5.0)
     rubyzip (1.2.1)
-    sass (3.5.4)
+    sass (3.5.5)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -415,13 +415,13 @@ GEM
     tins (1.16.3)
     tzinfo (1.2.4)
       thread_safe (~> 0.1)
-    uglifier (4.1.2)
+    uglifier (4.1.3)
       execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.4)
     unicode-display_width (1.3.0)
-    useragent (0.16.8)
+    useragent (0.16.9)
     warden (1.2.7)
       rack (>= 1.0)
     web-console (3.5.1)
@@ -437,8 +437,8 @@ GEM
     will_paginate (3.1.6)
     will_paginate-bootstrap (1.0.1)
       will_paginate (>= 3.0.3)
-    xpath (2.1.0)
-      nokogiri (~> 1.3)
+    xpath (3.0.0)
+      nokogiri (~> 1.8)
 
 PLATFORMS
   ruby
@@ -459,7 +459,7 @@ DEPENDENCIES
   database_cleaner
   devise
   factory_bot_rails
-  filterrific (~> 2.1.2)
+  filterrific
   font-awesome-sass
   fullcalendar-rails
   headless
@@ -486,7 +486,7 @@ DEPENDENCIES
   omniauth-windowslive
   paperclip
   passenger
-  pg
+  pg (< 1.0)
   poltergeist
   pry
   public_activity
