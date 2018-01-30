@@ -382,14 +382,14 @@ RSpec.describe GroupsController, type: :controller do
     end
 
     it 'invites members' do
-      expect { post :invite_group_members, params: {format: :json, id: group_with_admin.id, members: members} }.to change { GroupInvitation.count }.by(2)
+      expect { post :invite_group_members, params: {format: :json, id: group_with_admin.id, members: members} }.to change(GroupInvitation, :count).by(2)
       expect(response.body).to have_content('"error_email":[]')
       expect(ActionMailer::Base.deliveries.count).to eq 2
     end
 
     it 'returns wrong email addresses' do
       email_string = members + ', wrong; misspelled valid@example.org'
-      expect { post :invite_group_members, params: {format: :json, id: group_with_admin.id, members: email_string} }.to change { GroupInvitation.count }.by(3)
+      expect { post :invite_group_members, params: {format: :json, id: group_with_admin.id, members: email_string} }.to change(GroupInvitation, :count).by(3)
       expect(response.body).to have_content('"error_email":["wrong","misspelled"]')
       expect(ActionMailer::Base.deliveries.count).to eq 3
     end
@@ -404,7 +404,7 @@ RSpec.describe GroupsController, type: :controller do
 
       it 'invites member' do
         email_string = 'valid@example.org'
-        expect { post :invite_group_members, params: {format: :json, id: group_with_admin.id, members: email_string} }.to change { GroupInvitation.count }.by(1)
+        expect { post :invite_group_members, params: {format: :json, id: group_with_admin.id, members: email_string} }.to change(GroupInvitation, :count).by(1)
         expect(response.body).to have_content('"error_email":[]')
         expect(ActionMailer::Base.deliveries.count).to eq 1
         expect(GroupInvitation.find_by(token: 'ZLdOkzop70Ddx-IJR0ABg')).not_to eq nil

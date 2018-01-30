@@ -46,20 +46,20 @@ RSpec.describe OpenHPIConnector do
 
     it 'creates MoocProvider-User connection, when request is answered with token' do
       allow(RestClient).to receive(:post).and_return('{"token":"1234567890"}')
-      expect { open_hpi_connector.initialize_connection(user, credentials) }.to change { MoocProviderUser.count }.by(1)
+      expect { open_hpi_connector.initialize_connection(user, credentials) }.to change(MoocProviderUser, :count).by(1)
     end
 
     it 'updates MoocProvider-User connection, when a token is already present and the request is answered with token' do
       FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
       expect(open_hpi_connector.send(:get_access_token, user)).to eq '123'
       allow(RestClient).to receive(:post).and_return('{"token":"1234567890"}')
-      expect { open_hpi_connector.initialize_connection(user, credentials) }.to change { MoocProviderUser.count }.by(0)
+      expect { open_hpi_connector.initialize_connection(user, credentials) }.to change(MoocProviderUser, :count).by(0)
       expect(open_hpi_connector.send(:get_access_token, user)).to eq '1234567890'
     end
 
     it 'does not create MoocProvider-User connection, when request is answered with empty token' do
       allow(RestClient).to receive(:post).and_return('{"token":""}')
-      expect { open_hpi_connector.initialize_connection(user, credentials) }.to change { MoocProviderUser.count }.by(0)
+      expect { open_hpi_connector.initialize_connection(user, credentials) }.to change(MoocProviderUser, :count).by(0)
     end
 
     it 'handles internal server error for token request' do
@@ -72,7 +72,7 @@ RSpec.describe OpenHPIConnector do
   describe 'destroy connection' do
     it 'destroys MoocProvider-User connection, when it is present' do
       user.mooc_providers << mooc_provider
-      expect { open_hpi_connector.destroy_connection(user) }.to change { MoocProviderUser.count }.by(-1)
+      expect { open_hpi_connector.destroy_connection(user) }.to change(MoocProviderUser, :count).by(-1)
     end
 
     it 'does not try to destroy MoocProvider-User connection, when it is not present' do
@@ -650,7 +650,7 @@ RSpec.describe OpenHPIConnector do
 
       it 'does not create new entry' do
         user_date.date = user_date_data['title'] + 'for testing'
-        expect { open_hpi_connector.send(:update_existing_entry, user_date, user_date_data) }.to change { UserDate.count }.by(0)
+        expect { open_hpi_connector.send(:update_existing_entry, user_date, user_date_data) }.to change(UserDate, :count).by(0)
       end
     end
 

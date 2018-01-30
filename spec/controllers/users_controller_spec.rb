@@ -97,7 +97,7 @@ RSpec.describe UsersController, type: :controller do
 
   describe 'DELETE destroy' do
     it 'destroys the requested user' do
-      expect { delete :destroy, params: {id: user.to_param} }.to change { User.count }.by(-1)
+      expect { delete :destroy, params: {id: user.to_param} }.to change(User, :count).by(-1)
     end
 
     it 'deletes group memberships when deleting a user' do

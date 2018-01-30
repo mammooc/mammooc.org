@@ -206,6 +206,6 @@ RSpec.describe CourseraCourseWorker do
   it 'does not duplicate courses' do
     allow(RestClient).to receive(:get).and_return(raw_course_data)
     coursera_course_worker.handle_response_data response_course_data
-    expect { coursera_course_worker.handle_response_data response_course_data }.to change { Course.count }.by(0)
+    expect { coursera_course_worker.handle_response_data response_course_data }.to change(Course, :count).by(0)
   end
 end

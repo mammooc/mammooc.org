@@ -18,7 +18,7 @@ RSpec.describe User, type: :model do
 
     it 'deletes a user and the primary email address' do
       primary_email = user.primary_email
-      expect { user.destroy }.to change { UserEmail.count }.by(-1)
+      expect { user.destroy }.to change(UserEmail, :count).by(-1)
       expect(UserEmail.find_by(address: primary_email)).to be_nil
     end
 
@@ -218,7 +218,7 @@ RSpec.describe User, type: :model do
       expect do
         user.primary_email = 'abc@example.com'
         user.save!
-      end.not_to(change { UserEmail.count })
+      end.not_to(change(UserEmail, :count))
       expect(UserEmail.find_by(address: 'test@example.com')).to be_nil
       expect(UserEmail.find_by(address: 'abc@example.com').user).to eq user
     end
@@ -396,7 +396,7 @@ RSpec.describe User, type: :model do
           }
         }
       )
-      expect { described_class.find_for_omniauth(authentication_info) }.to change { described_class.count }.by(1)
+      expect { described_class.find_for_omniauth(authentication_info) }.to change(described_class, :count).by(1)
       user = described_class.find_by_primary_email(authentication_info.info.email) # rubocop:disable Rails/DynamicFindBy
       expect(user.first_name).to eq authentication_info.info.first_name
       expect(user.last_name).to eq authentication_info.info.last_name
@@ -424,7 +424,7 @@ RSpec.describe User, type: :model do
           }
         }
       )
-      expect { described_class.find_for_omniauth(authentication_info) }.to change { described_class.count }.by(1)
+      expect { described_class.find_for_omniauth(authentication_info) }.to change(described_class, :count).by(1)
       user = UserIdentity.find_by(omniauth_provider: authentication_info.provider, provider_user_id: authentication_info.uid).user
       expect(user.first_name).to eq "#{authentication_info.info.first_name} #{authentication_info.extra.raw_info.middle_name}"
       expect(user.last_name).to eq authentication_info.info.last_name
@@ -452,7 +452,7 @@ RSpec.describe User, type: :model do
           }
         }
       )
-      expect { described_class.find_for_omniauth(authentication_info) }.to change { described_class.count }.by(1)
+      expect { described_class.find_for_omniauth(authentication_info) }.to change(described_class, :count).by(1)
       user = described_class.find_by_primary_email(authentication_info.info.email) # rubocop:disable Rails/DynamicFindBy
       expect(user.profile_image_file_name).not_to eq authentication_info.info.image
       expect(user.profile_image_file_name).to be_nil
@@ -470,7 +470,7 @@ RSpec.describe User, type: :model do
         }
       )
       email_address_count = UserEmail.where(user: user).count
-      expect { described_class.find_for_omniauth(authentication_info) }.not_to(change { described_class.count })
+      expect { described_class.find_for_omniauth(authentication_info) }.not_to(change(described_class, :count))
       expect(email_address_count).to eq UserEmail.where(user: user).count
     end
 
@@ -486,7 +486,7 @@ RSpec.describe User, type: :model do
         }
       )
       email_address_count = UserEmail.where(user: user).count
-      expect { described_class.find_for_omniauth(authentication_info) }.not_to(change { described_class.count })
+      expect { described_class.find_for_omniauth(authentication_info) }.not_to(change(described_class, :count))
       expect(email_address_count).to eq UserEmail.where(user: user).count
     end
 
@@ -503,7 +503,7 @@ RSpec.describe User, type: :model do
       )
       expect(user.primary_email).not_to eq authentication_info.info.email
       email_address_count = UserEmail.where(user: user).count
-      expect { described_class.find_for_omniauth(authentication_info) }.not_to(change { described_class.count })
+      expect { described_class.find_for_omniauth(authentication_info) }.not_to(change(described_class, :count))
       expect(email_address_count + 1).to eq UserEmail.where(user: user).count
     end
 
@@ -519,7 +519,7 @@ RSpec.describe User, type: :model do
         }
       )
       identity = UserIdentity.where(user: user).count
-      expect { described_class.find_for_omniauth(authentication_info, user) }.not_to(change { described_class.count })
+      expect { described_class.find_for_omniauth(authentication_info, user) }.not_to(change(described_class, :count))
       expect(identity + 1).to eq UserIdentity.where(user: user).count
     end
 
@@ -535,7 +535,7 @@ RSpec.describe User, type: :model do
         }
       )
       identity = UserIdentity.where(user: user).count
-      expect { described_class.find_for_omniauth(authentication_info, user) }.not_to(change { described_class.count })
+      expect { described_class.find_for_omniauth(authentication_info, user) }.not_to(change(described_class, :count))
       expect(identity).to eq UserIdentity.where(user: user).count
     end
 
@@ -550,7 +550,7 @@ RSpec.describe User, type: :model do
         }
       )
       identity = UserIdentity.where(user: user).count
-      expect { described_class.find_for_omniauth(authentication_info, nil) }.not_to(change { described_class.count })
+      expect { described_class.find_for_omniauth(authentication_info, nil) }.not_to(change(described_class, :count))
       expect(described_class.find_for_omniauth(authentication_info, nil)).to eq nil
       expect(identity).to eq UserIdentity.where(user: user).count
     end
@@ -657,7 +657,7 @@ RSpec.describe User, type: :model do
 
     context 'UserSetting object does not exist' do
       it 'creates new UserSetting' do
-        expect { user.setting(:newsetting, true) }.to change { UserSetting.count }.by(1)
+        expect { user.setting(:newsetting, true) }.to change(UserSetting, :count).by(1)
       end
     end
   end

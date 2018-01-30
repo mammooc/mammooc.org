@@ -126,6 +126,6 @@ describe FutureLearnCourseWorker do
   it 'does not duplicate courses' do
     allow(RestClient).to receive(:get).and_return(courses_json)
     future_learn_course_worker.handle_response_data courses_json
-    expect { future_learn_course_worker.handle_response_data courses_json }.to change { Course.count }.by(0)
+    expect { future_learn_course_worker.handle_response_data courses_json }.to change(Course, :count).by(0)
   end
 end

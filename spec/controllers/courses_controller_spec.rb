@@ -155,7 +155,7 @@ RSpec.describe CoursesController, type: :controller do
     end
 
     it 'creates a new evaluation when params are correct and no evaluation is present yet' do
-      expect { post :send_evaluation, params: {rating: 1, course_status: :enrolled, id: course.id} }.to change { Evaluation.count }.by(1)
+      expect { post :send_evaluation, params: {rating: 1, course_status: :enrolled, id: course.id} }.to change(Evaluation, :count).by(1)
     end
 
     it 'does not create a new evaluation when it is already present' do

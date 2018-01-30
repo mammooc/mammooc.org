@@ -420,7 +420,7 @@ RSpec.describe OpenHPICourseWorker do
     allow(RestClient).to receive(:get).with(all_course_data.request.url, anything).and_return(all_course_data)
     allow(RestClient).to receive(:get).with(single_course_data.request.url, anything).and_return(single_course_data)
     open_hpi_course_worker.load_courses
-    expect { open_hpi_course_worker.load_courses }.to change { Course.count }.by(0)
+    expect { open_hpi_course_worker.load_courses }.to change(Course, :count).by(0)
   end
 
   it 'updates course attributes when a course already exists' do
@@ -467,7 +467,7 @@ RSpec.describe OpenHPICourseWorker do
 
   it 'handles an empty API response' do
     allow(RestClient).to receive(:get).with(empty_course_data.request.url, anything).and_return(empty_course_data)
-    expect { open_hpi_course_worker.load_courses }.to change { Course.count }.by(0)
+    expect { open_hpi_course_worker.load_courses }.to change(Course, :count).by(0)
   end
 
   it 'does not parse an empty string' do

@@ -209,12 +209,12 @@ RSpec.describe MooinCourseWorker do
   it 'does not duplicate courses' do
     allow(RestClient).to receive(:get).and_return(course_data)
     mooin_course_worker.load_courses
-    expect { mooin_course_worker.load_courses }.to change { Course.count }.by(0)
+    expect { mooin_course_worker.load_courses }.to change(Course, :count).by(0)
   end
 
   it 'handles an empty API response' do
     allow(RestClient).to receive(:get).and_return('')
-    expect { mooin_course_worker.load_courses }.to change { Course.count }.by(0)
+    expect { mooin_course_worker.load_courses }.to change(Course, :count).by(0)
   end
 
   it 'does not parse an empty string' do

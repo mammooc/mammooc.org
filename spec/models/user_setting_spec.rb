@@ -23,7 +23,7 @@ RSpec.describe UserSetting, type: :model do
       let(:value) { 'value' }
 
       it 'creates new UserSettingsEntry' do
-        expect { setting.set(key, value) }.to change { UserSettingEntry.count }.by(1)
+        expect { setting.set(key, value) }.to change(UserSettingEntry, :count).by(1)
       end
 
       it 'saves with correct value' do
