@@ -207,7 +207,7 @@ class User < ApplicationRecord
         )
         begin
           user.profile_image = process_uri(auth.info.image)
-        rescue OpenURI::HTTPError => e
+        rescue OpenURI::HTTPError, Paperclip::AdapterRegistry::NoHandlerError => e
           Rails.logger.error "Couldn't process user profile image for URL #{auth.info.image}: #{e.message}"
           user.profile_image = nil
         end
@@ -222,7 +222,7 @@ class User < ApplicationRecord
         UserEmail.create!(user: user, address: email.downcase, is_primary: false)
         begin
           user.profile_image = process_uri(auth.info.image)
-        rescue OpenURI::HTTPError => e
+        rescue OpenURI::HTTPError, Paperclip::AdapterRegistry::NoHandlerError => e
           Rails.logger.error "Couldn't process user profile image for URL #{auth.info.image}: #{e.message}"
           user.profile_image = nil
         end
