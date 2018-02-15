@@ -1,0 +1,2 @@
+
+root_url: <%= 'http://' + Capybara.server_host + ':3333' %>
