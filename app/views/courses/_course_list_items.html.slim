@@ -14,11 +14,11 @@
         - if current_user.courses.include? course
           .action-icon-enrollment data-toggle="tooltip" data-placement="left" title="#{(t('courses.course-list.unenroll'))}" toggle-title="#{(t('courses.course-list.enroll'))}"
             a href="" class='unenroll-icon' data-course_id='#{course.id}'
-              i class="fa fa-sign-in action-icon-green"
+              i class="fa fa-sign-in-alt action-icon-green"
         - else
           .action-icon-enrollment data-toggle="tooltip" data-placement="left" title="#{(t('courses.course-list.enroll'))}" toggle-title="#{(t('courses.course-list.unenroll'))}"
             a href="" class='enroll-icon' data-course_id='#{course.id}'
-              i class="fa fa-sign-in action-icon-gray"
+              i class="fa fa-sign-in-alt action-icon-gray"
       = link_to course
         .additional-infos
           .block.pr20.mb5

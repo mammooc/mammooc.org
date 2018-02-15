@@ -75,11 +75,11 @@
           - if current_user.courses.include? @course
             .action-icon-enrollment data-toggle="tooltip" data-placement="auto" title="#{(t('courses.course-list.unenroll'))}" toggle-title="#{(t('courses.course-list.enroll'))}"
               a href="" id="unenroll-link" class='unenroll-icon' data-course_id='#{@course.id}'
-                i class="fa fa-sign-in action-icon-green"
+                i class="fa fa-sign-in-alt action-icon-green"
           - else
             .action-icon-enrollment data-toggle="tooltip" data-placement="auto" title="#{(t('courses.course-list.enroll'))}" toggle-title="#{(t('courses.course-list.unenroll'))}"
               a href="" id="enroll-link" class='enroll-icon' data-course_id='#{@course.id}'
-                i class="fa fa-sign-in action-icon-gray"
+                i class="fa fa-sign-in-alt action-icon-gray"
 
     .subnav
       / recommend
