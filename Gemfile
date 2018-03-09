@@ -5,9 +5,9 @@ source 'https://rubygems.org'
 ruby '2.5.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.1.4'
+gem 'rails', '5.1.5'
 # Use sqlite3 as the database for Active Record
-gem 'pg', '< 1.0'
+gem 'pg'
 gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier'
@@ -58,8 +58,7 @@ gem 'rest-client'
 gem 'paperclip'
 
 # amazon S3 connection
-# TODO: Change to 'aws-sdk-s3' and remove version requirement once https://github.com/thoughtbot/paperclip/pull/2481 has been merged
-gem 'aws-sdk', '~> 2.0'
+gem 'aws-sdk-s3'
 
 # cron job
 gem 'redis'
