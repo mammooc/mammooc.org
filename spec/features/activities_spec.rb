@@ -35,7 +35,7 @@ RSpec.describe 'Activities', type: :feature do
       it 'is shown on dashboard' do
         visit dashboard_dashboard_path
         expect { find('.newsfeed') }.not_to raise_error
-        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('newsfeed.group.join.no_group_context1')} #{group.name} #{I18n.t('newsfeed.group.join.no_group_context2')}"
+        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('newsfeed.group.join.no_group_context1')} #{group.name}#{I18n.t('newsfeed.group.join.no_group_context2')}"
       end
 
       it 'is shown on group dashboard' do
@@ -341,13 +341,13 @@ RSpec.describe 'Activities', type: :feature do
       it 'is shown on group dashboard', js: true do
         visit group_path(group)
         expect { find('.newsfeed') }.not_to raise_error
-        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_group')}  #{group.name}"
+        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_group')} #{group.name}"
       end
 
       it 'is shown on groups recommendation page', js: true do
         visit "/groups/#{group.id}/recommendations"
         expect { find('.newsfeed') }.not_to raise_error
-        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_group')}  #{group.name}"
+        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_group')} #{group.name}"
       end
 
       it 'is not shown on owner dashboard', js: true do
