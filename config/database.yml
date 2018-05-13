@@ -3,7 +3,7 @@ development:
   encoding: utf8
   database: mammooc_development
   pool: 5
-  username:
+  username: sebastian
   password:
 
 test: &TEST

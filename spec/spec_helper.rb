@@ -2,7 +2,7 @@
 
 require 'simplecov'
 
-if ENV['CIRCLE_ARTIFACTS'] && ENV['GEMNASIUM'] != 'true'
+if ENV['CIRCLE_ARTIFACTS']
   require 'coveralls'
 
   SimpleCov.formatters = [

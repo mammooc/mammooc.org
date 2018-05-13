@@ -8,8 +8,6 @@ jobs:
         environment:
           RAILS_ENV: test
           COVERALLS_PARALLEL: true
-          GEMNASIUM_TESTSUITE: bundle check
-          GEMNASIUM_PROJECT_SLUG: github.com/mammooc/mammooc.org
       - image: circleci/postgres:10.1
     steps:
       - checkout
@@ -122,19 +120,6 @@ jobs:
             heroku run rails db:seed RAILS_ENV=production --app mammooc-dev
             heroku restart --app mammooc-dev
             heroku maintenance:off --app mammooc-dev
-          else
-            exit 0
-          fi
-
-      - type: deploy
-        name: Run Gemnasium check for outdated Gems
-        command: |
-          if [[ $CIRCLE_BRANCH == dev ]]; then
-            sudo sh -c 'echo "deb http://apt.gemnasium.com stable main" > /etc/apt/sources.list.d/gemnasium.list'
-            sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com E5CEAB0AC5F1CA2A
-            sudo apt-get update
-            sudo apt-get install -y gemnasium-toolbelt
-            sh -c 'GEMNASIUM=true; gemnasium autoupdate run; exit 0'
           else
             exit 0
           fi
