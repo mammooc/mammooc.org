@@ -59,7 +59,7 @@ RSpec.describe Users::OmniauthCallbacksController, type: :controller do
       expect(subject).to be_signed_in
     end
 
-    context 'easyID' do
+    context 'with easyID' do
       it 'redirects to the same URL with a GET request' do
         post :easy_id, params: {UID: '123'}
         expect(response).to redirect_to("#{easy_id_path}?UID=123")

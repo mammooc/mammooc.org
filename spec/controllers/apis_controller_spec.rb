@@ -15,7 +15,7 @@ RSpec.describe ApisController, type: :controller do
       expect(JSON.parse(response.body).keys.count).to eq 1
     end
 
-    context 'global_statistic' do
+    context 'with global_statistic' do
       subject(:statistics) { JSON.parse(response.body)['global_statistic'] }
 
       let!(:user_8days) { FactoryBot.create(:user, created_at: Time.zone.now - 8.days) }

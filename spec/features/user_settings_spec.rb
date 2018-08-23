@@ -24,7 +24,7 @@ RSpec.describe 'UserSettings', type: :feature do
     let(:user_setting4) { FactoryBot.create(:user_setting, name: :course_enrollments_visibility, user: second_user) }
     let!(:user_setting_entry4) { FactoryBot.create(:user_setting_entry, setting: user_setting4, key: 'groups', value: [group.id]) }
 
-    context "on user's profile" do
+    context "with the user's profile" do
       let(:user_setting2) { FactoryBot.create(:user_setting, name: :profile_visibility, user: second_user) }
       let!(:user_setting_entry2) { FactoryBot.create(:user_setting_entry, setting: user_setting2, key: 'users', value: [user.id, third_user.id]) }
       let(:user_setting3) { FactoryBot.create(:user_setting, name: :profile_visibility, user: second_user) }
@@ -71,7 +71,7 @@ RSpec.describe 'UserSettings', type: :feature do
       end
     end
 
-    context 'in newsfeed' do
+    context 'with the newsfeed' do
       let!(:activity) { FactoryBot.create(:activity_course_enroll, owner: second_user, trackable: course1, user_ids: [user.id, third_user.id, fourth_user.id, fifth_user.id], group_ids: [group.id, second_group.id]) }
 
       it 'are visible for users who are whitelisted' do
@@ -132,7 +132,7 @@ RSpec.describe 'UserSettings', type: :feature do
     let(:user_setting2) { FactoryBot.create(:user_setting, name: :course_results_visibility, user: second_user) }
     let!(:user_setting_entry2) { FactoryBot.create(:user_setting_entry, setting: user_setting2, key: 'groups', value: [group.id]) }
 
-    context "on user's profile" do
+    context "with the user's profile" do
       let(:user_setting3) { FactoryBot.create(:user_setting, name: :profile_visibility, user: second_user) }
       let!(:user_setting_entry3) { FactoryBot.create(:user_setting_entry, setting: user_setting3, key: 'users', value: [user.id, third_user.id]) }
       let(:user_setting4) { FactoryBot.create(:user_setting, name: :profile_visibility, user: second_user) }
@@ -185,7 +185,7 @@ RSpec.describe 'UserSettings', type: :feature do
       end
     end
 
-    context 'on completions page' do
+    context 'with the completions page' do
       it 'page is accessable for user himself' do
         capybara_sign_in second_user
         visit completions_path(second_user)

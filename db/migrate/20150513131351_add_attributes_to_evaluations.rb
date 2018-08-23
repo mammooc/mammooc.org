@@ -2,10 +2,12 @@
 
 class AddAttributesToEvaluations < ActiveRecord::Migration[4.2]
   def change
-    add_column(:evaluations, :course_status, :integer)
-    add_column(:evaluations, :rated_anonymously, :boolean)
-    add_column(:evaluations, :evaluation_rating_count, :integer)
-    add_column(:evaluations, :evaluation_helpful_rating_count, :integer)
-    remove_column(:evaluations, :title)
+    change_table(:evaluations, bulk: true) do |t|
+      t.integer :course_status
+      t.boolean :rated_anonymously
+      t.integer :evaluation_rating_count
+      t.integer :evaluation_helpful_rating_count
+      t.remove :title
+    end
   end
 end

@@ -7,7 +7,7 @@ RSpec.describe 'groups/new', type: :view do
     assign(:group, Group.new(
                      name: 'MyString',
                      description: 'MyText'
-    ))
+                   ))
   end
 
   it 'renders new group form' do

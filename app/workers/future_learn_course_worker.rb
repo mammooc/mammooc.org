@@ -34,7 +34,7 @@ class FutureLearnCourseWorker < AbstractCourseWorker
       organisation_url = course_element['organisation']['url']
       organisation = Organisation.find_or_create_by(name: organisation_name, url: organisation_url)
 
-      sorted_runs = course_element['runs'].sort_by {|run| run['start_date'] ? run['start_date'] : run['uuid'] }
+      sorted_runs = course_element['runs'].sort_by {|run| run['start_date'] || run['uuid'] }
       sorted_runs.each_with_index do |run, index|
         course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, run['uuid']) || Course.new
         update_map[course.id] = true unless course.new_record?

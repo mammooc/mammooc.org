@@ -2,10 +2,12 @@
 
 class AddUpdateDateAndChangeDateInEvaluations < ActiveRecord::Migration[4.2]
   def change
-    change_column(:evaluations, :evaluation_helpful_rating_count, :integer, null: false, default: 0)
-    change_column(:evaluations, :evaluation_rating_count, :integer, null: false, default: 0)
-    add_column(:evaluations, :update_date, :datetime)
-    remove_column(:evaluations, :date, :datetime)
-    add_column(:evaluations, :creation_date, :datetime)
+    change_table(:evaluations, bulk: true) do |t|
+      t.change :evaluation_helpful_rating_count, :integer, null: false, default: 0
+      t.change :evaluation_rating_count, :integer, null: false, default: 0
+      t.datetime :update_date
+      t.remove :date
+      t.datetime :creation_date
+    end
   end
 end

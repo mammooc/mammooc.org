@@ -22,8 +22,8 @@ FactoryBot.define do
   end
 
   factory :completion, class: Completion do
-    quantile nil
-    points_achieved nil
+    quantile { nil }
+    points_achieved { nil }
     association :user_id, factory: :user
     association :course_id, factory: :course
   end

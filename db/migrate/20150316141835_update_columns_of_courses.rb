@@ -2,28 +2,30 @@
 
 class UpdateColumnsOfCourses < ActiveRecord::Migration[4.2]
   def change
-    remove_column(:courses, :workload, :string)
-    add_column(:courses, :minimum_weekly_workload, :float)
-    add_column(:courses, :maximum_weekly_workload, :float)
-    add_column(:courses, :price_currency, :string)
+    change_table(:courses, bulk: true) do |t|
+      t.remove :workload
+      t.float :minimum_weekly_workload
+      t.float :maximum_weekly_workload
+      t.string :price_currency
 
-    remove_column(:courses, :categories, :string)
-    add_column(:courses, :categories, :string, array: true)
-    remove_column(:courses, :requirements, :string)
-    add_column(:courses, :requirements, :string, array: true)
-    remove_column(:courses, :course_instructor, :string)
-    add_column(:courses, :course_instructors, :string, array: true)
+      t.remove :categories
+      t.string :categories, array: true
+      t.remove :requirements
+      t.string :requirements, array: true
+      t.remove :course_instructor
+      t.string :course_instructors, array: true
 
-    change_column(:courses, :provider_course_id, :string, null: false)
-    change_column(:courses, :name, :string, null: false)
-    change_column(:courses, :url, :string, null: false)
-    change_column(:courses, :start_date, :datetime, null: false)
-    change_column(:courses, :end_date, :datetime, null: false)
-    change_column(:courses, :mooc_provider_id, :uuid, null: false)
+      t.change :provider_course_id, :string, null: false
+      t.change :name, :string, null: false
+      t.change :url, :string, null: false
+      t.change :start_date, :datetime, null: false
+      t.change :end_date, :datetime, null: false
+      t.change :mooc_provider_id, :uuid, null: false
 
-    add_column(:courses, :description, :text)
-    change_column(:courses, :credit_points, :float)
-    change_column(:courses, :duration, 'integer USING CAST(duration AS integer)')
-    change_column(:courses, :costs, 'float USING CAST(costs AS float)')
+      t.text :description
+      t.change :credit_points, :float
+      t.change :duration, 'integer USING CAST(duration AS integer)'
+      t.change :costs, 'float USING CAST(costs AS float)'
+    end
   end
 end

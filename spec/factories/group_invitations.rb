@@ -5,6 +5,6 @@ FactoryBot.define do
     association :group_id, factory: :group
     sequence(:token) { SecureRandom.urlsafe_base64(Settings.token_length) }
     expiry_date { Time.zone.now + Settings.token_expiry_duration }
-    used false
+    used { false }
   end
 end

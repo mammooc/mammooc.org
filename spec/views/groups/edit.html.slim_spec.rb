@@ -7,7 +7,7 @@ RSpec.describe 'groups/edit', type: :view do
     assign(:group, Group.create!(
                      name: 'MyString',
                      description: 'MyText'
-    ))
+                   ))
   end
 
   it 'renders the edit group form' do

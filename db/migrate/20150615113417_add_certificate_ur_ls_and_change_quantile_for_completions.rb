@@ -2,16 +2,20 @@
 
 class AddCertificateUrLsAndChangeQuantileForCompletions < ActiveRecord::Migration[4.2]
   def change
-    remove_column :certificates, :file_id
-    add_column :certificates, :download_url, :string, null: false # rubocop:disable Rails/NotNullColumn
-    add_column :certificates, :verification_url, :string, null: true, default: nil
-    add_column :certificates, :document_type, :string
+    change_table(:certificates, bulk: true) do |t|
+      t.remove :file_id
+      t.string :download_url, null: false
+      t.string :verification_url, null: true, default: nil
+      t.string :document_type
+    end
 
-    remove_column :completions, :permissions
-    remove_column :completions, :date
-    rename_column :completions, :position_in_course, :quantile
-    change_column :completions, :quantile, :float, null: true, default: nil
-    rename_column :completions, :points, :points_achieved
-    add_column :completions, :provider_percentage, :float, null: true, default: nil
+    change_table(:completions, bulk: true) do |t|
+      t.remove :permissions
+      t.remove :date
+      t.rename :position_in_course, :quantile
+      t.change :quantile, :float, null: true, default: nil
+      t.rename :points, :points_achieved
+      t.float :provider_percentage, null: true, default: nil
+    end
   end
 end

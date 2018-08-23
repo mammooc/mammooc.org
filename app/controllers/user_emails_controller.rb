@@ -11,6 +11,10 @@ class UserEmailsController < ApplicationController
     end
   end
 
+  def destroy
+    super
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

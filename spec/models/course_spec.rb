@@ -157,7 +157,7 @@ RSpec.describe Course, type: :model do
   end
 
   describe 'scopes for filtering' do
-    context 'sorted_by' do
+    context 'with sorted_by' do
       let!(:course_today) { FactoryBot.create(:course, name: 'AAA', calculated_duration_in_days: 800, start_date: Time.zone.now) }
       let!(:course_soon) { FactoryBot.create(:course, name: 'ZZZ', calculated_duration_in_days: 60, start_date: Time.zone.now + 1.week) }
       let!(:course_current) { FactoryBot.create(:course, name: 'CCC', start_date: Time.zone.now - 1.week, end_date: Time.zone.now + 1.week) } # calculated_duration_in_days will be 14
@@ -200,7 +200,7 @@ RSpec.describe Course, type: :model do
       end
     end
 
-    context 'sorted_by relevance' do
+    context 'with sorted_by relevance' do
       let!(:course_case_1) { FactoryBot.create(:course, name: 'AAA', start_date: Time.zone.now + 2.weeks) }
       let!(:course_case_2) { FactoryBot.create(:course, name: 'BBB', start_date: Time.zone.now - 2.weeks, end_date: Time.zone.now + 2.weeks) }
       let!(:course_case_3) { FactoryBot.create(:course, name: 'CCC', start_date: Time.zone.now - 3.weeks, end_date: Time.zone.now - 2.weeks) }
@@ -213,7 +213,7 @@ RSpec.describe Course, type: :model do
       end
     end
 
-    context 'search query' do
+    context 'with search query' do
       let!(:course_match_name) { FactoryBot.create(:course, name: 'Web Technologies') }
       let!(:course_not_match_name) { FactoryBot.create(:course, name: 'Wob Technochicks') }
       let!(:course_match_instructors) { FactoryBot.create(:course, name: 'Java course', course_instructors: 'Jan Renz, Thomas Staubitz') }
@@ -265,7 +265,7 @@ RSpec.describe Course, type: :model do
       end
     end
 
-    context 'with_start_date_gte' do
+    context 'with with_start_date_gte' do
       let(:test_date) { '05.04.2015' }
       let!(:wrong_course) { FactoryBot.create(:course, start_date: Time.zone.parse(test_date) - 1.day) }
       let!(:correct_course) { FactoryBot.create(:course, start_date: Time.zone.parse(test_date)) }
@@ -284,7 +284,7 @@ RSpec.describe Course, type: :model do
       end
     end
 
-    context 'with_end_date_gte' do
+    context 'with with_end_date_gte' do
       let(:test_date) { '05.04.2015' }
       let!(:wrong_course) { FactoryBot.create(:course, end_date: Time.zone.parse(test_date) + 1.day) }
       let!(:correct_course) { FactoryBot.create(:course, end_date: Time.zone.parse(test_date)) }
@@ -303,7 +303,7 @@ RSpec.describe Course, type: :model do
       end
     end
 
-    context 'with_language' do
+    context 'with with_language' do
       let(:test_language) { 'en' }
       let!(:wrong_course) { FactoryBot.create(:course, language: 'ru') }
       let!(:correct_course) { FactoryBot.create(:course, language: test_language) }
@@ -350,7 +350,7 @@ RSpec.describe Course, type: :model do
       end
     end
 
-    context 'with_end_date_gte' do
+    context 'with with_end_date_gte' do
       let!(:wrong_provider) { FactoryBot.create(:mooc_provider) }
       let!(:correct_provider) { FactoryBot.create(:mooc_provider) }
       let!(:wrong_provider2) { FactoryBot.create(:mooc_provider) }
@@ -364,7 +364,7 @@ RSpec.describe Course, type: :model do
       end
     end
 
-    context 'with_subtitle_language' do
+    context 'with with_subtitle_language' do
       let(:test_language) { 'en' }
       let!(:wrong_course) { FactoryBot.create(:course, subtitle_languages: 'ru') }
       let!(:correct_course) { FactoryBot.create(:course, subtitle_languages: test_language) }
@@ -411,7 +411,7 @@ RSpec.describe Course, type: :model do
       end
     end
 
-    context 'start_filter_options' do
+    context 'with start_filter_options' do
       let(:current_date) { Time.zone.now.strftime('%d.%m.%Y').to_s }
       let!(:current_course) { FactoryBot.create(:course, start_date: Time.zone.parse(current_date), end_date: Time.zone.parse(current_date) + 2.weeks) }
       let!(:past_course) { FactoryBot.create(:course, start_date: Time.zone.parse(current_date) - 4.weeks, end_date: Time.zone.parse(current_date) - 2.weeks) }
@@ -441,7 +441,7 @@ RSpec.describe Course, type: :model do
         expect(result).to match([future_course])
       end
 
-      context 'courses without end_date but with duration' do
+      context 'with courses without end_date but with duration' do
         before do
           current_course.end_date = nil
           past_course.end_date = nil
@@ -475,7 +475,7 @@ RSpec.describe Course, type: :model do
       end
     end
 
-    context 'duration_filter_options' do
+    context 'with duration_filter_options' do
       let(:current_date) { Time.zone.now.strftime('%d.%m.%Y').to_s }
       let!(:short_course) { FactoryBot.create(:course, start_date: Time.zone.parse(current_date), end_date: Time.zone.parse(current_date) + 2.weeks) }
       let!(:short_medium_course) { FactoryBot.create(:course, start_date: Time.zone.parse(current_date), end_date: Time.zone.parse(current_date) + 5.weeks) }
@@ -510,10 +510,10 @@ RSpec.describe Course, type: :model do
       end
     end
 
-    context 'with_tracks' do
+    context 'with with_tracks' do
       let(:track_options) { {costs: nil, certificate: nil} }
 
-      context 'only costs' do
+      context 'with only costs' do
         let(:free_track) { FactoryBot.create(:free_course_track) }
         let(:track1) { FactoryBot.create(:certificate_course_track, costs: 20.0) }
         let(:track2) { FactoryBot.create(:certificate_course_track, costs: 40.0) }
@@ -574,7 +574,7 @@ RSpec.describe Course, type: :model do
         end
       end
 
-      context 'only certificate' do
+      context 'with only certificate' do
         let(:track_type1) { FactoryBot.create(:course_track_type) }
         let(:track_type2) { FactoryBot.create(:course_track_type) }
 
@@ -591,7 +591,7 @@ RSpec.describe Course, type: :model do
         end
       end
 
-      context 'costs and certificate' do
+      context 'with costs and certificate' do
         let(:track_type1) { FactoryBot.create(:course_track_type) }
         let(:track_type2) { FactoryBot.create(:course_track_type) }
 
@@ -690,7 +690,7 @@ RSpec.describe Course, type: :model do
       end
     end
 
-    context 'my bookmarked courses' do
+    context 'with my bookmarked courses' do
       let(:user) { FactoryBot.create(:user) }
       let(:second_user) { FactoryBot.create(:user) }
       let(:not_bookmarked_course) { FactoryBot.create(:course) }

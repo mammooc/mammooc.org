@@ -55,8 +55,8 @@ RSpec.describe EvaluationsController, type: :controller do
     let!(:evaluation4) { FactoryBot.create(:full_evaluation, course: other_course, rating: 4) }
 
     render_views
-    context 'export_course_evaluations' do
-      context 'specify course' do
+    context 'with export_course_evaluations' do
+      context 'when specifying a course' do
         subject(:evaluations) { JSON.parse(response.body)['evaluations'].first['user_evaluations'] }
 
         it 'returns all evaluations for specific course and specific provider' do
@@ -81,7 +81,7 @@ RSpec.describe EvaluationsController, type: :controller do
         end
       end
 
-      context 'error' do
+      context 'when an error occours' do
         subject(:error_message) { JSON.parse(response.body)['error'] }
 
         it 'raises error if only course_id is given' do
@@ -101,8 +101,8 @@ RSpec.describe EvaluationsController, type: :controller do
       end
     end
 
-    context 'export_overall_course_rating' do
-      context 'specify course' do
+    context 'with export_overall_course_rating' do
+      context 'when specifying a course' do
         subject(:evaluations) { JSON.parse(response.body)['evaluations'] }
 
         it 'returns the number of all evaluations for specific course and specific provider' do
@@ -116,7 +116,7 @@ RSpec.describe EvaluationsController, type: :controller do
         end
       end
 
-      context 'error' do
+      context 'when an error occours' do
         subject(:error_message) { JSON.parse(response.body)['error'] }
 
         it 'raises error if only course_id is given' do

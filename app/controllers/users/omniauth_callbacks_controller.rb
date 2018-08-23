@@ -5,8 +5,7 @@ module Users
     protect_from_forgery except: :easy_id
 
     def self.provides_callback_for(provider)
-      # rubocop:disable Layout/EmptyLinesAroundArguments
-      class_eval %{
+      class_eval <<-RUBY, __FILE__, __LINE__ + 1
       def #{provider}
         @user = User.find_for_omniauth(request.env["omniauth.auth"], current_user)
 
@@ -29,8 +28,7 @@ module Users
           redirect_to new_user_session_url
         end
       end
-    }
-      # rubocop:enable Layout/EmptyLinesAroundArguments
+      RUBY
     end
 
     %i[facebook google github linkedin twitter windows_live amazon openhpi].each do |provider|

@@ -24,7 +24,7 @@ RSpec.describe 'courses/show', type: :view do
                       end_date: Time.zone.local(2015, 10, 3, 9),
                       mooc_provider_id: mooc_provider.id,
                       tracks: [FactoryBot.create(:course_track)]
-    ))
+                    ))
   end
   let!(:provider_logos) { assign(:provider_logos, {}) }
 

@@ -476,7 +476,7 @@ RSpec.describe OpenHPICourseWorker do
     expect(open_hpi_course_worker.course_data).to eq []
   end
 
-  context 'email notification' do
+  context 'with email notification' do
     before do
       ActionMailer::Base.deliveries.clear
       Settings.admin_email = 'admin@example.com'

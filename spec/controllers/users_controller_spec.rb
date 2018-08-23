@@ -49,6 +49,7 @@ RSpec.describe UsersController, type: :controller do
 
     context 'without authorization' do
       before { get :show, params: {id: another_user.id} }
+
       it 'redirects to root path' do
         expect(response).to redirect_to(dashboard_path)
       end
@@ -85,6 +86,7 @@ RSpec.describe UsersController, type: :controller do
 
     context 'without authorization' do
       before { put :update, params: {id: another_user.id, name: 'Another'} }
+
       it 'redirects to root path' do
         expect(response).to redirect_to(dashboard_path)
       end
@@ -115,6 +117,7 @@ RSpec.describe UsersController, type: :controller do
 
     context 'without authorization' do
       before { delete :destroy, params: {id: another_user.id} }
+
       it 'redirects to root path' do
         expect(response).to redirect_to(dashboard_path)
       end
@@ -302,7 +305,7 @@ RSpec.describe UsersController, type: :controller do
       expect(json['status']).to eq false
     end
 
-    context 'openHPI' do
+    context 'with openHPI' do
       it 'initializes a new connection to a naive mooc provider and redirects to the dashboard path' do
         expect_any_instance_of(OpenHPIConnector).to receive(:initialize_connection).with(user, email: email_address, password: password).and_return(true)
         get :set_mooc_provider_connection, params: {id: user.to_param, email: email_address, password: password, mooc_provider: open_hpi.to_param}
@@ -334,7 +337,7 @@ RSpec.describe UsersController, type: :controller do
       end
     end
 
-    context 'openSAP' do
+    context 'with openSAP' do
       it 'initializes a new connection to a naive mooc provider and redirects to the dashboard path' do
         expect_any_instance_of(OpenSAPConnector).to receive(:initialize_connection).with(user, email: email_address, password: password).and_return(true)
         get :set_mooc_provider_connection, params: {id: user.to_param, email: email_address, password: password, mooc_provider: open_sap.to_param}
@@ -401,7 +404,7 @@ RSpec.describe UsersController, type: :controller do
       expect(json['status']).to eq true
     end
 
-    context 'openHPI' do
+    context 'with openHPI' do
       it 'destroys a connection to a naive mooc provider and redirects to the dashboard path' do
         expect_any_instance_of(OpenHPIConnector).to receive(:destroy_connection).with(user).and_return(true)
         get :revoke_mooc_provider_connection, params: {id: user.to_param, mooc_provider: open_hpi.to_param}
@@ -445,7 +448,7 @@ RSpec.describe UsersController, type: :controller do
       end
     end
 
-    context 'openSAP' do
+    context 'with openSAP' do
       it 'initializes a new connection to a naive mooc provider and redirects to the dashboard path' do
         expect_any_instance_of(OpenSAPConnector).to receive(:destroy_connection).with(user).and_return(true)
         get :revoke_mooc_provider_connection, params: {id: user.to_param, mooc_provider: open_sap.to_param}
@@ -496,7 +499,7 @@ RSpec.describe UsersController, type: :controller do
       get :account_settings, params: {id: user.to_param}
     end
 
-    context 'views' do
+    context 'with views' do
       render_views
       let(:json) { JSON.parse(response.body) }
 
@@ -518,7 +521,7 @@ RSpec.describe UsersController, type: :controller do
       get :mooc_provider_settings, params: {id: user.to_param}
     end
 
-    context 'views' do
+    context 'with views' do
       render_views
       let(:json) { JSON.parse(response.body) }
 
@@ -540,7 +543,7 @@ RSpec.describe UsersController, type: :controller do
       get :privacy_settings, params: {id: user.to_param}
     end
 
-    context 'views' do
+    context 'with views' do
       render_views
       let(:json) { JSON.parse(response.body) }
 

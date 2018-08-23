@@ -80,7 +80,7 @@ RSpec.describe OpenHPIConnector do
     end
   end
 
-  context 'synchronize user enrollments' do
+  context 'with user enrollments synchronization' do
     let!(:course) { FactoryBot.create(:full_course, provider_course_id: '0c6c5ad1-a770-4f16-81c3-536169f3cbd3', mooc_provider_id: mooc_provider.id) }
     let!(:second_course) { FactoryBot.create(:full_course, provider_course_id: 'bccf2ca2-429c-4cd0-9f63-caaccf85727a', mooc_provider_id: mooc_provider.id) }
 
@@ -337,7 +337,7 @@ RSpec.describe OpenHPIConnector do
         expect { open_hpi_connector.load_dates_for_users([user]) }.not_to raise_exception
       end
 
-      context 'email notification' do
+      context 'with email notification' do
         before do
           ActionMailer::Base.deliveries.clear
           Settings.admin_email = 'admin@example.com'
@@ -406,7 +406,7 @@ RSpec.describe OpenHPIConnector do
         expect { open_hpi_connector.unenroll_user_for_course(user, course) }.not_to raise_error
       end
 
-      context 'email notification' do
+      context 'with email notification' do
         before do
           ActionMailer::Base.deliveries.clear
           Settings.admin_email = 'admin@example.com'
@@ -463,7 +463,7 @@ RSpec.describe OpenHPIConnector do
     end
   end
 
-  context 'synchronize user dates' do
+  context 'with user dates synchronization' do
     let(:course) { FactoryBot.create(:course, mooc_provider: mooc_provider) }
 
     let(:received_dates) do
@@ -561,7 +561,7 @@ RSpec.describe OpenHPIConnector do
       end
 
       it 'calls update_existing_entry if in response data there is user dates which already exists in database' do
-        response_data.keys.each do |date| # rubocop:disable Performance/HashEachMethods
+        response_data.keys.each do |date|
           external_date_id = date.first.id
           user_date = date.last
           FactoryBot.create(:user_date, user: user, course: course, ressource_id_from_provider: external_date_id, kind: user_date['type'])
@@ -681,7 +681,7 @@ RSpec.describe OpenHPIConnector do
       expect { open_hpi_connector.load_dates_for_users([user]) }.not_to raise_exception
     end
 
-    context 'email notification' do
+    context 'with email notification' do
       before do
         ActionMailer::Base.deliveries.clear
         Settings.admin_email = 'admin@example.com'

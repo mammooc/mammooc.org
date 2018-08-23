@@ -13,14 +13,14 @@ class EdxCourseWorker < AbstractCourseWorker
 
   def course_data
     data = []
-    data.push(Nokogiri::XML(open(MOOC_PROVIDER_API_LINK)))
+    data.push(Nokogiri::XML(OpenURI.open_uri(MOOC_PROVIDER_API_LINK)))
     i = 0
     last_page = data[i].xpath("//channel/atom:link[@rel='last']/@href").text
     next_page = data[i].xpath("//channel/atom:link[@rel='next']/@href").text
     while last_page != next_page
       next_page = data[i].xpath("//channel/atom:link[@rel='next']/@href").text
       i += 1
-      data.push(Nokogiri::XML(open(next_page)))
+      data.push(Nokogiri::XML(OpenURI.open_uri(next_page)))
     end
     data
   end

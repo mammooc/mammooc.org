@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe AbstractMoocProviderConnector do
   let(:abstract_mooc_provider_connector) { described_class.new }
 
-  context 'synchronize user enrollments' do
+  context 'with user enrollments synchronization' do
     let(:mooc_provider) { FactoryBot.create(:mooc_provider) }
     let(:course) { FactoryBot.create(:full_course, mooc_provider_id: mooc_provider.id) }
     let(:second_course) { FactoryBot.create(:full_course, mooc_provider_id: mooc_provider.id) }
@@ -65,7 +65,7 @@ RSpec.describe AbstractMoocProviderConnector do
     end
   end
 
-  context 'synchronize user dates' do
+  context 'with user dates synchronization' do
     describe 'fetch dates for user' do
       let(:user) { FactoryBot.create(:user) }
 
@@ -113,9 +113,7 @@ RSpec.describe AbstractMoocProviderConnector do
 
     describe 'load dates for user' do
       it 'calls fetch_dates_for_user for every user if no user is given' do
-        5.times do
-          FactoryBot.create(:user)
-        end
+        FactoryBot.create_list(:user, 5)
         allow(abstract_mooc_provider_connector).to receive(:connection_to_mooc_provider?).and_return(true)
         expect(abstract_mooc_provider_connector).to receive(:fetch_dates_for_user).exactly(5).times
         abstract_mooc_provider_connector.send(:load_dates_for_users)
@@ -123,11 +121,9 @@ RSpec.describe AbstractMoocProviderConnector do
 
       it 'calls fetch_dates_for_user only for the given users' do
         users = [FactoryBot.create(:user), FactoryBot.create(:user)]
-        5.times do
-          FactoryBot.create(:user)
-        end
+        FactoryBot.create_list(:user, 5)
         allow(abstract_mooc_provider_connector).to receive(:connection_to_mooc_provider?).and_return(true)
-        expect(abstract_mooc_provider_connector).to receive(:fetch_dates_for_user).exactly(2).times
+        expect(abstract_mooc_provider_connector).to receive(:fetch_dates_for_user).twice
         abstract_mooc_provider_connector.send(:load_dates_for_users, users)
       end
     end
@@ -138,43 +134,31 @@ RSpec.describe AbstractMoocProviderConnector do
       let(:user) { FactoryBot.create(:user, courses: [course]) }
 
       it 'creates one entry in update map for every user dates with the given user and mooc_provider' do
-        5.times do
-          FactoryBot.create(:user_date, user: user, course: course)
-        end
+        FactoryBot.create_list(:user_date, 5, user: user, course: course)
         map = abstract_mooc_provider_connector.send(:create_update_map_for_user_dates, user, mooc_provider)
         expect(map.length).to eq 5
       end
 
       it 'does not create an entry for user dates that does not belong to the given user' do
-        2.times do
-          FactoryBot.create(:user_date, user: user, course: course)
-        end
+        FactoryBot.create_list(:user_date, 2, user: user, course: course)
 
-        3.times do
-          FactoryBot.create(:user_date, course: course)
-        end
+        FactoryBot.create_list(:user_date, 3, course: course)
 
         map = abstract_mooc_provider_connector.send(:create_update_map_for_user_dates, user, mooc_provider)
         expect(map.length).to eq 2
       end
 
       it 'does not create an entry for user dates that does not belong to the given provider' do
-        2.times do
-          FactoryBot.create(:user_date, user: user, course: course)
-        end
+        FactoryBot.create_list(:user_date, 2, user: user, course: course)
 
-        3.times do
-          FactoryBot.create(:user_date, user: user)
-        end
+        FactoryBot.create_list(:user_date, 3, user: user)
 
         map = abstract_mooc_provider_connector.send(:create_update_map_for_user_dates, user, mooc_provider)
         expect(map.length).to eq 2
       end
 
       it 'sets every entry to false' do
-        5.times do
-          FactoryBot.create(:user_date, user: user, course: course)
-        end
+        FactoryBot.create_list(:user_date, 5, user: user, course: course)
         map = abstract_mooc_provider_connector.send(:create_update_map_for_user_dates, user, mooc_provider)
         map.each_value do |updated|
           expect(updated).to be false

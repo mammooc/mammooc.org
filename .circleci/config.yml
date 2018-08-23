@@ -9,6 +9,9 @@ jobs:
           RAILS_ENV: test
           COVERALLS_PARALLEL: true
       - image: circleci/postgres:10.1
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: mammooc_test
     steps:
       - checkout
 

@@ -2,18 +2,20 @@
 
 class UpdateCoursesForProviderCompatibility < ActiveRecord::Migration[4.2]
   def change
-    change_column(:courses, :start_date, :datetime, null: true)
-    change_column(:courses, :end_date, :datetime, null: true)
-    add_column(:courses, :workload, :string)
-    remove_column(:courses, :minimum_weekly_workload, :float)
-    remove_column(:courses, :maximum_weekly_workload, :float)
-    add_column(:courses, :previous_iteration_id, :uuid)
-    add_column(:courses, :following_iteration_id, :uuid)
-    change_column(:courses, :course_instructors, :string)
-    add_column(:courses, :subtitle_languages, :string)
+    change_table(:courses, bulk: true) do |t|
+      t.change :start_date, :datetime, null: true
+      t.change :end_date, :datetime, null: true
+      t.string :workload
+      t.remove :minimum_weekly_workload
+      t.remove :maximum_weekly_workload
+      t.uuid :previous_iteration_id
+      t.uuid :following_iteration_id
+      t.change :course_instructors, :string
+      t.string :subtitle_languages
 
-    remove_column(:courses, :duration, :integer)
-    add_column(:courses, :calculated_duration_in_days, :integer)
-    add_column(:courses, :provider_given_duration, :string)
+      t.remove :duration
+      t.integer :calculated_duration_in_days
+      t.string :provider_given_duration
+    end
   end
 end

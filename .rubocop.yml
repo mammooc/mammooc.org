@@ -2,9 +2,6 @@ require: rubocop-rspec
 
 AllCops:
   TargetRubyVersion: 2.5
-  Include:
-    - '**/*.gemspec'
-    - '**/Rakefile'
   Exclude:
     - 'vendor/**/*'
     - 'db/schema.rb'
@@ -30,15 +27,16 @@ Style/Documentation:
 Style/SignalException:
   EnforcedStyle: only_raise
 
+Style/MixinUsage:
+  Exclude:
+    - 'bin/*'
+
 Layout/CaseIndentation:
   EnforcedStyle: end
   SupportedStyles:
     - case
     - end
   IndentOneStep: true
-
-Style/ClassAndModuleChildren:
-  EnforcedStyle: compact
 
 Style/Semicolon:
   Exclude:
@@ -52,6 +50,7 @@ Style/RegexpLiteral:
   AllowInnerSlashes: true
 
 Style/ClassAndModuleChildren:
+  EnforcedStyle: nested
   Exclude:
    - 'config/application.rb'
 
@@ -104,6 +103,9 @@ Rails/HasAndBelongsToMany:
   Enabled: false
 
 Rails/ReversibleMigration:
+  Enabled: false
+
+Rails/CreateTableWithTimestamps:
   Enabled: false
 
 RSpec/DescribeClass:

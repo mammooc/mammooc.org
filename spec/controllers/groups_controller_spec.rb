@@ -44,6 +44,7 @@ RSpec.describe GroupsController, type: :controller do
 
     context 'without authorization' do
       before { get :show, params: {id: group_without_user.id} }
+
       it 'redirects to groups page' do
         expect(response).to redirect_to(groups_path)
       end
@@ -114,6 +115,7 @@ RSpec.describe GroupsController, type: :controller do
 
     context 'without authorization' do
       before { get :recommendations, params: {id: group_without_user.id} }
+
       it 'redirects to groups page' do
         expect(response).to redirect_to(groups_path)
       end
@@ -186,8 +188,9 @@ RSpec.describe GroupsController, type: :controller do
     end
 
     context 'without authorization' do
-      context 'user is not in group' do
+      context 'when user is not in group' do
         before { get :edit, params: {id: group_without_user.id} }
+
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -197,8 +200,9 @@ RSpec.describe GroupsController, type: :controller do
         end
       end
 
-      context 'user is group member but not admin' do
+      context 'when user is group member but not admin' do
         before { get :edit, params: {id: group.id} }
+
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -267,8 +271,9 @@ RSpec.describe GroupsController, type: :controller do
       end
 
       context 'without authorization' do
-        context 'user is not in group' do
+        context 'when user is not in group' do
           before { put :update, params: {id: group_without_user.id} }
+
           it 'redirects to groups page' do
             expect(response).to redirect_to(groups_path)
           end
@@ -278,8 +283,9 @@ RSpec.describe GroupsController, type: :controller do
           end
         end
 
-        context 'user is group member but not admin' do
+        context 'when user is group member but not admin' do
           before { put :update, params: {id: group.id} }
+
           it 'redirects to groups page' do
             expect(response).to redirect_to(groups_path)
           end
@@ -324,8 +330,9 @@ RSpec.describe GroupsController, type: :controller do
     end
 
     context 'without authorization' do
-      context 'user is not in group' do
+      context 'when user is not in group' do
         before { delete :destroy, params: {id: group_without_user.id} }
+
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -335,8 +342,9 @@ RSpec.describe GroupsController, type: :controller do
         end
       end
 
-      context 'user is group member but not admin' do
+      context 'when user is group member but not admin' do
         before { delete :destroy, params: {id: group.id} }
+
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -412,8 +420,9 @@ RSpec.describe GroupsController, type: :controller do
     end
 
     context 'without authorization' do
-      context 'user is not in group' do
+      context 'when user is not in group' do
         before { put :invite_group_members, params: {id: group_without_user.id, group: valid_attributes} }
+
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -423,8 +432,9 @@ RSpec.describe GroupsController, type: :controller do
         end
       end
 
-      context 'user is group member but not admin' do
+      context 'when user is group member but not admin' do
         before { put :invite_group_members, params: {id: group.id, group: valid_attributes} }
+
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -518,8 +528,9 @@ RSpec.describe GroupsController, type: :controller do
     end
 
     context 'without authorization' do
-      context 'user is not in group' do
+      context 'when user is not in group' do
         before { put :add_administrator, params: {id: group_without_user.id, group: valid_attributes, additional_administrator: new_admin} }
+
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -529,8 +540,9 @@ RSpec.describe GroupsController, type: :controller do
         end
       end
 
-      context 'user is group member but not admin' do
+      context 'when user is group member but not admin' do
         before { put :add_administrator, params: {id: group.id, group: valid_attributes, additional_administrator: new_admin} }
+
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -553,8 +565,9 @@ RSpec.describe GroupsController, type: :controller do
     end
 
     context 'without authorization' do
-      context 'user is not in group' do
+      context 'when user is not in group' do
         before { put :demote_administrator, params: {id: group_without_user.id, demote_admin: user} }
+
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -564,8 +577,9 @@ RSpec.describe GroupsController, type: :controller do
         end
       end
 
-      context 'user is group member but not admin' do
+      context 'when user is group member but not admin' do
         before { put :demote_administrator, params: {id: group.id, demote_admin: user} }
+
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -591,8 +605,9 @@ RSpec.describe GroupsController, type: :controller do
     end
 
     context 'without authorization' do
-      context 'user is not in group' do
+      context 'when user is not in group' do
         before { put :remove_group_member, params: {id: group_without_user.id, removing_member: user.id} }
+
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -602,8 +617,9 @@ RSpec.describe GroupsController, type: :controller do
         end
       end
 
-      context 'user is group member but not admin' do
+      context 'when user is group member but not admin' do
         before { put :remove_group_member, params: {id: group.id, removing_member: user.id} }
+
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -658,8 +674,9 @@ RSpec.describe GroupsController, type: :controller do
     end
 
     context 'without authorization' do
-      context 'user is not in group' do
+      context 'when user is not in group' do
         before { put :all_members_to_administrators, params: {id: group_without_user.id} }
+
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -669,8 +686,9 @@ RSpec.describe GroupsController, type: :controller do
         end
       end
 
-      context 'user is group member but not admin' do
+      context 'when user is group member but not admin' do
         before { put :all_members_to_administrators, params: {id: group.id} }
+
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end
@@ -697,8 +715,9 @@ RSpec.describe GroupsController, type: :controller do
     end
 
     context 'without authorization' do
-      context 'user is not in group' do
+      context 'when user is not in group' do
         before { get :members, params: {id: group_without_user.id} }
+
         it 'redirects to groups page' do
           expect(response).to redirect_to(groups_path)
         end

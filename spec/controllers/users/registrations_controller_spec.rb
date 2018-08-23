@@ -10,14 +10,14 @@ RSpec.describe Users::RegistrationsController, type: :controller do
     request.env['devise.mapping'] = Devise.mappings[:user]
   end
 
-  context 'user registration' do
+  context 'with user registration' do
     it 'works with valid signup data' do
       post :create, params: {user: {first_name: 'John', last_name: 'Doe', email: 'user@example.org', password: 'password', password_confirmation: 'password'}}
       expect(subject).to be_signed_in
     end
   end
 
-  context 'update user' do
+  context 'with update user' do
     let(:user) { FactoryBot.create(:user) }
 
     before do
@@ -85,7 +85,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
     end
   end
 
-  context 'update OmniAuth user' do
+  context 'with update OmniAuth user' do
     let(:user) { FactoryBot.create(:OmniAuthUser) }
 
     before do
