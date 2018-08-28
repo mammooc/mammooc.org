@@ -52,7 +52,7 @@ RSpec.describe AbstractCourseWorker do
     expect(abstract_course_worker.parse_markdown(markdown)).to eq html
   end
 
-  context 'converts relative URLs to absolute ones' do
+  context 'with relative URLs conversation to absolute ones' do
     let(:relative_html) do
       "<p><a href=''>JavaScript Method</a></p>\n<p><video src='https://youtube.example.com/watch/?v=123' /></p>\n<p><img src='/files/image01.jpg'/></p>"
     end

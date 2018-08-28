@@ -9,7 +9,7 @@ RSpec.describe 'recommendations/new', type: :view do
                               author: nil,
                               course: nil,
                               text: nil
-    ))
+                            ))
   end
 
   it 'renders new recommendation form' do

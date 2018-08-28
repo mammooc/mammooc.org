@@ -13,7 +13,7 @@ RSpec.describe 'Activities', type: :feature do
     ActionMailer::Base.deliveries.clear
   end
 
-  context 'join a group' do
+  context 'when joining a group' do
     let(:second_user) { FactoryBot.create(:user) }
     let(:group) { FactoryBot.create(:group, users: [user]) }
     let(:invitation) { FactoryBot.create(:group_invitation, group: group) }
@@ -105,7 +105,7 @@ RSpec.describe 'Activities', type: :feature do
     end
   end
 
-  context 'bookmark a course' do
+  context 'when bookmarking a course' do
     let(:course) { FactoryBot.create(:course) }
     let!(:group) { FactoryBot.create(:group, users: [user, second_user]) }
 
@@ -199,7 +199,7 @@ RSpec.describe 'Activities', type: :feature do
     end
   end
 
-  context 'enroll in course' do
+  context 'when enrolling in course' do
     let(:openHPI) { FactoryBot.create(:mooc_provider, name: 'openHPI', api_support_state: 'naive') }
     let(:course) { FactoryBot.create(:course, mooc_provider: openHPI) }
     let!(:group) { FactoryBot.create(:group, users: [user, second_user]) }
@@ -297,7 +297,7 @@ RSpec.describe 'Activities', type: :feature do
     end
   end
 
-  context 'recommend a course to a group' do
+  context 'when recommending a course to a group' do
     let(:course) { FactoryBot.create(:course) }
     let!(:group) { FactoryBot.create(:group, users: [user, second_user]) }
 
@@ -402,7 +402,7 @@ RSpec.describe 'Activities', type: :feature do
     end
   end
 
-  context 'recommend a course to a user' do
+  context 'when recommending a course to a user' do
     let(:course) { FactoryBot.create(:course) }
     let!(:group) { FactoryBot.create(:group, users: [user, second_user]) }
 

@@ -8,9 +8,9 @@ class AbstractMoocProviderConnector
     send_connection_request user, credentials
   rescue RestClient::InternalServerError, Errno::ECONNREFUSED, RestClient::Unauthorized, RestClient::BadRequest, OAuth2::Error => e
     Rails.logger.error "#{e.class}: #{e.message}"
-    return false
+    false
   else
-    return true
+    true
   end
 
   def enroll_user_for_course(user, course)
@@ -111,28 +111,28 @@ class AbstractMoocProviderConnector
     response_data = get_enrollments_for_user user
   rescue SocketError, Errno::ECONNREFUSED, RestClient::ResourceNotFound, RestClient::SSLCertificateNotVerified, RestClient::InternalServerError => e
     Rails.logger.error "#{e.class}: #{e.message}"
-    return false
+    false
   rescue RestClient::Unauthorized => e
     # This would be the case, when the user's authorization token is invalid
     Rails.logger.error "#{e.class}: #{e.message}"
-    return false
+    false
   else
     handle_enrollments_response response_data, user
-    return true
+    true
   end
 
   def fetch_dates_for_user(user)
     response_data = get_dates_for_user user
   rescue SocketError, Errno::ECONNREFUSED, RestClient::ResourceNotFound, RestClient::SSLCertificateNotVerified, RestClient::InternalServerError => e
     Rails.logger.error "#{e.class}: #{e.message}"
-    return false
+    false
   rescue RestClient::Unauthorized => e
     # This would be the case, when the user's authorization token is invalid
     Rails.logger.error "#{e.class}: #{e.message}"
-    return false
+    false
   else
     handle_dates_response response_data, user
-    return true
+    true
   end
 
   def get_access_token(user)

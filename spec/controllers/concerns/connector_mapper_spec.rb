@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-include ConnectorMapper
 
 RSpec.describe ConnectorMapper do
+  include described_class
+
   let(:mooc_provider) { FactoryBot.create(:mooc_provider) }
 
   it 'returns no connector for unknown mooc_provider' do

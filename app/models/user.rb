@@ -9,7 +9,7 @@ class User < ApplicationRecord
   has_many :emails, class_name: 'UserEmail', dependent: :delete_all
   has_many :user_groups, dependent: :destroy
   has_many :groups, through: :user_groups
-  has_many :created_recommendations, foreign_key: 'author_id', class_name: 'Recommendation', dependent: :destroy
+  has_many :created_recommendations, foreign_key: 'author_id', class_name: 'Recommendation', dependent: :destroy, inverse_of: :author
   has_and_belongs_to_many :recommendations
   has_many :mooc_provider_users, dependent: :destroy
   has_many :mooc_providers, through: :mooc_provider_users
@@ -184,7 +184,7 @@ class User < ApplicationRecord
     # to prevent the identity being locked with accidentally created accounts.
     # Note that this may leave zombie accounts (with no associated identity) which
     # can be cleaned up at a later date.
-    user = signed_in_resource ? signed_in_resource : identity.user
+    user = signed_in_resource || identity.user
 
     email = auth.info.email
 

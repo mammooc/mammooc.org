@@ -10,7 +10,7 @@ RSpec.describe 'Users::Registration', type: :feature do
     ActionMailer::Base.deliveries.clear
   end
 
-  context 'English' do
+  context 'with English' do
     it 'works with valid input' do
       fill_in 'user_first_name', with: user.first_name
       fill_in 'user_last_name', with: user.last_name
@@ -73,7 +73,7 @@ RSpec.describe 'Users::Registration', type: :feature do
     end
   end
 
-  context 'German' do
+  context 'with German' do
     before do
       if page.text.match?(/EN/)
         click_on 'language_selection'

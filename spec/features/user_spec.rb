@@ -60,7 +60,7 @@ RSpec.describe 'User', type: :feature do
     setting
   end
 
-  context 'user' do
+  context 'with a user' do
     before do
       UserGroup.set_is_admin(group.id, user.id, true)
 
@@ -171,7 +171,7 @@ RSpec.describe 'User', type: :feature do
           expect(UserEmail.find(first_email.id).is_primary).to be false
         end
 
-        context 'adding new emails' do
+        context 'when adding new emails' do
           it 'adds new field', js: true do
             expect(page).to have_css('table#table_for_user_emails tr', count: 4)
             click_button 'add_new_email_field'
@@ -217,7 +217,7 @@ RSpec.describe 'User', type: :feature do
           end
         end
 
-        context 'deleting emails' do
+        context 'when deleting emails' do
           it 'shows remove button only for not-primary addresses' do
             page.assert_selector('.remove_email', count: 1)
           end
@@ -248,7 +248,7 @@ RSpec.describe 'User', type: :feature do
             expect(page).to have_selector("#user_user_email_address_#{second_email.id}")
           end
 
-          context 'adds new row and delete afterwards' do
+          context 'when adding new row and deleting one afterwards' do
             it 'is added and deleted from table', js: true do
               expect(page).to have_css('table#table_for_user_emails tr', count: 4)
               click_button 'add_new_email_field'
@@ -269,7 +269,7 @@ RSpec.describe 'User', type: :feature do
             end
           end
 
-          context 'adds new rows and delete one afterwards' do
+          context 'when adding new rows and deleting one afterwards' do
             it 'new rows are added to table and deleted row is deleted from table', js: true do
               4.times { click_button 'add_new_email_field' }
               click_button 'remove_button_5'
@@ -362,7 +362,7 @@ RSpec.describe 'User', type: :feature do
         let(:list_id) { 'course-enrollments-visibility-groups-list' }
         let(:list) { find("##{list_id}", visible: false) }
 
-        context 'groups' do
+        context 'with groups' do
           it 'adds a group', js: true do
             find("button[data-list-id='#{list_id}']").click
             if ENV['PHANTOM_JS'] == 'true'
@@ -410,7 +410,7 @@ RSpec.describe 'User', type: :feature do
     end
 
     describe 'flash notice for newsletter' do
-      context 'for users who are signed in ' do
+      context 'with users who are signed in' do
         it 'is shown to user who has not subscribed or unsubscribed for newsletter' do
           user.unsubscribed_newsletter = nil
           user.save
@@ -451,7 +451,7 @@ RSpec.describe 'User', type: :feature do
         end
       end
 
-      context 'for users who are not signed in' do
+      context 'with users who are not signed in' do
         before do
           capybara_sign_out user
         end
@@ -474,7 +474,7 @@ RSpec.describe 'User', type: :feature do
     end
   end
 
-  context 'second user' do
+  context 'with a second user' do
     before do
       visit new_user_session_path
       fill_in 'login_email', with: second_user.primary_email

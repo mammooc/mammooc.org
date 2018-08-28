@@ -18,10 +18,12 @@ class CreateCourseTracksAndCourseTrackTypesAndAddCourseTracksToCourses < ActiveR
     add_foreign_key :course_tracks, :course_track_types
     add_foreign_key :course_tracks, :courses
 
-    remove_column :courses, :type_of_achievement
-    remove_column :courses, :costs
-    remove_column :courses, :price_currency
-    remove_column :courses, :has_free_version
-    remove_column :courses, :has_paid_version
+    change_table(:courses, bulk: true) do |t|
+      t.remove :type_of_achievement
+      t.remove :costs
+      t.remove :price_currency
+      t.remove :has_free_version
+      t.remove :has_paid_version
+    end
   end
 end

@@ -2,7 +2,9 @@
 
 class AddAttributesForNewsletter < ActiveRecord::Migration[4.2]
   def change
-    add_column :users, :last_newsletter_send_at, :datetime, null: true, default: nil
-    add_column :users, :newsletter_interval, :integer, null: true, default: nil
+    change_table(:users, bulk: true) do |t|
+      t.datetime :last_newsletter_send_at, null: true, default: nil
+      t.integer :newsletter_interval, null: true, default: nil
+    end
   end
 end

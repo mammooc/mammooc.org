@@ -655,7 +655,7 @@ RSpec.describe User, type: :model do
       expect(user.setting(user_setting.name)).to eq user_setting
     end
 
-    context 'UserSetting object does not exist' do
+    context 'when UserSetting object does not exist' do
       it 'creates new UserSetting' do
         expect { user.setting(:newsetting, true) }.to change(UserSetting, :count).by(1)
       end

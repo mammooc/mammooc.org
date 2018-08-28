@@ -5,9 +5,9 @@ FactoryBot.define do
     user { FactoryBot.create(:user) }
     course { FactoryBot.create(:course) }
     date { Time.zone.now + 1.day }
-    title 'An event for testing purpose'
-    kind 'submission'
-    relevant true
-    ressource_id_from_provider nil
+    title { 'An event for testing purpose' }
+    kind { 'submission' }
+    relevant { true }
+    ressource_id_from_provider { nil }
   end
 end

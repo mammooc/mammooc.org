@@ -31,14 +31,14 @@ class ApisController < ApplicationController
 
     respond_to do |format|
       format.js do
-        render json: result, callback: URI.encode(params[:callback])
+        render json: result, callback: CGI.escape(params[:callback])
       end
       format.json { render json: result }
     end
   rescue ActionController::ParameterMissing, ActiveRecord::RecordNotFound => e
     respond_to do |format|
       format.json { render json: {error: e.message}, status: :not_found }
-      format.js { render json: {error: e.message}, callback: URI.encode(params[:callback]), status: :not_found }
+      format.js { render json: {error: e.message}, callback: CGI.escape(params[:callback]), status: :not_found }
     end
   end
 

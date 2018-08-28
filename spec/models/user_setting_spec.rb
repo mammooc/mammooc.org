@@ -18,7 +18,7 @@ RSpec.describe UserSetting, type: :model do
   end
 
   describe 'set(key, value)' do
-    context 'new UserSettingsEntry' do
+    context 'with new UserSettingsEntry' do
       let(:key) { 'key' }
       let(:value) { 'value' }
 
@@ -30,7 +30,7 @@ RSpec.describe UserSetting, type: :model do
         expect { setting.set(key, value) }.to change { setting.value(key) }.from(nil).to(value)
       end
 
-      context 'value is Array' do
+      context 'when value is Array' do
         let(:value) { [1, 2, 3] }
 
         it 'saves with correct value' do
@@ -39,7 +39,7 @@ RSpec.describe UserSetting, type: :model do
       end
     end
 
-    context 'existing UserSettingsEntry' do
+    context 'with existing UserSettingsEntry' do
       let(:old_value) { 'old value' }
       let(:new_value) { 'new value' }
       let(:setting_entry) { FactoryBot.create :user_setting_entry, setting: setting, value: old_value }

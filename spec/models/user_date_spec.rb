@@ -24,7 +24,7 @@ RSpec.describe UserDate, type: :model do
   describe 'create current calendar for a given user' do
     let(:user_date) { FactoryBot.create(:user_date, user: user) }
 
-    context 'returns a calendar with an event representing the user_date' do
+    context 'with a calendar with an event representing the user_date' do
       it 'sets the start time correctly' do
         user_date
         calendar = described_class.create_current_calendar(user)
@@ -52,20 +52,14 @@ RSpec.describe UserDate, type: :model do
     end
 
     it 'collects more than one event' do
-      5.times do
-        FactoryBot.create(:user_date, user: user)
-      end
+      FactoryBot.create_list(:user_date, 5, user: user)
       calendar = described_class.create_current_calendar(user)
       expect(calendar.events.count).to eq(5)
     end
 
     it 'collects only the dates of the given user' do
-      5.times do
-        FactoryBot.create(:user_date)
-      end
-      2.times do
-        FactoryBot.create(:user_date, user: user)
-      end
+      FactoryBot.create_list(:user_date, 5)
+      FactoryBot.create_list(:user_date, 2, user: user)
       calendar = described_class.create_current_calendar(user)
       expect(calendar.events.count).to eq(2)
     end
@@ -88,9 +82,7 @@ RSpec.describe UserDate, type: :model do
     end
 
     it 'creates a unique token for each user' do
-      5.times do
-        FactoryBot.create(:user)
-      end
+      FactoryBot.create_list(:user, 5)
       User.all.each do |user|
         described_class.generate_token_for_user(user)
       end

@@ -157,7 +157,7 @@ RSpec.describe Ability do
       it { is_expected.not_to be_able_to(:show, another_user) }
       it { is_expected.to be_able_to(:show, second_user) }
 
-      context 'in user\'s groups' do
+      context 'when in user\'s groups' do
         let!(:group) { FactoryBot.create :group, users: [user, another_user] }
         let(:user_setting) { FactoryBot.create(:user_setting, name: :profile_visibility, user: another_user) }
         let!(:user_setting_entry) { FactoryBot.create(:user_setting_entry, setting: user_setting, key: 'groups', value: [group.id]) }

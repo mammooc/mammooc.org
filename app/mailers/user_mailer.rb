@@ -46,6 +46,4 @@ class UserMailer < ApplicationMailer
 
     mail(to: email_adress, subject: 'A course was made obligatory for one of your groups')
   end
-
-  # rubocop:enable ParameterLists
 end

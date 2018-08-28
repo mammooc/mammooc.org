@@ -91,7 +91,7 @@ RSpec.describe UserEmail, type: :model do
   end
 
   describe 'validate' do
-    context 'attribute is_verified' do
+    context 'when attribute is_verified' do
       it 'accepts true' do
         expect { described_class.create!(user: user, is_primary: true, address: 'max@example.com', is_verified: true) }.not_to raise_error
       end
@@ -105,7 +105,7 @@ RSpec.describe UserEmail, type: :model do
       end
     end
 
-    context 'attribute address' do
+    context 'with attribute address' do
       it 'accepts valid addresses' do
         expect { described_class.create!(user: user, is_primary: true, address: 'max@example.com') }.not_to raise_error
         expect { described_class.create!(user: user, is_primary: false, address: 'max@subdomain.example.com') }.not_to raise_error
