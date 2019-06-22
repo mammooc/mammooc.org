@@ -20,7 +20,7 @@ gem 'redcarpet'
 gem 'slim-rails', '>= 3.1.3'
 
 # Use jquery as the JavaScript library
-gem 'jquery-rails', '>= 4.3.3'
+gem 'jquery-rails', '>= 4.3.4'
 gem 'jquery-ui-rails', '>= 6.0.1'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
