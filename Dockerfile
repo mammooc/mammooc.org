@@ -34,8 +34,8 @@ ADD . $APP_HOME
 RUN bundle exec whenever -w
 
 # Download Root CA Certificates, add GTE for Windows Live login and use this bundle for curl
-RUN curl https://curl.haxx.se/ca/cacert.pem > cacert.pem
-RUN curl https://www.digicert.com/CACerts/GTECyberTrustGlobalRoot.crt >> GTECyberTrustGlobalRoot.crt
+RUN curl -L https://curl.haxx.se/ca/cacert.pem > cacert.pem
+RUN curl -L https://www.digicert.com/CACerts/GTECyberTrustGlobalRoot.crt >> GTECyberTrustGlobalRoot.crt
 RUN openssl x509 -inform DER -in GTECyberTrustGlobalRoot.crt -out GTECyberTrustGlobalRoot.pem -outform PEM
 RUN cat GTECyberTrustGlobalRoot.pem >> cacert.pem
 RUN rm GTECyberTrustGlobalRoot.crt GTECyberTrustGlobalRoot.pem
