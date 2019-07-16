@@ -33,6 +33,7 @@ services:
         - DATABASE_URL=postgres://postgres@db:5432/
         - FORCE_SSL=true
         - PHANTOM_JS=true
+        - RAILS_LOG_TO_STDOUT=true
       volumes:
         - ./:/mammooc/
       links:

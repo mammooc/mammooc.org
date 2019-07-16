@@ -44,9 +44,13 @@ services:
       - WINDOWS_LIVE_SECRET_KEY=
       - AMAZON_CLIENT_ID=
       - AMAZON_SECRET_KEY=
+      - XIKOLO_CLIENT_ID=
+      - XIKOLO_SECRET_KEY=
+      - ADMIN_EMAIL_ADDRESS=
+      - RAILS_LOG_TO_STDOUT=true
     command: sh 'start.sh'
     ports:
       - "3000:3000"
-    # links:
-    #   - redis
+    links:
+      - redis
     restart: always
