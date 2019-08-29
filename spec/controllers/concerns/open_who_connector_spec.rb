@@ -18,6 +18,6 @@ RSpec.describe OpenWHOConnector do
     connection.user_id = user.id
     connection.mooc_provider_id = mooc_provider.id
     connection.save
-    expect { open_who_connector.send(:get_enrollments_for_user, user) }.to raise_error RestClient::InternalServerError
+    expect { open_who_connector.send(:get_enrollments_for_user, user) }.to raise_error RestClient::Unauthorized
   end
 end

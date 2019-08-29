@@ -269,7 +269,7 @@ RSpec.describe OpenHPIConnector do
     describe 'get enrollments for user' do
       it 'gets an API response' do
         FactoryBot.create(:naive_mooc_provider_user, user: user, mooc_provider: mooc_provider, access_token: '123')
-        expect { open_hpi_connector.send(:get_enrollments_for_user, user) }.to raise_error RestClient::InternalServerError
+        expect { open_hpi_connector.send(:get_enrollments_for_user, user) }.to raise_error RestClient::Unauthorized
       end
 
       it 'returns parsed response for enrolled courses' do

@@ -18,6 +18,6 @@ RSpec.describe MoocHouseConnector do
     connection.user_id = user.id
     connection.mooc_provider_id = mooc_provider.id
     connection.save
-    expect { mooc_house_connector.send(:get_enrollments_for_user, user) }.to raise_error RestClient::InternalServerError
+    expect { mooc_house_connector.send(:get_enrollments_for_user, user) }.to raise_error RestClient::Unauthorized
   end
 end

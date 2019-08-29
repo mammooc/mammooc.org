@@ -19,6 +19,6 @@ RSpec.describe OpenHPIChinaConnector do
     connection.user_id = user.id
     connection.mooc_provider_id = mooc_provider.id
     connection.save
-    expect { open_hpi_china_connector.send(:get_enrollments_for_user, user) }.to raise_error RestClient::InternalServerError
+    expect { open_hpi_china_connector.send(:get_enrollments_for_user, user) }.to raise_error RestClient::Unauthorized
   end
 end
