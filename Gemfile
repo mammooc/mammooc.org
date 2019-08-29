@@ -17,10 +17,10 @@ gem 'coffee-rails', '>= 4.2.2'
 # gem 'therubyracer', platforms: :ruby
 
 gem 'redcarpet'
-gem 'slim-rails', '>= 3.1.3'
+gem 'slim-rails', '>= 3.2.0'
 
 # Use jquery as the JavaScript library
-gem 'jquery-rails', '>= 4.3.4'
+gem 'jquery-rails', '>= 4.3.5'
 gem 'jquery-ui-rails', '>= 6.0.1'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -36,7 +36,7 @@ gem 'passenger', '>= 5.3.4'
 # gem 'capistrano-rails', group: :development
 
 # authentication
-gem 'devise', '>= 4.6.0'
+gem 'devise', '>= 4.6.1'
 gem 'oauth2', '>= 1.4.0'
 gem 'omniauth', '>= 1.8.1'
 gem 'omniauth-amazon', '>= 1.0.1'
@@ -66,7 +66,7 @@ gem 'sidekiq', '>= 5.2.1'
 gem 'whenever'
 
 # newsfeed
-gem 'public_activity', '>= 1.6.2'
+gem 'public_activity', '>= 1.6.3'
 
 gem 'bootstrap-sass'
 gem 'font-awesome-sass'
@@ -74,10 +74,10 @@ gem 'font-awesome-sass'
 gem 'bootstrap-datepicker-rails', '>= 1.8.0.1'
 gem 'bootstrap_tokenfield_rails'
 
-gem 'factory_bot_rails', '>= 4.11.0'
+gem 'factory_bot_rails', '>= 5.0.1'
 
 gem 'i18n-js'
-gem 'rails-i18n', '>= 5.1.1'
+gem 'rails-i18n', '>= 5.1.3'
 
 gem 'http_accept_language'
 
@@ -104,7 +104,7 @@ gem 'secure_headers'
 
 # JSON API
 gem 'json-api-vanilla'
-gem 'jsonapi-resources', '>= 0.9.3'
+gem 'jsonapi-resources', '>= 0.9.5'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -116,15 +116,15 @@ group :development, :test do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 
-  gem 'rspec-rails', '>= 3.8.0'
+  gem 'rspec-rails', '>= 3.8.2'
   gem 'rspec_junit_formatter'
 
   gem 'bootstrap-generators', '>= 3.3.4'
 
-  gem 'capybara', '>= 3.6.0'
+  gem 'capybara', '>= 3.15.0'
   gem 'capybara-selenium', '>= 0.0.6'
   gem 'database_cleaner'
-  gem 'rails-controller-testing', '>= 1.0.2', require: false
+  gem 'rails-controller-testing', '>= 1.0.4', require: false
 
   # Run selenium tests headless
   gem 'headless'
@@ -140,5 +140,5 @@ end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '>= 3.6.2'
+  gem 'web-console', '>= 3.7.0'
 end
