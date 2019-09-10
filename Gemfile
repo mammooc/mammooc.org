@@ -36,7 +36,7 @@ gem 'passenger', '>= 5.3.4'
 # gem 'capistrano-rails', group: :development
 
 # authentication
-gem 'devise', '>= 4.6.1'
+gem 'devise', '>= 4.7.1'
 gem 'oauth2', '>= 1.4.0'
 gem 'omniauth', '>= 1.8.1'
 gem 'omniauth-amazon', '>= 1.0.1'
