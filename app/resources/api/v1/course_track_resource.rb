@@ -7,7 +7,7 @@ module Api
 
       attributes :costs, :costs_currency, :credit_points
 
-      has_one :track_type, foreign_key: 'course_track_type_id'
+      has_one :course_track_type, foreign_key: 'course_track_type_id'
       has_one :course
     end
   end
