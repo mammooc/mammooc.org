@@ -12,7 +12,7 @@ gem 'sass-rails', '>= 5.0.7'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier'
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '>= 4.2.2'
+gem 'coffee-rails', '>= 5.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
@@ -74,7 +74,7 @@ gem 'font-awesome-sass'
 gem 'bootstrap-datepicker-rails', '>= 1.8.0.1'
 gem 'bootstrap_tokenfield_rails'
 
-gem 'factory_bot_rails', '>= 5.0.1'
+gem 'factory_bot_rails', '>= 5.0.2'
 
 gem 'i18n-js'
 gem 'rails-i18n', '>= 5.1.3'
@@ -104,7 +104,7 @@ gem 'secure_headers'
 
 # JSON API
 gem 'json-api-vanilla'
-gem 'jsonapi-resources', '>= 0.9.5'
+gem 'jsonapi-resources', '>= 0.9.10'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
