@@ -297,7 +297,8 @@ GEM
       railties (>= 3.0.0)
     public_suffix (3.1.1)
     rack (2.0.7)
-    rack-cors (1.0.2)
+    rack-cors (1.0.5)
+      rack (>= 1.6.0)
     rack-protection (2.0.5)
       rack
     rack-test (1.1.0)
@@ -510,7 +511,7 @@ DEPENDENCIES
   poltergeist (>= 1.18.1)
   pry
   public_activity (>= 1.6.3)
-  rack-cors
+  rack-cors (= 1.0.5)
   rails (= 5.2.2.1)
   rails-controller-testing (>= 1.0.4)
   rails-i18n (>= 5.1.3)

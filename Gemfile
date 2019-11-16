@@ -98,7 +98,7 @@ gem 'fullcalendar-rails', '>= 3.9.0.0'
 gem 'momentjs-rails', '>= 2.20.1'
 
 # support for Cross-Origin Resource Sharing (CORS)
-gem 'rack-cors', require: 'rack/cors'
+gem 'rack-cors', '1.0.5'
 # Secure Headers
 gem 'secure_headers'
 
