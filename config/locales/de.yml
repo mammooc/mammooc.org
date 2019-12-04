@@ -165,12 +165,6 @@ de:
       identity_merged: Dein Konto ist jetzt mit %{providers} verbunden.
       identity_mergable: Bitte melde dich an, um diesen Provider deinem Konto hinzuzufügen. %{cancel}
       identity_cancel_merge: Abbrechen und Konto nicht verknüpfen.
-      easyID:
-        login: Mit dem neuen Personalausweis anmelden
-        notice: "Hinweis: Die %{link} muss gestartet sein, damit du dich mit dem neuen Personalausweis anmelden kannst."
-        link: AusweisApp
-        success: Du hast dich erfolgreich mit deinem neuen Personalausweis angemeldet.
-        failure: Du konntest nicht mit deinem Personalausweis angemeldet werden. Bitte versuche es erneut oder wähle ein anderes Anmeldeverfahren.
     password:
       forgot: Passwort vergessen?
       reset: Neues Passwort anfordern
@@ -202,12 +196,6 @@ de:
       identity_deleted: Deine Verbindung mit %{provider} wurde erfolgreich aufgehoben.
       identity_not_deleted: Deine Verbindung mit %{provider} konnte nicht entfernt werden.
       success: Einstellungen erfolgreich aktualisiert.
-      easyID:
-        add_identity: Mit dem neuen Personalausweis verknüpfen
-        remove_identity: Verknüpfung mit meinem neuen Personalausweis aufheben
-        only_one_provider: "Neuer Personalausweis: Du musst entweder ein Passwort setzen oder dich über einen anderen Anbieter anmelden, damit du deine bestehende Verknüpfung entfernen kannst."
-        identity_deleted: Die Verknüpfung mit deinem neuen Personalausweis wurde erfolgreich aufgehoben.
-        identity_not_deleted: Die Verknüpfung mit deinem neuen Personalausweis konnte nicht entfernt werden.
       change_emails:
         title: Emailadressen
         address: Emailadresse

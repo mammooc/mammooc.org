@@ -22,7 +22,6 @@ Rails.application.routes.draw do
     put '/users' => 'users/registrations#update'
     delete '/users' => 'users/registrations#destroy'
     get '/users/finish_signup' => 'users/registrations#finish_signup', :as => :finish_signup
-    match '/users/auth/easyID' => 'users/omniauth_callbacks#easy_id', via: %i[get post], :as => :easy_id
     get '/users/deauth/:provider' => 'users/omniauth_callbacks#deauthorize', as: :omniauth_deauthorize
     get 'users/login_and_subscribe_to_newsletter' => 'users#login_and_subscribe_to_newsletter'
   end
