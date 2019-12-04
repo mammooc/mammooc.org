@@ -113,7 +113,7 @@ GEM
       simplecov (>= 0.7)
       term-ansicolor
       thor
-    crass (1.0.4)
+    crass (1.0.5)
     database_cleaner (1.7.0)
     deep_merge (1.2.1)
     devise (4.7.1)
@@ -208,7 +208,7 @@ GEM
     listen (3.2.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    loofah (2.3.0)
+    loofah (2.4.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -231,7 +231,7 @@ GEM
     netrc (0.11.0)
     newrelic_rpm (6.7.0.359)
     nio4r (2.5.2)
-    nokogiri (1.10.4)
+    nokogiri (1.10.6)
       mini_portile2 (~> 2.4.0)
     oauth (0.5.4)
     oauth2 (1.4.2)
