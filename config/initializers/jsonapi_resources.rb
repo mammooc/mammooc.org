@@ -11,7 +11,8 @@ JSONAPI.configure do |config|
   config.resource_key_type = :uuid
 
   # optional request features
-  config.allow_include = true
+  config.default_allow_include_to_one = true
+  config.default_allow_include_to_many = true
   config.allow_sort = true
   config.allow_filter = true
 
