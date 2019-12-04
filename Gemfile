@@ -8,7 +8,7 @@ ruby '~> 2.5'
 gem 'rails', '5.2.2.1'
 # Use sqlite3 as the database for Active Record
 gem 'pg'
-gem 'sassc-rails'
+gem 'sassc-rails', '>= 2.1.2'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier'
 # Use CoffeeScript for .coffee assets and views
