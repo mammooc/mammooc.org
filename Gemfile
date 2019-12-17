@@ -5,23 +5,23 @@ source 'https://rubygems.org'
 ruby '~> 2.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.2.2.1'
+gem 'rails', '5.2.4'
 # Use sqlite3 as the database for Active Record
 gem 'pg'
 gem 'sassc-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier'
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '>= 4.2.2'
+gem 'coffee-rails'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
 gem 'redcarpet'
-gem 'slim-rails', '>= 3.2.0'
+gem 'slim-rails'
 
 # Use jquery as the JavaScript library
-gem 'jquery-rails', '>= 4.3.5'
-gem 'jquery-ui-rails', '>= 6.0.1'
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
@@ -30,23 +30,23 @@ gem 'jbuilder'
 # gem 'bcrypt', '~> 3.1.7'
 
 # Use Phusion Passenger 5 as the app server
-gem 'passenger', '>= 5.3.4'
+gem 'passenger'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
 # authentication
-gem 'devise', '>= 4.7.1'
-gem 'oauth2', '>= 1.4.0'
-gem 'omniauth', '>= 1.8.1'
-gem 'omniauth-amazon', '>= 1.0.1'
-gem 'omniauth-facebook', '>= 5.0.0'
-gem 'omniauth-github', '>= 1.3.0'
-gem 'omniauth-google-oauth2', '>= 0.5.3'
-gem 'omniauth-linkedin-oauth2', '>= 0.2.5'
-gem 'omniauth-oauth2', '>= 1.5.0'
-gem 'omniauth-twitter', '>= 1.4.0'
-gem 'omniauth-windowslive', '>= 0.0.12'
+gem 'devise'
+gem 'oauth2'
+gem 'omniauth'
+gem 'omniauth-amazon'
+gem 'omniauth-facebook'
+gem 'omniauth-github'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-linkedin-oauth2'
+gem 'omniauth-oauth2'
+gem 'omniauth-twitter'
+gem 'omniauth-windowslive'
 
 # authorization
 gem 'cancancan'
@@ -62,22 +62,22 @@ gem 'aws-sdk-s3'
 
 # cron job
 gem 'redis'
-gem 'sidekiq', '>= 5.2.1'
+gem 'sidekiq'
 gem 'whenever'
 
 # newsfeed
-gem 'public_activity', '>= 1.6.3'
+gem 'public_activity'
 
 gem 'bootstrap-sass'
 gem 'font-awesome-sass'
 
-gem 'bootstrap-datepicker-rails', '>= 1.8.0.1'
+gem 'bootstrap-datepicker-rails'
 gem 'bootstrap_tokenfield_rails'
 
-gem 'factory_bot_rails', '>= 5.0.1'
+gem 'factory_bot_rails'
 
 gem 'i18n-js'
-gem 'rails-i18n', '>= 5.1.3'
+gem 'rails-i18n'
 
 gem 'http_accept_language'
 
@@ -94,8 +94,8 @@ gem 'will_paginate-bootstrap'
 gem 'icalendar'
 
 # calendar widget
-gem 'fullcalendar-rails', '>= 3.9.0.0'
-gem 'momentjs-rails', '>= 2.20.1'
+gem 'fullcalendar-rails'
+gem 'momentjs-rails'
 
 # support for Cross-Origin Resource Sharing (CORS)
 gem 'rack-cors', require: 'rack/cors'
@@ -104,7 +104,7 @@ gem 'secure_headers'
 
 # JSON API
 gem 'json-api-vanilla'
-gem 'jsonapi-resources', '>= 0.9.5'
+gem 'jsonapi-resources'
 
 gem 'sprockets', '< 4'
 
@@ -118,19 +118,19 @@ group :development, :test do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 
-  gem 'rspec-rails', '>= 3.8.2'
+  gem 'rspec-rails'
   gem 'rspec_junit_formatter'
 
-  gem 'bootstrap-generators', '>= 3.3.4'
+  gem 'bootstrap-generators'
 
-  gem 'capybara', '>= 3.15.0'
-  gem 'capybara-selenium', '>= 0.0.6'
+  gem 'capybara'
+  gem 'capybara-selenium'
   gem 'database_cleaner'
-  gem 'rails-controller-testing', '>= 1.0.4', require: false
+  gem 'rails-controller-testing', require: false
 
   # Run selenium tests headless
   gem 'headless'
-  gem 'poltergeist', '>= 1.18.1'
+  gem 'poltergeist'
 
   gem 'coveralls', require: false
   gem 'rubocop', require: false
@@ -142,5 +142,5 @@ end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '>= 3.7.0'
+  gem 'web-console'
 end

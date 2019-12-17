@@ -1,43 +1,43 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    actioncable (5.2.2.1)
-      actionpack (= 5.2.2.1)
+    actioncable (5.2.4)
+      actionpack (= 5.2.4)
       nio4r (~> 2.0)
       websocket-driver (>= 0.6.1)
-    actionmailer (5.2.2.1)
-      actionpack (= 5.2.2.1)
-      actionview (= 5.2.2.1)
-      activejob (= 5.2.2.1)
+    actionmailer (5.2.4)
+      actionpack (= 5.2.4)
+      actionview (= 5.2.4)
+      activejob (= 5.2.4)
       mail (~> 2.5, >= 2.5.4)
       rails-dom-testing (~> 2.0)
-    actionpack (5.2.2.1)
-      actionview (= 5.2.2.1)
-      activesupport (= 5.2.2.1)
+    actionpack (5.2.4)
+      actionview (= 5.2.4)
+      activesupport (= 5.2.4)
       rack (~> 2.0)
       rack-test (>= 0.6.3)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    actionview (5.2.2.1)
-      activesupport (= 5.2.2.1)
+    actionview (5.2.4)
+      activesupport (= 5.2.4)
       builder (~> 3.1)
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
-    activejob (5.2.2.1)
-      activesupport (= 5.2.2.1)
+    activejob (5.2.4)
+      activesupport (= 5.2.4)
       globalid (>= 0.3.6)
-    activemodel (5.2.2.1)
-      activesupport (= 5.2.2.1)
-    activerecord (5.2.2.1)
-      activemodel (= 5.2.2.1)
-      activesupport (= 5.2.2.1)
+    activemodel (5.2.4)
+      activesupport (= 5.2.4)
+    activerecord (5.2.4)
+      activemodel (= 5.2.4)
+      activesupport (= 5.2.4)
       arel (>= 9.0)
-    activestorage (5.2.2.1)
-      actionpack (= 5.2.2.1)
-      activerecord (= 5.2.2.1)
+    activestorage (5.2.4)
+      actionpack (= 5.2.4)
+      activerecord (= 5.2.4)
       marcel (~> 0.3.1)
-    activesupport (5.2.2.1)
+    activesupport (5.2.4)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
@@ -49,17 +49,17 @@ GEM
     autoprefixer-rails (9.7.3)
       execjs
     aws-eventstream (1.0.3)
-    aws-partitions (1.250.0)
-    aws-sdk-core (3.84.0)
+    aws-partitions (1.256.0)
+    aws-sdk-core (3.86.0)
       aws-eventstream (~> 1.0, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
       jmespath (~> 1.0)
-    aws-sdk-kms (1.26.0)
+    aws-sdk-kms (1.27.0)
       aws-sdk-core (~> 3, >= 3.71.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.58.0)
-      aws-sdk-core (~> 3, >= 3.77.0)
+    aws-sdk-s3 (1.59.0)
+      aws-sdk-core (~> 3, >= 3.83.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.1.0)
@@ -74,7 +74,7 @@ GEM
       autoprefixer-rails (>= 5.2.1)
       sassc (>= 2.0.0)
     bootstrap_tokenfield_rails (0.12.1)
-    builder (3.2.3)
+    builder (3.2.4)
     byebug (11.0.1)
     cancancan (3.0.1)
     capybara (3.29.0)
@@ -148,11 +148,11 @@ GEM
       dry-initializer (~> 3.0)
       dry-logic (~> 1.0)
       dry-types (~> 1.2)
-    dry-types (1.2.1)
+    dry-types (1.2.2)
       concurrent-ruby (~> 1.0)
       dry-container (~> 0.3)
       dry-core (~> 0.4, >= 0.4.4)
-      dry-equalizer (~> 0.2, >= 0.2.2)
+      dry-equalizer (~> 0.3)
       dry-inflector (~> 0.1, >= 0.1.2)
       dry-logic (~> 1.0, >= 1.0.2)
     erubi (1.9.0)
@@ -166,7 +166,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     ffi (1.11.3)
     filterrific (5.2.1)
-    font-awesome-sass (5.11.2)
+    font-awesome-sass (5.12.0)
       sassc (>= 1.11)
     fullcalendar-rails (3.9.0.0)
       jquery-rails (>= 4.0.5, < 5.0.0)
@@ -184,7 +184,7 @@ GEM
       concurrent-ruby (~> 1.0)
     i18n-js (3.5.0)
       i18n (>= 0.6.6)
-    icalendar (2.6.0)
+    icalendar (2.6.1)
       ice_cube (~> 0.16)
     ice_cube (0.16.3)
     jaro_winkler (1.5.4)
@@ -197,14 +197,14 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
-    json (2.2.0)
+    json (2.3.0)
     json-api-vanilla (1.0.1)
-    jsonapi-resources (0.10.1)
+    jsonapi-resources (0.10.2)
       activerecord (>= 4.1)
       concurrent-ruby
       railties (>= 4.1)
     jwt (2.2.1)
-    listen (3.2.0)
+    listen (3.2.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     loofah (2.4.0)
@@ -230,7 +230,7 @@ GEM
     netrc (0.11.0)
     newrelic_rpm (6.7.0.359)
     nio4r (2.5.2)
-    nokogiri (1.10.6)
+    nokogiri (1.10.7)
       mini_portile2 (~> 2.4.0)
     oauth (0.5.4)
     oauth2 (1.4.2)
@@ -302,18 +302,18 @@ GEM
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
-    rails (5.2.2.1)
-      actioncable (= 5.2.2.1)
-      actionmailer (= 5.2.2.1)
-      actionpack (= 5.2.2.1)
-      actionview (= 5.2.2.1)
-      activejob (= 5.2.2.1)
-      activemodel (= 5.2.2.1)
-      activerecord (= 5.2.2.1)
-      activestorage (= 5.2.2.1)
-      activesupport (= 5.2.2.1)
+    rails (5.2.4)
+      actioncable (= 5.2.4)
+      actionmailer (= 5.2.4)
+      actionpack (= 5.2.4)
+      actionview (= 5.2.4)
+      activejob (= 5.2.4)
+      activemodel (= 5.2.4)
+      activerecord (= 5.2.4)
+      activestorage (= 5.2.4)
+      activesupport (= 5.2.4)
       bundler (>= 1.3.0)
-      railties (= 5.2.2.1)
+      railties (= 5.2.4)
       sprockets-rails (>= 2.0.0)
     rails-controller-testing (1.0.4)
       actionpack (>= 5.0.1.x)
@@ -327,9 +327,9 @@ GEM
     rails-i18n (5.1.3)
       i18n (>= 0.7, < 2)
       railties (>= 5.0, < 6)
-    railties (5.2.2.1)
-      actionpack (= 5.2.2.1)
-      activesupport (= 5.2.2.1)
+    railties (5.2.4)
+      actionpack (= 5.2.4)
+      activesupport (= 5.2.4)
       method_source
       rake (>= 0.8.7)
       thor (>= 0.19.0, < 2.0)
@@ -375,7 +375,7 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 1.7)
-    rubocop-rspec (1.37.0)
+    rubocop-rspec (1.37.1)
       rubocop (>= 0.68.1)
     ruby-debug-passenger (0.2.0)
     ruby-progressbar (1.10.1)
@@ -422,7 +422,7 @@ GEM
       tins (~> 1.0)
     terrapin (0.6.0)
       climate_control (>= 0.0.3, < 1.0)
-    thor (0.20.3)
+    thor (1.0.0)
     thread_safe (0.3.6)
     tilt (2.0.10)
     tins (1.22.2)
@@ -457,72 +457,72 @@ PLATFORMS
 
 DEPENDENCIES
   aws-sdk-s3
-  bootstrap-datepicker-rails (>= 1.8.0.1)
-  bootstrap-generators (>= 3.3.4)
+  bootstrap-datepicker-rails
+  bootstrap-generators
   bootstrap-sass
   bootstrap_tokenfield_rails
   byebug
   cancancan
-  capybara (>= 3.15.0)
-  capybara-selenium (>= 0.0.6)
-  coffee-rails (>= 4.2.2)
+  capybara
+  capybara-selenium
+  coffee-rails
   config
   coveralls
   database_cleaner
-  devise (>= 4.7.1)
-  factory_bot_rails (>= 5.0.1)
+  devise
+  factory_bot_rails
   filterrific
   font-awesome-sass
-  fullcalendar-rails (>= 3.9.0.0)
+  fullcalendar-rails
   headless
   http_accept_language
   i18n-js
   icalendar
   jbuilder
-  jquery-rails (>= 4.3.5)
-  jquery-ui-rails (>= 6.0.1)
+  jquery-rails
+  jquery-ui-rails
   json-api-vanilla
-  jsonapi-resources (>= 0.9.5)
+  jsonapi-resources
   listen
-  momentjs-rails (>= 2.20.1)
+  momentjs-rails
   newrelic_rpm
-  oauth2 (>= 1.4.0)
-  omniauth (>= 1.8.1)
-  omniauth-amazon (>= 1.0.1)
-  omniauth-facebook (>= 5.0.0)
-  omniauth-github (>= 1.3.0)
-  omniauth-google-oauth2 (>= 0.5.3)
-  omniauth-linkedin-oauth2 (>= 0.2.5)
-  omniauth-oauth2 (>= 1.5.0)
-  omniauth-twitter (>= 1.4.0)
-  omniauth-windowslive (>= 0.0.12)
+  oauth2
+  omniauth
+  omniauth-amazon
+  omniauth-facebook
+  omniauth-github
+  omniauth-google-oauth2
+  omniauth-linkedin-oauth2
+  omniauth-oauth2
+  omniauth-twitter
+  omniauth-windowslive
   paperclip
-  passenger (>= 5.3.4)
+  passenger
   pg
-  poltergeist (>= 1.18.1)
+  poltergeist
   pry
-  public_activity (>= 1.6.3)
+  public_activity
   rack-cors
-  rails (= 5.2.2.1)
-  rails-controller-testing (>= 1.0.4)
-  rails-i18n (>= 5.1.3)
+  rails (= 5.2.4)
+  rails-controller-testing
+  rails-i18n
   redcarpet
   redis
   rest-client
-  rspec-rails (>= 3.8.2)
+  rspec-rails
   rspec_junit_formatter
   rubocop
   rubocop-rspec
   ruby-debug-passenger
   sassc-rails
   secure_headers
-  sidekiq (>= 5.2.1)
+  sidekiq
   simplecov
-  slim-rails (>= 3.2.0)
+  slim-rails
   spring
   sprockets (< 4)
   uglifier
-  web-console (>= 3.7.0)
+  web-console
   whenever
   will_paginate
   will_paginate-bootstrap
