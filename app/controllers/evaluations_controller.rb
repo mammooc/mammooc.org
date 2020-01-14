@@ -91,7 +91,7 @@ class EvaluationsController < ApplicationController
     end
   rescue ActionController::ParameterMissing, ActiveRecord::RecordNotFound => e
     respond_to do |format|
-      format.json { render json: {error: e.message}, status: :recordNotFound }
+      format.json { render json: {error: e.message}, status: :not_found }
     end
   end
 
