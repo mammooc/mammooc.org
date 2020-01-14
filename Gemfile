@@ -83,7 +83,11 @@ gem 'http_accept_language'
 
 gem 'config'
 
+# Error Tracing
+gem 'concurrent-ruby'
+gem 'mnemosyne-ruby'
 gem 'newrelic_rpm'
+gem 'sentry-raven'
 
 # for filtering, searching and sorting
 gem 'filterrific'
