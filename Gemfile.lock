@@ -79,7 +79,7 @@ GEM
     bunny (2.14.4)
       amq-protocol (~> 2.3, >= 2.3.0)
     byebug (11.1.1)
-    cancancan (3.0.2)
+    cancancan (3.1.0)
     capybara (3.31.0)
       addressable
       mini_mime (>= 0.1.3)
