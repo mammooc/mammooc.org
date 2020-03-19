@@ -292,7 +292,7 @@ GEM
     passenger (6.0.4)
       rack
       rake (>= 0.8.1)
-    pg (1.2.2)
+    pg (1.2.3)
     poltergeist (1.18.1)
       capybara (>= 2.1, < 4)
       cliver (~> 0.3.1)
