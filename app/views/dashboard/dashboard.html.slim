@@ -7,8 +7,7 @@
       img src = @user_picture
       .name
         .hd3
-          => current_user.first_name
-          => current_user.last_name
+          => current_user.full_name
       - if current_user.last_sign_in_at
         => t('dashboard.last_time_active')
         = I18n.l current_user.last_sign_in_at, format: t('global.date_format_month')

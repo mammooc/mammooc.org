@@ -148,8 +148,7 @@ de:
       sign_up: Registrieren
       sign_in_process: Anmeldung
       finish_sign_up: Anmeldung vervollständigen
-      first_name: Vorname
-      last_name: Nachname
+      full_name: Vor- und Nachname
       email: E-Mail-Adresse
       characters_minimum: Zeichen minimum
       password: Passwort
@@ -334,8 +333,7 @@ de:
         is_obligatory: Verpflichtend?
         text: Nachricht
       user:
-        first_name: Vorname
-        last_name: Nachname
+        full_name: Vor- und Nachname
         about_me: Über mich
         profile_image: Profilbild
    #error messages
@@ -521,7 +519,7 @@ de:
     helpful: Hilfreich
     not_helpful: Nicht Hilfreich
     no_evaluations: Leider gibt es noch keine Bewertungen für diesen Kurs (oder eine frühere Iteration des Kurses) :(
-    already_evaluated: Hi %{first_name}, du hast diesen Kurs bewertet. Vielen Dank für dein Feedback!
+    already_evaluated: Hi %{full_name}, du hast diesen Kurs bewertet. Vielen Dank für dein Feedback!
     modify_evaluation: Bewertung anpassen
     overall_evaluation: Gesamtbewertung
     additional_notes: Anmerkungen

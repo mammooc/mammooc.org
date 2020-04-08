@@ -2,7 +2,7 @@
 
 class UserMailerPreview < ActionMailer::Preview
   def newsletter_for_new_courses
-    user = User.find_by(first_name: 'Max')
+    user = User.first
     user.newsletter_interval = 5 if user.newsletter_interval.blank?
     user.unsubscribed_newsletter = true if user.unsubscribed_newsletter.blank?
     if user.last_newsletter_send_at.nil?

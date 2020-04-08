@@ -8,7 +8,7 @@ class ApisController < ApplicationController
     result = {}
     if current_user.present?
       @user = {
-        name: current_user.first_name + ' ' + current_user.last_name,
+        name: current_user.full_name,
         profile_picture: ApplicationController.helpers.asset_url(current_user.profile_image.url(:thumb))
       }
       @logged_in = true

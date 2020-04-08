@@ -9,6 +9,6 @@ end
 
 def capybara_sign_out(user)
   visit root_path
-  click_link "#{user.first_name} #{user.last_name}"
+  click_link user.full_name
   click_link I18n.t('navbar.sign_out')
 end

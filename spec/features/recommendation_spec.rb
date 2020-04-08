@@ -228,10 +228,10 @@ RSpec.describe 'Recommendation', type: :feature do
       wait_for_ajax
       user.groups.each do |group|
         group.users.each do |member|
-          expect(page).to have_content(member.first_name) unless user == member
+          expect(page).to have_content(member.full_name) unless user == member
         end
       end
-      expect(page).not_to have_content(third_user.first_name)
+      expect(page).not_to have_content(third_user.full_name)
     end
 
     it 'hides form on course detail page if user has no groups', js: true, skip_before: true do
@@ -335,8 +335,8 @@ RSpec.describe 'Recommendation', type: :feature do
       visit '/recommendations/new?is_obligatory=true'
       page.all('.tokenfield')[1].click
       wait_for_ajax
-      expect(page).to have_content(second_user.first_name)
-      expect(page).not_to have_content(third_user.first_name)
+      expect(page).to have_content(second_user.full_name)
+      expect(page).not_to have_content(third_user.full_name)
     end
 
     it 'hides form on course detail page if user has no groups for which he is admin', js: true, skip_before: true do

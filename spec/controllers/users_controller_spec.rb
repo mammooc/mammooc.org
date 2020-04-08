@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
-  let!(:user) { User.create!(first_name: 'Max', last_name: 'Mustermann', password: '12345678') }
+  let!(:user) { User.create!(full_name: 'Max Mustermann', password: '12345678') }
   let!(:primary_email) { FactoryBot.create(:user_email, user: user, is_primary: true) }
   let(:another_user) { FactoryBot.create :user }
 
@@ -62,13 +62,12 @@ RSpec.describe UsersController, type: :controller do
 
   describe 'PUT update' do
     describe 'with valid params' do
-      let(:new_attributes) { {first_name: 'Maxim', last_name: 'Mustergender', primary_email: 'maxim.mustergender@example.com'} }
+      let(:new_attributes) { {full_name: 'Maxim Mustergender', primary_email: 'maxim.mustergender@example.com'} }
 
       it 'updates the requested user' do
         put :update, params: {id: user.to_param, user: new_attributes}
         user.reload
-        expect(user.first_name).to eq('Maxim')
-        expect(user.last_name).to eq('Mustergender')
+        expect(user.full_name).to eq('Maxim Mustergender')
         expect(user.primary_email).to eq('maxim.mustergender@example.com')
         expect(flash[:notice]).to eq I18n.t('flash.notice.users.successfully_updated')
       end

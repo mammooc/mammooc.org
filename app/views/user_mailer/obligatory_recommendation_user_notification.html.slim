@@ -11,12 +11,12 @@ html
     br
     br
     p
-      | Hallo #{@user.first_name} #{@user.last_name},
+      | Hallo #{@user.full_name},
     p
       | dir wurde der Kurs
       =<> link_to @course.name, course_url(@course)
       | von
-      =<> link_to "#{@author.first_name} #{@author.last_name}", user_url(@author)
+      =<> link_to "#{@author.full_name}", user_url(@author)
       | vorgeschrieben. Für weitere Details besuche
       =< link_to t('global.app_name'), @root_url
       | .
@@ -27,12 +27,12 @@ html
     br
     br
     br
-      | Hello #{@user.first_name} #{@user.last_name},
+      | Hello #{@user.full_name},
     p
       | the enrollment in the course
       =<> link_to @course.name, course_url(@course)
       | was made obligatory for you by
-      =< link_to "#{@author.first_name} #{@author.last_name}", user_url(@author)
+      =< link_to "#{@author.full_name}", user_url(@author)
       | . For more details visit
       =< link_to t('global.app_name'), @root_url
       | .

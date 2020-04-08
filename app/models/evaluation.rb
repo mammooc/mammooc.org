@@ -57,7 +57,7 @@ class Evaluation < ApplicationRecord
       evaluation_object[:user_name] = I18n.t('evaluations.anonymous')
     else
       evaluation_object[:user_id] = evaluation.user_id
-      evaluation_object[:user_name] = "#{evaluation.user.first_name} #{evaluation.user.last_name}"
+      evaluation_object[:user_name] = "#{evaluation.user.full_name}"
     end
     evaluation_object
   end

@@ -117,7 +117,7 @@ RSpec.describe Evaluation, type: :model do
       expect(evaluation_hash[:positive_feedback_count]).to eq evaluation.positive_feedback_count
       expect(evaluation_hash[:course_status]).to eq I18n.t('evaluations.finished_course')
       expect(evaluation_hash[:user_id]).to eq evaluation.user.id
-      expect(evaluation_hash[:user_name]).to eq "#{evaluation.user.first_name} #{evaluation.user.last_name}"
+      expect(evaluation_hash[:user_name]).to eq evaluation.user.full_name
     end
 
     it 'sets the user to anonymous if the corresponding flag is set to true' do

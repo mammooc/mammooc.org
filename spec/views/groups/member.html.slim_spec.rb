@@ -25,8 +25,7 @@ RSpec.describe 'groups/members', type: :view do
   it 'show all members of group' do
     render
     group.users.each do |user|
-      expect(rendered).to have_content user.first_name
-      expect(rendered).to have_content user.last_name
+      expect(rendered).to have_content user.full_name
     end
   end
 end

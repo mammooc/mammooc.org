@@ -70,7 +70,7 @@ class EvaluationsController < ApplicationController
         evaluation_object[:user_profile_picture] = root_url + Settings.default_profile_picture_path
 
       else
-        evaluation_object[:user_name] = "#{evaluation.user.first_name} #{evaluation.user.last_name}"
+        evaluation_object[:user_name] = "#{evaluation.user.full_name}"
         evaluation_object[:user_profile_picture] = ApplicationController.helpers.asset_url(evaluation.user.profile_image.url(:thumb))
       end
       course_evaluations << evaluation_object

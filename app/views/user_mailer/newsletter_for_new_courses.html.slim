@@ -9,7 +9,7 @@ html
 
   body
     p
-      = t('newsletter.email.greeting', name: "#{@user.first_name} #{@user.last_name}")
+      = t('newsletter.email.greeting', name: "#{@user.full_name}")
     p
       = t('newsletter.email.content', date: l(@user.last_newsletter_send_at, format: t('global.date_format_month_short')))
       div style="overflow: auto; padding-top: 5px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.42857143;"

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe UserEmailsController, type: :controller do
-  let(:user) { User.create!(first_name: 'Max', last_name: 'Mustermann', password: '12345678') }
+  let(:user) { User.create!(full_name: 'Max Mustermann', password: '12345678') }
   let!(:primary_email) { FactoryBot.create(:user_email, user: user, is_primary: true) }
 
   let(:valid_attributes) { {address: 'test@example.com', is_primary: false, user_id: user.id} }

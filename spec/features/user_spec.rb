@@ -4,7 +4,7 @@ require 'rails_helper'
 require 'support/feature_support'
 
 RSpec.describe 'User', type: :feature do
-  let!(:user) { User.create!(first_name: 'Max', last_name: 'Mustermann', password: '12345678') }
+  let!(:user) { User.create!(full_name: 'Max Mustermann', password: '12345678') }
   let!(:first_email) { FactoryBot.create(:user_email, user: user) }
   let!(:second_user) { FactoryBot.create(:user) }
   let(:third_user) { FactoryBot.create(:user) }
@@ -74,7 +74,7 @@ RSpec.describe 'User', type: :feature do
 
     describe 'show settings' do
       it 'navigates to all sub pages', js: true do
-        click_link "#{user.first_name} #{user.last_name}"
+        click_link user.full_name
         click_link I18n.t('navbar.settings')
         wait_for_ajax
 
@@ -106,7 +106,7 @@ RSpec.describe 'User', type: :feature do
       end
 
       it 'get error when trying to delete account but still admin in group', js: true do
-        click_link "#{user.first_name} #{user.last_name}"
+        click_link user.full_name
         click_link I18n.t('navbar.settings')
         click_button 'load-account-settings-button'
         if ENV['PHANTOM_JS'] == 'true'
@@ -124,7 +124,7 @@ RSpec.describe 'User', type: :feature do
         visit "#{user_settings_path(user.id)}?subsite=mooc_provider"
         click_button 'load-account-settings-button'
         wait_for_ajax
-        expect(page).to have_content I18n.t('activerecord.attributes.user.first_name')
+        expect(page).to have_content I18n.t('activerecord.attributes.user.full_name')
         expect(page).to have_content I18n.t('activerecord.attributes.user.profile_image')
         expect(page).to have_content I18n.t('users.settings.change_emails.address')
         expect(page).to have_content I18n.t('users.settings.change_emails.primary')
@@ -486,7 +486,7 @@ RSpec.describe 'User', type: :feature do
 
     describe 'show settings' do
       it 'deletes account successfully', js: true do
-        click_link "#{second_user.first_name} #{second_user.last_name}"
+        click_link second_user.full_name
         click_link I18n.t('navbar.settings')
         click_button 'load-account-settings-button'
         if ENV['PHANTOM_JS'] == 'true'

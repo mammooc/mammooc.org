@@ -178,8 +178,8 @@ class UsersController < ApplicationController
 
   def connected_users_autocomplete
     search = params[:q].downcase
-    users = current_user.connected_users.select {|u| u.first_name.downcase.include?(search) || u.last_name.downcase.include?(search) }
-                        .collect {|u| {id: u.id, first_name: u.first_name, last_name: u.last_name} }
+    users = current_user.connected_users.select {|u| u.full_name.downcase.include?(search)}
+                        .collect {|u| {id: u.id, full_name: u.full_name} }
 
     respond_to do |format|
       format.json { render json: users }
@@ -390,6 +390,6 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :primary_email, :title, :password, :profile_image, :about_me)
+    params.require(:user).permit(:full_name, :primary_email, :title, :password, :profile_image, :about_me)
   end
 end

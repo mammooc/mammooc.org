@@ -12,7 +12,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
 
   context 'with user registration' do
     it 'works with valid signup data' do
-      post :create, params: {user: {first_name: 'John', last_name: 'Doe', email: 'user@example.org', password: 'password', password_confirmation: 'password'}}
+      post :create, params: {user: {full_name: 'John Doe', email: 'user@example.org', password: 'password', password_confirmation: 'password'}}
       expect(subject).to be_signed_in
     end
   end

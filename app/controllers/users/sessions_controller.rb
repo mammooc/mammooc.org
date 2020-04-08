@@ -20,8 +20,7 @@ module Users
       end
       yield resource if block_given?
       session_infos = {}
-      session_infos['first_name'] = session[:resource]['first_name'] if session[:resource].present?
-      session_infos['last_name'] = session[:resource]['last_name'] if session[:resource].present?
+      session_infos['full_name'] = session[:resource]['full_name'] if session[:resource].present?
       session_infos['primary_email'] = sign_in_params[:primary_email] || (session[:resource].present? ? session[:resource]['primary_email'] : nil)
       session[:resource] = session_infos
       respond_with(resource, serialize_options(resource))

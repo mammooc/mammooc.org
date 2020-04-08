@@ -390,6 +390,6 @@ class GroupsController < ApplicationController
   end
 
   def sort_by_name(members)
-    members.sort_by {|m| [m.last_name, m.first_name] }
+    members.sort_by {|m| [m.full_name] }
   end
 end

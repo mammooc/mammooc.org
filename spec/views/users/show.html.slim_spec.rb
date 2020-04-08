@@ -11,8 +11,7 @@ RSpec.describe 'users/show', type: :view do
 
   it 'renders a profile page with all attributes' do
     render
-    assert rendered, text: user.first_name, count: 1
-    assert rendered, text: user.last_name, count: 1
+    assert rendered, text: user.full_name, count: 1
     assert rendered, text: user.about_me, count: 1
   end
 end

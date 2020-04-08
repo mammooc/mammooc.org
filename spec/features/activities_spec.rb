@@ -35,13 +35,13 @@ RSpec.describe 'Activities', type: :feature do
       it 'is shown on dashboard' do
         visit dashboard_dashboard_path
         expect { find('.newsfeed') }.not_to raise_error
-        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('newsfeed.group.join.no_group_context1')} #{group.name}#{I18n.t('newsfeed.group.join.no_group_context2')}"
+        expect(page).to have_content "#{second_user.full_name} #{I18n.t('newsfeed.group.join.no_group_context1')} #{group.name}#{I18n.t('newsfeed.group.join.no_group_context2')}"
       end
 
       it 'is shown on group dashboard' do
         visit group_path(group)
         expect { find('.newsfeed') }.not_to raise_error
-        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('newsfeed.group.join.group_context')}"
+        expect(page).to have_content "#{second_user.full_name} #{I18n.t('newsfeed.group.join.group_context')}"
       end
 
       it 'is not shown on owner dashboard' do
@@ -128,13 +128,13 @@ RSpec.describe 'Activities', type: :feature do
       it 'is shown on dashboard', js: true do
         visit dashboard_dashboard_path
         expect { find('.newsfeed') }.not_to raise_error
-        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('newsfeed.bookmark.create')}"
+        expect(page).to have_content "#{second_user.full_name} #{I18n.t('newsfeed.bookmark.create')}"
       end
 
       it 'is shown on group dashboard', js: true do
         visit group_path(group)
         expect { find('.newsfeed') }.not_to raise_error
-        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('newsfeed.bookmark.create')}"
+        expect(page).to have_content "#{second_user.full_name} #{I18n.t('newsfeed.bookmark.create')}"
       end
 
       it 'is not shown on owner dashboard', js: true do
@@ -225,14 +225,14 @@ RSpec.describe 'Activities', type: :feature do
       it 'is shown on dashboard', js: true do
         visit dashboard_dashboard_path
         expect { find('.newsfeed') }.not_to raise_error
-        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('newsfeed.course.enroll')}"
+        expect(page).to have_content "#{second_user.full_name} #{I18n.t('newsfeed.course.enroll')}"
         expect(page).to have_content I18n.t('newsfeed.course.enroll')
       end
 
       it 'is shown on group dashboard', js: true do
         visit group_path(group)
         expect { find('.newsfeed') }.not_to raise_error
-        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('newsfeed.course.enroll')}"
+        expect(page).to have_content "#{second_user.full_name} #{I18n.t('newsfeed.course.enroll')}"
       end
 
       it 'is not shown on owner dashboard', js: true do
@@ -329,25 +329,25 @@ RSpec.describe 'Activities', type: :feature do
       it 'is shown on dashboard', js: true do
         visit dashboard_dashboard_path
         expect { find('.newsfeed') }.not_to raise_error
-        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_group')} #{group.name}"
+        expect(page).to have_content "#{second_user.full_name} #{I18n.t('recommendation.for_group')} #{group.name}"
       end
 
       it 'is shown on users recommendation page', js: true do
         visit recommendations_path
         expect { find('.newsfeed') }.not_to raise_error
-        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_group')} #{group.name}"
+        expect(page).to have_content "#{second_user.full_name} #{I18n.t('recommendation.for_group')} #{group.name}"
       end
 
       it 'is shown on group dashboard', js: true do
         visit group_path(group)
         expect { find('.newsfeed') }.not_to raise_error
-        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_group')} #{group.name}"
+        expect(page).to have_content "#{second_user.full_name} #{I18n.t('recommendation.for_group')} #{group.name}"
       end
 
       it 'is shown on groups recommendation page', js: true do
         visit "/groups/#{group.id}/recommendations"
         expect { find('.newsfeed') }.not_to raise_error
-        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_group')} #{group.name}"
+        expect(page).to have_content "#{second_user.full_name} #{I18n.t('recommendation.for_group')} #{group.name}"
       end
 
       it 'is not shown on owner dashboard', js: true do
@@ -417,7 +417,7 @@ RSpec.describe 'Activities', type: :feature do
         page.all('.tokenfield')[1].click
         page.all('.tokenfield')[1].native.send_key(:Enter)
       else
-        fill_in 'recommendation_related_user_ids-tokenfield', with: "#{user.first_name}\n"
+        fill_in 'recommendation_related_user_ids-tokenfield', with: "#{user.full_name}\n"
       end
       click_on I18n.t('recommendation.submit')
       capybara_sign_out second_user
@@ -433,13 +433,13 @@ RSpec.describe 'Activities', type: :feature do
       it 'is shown on dashboard', js: true do
         visit dashboard_dashboard_path
         expect { find('.newsfeed') }.not_to raise_error
-        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_you')}"
+        expect(page).to have_content "#{second_user.full_name} #{I18n.t('recommendation.for_you')}"
       end
 
       it 'is shown on users recommendation page', js: true do
         visit recommendations_path
         expect { find('.newsfeed') }.not_to raise_error
-        expect(page).to have_content "#{second_user.first_name} #{second_user.last_name} #{I18n.t('recommendation.for_you')}"
+        expect(page).to have_content "#{second_user.full_name} #{I18n.t('recommendation.for_you')}"
       end
 
       it 'is not shown on owner dashboard', js: true do

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe UserEmail, type: :model do
-  let!(:user) { User.create!(first_name: 'Max', last_name: 'Mustermann', password: '12345678') }
+  let!(:user) { User.create!(full_name: 'Max Mustermann', password: '12345678') }
 
   describe 'creates new user emails' do
     it 'create a primary email if it is the first one' do

@@ -61,7 +61,7 @@ generate_users_autocomplete = () ->
         alert(I18n.t('global.ajax_failed'))
       success: (data, textStatus, jqXHR) ->
         for user in data.group_members
-          users_autocomplete.push({ value: user.id, label: user.first_name + ' ' + user.last_name })
+          users_autocomplete.push({ value: user.id, label: user.full_name })
 
   $(".recommendation_related_user_ids").tokenfield
     autocomplete:
@@ -138,7 +138,7 @@ generate_users_autocomplete_obligatory_recommendation = () ->
         alert(I18n.t('global.ajax_failed'))
       success: (data, textStatus, jqXHR) ->
         for user in data.group_members
-          users_autocomplete.push({ value: user.id, label: user.first_name + ' ' + user.last_name })
+          users_autocomplete.push({ value: user.id, label: user.full_name })
 
   $('.obligatory_recommendation_related_user_ids').tokenfield
     autocomplete:
