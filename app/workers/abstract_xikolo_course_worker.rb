@@ -16,7 +16,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
     response = RestClient.get(url, accept: accept_header)
     if response.headers[:x_api_version_expiration_date].present?
       api_expiration_date = response.headers[:x_api_version_expiration_date]
-      AdminMailer.xikolo_api_expiration(Settings.admin_email, self.class.name, url, api_expiration_date, Settings.root_url).deliver_later
+      AdminMailer.xikolo_api_expiration(Settings.admin_email_address, self.class.name, url, api_expiration_date, Settings.root_url).deliver_later
     end
 
     if response.present?

@@ -340,7 +340,7 @@ RSpec.describe OpenHPIConnector do
       context 'with email notification' do
         before do
           ActionMailer::Base.deliveries.clear
-          Settings.admin_email = 'admin@example.com'
+          Settings.admin_email_address = 'admin@example.com'
         end
 
         it 'is sent to the administrator if api expiration header is present' do
@@ -409,7 +409,7 @@ RSpec.describe OpenHPIConnector do
       context 'with email notification' do
         before do
           ActionMailer::Base.deliveries.clear
-          Settings.admin_email = 'admin@example.com'
+          Settings.admin_email_address = 'admin@example.com'
         end
 
         it 'is sent to the administrator if api expiration header is present' do
@@ -684,7 +684,7 @@ RSpec.describe OpenHPIConnector do
     context 'with email notification' do
       before do
         ActionMailer::Base.deliveries.clear
-        Settings.admin_email = 'admin@example.com'
+        Settings.admin_email_address = 'admin@example.com'
       end
 
       it 'is sent to the administrator if api expiration header is present' do

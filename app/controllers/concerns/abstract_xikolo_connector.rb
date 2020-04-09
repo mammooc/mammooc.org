@@ -209,6 +209,6 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
     return if response.headers[:x_api_version_expiration_date].blank?
 
     api_expiration_date = response.headers[:x_api_version_expiration_date]
-    AdminMailer.xikolo_api_expiration(Settings.admin_email, self.class.name, response.request.url, api_expiration_date, Settings.root_url).deliver_later
+    AdminMailer.xikolo_api_expiration(Settings.admin_email_address, self.class.name, response.request.url, api_expiration_date, Settings.root_url).deliver_later
   end
 end
