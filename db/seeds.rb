@@ -6,10 +6,10 @@
 
 # Xikolo
 open_hpi = MoocProvider.create!(name: 'openHPI', logo_id: 'logo_openHPI.svg', url: 'https://open.hpi.de', api_support_state: :naive, oauth_path_for_login: '/users/auth/openhpi')
-MoocProvider.create!(name: 'openHPI.cn', logo_id: 'logo_openHPI.svg', url: 'https://openhpi.cn', api_support_state: :naive)
-MoocProvider.create!(name: 'mooc.house', logo_id: 'logo_mooc_house.svg', url: 'https://mooc.house', api_support_state: :naive)
 open_sap = MoocProvider.create!(name: 'openSAP', logo_id: 'logo_openSAP.svg', url: 'https://open.sap.com', api_support_state: :naive)
+MoocProvider.create!(name: 'mooc.house', logo_id: 'logo_mooc_house.svg', url: 'https://mooc.house', api_support_state: :naive)
 MoocProvider.create!(name: 'openWHO', logo_id: 'logo_openWHO.svg', url: 'https://openwho.org', api_support_state: :naive)
+MoocProvider.create!(name: 'lernen.cloud', logo_id: 'logo_lernen_cloud.svg', url: 'https://lernen.cloud', api_support_state: :naive)
 
 # Others
 MoocProvider.create!(name: 'edX', logo_id: 'logo_edX.svg', url: 'https://www.edx.org', api_support_state: :nil)
@@ -75,9 +75,9 @@ mooin_free_track_type = CourseTrackType.create!(title: 'Free Course',
                                                 type_of_achievement: 'mooin_certificate')
 OpenHPICourseWorker.perform_async
 OpenSAPCourseWorker.perform_async
-OpenHPIChinaCourseWorker.perform_async
 MoocHouseCourseWorker.perform_async
 OpenWHOCourseWorker.perform_async
+LernenCloudCourseWorker.perform_async
 EdxCourseWorker.perform_async
 CourseraCourseWorker.perform_async
 IversityCourseWorker.perform_async
