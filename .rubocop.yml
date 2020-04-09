@@ -15,9 +15,6 @@ Style/Encoding:
 Style/FrozenStringLiteralComment:
   Enabled: true
 
-Style/BracesAroundHashParameters:
-  EnforcedStyle: context_dependent
-
 Style/RaiseArgs:
   EnforcedStyle: compact
 
@@ -99,14 +96,6 @@ Metrics/CyclomaticComplexity:
 Metrics/PerceivedComplexity:
   Max: 35
 
-Rails/HasAndBelongsToMany:
-  Enabled: false
-
-Rails/ReversibleMigration:
-  Enabled: false
-
-Rails/CreateTableWithTimestamps:
-  Enabled: false
 
 RSpec/DescribeClass:
   Exclude:
