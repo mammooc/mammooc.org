@@ -65,19 +65,26 @@ class IversityCourseWorker < AbstractCourseWorker
                    end
       plan_array.each do |plan|
         price = plan['price'].split(' ') if plan['price'].present?
+        if price
+          costs = price[0].to_f
+          costs_currency = price[1]
+        else
+          costs = 0.0
+          costs_currency = '€'
+        end
         track_attributes = {}
         case plan['title'].split(/[\s-]/)[0].downcase
           when 'audit' then track_attributes = {track_type: free_track_type, costs: 0.0, costs_currency: '€'}
-          when 'certificate' then track_attributes = {track_type: certificate_track_type, costs: price[0].to_f, costs_currency: price[1]}
+          when 'certificate' then track_attributes = {track_type: certificate_track_type, costs: costs, costs_currency: costs_currency}
           when 'ects'
-            track_attributes = {track_type: ects_track_type, costs: price[0].to_f, costs_currency: price[1]}
+            track_attributes = {track_type: ects_track_type, costs: costs, costs_currency: costs_currency}
             track_attributes[:credit_points] = plan['credits'].split(' ')[0].to_f if plan['credits'].present?
           when 'schüler'
-            track_attributes = {track_type: ects_pupils_track_type, costs: price[0].to_f, costs_currency: price[1]}
+            track_attributes = {track_type: ects_pupils_track_type, costs: costs, costs_currency: costs_currency}
             track_attributes[:credit_points] = plan['credits'].split(' ')[0].to_f if plan['credits'].present?
           when 'statement', 'teilnahmebescheinigung'
             track_attributes = if price.present?
-                                 {track_type: iversity_statement_track, costs: price[0].to_f, costs_currency: price[1]}
+                                 {track_type: iversity_statement_track, costs: costs, costs_currency: costs_currency}
                                else
                                  {track_type: iversity_statement_track, costs: 0.0, costs_currency: "\xe2\x82\xac"}
                                end
