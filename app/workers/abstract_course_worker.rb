@@ -44,6 +44,8 @@ class AbstractCourseWorker
   end
 
   def parse_markdown(text)
+    return if text.blank?
+
     redcarpet = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
     redcarpet.render(text)
   end
