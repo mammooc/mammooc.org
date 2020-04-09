@@ -36,6 +36,7 @@ class EdxCourseWorker < AbstractCourseWorker
     response_data.each do |xml_doc|
       language = xml_doc.xpath('//channel/language').text
       xml_doc.xpath('//channel/item').each do |course_element|
+        Raven.extra_context(course_element: course_element)
         course = Course.get_course_by_mooc_provider_id_and_provider_course_id(mooc_provider.id, course_element.xpath('course:id').text)
         if course.nil?
           course = Course.new
@@ -59,6 +60,7 @@ class EdxCourseWorker < AbstractCourseWorker
 
         if course_thumbnail.present? && course.course_image_file_name != filename
           begin
+            Raven.extra_context(course_thumbnail: course_thumbnail.text)
             course.course_image = Course.process_uri(course_thumbnail.text)
           rescue OpenURI::HTTPError => e
             Rails.logger.error "Couldn't process course image in course #{course_element.xpath('course:id').text} for URL #{course_thumbnail.text}: #{e.message}"
