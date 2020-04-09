@@ -58,7 +58,7 @@ class EdxCourseWorker < AbstractCourseWorker
           filename = File.basename(course_thumbnail.text)
         end
 
-        if course_thumbnail.present? && course.course_image_file_name != filename
+        if course_thumbnail.present? && course_thumbnail.text.present? && course.course_image_file_name != filename
           begin
             Raven.extra_context(course_thumbnail: course_thumbnail.text)
             course.course_image = Course.process_uri(course_thumbnail.text)
