@@ -148,8 +148,7 @@ en:
       sign_up: Sign Up
       sign_in_process: Log in
       finish_sign_up: Finish Sign Up
-      first_name: First name
-      last_name: Last name
+      full_name: Full Name
       email: Email
       characters_minimum: characters minimum
       password: Password
@@ -334,8 +333,7 @@ en:
         is_obligatory: Obligatory?
         text: Message
       user:
-        first_name: First Name
-        last_name: Last Name
+        full_name: Full Name
         about_me: About me
         profile_image: Profile Image
     #error messages
@@ -521,7 +519,7 @@ en:
     helpful: Helpful
     not_helpful: Not Helpful
     no_evaluations: Unfortunately there are no evaluations for this course (or any previous iteration) yet. :(
-    already_evaluated: Hi %{first_name}, you evaluated the course. Thanks for your feedback!
+    already_evaluated: Hi %{full_name}, you evaluated the course. Thanks for your feedback!
     modify_evaluation: Modify Evaluation
     overall_evaluation: Overall Evaluation
     additional_notes: Additional Notes

@@ -261,7 +261,7 @@ RSpec.describe 'Group', type: :feature do
     end
 
     it 'does not display update button if user has no admin privileges', js: true do
-      click_link "#{user.first_name} #{user.last_name}"
+      click_link user.full_name
       click_link I18n.t('navbar.sign_out')
       visit new_user_session_path
       fill_in 'login_email', with: second_user.primary_email

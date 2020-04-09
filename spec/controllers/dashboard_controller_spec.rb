@@ -14,6 +14,7 @@ RSpec.describe DashboardController, type: :controller do
       get :dashboard
       expect(response).to have_http_status(:success)
     end
+
     describe 'check activities' do
       let!(:user2) { FactoryBot.create(:user) }
       let!(:group) { FactoryBot.create(:group, users: [user, user2]) }

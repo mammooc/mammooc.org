@@ -33,14 +33,14 @@ class Course < ApplicationRecord
   has_many :user_dates, dependent: :destroy
 
   has_attached_file :course_image,
-    styles: {
-      thumb: '100x100#',
-      original: '300x300>'
-    },
-    convert_options: {all: '-quality 95'},
-    s3_storage_class: 'REDUCED_REDUNDANCY',
-    s3_permissions: 'public-read',
-    default_url: Settings.root_url + '/data/course_picture_default.png'
+                    styles: {
+                      thumb: '100x100#',
+                      original: '300x300>'
+                    },
+                    convert_options: {all: '-quality 95'},
+                    s3_storage_class: 'REDUCED_REDUNDANCY',
+                    s3_permissions: 'public-read',
+                    default_url: Settings.root_url + '/data/course_picture_default.png'
 
   validates_attachment_content_type :course_image, content_type: /\Aimage\/.*\Z/
 
@@ -103,7 +103,7 @@ class Course < ApplicationRecord
       nil
     else
       where('courses.start_date IS NOT NULL AND (courses.start_date >= ?) ',
-        parsed_date.strftime('%Y-%m-%d %H:%M:%S.%6N'))
+            parsed_date.strftime('%Y-%m-%d %H:%M:%S.%6N'))
     end
   end
 
@@ -113,13 +113,13 @@ class Course < ApplicationRecord
       nil
     else
       where('courses.end_date IS NOT NULL AND (courses.end_date <= ?) ',
-        parsed_date.strftime('%Y-%m-%d %H:%M:%S.%6N'))
+            parsed_date.strftime('%Y-%m-%d %H:%M:%S.%6N'))
     end
   end
 
   scope :with_language, ->(reference_language) do
     where('courses.language IS NOT NULL AND (courses.language LIKE ? OR courses.language LIKE ?)',
-      "#{reference_language}%", "%,#{reference_language}%")
+          "#{reference_language}%", "%,#{reference_language}%")
   end
 
   scope :with_mooc_provider_id, ->(reference_mooc_provider_id) do
@@ -128,7 +128,7 @@ class Course < ApplicationRecord
 
   scope :with_subtitle_languages, ->(reference_subtitle_languages) do
     where('courses.subtitle_languages LIKE ? OR courses.subtitle_languages LIKE ?',
-      "#{reference_subtitle_languages}%", "%,#{reference_subtitle_languages}%")
+          "#{reference_subtitle_languages}%", "%,#{reference_subtitle_languages}%")
   end
 
   scope :with_tracks, ->(reference_track_options) do
@@ -325,6 +325,7 @@ class Course < ApplicationRecord
 
   def self.process_uri(uri)
     return if uri.nil? || Settings.domain != 'mammooc.org'
+
     image_url = URI.parse(uri)
     image_url.scheme = 'https'
     CGI.unescape(image_url.to_s[/[^#]*/]) # Paperclip will encode the URL, thus this prevents double encoding
@@ -334,6 +335,7 @@ class Course < ApplicationRecord
 
   def check_and_update_duration
     return unless end_date && start_date
+
     if start_date_is_before_end_date
       if calculated_duration_in_days != (end_date.to_date - start_date.to_date).to_i
         self.calculated_duration_in_days = (end_date.to_date - start_date.to_date).to_i
@@ -355,16 +357,20 @@ class Course < ApplicationRecord
 
   def check_and_delete_previous_course_connection
     return unless previous_iteration_id
+
     previous_course = Course.find(previous_iteration_id)
     return unless previous_course.following_iteration_id == id
+
     previous_course.following_iteration_id = nil
     previous_course.save
   end
 
   def check_and_delete_following_course_connection
     return unless following_iteration_id
+
     following_course = Course.find(following_iteration_id)
     return unless following_course.previous_iteration_id == id
+
     following_course.previous_iteration_id = nil
     following_course.save
   end
@@ -376,16 +382,20 @@ class Course < ApplicationRecord
 
   def check_and_update_previous_course_connection
     return unless previous_iteration_id
+
     previous_course = Course.find(previous_iteration_id)
     return unless previous_course.following_iteration_id != id
+
     previous_course.following_iteration_id = id
     previous_course.save
   end
 
   def check_and_update_following_course_connection
     return unless following_iteration_id
+
     following_course = Course.find(following_iteration_id)
     return unless following_course.previous_iteration_id != id
+
     following_course.previous_iteration_id = id
     following_course.save
   end

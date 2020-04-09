@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :full_completion, class: Completion do
+  factory :full_completion, class: 'Completion' do
     quantile { Random.rand }
     points_achieved { (Random.rand * 100.0).round(1) }
     provider_percentage { points_achieved }
@@ -21,7 +21,7 @@ FactoryBot.define do
     end
   end
 
-  factory :completion, class: Completion do
+  factory :completion, class: 'Completion' do
     quantile { nil }
     points_achieved { nil }
     association :user_id, factory: :user

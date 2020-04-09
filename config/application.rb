@@ -52,7 +52,9 @@ module MAMMOOC
     config.action_mailer.default_url_options = {host: Settings.root_url}
 
     # Force SSL for all connections in single-mode
-    config.force_ssl = true if ENV['FORCE_SSL'] == 'true'
+    # Attention: This will also enable HSTS with a max-age for 1 year.
+    # To disable, overwrite `config.hsts = 'max-age=0'` below
+    # config.force_ssl = true if ENV['FORCE_SSL'] == 'true'
 
     # Implement Security Headers
     SecureHeaders::Configuration.default do |config|

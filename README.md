@@ -5,7 +5,6 @@
 [![Coverage Status](https://coveralls.io/repos/mammooc/mammooc.org/badge.svg?branch=master&service=github)](https://coveralls.io/github/mammooc/mammooc.org?branch=master)
 [![Security: Hakiri.io](https://hakiri.io/github/mammooc/mammooc.org/master.svg)](https://hakiri.io/github/mammooc/mammooc.org/master)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mammooc/mammooc.org/blob/master/LICENSE.md)
-[![Stories in progress: Waffle.io](https://badge.waffle.io/mammooc/mammooc.org.png?label=In%20Progress&title=In%20Progress)](https://waffle.io/mammooc/mammooc.org)
 
 _Please pay attention to the [LICENSE](https://github.com/mammooc/mammooc.org/blob/master/LICENSE.md) as well; the software is licensed under the MIT license._
 

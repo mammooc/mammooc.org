@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :full_evaluation, class: Evaluation do
+  factory :full_evaluation, class: 'Evaluation' do
     rating { rand(1..5) }
     description { 'Blub' }
     user { FactoryBot.create(:user) }
@@ -12,7 +12,7 @@ FactoryBot.define do
     positive_feedback_count { rand(0..1) }
   end
 
-  factory :minimal_evaluation, class: Evaluation do
+  factory :minimal_evaluation, class: 'Evaluation' do
     rating { rand(1..5) }
     user { FactoryBot.create(:user) }
     course { FactoryBot.create(:course) }

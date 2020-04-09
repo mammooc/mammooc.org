@@ -57,7 +57,7 @@ class Evaluation < ApplicationRecord
       evaluation_object[:user_name] = I18n.t('evaluations.anonymous')
     else
       evaluation_object[:user_id] = evaluation.user_id
-      evaluation_object[:user_name] = "#{evaluation.user.first_name} #{evaluation.user.last_name}"
+      evaluation_object[:user_name] = evaluation.user.full_name.to_s
     end
     evaluation_object
   end
@@ -70,9 +70,7 @@ class Evaluation < ApplicationRecord
         previous_course = previous_course_iteration
         break
       end
-      previous_course_iteration = if previous_course_iteration.previous_iteration_id.present?
-                                    Course.find(previous_course_iteration.previous_iteration_id)
-                                  end
+      previous_course_iteration = (Course.find(previous_course_iteration.previous_iteration_id) if previous_course_iteration.previous_iteration_id.present?)
     end
     [course_evaluations, previous_course]
   end

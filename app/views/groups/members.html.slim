@@ -8,7 +8,7 @@
         img src = @profile_pictures["#{user.id}"]
       .name.bold
         = link_to user_path(user)
-          | #{user.first_name} #{user.last_name}
+          | #{user.full_name}
         .admins
           = t('groups.all_members.administrator')
         .options
@@ -19,7 +19,7 @@
             button type="button" class="btn btn-gray btn-xs remove_member" data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name= ' #{I18n.t('groups.remove_member.yourself')} '
               = t('groups.all_members.leave_group')
           - elsif can? :remove_group_member, @group
-            button type="button" class="btn btn-gray btn-xs remove_member" data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name=' #{user.first_name} #{user.last_name} '
+            button type="button" class="btn btn-gray btn-xs remove_member" data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name=' #{user.full_name} '
               = t('groups.all_members.remove_member')
 
   - @sorted_group_users.each do |user|
@@ -28,7 +28,7 @@
         img src = @profile_pictures["#{user.id}"]
       .name
         = link_to user_path(user)
-          | #{user.first_name} #{user.last_name}
+          | #{user.full_name}
         .admins style="display: none"
           = t('groups.all_members.administrator')
         .options
@@ -39,7 +39,7 @@
             button type="button" class="btn btn-gray btn-xs remove_member" data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name= ' #{I18n.t('groups.remove_member.yourself')} '
               = t('groups.all_members.leave_group')
           - elsif can? :remove_group_member, @group
-            button type="button" class="btn btn-gray btn-xs remove_member" data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name=' #{user.first_name} #{user.last_name} '
+            button type="button" class="btn btn-gray btn-xs remove_member" data-group_id='#{@group.id}' data-user_id='#{user.id}' data-user_name=' #{user.full_name} '
               = t('groups.all_members.remove_member')
 
 = render 'confirmation_remove_last_member'

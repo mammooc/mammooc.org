@@ -2,13 +2,9 @@ h2
   = t('users.sign_in_up.sign_up')
 = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
   .form-group
-    = f.label :first_name, t('users.sign_in_up.first_name')
+    = f.label :full_name, t('users.sign_in_up.full_name')
     br
-    = f.text_field :first_name , autofocus: true, :class => 'form-control', :value => session.has_key?(:resource) ? session[:resource]['first_name'] : ''
-  .form-group
-    = f.label :last_name, t('users.sign_in_up.last_name')
-    br
-    = f.text_field :last_name, :class => 'form-control', :value => session.has_key?(:resource) ? session[:resource]['last_name'] : ''
+    = f.text_field :full_name, :class => 'form-control', :value => session.has_key?(:resource) ? session[:resource]['full_name'] : ''
   .form-group
     = f.label :primary_email, t('users.sign_in_up.email')
     br

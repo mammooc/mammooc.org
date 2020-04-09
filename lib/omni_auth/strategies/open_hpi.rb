@@ -15,9 +15,14 @@ module OmniAuth
       info do
         {
           email: raw_info['email'],
-          first_name: raw_info['first_name'],
-          last_name: raw_info['last_name'],
+          name: raw_info['full_name'],
           image: 'https://open.hpi.de' + '/avatar/' + raw_info['id']
+        }
+      end
+
+      extra do
+        {
+          raw_info: raw_info
         }
       end
 

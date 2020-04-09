@@ -214,13 +214,13 @@ RSpec.describe 'Course', type: :feature do
       visit "/courses/#{course.id}"
       click_link 'rate-course-link'
       wait_for_ajax
-      expect(page).not_to have_content(I18n.t('evaluations.already_evaluated', first_name: user.first_name))
+      expect(page).not_to have_content(I18n.t('evaluations.already_evaluated', full_name: user.full_name))
       find("div[class='user-rate-course-value']").first('span').all("div[class='rating-symbol']").last.click
       fill_in 'rating-textarea', with: 'Great Course!'
       find("label[id='option_aborted']").click
       click_button('submit-rating-button')
       wait_for_ajax
-      expect(page).to have_content(I18n.t('evaluations.already_evaluated', first_name: user.first_name))
+      expect(page).to have_content(I18n.t('evaluations.already_evaluated', full_name: user.full_name))
     end
 
     it 'show errors when submitting form with errors', js: true do
@@ -244,7 +244,7 @@ RSpec.describe 'Course', type: :feature do
       visit "/courses/#{course.id}"
       expect(page).to have_selector("div[class='course-rating']")
       expect(page).to have_content("(#{course.evaluations.count})")
-      expect(page).to have_content("#{user.first_name} #{user.last_name} #{I18n.t('evaluations.currently_enrolled_course')}")
+      expect(page).to have_content("#{user.full_name} #{I18n.t('evaluations.currently_enrolled_course')}")
       expect(page).to have_content(eval.description)
     end
 
@@ -262,7 +262,7 @@ RSpec.describe 'Course', type: :feature do
       find("label[id='option_aborted']").click
       click_button('submit-rating-button')
       wait_for_ajax
-      expect(page).to have_content(I18n.t('evaluations.already_evaluated', first_name: user.first_name))
+      expect(page).to have_content(I18n.t('evaluations.already_evaluated', full_name: user.full_name))
     end
 
     it 'mark an evaluation as helpful', js: true do

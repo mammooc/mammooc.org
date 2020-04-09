@@ -15,9 +15,6 @@ Style/Encoding:
 Style/FrozenStringLiteralComment:
   Enabled: true
 
-Style/BracesAroundHashParameters:
-  EnforcedStyle: context_dependent
-
 Style/RaiseArgs:
   EnforcedStyle: compact
 
@@ -61,7 +58,7 @@ Naming/FileName:
   Exclude:
   - 'Gemfile'
 
-Layout/AlignParameters:
+Layout/ParameterAlignment:
   EnforcedStyle: with_fixed_indentation
 
 Layout/SpaceInsideBlockBraces:
@@ -72,7 +69,7 @@ Layout/SpaceInsideBlockBraces:
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
 
-Metrics/LineLength:
+Layout/LineLength:
   Enabled: false
 
 Metrics/MethodLength:
@@ -99,14 +96,6 @@ Metrics/CyclomaticComplexity:
 Metrics/PerceivedComplexity:
   Max: 35
 
-Rails/HasAndBelongsToMany:
-  Enabled: false
-
-Rails/ReversibleMigration:
-  Enabled: false
-
-Rails/CreateTableWithTimestamps:
-  Enabled: false
 
 RSpec/DescribeClass:
   Exclude:

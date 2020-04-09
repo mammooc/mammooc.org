@@ -23,6 +23,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
       data = []
       JSON::Api::Vanilla.parse(response).links.each_value do |link|
         next if link['self'].blank?
+
         api_host = URI.parse(url).host
         api_scheme = URI.parse(url).scheme
         course_url = URI::Generic.build(host: api_host, scheme: api_scheme, path: link['self']).to_s
@@ -73,9 +74,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
       course.end_date = course_element.end_at
       course.description = convert_to_absolute_urls(parse_markdown(course_element.description))
       course.abstract = convert_to_absolute_urls(parse_markdown(course_element.abstract))
-      if course_element.classifiers['category'].present?
-        course.categories = course_element.classifiers['category']
-      end
+      course.categories = course_element.classifiers['category'] if course_element.classifiers['category'].present?
       course.course_instructors = course_element.teachers
       course.open_for_registration = course_element.enrollable
 

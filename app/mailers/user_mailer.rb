@@ -20,9 +20,7 @@ class UserMailer < ApplicationMailer
     @courses = courses
     @user = user
     I18n.locale = @user.newsletter_language
-    if @courses.present?
-      @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(@courses)
-    end
+    @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(@courses) if @courses.present?
     number_of_new_courses = @courses.length
 
     mail(to: email_adress, subject: t('newsletter.email.subject', number: number_of_new_courses))

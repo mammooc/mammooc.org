@@ -8,7 +8,7 @@ class ApisController < ApplicationController
     result = {}
     if current_user.present?
       @user = {
-        name: current_user.first_name + ' ' + current_user.last_name,
+        name: current_user.full_name,
         profile_picture: ApplicationController.helpers.asset_url(current_user.profile_image.url(:thumb))
       }
       @logged_in = true
@@ -17,9 +17,7 @@ class ApisController < ApplicationController
       mooc_provider = MoocProvider.find_by!(name: params[:provider])
       course = [Course.find_by!(provider_course_id: params[:course_id], mooc_provider: mooc_provider)]
 
-      if current_user.evaluations.where(course: course).present?
-        @evaluation = current_user.evaluations.where(course: course).first.as_json.slice('rating', 'is_verified', 'description', 'course_status', 'rated_anonymously')
-      end
+      @evaluation = current_user.evaluations.where(course: course).first.as_json.slice('rating', 'is_verified', 'description', 'course_status', 'rated_anonymously') if current_user.evaluations.where(course: course).present?
 
     else
       @logged_in = false

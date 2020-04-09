@@ -2,7 +2,7 @@
   - if current_user == @user
     = "#{t('users.profile.title')} | #{t('global.app_name')}"
   - else
-    = "#{@user.first_name} #{@user.last_name} | #{t('global.app_name')}"
+    = "#{@user.full_name} | #{t('global.app_name')}"
 
 .main-section
   .profile-top
@@ -10,8 +10,7 @@
       img src = @user_picture
       .name
         .hd3
-          => @user.first_name
-          => @user.last_name
+          => @user.full_name
       - if @user.groups.size > 0
         .small-heading
           = t('users.profile.groups')
@@ -43,7 +42,7 @@
         - if @user == current_user
           = t('users.own_profile.currently_no_bookmarks')
         - else
-          = t('users.profile.currently_no_bookmarks', name: "#{@user.first_name} #{@user.last_name}")
+          = t('users.profile.currently_no_bookmarks', name: @user.full_name)
       - else
         - @bookmarks.each do |bookmark|
           p
@@ -67,7 +66,7 @@
           - if @user == current_user
             = t('users.own_profile.currently_no_courses')
           - else
-            = t('users.profile.currently_no_courses', name: "#{@user.first_name} #{@user.last_name}")
+            = t('users.profile.currently_no_courses', name: @user.full_name)
         - else
           - @enrollments.each do |course|
             p

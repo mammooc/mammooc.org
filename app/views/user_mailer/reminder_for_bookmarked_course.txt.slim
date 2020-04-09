@@ -1,6 +1,6 @@
 | (English Version below)
 
-| Hallo <%= @user.first_name %> <%= @user.last_name %>,
+| Hallo <%= @user.full_name %>,
 
 | dein vorgemerkter Kurs: <%= link_to @course.name, course_url(@course) %> beginnt in einer Woche am <%= @course.start_date.strftime('%-d.%-m.%Y') %>.
 
@@ -10,7 +10,7 @@
 
 
 
-| Hello <%= @user.first_name %> <%= @user.last_name %>,
+| Hello <%= @user.full_name %>,
 
 | your bookmarked course: <%= link_to @course.name, course_url(@course) %> starts in one weeks at <%= @course.start_date.strftime('%-m/%-d/%Y') %>.
 

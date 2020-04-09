@@ -2,14 +2,14 @@
   - if current_user == @user
     = "#{t('completions.my_heading')} | #{t('global.app_name')}"
   - else
-    = "#{t('completions.other_user_heading', user: @user.first_name)} | #{t('global.app_name')}"
+    = "#{t('completions.other_user_heading', user: @user.full_name)} | #{t('global.app_name')}"
 
 .page-header
   h1
     - if current_user == @user
       = t('completions.my_heading')
     - else
-      = t('completions.other_user_heading', user: @user.first_name)
+      = t('completions.other_user_heading', user: @user.full_name)
 div
   - if @completions.present?
     - @completions.each_with_index do |completion, completion_index|
@@ -73,4 +73,4 @@ div
     - if current_user == @user
       = t('completions.no_completion')
     - else
-      = t('completions.no_visible', user: @user.first_name)
+      = t('completions.no_visible', user: @user.full_name)

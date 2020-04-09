@@ -73,9 +73,7 @@ class CourseraCourseWorker < AbstractCourseWorker
         course.description = course_element['description']
         course.workload = course_element['workload']
 
-        if course_element['startDate'].present?
-          course.start_date = Time.at(course_element['startDate'] / 1000).utc
-        end
+        course.start_date = Time.at(course_element['startDate'] / 1000).utc if course_element['startDate'].present?
 
         if course_element['courseType'].include? 'v1'
           course.url = COURSE_LINK_BODY_V1 + course_element['slug']

@@ -6,7 +6,7 @@
         .name
           .author
             = link_to recommendation.author
-              => "#{recommendation.author.first_name} #{recommendation.author.last_name}"
+              => "#{recommendation.author.full_name}"
             - if recommendation.author.groups.size > 0
               => "(#{(current_user.common_groups_with_user(recommendation.author).collect {|group| group.name}).join(', ')})"
           - if recommendation.group.present?

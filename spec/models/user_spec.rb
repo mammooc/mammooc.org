@@ -119,12 +119,8 @@ RSpec.describe User, type: :model do
       expect(FactoryBot.build_stubbed(:user)).to be_valid
     end
 
-    it 'requires first name' do
-      expect(FactoryBot.build_stubbed(:user, first_name: '')).not_to be_valid
-    end
-
-    it 'requires last name' do
-      expect(FactoryBot.build_stubbed(:user, last_name: '')).not_to be_valid
+    it 'requires full name' do
+      expect(FactoryBot.build_stubbed(:user, full_name: '')).not_to be_valid
     end
 
     it 'requires email' do
@@ -203,8 +199,7 @@ RSpec.describe User, type: :model do
     it 'creates a new UserEmail for the given primary email address' do
       user_data = FactoryBot.build_stubbed(:user)
       user = described_class.new
-      user.first_name = user_data.first_name
-      user.last_name = user_data.last_name
+      user.full_name = user_data.full_name
       user.primary_email = user_data.primary_email
       user.password = user_data.password
       expect { user.save! }.not_to raise_error
@@ -230,7 +225,7 @@ RSpec.describe User, type: :model do
         user.update!(primary_email: 'new@email.com')
         user.save!
       end.not_to raise_error
-      expect(described_class.find_by_primary_email('new@email.com')).to eq user # rubocop:disable Rails/DynamicFindBy
+      expect(described_class.find_by_primary_email('new@email.com')).to eq user
       expect(user.persisted?).to be true
     end
   end
@@ -238,18 +233,18 @@ RSpec.describe User, type: :model do
   describe 'find_by_primary_email' do
     it 'returns the requested user' do
       user = FactoryBot.create(:user, primary_email: 'test@example.com')
-      expect(described_class.find_by_primary_email('test@example.com')).to eq user # rubocop:disable Rails/DynamicFindBy
+      expect(described_class.find_by_primary_email('test@example.com')).to eq user
     end
 
     it 'returns nil if no user could be found' do
       FactoryBot.create(:user, primary_email: 'test@example.com')
-      expect(described_class.find_by_primary_email('abc@example.com')).to be_nil # rubocop:disable Rails/DynamicFindBy
+      expect(described_class.find_by_primary_email('abc@example.com')).to be_nil
     end
 
     it 'does not find other addresses which are not primary' do
       user = FactoryBot.create(:user, primary_email: 'test@example.com')
       secondary_email = FactoryBot.create(:user_email, user: user, address: 'abc@example.com', is_primary: false)
-      expect(described_class.find_by_primary_email('abc@example.com')).to be_nil # rubocop:disable Rails/DynamicFindBy
+      expect(described_class.find_by_primary_email('abc@example.com')).to be_nil
       expect(UserEmail.find_by(address: 'abc@example.com')).to eq secondary_email
     end
   end
@@ -345,7 +340,7 @@ RSpec.describe User, type: :model do
       user_email = FactoryBot.build(:user_email, user: nil, address: 'test@example.com')
       user.instance_variable_set(:@primary_email_object, user_email)
       expect(user.send(:save_primary_email)).to be true
-      expect(described_class.find_by_primary_email('test@example.com')).to eq user # rubocop:disable Rails/DynamicFindBy
+      expect(described_class.find_by_primary_email('test@example.com')).to eq user
     end
 
     it 'raises an Exception if the @primary_email_object is valid for another user' do
@@ -354,8 +349,8 @@ RSpec.describe User, type: :model do
       user_email = FactoryBot.build(:user_email, user: another_user, address: 'test@example.com')
       user.instance_variable_set(:@primary_email_object, user_email)
       expect { user.send(:save_primary_email) }.to raise_error NoMethodError
-      expect(described_class.find_by_primary_email('test2@example.com')).to eq another_user # rubocop:disable Rails/DynamicFindBy
-      expect(described_class.find_by_primary_email('test@example.com')).to be_nil # rubocop:disable Rails/DynamicFindBy
+      expect(described_class.find_by_primary_email('test2@example.com')).to eq another_user
+      expect(described_class.find_by_primary_email('test@example.com')).to be_nil
     end
   end
 
@@ -384,22 +379,15 @@ RSpec.describe User, type: :model do
         provider: identity.omniauth_provider,
         uid: identity.provider_user_id,
         info: {
-          first_name: 'Max',
-          last_name: 'Mustermann',
+          name: 'Max Mustermann',
           image: nil,
           email: 'max@example.com',
           verified: true
-        },
-        extra: {
-          raw_info: {
-            middle_name: nil
-          }
         }
       )
       expect { described_class.find_for_omniauth(authentication_info) }.to change(described_class, :count).by(1)
-      user = described_class.find_by_primary_email(authentication_info.info.email) # rubocop:disable Rails/DynamicFindBy
-      expect(user.first_name).to eq authentication_info.info.first_name
-      expect(user.last_name).to eq authentication_info.info.last_name
+      user = described_class.find_by_primary_email(authentication_info.info.email)
+      expect(user.full_name).to eq authentication_info.info.name
       expect(user.primary_email).to eq authentication_info.info.email
       expect(user.password_autogenerated).to eq true
       expect(UserEmail.find_by(address: user.primary_email).is_verified).to eq true
@@ -412,22 +400,15 @@ RSpec.describe User, type: :model do
         provider: identity.omniauth_provider,
         uid: identity.provider_user_id,
         info: {
-          first_name: 'Max',
-          last_name: 'Mustermann',
+          name: 'Max Mustermann',
           image: 'https://example.com/user/image',
           email: '',
           verified: false
-        },
-        extra: {
-          raw_info: {
-            middle_name: 'Maximus'
-          }
         }
       )
       expect { described_class.find_for_omniauth(authentication_info) }.to change(described_class, :count).by(1)
       user = UserIdentity.find_by(omniauth_provider: authentication_info.provider, provider_user_id: authentication_info.uid).user
-      expect(user.first_name).to eq "#{authentication_info.info.first_name} #{authentication_info.extra.raw_info.middle_name}"
-      expect(user.last_name).to eq authentication_info.info.last_name
+      expect(user.full_name).to eq authentication_info.info.name
       expect(user.password_autogenerated).to eq true
       primary_email_object = UserEmail.find_by(address: user.primary_email)
       expect(primary_email_object.autogenerated?).to eq true
@@ -440,20 +421,14 @@ RSpec.describe User, type: :model do
         provider: identity.omniauth_provider,
         uid: identity.provider_user_id,
         info: {
-          first_name: 'Max',
-          last_name: 'Mustermann',
+          name: 'Max Mustermann',
           image: '',
           email: 'max@example.com',
           verified: true
-        },
-        extra: {
-          raw_info: {
-            middle_name: nil
-          }
         }
       )
       expect { described_class.find_for_omniauth(authentication_info) }.to change(described_class, :count).by(1)
-      user = described_class.find_by_primary_email(authentication_info.info.email) # rubocop:disable Rails/DynamicFindBy
+      user = described_class.find_by_primary_email(authentication_info.info.email)
       expect(user.profile_image_file_name).not_to eq authentication_info.info.image
       expect(user.profile_image_file_name).to be_nil
     end
@@ -556,45 +531,24 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe 'first_name_autogenerated?' do
+  describe 'full_name_autogenerated?' do
     let!(:user) { FactoryBot.create(:user) }
 
     it 'response false if no user identity could be found' do
-      expect(user.first_name_autogenerated?).to eq false
+      expect(user.full_name_autogenerated?).to eq false
     end
 
-    it 'response false if user identities are present but first_name is not autogenerated' do
+    it 'response false if user identities are present but full_name is not autogenerated' do
       UserIdentity.create!(user: user, omniauth_provider: 'provider1', provider_user_id: '123')
       UserIdentity.create!(user: user, omniauth_provider: 'provider2', provider_user_id: '456')
-      expect(user.first_name_autogenerated?).to eq false
+      expect(user.full_name_autogenerated?).to eq false
     end
 
-    it 'response true if the first_name is autogenerated with the user identity' do
+    it 'response true if the full_name is autogenerated with the user identity' do
       identity = UserIdentity.create!(user: user, omniauth_provider: 'provider1', provider_user_id: '123')
-      user.first_name = "autogenerated@#{identity.provider_user_id}-#{identity.omniauth_provider}.com"
+      user.full_name = "autogenerated@#{identity.provider_user_id}-#{identity.omniauth_provider}.com"
       user.save!
-      expect(user.first_name_autogenerated?).to eq true
-    end
-  end
-
-  describe 'last_name_autogenerated?' do
-    let!(:user) { FactoryBot.create(:OmniAuthUser) }
-
-    it 'response false if no user identity could be found' do
-      expect(user.last_name_autogenerated?).to eq false
-    end
-
-    it 'response false if user identities are present but last_name is not autogenerated' do
-      UserIdentity.create!(user: user, omniauth_provider: 'provider1', provider_user_id: '123')
-      UserIdentity.create!(user: user, omniauth_provider: 'provider2', provider_user_id: '456')
-      expect(user.last_name_autogenerated?).to eq false
-    end
-
-    it 'response true if the last_name is autogenerated with the user identity' do
-      identity = UserIdentity.create!(user: user, omniauth_provider: 'provider1', provider_user_id: '123')
-      user.last_name = "autogenerated@#{identity.provider_user_id}-#{identity.omniauth_provider}.com"
-      user.save!
-      expect(user.last_name_autogenerated?).to eq true
+      expect(user.full_name_autogenerated?).to eq true
     end
   end
 

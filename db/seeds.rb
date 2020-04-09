@@ -131,15 +131,15 @@ if Rails.env.development? || ENV['HEROKU'] == 'true'
                                         CourseTrack.create!(track_type: iversity_ects_track_type, costs: 50.0, costs_currency: '€')],
                                points_maximal: 105.7)
 
-  user1 = User.create!(first_name: 'Max', last_name: 'Mustermann', primary_email: 'max@example.com', password: '12345678')
-  user2 = User.create!(first_name: 'Maxi', last_name: 'Musterfrau', primary_email: 'maxi@example.com', password: '12345678')
-  user3 = User.create!(first_name: 'Ronny', last_name: 'Gonzales', primary_email: 'ronny@example.com', password: '12345678')
-  user4 = User.create!(first_name: 'Peter', last_name: 'Mayer', primary_email: 'peter@example.com', password: '12345678')
-  user5 = User.create!(first_name: 'Klara', last_name: 'Wolff', primary_email: 'klara@example.com', password: '12345678')
-  user6 = User.create!(first_name: 'Thomas', last_name: 'Suess', primary_email: 'thomas@example.com', password: '12345678')
-  user7 = User.create!(first_name: 'Victoria', last_name: 'Geheimnis', primary_email: 'victoria@example.com', password: '12345678')
-  user8 = User.create!(first_name: 'Johnny', last_name: 'Genie', primary_email: 'johnny@example.com', password: '12345678')
-  user9 = User.create!(first_name: 'Rocky', last_name: 'Stein', primary_email: 'rocky@example.com', password: '12345678')
+  user1 = User.create!(full_name: 'Max Mustermann', primary_email: 'max@example.com', password: '12345678')
+  user2 = User.create!(full_name: 'Maxi Musterfrau', primary_email: 'maxi@example.com', password: '12345678')
+  user3 = User.create!(full_name: 'Ronny Gonzales', primary_email: 'ronny@example.com', password: '12345678')
+  user4 = User.create!(full_name: 'Peter Mayer', primary_email: 'peter@example.com', password: '12345678')
+  user5 = User.create!(full_name: 'Klara Wolff', primary_email: 'klara@example.com', password: '12345678')
+  user6 = User.create!(full_name: 'Thomas Suess', primary_email: 'thomas@example.com', password: '12345678')
+  user7 = User.create!(full_name: 'Victoria Geheimnis', primary_email: 'victoria@example.com', password: '12345678')
+  user8 = User.create!(full_name: 'Johnny Genie', primary_email: 'johnny@example.com', password: '12345678')
+  user9 = User.create!(full_name: 'Rocky Stein', primary_email: 'rocky@example.com', password: '12345678')
 
   Evaluation.create!(user_id: user1.id, course_id: full_course.id, rating: 5, description: 'Super Kurs!', course_status: :finished, rated_anonymously: false, total_feedback_count: 101, positive_feedback_count: 101)
   Evaluation.create!(user_id: user2.id, course_id: full_course.id, rating: 2, course_status: :aborted, rated_anonymously: true)
@@ -154,8 +154,7 @@ if Rails.env.development? || ENV['HEROKU'] == 'true'
   group1 = Group.create!(name: 'Testgruppe1', description: 'Testgruppe1 ist die Beste!')
 
   20.times do |i|
-    user = User.create! first_name: "Maximus_#{i}",
-                        last_name: 'Mustermann',
+    user = User.create! full_name: "Maximus_#{i} Mustermann",
                         primary_email: "maximus_#{i}@example.com",
                         password: '12345678'
     group1.users.push user
@@ -192,13 +191,9 @@ if Rails.env.development? || ENV['HEROKU'] == 'true'
   FactoryBot.create(:group_recommendation, course: full_course, group: group1, users: group1.users, author: user2)
   FactoryBot.create(:user_recommendation, course: full_course, users: [user1], author: user2)
 
-  if ENV['OPEN_HPI_TOKEN'].present?
-    FactoryBot.create(:naive_mooc_provider_user, user: user1, mooc_provider: open_hpi, access_token: ENV['OPEN_HPI_TOKEN'])
-  end
+  FactoryBot.create(:naive_mooc_provider_user, user: user1, mooc_provider: open_hpi, access_token: ENV['OPEN_HPI_TOKEN']) if ENV['OPEN_HPI_TOKEN'].present?
 
-  if ENV['OPEN_SAP_TOKEN'].present?
-    FactoryBot.create(:naive_mooc_provider_user, user: user1, mooc_provider: open_sap, access_token: ENV['OPEN_SAP_TOKEN'])
-  end
+  FactoryBot.create(:naive_mooc_provider_user, user: user1, mooc_provider: open_sap, access_token: ENV['OPEN_SAP_TOKEN']) if ENV['OPEN_SAP_TOKEN'].present?
 
   FactoryBot.create(:full_completion, course: full_course, user: user1)
   completion1 = FactoryBot.create(:completion, course: minimal_following_course, user: user1)

@@ -23,9 +23,7 @@ class AmazonS3
   def provider_logos_hash_for_courses(courses)
     logos = {}
     courses.each do |course|
-      unless logos.key?(course.mooc_provider.logo_id)
-        logos[course.mooc_provider.logo_id] = get_url(course.mooc_provider.logo_id)
-      end
+      logos[course.mooc_provider.logo_id] = get_url(course.mooc_provider.logo_id) unless logos.key?(course.mooc_provider.logo_id)
     end
 
     logos
@@ -47,9 +45,7 @@ class AmazonS3
   def provider_logos_hash_for_recommendations(recommendations)
     logos = {}
     recommendations.each do |recommendation|
-      unless logos.key?(recommendation.course.mooc_provider.logo_id)
-        logos[recommendation.course.mooc_provider.logo_id] = get_url(recommendation.course.mooc_provider.logo_id)
-      end
+      logos[recommendation.course.mooc_provider.logo_id] = get_url(recommendation.course.mooc_provider.logo_id) unless logos.key?(recommendation.course.mooc_provider.logo_id)
     end
 
     logos
@@ -58,9 +54,7 @@ class AmazonS3
   def put_data(key, file, options_hash = {})
     object = get_object(key)
 
-    unless options_hash.key?(:cache_control_time_in_seconds)
-      options_hash[:cache_control_time_in_seconds] = 15.days
-    end
+    options_hash[:cache_control_time_in_seconds] = 15.days unless options_hash.key?(:cache_control_time_in_seconds)
 
     object.put(body: file, content_encoding: options_hash[:content_encoding], content_type: options_hash[:content_type], cache_control: "max-age=#{options_hash[:cache_control_time_in_seconds]}", storage_class: 'REDUCED_REDUNDANCY')
   end
@@ -69,6 +63,7 @@ class AmazonS3
 
   def new_aws_resource
     return unless ENV['WITH_S3'] == 'true'
+
     s3 = Aws::S3::Resource.new(endpoint: URI("https://s3.dualstack.#{ENV['AWS_REGION']}.amazonaws.com"))
     @bucket = s3.bucket(BUCKET_NAME)
   end

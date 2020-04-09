@@ -180,7 +180,7 @@ RSpec.describe CourseraCourseWorker do
     expect(course.course_instructors).to eq 'Kevin Werbach'
     expect(course.workload).to eq json_course['workload']
     expect(course.start_date.strftime('%d.%m.%Y')).to eq '09.11.2015'
-    expect(course.categories).to match ['computer-science', 'business']
+    expect(course.categories).to match %w[computer-science business]
     expect(course.tracks.count).to eq 2
     expect(achievement_type?(course.tracks, :nothing)).to be_truthy
     expect(achievement_type?(course.tracks, :certificate)).to be_truthy

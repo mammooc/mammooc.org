@@ -27,12 +27,11 @@ class RecommendationsController < ApplicationController
     @activity_courses = {}
     @activity_courses_bookmarked = {}
     return unless @activities
+
     @activities.each do |activity|
       if activity.user_ids.present? && (activity.user_ids.include? current_user.id)
         @activity_courses[activity.id] = Recommendation.find(activity.trackable_id).course
-        if @activity_courses[activity.id].present?
-          @activity_courses_bookmarked[activity.id] = @activity_courses[activity.id].bookmarked_by_user? current_user
-        end
+        @activity_courses_bookmarked[activity.id] = @activity_courses[activity.id].bookmarked_by_user? current_user if @activity_courses[activity.id].present?
       else
         @activities -= [activity]
       end
@@ -56,9 +55,7 @@ class RecommendationsController < ApplicationController
       recommendation = Recommendation.new(recommendation_params)
       recommendation.author = current_user
       recommendation.users.push(User.find(user_id))
-      if recommendation.save!
-        recommendation.create_activity key: 'recommendation.create', owner: current_user, recipient: recommendation.users.first, user_ids: [recommendation.users.first.id]
-      end
+      recommendation.create_activity key: 'recommendation.create', owner: current_user, recipient: recommendation.users.first, user_ids: [recommendation.users.first.id] if recommendation.save!
     end
 
     group_ids.each do |group_id|
@@ -68,9 +65,7 @@ class RecommendationsController < ApplicationController
       recommendation.group.users.each do |user|
         recommendation.users.push(user)
       end
-      if recommendation.save!
-        recommendation.create_activity key: 'recommendation.create', owner: current_user, recipient: recommendation.group, group_ids: [recommendation.group.id], user_ids: recommendation.group.user_ids
-      end
+      recommendation.create_activity key: 'recommendation.create', owner: current_user, recipient: recommendation.group, group_ids: [recommendation.group.id], user_ids: recommendation.group.user_ids if recommendation.save!
     end
 
     if params[:recommendation][:is_obligatory] == 'true'

@@ -11,7 +11,7 @@ html
     br
     br
     p
-      | Hallo #{@user.first_name} #{@user.last_name},
+      | Hallo #{@user.full_name},
     p
       | dein vorgemerkter Kurs:
       =<> link_to @course.name, course_url(@course)
@@ -23,7 +23,7 @@ html
     br
     br
     br
-      | Hello #{@user.first_name} #{@user.last_name},
+      | Hello #{@user.full_name},
     p
       | your bookmarked course:
       =<> link_to @course.name, course_url(@course)

@@ -32,10 +32,9 @@ class UserDate < ApplicationRecord
 
   def self.generate_token_for_user(user)
     return if user.token_for_user_dates.present?
+
     token = SecureRandom.urlsafe_base64(Settings.token_length)
-    until User.find_by(token_for_user_dates: token).nil?
-      token = SecureRandom.urlsafe_base64(Settings.token_length)
-    end
+    token = SecureRandom.urlsafe_base64(Settings.token_length) until User.find_by(token_for_user_dates: token).nil?
     user.token_for_user_dates = token
     user.save
   end

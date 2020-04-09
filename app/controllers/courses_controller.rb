@@ -41,12 +41,8 @@ class CoursesController < ApplicationController
   # GET /courses/1
   # GET /courses/1.json
   def show
-    if @course.previous_iteration_id
-      @previous_course_name = Course.find(@course.previous_iteration_id).name
-    end
-    if @course.following_iteration_id
-      @following_course_name = Course.find(@course.following_iteration_id).name
-    end
+    @previous_course_name = Course.find(@course.previous_iteration_id).name if @course.previous_iteration_id
+    @following_course_name = Course.find(@course.following_iteration_id).name if @course.following_iteration_id
 
     @course_languages = @course.language.blank? ? nil : @course.language.split(',')
     @subtitle_languages = @course.subtitle_languages.blank? ? nil : @course.subtitle_languages.split(',')
@@ -86,6 +82,7 @@ class CoursesController < ApplicationController
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses([@course])
     @bookmarked = false
     return if current_user.blank?
+
     current_user.bookmarks.each do |bookmark|
       @bookmarked = true if bookmark.course == @course
     end
@@ -115,12 +112,8 @@ class CoursesController < ApplicationController
 
   def send_evaluation
     @errors ||= []
-    unless ranking_valid? params[:rating].to_i
-      @errors << t('evaluations.state_overall_rating')
-    end
-    unless course_status_valid? params[:course_status]
-      @errors << t('evaluations.state_course_status')
-    end
+    @errors << t('evaluations.state_overall_rating') unless ranking_valid? params[:rating].to_i
+    @errors << t('evaluations.state_course_status') unless course_status_valid? params[:course_status]
 
     if @errors.empty?
       rating = params[:rating].to_i
@@ -150,9 +143,7 @@ class CoursesController < ApplicationController
   end
 
   def search
-    if params[:query].present?
-      session['course_filterrific'] = {search_query: params[:query]}
-    end
+    session['course_filterrific'] = {search_query: params[:query]} if params[:query].present?
     redirect_to courses_path
   end
 
@@ -173,6 +164,7 @@ class CoursesController < ApplicationController
 
   def course_status_valid?(course_status)
     return false if course_status.blank?
+
     %i[aborted enrolled finished].include? course_status.to_sym
   end
 
@@ -232,15 +224,15 @@ class CoursesController < ApplicationController
 
   def load_courses
     @filterrific = initialize_filterrific(Course, params[:filterrific],
-      select_options: {with_language: Course.options_for_languages,
-                       with_mooc_provider_id: MoocProvider.options_for_select,
-                       with_subtitle_languages: Course.options_for_subtitle_languages,
-                       duration_filter_options: Course.options_for_duration,
-                       start_filter_options: Course.options_for_start,
-                       options_for_costs: Course.options_for_costs,
-                       options_for_certificate: CourseTrackType.options_for_select,
-                       options_for_sorted_by: Course.options_for_sorted_by},
-      persistence_id: 'course_filterrific') || return
+                                          select_options: {with_language: Course.options_for_languages,
+                                                           with_mooc_provider_id: MoocProvider.options_for_select,
+                                                           with_subtitle_languages: Course.options_for_subtitle_languages,
+                                                           duration_filter_options: Course.options_for_duration,
+                                                           start_filter_options: Course.options_for_start,
+                                                           options_for_costs: Course.options_for_costs,
+                                                           options_for_certificate: CourseTrackType.options_for_select,
+                                                           options_for_sorted_by: Course.options_for_sorted_by},
+                                          persistence_id: 'course_filterrific') || return
 
     @courses = @filterrific.find.page(params[:page])
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_courses(@courses)

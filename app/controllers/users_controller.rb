@@ -42,9 +42,7 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    if UserGroup.find_by(user_id: @user.id).present?
-      UserGroup.find_by(user_id: @user.id).destroy
-    end
+    UserGroup.find_by(user_id: @user.id).destroy if UserGroup.find_by(user_id: @user.id).present?
     @user.destroy
     respond_to do |format|
       format.html { redirect_to users_url, notice: t('flash.notice.users.successfully_destroyed') }
@@ -178,8 +176,8 @@ class UsersController < ApplicationController
 
   def connected_users_autocomplete
     search = params[:q].downcase
-    users = current_user.connected_users.select {|u| u.first_name.downcase.include?(search) || u.last_name.downcase.include?(search) }
-                        .collect {|u| {id: u.id, first_name: u.first_name, last_name: u.last_name} }
+    users = current_user.connected_users.select {|u| u.full_name.downcase.include?(search) }
+                        .collect {|u| {id: u.id, full_name: u.full_name} }
 
     respond_to do |format|
       format.json { render json: users }
@@ -257,9 +255,7 @@ class UsersController < ApplicationController
     mooc_provider = MoocProvider.find_by(id: params[:mooc_provider])
     if mooc_provider.present?
       provider_connector = get_connector_by_mooc_provider mooc_provider
-      if provider_connector.present?
-        @revoked_connection = provider_connector.destroy_connection(current_user)
-      end
+      @revoked_connection = provider_connector.destroy_connection(current_user) if provider_connector.present?
     end
     set_provider_logos
     prepare_mooc_provider_settings
@@ -291,6 +287,7 @@ class UsersController < ApplicationController
     number_of_new_emails.times do |index|
       index_of_new_email = total_number_of_emails - index
       next if params[:user][:user_email][:"address_#{index_of_new_email}"].blank?
+
       new_address = params[:user][:user_email][:"address_#{index_of_new_email}"]
       new_email = UserEmail.new(address: new_address, is_primary: false)
       new_email.user = @user
@@ -345,9 +342,7 @@ class UsersController < ApplicationController
   def prepare_mooc_provider_settings
     @mooc_providers = MoocProvider.all.map do |mooc_provider|
       provider_connector = get_connector_by_mooc_provider mooc_provider
-      if provider_connector.present? && mooc_provider.api_support_state == 'oauth'
-        oauth_link = provider_connector.oauth_link("#{user_settings_path(current_user)}?subsite=mooc_provider", masked_authenticity_token(session))
-      end
+      oauth_link = provider_connector.oauth_link("#{user_settings_path(current_user)}?subsite=mooc_provider", masked_authenticity_token(session)) if provider_connector.present? && mooc_provider.api_support_state == 'oauth'
       {id: mooc_provider.id,
        url: mooc_provider.url,
        logo_id: mooc_provider.logo_id,
@@ -390,6 +385,6 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :primary_email, :title, :password, :profile_image, :about_me)
+    params.require(:user).permit(:full_name, :primary_email, :title, :password, :profile_image, :about_me)
   end
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :activity_group_join, class: PublicActivity::Activity do
+  factory :activity_group_join, class: 'PublicActivity::Activity' do
     key { 'group.join' }
     user_ids { [FactoryBot.create(:user).id, FactoryBot.create(:user).id] }
     group_ids { [FactoryBot.create(:group).id] }
@@ -11,7 +11,7 @@ FactoryBot.define do
     owner_type { 'User' }
   end
 
-  factory :activity_course_enroll, class: PublicActivity::Activity do
+  factory :activity_course_enroll, class: 'PublicActivity::Activity' do
     key { 'course.enroll' }
     user_ids { [FactoryBot.create(:user).id, FactoryBot.create(:user).id] }
     group_ids { [FactoryBot.create(:group).id] }
@@ -21,7 +21,7 @@ FactoryBot.define do
     owner_type { 'User' }
   end
 
-  factory :activity_bookmark, class: PublicActivity::Activity do
+  factory :activity_bookmark, class: 'PublicActivity::Activity' do
     key { 'bookmark.create' }
     user_ids { [FactoryBot.create(:user).id, FactoryBot.create(:user).id] }
     group_ids { [FactoryBot.create(:group).id] }
@@ -31,7 +31,7 @@ FactoryBot.define do
     owner_type { 'User' }
   end
 
-  factory :activity_group_recommendation, class: PublicActivity::Activity do
+  factory :activity_group_recommendation, class: 'PublicActivity::Activity' do
     key { 'recommendation.create' }
     user_ids { [FactoryBot.create(:user).id, FactoryBot.create(:user).id] }
     group_ids { [FactoryBot.create(:group).id] }
@@ -46,7 +46,7 @@ FactoryBot.define do
     end
   end
 
-  factory :activity_user_recommendation, class: PublicActivity::Activity do
+  factory :activity_user_recommendation, class: 'PublicActivity::Activity' do
     key { 'recommendation.create' }
     user_ids { [FactoryBot.create(:user).id, FactoryBot.create(:user).id] }
     trackable_id { FactoryBot.create(:user_recommendation_without_activity).id }
@@ -60,7 +60,7 @@ FactoryBot.define do
     end
   end
 
-  factory :activity, class: PublicActivity::Activity do
+  factory :activity, class: 'PublicActivity::Activity' do
     user_ids { [FactoryBot.create(:user).id, FactoryBot.create(:user).id] }
     owner_id { FactoryBot.create(:user).id }
     owner_type { 'User' }
