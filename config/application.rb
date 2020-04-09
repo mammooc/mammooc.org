@@ -34,7 +34,6 @@ module MAMMOOC
 
     # Load the files in lib
     config.autoload_paths += %W[#{config.root}/lib]
-    config.autoload_paths += %W[#{config.root}/lib/**/]
 
     config.to_prepare do
       Devise::SessionsController.skip_before_action :require_login
