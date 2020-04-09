@@ -44,13 +44,14 @@ class AbstractCourseWorker
   end
 
   def parse_markdown(text)
-    return unless text.present?
+    return if text.blank?
+
     redcarpet = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
     redcarpet.render(text)
   end
 
   def convert_to_absolute_urls(html)
-    document = _(html)
+    document = Nokogiri::HTML.fragment(html)
     tags = {'img' => 'src', 'a' => 'href', 'video' => 'src'}
 
     document.search(tags.keys.join(',')).each do |node|

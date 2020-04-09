@@ -9,12 +9,12 @@ module ConnectorMapper
         OpenHPIConnector.new
       when 'openSAP'
         OpenSAPConnector.new
-      when 'openHPI.cn'
-        OpenHPIChinaConnector.new
       when 'mooc.house'
         MoocHouseConnector.new
       when 'openWHO'
         OpenWHOConnector.new
+      when 'lernen.cloud'
+        LernenCloudConnector.new
       when 'coursera'
         # CourseraConnector.new
         nil
@@ -27,8 +27,8 @@ module ConnectorMapper
         OpenHPIUserWorker
       when 'openSAP'
         OpenSAPUserWorker
-      when 'openHPI.cn'
-        OpenHPIChinaUserWorker
+      when 'lernen.cloud'
+        LernenCloudUserWorker
       when 'mooc.house'
         MoocHouseUserWorker
       when 'openWHO'

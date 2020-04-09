@@ -7,8 +7,8 @@ class UserWorker
     OpenHPIUserWorker.perform_async user_ids
     OpenSAPUserWorker.perform_async user_ids
     MoocHouseUserWorker.perform_async user_ids
-    OpenHPIChinaUserWorker.perform_async user_ids
     OpenWHOUserWorker.perform_async user_ids
+    LernenCloudUserWorker.perform_async user_ids
     CourseraUserWorker.perform_async user_ids
   end
 end

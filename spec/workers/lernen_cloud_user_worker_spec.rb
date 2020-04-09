@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe OpenHPIChinaUserWorker do
+RSpec.describe LernenCloudUserWorker do
   let(:user) { FactoryBot.create(:user) }
 
   before do
@@ -10,12 +10,12 @@ RSpec.describe OpenHPIChinaUserWorker do
   end
 
   it 'loads all users when no argument is passed' do
-    expect_any_instance_of(OpenHPIChinaConnector).to receive(:load_user_data).with(no_args)
+    expect_any_instance_of(LernenCloudConnector).to receive(:load_user_data).with(no_args)
     described_class.perform_async
   end
 
   it 'loads specified user when the corresponding id is passed' do
-    expect_any_instance_of(OpenHPIChinaConnector).to receive(:load_user_data).with([user])
+    expect_any_instance_of(LernenCloudConnector).to receive(:load_user_data).with([user])
     described_class.perform_async([user.id])
   end
 end
