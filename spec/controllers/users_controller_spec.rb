@@ -165,6 +165,7 @@ RSpec.describe UsersController, type: :controller do
         expect(mooc_provider[:logo_id]).to eq MoocProvider.all[index].logo_id
         expect(mooc_provider[:api_support_state]).to eq MoocProvider.all[index].api_support_state
         next unless MoocProvider.all[index].name == 'coursera'
+
         CourseraConnector.new.oauth_link("#{user_settings_path(user)}?subsite=mooc_provider", 'my_csrf_token')
         # expect(mooc_provider[:oauth_link]).to eq oauth_link
         expect(mooc_provider[:oauth_link]).to eq nil

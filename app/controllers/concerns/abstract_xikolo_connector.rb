@@ -16,6 +16,7 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
     response = RestClient.post(authentication_url, request_parameters, accept: 'application/vnd.xikoloapplication/vnd.xikolo.v1, application/json')
     json_response = JSON.parse response
     return if json_response['token'].blank?
+
     connection = mooc_provider_user_connection user
     connection.access_token = json_response['token']
     connection.save!
@@ -44,6 +45,7 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
   def send_unenrollment_for_course(user, course)
     existing_enrollment = UserCourse.find_by(user: user, course: course)
     return unless existing_enrollment
+
     api_url = self.class::ROOT_API + ENROLLMENTS_API + existing_enrollment.provider_id
     response = RestClient.delete(api_url, accept: accept_header, authorization: token_string(user))
     handle_api_expiration_header response
@@ -102,6 +104,7 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
         course.save!
 
         next unless enrollment.completed
+
         completion = Completion.find_or_create_by(course: course, user: user)
 
         if progress.present? && progress.main_exercises
@@ -118,6 +121,7 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
 
         enrollment.certificates.each do |document_type, url|
           next unless url
+
           certificate = Certificate.find_or_initialize_by(completion: completion, document_type: document_type)
           certificate.download_url = url
           certificate.save!
@@ -177,21 +181,16 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
   end
 
   def update_existing_entry(user_date, response_date)
-    if user_date.date != response_date['date']
-      user_date.date = response_date['date']
-    end
-    if user_date.title != response_date['title']
-      user_date.title = response_date['title']
-    end
-    if user_date.kind != response_date['type']
-      user_date.kind = response_date['type']
-    end
+    user_date.date = response_date['date'] if user_date.date != response_date['date']
+    user_date.title = response_date['title'] if user_date.title != response_date['title']
+    user_date.kind = response_date['type'] if user_date.kind != response_date['type']
     user_date.save
   end
 
   def change_existing_no_longer_relevant_entries(update_map)
     update_map.each do |user_date_id, updated|
       next if updated
+
       user_date = UserDate.find(user_date_id)
       user_date.relevant = false
       user_date.save
@@ -208,6 +207,7 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
 
   def handle_api_expiration_header(response)
     return if response.headers[:x_api_version_expiration_date].blank?
+
     api_expiration_date = response.headers[:x_api_version_expiration_date]
     AdminMailer.xikolo_api_expiration(Settings.admin_email, self.class.name, response.request.url, api_expiration_date, Settings.root_url).deliver_later
   end

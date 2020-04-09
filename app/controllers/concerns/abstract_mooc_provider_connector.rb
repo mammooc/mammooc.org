@@ -15,35 +15,37 @@ class AbstractMoocProviderConnector
 
   def enroll_user_for_course(user, course)
     return unless connection_to_mooc_provider? user
+
     begin
       send_enrollment_for_course user, course
     rescue RestClient::Unauthorized => e
       # This would be the case, when the user's authorization token is invalid
       Rails.logger.error "#{e.class}: #{e.message}"
-      return false
+      false
     rescue RestClient::InternalServerError, RestClient::BadGateway, Errno::ECONNREFUSED,
            RestClient::ResourceNotFound, RestClient::BadRequest => e
       Rails.logger.error "#{e.class}: #{e.message}"
-      return false
+      false
     else
-      return true
+      true
     end
   end
 
   def unenroll_user_for_course(user, course)
     return unless connection_to_mooc_provider? user
+
     begin
       send_unenrollment_for_course user, course
     rescue RestClient::Unauthorized => e
       # This would be the case, when the user's authorization token is invalid
       Rails.logger.error "#{e.class}: #{e.message}"
-      return false
+      false
     rescue RestClient::InternalServerError, RestClient::BadGateway, Errno::ECONNREFUSED,
            RestClient::ResourceNotFound, RestClient::BadRequest => e
       Rails.logger.error "#{e.class}: #{e.message}"
-      return false
+      false
     else
-      return true
+      true
     end
   end
 
@@ -85,6 +87,7 @@ class AbstractMoocProviderConnector
 
   def destroy_connection(user)
     return false unless connection_to_mooc_provider? user
+
     MoocProviderUser.find_by(user: user, mooc_provider: mooc_provider).destroy
     true
   end
@@ -138,6 +141,7 @@ class AbstractMoocProviderConnector
   def get_access_token(user)
     connection = MoocProviderUser.find_by(user_id: user.id, mooc_provider_id: mooc_provider.id)
     return if connection.blank?
+
     if connection.mooc_provider.api_support_state == 'naive'
       connection.access_token
     elsif connection.mooc_provider.api_support_state == 'oauth'
@@ -145,10 +149,8 @@ class AbstractMoocProviderConnector
         connection.access_token
       else
         refresh_access_token(user) if connection.refresh_token.present?
-        return nil
+        nil
       end
-    else
-      return nil
     end
   end
 

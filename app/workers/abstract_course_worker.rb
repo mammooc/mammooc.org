@@ -57,8 +57,10 @@ class AbstractCourseWorker
 
       uri_string = node[url_attribute]
       next if uri_string.empty?
+
       uri = URI.parse(uri_string)
       next if uri.host.present?
+
       uri.scheme = URI(self.class::COURSE_LINK_BODY).scheme
       uri.host = URI(self.class::COURSE_LINK_BODY).host
       node[url_attribute] = uri.to_s

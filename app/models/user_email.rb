@@ -1,20 +1,20 @@
 # frozen_string_literal: true
 
 class UserEmail < ApplicationRecord
-  LCHARS    = /\w+\p{L}\p{N}\!\/#\$%&'*+=?^`{|}~}/
-  LOCAL     = /[#{LCHARS.source}]+((\.|\-)[#{LCHARS.source}]+)*/
-  DCHARS    = /A-z\d/
-  SUBDOMAIN = /[#{DCHARS.source}]+(\-+[#{DCHARS.source}]+)*/
-  DOMAIN    = /#{SUBDOMAIN.source}(\.#{SUBDOMAIN.source})*\.[#{DCHARS.source}]{2,}/
-  EMAIL     = /\A#{LOCAL.source}@#{DOMAIN.source}\z/i
+  LCHARS    = /\w+\p{L}\p{N}\!\/#\$%&'*+=?^`{|}~}/.freeze
+  LOCAL     = /[#{LCHARS.source}]+((\.|\-)[#{LCHARS.source}]+)*/.freeze
+  DCHARS    = /A-z\d/.freeze
+  SUBDOMAIN = /[#{DCHARS.source}]+(\-+[#{DCHARS.source}]+)*/.freeze
+  DOMAIN    = /#{SUBDOMAIN.source}(\.#{SUBDOMAIN.source})*\.[#{DCHARS.source}]{2,}/.freeze
+  EMAIL     = /\A#{LOCAL.source}@#{DOMAIN.source}\z/i.freeze
 
   belongs_to :user
   validate :one_primary_address_per_user
   validates :is_verified, inclusion: {in: [true, false]}
   validates :address,
-    presence:   true,
-    uniqueness: {case_sensitive: false},
-    format:     {with: EMAIL}
+            presence: true,
+            uniqueness: {case_sensitive: false},
+            format: {with: EMAIL}
 
   before_destroy :validate_destroy
 
@@ -22,6 +22,7 @@ class UserEmail < ApplicationRecord
 
   def change_to_primary_email
     return if UserEmail.find_by(address: user.primary_email, user: user) == self
+
     transaction do
       old_primary = UserEmail.find_by(address: user.primary_email, user: user)
       old_primary.is_primary = false
@@ -64,6 +65,7 @@ class UserEmail < ApplicationRecord
   def validate_destroy
     # Only allow deletion of non-primary addresses
     return unless is_primary
+
     throw :abort
   end
 end

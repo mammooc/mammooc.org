@@ -8,10 +8,10 @@ RSpec.describe Evaluation, type: :model do
     let!(:course) { FactoryBot.create(:course) }
     let!(:evaluation) do
       FactoryBot.create(:full_evaluation,
-        user: user,
-        course: course,
-        course_status: 1,
-        rating: 1)
+                        user: user,
+                        course: course,
+                        course_status: 1,
+                        rating: 1)
     end
 
     it 'call update_course_rating_and_count after save when rating changed' do

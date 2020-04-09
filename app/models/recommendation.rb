@@ -16,9 +16,7 @@ class Recommendation < ApplicationRecord
     end
 
     recommendations_of_user.each do |recommendation|
-      if recommendation.course == course
-        course_recommendations.push(recommendation)
-      end
+      course_recommendations.push(recommendation) if recommendation.course == course
     end
 
     course_recommendations = self.filter_users(course_recommendations, filter_users)

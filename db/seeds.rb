@@ -191,13 +191,9 @@ if Rails.env.development? || ENV['HEROKU'] == 'true'
   FactoryBot.create(:group_recommendation, course: full_course, group: group1, users: group1.users, author: user2)
   FactoryBot.create(:user_recommendation, course: full_course, users: [user1], author: user2)
 
-  if ENV['OPEN_HPI_TOKEN'].present?
-    FactoryBot.create(:naive_mooc_provider_user, user: user1, mooc_provider: open_hpi, access_token: ENV['OPEN_HPI_TOKEN'])
-  end
+  FactoryBot.create(:naive_mooc_provider_user, user: user1, mooc_provider: open_hpi, access_token: ENV['OPEN_HPI_TOKEN']) if ENV['OPEN_HPI_TOKEN'].present?
 
-  if ENV['OPEN_SAP_TOKEN'].present?
-    FactoryBot.create(:naive_mooc_provider_user, user: user1, mooc_provider: open_sap, access_token: ENV['OPEN_SAP_TOKEN'])
-  end
+  FactoryBot.create(:naive_mooc_provider_user, user: user1, mooc_provider: open_sap, access_token: ENV['OPEN_SAP_TOKEN']) if ENV['OPEN_SAP_TOKEN'].present?
 
   FactoryBot.create(:full_completion, course: full_course, user: user1)
   completion1 = FactoryBot.create(:completion, course: minimal_following_course, user: user1)

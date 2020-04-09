@@ -29,6 +29,7 @@ class EvaluationsController < ApplicationController
 
   def export_overall_course_rating
     raise ActionController::ParameterMissing.new('no provider given for the course') unless params[:provider].present? && params[:course_id].present?
+
     mooc_provider = MoocProvider.find_by!(name: params[:provider])
     course = Course.find_by!(provider_course_id: params[:course_id], mooc_provider: mooc_provider)
 
@@ -49,6 +50,7 @@ class EvaluationsController < ApplicationController
 
   def export_course_evaluations
     raise ActionController::ParameterMissing.new('no provider given for the course') unless params[:provider].present? && params[:course_id].present?
+
     mooc_provider = MoocProvider.find_by!(name: params[:provider])
     course = Course.find_by!(provider_course_id: params[:course_id], mooc_provider: mooc_provider)
 
@@ -70,7 +72,7 @@ class EvaluationsController < ApplicationController
         evaluation_object[:user_profile_picture] = root_url + Settings.default_profile_picture_path
 
       else
-        evaluation_object[:user_name] = "#{evaluation.user.full_name}"
+        evaluation_object[:user_name] = evaluation.user.full_name.to_s
         evaluation_object[:user_profile_picture] = ApplicationController.helpers.asset_url(evaluation.user.profile_image.url(:thumb))
       end
       course_evaluations << evaluation_object
@@ -152,18 +154,12 @@ class EvaluationsController < ApplicationController
   private
 
   def check_and_validate
-    if params['rating'].nil? || params['rated_anonymously'].nil? || params['course_id'].nil? || params['provider'].nil? || params['course_status'].nil?
-      raise ActionController::ParameterMissing.new('one of the following parameters is missing: rating, rated_anonymously, course_id, provider, course_status')
-    end
+    raise ActionController::ParameterMissing.new('one of the following parameters is missing: rating, rated_anonymously, course_id, provider, course_status') if params['rating'].nil? || params['rated_anonymously'].nil? || params['course_id'].nil? || params['provider'].nil? || params['course_status'].nil?
 
-    if params['rating'].blank? || params['rated_anonymously'].blank? || params['course_id'].blank? || params['provider'].blank? || params['course_status'].blank?
-      raise ArgumentError.new('one of the following parameter was empty: rating, rated_anonymously, course_id, provider, course_status')
-    end
+    raise ArgumentError.new('one of the following parameter was empty: rating, rated_anonymously, course_id, provider, course_status') if params['rating'].blank? || params['rated_anonymously'].blank? || params['course_id'].blank? || params['provider'].blank? || params['course_status'].blank?
 
     rating = params['rating'].to_i
-    if rating.to_s != params['rating'] || rating < 1 || rating > 5
-      raise ArgumentError.new('rating has no valid value')
-    end
+    raise ArgumentError.new('rating has no valid value') if rating.to_s != params['rating'] || rating < 1 || rating > 5
 
     begin
       StringHelper.to_bool(params['rated_anonymously'])

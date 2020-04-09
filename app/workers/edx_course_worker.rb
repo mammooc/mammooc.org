@@ -66,15 +66,9 @@ class EdxCourseWorker < AbstractCourseWorker
           end
         end
 
-        if course_element.xpath('course:start').present?
-          course.start_date = course_element.xpath('course:start').text
-        end
-        if course_element.xpath('course:end').present?
-          course.end_date = course_element.xpath('course:end').text
-        end
-        if course_element.xpath('course:length').present?
-          course.provider_given_duration = course_element.xpath('course:length').text
-        end
+        course.start_date = course_element.xpath('course:start').text if course_element.xpath('course:start').present?
+        course.end_date = course_element.xpath('course:end').text if course_element.xpath('course:end').present?
+        course.provider_given_duration = course_element.xpath('course:length').text if course_element.xpath('course:length').present?
         course.abstract = course_element.xpath('course:subtitle').text
         course.description = course_element.xpath('description').text
 
@@ -90,9 +84,7 @@ class EdxCourseWorker < AbstractCourseWorker
         course.course_instructors = instructors
 
         course.requirements = nil
-        unless course_element.xpath('course:prerequisites').text == 'None'
-          course.requirements = [course_element.xpath('course:prerequisites').text]
-        end
+        course.requirements = [course_element.xpath('course:prerequisites').text] unless course_element.xpath('course:prerequisites').text == 'None'
 
         if course_element.xpath('course:subject').present?
           course.categories = []
@@ -103,9 +95,7 @@ class EdxCourseWorker < AbstractCourseWorker
           course.categories = nil
         end
 
-        if course_element.xpath('course:effort').present?
-          course.workload = course_element.xpath('course:effort').text
-        end
+        course.workload = course_element.xpath('course:effort').text if course_element.xpath('course:effort').present?
 
         if course_element.xpath('course:profed').text == '1'
           profed_track = CourseTrack.find_by(course_id: course.id, track_type: profed_track_type) || CourseTrack.create!(track_type: profed_track_type)

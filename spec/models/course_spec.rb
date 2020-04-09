@@ -25,24 +25,24 @@ RSpec.describe Course, type: :model do
     let!(:provider) { FactoryBot.create(:mooc_provider) }
     let!(:course1) do
       FactoryBot.create(:course,
-        mooc_provider_id: provider.id,
-        start_date: Time.zone.local(2015, 3, 15),
-        end_date: Time.zone.local(2015, 3, 17),
-        provider_course_id: '123')
+                        mooc_provider_id: provider.id,
+                        start_date: Time.zone.local(2015, 3, 15),
+                        end_date: Time.zone.local(2015, 3, 17),
+                        provider_course_id: '123')
     end
     let!(:course2) do
       FactoryBot.create(:course,
-        mooc_provider_id: provider.id)
+                        mooc_provider_id: provider.id)
     end
     let!(:course3) do
       FactoryBot.create(:course,
-        mooc_provider_id: provider.id)
+                        mooc_provider_id: provider.id)
     end
     let!(:wrong_dates_course) do
       FactoryBot.create(:course,
-        mooc_provider_id: provider.id,
-        start_date: Time.zone.local(2015, 10, 15),
-        end_date: Time.zone.local(2015, 3, 17))
+                        mooc_provider_id: provider.id,
+                        start_date: Time.zone.local(2015, 10, 15),
+                        end_date: Time.zone.local(2015, 3, 17))
     end
 
     it 'sets duration after creation' do
@@ -350,7 +350,7 @@ RSpec.describe Course, type: :model do
       end
     end
 
-    context 'with with_end_date_gte' do
+    context 'with with_mooc_provider' do
       let!(:wrong_provider) { FactoryBot.create(:mooc_provider) }
       let!(:correct_provider) { FactoryBot.create(:mooc_provider) }
       let!(:wrong_provider2) { FactoryBot.create(:mooc_provider) }

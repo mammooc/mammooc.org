@@ -4,7 +4,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :omniauthable and :encryptable
   devise :database_authenticatable, :registerable,
-    :recoverable, :rememberable, :trackable, :validatable, :omniauthable
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable
   validates :full_name, presence: true
   has_many :emails, class_name: 'UserEmail', dependent: :delete_all
   has_many :user_groups, dependent: :destroy
@@ -23,15 +23,15 @@ class User < ApplicationRecord
   has_many :dates, class_name: 'UserDate', dependent: :destroy
 
   has_attached_file :profile_image,
-    styles: {
-      thumb: '100x100#',
-      square: '300x300#',
-      medium: '300x300>',
-      original: '300x300>'
-    },
-    s3_storage_class: 'REDUCED_REDUNDANCY',
-    s3_permissions: 'public-read',
-    default_url: Settings.default_profile_picture_path
+                    styles: {
+                      thumb: '100x100#',
+                      square: '300x300#',
+                      medium: '300x300>',
+                      original: '300x300>'
+                    },
+                    s3_storage_class: 'REDUCED_REDUNDANCY',
+                    s3_permissions: 'public-read',
+                    default_url: Settings.default_profile_picture_path
 
   # Validate the attached image is image/jpg, image/png, etc
   validates_attachment_content_type :profile_image, content_type: /\Aimage\/.*\Z/
@@ -46,9 +46,7 @@ class User < ApplicationRecord
   def self.author_profile_images_hash_for_recommendations(recommendations, style = :square, expire_time = 3600)
     author_images = {}
     recommendations.each do |recommendation|
-      unless author_images.key?(recommendation.author.id.to_s)
-        author_images[recommendation.author.id.to_s] = recommendation.author.profile_image.expiring_url(expire_time, style)
-      end
+      author_images[recommendation.author.id.to_s] = recommendation.author.profile_image.expiring_url(expire_time, style) unless author_images.key?(recommendation.author.id.to_s)
     end
     author_images
   end
@@ -56,18 +54,14 @@ class User < ApplicationRecord
   def self.author_profile_images_hash_for_activities(activities, style = :square, expire_time = 3600)
     author_images = {}
     activities.each do |activity|
-      unless author_images.key?(activity.owner_id.to_s)
-        author_images[activity.owner_id.to_s] = activity.owner.profile_image.expiring_url(expire_time, style)
-      end
+      author_images[activity.owner_id.to_s] = activity.owner.profile_image.expiring_url(expire_time, style) unless author_images.key?(activity.owner_id.to_s)
     end
     author_images
   end
 
   def self.user_profile_images_hash_for_users(users, images = {}, style = :square, expire_time = 3600)
     users.each do |user|
-      unless images.key?(user.id.to_s)
-        images[user.id.to_s] = user.profile_image.expiring_url(expire_time, style)
-      end
+      images[user.id.to_s] = user.profile_image.expiring_url(expire_time, style) unless images.key?(user.id.to_s)
     end
     images
   end
@@ -76,9 +70,7 @@ class User < ApplicationRecord
     groups.each do |group|
       if group.users.count > 1
         if UserGroup.find_by(group: group, user: self).is_admin
-          if UserGroup.where(group: group, is_admin: true).count == 1
-            throw :abort
-          end
+          throw :abort if UserGroup.where(group: group, is_admin: true).count == 1
         end
       else
         group.destroy
@@ -111,10 +103,9 @@ class User < ApplicationRecord
   def delete_user_from_activity(activity)
     activity.user_ids -= [id]
     activity.save
-    if activity.trackable_type == 'Recommendation'
-      Recommendation.find(activity.trackable_id).delete_user_from_recommendation self
-    end
+    Recommendation.find(activity.trackable_id).delete_user_from_recommendation self if activity.trackable_type == 'Recommendation'
     return unless activity.user_ids.blank? && activity.group_ids.blank?
+
     activity.destroy
   end
 
@@ -145,6 +136,7 @@ class User < ApplicationRecord
   def primary_email
     primary_email_object = emails.find_by(is_primary: true)
     return if primary_email_object.blank?
+
     primary_email_object.address
   end
 
@@ -163,6 +155,7 @@ class User < ApplicationRecord
   def self.find_by_primary_email(email_address)
     primary_email_object = UserEmail.find_by(address: email_address.strip.downcase, is_primary: true)
     return if primary_email_object.blank?
+
     primary_email_object.user
   end
 
@@ -170,7 +163,7 @@ class User < ApplicationRecord
     conditions = warden_conditions.dup
     email_address = conditions.delete(:primary_email)
     if email_address.present?
-      User.find_by_primary_email(email_address) # rubocop:disable Rails/DynamicFindBy
+      User.find_by_primary_email(email_address)
     else
       super(warden_conditions)
     end
@@ -190,7 +183,7 @@ class User < ApplicationRecord
 
     # Create the user if needed
     if user.nil?
-      user = User.find_by_primary_email(email.downcase) if email # rubocop:disable Rails/DynamicFindBy
+      user = User.find_by_primary_email(email.downcase) if email
 
       # We can't find a user with this email, so let's create
       if user.nil?
@@ -276,6 +269,7 @@ class User < ApplicationRecord
 
   def self.process_uri(uri)
     return if uri.nil?
+
     avatar_url = URI.parse(uri)
     avatar_url.scheme = 'https'
     avatar_url.to_s
@@ -295,9 +289,7 @@ class User < ApplicationRecord
 
   def setting(key, create_new = false)
     setting = settings.find_by(name: key)
-    if setting.nil? && create_new
-      setting = UserSetting.create!(name: key, user: self)
-    end
+    setting = UserSetting.create!(name: key, user: self) if setting.nil? && create_new
     setting
   end
 
@@ -327,15 +319,11 @@ class User < ApplicationRecord
       UserSettingEntry.where(setting: settings.where(name: setting)).find_each do |user_setting_entry|
         if user_setting_entry.key == 'groups'
           common_groups_with_user(user).collect(&:id).each do |group_id|
-            if user_setting_entry.value.present?
-              user_is_able = user_setting_entry.value.include? group_id
-            end
+            user_is_able = user_setting_entry.value.include? group_id if user_setting_entry.value.present?
             break if user_is_able
           end
         elsif user_setting_entry.key == 'users'
-          if user_setting_entry.value.present?
-            user_is_able = user_setting_entry.value.include? user.id
-          end
+          user_is_able = user_setting_entry.value.include? user.id if user_setting_entry.value.present?
         end
         break if user_is_able
       end
@@ -347,15 +335,14 @@ class User < ApplicationRecord
     group_is_able = false
     user_setting_entry = UserSettingEntry.find_by(setting: settings.where(name: setting), key: 'groups')
     if user_setting_entry.present?
-      if user_setting_entry.value.present?
-        group_is_able = user_setting_entry.value.include? group.id
-      end
+      group_is_able = user_setting_entry.value.include? group.id if user_setting_entry.value.present?
     end
     group_is_able
   end
 
   def self.collect_new_courses(user)
     return nil if user.last_newsletter_send_at.blank?
+
     Course.where('created_at > ?', user.last_newsletter_send_at)
   end
 
@@ -363,6 +350,7 @@ class User < ApplicationRecord
 
   def save_primary_email
     return if @primary_email_object.blank?
+
     if @primary_email_object.user.blank?
       @primary_email_object.user = self
     elsif @primary_email_object.user != self

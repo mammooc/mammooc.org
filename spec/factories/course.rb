@@ -9,7 +9,7 @@ FactoryBot.define do
     tracks { [FactoryBot.create(:course_track)] }
   end
 
-  factory :full_course, class: Course do
+  factory :full_course, class: 'Course' do
     name { 'Full Technologies' }
     url { 'https://open.hpi.de/courses/webtech2015' }
     course_instructors { 'Prof. Dr. Christoph Meinel, Jan Renz, Thomas Staubitz' }
