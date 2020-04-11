@@ -176,6 +176,10 @@ class CoursesController < ApplicationController
     else
       @course = Course.find(params[:id])
     end
+
+    if @course.blank?
+      raise ActiveRecord::RecordNotFound
+    end
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
