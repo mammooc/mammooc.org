@@ -4,8 +4,8 @@
 
 class Course < ApplicationRecord
   filterrific(
-    default_filter_params: {sorted_by: 'relevance_asc'},
-    available_filters: %i[with_start_date_gte
+      default_filter_params: {sorted_by: 'relevance_asc'},
+      available_filters: %i[with_start_date_gte
                           with_end_date_lte
                           with_language
                           with_mooc_provider_id
@@ -34,8 +34,8 @@ class Course < ApplicationRecord
 
   has_attached_file :course_image,
                     styles: {
-                      thumb: '100x100#',
-                      original: '300x300>'
+                        thumb: '100x100#',
+                        original: '300x300>'
                     },
                     convert_options: {all: '-quality 95'},
                     s3_storage_class: 'REDUCED_REDUNDANCY',
@@ -54,14 +54,14 @@ class Course < ApplicationRecord
   scope :sorted_by, ->(sort_option) do
     direction = sort_option.match?(/desc$/) ? 'desc' : 'asc'
     case sort_option.to_s
-      when /^name_/
-        order("LOWER(courses.name) #{direction}")
-      when /^start_date_/
-        order("courses.start_date #{direction} NULLS LAST")
-      when /^duration_/
-        order("courses.calculated_duration_in_days IS NULL, courses.calculated_duration_in_days #{direction}")
-      when /^relevance_/
-        order("CASE
+    when /^name_/
+      order("LOWER(courses.name) #{direction}")
+    when /^start_date_/
+      order("courses.start_date #{direction} NULLS LAST")
+    when /^duration_/
+      order("courses.calculated_duration_in_days IS NULL, courses.calculated_duration_in_days #{direction}")
+    when /^relevance_/
+      order("CASE
                 WHEN start_date > to_timestamp('#{(Time.zone.now - 1.week).strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 1
                 WHEN start_date <= to_timestamp('#{(Time.zone.now - 1.week).strftime('%Y-%m-%d')}', 'YYYY-MM-DD') AND end_date IS NOT NULL AND end_date > to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 2
                 WHEN start_date <= to_timestamp('#{(Time.zone.now - 1.week).strftime('%Y-%m-%d')}', 'YYYY-MM-DD') AND end_date IS NOT NULL AND end_date <= to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 3
@@ -69,8 +69,8 @@ class Course < ApplicationRecord
                 ELSE 4
               END,
               start_date ASC")
-      else
-        raise ArgumentError.new "Invalid sort option: #{sort_option.inspect}"
+    else
+      raise ArgumentError.new "Invalid sort option: #{sort_option.inspect}"
     end
   end
 
@@ -81,7 +81,7 @@ class Course < ApplicationRecord
       terms = query.mb_chars.downcase.to_s.split(/\s+/)
 
       # rubocop:disable Style/BlockDelimiters
-      terms = terms.map {|e|
+      terms = terms.map { |e|
         e.prepend('%')
         (e.tr('*', '%') + '%').gsub(/%+/, '%')
       }
@@ -89,10 +89,10 @@ class Course < ApplicationRecord
 
       num_or_conds = 2
       where(
-        terms.map do |_term|
-          "(LOWER(courses.name) LIKE ?) OR (LOWER(COALESCE(courses.course_instructors, '')) LIKE ?)"
-        end.join(' AND '),
-        *terms.map {|e| [e] * num_or_conds }.flatten
+          terms.map do |_term|
+            "(LOWER(courses.name) LIKE ?) OR (LOWER(COALESCE(courses.course_instructors, '')) LIKE ?)"
+          end.join(' AND '),
+          *terms.map { |e| [e] * num_or_conds }.flatten
       )
     end
   end
@@ -134,53 +134,53 @@ class Course < ApplicationRecord
   scope :with_tracks, ->(reference_track_options) do
     if reference_track_options[:costs].present? && reference_track_options[:certificate].blank?
       case reference_track_options[:costs]
-        when 'free'
-          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs = 0').joins(:tracks).collect(&:id).uniq)
-        when 'range1'
-          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 30.0 AND course_tracks.costs > 0.0').joins(:tracks).collect(&:id).uniq)
-        when 'range2'
-          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 60.0 AND course_tracks.costs > 30.0').joins(:tracks).collect(&:id).uniq)
-        when 'range3'
-          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 90.0 AND course_tracks.costs > 60.0').joins(:tracks).collect(&:id).uniq)
-        when 'range4'
-          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 150.0 AND course_tracks.costs > 90.0').joins(:tracks).collect(&:id).uniq)
-        when 'range5'
-          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 200.0 AND course_tracks.costs > 150.0').joins(:tracks).collect(&:id).uniq)
-        when 'range6'
-          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs > 200.0').joins(:tracks).collect(&:id).uniq)
+      when 'free'
+        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs = 0').joins(:tracks).collect(&:id).uniq)
+      when 'range1'
+        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 30.0 AND course_tracks.costs > 0.0').joins(:tracks).collect(&:id).uniq)
+      when 'range2'
+        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 60.0 AND course_tracks.costs > 30.0').joins(:tracks).collect(&:id).uniq)
+      when 'range3'
+        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 90.0 AND course_tracks.costs > 60.0').joins(:tracks).collect(&:id).uniq)
+      when 'range4'
+        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 150.0 AND course_tracks.costs > 90.0').joins(:tracks).collect(&:id).uniq)
+      when 'range5'
+        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 200.0 AND course_tracks.costs > 150.0').joins(:tracks).collect(&:id).uniq)
+      when 'range6'
+        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs > 200.0').joins(:tracks).collect(&:id).uniq)
       end
     elsif reference_track_options[:costs].blank? && reference_track_options[:certificate].present?
       where('course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks)
     elsif reference_track_options[:costs].present? && reference_track_options[:certificate].present?
       case reference_track_options[:costs]
-        when 'free'
-          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs = 0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
-        when 'range1'
-          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 30.0 AND course_tracks.costs > 0.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
-        when 'range2'
-          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 60.0 AND course_tracks.costs > 30.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
-        when 'range3'
-          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 90.0 AND course_tracks.costs > 60.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
-        when 'range4'
-          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 150.0 AND course_tracks.costs > 90.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
-        when 'range5'
-          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 200.0 AND course_tracks.costs > 150.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
-        when 'range6'
-          where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs > 200.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
+      when 'free'
+        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs = 0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
+      when 'range1'
+        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 30.0 AND course_tracks.costs > 0.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
+      when 'range2'
+        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 60.0 AND course_tracks.costs > 30.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
+      when 'range3'
+        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 90.0 AND course_tracks.costs > 60.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
+      when 'range4'
+        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 150.0 AND course_tracks.costs > 90.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
+      when 'range5'
+        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 200.0 AND course_tracks.costs > 150.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
+      when 'range6'
+        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs > 200.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
       end
     end
   end
 
   scope :start_filter_options, ->(reference_start_options) do
     case reference_start_options.to_s
-      when 'now'
-        where('courses.start_date IS NOT NULL AND courses.start_date < ? AND (courses.calculated_duration_in_days IS NOT NULL AND ((DATE ? - courses.calculated_duration_in_days) <  courses.start_date))', Time.zone.now, Time.zone.today)
-      when 'past'
-        where('(courses.calculated_duration_in_days IS NOT NULL AND ((DATE ? - courses.calculated_duration_in_days) >  courses.start_date))  OR (courses.end_date IS NOT NULL AND ? > courses.end_date)', Time.zone.now, Time.zone.now)
-      when 'soon'
-        where('courses.start_date > ? AND courses.start_date <= ?', Time.zone.now, (Time.zone.now + 2.weeks))
-      when 'future'
-        where('courses.start_date > ?', (Time.zone.now + 2.weeks))
+    when 'now'
+      where('courses.start_date IS NOT NULL AND courses.start_date < ? AND (courses.calculated_duration_in_days IS NOT NULL AND ((DATE ? - courses.calculated_duration_in_days) <  courses.start_date))', Time.zone.now, Time.zone.today)
+    when 'past'
+      where('(courses.calculated_duration_in_days IS NOT NULL AND ((DATE ? - courses.calculated_duration_in_days) >  courses.start_date))  OR (courses.end_date IS NOT NULL AND ? > courses.end_date)', Time.zone.now, Time.zone.now)
+    when 'soon'
+      where('courses.start_date > ? AND courses.start_date <= ?', Time.zone.now, (Time.zone.now + 2.weeks))
+    when 'future'
+      where('courses.start_date > ?', (Time.zone.now + 2.weeks))
     end
   end
 
@@ -191,16 +191,16 @@ class Course < ApplicationRecord
 
   scope :duration_filter_options, ->(reference_duration_option) do
     case reference_duration_option.to_s
-      when 'short'
-        where('courses.calculated_duration_in_days <= ?', SHORT_DURATION)
-      when 'short-medium'
-        where('courses.calculated_duration_in_days > ? AND courses.calculated_duration_in_days <= ?', SHORT_DURATION, SHORT_MEDIUM_DURATION)
-      when 'medium'
-        where('courses.calculated_duration_in_days > ? AND courses.calculated_duration_in_days <= ?', SHORT_MEDIUM_DURATION, MEDIUM_DURATION)
-      when 'medium-long'
-        where('courses.calculated_duration_in_days > ? AND courses.calculated_duration_in_days <= ?', MEDIUM_DURATION, MEDIUM_LONG_DURATION)
-      when 'long'
-        where('courses.calculated_duration_in_days > ?', MEDIUM_LONG_DURATION)
+    when 'short'
+      where('courses.calculated_duration_in_days <= ?', SHORT_DURATION)
+    when 'short-medium'
+      where('courses.calculated_duration_in_days > ? AND courses.calculated_duration_in_days <= ?', SHORT_DURATION, SHORT_MEDIUM_DURATION)
+    when 'medium'
+      where('courses.calculated_duration_in_days > ? AND courses.calculated_duration_in_days <= ?', SHORT_MEDIUM_DURATION, MEDIUM_DURATION)
+    when 'medium-long'
+      where('courses.calculated_duration_in_days > ? AND courses.calculated_duration_in_days <= ?', MEDIUM_DURATION, MEDIUM_LONG_DURATION)
+    when 'long'
+      where('courses.calculated_duration_in_days > ?', MEDIUM_LONG_DURATION)
     end
   end
 
@@ -210,7 +210,7 @@ class Course < ApplicationRecord
     else
       user = User.find(user_id)
       course_ids = []
-      user.bookmarks.each {|bookmark| course_ids.push(bookmark.course.id) }
+      user.bookmarks.each { |bookmark| course_ids.push(bookmark.course.id) }
       where(id: course_ids)
     end
   end
@@ -315,16 +315,22 @@ class Course < ApplicationRecord
   def handle_activities
     PublicActivity::Activity.find_each do |activity|
       course = case activity.trackable_type
-                 when 'Recommendation' then Recommendation.find(activity.trackable_id).course
-                 when 'Course' then Course.find(activity.trackable_id)
-                 when 'Bookmark' then Bookmark.find(activity.trackable_id).course
+               when 'Recommendation' then
+                 Recommendation.find(activity.trackable_id).course
+               when 'Course' then
+                 Course.find(activity.trackable_id)
+               when 'Bookmark' then
+                 Bookmark.find(activity.trackable_id).course
                end
       activity.destroy if course == self
     end
   end
 
   def self.process_uri(uri)
-    return if uri.blank? || Settings.domain != 'mammooc.org'
+    return if uri.blank? ||
+              Settings.domain != 'mammooc.org' ||
+              uri.starts_with?('https://') ||
+              uri.starts_with?('http://')
 
     begin
       image_url = URI.parse(uri)
