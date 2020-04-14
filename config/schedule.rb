@@ -23,8 +23,8 @@
 
 env :SHELL, '/bin/sh'
 env :PATH, ENV['PATH']
-set :output, '/var/log/cron_jobs.log'
-set :job_template, ". #{File.expand_path File.dirname(__dir__)}/export_env.sh; sh -c ':job'"
+set :output, Whenever.path + '/log/whenever/whenever_$(date +%Y%m%d%H%M%S).log'
+set :job_template, "set -o allexport; source #{Whenever.path}/config/.env; set +o allexport; sh -c ':job'"
 
 every 1.day, at: '12:00 am' do
   command 'echo Cronjob every day at 12:00 am. Executed: `date`', output: '/var/log/cron_check.log'
