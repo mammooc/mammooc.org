@@ -19,6 +19,7 @@ production:
   adapter: postgresql
   encoding: utf8
   database: mammooc
-  pool: 5
+  # Check /etc/systemd/system/mammooc-sidekiq.service for sidekiq concurrency
+  pool: 20
   username:
   password:

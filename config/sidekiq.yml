@@ -1,1 +1,3 @@
+# This file is not used in production! Check
+# /etc/systemd/system/mammooc-sidekiq.service
 :concurrency: 1
