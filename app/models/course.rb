@@ -327,10 +327,10 @@ class Course < ApplicationRecord
   end
 
   def self.process_uri(uri)
-    return if uri.blank? ||
-              Settings.domain != 'mammooc.org' ||
-              uri.starts_with?('https://') ||
-              uri.starts_with?('http://')
+    return if uri.blank? || Settings.domain != 'mammooc.org'
+
+    return uri if uri.starts_with?('https://') ||
+                  uri.starts_with?('http://')
 
     begin
       image_url = URI.parse(uri)
