@@ -45,6 +45,7 @@ class CourseraCourseWorker < AbstractCourseWorker
     response_data.each do |part_response_data|
       part_response_data['elements'].each do |course_element|
         course = Course.find_or_initialize_by(provider_course_id: course_element['id'], mooc_provider_id: mooc_provider.id)
+        Raven.extra_context(course_element: course_element.inspect, course: course.inspect)
 
         update_map[course.id] = true if update_map[course.id] == false
 
