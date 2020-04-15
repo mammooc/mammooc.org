@@ -62,7 +62,7 @@ class EdxCourseWorker < AbstractCourseWorker
           begin
             Raven.extra_context(course_thumbnail: course_thumbnail.text)
             course.course_image = Course.process_uri(course_thumbnail.text)
-          rescue OpenURI::HTTPError => e
+          rescue OpenURI::HTTPError, Paperclip::Error => e
             Rails.logger.error "Couldn't process course image in course #{course_element.xpath('course:id').text} for URL #{course_thumbnail.text}: #{e.message}"
             course.course_image = nil
           end

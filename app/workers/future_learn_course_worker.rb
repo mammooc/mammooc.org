@@ -56,7 +56,7 @@ class FutureLearnCourseWorker < AbstractCourseWorker
         if course.course_image_file_name != filename
           begin
             course.course_image = Course.process_uri(image_url)
-          rescue OpenURI::HTTPError => e
+          rescue OpenURI::HTTPError, Paperclip::Error => e
             Rails.logger.error "Couldn't process course image in course #{run['uuid']} for URL #{image_url}: #{e.message}"
             course.course_image = nil
           end

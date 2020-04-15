@@ -65,7 +65,7 @@ class CourseraCourseWorker < AbstractCourseWorker
           begin
             Raven.extra_context(course_image: course_element['photoUrl'])
             course.course_image = Course.process_uri(course_element['photoUrl']) unless filename.ends_with? '.pdf'
-          rescue OpenURI::HTTPError => e
+          rescue OpenURI::HTTPError, Paperclip::Error => e
             Rails.logger.error "Couldn't process course image in course #{course_element['id']} for URL #{course_element['photoUrl']}: #{e.message}"
             course.course_image = nil
           end

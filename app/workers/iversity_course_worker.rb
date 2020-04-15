@@ -48,7 +48,7 @@ class IversityCourseWorker < AbstractCourseWorker
       if course_element['image'].present? && course.course_image_file_name != filename
         begin
           course.course_image = Course.process_uri(course_element['image'])
-        rescue OpenURI::HTTPError => e
+        rescue OpenURI::HTTPError, Paperclip::Error => e
           Rails.logger.error "Couldn't process course image in course #{course_element['id']} for URL #{course_element['image']}: #{e.message}"
           course.course_image = nil
         end
