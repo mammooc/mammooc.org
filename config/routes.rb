@@ -3,11 +3,17 @@
 # The priority is based upon order of creation: first created -> highest priority.
 # See how all your routes lay out with "rails routes".
 
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
-  get 'api_connection/index'
-  get 'api_connection/send_request'
-  get 'api_connection/update_user'
-  get 'api_connection/update_all_users'
+  # Admin User ID
+  authenticate :user, ->(u) { u.id == '4fdec8c2-a905-4b3d-b2f4-97779ed999a3' } do
+    get 'api_connection/index'
+    get 'api_connection/send_request'
+    get 'api_connection/update_user'
+    get 'api_connection/update_all_users'
+    mount Sidekiq::Web => 'api_connection/sidekiq'
+  end
 
   devise_for :users, skip: [:registrations], controllers: {registrations: 'users/registrations',
                                                            sessions: 'users/sessions',
