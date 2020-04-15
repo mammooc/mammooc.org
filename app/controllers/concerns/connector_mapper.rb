@@ -11,7 +11,7 @@ module ConnectorMapper
         OpenSAPConnector.new
       when 'mooc.house'
         MoocHouseConnector.new
-      when 'openWHO'
+      when 'OpenWHO'
         OpenWHOConnector.new
       when 'Lernen.cloud'
         LernenCloudConnector.new
@@ -31,7 +31,7 @@ module ConnectorMapper
         LernenCloudUserWorker
       when 'mooc.house'
         MoocHouseUserWorker
-      when 'openWHO'
+      when 'OpenWHO'
         OpenWHOUserWorker
       when 'coursera'
         # CourseraUserWorker

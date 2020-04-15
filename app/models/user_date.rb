@@ -11,7 +11,7 @@ class UserDate < ApplicationRecord
     synchronization_state[:openHPI] = OpenHPIConnector.new.load_dates_for_users [user]
     synchronization_state[:openSAP] = OpenSAPConnector.new.load_dates_for_users [user]
     synchronization_state[:moocHouse] = MoocHouseConnector.new.load_dates_for_users [user]
-    synchronization_state[:openWHO] = OpenWHOConnector.new.load_dates_for_users [user]
+    synchronization_state[:OpenWHO] = OpenWHOConnector.new.load_dates_for_users [user]
     synchronization_state[:lernenCloud] = LernenCloudConnector.new.load_dates_for_users [user]
     synchronization_state
   end
