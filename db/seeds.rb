@@ -9,7 +9,7 @@ open_hpi = MoocProvider.create!(name: 'openHPI', logo_id: 'logo_openHPI.svg', ur
 open_sap = MoocProvider.create!(name: 'openSAP', logo_id: 'logo_openSAP.svg', url: 'https://open.sap.com', api_support_state: :naive)
 MoocProvider.create!(name: 'mooc.house', logo_id: 'logo_mooc_house.svg', url: 'https://mooc.house', api_support_state: :naive)
 MoocProvider.create!(name: 'openWHO', logo_id: 'logo_openWHO.svg', url: 'https://openwho.org', api_support_state: :naive)
-MoocProvider.create!(name: 'lernen.cloud', logo_id: 'logo_lernen_cloud.svg', url: 'https://lernen.cloud', api_support_state: :naive)
+MoocProvider.create!(name: 'Lernen.cloud', logo_id: 'logo_lernen_cloud.svg', url: 'https://lernen.cloud', api_support_state: :naive)
 
 # Others
 MoocProvider.create!(name: 'edX', logo_id: 'logo_edX.svg', url: 'https://www.edx.org', api_support_state: :nil)

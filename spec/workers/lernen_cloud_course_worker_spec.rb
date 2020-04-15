@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe LernenCloudCourseWorker do
-  let!(:mooc_provider) { FactoryBot.create(:mooc_provider, name: 'lernen.cloud') }
+  let!(:mooc_provider) { FactoryBot.create(:mooc_provider, name: 'Lernen.cloud') }
 
   let(:lernen_cloud_course_worker) { described_class.new }
 
