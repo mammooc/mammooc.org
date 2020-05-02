@@ -4,7 +4,7 @@ class AbstractXikoloCourseWorker < AbstractCourseWorker
   MOOC_PROVIDER_NAME = ''
   MOOC_PROVIDER_API_LINK = ''
   COURSE_LINK_BODY = ''
-  XIKOLO_API_VERSION = '3.0'
+  XIKOLO_API_VERSION = '4.0'
 
   def mooc_provider
     MoocProvider.find_by(name: self.class::MOOC_PROVIDER_NAME)

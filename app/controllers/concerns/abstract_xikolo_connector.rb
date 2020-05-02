@@ -6,7 +6,7 @@ class AbstractXikoloConnector < AbstractMoocProviderConnector
   PROGRESS_API = 'course-progresses/'
   DATES_API = 'course-dates/'
   COURSES_API = 'courses/'
-  XIKOLO_API_VERSION = '3.0'
+  XIKOLO_API_VERSION = '4.0'
 
   private
 
