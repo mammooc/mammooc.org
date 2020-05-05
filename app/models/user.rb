@@ -202,6 +202,7 @@ class User < ApplicationRecord
           Rails.logger.error "Couldn't process user profile image for URL #{auth.info.image || auth.info.picture_url}: #{e.message}"
           user.profile_image = nil
         end
+        user.profile_image = nil unless user.valid?
         user.save!
       else
         # Another account already exists with this email but is not associated yet
