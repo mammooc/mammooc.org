@@ -16,7 +16,7 @@ module OmniAuth
         {
           email: raw_info['email'],
           name: raw_info['full_name'],
-          image: 'https://open.hpi.de' + '/avatar/' + raw_info['id']
+          image: raw_info['avatar_url']
         }
       end
 
