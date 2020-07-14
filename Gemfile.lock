@@ -179,7 +179,6 @@ GEM
       dry-initializer (~> 3.0)
       dry-schema (~> 1.5)
     erubi (1.9.0)
-    etc (1.1.0)
     execjs (2.7.0)
     factory_bot (5.2.0)
       activesupport (>= 4.2.0)
@@ -303,8 +302,7 @@ GEM
     parallel (1.19.2)
     parser (2.7.1.4)
       ast (~> 2.4.1)
-    passenger (6.0.5)
-      etc
+    passenger (6.0.6)
       rack
       rake (>= 0.8.1)
     pg (1.2.3)
