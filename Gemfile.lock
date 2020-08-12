@@ -248,7 +248,7 @@ GEM
       bunny
     momentjs-rails (2.20.1)
       railties (>= 3.1)
-    multi_json (1.14.1)
+    multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
     netrc (0.11.0)
@@ -283,8 +283,8 @@ GEM
     omniauth-oauth (1.1.0)
       oauth
       omniauth (~> 1.0)
-    omniauth-oauth2 (1.6.0)
-      oauth2 (~> 1.1)
+    omniauth-oauth2 (1.7.0)
+      oauth2 (~> 1.4)
       omniauth (~> 1.9)
     omniauth-twitter (1.4.0)
       omniauth-oauth (~> 1.1)
