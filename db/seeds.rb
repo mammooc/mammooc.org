@@ -78,7 +78,7 @@ OpenSAPCourseWorker.perform_async
 MoocHouseCourseWorker.perform_async
 OpenWHOCourseWorker.perform_async
 LernenCloudCourseWorker.perform_async
-EdxCourseWorker.perform_async
+# EdxCourseWorker.perform_async
 CourseraCourseWorker.perform_async
 IversityCourseWorker.perform_async
 UdacityCourseWorker.perform_async

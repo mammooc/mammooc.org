@@ -9,7 +9,7 @@ class ApiConnectionController < ApplicationController
     MoocHouseCourseWorker.perform_async
     OpenWHOCourseWorker.perform_async
     LernenCloudCourseWorker.perform_async
-    EdxCourseWorker.perform_async
+    # EdxCourseWorker.perform_async
     CourseraCourseWorker.perform_async
     IversityCourseWorker.perform_async
     FutureLearnCourseWorker.perform_async
