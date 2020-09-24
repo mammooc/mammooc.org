@@ -123,8 +123,8 @@ RSpec.describe CourseraCourseWorker do
       },
       {
         "lastName": "Yee-King",
-        "prefixName": "Dr.",
-        "fullName": "Dr Matthew Yee-King",
+        "prefixName": "Dr",
+        "fullName": "Dr Mathew Yee-King",
         "firstName": "Mathew",
         "id": "1960981"
       },
@@ -191,7 +191,7 @@ RSpec.describe CourseraCourseWorker do
     coursera_course_worker.handle_response_data response_course_data
     json_course = json_course_data['elements'][0]
     course = Course.find_by(provider_course_id: json_course['id'], mooc_provider_id: mooc_provider.id)
-    expect(course.course_instructors).to eq 'Dr Marco Gillies, Dr. Mathew Yee-King, Dr Mick Grierson'
+    expect(course.course_instructors).to eq 'Dr Marco Gillies, Dr Mathew Yee-King, Dr Mick Grierson'
   end
 
   it 'matches the correct organization' do

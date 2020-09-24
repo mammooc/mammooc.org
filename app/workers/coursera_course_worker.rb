@@ -87,7 +87,9 @@ class CourseraCourseWorker < AbstractCourseWorker
 
         course_element['instructorIds'].each do |instructor_id|
           instructor = part_response_data['linked']['instructors.v1'].find {|instructor_element| instructor_element['id'] == instructor_id }
-          instructor_name = (instructor['prefixName'] || '') + ' ' + (instructor['firstName'] || '') + ' ' + (instructor['lastName'] || '')
+          next unless instructor.present?
+          instructor_name = instructor['fullName'].presence ||
+              (instructor['prefixName'] || '') + ' ' + (instructor['firstName'] || '') + ' ' + (instructor['lastName'] || '')
           course_instructors.push(instructor_name.strip)
         end
 
