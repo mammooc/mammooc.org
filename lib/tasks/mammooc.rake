@@ -9,7 +9,7 @@ namespace :mammooc do
     LernenCloudCourseWorker.perform_async
     CourseraCourseWorker.perform_async
     # EdxCourseWorker.perform_async
-    IversityCourseWorker.perform_async
+    # IversityCourseWorker.perform_async
     UdacityCourseWorker.perform_async
     FutureLearnCourseWorker.perform_async
     MooinCourseWorker.perform_async

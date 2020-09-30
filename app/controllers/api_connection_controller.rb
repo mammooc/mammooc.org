@@ -11,7 +11,7 @@ class ApiConnectionController < ApplicationController
     LernenCloudCourseWorker.perform_async
     # EdxCourseWorker.perform_async
     CourseraCourseWorker.perform_async
-    IversityCourseWorker.perform_async
+    # IversityCourseWorker.perform_async
     FutureLearnCourseWorker.perform_async
     UdacityCourseWorker.perform_async
     MooinCourseWorker.perform_async
