@@ -112,7 +112,7 @@ jobs:
             bash .circleci/setup-heroku.sh
             heroku maintenance:on --app mammooc
             if [[ -a .git/shallow ]]; then git fetch --unshallow; fi;
-            git remote rm heorku
+            git remote rm heroku
             git remote add heroku https://git.heroku.com/mammooc.git
             git push heroku master
             heroku pg:reset DATABASE --app mammooc --confirm mammooc
@@ -124,7 +124,7 @@ jobs:
             bash .circleci/setup-heroku.sh
             heroku maintenance:on --app mammooc-dev
             if [[ -a .git/shallow ]]; then git fetch --unshallow; fi;
-            git remote rm heorku
+            git remote rm heroku
             git remote add heroku https://git.heroku.com/mammooc-dev.git
             git push heroku dev:master
             heroku pg:reset DATABASE --app mammooc-dev --confirm mammooc-dev
