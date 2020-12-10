@@ -110,7 +110,7 @@ gem 'secure_headers'
 gem 'json-api-vanilla'
 gem 'jsonapi-resources'
 
-gem 'sprockets', '< 4'
+gem 'sprockets', '< 5'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -124,8 +124,6 @@ group :development, :test do
 
   gem 'rspec-rails'
   gem 'rspec_junit_formatter'
-
-  gem 'bootstrap-generators'
 
   gem 'capybara'
   gem 'capybara-selenium'
