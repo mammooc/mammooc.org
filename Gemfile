@@ -125,8 +125,6 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'rspec_junit_formatter'
 
-  gem 'bootstrap-generators'
-
   gem 'capybara'
   gem 'capybara-selenium'
   gem 'database_cleaner'
