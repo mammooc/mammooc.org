@@ -242,7 +242,7 @@ GEM
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.14.2)
-    mnemosyne-ruby (1.10.0)
+    mnemosyne-ruby (1.11.0)
       activesupport (>= 4)
       bunny
     momentjs-rails (2.20.1)
@@ -461,7 +461,7 @@ GEM
     tilt (2.0.10)
     tins (1.26.0)
       sync
-    tzinfo (1.2.8)
+    tzinfo (1.2.9)
       thread_safe (~> 0.1)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
