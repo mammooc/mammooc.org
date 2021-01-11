@@ -129,7 +129,7 @@ class EvaluationsController < ApplicationController
       if mooc_provider.oauth_path_for_login.blank?
         redirect_to new_user_registration_path # TODO: Pass params to registration so that the user is able to save the evaluation immediately.
       else
-        redirect_post mooc_provider.oauth_path_for_login + '?' + params.to_unsafe_hash.to_param
+        redirect_post mooc_provider.oauth_path_for_login + '?' + params.to_unsafe_hash.to_param, options: { autosubmit_nonce: content_security_policy_script_nonce }
       end
     else
       provider_course_id = params['course_id']
