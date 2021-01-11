@@ -113,6 +113,9 @@ gem 'jsonapi-resources'
 
 gem 'sprockets', '< 5'
 
+# redirect_to using POST method
+gem 'repost'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
