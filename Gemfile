@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 ruby '~> 2.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '6.0.3.4'
+gem 'rails', '6.1.3'
 # Use sqlite3 as the database for Active Record
 gem 'pg'
 gem 'sassc-rails'
