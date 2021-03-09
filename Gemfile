@@ -88,7 +88,9 @@ gem 'config'
 gem 'concurrent-ruby'
 gem 'mnemosyne-ruby'
 gem 'newrelic_rpm'
-gem 'sentry-raven'
+gem 'sentry-rails'
+gem 'sentry-ruby'
+gem 'sentry-sidekiq'
 
 # for filtering, searching and sorting
 gem 'filterrific'

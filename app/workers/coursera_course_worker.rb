@@ -45,7 +45,7 @@ class CourseraCourseWorker < AbstractCourseWorker
     response_data.each do |part_response_data|
       part_response_data['elements'].each do |course_element|
         course = Course.find_or_initialize_by(provider_course_id: course_element['id'], mooc_provider_id: mooc_provider.id)
-        Raven.extra_context(course_element: course_element.inspect, course: course.inspect)
+        Sentry.set_extras(course_element: course_element.inspect, course: course.inspect)
 
         update_map[course.id] = true if update_map[course.id] == false
 
@@ -63,7 +63,7 @@ class CourseraCourseWorker < AbstractCourseWorker
 
         if course_element['photoUrl'].present? && course.course_image_file_name != filename
           begin
-            Raven.extra_context(course_image: course_element['photoUrl'])
+            Sentry.set_extras(course_image: course_element['photoUrl'])
             course.course_image = Course.process_uri(course_element['photoUrl']) unless filename.ends_with? '.pdf'
           rescue OpenURI::HTTPError, Paperclip::Error => e
             Rails.logger.error "Couldn't process course image in course #{course_element['id']} for URL #{course_element['photoUrl']}: #{e.message}"
