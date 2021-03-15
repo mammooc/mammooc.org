@@ -111,7 +111,7 @@ RSpec.configure do |config|
   end
 
   config.after do
-    DatabaseCleaner.clean!
+    DatabaseCleaner.clean
   end
 
   # rspec-expectations config goes here. You can use an alternate
