@@ -446,7 +446,7 @@ GEM
       faraday
     sentry-sidekiq (4.3.0)
       sentry-ruby-core (~> 4.3.0)
-    sidekiq (6.2.0)
+    sidekiq (6.2.1)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
