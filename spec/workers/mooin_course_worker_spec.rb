@@ -23,7 +23,7 @@ RSpec.describe MooinCourseWorker do
                 "attributes": {
                     "name": "Aussprachetraining für arabische Deutschlerner",
                     "url": "https://mooin.oncampus.de/mod/page/view.php?id=1941&lang=de",
-                    "abtract": "In diesem sechswöchigen Kurs helfen wir Dir, die deutsche Aussprache zu erlernen. Wir nehmen uns jeden einzelnen Laut der deutschen Sprache vor und vergleichen ihn mit den Lauten, die Du schon aus deiner Sprache kennst. Ist z.B. ein Laut in beiden Sprachen vorhanden, kannst Du sofort mit uns üben. Ist ein Laut neu für Dich, zeigen wir Dir, wie man ihn erlernen und sprechen kann. Das machen wir mit kurzen, ca. zweiminütigen Videos, eines für jeden deutschen Laut. Zusätzlich gibt es Beschreibungen und weiteres Übungsmaterial.",
+                    "abstract": "In diesem sechswöchigen Kurs helfen wir Dir, die deutsche Aussprache zu erlernen. Wir nehmen uns jeden einzelnen Laut der deutschen Sprache vor und vergleichen ihn mit den Lauten, die Du schon aus deiner Sprache kennst. Ist z.B. ein Laut in beiden Sprachen vorhanden, kannst Du sofort mit uns üben. Ist ein Laut neu für Dich, zeigen wir Dir, wie man ihn erlernen und sprechen kann. Das machen wir mit kurzen, ca. zweiminütigen Videos, eines für jeden deutschen Laut. Zusätzlich gibt es Beschreibungen und weiteres Übungsmaterial.",
                     "description": "Was erwartet Dich in diesem Kurs?\r\nDu sprichst (syrisches) Arabisch und willst Deutsch lernen. Dann ist eine der größten Hürden die deutsche Aussprache. Viele Laute der deutschen Sprache kommen im Arabischen nicht vor und bereiten Dir möglicherweise große Probleme. \r\nIn diesem sechswöchigen Kurs helfen wir Dir, die deutsche Aussprache zu erlernen. Wir nehmen uns jeden einzelnen Laut der deutschen Sprache vor und vergleichen ihn mit den Lauten, die Du schon aus deiner Sprache kennst. Ist z.B. ein Laut in beiden Sprachen vorhanden, kannst Du sofort mit uns üben. Ist ein Laut neu für Dich, zeigen wir Dir, wie man ihn erlernen und sprechen kann. Das machen wir mit kurzen, ca. zweiminütigen Videos, eines für jeden deutschen Laut. Zusätzlich gibt es Beschreibungen und weiteres Übungsmaterial. \r\nAm Ende solltest Du jeden Laut und auch schwierige Lautkombinationen des Deutschen mühelos beherrschen. \r\nDer Online-Kurs ist kostenfrei, ganz zwanglos und ohne Prüfung.",
                     "languages": [
                         "de",
@@ -33,7 +33,7 @@ RSpec.describe MooinCourseWorker do
                     "startDate": "2016-10-15T00:00:00+02:00",
                     "endDate": "2016-11-26T00:00:00+01:00",
                     "doorTime": "2016-08-01T00:00:00+02:00",
-                    "image": "http://moodalis.oncampus.de/fhl/images.php?url=moduledescriptions/2f846aceae146509518ce2f6753f28ef/mooinmooc11.jpg",
+                    "image": {"url": "http://moodalis.oncampus.de/fhl/images.php?url=moduledescriptions/2f846aceae146509518ce2f6753f28ef/mooinmooc11.jpg"},
                     "video": "https://www.youtube.com/watch?v=ZOxOUs2hoBc",
                     "duration": "P6W",
                     "instructors": [
@@ -69,7 +69,7 @@ RSpec.describe MooinCourseWorker do
                     "courseCode": "oncampus-MOOC-oin-2016-002518",
                     "licence": "https://creativecommons.org/licenses/by/3.0/de/",
                     "courseMode": "MOOC",
-                    "isAccessibleForFree": "false"
+                    "access": ["paid"]
                 }
             },
             {
@@ -77,7 +77,7 @@ RSpec.describe MooinCourseWorker do
                 "id": "04c99073eb53d13bab526141ab872f30",
                 "attributes": {
                     "name": "Windenergie und Umwelt",
-                    "abtract": "Was erwartet dich in diesem Kurs?\r\nDies ist ein Online-Kurs für alle, die Interesse an den Auswirkungen der Windenergietechnik auf Mensch und Umwelt haben und über Maßnahmen zu deren Linderung erfahren möchten. Der Windenergie-und-Umwelt-MOOC dauert acht Wochen und beleuchtet Themen von Ökobilanz über Schallimmission bis hin zu getöteten Vögeln und Fledermäusen. Auf der Plattform mooin gibts dazu gratis Videos, Übungsaufgaben und natürlich viele Möglichkeiten, zusammen zu arbeiten, Hilfe zu erhalten, und Gruppen zur Zusammenarbeit zu finden.",
+                    "abstract": "Was erwartet dich in diesem Kurs?\r\nDies ist ein Online-Kurs für alle, die Interesse an den Auswirkungen der Windenergietechnik auf Mensch und Umwelt haben und über Maßnahmen zu deren Linderung erfahren möchten. Der Windenergie-und-Umwelt-MOOC dauert acht Wochen und beleuchtet Themen von Ökobilanz über Schallimmission bis hin zu getöteten Vögeln und Fledermäusen. Auf der Plattform mooin gibts dazu gratis Videos, Übungsaufgaben und natürlich viele Möglichkeiten, zusammen zu arbeiten, Hilfe zu erhalten, und Gruppen zur Zusammenarbeit zu finden.",
                     "languages": [
                         "de"
                     ],
@@ -97,7 +97,7 @@ RSpec.describe MooinCourseWorker do
                     },
                     "courseCode": "oncampus-MOOC-oin-2016-002527",
                     "courseMode": "MOOC",
-                    "isAccessibleForFree": "true"
+                    "access": ["free"]
                 }
             }
         ]
@@ -144,7 +144,7 @@ RSpec.describe MooinCourseWorker do
     expect(course.start_date).to eq Time.zone.parse(json_course['startDate'])
     expect(course.end_date).to eq Time.zone.parse(json_course['endDate'])
     expect(course.description).to eq json_course['description']
-    expect(course.abstract).to eq json_course['abtract']
+    expect(course.abstract).to eq json_course['abstract']
     expect(course.workload).to eq json_course['workload'].to_s
     expect(course.provider_given_duration).to eq json_course['duration']
     expect(course.calculated_duration_in_days).to eq ActiveSupport::Duration.parse(json_course['duration']) / 1.day
@@ -169,7 +169,7 @@ RSpec.describe MooinCourseWorker do
     expect(course.start_date).to eq Time.zone.parse(json_course['startDate'])
     expect(course.end_date).to eq Time.zone.parse(json_course['endDate'])
     expect(course.description).to be_nil
-    expect(course.abstract).to eq json_course['abtract']
+    expect(course.abstract).to eq json_course['abstract']
     expect(course.workload).to be_nil
     expect(course.provider_given_duration).to eq json_course['duration']
     expect(course.calculated_duration_in_days).to eq 35
