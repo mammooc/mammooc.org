@@ -53,8 +53,8 @@ class AbstractJsonApiCourseWorker < AbstractCourseWorker
       course.language = course_element['languages'].join(',')
       if course_element['image'].present? && course_element['image'][/[\?&#]/]
         filename = File.basename(course_element['image'])[/.*?(?=[\?&#])/]
-      elsif course_element['image'].present?
-        filename = File.basename(course_element['image'])
+      elsif course_element['image'].present? && course_element['image']['url'].present?
+        filename = File.basename(course_element['image']['url'])
       end
 
       if course_element['url'].present?
@@ -65,9 +65,9 @@ class AbstractJsonApiCourseWorker < AbstractCourseWorker
         course.url = course_element['moocProvider']['url']
       end
 
-      if course_element['image'].present? && course.course_image_file_name != filename
+      if filename.present? && course.course_image_file_name != filename
         begin
-          course.course_image = Course.process_uri(course_element['image'])
+          course.course_image = Course.process_uri(course_element['image']['url'])
         rescue OpenURI::HTTPError, Paperclip::Error => e
           Rails.logger.error "Couldn't process course image in course #{course_element.id} for URL #{course_element.image}: #{e.message}"
           course.course_image = nil
@@ -75,7 +75,7 @@ class AbstractJsonApiCourseWorker < AbstractCourseWorker
       end
       course.start_date = course_element['startDate']
       course.end_date = course_element['endDate']
-      course.abstract = course_element['abstract'] || course_element['abtract']
+      course.abstract = course_element['abstract']
       course.description = course_element['description']
 
       course.course_instructors = ''
@@ -95,7 +95,7 @@ class AbstractJsonApiCourseWorker < AbstractCourseWorker
         course.calculated_duration_in_days = nil
       end
 
-      track = if course_element['isAccessibleForFree'].to_s == 'true'
+      track = if course_element['access'].include?('free')
                 CourseTrack.find_by(course_id: course.id, track_type: free_track_type) || CourseTrack.create!(track_type: free_track_type, costs: 0.0, costs_currency: "\xe2\x82\xac")
               else
                 CourseTrack.find_by(course_id: course.id, track_type: non_free_track_type) || CourseTrack.create!(track_type: non_free_track_type)
