@@ -44,7 +44,7 @@ class DashboardController < ApplicationController
     @user_picture = @current_user.profile_image.expiring_url(3600, :square)
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
 
-    @current_dates_to_show = current_user.dates.where(Arel.sql('date >= ?', Time.zone.today).sort_by(&:date).first(3))
+    @current_dates_to_show = current_user.dates.where('date >= ?', Time.zone.today).sort_by(&:date).first(3)
 
     respond_to do |format|
       format.html {}

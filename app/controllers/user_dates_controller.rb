@@ -15,7 +15,7 @@ class UserDatesController < ApplicationController
   def events_for_calendar_view
     start_param = params[:start].to_datetime
     end_param = params[:end].to_datetime
-    @current_user_dates = UserDate.where(Arel.sql('date >= ? AND date <= ? AND user_id = ?', start_param, end_param, current_user.id))
+    @current_user_dates = UserDate.where('date >= ? AND date <= ? AND user_id = ?', start_param, end_param, current_user.id)
     respond_to do |format|
       format.html
       format.json { render :events_for_calendar_view, status: :ok }
@@ -24,7 +24,7 @@ class UserDatesController < ApplicationController
 
   def synchronize_dates_on_dashboard
     @synchronization_state = UserDate.synchronize current_user
-    @current_dates_to_show = current_user.dates.where(Arel.sql('date >= ?', Time.zone.today)).sort_by(&:date).first(3)
+    @current_dates_to_show = current_user.dates.where('date >= ?', Time.zone.today).sort_by(&:date).first(3)
     @partial = render_to_string partial: 'dashboard/user_dates', formats: [:html]
     respond_to do |format|
       format.html { redirect_to dashboard_path }

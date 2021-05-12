@@ -20,7 +20,7 @@ class GroupsController < ApplicationController
   # GET /groups.json
   def index
     @groups = current_user.groups
-    @groups = @groups.where(Arel.sql('name LIKE ?', "%#{params[:q]}%")) if params[:q].present?
+    @groups = @groups.where('name LIKE ?', "%#{params[:q]}%") if params[:q].present?
     @groups = current_user.groups_sorted_by_admin_state_and_name(@groups)
     @groups_pictures = Group.group_images_hash_for_groups @groups
 

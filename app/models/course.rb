@@ -88,12 +88,12 @@ class Course < ApplicationRecord
       # rubocop:enable Style/BlockDelimiters
 
       num_or_conds = 2
-      where(Arel.sql(
+      where(
           terms.map do |_term|
             "(LOWER(courses.name) LIKE ?) OR (LOWER(COALESCE(courses.course_instructors, '')) LIKE ?)"
           end.join(' AND '),
           *terms.map { |e| [e] * num_or_conds }.flatten
-      ))
+      )
     end
   end
 
@@ -102,8 +102,8 @@ class Course < ApplicationRecord
     if parsed_date.blank?
       nil
     else
-      where(Arel.sql('courses.start_date IS NOT NULL AND (courses.start_date >= ?) ',
-            parsed_date.strftime('%Y-%m-%d %H:%M:%S.%6N')))
+      where('courses.start_date IS NOT NULL AND (courses.start_date >= ?) ',
+            parsed_date.strftime('%Y-%m-%d %H:%M:%S.%6N'))
     end
   end
 
@@ -112,14 +112,14 @@ class Course < ApplicationRecord
     if parsed_date.blank?
       nil
     else
-      where(Arel.sql('courses.end_date IS NOT NULL AND (courses.end_date <= ?) ',
-            parsed_date.strftime('%Y-%m-%d %H:%M:%S.%6N')))
+      where('courses.end_date IS NOT NULL AND (courses.end_date <= ?) ',
+            parsed_date.strftime('%Y-%m-%d %H:%M:%S.%6N'))
     end
   end
 
   scope :with_language, ->(reference_language) do
-    where(Arel.sql('courses.language IS NOT NULL AND (courses.language LIKE ? OR courses.language LIKE ?)',
-          "#{reference_language}%", "%,#{reference_language}%"))
+    where('courses.language IS NOT NULL AND (courses.language LIKE ? OR courses.language LIKE ?)',
+          "#{reference_language}%", "%,#{reference_language}%")
   end
 
   scope :with_mooc_provider_id, ->(reference_mooc_provider_id) do
@@ -127,8 +127,8 @@ class Course < ApplicationRecord
   end
 
   scope :with_subtitle_languages, ->(reference_subtitle_languages) do
-    where(Arel.sql('courses.subtitle_languages LIKE ? OR courses.subtitle_languages LIKE ?',
-          "#{reference_subtitle_languages}%", "%,#{reference_subtitle_languages}%"))
+    where('courses.subtitle_languages LIKE ? OR courses.subtitle_languages LIKE ?',
+          "#{reference_subtitle_languages}%", "%,#{reference_subtitle_languages}%")
   end
 
   scope :with_tracks, ->(reference_track_options) do
@@ -150,23 +150,23 @@ class Course < ApplicationRecord
         where(id: where(Arel.sql('course_tracks.costs IS NOT NULL AND course_tracks.costs > 200.0')).joins(:tracks).collect(&:id).uniq)
       end
     elsif reference_track_options[:costs].blank? && reference_track_options[:certificate].present?
-      where(Arel.sql('course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks)
+      where('course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks)
     elsif reference_track_options[:costs].present? && reference_track_options[:certificate].present?
       case reference_track_options[:costs]
       when 'free'
-        where(id: where(Arel.sql('course_tracks.costs IS NOT NULL AND course_tracks.costs = 0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks).collect(&:id).uniq)
+        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs = 0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
       when 'range1'
-        where(id: where(Arel.sql('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 30.0 AND course_tracks.costs > 0.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks).collect(&:id).uniq)
+        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 30.0 AND course_tracks.costs > 0.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
       when 'range2'
-        where(id: where(Arel.sql('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 60.0 AND course_tracks.costs > 30.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks).collect(&:id).uniq)
+        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 60.0 AND course_tracks.costs > 30.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
       when 'range3'
-        where(id: where(Arel.sql('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 90.0 AND course_tracks.costs > 60.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks).collect(&:id).uniq)
+        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 90.0 AND course_tracks.costs > 60.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
       when 'range4'
-        where(id: where(Arel.sql('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 150.0 AND course_tracks.costs > 90.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks).collect(&:id).uniq)
+        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 150.0 AND course_tracks.costs > 90.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
       when 'range5'
-        where(id: where(Arel.sql('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 200.0 AND course_tracks.costs > 150.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks).collect(&:id).uniq)
+        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 200.0 AND course_tracks.costs > 150.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
       when 'range6'
-        where(id: where(Arel.sql('course_tracks.costs IS NOT NULL AND course_tracks.costs > 200.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate])).joins(:tracks).collect(&:id).uniq)
+        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs > 200.0 AND course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks).collect(&:id).uniq)
       end
     end
   end
@@ -174,13 +174,13 @@ class Course < ApplicationRecord
   scope :start_filter_options, ->(reference_start_options) do
     case reference_start_options.to_s
     when 'now'
-      where(Arel.sql('courses.start_date IS NOT NULL AND courses.start_date < ? AND (courses.calculated_duration_in_days IS NOT NULL AND ((DATE ? - courses.calculated_duration_in_days) <  courses.start_date))', Time.zone.now, Time.zone.today))
+      where('courses.start_date IS NOT NULL AND courses.start_date < ? AND (courses.calculated_duration_in_days IS NOT NULL AND ((DATE ? - courses.calculated_duration_in_days) <  courses.start_date))', Time.zone.now, Time.zone.today)
     when 'past'
-      where(Arel.sql('(courses.calculated_duration_in_days IS NOT NULL AND ((DATE ? - courses.calculated_duration_in_days) >  courses.start_date))  OR (courses.end_date IS NOT NULL AND ? > courses.end_date)', Time.zone.now, Time.zone.now))
+      where('(courses.calculated_duration_in_days IS NOT NULL AND ((DATE ? - courses.calculated_duration_in_days) >  courses.start_date))  OR (courses.end_date IS NOT NULL AND ? > courses.end_date)', Time.zone.now, Time.zone.now)
     when 'soon'
-      where(Arel.sql('courses.start_date > ? AND courses.start_date <= ?', Time.zone.now, (Time.zone.now + 2.weeks)))
+      where('courses.start_date > ? AND courses.start_date <= ?', Time.zone.now, (Time.zone.now + 2.weeks))
     when 'future'
-      where(Arel.sql('courses.start_date > ?', (Time.zone.now + 2.weeks)))
+      where('courses.start_date > ?', (Time.zone.now + 2.weeks))
     end
   end
 
@@ -192,15 +192,15 @@ class Course < ApplicationRecord
   scope :duration_filter_options, ->(reference_duration_option) do
     case reference_duration_option.to_s
     when 'short'
-      where(Arel.sql('courses.calculated_duration_in_days <= ?', SHORT_DURATION))
+      where('courses.calculated_duration_in_days <= ?', SHORT_DURATION)
     when 'short-medium'
-      where(Arel.sql('courses.calculated_duration_in_days > ? AND courses.calculated_duration_in_days <= ?', SHORT_DURATION, SHORT_MEDIUM_DURATION))
+      where('courses.calculated_duration_in_days > ? AND courses.calculated_duration_in_days <= ?', SHORT_DURATION, SHORT_MEDIUM_DURATION)
     when 'medium'
-      where(Arel.sql('courses.calculated_duration_in_days > ? AND courses.calculated_duration_in_days <= ?', SHORT_MEDIUM_DURATION, MEDIUM_DURATION))
+      where('courses.calculated_duration_in_days > ? AND courses.calculated_duration_in_days <= ?', SHORT_MEDIUM_DURATION, MEDIUM_DURATION)
     when 'medium-long'
-      where(Arel.sql('courses.calculated_duration_in_days > ? AND courses.calculated_duration_in_days <= ?', MEDIUM_DURATION, MEDIUM_LONG_DURATION))
+      where('courses.calculated_duration_in_days > ? AND courses.calculated_duration_in_days <= ?', MEDIUM_DURATION, MEDIUM_LONG_DURATION)
     when 'long'
-      where(Arel.sql('courses.calculated_duration_in_days > ?', MEDIUM_LONG_DURATION))
+      where('courses.calculated_duration_in_days > ?', MEDIUM_LONG_DURATION)
     end
   end
 
