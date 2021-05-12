@@ -13,7 +13,7 @@ class DashboardController < ApplicationController
     @bookmarks = current_user.bookmarks
 
     # Activities
-    @activities = PublicActivity::Activity.order('created_at desc').select {|activity| (current_user.connected_users_ids.include? activity.owner_id) && activity.user_ids.present? && (activity.user_ids.include? current_user.id) }
+    @activities = PublicActivity::Activity.order(Arel.sql('created_at desc')).select {|activity| (current_user.connected_users_ids.include? activity.owner_id) && activity.user_ids.present? && (activity.user_ids.include? current_user.id) }
     @activity_courses = {}
     @activity_courses_bookmarked = {}
     if @activities
@@ -44,7 +44,7 @@ class DashboardController < ApplicationController
     @user_picture = @current_user.profile_image.expiring_url(3600, :square)
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
 
-    @current_dates_to_show = current_user.dates.where('date >= ?', Time.zone.today).sort_by(&:date).first(3)
+    @current_dates_to_show = current_user.dates.where(Arel.sql('date >= ?', Time.zone.today).sort_by(&:date).first(3))
 
     respond_to do |format|
       format.html {}

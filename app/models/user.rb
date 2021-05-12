@@ -344,7 +344,7 @@ class User < ApplicationRecord
   def self.collect_new_courses(user)
     return nil if user.last_newsletter_send_at.blank?
 
-    Course.where('created_at > ?', user.last_newsletter_send_at)
+    Course.where(Arel.sql('created_at > ?', user.last_newsletter_send_at))
   end
 
   private
