@@ -23,7 +23,7 @@ class RecommendationsController < ApplicationController
     @provider_logos = AmazonS3.instance.provider_logos_hash_for_recommendations(@recommendations)
     @profile_pictures = User.author_profile_images_hash_for_recommendations(@recommendations)
 
-    @activities = PublicActivity::Activity.order('created_at desc').where(trackable_id: recommendations_ids, trackable_type: 'Recommendation', owner_id: current_user.connected_users_ids)
+    @activities = PublicActivity::Activity.order(Arel.sql('created_at desc')).where(trackable_id: recommendations_ids, trackable_type: 'Recommendation', owner_id: current_user.connected_users_ids)
     @activity_courses = {}
     @activity_courses_bookmarked = {}
     return unless @activities

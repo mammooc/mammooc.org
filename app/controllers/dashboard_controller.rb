@@ -13,7 +13,7 @@ class DashboardController < ApplicationController
     @bookmarks = current_user.bookmarks
 
     # Activities
-    @activities = PublicActivity::Activity.order('created_at desc').select {|activity| (current_user.connected_users_ids.include? activity.owner_id) && activity.user_ids.present? && (activity.user_ids.include? current_user.id) }
+    @activities = PublicActivity::Activity.order(Arel.sql('created_at desc')).select {|activity| (current_user.connected_users_ids.include? activity.owner_id) && activity.user_ids.present? && (activity.user_ids.include? current_user.id) }
     @activity_courses = {}
     @activity_courses_bookmarked = {}
     if @activities

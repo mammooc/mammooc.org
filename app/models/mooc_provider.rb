@@ -8,6 +8,6 @@ class MoocProvider < ApplicationRecord
   enum api_support_state: %i[oauth naive nil]
 
   def self.options_for_select
-    order('LOWER(name)').map {|provider| [provider.name, provider.id] }
+    order(Arel.sql('LOWER(name)')).map {|provider| [provider.name, provider.id] }
   end
 end

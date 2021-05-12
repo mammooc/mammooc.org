@@ -46,7 +46,7 @@ class GroupsController < ApplicationController
     @group_picture = Group.group_images_hash_for_groups [@group]
 
     # ACTIVITIES
-    @activities = PublicActivity::Activity.order('created_at desc').select {|activity| (@group.users.collect(&:id).include? activity.owner_id) && activity.group_ids.present? && (activity.group_ids.include? @group.id) }
+    @activities = PublicActivity::Activity.order(Arel.sql('created_at desc')).select {|activity| (@group.users.collect(&:id).include? activity.owner_id) && activity.group_ids.present? && (activity.group_ids.include? @group.id) }
     @activity_courses = {}
     @activity_courses_bookmarked = {}
     if @activities.present?
@@ -83,7 +83,7 @@ class GroupsController < ApplicationController
     @profile_pictures = User.author_profile_images_hash_for_recommendations(@recommendations)
     @group_picture = Group.group_images_hash_for_groups [@group]
 
-    @activities = PublicActivity::Activity.order('created_at desc').where(owner: @group.users, trackable_type: 'Recommendation')
+    @activities = PublicActivity::Activity.order(Arel.sql('created_at desc')).where(owner: @group.users, trackable_type: 'Recommendation')
     @activity_courses = {}
     @activity_courses_bookmarked = {}
     return unless @activities

@@ -55,20 +55,20 @@ class Course < ApplicationRecord
     direction = sort_option.match?(/desc$/) ? 'desc' : 'asc'
     case sort_option.to_s
     when /^name_/
-      order("LOWER(courses.name) #{direction}")
+      order(Arel.sql("LOWER(courses.name) #{direction}"))
     when /^start_date_/
-      order("courses.start_date #{direction} NULLS LAST")
+      order(Arel.sql("courses.start_date #{direction} NULLS LAST"))
     when /^duration_/
-      order("courses.calculated_duration_in_days IS NULL, courses.calculated_duration_in_days #{direction}")
+      order(Arel.sql("courses.calculated_duration_in_days IS NULL, courses.calculated_duration_in_days #{direction}"))
     when /^relevance_/
-      order("CASE
+      order(Arel.sql("CASE
                 WHEN start_date > to_timestamp('#{(Time.zone.now - 1.week).strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 1
                 WHEN start_date <= to_timestamp('#{(Time.zone.now - 1.week).strftime('%Y-%m-%d')}', 'YYYY-MM-DD') AND end_date IS NOT NULL AND end_date > to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 2
                 WHEN start_date <= to_timestamp('#{(Time.zone.now - 1.week).strftime('%Y-%m-%d')}', 'YYYY-MM-DD') AND end_date IS NOT NULL AND end_date <= to_timestamp('#{Time.zone.now.strftime('%Y-%m-%d')}', 'YYYY-MM-DD') THEN 3
                 WHEN start_date IS NULL THEN 5
                 ELSE 4
               END,
-              start_date ASC")
+              start_date ASC"))
     else
       raise ArgumentError.new "Invalid sort option: #{sort_option.inspect}"
     end
@@ -135,19 +135,19 @@ class Course < ApplicationRecord
     if reference_track_options[:costs].present? && reference_track_options[:certificate].blank?
       case reference_track_options[:costs]
       when 'free'
-        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs = 0').joins(:tracks).collect(&:id).uniq)
+        where(id: where(Arel.sql('course_tracks.costs IS NOT NULL AND course_tracks.costs = 0')).joins(:tracks).collect(&:id).uniq)
       when 'range1'
-        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 30.0 AND course_tracks.costs > 0.0').joins(:tracks).collect(&:id).uniq)
+        where(id: where(Arel.sql('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 30.0 AND course_tracks.costs > 0.0')).joins(:tracks).collect(&:id).uniq)
       when 'range2'
-        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 60.0 AND course_tracks.costs > 30.0').joins(:tracks).collect(&:id).uniq)
+        where(id: where(Arel.sql('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 60.0 AND course_tracks.costs > 30.0')).joins(:tracks).collect(&:id).uniq)
       when 'range3'
-        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 90.0 AND course_tracks.costs > 60.0').joins(:tracks).collect(&:id).uniq)
+        where(id: where(Arel.sql('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 90.0 AND course_tracks.costs > 60.0')).joins(:tracks).collect(&:id).uniq)
       when 'range4'
-        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 150.0 AND course_tracks.costs > 90.0').joins(:tracks).collect(&:id).uniq)
+        where(id: where(Arel.sql('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 150.0 AND course_tracks.costs > 90.0')).joins(:tracks).collect(&:id).uniq)
       when 'range5'
-        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 200.0 AND course_tracks.costs > 150.0').joins(:tracks).collect(&:id).uniq)
+        where(id: where(Arel.sql('course_tracks.costs IS NOT NULL AND course_tracks.costs <= 200.0 AND course_tracks.costs > 150.0')).joins(:tracks).collect(&:id).uniq)
       when 'range6'
-        where(id: where('course_tracks.costs IS NOT NULL AND course_tracks.costs > 200.0').joins(:tracks).collect(&:id).uniq)
+        where(id: where(Arel.sql('course_tracks.costs IS NOT NULL AND course_tracks.costs > 200.0')).joins(:tracks).collect(&:id).uniq)
       end
     elsif reference_track_options[:costs].blank? && reference_track_options[:certificate].present?
       where('course_tracks.course_track_type_id = ?', reference_track_options[:certificate]).joins(:tracks)
