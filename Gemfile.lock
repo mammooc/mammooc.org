@@ -230,7 +230,7 @@ GEM
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
     json-api-vanilla (1.0.2)
-    jsonapi-resources (0.10.4)
+    jsonapi-resources (0.10.5)
       activerecord (>= 4.1)
       concurrent-ruby
       railties (>= 4.1)
