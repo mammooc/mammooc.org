@@ -206,7 +206,7 @@ GEM
     faraday-net_http_persistent (1.1.0)
     faraday-patron (1.0.0)
     ffi (1.15.0)
-    filterrific (5.2.1)
+    filterrific (5.2.2)
     font-awesome-sass (5.15.1)
       sassc (>= 1.11)
     fullcalendar-rails (3.9.0.0)
