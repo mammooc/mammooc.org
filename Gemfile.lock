@@ -388,7 +388,7 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     redcarpet (3.5.1)
-    redis (4.3.1)
+    redis (4.4.0)
     regexp_parser (2.1.1)
     repost (0.3.8)
     responders (3.0.1)
