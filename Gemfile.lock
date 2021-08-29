@@ -585,7 +585,7 @@ DEPENDENCIES
   pry
   public_activity
   rack-cors
-  rails (~> 6.1.0)
+  rails (~> 6.1.4)
   rails-controller-testing
   rails-i18n
   redcarpet
