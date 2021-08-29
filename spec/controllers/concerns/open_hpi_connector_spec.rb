@@ -319,7 +319,7 @@ RSpec.describe OpenHPIConnector do
         expect(completion.points_achieved).to eq 48
         expect(completion.course.points_maximal).to eq 48.5
         expect(completion.course).to eq second_course
-        expect(completion.provider_percentage).to eq 98.9690721649485
+        expect(completion.provider_percentage).to be_within(0.01).of(98.969)
       end
 
       it 'adds certificates after completing the course' do
