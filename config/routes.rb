@@ -142,4 +142,6 @@ Rails.application.routes.draw do
       jsonapi_resources :course_track_types
     end
   end
+
+  resources :ping, only: :index, defaults: { format: :json }
 end
