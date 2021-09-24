@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class PingController < ApplicationController
+  skip_before_action :require_login
   before_action :postgres_connected!
   before_action :redis_connected!
 
