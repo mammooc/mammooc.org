@@ -390,7 +390,7 @@ GEM
       ffi (~> 1.0)
     rbtree (0.4.4)
     redcarpet (3.5.1)
-    redis (4.4.0)
+    redis (4.5.0)
     regexp_parser (2.1.1)
     repost (0.3.8)
     responders (3.0.1)
