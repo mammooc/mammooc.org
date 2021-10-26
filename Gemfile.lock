@@ -243,7 +243,7 @@ GEM
       activerecord (>= 4.1)
       concurrent-ruby
       railties (>= 4.1)
-    jwt (2.2.3)
+    jwt (2.3.0)
     listen (3.7.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -290,7 +290,7 @@ GEM
     omniauth-amazon (1.0.1)
       omniauth (~> 1.0)
       omniauth-oauth2 (~> 1.1)
-    omniauth-facebook (8.0.0)
+    omniauth-facebook (9.0.0)
       omniauth-oauth2 (~> 1.2)
     omniauth-github (1.4.0)
       omniauth (~> 1.5)
