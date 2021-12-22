@@ -108,7 +108,7 @@ GEM
     capybara-selenium (0.0.6)
       capybara
       selenium-webdriver
-    childprocess (3.0.0)
+    childprocess (4.1.0)
     chronic (0.10.2)
     climate_control (0.2.0)
     cliver (0.3.2)
@@ -217,7 +217,7 @@ GEM
       momentjs-rails (>= 2.9.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
-    hashie (4.1.0)
+    hashie (5.0.0)
     headless (2.3.1)
     http-accept (1.7.0)
     http-cookie (1.0.4)
@@ -229,7 +229,7 @@ GEM
       i18n (>= 0.6.6)
     icalendar (2.7.1)
       ice_cube (~> 0.16)
-    ice_cube (0.16.3)
+    ice_cube (0.16.4)
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
@@ -257,9 +257,9 @@ GEM
     marcel (1.0.2)
     matrix (0.4.2)
     method_source (1.0.0)
-    mime-types (3.3.1)
+    mime-types (3.4.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2021.0901)
+    mime-types-data (3.2021.1115)
     mimemagic (0.3.10)
       nokogiri (~> 1)
       rake
@@ -280,7 +280,7 @@ GEM
     nokogiri (1.12.5)
       mini_portile2 (~> 2.6.1)
       racc (~> 1.4)
-    oauth (0.5.6)
+    oauth (0.5.8)
     oauth2 (1.4.7)
       faraday (>= 0.8, < 2.0)
       jwt (>= 1.0, < 3.0)
@@ -328,7 +328,7 @@ GEM
       mimemagic (~> 0.3.0)
       terrapin (~> 0.6.0)
     parallel (1.21.0)
-    parser (3.0.2.0)
+    parser (3.0.3.2)
       ast (~> 2.4.1)
     passenger (6.0.12)
       rack
@@ -394,7 +394,7 @@ GEM
     rbtree (0.4.4)
     redcarpet (3.5.1)
     redis (4.5.1)
-    regexp_parser (2.1.1)
+    regexp_parser (2.2.0)
     repost (0.3.8)
     responders (3.0.1)
       actionpack (>= 5.0)
@@ -421,7 +421,7 @@ GEM
       rspec-expectations (~> 3.10)
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
-    rspec-support (3.10.2)
+    rspec-support (3.10.3)
     rspec_junit_formatter (0.4.1)
       rspec-core (>= 2, < 4, != 2.12.0)
     rubocop (1.23.0)
@@ -433,7 +433,7 @@ GEM
       rubocop-ast (>= 1.12.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
-    rubocop-ast (1.13.0)
+    rubocop-ast (1.15.0)
       parser (>= 3.0.1.1)
     rubocop-rspec (2.6.0)
       rubocop (~> 1.19)
@@ -450,8 +450,9 @@ GEM
       sprockets-rails
       tilt
     secure_headers (6.3.3)
-    selenium-webdriver (3.142.7)
-      childprocess (>= 0.5, < 4.0)
+    selenium-webdriver (4.1.0)
+      childprocess (>= 0.5, < 5.0)
+      rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2)
     sentry-rails (4.8.1)
       railties (>= 5.0)
@@ -466,7 +467,7 @@ GEM
     sentry-sidekiq (4.8.1)
       sentry-ruby-core (~> 4.8.1)
       sidekiq (>= 3.0)
-    set (1.0.1)
+    set (1.0.2)
     sidekiq (6.3.1)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
@@ -565,7 +566,7 @@ DEPENDENCIES
   jsonapi-resources
   listen
   mnemosyne-ruby
-  momentjs-rails
+  momentjs-rails (< 2.29.1)
   newrelic_rpm
   oauth2
   omniauth
