@@ -3,7 +3,6 @@
 [![Continuous Integration: Circle CI](https://circleci.com/gh/mammooc/mammooc.org.svg?style=shield)](https://circleci.com/gh/mammooc/mammooc.org) 
 [![Code Climate](https://codeclimate.com/github/mammooc/mammooc.org/badges/gpa.svg)](https://codeclimate.com/github/mammooc/mammooc.org)
 [![Coverage Status](https://coveralls.io/repos/mammooc/mammooc.org/badge.svg?branch=master&service=github)](https://coveralls.io/github/mammooc/mammooc.org?branch=master)
-[![Security: Hakiri.io](https://hakiri.io/github/mammooc/mammooc.org/master.svg)](https://hakiri.io/github/mammooc/mammooc.org/master)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mammooc/mammooc.org/blob/master/LICENSE.md)
 
 _Please pay attention to the [LICENSE](https://github.com/mammooc/mammooc.org/blob/master/LICENSE.md) as well; the software is licensed under the MIT license._
