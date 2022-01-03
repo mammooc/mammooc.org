@@ -102,7 +102,7 @@ gem 'icalendar'
 
 # calendar widget
 gem 'fullcalendar-rails'
-gem 'momentjs-rails', '<2.29.1'
+gem 'momentjs-rails', '<2.29.2'
 
 # support for Cross-Origin Resource Sharing (CORS)
 gem 'rack-cors', require: 'rack/cors'
