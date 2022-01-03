@@ -269,7 +269,7 @@ GEM
     mnemosyne-ruby (1.12.0)
       activesupport (>= 4)
       bunny
-    momentjs-rails (2.20.1)
+    momentjs-rails (2.29.1.1)
       railties (>= 3.1)
     multi_json (1.15.0)
     multi_xml (0.6.0)
@@ -531,7 +531,7 @@ GEM
       will_paginate (>= 3.0.3)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.5.1)
+    zeitwerk (2.5.3)
 
 PLATFORMS
   ruby
@@ -566,7 +566,7 @@ DEPENDENCIES
   jsonapi-resources
   listen
   mnemosyne-ruby
-  momentjs-rails (< 2.29.1)
+  momentjs-rails (< 2.29.2)
   newrelic_rpm
   oauth2
   omniauth
